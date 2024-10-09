@@ -1,0 +1,100 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:matrix_ai/utils/colors.dart';
+import 'package:matrix_ai/view/screens/dashboard/widgets/glassbox_curve.dart';
+import '../../../../utils/style.dart';
+import '../dashboard.dart';
+
+class GlasmorphicNavigationBar extends StatelessWidget {
+  final int currentIndex;
+  final void Function(int) onTap;
+  final List<NavigationItem> navigationItems;
+  const GlasmorphicNavigationBar({
+    required this.currentIndex,
+    required this.onTap,
+    required this.navigationItems,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: pagePadding,
+      child: Center(
+        child: GlassBoxCurve(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Sliding Indicator for the selected button
+              AnimatedAlign(
+                alignment: Alignment(
+                    -1 + (2 / (navigationItems.length - 1)) * currentIndex, 0),
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                child: Container(
+                  width: 100.sp,
+                  height: 55.sp,
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(40.sp),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (int i = 0; i < navigationItems.length; i++)
+                    Expanded(
+                      child: NavigationButton(
+                        icon: navigationItems[i].icon,
+                        selected: currentIndex == i,
+                        onPressed: () => onTap(i),
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class NavigationButton extends StatelessWidget {
+  final IconData icon;
+  final bool selected;
+  final void Function() onPressed;
+
+  const NavigationButton({
+    required this.icon,
+    required this.selected,
+    required this.onPressed,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(40.sp),
+        ),
+        minimumSize: Size(0, 55.sp),
+      ),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: Icon(
+          icon,
+          key: ValueKey(selected),
+          color: selected
+              ? Colors.white
+              : Theme.of(context).textTheme.bodyMedium?.color,
+          size: selected ? 24.sp : 20.sp,
+        ),
+      ),
+    );
+  }
+}
