@@ -25,7 +25,7 @@ class DownloadImage {
     } else {
       showToast('image_download_fail'.tr);
     }
-    AdsController.find.showOnGenerateInterstitial();
+    AdsController.find.showInterstitialAd();
     var directory = await getTemporaryDirectory();
     // save image
     String fileName = url.substring(url.lastIndexOf("/") + 1, url.length);

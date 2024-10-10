@@ -40,7 +40,7 @@ class AspectRatioScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  SetttingsController con = SetttingsController.find;
+                  SettingsController con = SettingsController.find;
                   con.configModel = con.configModel.copyWith(
                       negativePrompt: con.negativePromptController.text.trim());
                   pop();
@@ -57,7 +57,7 @@ class AspectRatioScreen extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: GetBuilder<SetttingsController>(builder: (con) {
+            child: GetBuilder<SettingsController>(builder: (con) {
               return GridView.builder(
                 itemCount: aspectRatios.length,
                 padding: EdgeInsets.only(top: 16.sp),

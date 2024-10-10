@@ -42,7 +42,7 @@ class PromptSettingsWidget extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      GetBuilder<SetttingsController>(builder: (con) {
+                      GetBuilder<SettingsController>(builder: (con) {
                         final aspectRatio = aspectRatios.firstWhere(
                             (e) => e.id == con.configModel.aspectRatio);
                         return Text(

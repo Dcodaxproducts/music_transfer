@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SetttingsController>(builder: (con) {
+    return GetBuilder<SettingsController>(builder: (con) {
       return ListView(
         padding: pagePadding.copyWith(top: 5.sp),
         children: [

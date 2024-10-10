@@ -10,7 +10,7 @@ import '../../../../data/model/response/inspiration.dart';
 import '../../../base/gradient_widget.dart';
 
 class PromptWidget extends StatelessWidget {
-  final SetttingsController con;
+  final SettingsController con;
   const PromptWidget({required this.con, super.key});
 
   @override

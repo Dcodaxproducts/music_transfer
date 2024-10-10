@@ -14,7 +14,7 @@ class ImageGenerationController extends GetxController implements GetxService {
   static ImageGenerationController get find =>
       Get.find<ImageGenerationController>();
 
-  ConfigModel get config => SetttingsController.find.configModel;
+  ConfigModel get config => SettingsController.find.configModel;
   HistoryController get history => HistoryController.find;
 
   PromptResponse? _promptResponse;

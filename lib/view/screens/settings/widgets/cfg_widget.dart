@@ -4,7 +4,7 @@ import '../../../base/custom_slider.dart';
 import '../../../base/expansion_tile.dart';
 
 class CFGWidget extends StatelessWidget {
-  final SetttingsController con;
+  final SettingsController con;
   const CFGWidget({required this.con, super.key});
 
   @override

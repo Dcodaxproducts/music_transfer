@@ -5,7 +5,7 @@ import '../../../../data/model/body/aspect_ratio.dart';
 import '../../../base/expansion_tile.dart';
 
 class AspectRatioSelectionWidget extends StatelessWidget {
-  final SetttingsController con;
+  final SettingsController con;
   const AspectRatioSelectionWidget({
     required this.con,
     required this.selectedAspectRatio,

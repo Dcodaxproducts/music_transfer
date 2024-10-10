@@ -87,7 +87,7 @@ class InspirationDialog extends StatelessWidget {
                   PrimaryButton(
                     text: 'try_this'.tr,
                     onPressed: () {
-                      final settings = SetttingsController.find;
+                      final settings = SettingsController.find;
                       pop();
                       DashboardController.find.selectedIndex = 0;
                       settings.configModel =

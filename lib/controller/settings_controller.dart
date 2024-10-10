@@ -7,11 +7,11 @@ import 'package:get/get.dart';
 import '../data/service/setting_service_interface.dart';
 import '../view/base/text_editing_controller.dart';
 
-class SetttingsController extends GetxController implements GetxService {
+class SettingsController extends GetxController implements GetxService {
   final SettingsServiceInterface settingsService;
-  SetttingsController({required this.settingsService});
+  SettingsController({required this.settingsService});
 
-  static SetttingsController get find => Get.find<SetttingsController>();
+  static SettingsController get find => Get.find<SettingsController>();
 
   // Text controllers for user input
   final promptController = StyleableTextFieldController(

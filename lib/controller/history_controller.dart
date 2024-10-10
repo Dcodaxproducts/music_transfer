@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:matrix_ai/common/snackbar.dart';
-import 'package:matrix_ai/data/model/response/api_response.dart';
-import 'package:matrix_ai/data/repository/history_repo.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/service/history_service_interface.dart';
 import 'settings_controller.dart';
 
-class HistoryController extends GetxController implements GetxService {
-  final HistoryRepo historyRepo;
-  HistoryController({required this.historyRepo});
+class HistoryController extends GetxController {
+  final HistoryServiceInterface historyService;
+
+  HistoryController({required this.historyService});
 
   static HistoryController get find => Get.find<HistoryController>();
 
@@ -18,51 +18,41 @@ class HistoryController extends GetxController implements GetxService {
 
   set promptHistory(List<PromptResponse> value) {
     _promptHistory = value;
-    historyRepo.savePromptResponsesInPref(value);
+    historyService.savePromptHistory(value);
     update();
   }
 
-  addPrompt(PromptResponse prompt) {
-    _promptHistory.add(prompt);
-    historyRepo.savePromptResponsesInPref(promptHistory);
+  void addPrompt(PromptResponse prompt) {
+    historyService.addPrompt(prompt, _promptHistory);
     update();
   }
 
-  removePrompt(PromptResponse prompt) {
-    _promptHistory.remove(prompt);
-    historyRepo.savePromptResponsesInPref(promptHistory);
+  void removePrompt(PromptResponse prompt) {
+    historyService.removePrompt(prompt, _promptHistory);
     update();
   }
 
-  Future<Uint8List?> downloadImage(String url) {
-    showLoading();
-    return historyRepo.downloadImage(url);
+  Future<Uint8List?> downloadImage(String url) async {
+    return await historyService.downloadImage(url);
   }
 
-  initPromptHistory() {
+  void initPromptHistory() {
     if (_promptHistory.isEmpty) {
-      promptHistory = historyRepo.getPromptResponsesFromPref();
+      _promptHistory = historyService.getPromptHistoryFromRepo();
     }
-    SetttingsController.find.setPromptText(
-      promptHistory.isNotEmpty ? promptHistory.last.meta.prompt : '',
+    SettingsController.find.setPromptText(
+      _promptHistory.isNotEmpty ? _promptHistory.last.meta.prompt : '',
     );
-  }
-
-  deletePrompt(PromptResponse response) {
-    promptHistory.remove(response);
-    historyRepo.savePromptResponsesInPref(promptHistory);
     update();
   }
 
-  toogleFavourite(PromptResponse response) {
-    int index = _promptHistory.indexWhere((e) => e.id == response.id);
-    _promptHistory[index] = response;
-    historyRepo.savePromptResponsesInPref(promptHistory);
-    if (response.bookmarked) {
-      showToast('bookmark_added'.tr, success: true);
-    } else {
-      showToast('bookmark_removed'.tr, success: true);
-    }
+  void deletePrompt(PromptResponse response) {
+    historyService.deletePrompt(response, _promptHistory);
+    update();
+  }
+
+  void toggleFavourite(PromptResponse response) {
+    historyService.toggleFavourite(response, _promptHistory);
     update();
   }
 }

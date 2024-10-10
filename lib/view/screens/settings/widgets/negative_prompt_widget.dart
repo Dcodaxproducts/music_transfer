@@ -6,7 +6,7 @@ import '../../../../controller/settings_controller.dart';
 import '../../../base/gradient_widget.dart';
 
 class NegativePromptWidget extends StatelessWidget {
-  final SetttingsController con;
+  final SettingsController con;
   const NegativePromptWidget({required this.con, super.key});
 
   @override

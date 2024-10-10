@@ -7,7 +7,7 @@ import '../../../../utils/style.dart';
 import '../../../base/expansion_tile.dart';
 
 class SeedWidget extends StatelessWidget {
-  final SetttingsController con;
+  final SettingsController con;
   const SeedWidget({required this.con, super.key});
 
   @override

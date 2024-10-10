@@ -43,7 +43,7 @@ class SettingScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  SetttingsController con = SetttingsController.find;
+                  SettingsController con = SettingsController.find;
                   con.configModel = con.configModel.copyWith(
                       negativePrompt: con.negativePromptController.text.trim());
                   pop();
@@ -59,7 +59,7 @@ class SettingScreen extends StatelessWidget {
               ),
             ],
           ),
-          Expanded(child: GetBuilder<SetttingsController>(builder: (con) {
+          Expanded(child: GetBuilder<SettingsController>(builder: (con) {
             final selectedAspectRatio = aspectRatios
                 .firstWhere((e) => e.id == con.configModel.aspectRatio)
                 .aspectRatio;

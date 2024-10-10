@@ -8,12 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:get/get.dart';
 
+import '../data/service/subscription_service_interface.dart';
+
 bool get isPro => SubscriptionController.find.isPro;
 
 class SubscriptionController extends GetxController implements GetxService {
-  static SubscriptionController get find => Get.find<SubscriptionController>();
+  final SubscriptionServiceInterface subscriptionService;
+  SubscriptionController({required this.subscriptionService});
 
-  final FlutterInappPurchase _iap = FlutterInappPurchase.instance;
+  static SubscriptionController get find => Get.find<SubscriptionController>();
 
   final List<String> _subscriptionIds = const <String>[
     'yearly_plan',
@@ -38,8 +41,8 @@ class SubscriptionController extends GetxController implements GetxService {
   }
 
   Future<void> init() async {
-    await _iap.initialize();
-    await _getSubscriptiions();
+    await subscriptionService.initialize();
+    await _getSubscriptions();
     await refreshProStatus();
     _purchaseUpdatedSubscription =
         FlutterInappPurchase.purchaseUpdated.listen((result) {
@@ -50,18 +53,17 @@ class SubscriptionController extends GetxController implements GetxService {
     });
   }
 
-  Future<void> _getSubscriptiions() async {
-    var data = await _iap.getSubscriptions(_subscriptionIds);
+  Future<void> _getSubscriptions() async {
+    var data = await subscriptionService.getSubscriptions(_subscriptionIds);
     if (data.isNotEmpty) {
-      _products.addAll(data);
+      products = data;
     }
-    update();
   }
 
   Future<void> buyProduct(IAPItem productDetails,
       {Function()? callback}) async {
     try {
-      await _iap.requestSubscription(productDetails.productId!);
+      await subscriptionService.requestSubscription(productDetails.productId!);
     } catch (e) {
       print(e);
     }
@@ -69,18 +71,18 @@ class SubscriptionController extends GetxController implements GetxService {
 
   _verifyPurchase(PurchasedItem? result, {Function()? callback}) async {
     if (result == null) {
-      // Handle the case where the purchase is null
-      return;
+      return; // Handle the case where the purchase is null
     }
+
     // Check if the purchase is successful
     if (Platform.isAndroid) {
       if (result.purchaseStateAndroid == PurchaseState.purchased) {
-        _finishTransaction(result, callback: callback);
+        await _finishTransaction(result, callback: callback);
       }
     } else {
       if (result.transactionStateIOS == TransactionState.purchased ||
           result.transactionStateIOS == TransactionState.restored) {
-        _finishTransaction(result, callback: callback);
+        await _finishTransaction(result, callback: callback);
       }
     }
   }
@@ -103,20 +105,21 @@ class SubscriptionController extends GetxController implements GetxService {
       default:
         return;
     }
+
     if (DateTime.now().isBefore(purchaseTime!)) {
       proLimitDate = purchaseTime;
     }
     try {
-      await _iap.finishTransaction(result);
+      await subscriptionService.finishTransaction(result);
       if (callback != null) callback.call();
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  Future refreshProStatus() async {
-    // get past purchases
-    var result = await _iap.getAvailablePurchases();
+  Future<void> refreshProStatus() async {
+    // Get past purchases
+    var result = await subscriptionService.getAvailablePurchases();
     if (result != null && result.isNotEmpty) {
       for (var item in result) {
         _verifyPurchase(item);

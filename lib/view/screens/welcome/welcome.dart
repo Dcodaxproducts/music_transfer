@@ -11,7 +11,7 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SetttingsController.find.initSharedData();
+    SettingsController.find.initSharedData();
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.sp),

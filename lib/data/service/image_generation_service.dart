@@ -59,17 +59,17 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     if (!isPro) {
       if (model.adType == AdType.rewardVideo &&
           ModelsController.find.canShowVideoAd()) {
-        await AdsController.find.showOnGenerateRewardVideo();
+        await AdsController.find.showRewardVideoAd();
       } else if (model.adType == AdType.rewardInterstitial &&
           ModelsController.find.canShowInterstitialAd()) {
-        await AdsController.find.showOnGenerateInterstitial();
+        await AdsController.find.showInterstitialAd();
       }
     }
   }
 
   AspectRatioModel _getAspectRatio() {
     return aspectRatios.firstWhere(
-        (e) => e.id == SetttingsController.find.configModel.aspectRatio);
+        (e) => e.id == SettingsController.find.configModel.aspectRatio);
   }
 
   MyModel _getModel(String? modelId) {

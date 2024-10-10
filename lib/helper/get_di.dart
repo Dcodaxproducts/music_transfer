@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:matrix_ai/controller/ads_controller.dart';
-import 'package:matrix_ai/controller/api_controller.dart';
+import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:matrix_ai/controller/inspiration_controller.dart';
@@ -13,6 +13,7 @@ import 'package:matrix_ai/controller/update_controller.dart';
 import 'package:matrix_ai/data/api/api_client.dart';
 import 'package:matrix_ai/data/api/api_client_interface.dart';
 import 'package:matrix_ai/data/model/language.dart';
+import 'package:matrix_ai/data/repository/history_repo_interface.dart';
 import 'package:matrix_ai/data/repository/image_generation_repo.dart';
 import 'package:matrix_ai/data/repository/history_repo.dart';
 import 'package:matrix_ai/data/repository/inspiration_repo.dart';
@@ -20,15 +21,33 @@ import 'package:matrix_ai/data/repository/language_repo.dart';
 import 'package:matrix_ai/data/repository/models_repo.dart';
 import 'package:matrix_ai/data/repository/settings_repo.dart';
 import 'package:matrix_ai/data/repository/settings_repo_interface.dart';
+import 'package:matrix_ai/data/service/ads_service.dart';
+import 'package:matrix_ai/data/service/ads_service_interface.dart';
+import 'package:matrix_ai/data/service/history_service_interface.dart';
+import 'package:matrix_ai/data/service/inspiration_service_interface.dart';
+import 'package:matrix_ai/data/service/localization_service.dart';
+import 'package:matrix_ai/data/service/localization_service_interface.dart';
+import 'package:matrix_ai/data/service/model_service_interface.dart';
 import 'package:matrix_ai/data/service/setting_service.dart';
 import 'package:matrix_ai/data/service/setting_service_interface.dart';
+import 'package:matrix_ai/data/service/subscription_service_interface.dart';
+import 'package:matrix_ai/data/service/theme_service_interface.dart';
+import 'package:matrix_ai/data/service/update_service.dart';
+import 'package:matrix_ai/data/service/update_service_interface.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import '../data/repository/image_generation_repo_interface.dart';
+import '../data/repository/inspiration_repo_interface.dart';
+import '../data/repository/models_repo_interface.dart';
+import '../data/service/history_service.dart';
 import '../data/service/image_generation_service.dart';
 import '../data/service/image_generation_service_interface.dart';
+import '../data/service/inspiration_service.dart';
+import '../data/service/model_service.dart';
+import '../data/service/subscription_service.dart';
+import '../data/service/theme_service.dart';
 
 Future<Map<String, Map<String, String>>> init() async {
   // Core
@@ -45,12 +64,15 @@ Future<Map<String, Map<String, String>>> init() async {
       SettingsRepo(sharedPreferences: Get.find(), apiClient: Get.find());
   Get.lazyPut(() => settingsRepo);
   Get.lazyPut(() => LanguageRepo());
-  Get.lazyPut(
-      () => ModelsRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
-  Get.lazyPut(
-      () => HistoryRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
-  Get.lazyPut(() =>
-      InspirationRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
+  ModelsRepoInterface modelsRepoInterface =
+      ModelsRepo(apiClient: Get.find(), sharedPreferences: Get.find());
+  Get.lazyPut(() => modelsRepoInterface);
+  HistoryRepoInteraface historyRepoInteraface =
+      HistoryRepo(apiClient: Get.find(), sharedPreferences: Get.find());
+  Get.lazyPut(() => historyRepoInteraface);
+  InspirationRepoInterface inspirationRepoInterface =
+      InspirationRepo(apiClient: Get.find(), sharedPreferences: Get.find());
+  Get.lazyPut(() => inspirationRepoInterface);
 
   // Service
   ImageGenerationServiceInterface imageGenerationService =
@@ -59,19 +81,41 @@ Future<Map<String, Map<String, String>>> init() async {
   SettingsServiceInterface settingsService =
       SettingsService(settingsRepo: Get.find());
   Get.lazyPut(() => settingsService);
+  UpdateServiceInterface updateServiceInterface = UpdateService();
+  Get.lazyPut(() => updateServiceInterface);
+  AdsServiceInterface adsServiceInterface = AdsService();
+  Get.lazyPut(() => adsServiceInterface);
+  HistoryServiceInterface historyService =
+      HistoryService(historyRepo: Get.find());
+  Get.lazyPut(() => historyService);
+  InspirationServiceInterface inspirationServiceInterface =
+      InspirationService(inspirationRepo: Get.find());
+  Get.lazyPut(() => inspirationServiceInterface);
+  ModelsServiceInterface modelsServiceInterface =
+      ModelsService(modelsRepo: Get.find());
+  Get.lazyPut(() => modelsServiceInterface);
+  ThemeServiceInterface themeServiceInterface =
+      ThemeService(sharedPreferences: Get.find());
+  Get.lazyPut(() => themeServiceInterface);
+  SubscriptionServiceInterface subscriptionServiceInterface =
+      SubscriptionService();
+  Get.lazyPut(() => subscriptionServiceInterface);
+  LocalizationServiceInterface localizationServiceInterface =
+      LocalizationService(sharedPreferences: Get.find());
+  Get.lazyPut(() => localizationServiceInterface);
 
   // Controller
-  Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
-  Get.lazyPut(() => LocalizationController(sharedPreferences: Get.find()));
-  Get.lazyPut(() => SetttingsController(settingsService: Get.find()));
+  Get.lazyPut(() => ThemeController(themeService: Get.find()));
+  Get.lazyPut(() => LocalizationController(localizationService: Get.find()));
+  Get.lazyPut(() => SettingsController(settingsService: Get.find()));
   Get.lazyPut(() =>
       ImageGenerationController(imageGenerationServiceInterface: Get.find()));
-  Get.lazyPut(() => AdsController());
-  Get.lazyPut(() => SubscriptionController());
-  Get.lazyPut(() => ModelsController(modelsRepo: Get.find()));
-  Get.lazyPut(() => HistoryController(historyRepo: Get.find()));
-  Get.lazyPut(() => InspirationController(inspirationRepo: Get.find()));
-  Get.lazyPut(() => UpdateController());
+  Get.lazyPut(() => AdsController(adsService: Get.find()));
+  Get.lazyPut(() => SubscriptionController(subscriptionService: Get.find()));
+  Get.lazyPut(() => ModelsController(modelsService: Get.find()));
+  Get.lazyPut(() => HistoryController(historyService: Get.find()));
+  Get.lazyPut(() => InspirationController(inspirationService: Get.find()));
+  Get.lazyPut(() => UpdateController(updateService: Get.find()));
   Get.lazyPut(() => GenerationController());
 
   // Retrieving localized data
