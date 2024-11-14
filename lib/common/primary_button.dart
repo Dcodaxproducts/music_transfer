@@ -11,6 +11,7 @@ class PrimaryButton extends StatelessWidget {
   final Color? textColor;
   final double? radius;
   final EdgeInsets? margin;
+  final bool gradient;
   const PrimaryButton(
       {required this.text,
       this.onPressed,
@@ -19,6 +20,7 @@ class PrimaryButton extends StatelessWidget {
       this.textColor,
       this.margin,
       this.radius,
+      this.gradient = false,
       super.key});
 
   @override
@@ -27,9 +29,13 @@ class PrimaryButton extends StatelessWidget {
     final Color textColor = this.textColor ?? Colors.white;
     return Container(
       margin: margin,
+      decoration: BoxDecoration(
+        gradient: gradient ? secondaryGradient : null,
+        borderRadius: BorderRadius.circular(radius ?? 16.sp),
+      ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
+          backgroundColor: gradient ? Colors.transparent : backgroundColor,
           minimumSize: Size(100.sp, 55.sp),
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -77,10 +83,10 @@ class PrimaryOutlineButton extends StatelessWidget {
     final Color textColor = this.textColor ?? primaryColor;
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        minimumSize: Size((width ?? 100).sp, 50.sp),
+        minimumSize: Size((width ?? 100).sp, 55.sp),
         side: BorderSide(color: Theme.of(context).dividerColor),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular((radius ?? 32).sp)),
+            borderRadius: BorderRadius.circular((radius ?? 16).sp)),
       ),
       onPressed: onPressed,
       child: Row(

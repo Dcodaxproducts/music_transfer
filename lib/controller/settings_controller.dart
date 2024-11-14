@@ -1,5 +1,6 @@
 import 'package:matrix_ai/data/model/body/api_langauge.dart';
 import 'package:matrix_ai/data/model/body/config_model.dart';
+import 'package:matrix_ai/data/model/response/model.dart';
 import 'package:matrix_ai/data/model/response/setting_model.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,7 @@ class SettingsController extends GetxController implements GetxService {
     negativePromptController.text = _configModel.negativePrompt;
     seedController.text =
         _configModel.seed == null ? '-1' : _configModel.seed!.toString();
+    getSettings();
     return _configModel;
   }
 
@@ -69,5 +71,24 @@ class SettingsController extends GetxController implements GetxService {
 
   void setPromptText(String text) {
     promptController.text = text;
+  }
+
+  void setModel(Model model) {
+    _configModel = _configModel.copyWith(selectedModel: model);
+    settingsService.updateSharedData(_configModel);
+    update();
+  }
+
+  bool get hasOffensiveWords {
+    bool isOffensive = false;
+    final textParts = promptController.text.split(' ');
+    for (final textPart in textParts) {
+      if (AppConstants.ADULT_WORDS
+          .contains(removePunctuation(textPart.toLowerCase()))) {
+        isOffensive = true;
+        break;
+      }
+    }
+    return isOffensive;
   }
 }

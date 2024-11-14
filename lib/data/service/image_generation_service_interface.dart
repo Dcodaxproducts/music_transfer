@@ -3,9 +3,7 @@ import 'package:matrix_ai/data/model/response/api_response.dart';
 
 abstract class ImageGenerationServiceInterface<T> {
   Future<Response?> generateImages(
-    String prompt,
-    String negativePrompt,
-    double cfgScale, {
+    String prompt, {
     int? seed,
     bool upscale = false,
     bool faceFix = false,
@@ -18,4 +16,8 @@ abstract class ImageGenerationServiceInterface<T> {
     String? modelId,
     bool upscale,
   );
+
+  Future<bool> getQueuedImages(PromptResponse response);
+
+  void toggleFavorite(PromptResponse response);
 }

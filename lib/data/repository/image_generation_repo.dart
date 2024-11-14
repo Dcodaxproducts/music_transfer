@@ -25,10 +25,10 @@ class ImageGenerationRepo implements ImageGenerationRepoInterface {
       await apiClient.post(url, body, headers: headers);
 
   @override
-  Future<Response?> getQueueImage({required int requuestId}) async =>
+  Future<Response?> getQueueImage({required int requestId}) async =>
       await apiClient.post(AppConstants.QUEUE_URL, {
         "key": AppConstants.API_KEY,
-        "request_id": requuestId,
+        "request_id": requestId,
       });
 
   @override

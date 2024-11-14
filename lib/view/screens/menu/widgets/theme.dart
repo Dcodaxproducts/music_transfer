@@ -132,7 +132,7 @@ class ThemeModeWidget extends StatelessWidget {
       case ThemeMode.system:
         return Iconsax.monitor_mobbile;
       case ThemeMode.light:
-        return Iconsax.sun;
+        return Iconsax.sun_1;
       case ThemeMode.dark:
         return Iconsax.moon;
     }

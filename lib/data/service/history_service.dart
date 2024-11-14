@@ -15,9 +15,7 @@ class HistoryService implements HistoryServiceInterface {
   }
 
   @override
-  Future<void> addPrompt(
-      PromptResponse prompt, List<PromptResponse> currentHistory) async {
-    currentHistory.add(prompt);
+  Future<void> addPrompt(List<PromptResponse> currentHistory) async {
     await historyRepo.savePromptResponsesInPref(currentHistory);
   }
 

@@ -3,8 +3,7 @@ import 'package:matrix_ai/data/model/response/api_response.dart';
 
 abstract class HistoryServiceInterface {
   Future<void> savePromptHistory(List<PromptResponse> promptHistory);
-  Future<void> addPrompt(
-      PromptResponse prompt, List<PromptResponse> currentHistory);
+  Future<void> addPrompt(List<PromptResponse> currentHistory);
   Future<void> removePrompt(
       PromptResponse prompt, List<PromptResponse> currentHistory);
   Future<Uint8List?> downloadImage(String url);

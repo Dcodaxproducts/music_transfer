@@ -1,10 +1,6 @@
-import 'dart:async';
-import 'package:matrix_ai/controller/history_controller.dart';
-import 'package:matrix_ai/data/model/body/config_model.dart';
 import 'package:matrix_ai/data/model/response/api_response.dart';
 import 'package:matrix_ai/data/service/image_generation_service_interface.dart';
 import 'package:get/get.dart';
-import 'settings_controller.dart';
 import 'package:http/http.dart' as http;
 
 class ImageGenerationController extends GetxController implements GetxService {
@@ -13,9 +9,6 @@ class ImageGenerationController extends GetxController implements GetxService {
 
   static ImageGenerationController get find =>
       Get.find<ImageGenerationController>();
-
-  ConfigModel get config => SettingsController.find.configModel;
-  HistoryController get history => HistoryController.find;
 
   PromptResponse? _promptResponse;
 
@@ -36,8 +29,6 @@ class ImageGenerationController extends GetxController implements GetxService {
     http.Response? response =
         await imageGenerationServiceInterface.generateImages(
       prompt,
-      config.negativePrompt,
-      config.guidanceScale,
       seed: seed,
       upscale: upscale,
       faceFix: faceFix,
@@ -48,5 +39,19 @@ class ImageGenerationController extends GetxController implements GetxService {
         .processGenerationResponse(response, prompt, modelId, upscale);
 
     return value;
+  }
+
+  // get queque images
+  Future<bool> getQueuedImages(PromptResponse response) async {
+    return await imageGenerationServiceInterface.getQueuedImages(response);
+  }
+
+  // toggle favorite
+  void toggleFavorite(PromptResponse response) {
+    imageGenerationServiceInterface.toggleFavorite(response);
+    if (_promptResponse?.id == response.id) {
+      _promptResponse = response.copyWith(bookmarked: !response.bookmarked);
+      update();
+    }
   }
 }

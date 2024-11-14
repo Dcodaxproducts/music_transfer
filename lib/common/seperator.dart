@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class MySeparator extends StatelessWidget {
   final double padding;
   const MySeparator(
-      {Key? key, this.height = 1, this.padding = 0, this.color = Colors.black})
-      : super(key: key);
+      {super.key,
+      this.height = 1,
+      this.padding = 0,
+      this.color = Colors.black});
   final double height;
   final Color color;
 
@@ -42,8 +44,7 @@ class MySeparator extends StatelessWidget {
 class VerticalSeparator extends StatelessWidget {
   final double padding;
   const VerticalSeparator(
-      {Key? key, this.width = 1, this.padding = 0, this.color = Colors.black})
-      : super(key: key);
+      {super.key, this.width = 1, this.padding = 0, this.color = Colors.black});
   final double width;
   final Color color;
 

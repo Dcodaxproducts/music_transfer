@@ -1,5 +1,3 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers, unnecessary_null_comparison, constant_identifier_names
-
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -29,9 +27,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
   Future<http.Response?> get(String uri, {Map<String, String>? headers}) async {
     try {
       // print the api call
-      debugPrint('====> API Call: $uri');
-      debugPrint('====> Header: $_mainHeaders');
-
+      debugPrint('====> API Call: $uri, ====> Header: $_mainHeaders');
       // api call
       http.Response response = await http
           .get(Uri.parse(AppConstants.BASE_URL + uri),
@@ -55,8 +51,8 @@ class ApiClient extends GetxService implements ApiClientInterface {
   }) async {
     try {
       // print the api call
-      debugPrint('====> API Call: $url');
-      debugPrint('====> Header: $_mainHeaders');
+      debugPrint('====> API Call: $url, ====> Header: $_mainHeaders');
+      debugPrint('====> Body: $body');
 
       // api call
       http.Response response = await http.post(
@@ -81,8 +77,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
   Future<Uint8List?> downloadImage(String uri) async {
     try {
       // print the api call
-      debugPrint('====> API Call: $uri');
-      debugPrint('====> Header: $_mainHeaders');
+      debugPrint('====> API Call: $uri, ====> Header: $_mainHeaders');
 
       http.Response response = await http
           .get(

@@ -78,6 +78,7 @@ class PromptResponse {
 class Meta {
   int h;
   int w;
+  String? modelId;
   String? model;
   String prompt;
   int seed;
@@ -85,6 +86,7 @@ class Meta {
   Meta({
     required this.h,
     required this.w,
+    required this.modelId,
     required this.model,
     required this.prompt,
     required this.seed,
@@ -93,7 +95,8 @@ class Meta {
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
         h: json["H"] ?? json["height"],
         w: json["W"] ?? json["width"],
-        model: json["model_id"] ?? json["model"],
+        modelId: json["model_id"],
+        model: json["model"],
         prompt: json["prompt"],
         seed: json["seed"],
       );
@@ -101,7 +104,7 @@ class Meta {
   Map<String, dynamic> toJson() => {
         "H": h,
         "W": w,
-        "model_id": model,
+        "model_id": modelId,
         "model": model,
         "prompt": prompt,
         "seed": seed,
@@ -111,6 +114,7 @@ class Meta {
   Meta copyWith({
     int? h,
     int? w,
+    String? modelId,
     String? model,
     String? prompt,
     int? seed,
@@ -118,6 +122,7 @@ class Meta {
     return Meta(
       h: h ?? this.h,
       w: w ?? this.w,
+      modelId: modelId ?? this.modelId,
       model: model ?? this.model,
       prompt: prompt ?? this.prompt,
       seed: seed ?? this.seed,

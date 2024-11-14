@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:matrix_ai/data/api/api_client_interface.dart';
 import 'package:matrix_ai/data/model/body/config_model.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/response/model.dart';
 import 'settings_repo_interface.dart';
 
 class SettingsRepo implements SettingsRepoInterface {
@@ -23,8 +26,12 @@ class SettingsRepo implements SettingsRepoInterface {
     int aspectRatio = sharedPreferences.getInt(AppConstants.ASPECT_RATIO) ?? 1;
     int selectedStyle =
         sharedPreferences.getInt(AppConstants.SELECTED_STYLE) ?? 0;
-    int selectedModel =
-        sharedPreferences.getInt(AppConstants.SELECTED_MODEL) ?? 0;
+    String? model = sharedPreferences.getString(AppConstants.SELECTED_MODEL);
+    Model? selectedModel;
+    if (model != null) {
+      selectedModel = Model.fromJson(jsonDecode(model));
+    }
+
     bool onBoardingSkip =
         sharedPreferences.getBool(AppConstants.ON_BOARDING_SKIP) ?? false;
 
@@ -70,9 +77,9 @@ class SettingsRepo implements SettingsRepoInterface {
         AppConstants.SELECTED_STYLE,
         configModel.selectedStyle,
       ),
-      sharedPreferences.setInt(
+      sharedPreferences.setString(
         AppConstants.SELECTED_MODEL,
-        configModel.selectedModel,
+        jsonEncode(configModel.selectedModel?.toJson()),
       ),
       sharedPreferences.setString(
         AppConstants.NEGATIVE_PROMPT,

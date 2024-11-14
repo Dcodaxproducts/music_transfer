@@ -1,16 +1,15 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:matrix_ai/data/model/body/more_apps.dart';
 import 'package:matrix_ai/data/model/language.dart';
 import 'package:flutter/foundation.dart';
 
 class AppConstants {
   //
-  static const String APP_NAME = 'Matrix AI';
+  static const String APP_NAME = 'PixArt';
   static const String APP_PACKAGE_NAME = 'ai.art.photo.generator';
 
   // API
-  static const String BASE_URL = 'https://aiart.dcodax.net/api/';
+  static const String BASE_URL = 'https://matrixai.dcodax.net/api/';
   static const String MODELS_URL = 'ai-models';
   static const String INSIPIRATIONS_URL = 'inspirations';
   static const String FEEDBACK_URL = 'feedback-save';
@@ -118,30 +117,6 @@ class AppConstants {
   static const String ENHANCE_PROMPT = 'enhance_prompt';
   static const String FAVORITE_MODELS = 'favorite_models';
   static const String OPEN_COUNT = 'open_count';
-
-  // More Apps
-  static List<MoreApps> moreApps = [
-    MoreApps(
-      name: 'Voice Change: AI Voice Effect',
-      image: 'assets/images/app_1.png',
-      url:
-          'https://play.google.com/store/apps/details?id=com.sound.voiceeffects.voicechanger&hl=en&gl=US',
-      descriptiion: 'Generate AI voices & try different AI voice effects',
-    ),
-    MoreApps(
-      name: 'AI Chat - Chatbot Ask Anything',
-      image: 'assets/images/app_2.png',
-      url: 'https://play.google.com/store/apps/details?id=com.dcodax.chatbot',
-      descriptiion: 'Generate AI voices & try different AI voice effects',
-    ),
-    MoreApps(
-      name: 'AI Chat - Virtual Girlfriend',
-      image: 'assets/images/app_3.png',
-      url:
-          'https://play.google.com/store/apps/details?id=com.AIchat.AIgirlchat.AIanimechat.AIgirlfriendchatbot',
-      descriptiion: 'Allows you to chat with a virtual girlfriend.',
-    ),
-  ];
 
   // Language
   static List<LanguageModel> languages = [

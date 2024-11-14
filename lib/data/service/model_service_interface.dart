@@ -6,9 +6,9 @@ abstract class ModelsServiceInterface {
   Future<http.Response?> fetchModels();
   List<int> getFavoriteModels();
   Future<void> saveFavoriteModels(List<int> favoriteModels);
-  List<MyModel> filterModels(
-      List<MyModel> models, List<int> favoriteModels, int type);
-  List<MyModel> parseModels(String responseBody);
+  List<Model> filterModels(
+      List<Model> models, List<int> favoriteModels, int type);
+  List<Model> parseModels(String responseBody);
   void toggleFavorite(int id, List<int> favoriteModels);
   bool canShowVideoAd(int freeGenerations, int dailyGenerationCount);
   bool canShowInterstitialAd(int freeGenerations, int dailyGenerationCount);

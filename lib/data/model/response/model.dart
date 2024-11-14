@@ -1,64 +1,21 @@
 class Model {
   final int id;
-  final String name;
   final String modelId;
+  final String name;
   final String image;
   final bool premium;
   final bool popular;
   final bool isDefault;
+  final String shortDescription;
+  final String? promptEngeenring;
+  final String apiUrl;
+  final String apiKey;
+  final String apiKeyLoation;
+  final Map<String, dynamic> apiParameters;
+  final ParameterMapping parametersMapping;
+  final AdType? adType;
 
   Model({
-    required this.id,
-    required this.name,
-    required this.modelId,
-    required this.image,
-    required this.premium,
-    required this.popular,
-    this.isDefault = false,
-  });
-
-  factory Model.fromJson(Map<String, dynamic> json) {
-    return Model(
-      id: json['id'],
-      name: json['name'],
-      modelId: json['model_id'],
-      image: json['image'],
-      premium: json['premium'],
-      popular: json['popular'] ?? false,
-      isDefault: json['default'] ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'model_id': modelId,
-      'image': image,
-      'premium': premium,
-      'popular': popular,
-      'default': isDefault,
-    };
-  }
-}
-
-class MyModel {
-  int id;
-  String modelId;
-  String name;
-  String image;
-  bool premium;
-  bool popular;
-  bool isDefault;
-  String promptEngeenring;
-  String apiUrl;
-  String apiKey;
-  String apiKeyLoation;
-  Map<String, dynamic> apiParameters;
-  ParameterMapping parametersMapping;
-  AdType? adType;
-
-  MyModel({
     required this.id,
     required this.modelId,
     required this.name,
@@ -66,6 +23,7 @@ class MyModel {
     required this.premium,
     required this.popular,
     required this.isDefault,
+    required this.shortDescription,
     required this.promptEngeenring,
     required this.apiUrl,
     required this.apiKey,
@@ -75,8 +33,8 @@ class MyModel {
     this.adType,
   });
 
-  factory MyModel.fromJson(Map<String, dynamic> json) {
-    return MyModel(
+  factory Model.fromJson(Map<String, dynamic> json) {
+    return Model(
       id: json['id'],
       modelId: json['model_id'],
       name: json['name'],
@@ -84,12 +42,13 @@ class MyModel {
       premium: json['premium'],
       popular: json['popular'] ?? false,
       isDefault: json['default'] ?? false,
+      shortDescription: json['short_desc'] ?? '',
       promptEngeenring: json['prompt_engineering'],
       apiUrl: json['api_url'],
       apiKey: json['api_key'],
       apiKeyLoation: json['api_key_location'],
-      apiParameters: json['api_parameters'],
-      parametersMapping: ParameterMapping.fromJson(json['parameters_mapping']),
+      apiParameters: json['provider'],
+      parametersMapping: ParameterMapping.fromJson(json['parameters']),
       adType: AdTypeExtension.fromString(json['ad_type']),
     );
   }
@@ -103,12 +62,13 @@ class MyModel {
       'premium': premium,
       'popular': popular,
       'default': isDefault,
+      'short_desc': shortDescription,
       'prompt_engineering': promptEngeenring,
       'api_url': apiUrl,
       'api_key': apiKey,
       'api_key_location': apiKeyLoation,
-      'api_parameters': apiParameters,
-      'parameters_mapping': parametersMapping,
+      'provider': apiParameters,
+      'parameters': parametersMapping.toJson(),
       'ad_type': adType?.name,
     };
   }
@@ -134,9 +94,9 @@ class ParameterMapping {
   factory ParameterMapping.fromJson(Map<String, dynamic> json) {
     return ParameterMapping(
       prompt: json['prompt'],
-      negativePrompt: json['negativePrompt'],
-      cfgScale: json['cfgScale'],
-      aspectRatio: json['aspectRatio'],
+      negativePrompt: json['negative_prompt'],
+      cfgScale: json['cfg_scale'],
+      aspectRatio: json['aspect_ratio'],
       width: json['width'],
       height: json['height'],
     );
@@ -145,9 +105,9 @@ class ParameterMapping {
   Map<String, dynamic> toJson() {
     return {
       'prompt': prompt,
-      'negativePrompt': negativePrompt,
-      'cfgScale': cfgScale,
-      'aspectRatio': aspectRatio,
+      'negative_prompt': negativePrompt,
+      'cfg_scale': cfgScale,
+      'aspect_ratio': aspectRatio,
       'width': width,
       'height': height,
     };

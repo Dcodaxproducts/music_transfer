@@ -6,45 +6,17 @@ import 'package:matrix_ai/data/repository/image_generation_repo_interface.dart';
 import '../../common/snackbar.dart';
 import '../../controller/ads_controller.dart';
 import '../../controller/models_controller.dart';
-import '../../controller/settings_controller.dart';
 import '../../controller/subscription_controller.dart';
+import '../../view/base/prompt_loading.dart';
 import '../model/body/aspect_ratio.dart';
 import '../model/response/api_response.dart';
 import '../model/response/model.dart';
+import '../utils/image_generation_utils.dart';
 import 'image_generation_service_interface.dart';
 
 class ImageGenerationService implements ImageGenerationServiceInterface {
   final ImageGenerationRepoInterface imageGenerationRepo;
   ImageGenerationService({required this.imageGenerationRepo});
-
-  @override
-  Future<http.Response?> generateImages(
-    String prompt,
-    String negativePrompt,
-    double cfgScale, {
-    int? seed,
-    bool upscale = false,
-    bool faceFix = false,
-    String? modelId,
-  }) async {
-    if (!_canGenerateImage()) return null;
-
-    MyModel model = _getModel(modelId);
-
-    _showAds(model);
-
-    AspectRatioModel size = _getAspectRatio();
-
-    String apiUrl = model.apiUrl;
-
-    Map<String, dynamic> headers = _getHeaders(model);
-
-    Map<String, dynamic> body =
-        _createRequestBody(prompt, '', 9, size, model, seed, upscale, faceFix);
-
-    return await imageGenerationRepo.generateImages(
-        url: apiUrl, body: body, headers: headers);
-  }
 
   bool _canGenerateImage() {
     if (!GenerationController.find.canGenerateImage && !isPro) {
@@ -55,7 +27,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     return true;
   }
 
-  Future<void> _showAds(MyModel model) async {
+  Future<void> _showAds(Model model) async {
     if (!isPro) {
       if (model.adType == AdType.rewardVideo &&
           ModelsController.find.canShowVideoAd()) {
@@ -67,55 +39,61 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     }
   }
 
-  AspectRatioModel _getAspectRatio() {
-    return aspectRatios.firstWhere(
-        (e) => e.id == SettingsController.find.configModel.aspectRatio);
-  }
-
-  MyModel _getModel(String? modelId) {
-    final controller = ModelsController.find;
-    return modelId != null
-        ? controller.models.firstWhere((e) => e.modelId == modelId)
-        : controller.selectedModel;
-  }
-
-  Map<String, dynamic> _getHeaders(MyModel model) {
-    return model.apiKeyLoation == 'header'
-        ? {'Authorization': 'Bearer ${model.apiKey}'}
-        : {};
-  }
-
-  Map<String, dynamic> _createRequestBody(
-    String prompt,
-    String userNegativePrompt,
-    int cfgScale,
-    AspectRatioModel size,
-    MyModel model,
+  @override
+  Future<http.Response?> generateImages(
+    String prompt, {
     int? seed,
-    bool upscale,
-    bool faceFix,
-  ) {
-    //
-    final body = {...model.apiParameters};
+    bool upscale = false,
+    bool faceFix = false,
+    String? modelId,
+  }) async {
+    // check if user can generate image (daily limit)
+    if (!_canGenerateImage()) return null;
 
-    // Add user inputs with mapped parameter names
-    body[model.parametersMapping.prompt] = prompt;
-    body[model.parametersMapping.negativePrompt] = userNegativePrompt;
-    body[model.parametersMapping.cfgScale] = cfgScale.toString();
-    if (model.parametersMapping.aspectRatio != null) {
-      body[model.parametersMapping.aspectRatio!] = size.aspectRatio;
-    }
-    if (model.parametersMapping.width != null &&
-        model.parametersMapping.height != null) {
-      body[model.parametersMapping.width!] = size.width.toString();
-      body[model.parametersMapping.height!] = size.height.toString();
-    }
+    // get model (selected or from models list)
+    Model model = ImageGenerationUtils.getModel(modelId);
 
-    if (model.apiKeyLoation == 'body') {
-      body['apiKey'] = model.apiKey;
-    }
+    // show ads (if not pro user and model has ads)
+    await _showAds(model);
 
-    return body;
+    showPromptLoading(facefix: faceFix, upscale: upscale);
+
+    // get aspect ratio
+    AspectRatioModel size = ImageGenerationUtils.getAspectRatio();
+
+    // get api url (the url to send the request to from the model)
+    String apiUrl = model.apiUrl;
+
+    // get headers (if api key is in header)
+    Map<String, dynamic> headers = ImageGenerationUtils.getHeaders(model);
+
+    // create request body (parameters to send to the api)
+    Map<String, dynamic> body = ImageGenerationUtils.createRequestBody(
+        prompt, size, model, seed, upscale, faceFix);
+
+    // send request to api
+    return await imageGenerationRepo.generateImages(
+      url: apiUrl,
+      body: body,
+      headers: headers,
+    );
+  }
+
+  bool _handleErrorResponse(Map<String, dynamic> data) {
+    if (data['status'] == 'error') {
+      String message = '';
+      final res = data['message'] ?? data['messege'];
+      if (res is String) {
+        message = res;
+      } else {
+        Map<String, dynamic> messageMap = res;
+        message = messageMap.entries.first.value[0];
+      }
+      showToast(message);
+      dismiss();
+      return false;
+    }
+    return true;
   }
 
   // process generation response
@@ -131,15 +109,16 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     PromptResponse value = PromptResponse.fromJson(data);
 
-    MyModel model = _getModel(modelId);
+    Model model = ImageGenerationUtils.getModel(modelId);
 
-    AspectRatioModel size = _getAspectRatio();
+    AspectRatioModel size = ImageGenerationUtils.getAspectRatio();
 
     // replace prompt with original prompt
     value = value.copyWith(
       meta: value.meta.copyWith(
         prompt: prompt,
-        model: model.modelId.startsWith('https') ? model.modelId : null,
+        model: model.name,
+        modelId: model.modelId,
         h: (size.height.toInt()) * (upscale ? 2 : 1),
         w: (size.width.toInt()) * (upscale ? 2 : 1),
       ),
@@ -160,12 +139,39 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     return null;
   }
 
-  bool _handleErrorResponse(Map<String, dynamic> data) {
-    if (data['status'] == 'error') {
-      showToast(data['message']);
-      dismiss();
-      return false;
+  @override
+  Future<bool> getQueuedImages(PromptResponse value) async {
+    // Save the original value in case of rollback
+    PromptResponse oldResponse = value;
+    http.Response? response =
+        await imageGenerationRepo.getQueueImage(requestId: value.id);
+
+    if (response != null) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+
+      if (data['status'] == "success") {
+        final List<String> output = List<String>.from(data['output']);
+
+        // Update response with new data
+        value = value.copyWith(status: 'success', output: output);
+
+        // Update the history
+        HistoryController.find.removePrompt(oldResponse);
+        HistoryController.find.addPrompt(value);
+
+        return true;
+      }
     }
-    return true;
+    return false;
+  }
+
+  @override
+  void toggleFavorite(PromptResponse promptResponse) {
+    // Toggle the bookmarked status
+    PromptResponse updatedResponse = promptResponse.copyWith(
+      bookmarked: !promptResponse.bookmarked,
+    );
+    // Update history and UI
+    HistoryController.find.toggleFavourite(updatedResponse);
   }
 }

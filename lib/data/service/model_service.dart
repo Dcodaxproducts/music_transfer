@@ -25,8 +25,8 @@ class ModelsService implements ModelsServiceInterface {
   }
 
   @override
-  List<MyModel> filterModels(
-      List<MyModel> models, List<int> favoriteModels, int type) {
+  List<Model> filterModels(
+      List<Model> models, List<int> favoriteModels, int type) {
     if (type == 0) {
       return models;
     } else if (type == 1) {
@@ -37,10 +37,10 @@ class ModelsService implements ModelsServiceInterface {
   }
 
   @override
-  List<MyModel> parseModels(String responseBody) {
+  List<Model> parseModels(String responseBody) {
     Map<String, dynamic> data = jsonDecode(responseBody);
     List<dynamic> modelList = data['aiModels'];
-    return modelList.map((e) => MyModel.fromJson(e)).toList();
+    return modelList.map((e) => Model.fromJson(e)).toList();
   }
 
   @override

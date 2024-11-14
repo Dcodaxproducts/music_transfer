@@ -8,24 +8,21 @@ import 'settings_controller.dart';
 
 class ModelsController extends GetxController {
   final ModelsServiceInterface modelsService;
-
   ModelsController({required this.modelsService});
 
   static ModelsController get find => Get.find<ModelsController>();
 
-  late MyModel _selectedModel;
-  List<MyModel> _models = [];
-  List<MyModel> _filteredModels = [];
+  List<Model> _models = [];
+  List<Model> _filteredModels = [];
   int _type = 0;
   final List<int> _favoriteModels = [];
 
-  MyModel get selectedModel => _selectedModel;
-  List<MyModel> get models => _models;
-  List<MyModel> get filteredModels => _filteredModels;
+  List<Model> get models => _models;
+  List<Model> get filteredModels => _filteredModels;
   int get type => _type;
   List<int> get favoriteModels => _favoriteModels;
 
-  set models(List<MyModel> value) {
+  set models(List<Model> value) {
     _models = value;
     update();
   }
@@ -35,14 +32,8 @@ class ModelsController extends GetxController {
     update();
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    initFavoriteModels();
-    getModels(); // Initialize this during controller init
-  }
-
   Future<void> getModels() async {
+    initFavoriteModels();
     http.Response? response = await modelsService.fetchModels();
     if (response != null && response.statusCode == 200) {
       _models = modelsService.parseModels(response.body);
@@ -50,8 +41,7 @@ class ModelsController extends GetxController {
 
       final config = SettingsController.find.initSharedData();
       if (!config.onBoardingSkip) {
-        config.selectedModel =
-            _models.firstWhere((e) => e.isDefault == true).id;
+        config.selectedModel = _models.firstWhere((e) => e.isDefault == true);
       }
       update();
     }

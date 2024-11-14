@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
-import 'package:matrix_ai/view/screens/set_theme/widgets/model_view.dart';
+import 'package:matrix_ai/view/screens/set_theme/widgets/model_grid.dart';
+import '../../../data/model/response/model.dart';
 import '../../../helper/navigation.dart';
 import '../../base/tab_button.dart';
 import '../dashboard/widgets/glassbox_curve.dart';
@@ -84,7 +88,7 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
                   ),
                   Expanded(
                     child: PrimaryTabButton(
-                      text: 'Styles',
+                      text: 'Favourites',
                       selected: currentIndex == 1,
                       onPressed: () => _changeTab(1),
                       radiusLeft: 0.sp,
@@ -95,20 +99,27 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
               ),
             ),
           ),
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-              children: const [
-                ModelsView(),
-                ModelsView(),
-              ],
-            ),
-          ),
+          GetBuilder<ModelsController>(builder: (modelsController) {
+            final List<Model> models = modelsController.models;
+            final List<Model> favoriteModels = modelsController.models
+                .where((model) =>
+                    modelsController.favoriteModels.contains(model.id))
+                .toList();
+            return Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+                children: [
+                  ModelsGrid(models: models),
+                  ModelsGrid(models: favoriteModels),
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );

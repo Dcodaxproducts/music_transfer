@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:matrix_ai/controller/ads_controller.dart';
+import 'package:matrix_ai/controller/dashboard_controller.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
@@ -73,6 +74,9 @@ Future<Map<String, Map<String, String>>> init() async {
   InspirationRepoInterface inspirationRepoInterface =
       InspirationRepo(apiClient: Get.find(), sharedPreferences: Get.find());
   Get.lazyPut(() => inspirationRepoInterface);
+  SettingsRepoInterface settingsRepoInterface =
+      SettingsRepo(apiClient: Get.find(), sharedPreferences: Get.find());
+  Get.lazyPut(() => settingsRepoInterface);
 
   // Service
   ImageGenerationServiceInterface imageGenerationService =
@@ -103,6 +107,9 @@ Future<Map<String, Map<String, String>>> init() async {
   LocalizationServiceInterface localizationServiceInterface =
       LocalizationService(sharedPreferences: Get.find());
   Get.lazyPut(() => localizationServiceInterface);
+  SettingsServiceInterface settingsServiceInterface =
+      SettingsService(settingsRepo: Get.find());
+  Get.lazyPut(() => settingsServiceInterface);
 
   // Controller
   Get.lazyPut(() => ThemeController(themeService: Get.find()));
@@ -117,6 +124,8 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => InspirationController(inspirationService: Get.find()));
   Get.lazyPut(() => UpdateController(updateService: Get.find()));
   Get.lazyPut(() => GenerationController());
+  Get.lazyPut(() => DashboardController());
+  Get.lazyPut(() => SettingsController(settingsService: Get.find()));
 
   // Retrieving localized data
   Map<String, Map<String, String>> languages = {};

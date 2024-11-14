@@ -19,6 +19,7 @@ class Images {
   static const String premiumBG = 'assets/images/premium_bg.png';
   static const String loading2 = 'assets/images/loading.json';
   static const String tick = 'assets/images/tick.png';
+  static const String animation = 'assets/animations/loading.json';
 
   //
   static const String langauge = 'assets/images/langauge.png';

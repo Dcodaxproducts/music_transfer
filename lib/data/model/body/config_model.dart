@@ -1,9 +1,11 @@
+import '../response/model.dart';
+
 class ConfigModel {
   bool onBoardingSkip;
   double guidanceScale;
   int steps;
   int aspectRatio;
-  int selectedModel;
+  Model? selectedModel;
   int selectedStyle;
   String negativePrompt;
   int? seed;
@@ -25,7 +27,7 @@ class ConfigModel {
     double? guidanceScale,
     int? steps,
     int? aspectRatio,
-    int? selectedModel,
+    Model? selectedModel,
     int? selectedStyle,
     bool? panoramaImage,
     String? negativePrompt,

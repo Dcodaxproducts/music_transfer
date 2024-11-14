@@ -23,8 +23,9 @@ class HistoryController extends GetxController {
   }
 
   void addPrompt(PromptResponse prompt) {
-    historyService.addPrompt(prompt, _promptHistory);
+    _promptHistory.add(prompt);
     update();
+    historyService.addPrompt(_promptHistory);
   }
 
   void removePrompt(PromptResponse prompt) {

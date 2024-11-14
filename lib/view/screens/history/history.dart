@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:matrix_ai/utils/style.dart';
+import '../../../data/model/response/api_response.dart';
 import '../../../helper/navigation.dart';
 import '../../base/tab_button.dart';
 import '../dashboard/widgets/glassbox_curve.dart';
@@ -86,20 +89,28 @@ class _HistoryScreenState extends State<HistoryScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-              children: const [
-                HistoryList(),
-                HistoryList(),
-              ],
-            ),
-          ),
+          GetBuilder<HistoryController>(builder: (historyController) {
+            final List<PromptResponse> promptHistory =
+                historyController.promptHistory;
+            final List<PromptResponse> bookmarkedHistory = historyController
+                .promptHistory
+                .where((e) => e.bookmarked)
+                .toList();
+            return Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+                children: [
+                  HistoryList(promptHistory: promptHistory),
+                  HistoryList(promptHistory: bookmarkedHistory),
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );

@@ -15,9 +15,7 @@ class CustomDivider extends StatelessWidget {
         return Divider(
             height: 0,
             thickness: thickness,
-            color: Brightness.dark == Theme.of(context).brightness
-                ? Theme.of(context).dividerColor
-                : Colors.grey[300]!);
+            color: Theme.of(context).dividerColor);
       }),
     );
   }

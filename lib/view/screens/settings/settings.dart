@@ -59,22 +59,26 @@ class SettingScreen extends StatelessWidget {
               ),
             ],
           ),
-          Expanded(child: GetBuilder<SettingsController>(builder: (con) {
-            final selectedAspectRatio = aspectRatios
-                .firstWhere((e) => e.id == con.configModel.aspectRatio)
-                .aspectRatio;
-            return ListView(
-              children: [
-                AspectRatioSelectionWidget(
-                  con: con,
-                  selectedAspectRatio: selectedAspectRatio,
-                ),
-                NegativePromptWidget(con: con),
-                CFGWidget(con: con),
-                SeedWidget(con: con),
-              ],
-            );
-          }))
+          Expanded(
+            child: GetBuilder<SettingsController>(
+              builder: (con) {
+                final selectedAspectRatio = aspectRatios
+                    .firstWhere((e) => e.id == con.configModel.aspectRatio)
+                    .aspectRatio;
+                return ListView(
+                  children: [
+                    AspectRatioSelectionWidget(
+                      con: con,
+                      selectedAspectRatio: selectedAspectRatio,
+                    ),
+                    NegativePromptWidget(con: con),
+                    CFGWidget(con: con),
+                    SeedWidget(con: con),
+                  ],
+                );
+              },
+            ),
+          )
         ],
       ),
     );

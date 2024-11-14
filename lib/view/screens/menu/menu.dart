@@ -89,10 +89,15 @@ class _MenuScreenState extends State<MenuScreen> {
 
 class MenuItem extends StatelessWidget {
   final String text;
+  final String? subtile;
   final IconData icon;
   final Function()? onTap;
   const MenuItem(
-      {required this.text, required this.icon, required this.onTap, super.key});
+      {required this.text,
+      this.subtile,
+      required this.icon,
+      required this.onTap,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +114,18 @@ class MenuItem extends StatelessWidget {
         text.tr,
         style: Theme.of(context).textTheme.bodyMedium,
       ),
+      subtitle: subtile != null
+          ? Padding(
+              padding: EdgeInsets.only(top: 5.sp),
+              child: Text(
+                subtile!.tr,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Theme.of(context).hintColor),
+              ),
+            )
+          : null,
       trailing: Icon(
         Iconsax.arrow_right_3,
         size: 16.sp,

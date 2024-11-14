@@ -9,11 +9,13 @@ class CustomNetworkImage extends StatefulWidget {
   final bool history;
   final BoxFit fit;
   final double loadingRadius;
+  final Color? color;
   const CustomNetworkImage(
       {required this.url,
       this.history = false,
       this.fit = BoxFit.cover,
       this.loadingRadius = 0,
+      this.color,
       super.key});
 
   @override
@@ -26,6 +28,8 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
     return CachedNetworkImage(
       imageUrl: "${widget.url}",
       fit: BoxFit.cover,
+      colorBlendMode: widget.color == null ? null : BlendMode.darken,
+      color: widget.color,
       placeholder: (c, s) {
         return ClipRRect(
             borderRadius: BorderRadius.circular(widget.loadingRadius),
