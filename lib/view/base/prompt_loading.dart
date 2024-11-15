@@ -88,10 +88,19 @@ class _PromptLoadingState extends State<PromptLoading> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            LottieBuilder.asset(
-              Images.animation,
-              height: 200.sp,
-              fit: BoxFit.cover,
+            Stack(
+              children: [
+                LottieBuilder.asset(
+                  Images.animation_2,
+                  height: 200.sp,
+                  fit: BoxFit.cover,
+                ),
+                LottieBuilder.asset(
+                  Images.animation_1,
+                  height: 200.sp,
+                  fit: BoxFit.cover,
+                ),
+              ],
             ),
             const SizedBox(height: 10),
             Row(

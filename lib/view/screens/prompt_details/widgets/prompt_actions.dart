@@ -38,7 +38,10 @@ class PromptEditButton extends StatelessWidget {
                 SizedBox(width: 8.sp),
                 Text(
                   'edit'.tr,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: Colors.white),
                 ),
               ],
             ),

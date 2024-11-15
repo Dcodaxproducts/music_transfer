@@ -11,4 +11,6 @@ class Images {
 
   // animation
   static const String animation = 'assets/animations/loading.json';
+  static const String animation_1 = 'assets/animations/loading_1.json';
+  static const String animation_2 = 'assets/animations/loading_2.json';
 }
