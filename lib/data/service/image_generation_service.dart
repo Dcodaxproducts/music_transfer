@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
@@ -108,7 +107,6 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   ) {
     if (response == null) return null;
     Map<String, dynamic> data = jsonDecode(response.body);
-    log(data.toString());
 
     if (!_handleErrorResponse(data)) return null;
 

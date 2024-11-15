@@ -28,8 +28,22 @@ class HistoryController extends GetxController {
       _promptHistory.removeWhere((e) => e.meta.seed == seed);
     }
     _promptHistory.add(prompt);
+    // save history in new list
+    List<PromptResponse> history = [];
+    history.addAll(_promptHistory);
+
+    // clear history and update ui
+    _promptHistory.clear();
     update();
-    historyService.addPrompt(_promptHistory);
+
+    Future.delayed(const Duration(milliseconds: 20), () {
+      // restore history and update ui
+      _promptHistory.addAll(history);
+      update();
+
+      // save in preferences
+      historyService.addPrompt(_promptHistory);
+    });
   }
 
   void removePrompt(PromptResponse prompt) {
