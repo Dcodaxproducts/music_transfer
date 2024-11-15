@@ -28,9 +28,14 @@ class ImageGenerationUtils {
     // get the config model
     ConfigModel config = SettingsController.find.configModel;
 
-    // add the prompt to the body (if prompt engineering is enabled, add the prompt engineering to the prompt)
-    body[model.parametersMapping.prompt] =
-        prompt + (model.promptEngeenring ?? '');
+    // add the prompt to the body
+    body[model.parametersMapping.prompt] = prompt;
+
+    // (if prompt engineering is enabled, add the prompt engineering to the prompt)
+    if (model.promptEngeenring != null) {
+      body[model.parametersMapping.prompt] =
+          '$prompt(${model.promptEngeenring!})';
+    }
 
     // add the negative prompt to the body
     body[model.parametersMapping.negativePrompt] = config.negativePrompt;

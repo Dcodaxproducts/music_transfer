@@ -57,7 +57,7 @@ class _HistoryCountdownWidgetState extends State<HistoryCountdownWidget> {
     bool success =
         await ImageGenerationController.find.getQueuedImages(widget.response);
 
-    if (success) {
+    if (success && mounted) {
       setState(() {
         remainingTime = Duration.zero;
         countdownTimer?.cancel(); // Stop timer on success
