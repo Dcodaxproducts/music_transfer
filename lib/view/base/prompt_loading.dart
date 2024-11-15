@@ -3,6 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import '../../utils/images.dart';
 
@@ -27,15 +28,15 @@ class PromptLoading extends StatefulWidget {
 
 class _PromptLoadingState extends State<PromptLoading> {
   List<String> _messages = [
-    "Analyzing prompt",
-    "Creating you idea",
-    "Generating Image",
+    "analyzing_prompt",
+    "creating_your_idea".tr,
+    "generating_image",
   ];
 
   final List<String> _subheading = [
-    "It may take a while. Please don't close your app.",
-    "Awaiting Your Imaginations",
-    "Patience, Masterpiece Loading",
+    "it_may_take_a_while_please_dont_close_your_app",
+    "awaiting_your_imagination",
+    "patience_masterpiece_loading",
   ];
 
   int _currentIndex = 0;
@@ -45,14 +46,14 @@ class _PromptLoadingState extends State<PromptLoading> {
   void initState() {
     if (widget.facefix) {
       _messages = [
-        "Analyzing image",
-        "Fixing Face",
+        "analyzing_image",
+        "fixing_face",
       ];
     }
     if (widget.upscale) {
       _messages = [
-        "Analyzing image",
-        "Upscaling Image",
+        "analyzing_image",
+        "upscaling_image",
       ];
     }
     super.initState();
@@ -97,7 +98,7 @@ class _PromptLoadingState extends State<PromptLoading> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "${_messages[_currentIndex]} ",
+                  "${_messages[_currentIndex].tr} ",
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
@@ -123,13 +124,13 @@ class _PromptLoadingState extends State<PromptLoading> {
             const SizedBox(height: 16),
             Text(
               widget.upscale || widget.facefix
-                  ? _subheading[0]
-                  : _subheading[_currentIndex],
+                  ? _subheading[0].tr
+                  : _subheading[_currentIndex].tr,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.white),
             ),
           ],
         ),

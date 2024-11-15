@@ -12,28 +12,36 @@ class PromptEditButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 10.sp,
-      right: 10.sp,
-      child: InkWell(
-        onTap: showActionSheet,
-        borderRadius: BorderRadius.circular(16.sp),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp),
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(16.sp),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Iconsax.edit, size: 16.sp, color: Colors.white),
-              SizedBox(width: 8.sp),
-              Text(
-                'Edit',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ],
+    bool visible = ImageGenerationController.find.promptResponse != null &&
+        ImageGenerationController.find.promptResponse!.model!.apiParameters
+            .containsKey('upscale') &&
+        ImageGenerationController.find.promptResponse!.model!.apiParameters
+            .containsKey('upscale');
+    return Visibility(
+      visible: visible,
+      child: Positioned(
+        bottom: 10.sp,
+        right: 10.sp,
+        child: InkWell(
+          onTap: showActionSheet,
+          borderRadius: BorderRadius.circular(16.sp),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(16.sp),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Iconsax.edit, size: 16.sp, color: Colors.white),
+                SizedBox(width: 8.sp),
+                Text(
+                  'edit'.tr,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -53,8 +61,8 @@ class ActionSheet extends StatefulWidget {
 class _ActionSheetState extends State<ActionSheet> {
   List<MenuItem> items = [
     MenuItem(
-      text: 'Face Fix',
-      subtile: 'Improve face realism in your art with AI.',
+      text: 'face_fix',
+      subtile: 'improve_face_realism_in_your_art_with_ai',
       icon: Iconsax.user,
       onTap: () {
         pop();
@@ -64,7 +72,7 @@ class _ActionSheetState extends State<ActionSheet> {
           api.promptResponse!.meta.prompt,
           seed: api.promptResponse?.meta.seed,
           faceFix: true,
-          modelId: api.promptResponse!.meta.modelId,
+          model: api.promptResponse!.model,
         )
             .then((response) {
           if (response != null) {
@@ -76,8 +84,8 @@ class _ActionSheetState extends State<ActionSheet> {
       },
     ),
     MenuItem(
-      text: 'AI Enhance',
-      subtile: 'Remove noise and sharpen images with AI',
+      text: 'ai_enhance',
+      subtile: 'remove_noise_and_sharpen_images_with_ai',
       icon: Iconsax.magicpen,
       onTap: () {
         pop();
@@ -87,7 +95,7 @@ class _ActionSheetState extends State<ActionSheet> {
           api.promptResponse!.meta.prompt,
           seed: api.promptResponse?.meta.seed,
           upscale: true,
-          modelId: api.promptResponse!.meta.modelId,
+          model: api.promptResponse!.model,
         )
             .then((response) {
           if (response != null) {
@@ -127,7 +135,7 @@ class _ActionSheetState extends State<ActionSheet> {
           ),
           SizedBox(height: 16.sp),
           Text(
-            'Edit Result',
+            'edit_result'.tr,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium

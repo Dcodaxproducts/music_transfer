@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/model/response/api_response.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
@@ -80,7 +83,42 @@ class HistoryCard extends StatelessWidget {
                             ),
                           ),
 
+                    // favorite button
                     FavoriteHistoryIcon(response: response),
+
+                    // copy button,
+                    Positioned(
+                      top: 8.sp,
+                      left: 8.sp,
+                      child: InkWell(
+                        onTap: () {
+                          Clipboard.setData(
+                            ClipboardData(text: response.meta.prompt),
+                          );
+                          SettingsController.find
+                              .setPromptText(response.meta.prompt);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.sp,
+                            vertical: 4.sp,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(32.sp),
+                            border:
+                                Border.all(color: secondaryColor, width: 1.sp),
+                          ),
+                          child: Text(
+                            'copy'.tr.toUpperCase(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -90,7 +128,7 @@ class HistoryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      response.meta.model ?? '',
+                      response.model?.name ?? '',
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium

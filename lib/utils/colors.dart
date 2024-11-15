@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Color primaryColor = Color(0xFF6949FF);
-const Color primaryDark = Color(0XFF3B15EA);
+const Color primaryLight = Color(0xFF7A6BF6);
 const Color secondaryColor = Color(0xFFD27579);
 const Color backgroundColorDark =
     Colors.black; // Color(0xFF1C1F24); // Color(0xFF19181F);
@@ -18,7 +18,7 @@ LinearGradient get primaryGradient => const LinearGradient(
       end: Alignment.topRight,
     );
 LinearGradient get secondaryGradient => const LinearGradient(
-      colors: [primaryColor, primaryDark],
+      colors: [primaryLight, primaryColor],
       stops: [0.2, 1.0],
       begin: Alignment.bottomLeft,
       end: Alignment.topRight,

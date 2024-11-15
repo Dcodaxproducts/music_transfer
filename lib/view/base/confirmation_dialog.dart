@@ -69,7 +69,7 @@ class ConfirmationDialog extends StatelessWidget {
               children: [
                 Expanded(
                   child: PrimaryOutlineButton(
-                    text: 'Cancel',
+                    text: 'cancel'.tr,
                     onPressed: pop,
                     textColor: Theme.of(context).textTheme.bodyLarge!.color,
                   ),

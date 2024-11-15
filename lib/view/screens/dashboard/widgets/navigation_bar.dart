@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:matrix_ai/controller/localization_controller.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/view/screens/dashboard/widgets/glassbox_curve.dart';
 import '../../../../utils/style.dart';
@@ -26,20 +28,26 @@ class GlasmorphicNavigationBar extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               // Sliding Indicator for the selected button
-              AnimatedAlign(
-                alignment: Alignment(
-                    -1 + (2 / (navigationItems.length - 1)) * currentIndex, 0),
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                child: Container(
-                  width: 125.sp,
-                  height: 53.sp,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(40.sp),
+              GetBuilder<LocalizationController>(builder: (con) {
+                bool isLtr = con.isLtr;
+                double alignment =
+                    -1 + (2 / (navigationItems.length - 1)) * currentIndex;
+                if (!isLtr) alignment *= -1;
+                return AnimatedAlign(
+                  alignment: Alignment(alignment, 0),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: Container(
+                    width: 125.sp,
+                    height: 53.sp,
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(40.sp),
+                      gradient: secondaryGradient,
+                    ),
                   ),
-                ),
-              ),
+                );
+              }),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

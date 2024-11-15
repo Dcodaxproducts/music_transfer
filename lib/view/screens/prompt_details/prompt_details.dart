@@ -44,7 +44,7 @@ class PromptDetailScreen extends StatelessWidget {
                           width: double.infinity,
                           child: PrimaryButton(
                             gradient: true,
-                            text: 'Recreate',
+                            text: 'recreate'.tr,
                             icon: Icon(
                               Iconsax.magicpen,
                               size: 18.sp,

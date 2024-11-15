@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/dashboard_controller.dart';
-import 'package:matrix_ai/controller/inspiration_controller.dart';
-import 'package:matrix_ai/controller/models_controller.dart';
+import 'package:matrix_ai/view/base/confirmation_dialog.dart';
 import 'package:matrix_ai/view/base/subscription_button.dart';
-import '../../../controller/history_controller.dart';
 import '../../../utils/app_constants.dart';
 import '../home/home.dart';
 import '../inspirations/inspirations.dart';
@@ -30,44 +29,51 @@ class _DashboardScreenState extends State<DashboardScreen> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-    ModelsController.find.getModels();
-    InspirationController.find.getInspirations();
-    HistoryController.find.initPromptHistory();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (dashboardController) {
       int currentIndex = dashboardController.selectedIndex;
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text(AppConstants.APP_NAME),
-          actions: [
-            const SubsriptionButton(),
-            SizedBox(width: 10.sp),
-          ],
-        ),
-        body: Stack(
-          children: [
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: _screens[currentIndex].child,
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: GlasmorphicNavigationBar(
-                currentIndex: currentIndex,
-                navigationItems: _screens,
-                onTap: (index) {
-                  dashboardController.selectedIndex = index;
-                },
+      return PopScope(
+        canPop: false,
+        onPopInvoked: (value) {
+          if (currentIndex != 0) {
+            dashboardController.selectedIndex = 0;
+          } else {
+            showConfirmationDialog(
+              title: 'exit_app'.tr,
+              subtitle: 'exit_app_message'.tr,
+              actionText: 'yes'.tr,
+              onAccept: SystemNavigator.pop,
+            );
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(AppConstants.APP_NAME),
+            actions: [
+              const SubsriptionButton(),
+              SizedBox(width: 10.sp),
+            ],
+          ),
+          body: Stack(
+            children: [
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: _screens[currentIndex].child,
               ),
-            ),
-          ],
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: GlasmorphicNavigationBar(
+                  currentIndex: currentIndex,
+                  navigationItems: _screens,
+                  onTap: (index) {
+                    dashboardController.selectedIndex = index;
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       );
     });

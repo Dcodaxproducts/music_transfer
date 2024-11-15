@@ -46,7 +46,7 @@ class ModelsView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Set a theme',
+                      'set_a_theme'.tr,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
@@ -67,7 +67,7 @@ class ModelsView extends StatelessWidget {
                       },
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
                       child: Text(
-                        'See all',
+                        'see_all'.tr,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
@@ -146,7 +146,7 @@ class ModelsViewShimmer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Set a theme',
+              'set_a_theme'.tr,
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium
@@ -157,7 +157,7 @@ class ModelsViewShimmer extends StatelessWidget {
               onPressed: () {},
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
               child: Text(
-                'See all',
+                'see_all'.tr,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),

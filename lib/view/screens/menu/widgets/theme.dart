@@ -34,13 +34,13 @@ class _ThemeTileState extends State<ThemeTile> {
           size: 18.sp,
           color: Theme.of(context).textTheme.bodyMedium?.color,
         ),
-        title: Text('Theme', style: Theme.of(context).textTheme.bodyMedium),
+        title: Text('theme'.tr, style: Theme.of(context).textTheme.bodyMedium),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             GetBuilder<ThemeController>(builder: (con) {
               return Text(
-                con.themeMode.toString().split('.').last.capitalizeFirst!,
+                con.themeMode.toString().split('.').last.tr,
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall
@@ -61,17 +61,17 @@ class _ThemeTileState extends State<ThemeTile> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ThemeModeWidget(
-                  text: 'System',
+                  text: 'system',
                   themeMode: ThemeMode.system,
                   selected: con.themeMode == ThemeMode.system,
                 ),
                 ThemeModeWidget(
-                  text: 'Light',
+                  text: 'light',
                   themeMode: ThemeMode.light,
                   selected: con.themeMode == ThemeMode.light,
                 ),
                 ThemeModeWidget(
-                  text: 'Dark',
+                  text: 'dark',
                   themeMode: ThemeMode.dark,
                   selected: con.themeMode == ThemeMode.dark,
                 ),
@@ -119,7 +119,7 @@ class ThemeModeWidget extends StatelessWidget {
           ),
           SizedBox(height: 8.sp),
           Text(
-            text,
+            text.tr,
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],

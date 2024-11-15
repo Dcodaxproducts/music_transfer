@@ -32,7 +32,7 @@ class AspectRatioScreen extends StatelessWidget {
                 visualDensity: VisualDensity(horizontal: -4, vertical: -4),
               ),
               Text(
-                'Aspect Ratio',
+                'aspect_ratio'.tr,
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -47,7 +47,7 @@ class AspectRatioScreen extends StatelessWidget {
                 },
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
                 child: Text(
-                  'Done',
+                  'done'.tr,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium

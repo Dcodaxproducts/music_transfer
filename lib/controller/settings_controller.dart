@@ -5,6 +5,7 @@ import 'package:matrix_ai/data/model/response/setting_model.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../data/service/setting_service_interface.dart';
 import '../view/base/text_editing_controller.dart';
 
@@ -90,5 +91,16 @@ class SettingsController extends GetxController implements GetxService {
       }
     }
     return isOffensive;
+  }
+
+  Future<void> saveFirstTime() async => await settingsService.saveFirstTime();
+  bool get isFirstTime => settingsService.getFirstTime();
+
+  PackageInfo? _packageInfo;
+  PackageInfo? get packageInfo => _packageInfo;
+
+  getPackageInfo() async {
+    _packageInfo = await PackageInfo.fromPlatform();
+    update();
   }
 }

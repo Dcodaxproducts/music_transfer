@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
@@ -45,13 +46,13 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     int? seed,
     bool upscale = false,
     bool faceFix = false,
-    String? modelId,
+    Model? modelValue,
   }) async {
     // check if user can generate image (daily limit)
     if (!_canGenerateImage()) return null;
 
     // get model (selected or from models list)
-    Model model = ImageGenerationUtils.getModel(modelId);
+    Model model = ImageGenerationUtils.getModel(modelValue);
 
     // show ads (if not pro user and model has ads)
     await _showAds(model);
@@ -99,9 +100,15 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   // process generation response
   @override
   PromptResponse? processGenerationResponse(
-      http.Response? response, String prompt, String? modelId, bool upscale) {
+    http.Response? response,
+    String prompt,
+    Model? modelValue,
+    bool upscale,
+    int? seed,
+  ) {
     if (response == null) return null;
     Map<String, dynamic> data = jsonDecode(response.body);
+    log(data.toString());
 
     if (!_handleErrorResponse(data)) return null;
 
@@ -109,7 +116,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     PromptResponse value = PromptResponse.fromJson(data);
 
-    Model model = ImageGenerationUtils.getModel(modelId);
+    Model model = ImageGenerationUtils.getModel(modelValue);
 
     AspectRatioModel size = ImageGenerationUtils.getAspectRatio();
 
@@ -117,16 +124,15 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     value = value.copyWith(
       meta: value.meta.copyWith(
         prompt: prompt,
-        model: model.name,
-        modelId: model.modelId,
         h: (size.height.toInt()) * (upscale ? 2 : 1),
         w: (size.width.toInt()) * (upscale ? 2 : 1),
       ),
       createdAt: DateTime.now(),
+      model: model,
     );
 
     // add prompt history
-    HistoryController.find.addPrompt(value);
+    HistoryController.find.addPrompt(value, seed: seed);
 
     if (value.status == "success") {
       return value;

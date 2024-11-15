@@ -1,3 +1,5 @@
+import 'package:matrix_ai/data/model/response/model.dart';
+
 class PromptResponse {
   String status;
   double? eta;
@@ -7,6 +9,7 @@ class PromptResponse {
   List<String> futureLinks;
   DateTime? createdAt;
   bool bookmarked;
+  Model? model;
 
   PromptResponse({
     required this.status,
@@ -17,6 +20,7 @@ class PromptResponse {
     required this.futureLinks,
     this.createdAt,
     this.bookmarked = false,
+    this.model,
   });
 
   factory PromptResponse.fromJson(Map<String, dynamic> json) => PromptResponse(
@@ -38,6 +42,7 @@ class PromptResponse {
             ? DateTime.parse(json["created_at"])
             : null,
         bookmarked: json["bookmarked"] ?? false,
+        model: json["model"] != null ? Model.fromJson(json["model"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,6 +54,7 @@ class PromptResponse {
         "future_links": List<String>.from(futureLinks.map((x) => x)),
         "created_at": createdAt?.toIso8601String() ?? DateTime.now(),
         "bookmarked": bookmarked,
+        'model': model?.toJson(),
       };
 
   // copy with
@@ -61,6 +67,7 @@ class PromptResponse {
     List<String>? futureLinks,
     DateTime? createdAt,
     bool? bookmarked,
+    Model? model,
   }) {
     return PromptResponse(
       status: status ?? this.status,
@@ -71,6 +78,7 @@ class PromptResponse {
       futureLinks: futureLinks ?? this.futureLinks,
       createdAt: createdAt ?? this.createdAt,
       bookmarked: bookmarked ?? this.bookmarked,
+      model: model ?? this.model,
     );
   }
 }
@@ -78,16 +86,12 @@ class PromptResponse {
 class Meta {
   int h;
   int w;
-  String? modelId;
-  String? model;
   String prompt;
   int seed;
 
   Meta({
     required this.h,
     required this.w,
-    required this.modelId,
-    required this.model,
     required this.prompt,
     required this.seed,
   });
@@ -95,8 +99,6 @@ class Meta {
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
         h: json["H"] ?? json["height"],
         w: json["W"] ?? json["width"],
-        modelId: json["model_id"],
-        model: json["model"],
         prompt: json["prompt"],
         seed: json["seed"],
       );
@@ -104,8 +106,6 @@ class Meta {
   Map<String, dynamic> toJson() => {
         "H": h,
         "W": w,
-        "model_id": modelId,
-        "model": model,
         "prompt": prompt,
         "seed": seed,
       };
@@ -114,16 +114,12 @@ class Meta {
   Meta copyWith({
     int? h,
     int? w,
-    String? modelId,
-    String? model,
     String? prompt,
     int? seed,
   }) {
     return Meta(
       h: h ?? this.h,
       w: w ?? this.w,
-      modelId: modelId ?? this.modelId,
-      model: model ?? this.model,
       prompt: prompt ?? this.prompt,
       seed: seed ?? this.seed,
     );

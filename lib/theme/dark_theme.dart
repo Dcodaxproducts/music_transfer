@@ -41,7 +41,7 @@ ThemeData dark({Color color = primaryColor}) => ThemeData(
       appBarTheme: AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0,
-        titleSpacing: 10.sp,
+        titleSpacing: 16.sp,
         color: backgroundColorDark,
         surfaceTintColor: backgroundColorDark,
         shadowColor: backgroundColorDark,

@@ -100,7 +100,7 @@ class AIModelCard extends StatelessWidget {
                               Border.all(color: secondaryColor, width: 1.sp),
                         ),
                         child: Text(
-                          'Hot'.toUpperCase(),
+                          'hot'.tr.toUpperCase(),
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class CustomSlider extends StatelessWidget {
   final double value;
@@ -51,7 +52,7 @@ class CustomSlider extends StatelessWidget {
             children: labels
                 .map(
                   (e) => Text(
-                    e,
+                    e.tr,
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall

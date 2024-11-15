@@ -14,7 +14,7 @@ class SeedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomExpansionTile(
       title: 'seed',
-      value: 'Change',
+      value: 'change',
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8.sp),

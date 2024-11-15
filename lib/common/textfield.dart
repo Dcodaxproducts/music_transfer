@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:matrix_ai/utils/style.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -16,10 +17,8 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final void Function()? onTap;
-  final bool readOnly;
-  final bool enabled;
-  final bool isOutline;
-  final Color? enabledColor;
+  final double? radius;
+  final bool filled;
 
   const CustomTextField(
       {this.controller,
@@ -36,11 +35,9 @@ class CustomTextField extends StatelessWidget {
       this.keyboardType,
       this.textInputAction,
       this.onTap,
-      this.readOnly = false,
-      this.enabled = true,
-      this.isOutline = false,
       this.prefix,
-      this.enabledColor,
+      this.radius,
+      this.filled = false,
       super.key});
 
   @override
@@ -75,8 +72,6 @@ class CustomTextField extends StatelessWidget {
             keyboardType: keyboardType,
             textInputAction: textInputAction,
             onTap: onTap,
-            readOnly: readOnly,
-            enabled: enabled,
             decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.never,
               prefixIcon: prefix ??
@@ -94,16 +89,16 @@ class CustomTextField extends StatelessWidget {
                   ),
               errorStyle: const TextStyle(fontWeight: FontWeight.normal),
               enabledBorder: border(context,
-                  color: enabledColor ?? Theme.of(context).cardColor),
+                  color: Theme.of(context).cardColor, circular: radius),
               disabledBorder: border(context),
-              focusedBorder:
-                  border(context, color: Theme.of(context).primaryColor),
-              errorBorder:
-                  border(context, color: Theme.of(context).colorScheme.error),
-              focusedErrorBorder: border(context),
-              filled: false,
-              fillColor: Theme.of(context).cardColor,
-              contentPadding: const EdgeInsets.all(18),
+              focusedBorder: border(context,
+                  color: Theme.of(context).primaryColor, circular: radius),
+              errorBorder: border(context,
+                  color: Theme.of(context).colorScheme.error, circular: radius),
+              focusedErrorBorder: border(context, circular: radius),
+              filled: filled,
+              fillColor: Theme.of(context).cardColor.withOpacity(0.4),
+              contentPadding: EdgeInsets.all(18.sp),
               suffixIcon: suffixIcon,
             ),
             style: Theme.of(context)
@@ -117,12 +112,13 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
-InputBorder border(BuildContext context, {Color? color}) => OutlineInputBorder(
+InputBorder border(BuildContext context, {Color? color, double? circular}) =>
+    OutlineInputBorder(
       borderSide: BorderSide(
         color: color ?? Theme.of(context).primaryColor,
         width: 1,
       ),
-      borderRadius: BorderRadius.circular(radius),
+      borderRadius: BorderRadius.circular(circular ?? radius),
     );
 
 class CustomDropDown extends StatelessWidget {

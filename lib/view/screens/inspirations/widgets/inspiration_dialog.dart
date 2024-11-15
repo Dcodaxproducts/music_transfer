@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/utils/style.dart';
 import '../../../../common/network_image.dart';
 import '../../../../common/primary_button.dart';
 import '../../../../controller/dashboard_controller.dart';
@@ -14,21 +16,21 @@ class InspirationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 30),
+      insetPadding: EdgeInsets.symmetric(horizontal: 30.sp),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.sp),
       ),
       child: Container(
-        height: 450,
+        height: 450.sp,
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: borderRadius,
         ),
         child: Stack(
           fit: StackFit.expand,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: borderRadius,
               child: CustomNetworkImage(
                 url: inspiration.image,
                 fit: BoxFit.cover,
@@ -38,7 +40,7 @@ class InspirationDialog extends StatelessWidget {
             // shadow,
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: borderRadius,
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -51,26 +53,26 @@ class InspirationDialog extends StatelessWidget {
             ),
             // close button
             Positioned(
-              top: 10,
-              right: 10,
+              top: 10.sp,
+              right: 10.sp,
               child: InkWell(
                 onTap: pop,
                 child: Container(
-                  padding: const EdgeInsets.all(5),
+                  padding: EdgeInsets.all(5.sp),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.close,
-                    size: 20,
+                    size: 20.sp,
                     color: Colors.black,
                   ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: 10.sp),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -83,9 +85,9 @@ class InspirationDialog extends StatelessWidget {
                         .bodySmall
                         ?.copyWith(color: Colors.white),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.sp),
                   PrimaryButton(
-                    text: 'try_this'.tr,
+                    text: 'try_now'.tr,
                     onPressed: () {
                       final settings = SettingsController.find;
                       pop();
@@ -97,7 +99,7 @@ class InspirationDialog extends StatelessWidget {
                           inspiration.seed.toString();
                     },
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.sp),
                 ],
               ),
             ),

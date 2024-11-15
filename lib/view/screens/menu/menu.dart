@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/utils/style.dart';
+import '../language/language.dart';
 import 'widgets/theme.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -15,26 +17,26 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   final List<Widget> _appMenuItems = [
     MenuItem(
-      text: 'Language',
+      text: 'language',
       icon: Iconsax.language_circle,
-      onTap: () {},
+      onTap: () => launchScreen(const LanguageScreen()),
     ),
     const ThemeTile(),
   ];
 
   final List<Widget> _moreMenuItems = [
     MenuItem(
-      text: 'Subscription',
+      text: 'subscription',
       icon: Iconsax.crown_1,
       onTap: () {},
     ),
     MenuItem(
-      text: 'Privacy Policy',
+      text: 'privacy_policy',
       icon: Iconsax.lock,
       onTap: () {},
     ),
     MenuItem(
-      text: 'Terms of Service',
+      text: 'terms_of_service',
       icon: Iconsax.info_circle,
       onTap: () {},
     ),

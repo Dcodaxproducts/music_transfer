@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
-import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:view_more/view_more.dart';
 import '../../../../data/model/response/api_response.dart';
 import '../../../../data/model/response/model.dart';
@@ -17,8 +16,7 @@ class ModelInfoWidget extends StatelessWidget {
     return GetBuilder<ImageGenerationController>(
       builder: (con) {
         PromptResponse response = con.promptResponse!;
-        Model model = ModelsController.find.models
-            .firstWhere((e) => e.modelId == response.meta.modelId);
+        Model model = response.model!;
         return Column(
           children: [
             Row(

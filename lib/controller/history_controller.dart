@@ -22,7 +22,11 @@ class HistoryController extends GetxController {
     update();
   }
 
-  void addPrompt(PromptResponse prompt) {
+  void addPrompt(PromptResponse prompt, {int? seed}) {
+    // if seed is not null and _promptHistory has any item with the same seed then remove it
+    if (seed != null) {
+      _promptHistory.removeWhere((e) => e.meta.seed == seed);
+    }
     _promptHistory.add(prompt);
     update();
     historyService.addPrompt(_promptHistory);

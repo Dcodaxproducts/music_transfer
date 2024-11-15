@@ -30,7 +30,7 @@ class _HistoryCountdownWidgetState extends State<HistoryCountdownWidget> {
     super.initState();
 
     // Initialize remaining time based on PromptResponse
-    int initialSeconds = (widget.response.eta! + 5 * 2).ceil();
+    int initialSeconds = (widget.response.eta ?? 0 + 5 * 2).ceil();
     DateTime etaWithBuffer =
         widget.response.createdAt!.add(Duration(seconds: initialSeconds));
     remainingTime = etaWithBuffer.difference(DateTime.now());
@@ -111,7 +111,7 @@ class _HistoryCountdownWidgetState extends State<HistoryCountdownWidget> {
   }
 
   int get inititialSeconds {
-    int initialSecs = (widget.response.eta! + 5 * 2).ceil();
+    int initialSecs = (widget.response.eta ?? 0 + 5 * 2).ceil();
     return initialSecs;
   }
 }

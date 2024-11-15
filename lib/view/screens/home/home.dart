@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/common/primary_button.dart';
-import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/utils/style.dart';
 import 'package:matrix_ai/view/screens/home/widgets/models_view.dart';
@@ -28,36 +27,31 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return GetBuilder<SettingsController>(
       builder: (con) {
-        return RefreshIndicator.adaptive(
-          onRefresh: () async {
-            await ModelsController.find.getModels();
-          },
-          child: ListView(
-            padding: pagePadding.copyWith(top: 5.sp),
-            children: [
-              PromptWidget(con: con),
-              const ModelsView(),
-              const PromptSettingsWidget(),
-              Padding(
-                padding: EdgeInsets.only(top: 32.sp),
-                child: PrimaryButton(
-                  text: widget.onRegenerate != null ? 'Recreate' : 'Create',
-                  icon: Icon(
-                    Iconsax.magicpen,
-                    size: 18.sp,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                  ),
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                  textColor: Theme.of(context).scaffoldBackgroundColor,
-                  onPressed: _handleTap,
+        return ListView(
+          padding: pagePadding.copyWith(top: 5.sp),
+          children: [
+            PromptWidget(con: con),
+            const ModelsView(),
+            const PromptSettingsWidget(),
+            Padding(
+              padding: EdgeInsets.only(top: 32.sp),
+              child: PrimaryButton(
+                text: (widget.onRegenerate != null ? 'recreate' : 'create').tr,
+                icon: Icon(
+                  Iconsax.magicpen,
+                  size: 18.sp,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
+                color: Theme.of(context).textTheme.bodyLarge?.color,
+                textColor: Theme.of(context).scaffoldBackgroundColor,
+                onPressed: _handleTap,
               ),
-              if (widget.onRegenerate == null) ...[
-                const HistoryView(),
-                SizedBox(height: 80.sp),
-              ]
-            ],
-          ),
+            ),
+            if (widget.onRegenerate == null) ...[
+              const HistoryView(),
+              SizedBox(height: 80.sp),
+            ]
+          ],
         );
       },
     );
@@ -81,9 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
       (response) {
         if (response != null) {
           launchScreen(PromptDetailScreen(response: response));
-        } else {
-          pop();
-          pop();
         }
       },
     );

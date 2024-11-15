@@ -13,7 +13,7 @@ class NegativePromptWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomExpansionTile(
       title: 'negative_prompt',
-      value: 'Add',
+      value: 'add',
       children: [
         GradientBorder(
           padding: EdgeInsets.symmetric(

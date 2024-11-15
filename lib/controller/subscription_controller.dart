@@ -40,7 +40,7 @@ class SubscriptionController extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> init() async {
+  Future<void> initialize() async {
     await subscriptionService.initialize();
     await _getSubscriptions();
     await refreshProStatus();

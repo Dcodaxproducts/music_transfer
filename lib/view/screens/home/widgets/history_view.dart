@@ -24,7 +24,7 @@ class HistoryView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'History',
+                  'history'.tr,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
@@ -38,7 +38,7 @@ class HistoryView extends StatelessWidget {
                   },
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   child: Text(
-                    'See all',
+                    'see_all'.tr,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),

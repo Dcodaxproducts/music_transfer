@@ -18,7 +18,7 @@ class PromptWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Type your idea'.tr,
+          'type_your_idea'.tr,
           style: Theme.of(context)
               .textTheme
               .bodyMedium
@@ -51,12 +51,11 @@ class PromptWidget extends StatelessWidget {
               // prompt options
               Row(
                 children: [
-                  // _micButton(),
-
                   // random insipiration
                   IconButton(
                     visualDensity:
                         const VisualDensity(horizontal: -4, vertical: -4),
+                    padding: EdgeInsets.zero,
                     onPressed: () {
                       InspirationController inspirationCon =
                           InspirationController.find;
@@ -65,7 +64,7 @@ class PromptWidget extends StatelessWidget {
                       con.promptController.text = inspiration.prompt;
                       con.update();
                     },
-                    icon: Icon(Iconsax.lamp_charge, size: 22.sp),
+                    icon: Icon(Iconsax.lamp_charge, size: 18.sp),
                   ),
                   const Spacer(),
                   if (con.promptController.text.isNotEmpty) ...[
@@ -73,11 +72,12 @@ class PromptWidget extends StatelessWidget {
                     IconButton(
                       visualDensity:
                           const VisualDensity(horizontal: -4, vertical: -4),
+                      padding: EdgeInsets.zero,
                       onPressed: () {
                         con.promptController.clear();
                         con.update();
                       },
-                      icon: const Icon(Icons.close, size: 16),
+                      icon: Icon(Icons.close, size: 18.sp),
                     ),
                   ]
                 ],

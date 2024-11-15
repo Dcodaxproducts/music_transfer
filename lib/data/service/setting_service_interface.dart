@@ -6,4 +6,6 @@ abstract class SettingsServiceInterface<T> {
   Future<void> updateSharedData(ConfigModel configModel);
   Future<SettingModel> getSettings();
   int getOpenCount();
+  Future<bool> saveFirstTime();
+  bool getFirstTime();
 }

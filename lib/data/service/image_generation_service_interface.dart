@@ -1,5 +1,6 @@
 import 'package:http/http.dart';
 import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/model/response/model.dart';
 
 abstract class ImageGenerationServiceInterface<T> {
   Future<Response?> generateImages(
@@ -7,14 +8,15 @@ abstract class ImageGenerationServiceInterface<T> {
     int? seed,
     bool upscale = false,
     bool faceFix = false,
-    String? modelId,
+    Model? modelValue,
   });
 
   PromptResponse? processGenerationResponse(
     Response? response,
     String prompt,
-    String? modelId,
+    Model? model,
     bool upscale,
+    int? seed,
   );
 
   Future<bool> getQueuedImages(PromptResponse response);

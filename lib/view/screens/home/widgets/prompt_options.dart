@@ -18,7 +18,7 @@ class PromptSettingsWidget extends StatelessWidget {
       children: [
         SizedBox(height: 22.sp),
         Text(
-          'Advance Options',
+          'advance_options'.tr,
           style: Theme.of(context)
               .textTheme
               .bodyMedium
@@ -76,7 +76,7 @@ class PromptSettingsWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        'Prompt Settings'.tr,
+                        'prompt_settings'.tr,
                         style: const TextStyle(fontSize: 14),
                       ),
                       const Spacer(),

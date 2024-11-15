@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../../controller/settings_controller.dart';
 import '../../../base/custom_slider.dart';
 import '../../../base/expansion_tile.dart';
@@ -10,7 +11,7 @@ class CFGWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomExpansionTile(
-      title: 'CFG Scale',
+      title: 'cfg_scale'.tr,
       value: con.configModel.guidanceScale.toStringAsFixed(0),
       children: [
         CustomSlider(
@@ -18,7 +19,7 @@ class CFGWidget extends StatelessWidget {
           min: 1,
           max: 20,
           divisions: 199,
-          labels: const ['Better Quality', 'Match Prompt'],
+          labels: const ['better_quality', 'match_prompt'],
           onChanged: (value) {
             con.configModel = con.configModel.copyWith(
               guidanceScale: value,

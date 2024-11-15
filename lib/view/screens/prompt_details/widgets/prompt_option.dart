@@ -45,7 +45,7 @@ class PromptOptionWidget extends StatelessWidget {
             SizedBox(width: 16.sp),
             OptionButton(
               icon: Iconsax.import,
-              onTap: () => _downloadImage(result!.futureLinks.first),
+              onTap: () => _downloadImage(result!.output.first),
             ),
             SizedBox(width: 16.sp),
             OptionButton(

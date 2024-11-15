@@ -35,7 +35,7 @@ class SettingScreen extends StatelessWidget {
                 visualDensity: VisualDensity(horizontal: -4, vertical: -4),
               ),
               Text(
-                'Settings',
+                'settings'.tr,
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -50,7 +50,7 @@ class SettingScreen extends StatelessWidget {
                 },
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
                 child: Text(
-                  'Done',
+                  'done'.tr,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium

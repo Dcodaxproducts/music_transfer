@@ -33,4 +33,14 @@ class SettingsService implements SettingsServiceInterface {
   int getOpenCount() {
     return settingsRepo.getOpenCount();
   }
+
+  @override
+  Future<bool> saveFirstTime() {
+    return settingsRepo.saveFirstTime();
+  }
+
+  @override
+  bool getFirstTime() {
+    return settingsRepo.getFirstTime();
+  }
 }

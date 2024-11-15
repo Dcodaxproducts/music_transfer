@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/controller/settings_controller.dart';
+import 'package:matrix_ai/view/screens/welcome/welcome.dart';
 import 'common/loading.dart';
 import 'controller/localization_controller.dart';
 import 'controller/theme_controller.dart';
@@ -11,8 +13,8 @@ import 'theme/dark_theme.dart';
 import 'theme/light_theme.dart';
 import 'utils/app_constants.dart';
 import 'utils/messages.dart';
-import 'view/screens/welcome/welcome.dart';
 import 'helper/get_di.dart' as di;
+import 'view/screens/root.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,8 +67,18 @@ class MyApp extends StatelessWidget {
                 ),
                 navigatorObservers: [FlutterSmartDialog.observer],
                 builder: FlutterSmartDialog.init(
-                    loadingBuilder: (string) => const Loading()),
-                home: const WelcomeScreen(),
+                    loadingBuilder: (string) => const LoadingWidget()),
+                home: RestartWidget(
+                  child: GetBuilder<SettingsController>(
+                    builder: (con) {
+                      if (SettingsController.find.isFirstTime) {
+                        return const WelcomeScreen();
+                      } else {
+                        return const Root();
+                      }
+                    },
+                  ),
+                ),
               ),
             ),
           );
@@ -83,5 +95,32 @@ class MyApp extends StatelessWidget {
       scaleFactor = util.scaleText;
     }
     return size * scaleFactor;
+  }
+}
+
+class RestartWidget extends StatefulWidget {
+  final Widget child;
+  const RestartWidget({super.key, required this.child});
+
+  static void restartApp(BuildContext context) {
+    context.findAncestorStateOfType<RestartWidgetState>()?.restartApp();
+  }
+
+  @override
+  RestartWidgetState createState() => RestartWidgetState();
+}
+
+class RestartWidgetState extends State<RestartWidget> {
+  Key key = UniqueKey();
+
+  void restartApp() {
+    setState(() {
+      key = UniqueKey();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(key: key, child: widget.child);
   }
 }

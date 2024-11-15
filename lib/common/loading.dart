@@ -1,67 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
+import 'package:matrix_ai/utils/images.dart';
 
-class Loadingg extends StatefulWidget {
-  const Loadingg({super.key});
+import '../utils/colors.dart';
 
-  @override
-  State<Loadingg> createState() => _LoadinggState();
-}
+class LoadingWidget extends StatelessWidget {
+  const LoadingWidget({super.key});
 
-class _LoadinggState extends State<Loadingg> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        SmartDialog.dismiss();
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            child: const SizedBox(
-              width: 80,
-              height: 80,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 10),
-                  Loading(),
-                  SizedBox(height: 10),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [Loading()],
     );
   }
 }
 
-class Loading extends StatefulWidget {
-  const Loading({super.key});
+class Loading extends StatelessWidget {
+  final double size;
+  const Loading({super.key, this.size = 50});
 
-  @override
-  State<Loading> createState() => _LoadingState();
-}
-
-class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(60),
-        ),
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(
-            Theme.of(context).primaryColor,
-          ),
-        ),
+    return Lottie.asset(
+      Images.animation,
+      width: size,
+      height: size,
+      fit: BoxFit.cover,
+    );
+  }
+}
+
+class AnimatedProgressBar extends StatefulWidget {
+  final Duration duration;
+  final Color color;
+
+  const AnimatedProgressBar(
+      {super.key, required this.duration, this.color = primaryColor});
+
+  @override
+  AnimatedProgressBarState createState() => AnimatedProgressBarState();
+}
+
+class AnimatedProgressBarState extends State<AnimatedProgressBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: widget.duration, // Use the duration passed via the widget
+    )..repeat(); // Repeat the animation
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50),
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Container(
+            padding: EdgeInsets.all(2.sp),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.sp),
+              border: Border.all(color: Theme.of(context).dividerColor),
+            ),
+            child: SizedBox(
+              height: 6.sp,
+              child: LinearProgressIndicator(
+                value: _controller.value,
+                valueColor: AlwaysStoppedAnimation<Color>(widget.color),
+                borderRadius: BorderRadius.circular(10.sp),
+                backgroundColor: Theme.of(context).dividerColor,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

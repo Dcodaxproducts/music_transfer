@@ -1,4 +1,11 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:matrix_ai/common/loading.dart';
+import '../../../utils/app_constants.dart';
+import '../../../utils/style.dart';
+import '../../base/background_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,6 +17,77 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: BackgroundWidget(
+        child: Padding(
+          padding: pagePadding,
+          child: Column(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const FlutterLogo(size: 100),
+                    SizedBox(height: 150.sp),
+                    // pixart Title
+                    Text(
+                      AppConstants.APP_NAME,
+                      style: Theme.of(context)
+                          .textTheme
+                          .displayMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10.sp),
+                    // pixart Subtitle
+                    Text(
+                      'the_best_ai_image_generator'.tr,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Theme.of(context).hintColor),
+                    ),
+                    SizedBox(height: 50.sp),
+                  ],
+                ),
+              ),
+              const AnimatedProgressBar(duration: Duration(seconds: 5)),
+              SizedBox(height: 10.sp),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'getting_started'.tr,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Theme.of(context).hintColor),
+                  ),
+                  SizedBox(
+                    width: 14.sp,
+                    child: DefaultTextStyle(
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Theme.of(context).hintColor),
+                      child: AnimatedTextKit(
+                        pause: const Duration(milliseconds: 500),
+                        repeatForever: true,
+                        animatedTexts: [
+                          TyperAnimatedText(
+                            '...',
+                            speed: const Duration(milliseconds: 500),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: 32.sp),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

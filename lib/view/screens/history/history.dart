@@ -46,7 +46,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   children: [
                     const SizedBox(width: 30),
                     Text(
-                      'History',
+                      'history'.tr,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
@@ -67,7 +67,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     children: [
                       Expanded(
                         child: PrimaryTabButton(
-                          text: 'All',
+                          text: 'all'.tr,
                           selected: currentIndex == 0,
                           onPressed: () => _changeTab(0),
                           radiusLeft: 40.sp,
@@ -76,7 +76,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       ),
                       Expanded(
                         child: PrimaryTabButton(
-                          text: 'Bookmarks',
+                          text: 'favorites'.tr,
                           selected: currentIndex == 1,
                           onPressed: () => _changeTab(1),
                           radiusLeft: 0.sp,

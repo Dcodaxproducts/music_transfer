@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
@@ -51,7 +50,7 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
                 visualDensity: VisualDensity(horizontal: -4, vertical: -4),
               ),
               Text(
-                'Set Theme',
+                'set_theme'.tr,
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -63,7 +62,7 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
                 },
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
                 child: Text(
-                  'Done',
+                  'done'.tr,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
@@ -79,7 +78,7 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
                 children: [
                   Expanded(
                     child: PrimaryTabButton(
-                      text: 'AI Models',
+                      text: 'ai_models'.tr,
                       selected: currentIndex == 0,
                       onPressed: () => _changeTab(0),
                       radiusLeft: 40.sp,
@@ -88,7 +87,7 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
                   ),
                   Expanded(
                     child: PrimaryTabButton(
-                      text: 'Favourites',
+                      text: 'favorites'.tr,
                       selected: currentIndex == 1,
                       onPressed: () => _changeTab(1),
                       radiusLeft: 0.sp,
