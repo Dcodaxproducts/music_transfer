@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:matrix_ai/utils/images.dart';
 import '../utils/colors.dart';
+import '../view/base/loading/rotation_loading.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({super.key});
@@ -18,15 +19,27 @@ class LoadingWidget extends StatelessWidget {
 
 class Loading extends StatelessWidget {
   final double size;
-  const Loading({super.key, this.size = 50});
+  const Loading({super.key, this.size = 150});
 
   @override
   Widget build(BuildContext context) {
-    return Lottie.asset(
-      Images.animation,
-      width: size,
-      height: size,
-      fit: BoxFit.cover,
+    return SizedBox(
+      height: size.sp,
+      width: size.sp,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Center(child: CircleLoading(size: size)),
+          Center(
+            child: Lottie.asset(
+              Images.animation_1,
+              width: (size / 1.5).sp,
+              height: (size / 1.5).sp,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

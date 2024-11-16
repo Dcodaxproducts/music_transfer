@@ -1,21 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
-import '../utils/colors.dart';
+import '../utils/images.dart';
 
 class CustomNetworkImage extends StatefulWidget {
   final String? url;
-  final bool history;
   final BoxFit fit;
-  final double loadingRadius;
   final Color? color;
+  final bool errorLoading;
   const CustomNetworkImage(
       {required this.url,
-      this.history = false,
       this.fit = BoxFit.cover,
-      this.loadingRadius = 0,
       this.color,
+      this.errorLoading = false,
       super.key});
 
   @override
@@ -31,44 +31,29 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
       colorBlendMode: widget.color == null ? null : BlendMode.darken,
       color: widget.color,
       placeholder: (c, s) {
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(widget.loadingRadius),
-            child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: Container(
-                color: Colors.grey[300],
-              ),
-            ));
+        return Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Container(
+            color: Colors.grey[300],
+          ),
+        );
       },
       errorWidget: (c, s, o) {
         return Container(
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.loadingRadius),
             color: Theme.of(context).cardColor,
           ),
-          child: widget.history
-              ? Center(
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(8, 4, 8, 6),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: primaryGradient,
-                    ),
-                    child: const Icon(
-                      Iconsax.timer,
-                      size: 16,
-                    ),
-                  ),
-                )
-              : Center(
-                  child: Text(
-                  'Your image is being generated...\nTap to View image.',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodySmall,
-                )),
+          child: Center(
+            child: widget.errorLoading
+                ? Lottie.asset(
+                    Images.animation_1,
+                    fit: BoxFit.cover,
+                  )
+                : Icon(Iconsax.image, size: 50.sp),
+          ),
         );
       },
     );

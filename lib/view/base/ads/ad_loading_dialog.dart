@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import '../../common/loading.dart';
-import '../../utils/style.dart';
+import '../../../common/loading.dart';
+import '../../../utils/style.dart';
 
 showAdLoadingDialog() {
   SmartDialog.show(

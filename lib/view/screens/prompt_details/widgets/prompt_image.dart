@@ -16,7 +16,12 @@ class PromptImageWidget extends StatelessWidget {
       final result = controller.promptResponse;
       int width = result?.meta.w ?? 0;
       int height = result?.meta.h ?? 0;
-      String url = result?.output.first ?? '';
+      String url = '';
+      if (result?.output.isEmpty ?? true) {
+        url = result?.futureLinks.first ?? '';
+      } else {
+        url = result?.output.first ?? '';
+      }
       return InkWell(
         onTap: () => launchScreen(ViewImage(url)),
         child: AspectRatio(
@@ -27,7 +32,7 @@ class PromptImageWidget extends StatelessWidget {
               // image
               Hero(
                 tag: url,
-                child: CustomNetworkImage(url: url),
+                child: CustomNetworkImage(url: url, errorLoading: true),
               ),
 
               const BackButton(),

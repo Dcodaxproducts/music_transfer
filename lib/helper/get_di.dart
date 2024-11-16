@@ -39,6 +39,7 @@ import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
+import '../controller/queue_controller.dart';
 import '../data/repository/image_generation_repo_interface.dart';
 import '../data/repository/inspiration_repo_interface.dart';
 import '../data/repository/models_repo_interface.dart';
@@ -126,6 +127,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => GenerationController());
   Get.lazyPut(() => DashboardController());
   Get.lazyPut(() => SettingsController(settingsService: Get.find()));
+  Get.lazyPut(() => QueueController());
 
   // Retrieving localized data
   Map<String, Map<String, String>> languages = {};

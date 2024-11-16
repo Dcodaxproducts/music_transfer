@@ -1,7 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:matrix_ai/data/model/language.dart';
-import 'package:flutter/foundation.dart';
 
 class AppConstants {
   //
@@ -9,21 +8,15 @@ class AppConstants {
   static const String APP_PACKAGE_NAME = 'ai.art.photo.generator';
 
   // API
-  static const String BASE_URL = 'https://matrixai.dcodax.net/api/';
+  static const String DOMAIN = 'https://matrixai.dcodax.net';
+  static const String BASE_URL = '$DOMAIN/api/';
   static const String MODELS_URL = 'ai-models';
   static const String INSIPIRATIONS_URL = 'inspirations';
   static const String FEEDBACK_URL = 'feedback-save';
-  static const String PRIVACY_POLICY_URL1 = 'term-and-conditions';
   static const String CONFIG_URL = 'config';
 
-  // Stable Diffusion
-  static const String DREAMBOOTH_URL =
-      'https://modelslab.com/api/v6/images/text2img';
+  // queue url
   static const String QUEUE_URL = 'https://modelslab.com/api/v6/images/fetch';
-
-  // App
-  static const String PRIVACY_POLICY_URL =
-      "https://doc-hosting.flycricket.io/ai-art-generator/250805ae-7d20-49eb-b777-feb29ba431f4/privacy";
 
   static const String APP_URL =
       "https://play.google.com/store/apps/details?id=$APP_PACKAGE_NAME";
@@ -93,6 +86,10 @@ class AppConstants {
     'swinger',
   ];
 
+  /* Privacy and terms Url's */
+  static const String PRIVACY_POLICY = '$DOMAIN/privacy-policy';
+  static const String TERMS_AND_CONDITIONS = '$DOMAIN/terms-condition';
+
   /* Subscription Url's */
   static const String cancelSubscriptionUrl =
       'https://play.google.com/store/account/subscriptions?pli=1';
@@ -102,21 +99,17 @@ class AppConstants {
       'https://payments.google.com/payments/apis-secure/u/0/get_legal_document?ldl=en_GB&ldo=0&ldt=buyertos';
 
   // Shared Key
-  static const String THEME = 'theme';
-  static const String COUNTRY_CODE = 'country_code';
-  static const String LANGUAGE_CODE = 'language_code';
-  static const String ON_BOARDING_SKIP = 'on_boarding_skip';
-  static const String API_LANGUAGE = 'api_language';
-  static const String NEGATIVE_PROMPT = 'negative_prompt';
-  static const String GUIDANCE_SCALE = 'guidance_scale';
-  static const String IMAGE_QUALITY = 'image_quality';
-  static const String ASPECT_RATIO = 'aspect_ratioo';
-  static const String SELECTED_STYLE = 'selected_style';
-  static const String SELECTED_MODEL = 'selected_model1';
-  static const String STEPS = 'steps';
-  static const String ENHANCE_PROMPT = 'enhance_prompt';
-  static const String FAVORITE_MODELS = 'favorite_models';
-  static const String OPEN_COUNT = 'open_count';
+  static const String THEME = 'theme_1';
+  static const String COUNTRY_CODE = 'country_code_1';
+  static const String LANGUAGE_CODE = 'language_code_1';
+  static const String ON_BOARDING_SKIP = 'on_boarding_skip_1';
+  static const String NEGATIVE_PROMPT = 'negative_prompt_1';
+  static const String GUIDANCE_SCALE = 'guidance_scale_1';
+  static const String ASPECT_RATIO = 'aspect_ratio_1';
+  static const String SELECTED_MODEL = 'selected_model_1';
+  static const String FAVORITE_MODELS = 'favorite_models_1';
+  static const String OPEN_COUNT = 'open_count_1';
+  static const String PROMPT_HISTORY = 'promptList_1';
 
   // Language
   static List<LanguageModel> languages = [
@@ -216,29 +209,4 @@ class AppConstants {
       languageCode: 'vi',
     ),
   ];
-
-  // ad's id
-  static const String SPLASH_INTERSTITIAL_ID = kDebugMode
-      ? 'ca-app-pub-3940256099942544/1033173712'
-      : 'ca-app-pub-5244304915957936/6792861832';
-
-  static const String SETTING_INTERSTITIAL_ID = kDebugMode
-      ? 'ca-app-pub-3940256099942544/1033173712'
-      : 'ca-app-pub-5244304915957936/9746328236';
-
-  static const String BACK_INTERSTITIAL_ID = kDebugMode
-      ? 'ca-app-pub-3940256099942544/1033173712'
-      : 'ca-app-pub-5244304915957936/9035881798';
-
-  static const String ONGENERATE_INTERSTITIAL_ID = kDebugMode
-      ? 'ca-app-pub-3940256099942544/1033173712'
-      : 'ca-app-pub-5244304915957936/2723786510';
-
-  static const String ONGENERATE_VIDEO_INTERSTITIAL_ID = kDebugMode
-      ? 'ca-app-pub-3940256099942544/1033173712'
-      : 'ca-app-pub-5244304915957936/2206746967';
-
-  static const String APP_OPEN_ID = kDebugMode
-      ? 'ca-app-pub-3940256099942544/1033173712'
-      : 'ca-app-pub-5244304915957936/3863439336';
 }

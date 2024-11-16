@@ -9,7 +9,12 @@ class ThemeService implements ThemeServiceInterface {
 
   @override
   Future<ThemeMode> loadCurrentTheme() async {
-    String? data = sharedPreferences.getString(AppConstants.THEME);
+    String? data;
+    try {
+      data = sharedPreferences.getString(AppConstants.THEME);
+    } catch (e) {
+      data = 'system';
+    }
     if (data == null || data == 'system') {
       return ThemeMode.system;
     } else if (data == 'dark') {

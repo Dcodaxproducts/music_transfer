@@ -1,6 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:matrix_ai/view/screens/onboarding/onboarding.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../base/bottom_button.dart';
 import '../../base/gradient_widget.dart';
 
@@ -41,7 +44,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             .textTheme
                             .displayLarge
                             ?.copyWith(
-                                fontWeight: FontWeight.bold, height: 1.4),
+                                fontWeight: FontWeight.bold,
+                                height: 1.4,
+                                color: Colors.white),
                       ),
                     ),
                     SizedBox(height: 3.sp),
@@ -73,28 +78,38 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           child: RichText(
                             text: TextSpan(
                               style: Theme.of(context).textTheme.bodySmall,
-                              children: const [
-                                TextSpan(
+                              children: [
+                                const TextSpan(
                                   text: 'I agree to the ',
                                 ),
                                 TextSpan(
                                   text: 'Terms of use',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.blue,
                                     decoration: TextDecoration.underline,
                                     decorationColor: Colors.blue,
                                   ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      launchUrlString(
+                                          AppConstants.TERMS_AND_CONDITIONS);
+                                    },
                                 ),
-                                TextSpan(
+                                const TextSpan(
                                   text: ' and acknowledged I have read the ',
                                 ),
                                 TextSpan(
                                   text: 'Privacy Policy.',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.blue,
                                     decoration: TextDecoration.underline,
                                     decorationColor: Colors.blue,
                                   ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      launchUrlString(
+                                          AppConstants.PRIVACY_POLICY);
+                                    },
                                 ),
                               ],
                             ),

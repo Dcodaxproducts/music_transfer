@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/utils/style.dart';
+import 'package:matrix_ai/view/screens/html/html_screen.dart';
+import 'package:matrix_ai/view/screens/subscription/subscription.dart';
 import '../language/language.dart';
 import 'widgets/theme.dart';
 
@@ -28,17 +31,22 @@ class _MenuScreenState extends State<MenuScreen> {
     MenuItem(
       text: 'subscription',
       icon: Iconsax.crown_1,
-      onTap: () {},
+      onTap: () => launchScreen(const SubscriptionScreen()),
     ),
     MenuItem(
       text: 'privacy_policy',
       icon: Iconsax.lock,
-      onTap: () {},
+      onTap: () => launchScreen(
+        HtmlScreen(html: SettingsController.find.settingModel.privacyPolicy),
+      ),
     ),
     MenuItem(
       text: 'terms_of_service',
       icon: Iconsax.info_circle,
-      onTap: () {},
+      onTap: () => launchScreen(
+        HtmlScreen(
+            html: SettingsController.find.settingModel.termsAndConditions),
+      ),
     ),
   ];
 

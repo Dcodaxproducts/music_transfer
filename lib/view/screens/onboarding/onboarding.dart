@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
@@ -38,7 +39,9 @@ class OnboardingScreenState extends State<OnboardingScreen> {
     return PopScope(
       canPop: _currentPage == 0,
       onPopInvoked: (value) {
-        if (_currentPage > 0) {}
+        if (_currentPage > 0) {
+          SystemNavigator.pop();
+        }
       },
       child: Scaffold(
         backgroundColor: backgroundColorDark,
@@ -63,7 +66,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             Padding(
-              padding: pagePadding.copyWith(top: 0),
+              padding: pagePadding,
               child: Column(
                 children: [
                   Row(
@@ -124,7 +127,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 24.sp),
+            const SafeArea(child: SizedBox())
           ],
         ),
       ),
@@ -154,7 +157,13 @@ class ParallaxCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(imagePath),
+        Expanded(
+          child: Image.asset(
+            imagePath,
+            width: double.infinity,
+            fit: BoxFit.fitWidth,
+          ),
+        ),
         SizedBox(height: 16.sp),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.sp),

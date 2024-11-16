@@ -7,7 +7,7 @@ import '../../common/snackbar.dart';
 import '../../controller/ads_controller.dart';
 import '../../controller/models_controller.dart';
 import '../../controller/subscription_controller.dart';
-import '../../view/base/prompt_loading.dart';
+import '../../view/base/loading/prompt_loading.dart';
 import '../model/body/aspect_ratio.dart';
 import '../model/response/api_response.dart';
 import '../model/response/model.dart';

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "968155825470",
+    "project_id": "pixart-7091b",
+    "storage_bucket": "pixart-7091b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968155825470:android:c5e492548ffb52441bd86f",
+        "android_client_info": {
+          "package_name": "pixart.aiart.generator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrUBuT-D3qqpatSdExfgylQRuA1vp-HXw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

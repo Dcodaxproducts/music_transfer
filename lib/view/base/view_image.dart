@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ViewImage extends StatelessWidget {
@@ -22,6 +23,9 @@ class ViewImage extends StatelessWidget {
                 color: Theme.of(context).scaffoldBackgroundColor,
               ),
               imageProvider: CachedNetworkImageProvider(url),
+              errorBuilder: (context, error, stackTrace) {
+                return Center(child: Icon(Iconsax.image, size: 50.sp));
+              },
             ),
           ),
         ),

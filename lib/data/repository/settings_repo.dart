@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:matrix_ai/data/api/api_client_interface.dart';
 import 'package:matrix_ai/data/model/body/config_model.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
@@ -18,30 +17,40 @@ class SettingsRepo implements SettingsRepoInterface {
 
   @override
   ConfigModel initSharedData() {
+    // negative prompt
     String negativePrompt =
         sharedPreferences.getString(AppConstants.NEGATIVE_PROMPT) ?? '';
+
+    // guidance scale
     double guidanceScale =
         sharedPreferences.getDouble(AppConstants.GUIDANCE_SCALE) ?? 7.5;
-    int steps = sharedPreferences.getInt(AppConstants.STEPS) ?? 31;
+
+    // aspect ratio
     int aspectRatio = sharedPreferences.getInt(AppConstants.ASPECT_RATIO) ?? 1;
-    int selectedStyle =
-        sharedPreferences.getInt(AppConstants.SELECTED_STYLE) ?? 0;
+
+    // selected model
     String? model = sharedPreferences.getString(AppConstants.SELECTED_MODEL);
     Model? selectedModel;
     if (model != null) {
       selectedModel = Model.fromJson(jsonDecode(model));
     }
 
+    // onboarding skip
     bool onBoardingSkip =
         sharedPreferences.getBool(AppConstants.ON_BOARDING_SKIP) ?? false;
 
+    // check if the theme, language and country code are set
     if (!sharedPreferences.containsKey(AppConstants.THEME)) {
       sharedPreferences.setString(AppConstants.THEME, 'system');
     }
+
+    // check if the theme, language and country code are set
     if (!sharedPreferences.containsKey(AppConstants.COUNTRY_CODE)) {
       sharedPreferences.setString(
           AppConstants.COUNTRY_CODE, AppConstants.languages[0].countryCode);
     }
+
+    // check if the theme, language and country code are set
     if (!sharedPreferences.containsKey(AppConstants.LANGUAGE_CODE)) {
       sharedPreferences.setString(
           AppConstants.LANGUAGE_CODE, AppConstants.languages[0].languageCode);
@@ -50,10 +59,8 @@ class SettingsRepo implements SettingsRepoInterface {
     return ConfigModel(
       onBoardingSkip: onBoardingSkip,
       guidanceScale: guidanceScale,
-      steps: steps,
       aspectRatio: aspectRatio,
       selectedModel: selectedModel,
-      selectedStyle: selectedStyle,
       negativePrompt: negativePrompt,
     );
   }
@@ -66,16 +73,8 @@ class SettingsRepo implements SettingsRepoInterface {
         configModel.guidanceScale,
       ),
       sharedPreferences.setInt(
-        AppConstants.STEPS,
-        configModel.steps,
-      ),
-      sharedPreferences.setInt(
         AppConstants.ASPECT_RATIO,
         configModel.aspectRatio,
-      ),
-      sharedPreferences.setInt(
-        AppConstants.SELECTED_STYLE,
-        configModel.selectedStyle,
       ),
       sharedPreferences.setString(
         AppConstants.SELECTED_MODEL,

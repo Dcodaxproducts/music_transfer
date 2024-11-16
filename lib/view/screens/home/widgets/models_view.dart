@@ -76,53 +76,52 @@ class ModelsView extends StatelessWidget {
                 SizedBox(
                   height: 110.sp,
                   child: ListView.separated(
-                      itemCount: popularModels.length,
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (_, __) => SizedBox(width: 16.sp),
-                      itemBuilder: (context, index) {
-                        final Model model = popularModels[index];
-                        final bool selected = model.id == selectedModel.id;
-                        return GestureDetector(
-                          onTap: () => setting.setModel(model),
-                          child: Stack(
-                            children: [
-                              Column(
-                                children: [
-                                  Expanded(
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      width: 90.sp,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).cardColor,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: selected
-                                              ? primaryColor
-                                              : Colors.transparent,
-                                          width: 2.sp,
-                                        ),
-                                        image: DecorationImage(
-                                          image: CachedNetworkImageProvider(
-                                              model.image),
-                                          fit: BoxFit.cover,
-                                        ),
+                    itemCount: popularModels.length,
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (_, __) => SizedBox(width: 16.sp),
+                    itemBuilder: (context, index) {
+                      final Model model = popularModels[index];
+                      final bool selected = model.id == selectedModel.id;
+                      return GestureDetector(
+                        onTap: () => setting.setModel(model),
+                        child: Stack(
+                          children: [
+                            Column(
+                              children: [
+                                Expanded(
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 300),
+                                    width: 90.sp,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).cardColor,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: selected
+                                            ? primaryColor
+                                            : Colors.transparent,
+                                        width: 2.sp,
+                                      ),
+                                      image: DecorationImage(
+                                        image: CachedNetworkImageProvider(
+                                            model.image),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 8.sp),
-                                  Text(
-                                    model.name,
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                ],
-                              ),
-                              FavoritePremiumIcon(model: model, positioned: 0),
-                            ],
-                          ),
-                        );
-                      }),
+                                ),
+                                SizedBox(height: 8.sp),
+                                Text(
+                                  model.name,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                            FavoritePremiumIcon(model: model, positioned: 0),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             );

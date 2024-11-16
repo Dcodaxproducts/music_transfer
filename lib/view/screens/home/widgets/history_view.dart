@@ -47,7 +47,8 @@ class HistoryView extends StatelessWidget {
             SizedBox(
               height: 230.sp,
               child: ListView.separated(
-                itemCount: promptHistory.length,
+                itemCount:
+                    promptHistory.length > 10 ? 10 : promptHistory.length,
                 scrollDirection: Axis.horizontal,
                 separatorBuilder: (context, index) => SizedBox(width: 16.sp),
                 itemBuilder: (context, index) {

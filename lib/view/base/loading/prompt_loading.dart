@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-import '../../utils/images.dart';
+import 'package:matrix_ai/utils/colors.dart';
+import '../../../common/loading.dart';
 
 showPromptLoading({bool upscale = false, bool facefix = false}) =>
     SmartDialog.show(
-      maskColor: Colors.black.withOpacity(0.9),
+      maskColor: backgroundColorDark,
       backType: SmartBackType.block,
       builder: (context) => PromptLoading(
         facefix: facefix,
@@ -67,7 +67,7 @@ class _PromptLoadingState extends State<PromptLoading> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       if (_currentIndex < _messages.length - 1) {
         setState(() {
           _currentIndex++;
@@ -81,28 +81,15 @@ class _PromptLoadingState extends State<PromptLoading> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10.sp),
       child: Container(
         color: Colors.transparent,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Stack(
-              children: [
-                LottieBuilder.asset(
-                  Images.animation_2,
-                  height: 200.sp,
-                  fit: BoxFit.cover,
-                ),
-                LottieBuilder.asset(
-                  Images.animation_1,
-                  height: 200.sp,
-                  fit: BoxFit.cover,
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
+            const Loading(size: 250),
+            SizedBox(height: 10.sp),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

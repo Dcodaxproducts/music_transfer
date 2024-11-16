@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/common/network_image.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/model/response/api_response.dart';
 import 'package:matrix_ai/utils/colors.dart';
@@ -22,7 +22,7 @@ class HistoryList extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: 16.sp,
         crossAxisSpacing: 16.sp,
-        childAspectRatio: 0.75.sp,
+        childAspectRatio: 0.75,
       ),
       itemCount: promptHistory.length,
       itemBuilder: (context, index) {
@@ -38,6 +38,9 @@ class HistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final borderRadius = BorderRadius.vertical(
+      top: Radius.circular(12.sp),
+    );
     return HistoryCountdownWidget(
       response: response,
       builder: (context, isCompleted, imageUrl, remainingTime) {
@@ -58,18 +61,20 @@ class HistoryCard extends StatelessWidget {
                     isCompleted
                         ? Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(12.sp),
-                              ),
-                              image: DecorationImage(
-                                image: CachedNetworkImageProvider(imageUrl),
-                                fit: BoxFit.cover,
+                              borderRadius: borderRadius,
+                              color: Theme.of(context).cardColor,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: borderRadius,
+                              child: CustomNetworkImage(
+                                url: imageUrl,
+                                errorLoading: true,
                               ),
                             ),
                           )
                         : Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.sp),
+                              borderRadius: borderRadius,
                               color: Colors.grey.shade300,
                             ),
                             child: Center(

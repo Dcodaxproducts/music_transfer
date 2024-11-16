@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../controller/subscription_controller.dart';
-import '../../view/base/ad_loading_dialog.dart';
+import '../../view/base/ads/ad_loading_dialog.dart';
 import '../../utils/ads.dart';
 import '../../common/snackbar.dart';
 import 'ads_service_interface.dart';
