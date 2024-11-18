@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/controller/ads_controller.dart';
 import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
@@ -31,96 +32,112 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 32.sp),
-      padding: pagePadding,
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // cancel button,
-              const IconButton(
-                onPressed: pop,
-                icon: Icon(Icons.close),
-                padding: EdgeInsets.zero,
-                visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-              ),
-              Text(
-                'set_theme'.tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                child: Text(
-                  'done'.tr,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: primaryColor),
+    return GetBuilder<ModelsController>(
+      builder: (modelsController) {
+        final List<Model> models = modelsController.models;
+        final List<Model> favoriteModels = modelsController.models
+            .where(
+                (model) => modelsController.favoriteModels.contains(model.id))
+            .toList();
+        bool canShowAd = false;
+        if (currentIndex == 0 && models.isNotEmpty) {
+          canShowAd = true;
+        } else if (currentIndex == 1 && favoriteModels.isNotEmpty) {
+          canShowAd = true;
+        }
+        return Column(
+          children: [
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(top: 32.sp),
+                padding: pagePadding,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // cancel button,
+                        const IconButton(
+                          onPressed: pop,
+                          icon: Icon(Icons.close),
+                          padding: EdgeInsets.zero,
+                          visualDensity:
+                              VisualDensity(horizontal: -4, vertical: -4),
+                        ),
+                        Text(
+                          'set_theme'.tr,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                          child: Text(
+                            'done'.tr,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: primaryColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.sp),
+                      child: GlassBoxCurve(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: PrimaryTabButton(
+                                text: 'ai_models'.tr,
+                                selected: currentIndex == 0,
+                                onPressed: () => _changeTab(0),
+                                radiusLeft: 40.sp,
+                                radiusRight: 0.sp,
+                              ),
+                            ),
+                            Expanded(
+                              child: PrimaryTabButton(
+                                text: 'favorites'.tr,
+                                selected: currentIndex == 1,
+                                onPressed: () => _changeTab(1),
+                                radiusLeft: 0.sp,
+                                radiusRight: 40.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: PageView(
+                        controller: _pageController,
+                        onPageChanged: (index) {
+                          setState(() {
+                            currentIndex = index;
+                          });
+                        },
+                        children: [
+                          ModelsGrid(models: models),
+                          ModelsGrid(models: favoriteModels),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.sp),
-            child: GlassBoxCurve(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: PrimaryTabButton(
-                      text: 'ai_models'.tr,
-                      selected: currentIndex == 0,
-                      onPressed: () => _changeTab(0),
-                      radiusLeft: 40.sp,
-                      radiusRight: 0.sp,
-                    ),
-                  ),
-                  Expanded(
-                    child: PrimaryTabButton(
-                      text: 'favorites'.tr,
-                      selected: currentIndex == 1,
-                      onPressed: () => _changeTab(1),
-                      radiusLeft: 0.sp,
-                      radiusRight: 40.sp,
-                    ),
-                  ),
-                ],
-              ),
             ),
-          ),
-          GetBuilder<ModelsController>(builder: (modelsController) {
-            final List<Model> models = modelsController.models;
-            final List<Model> favoriteModels = modelsController.models
-                .where((model) =>
-                    modelsController.favoriteModels.contains(model.id))
-                .toList();
-            return Expanded(
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (index) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                },
-                children: [
-                  ModelsGrid(models: models),
-                  ModelsGrid(models: favoriteModels),
-                ],
-              ),
-            );
-          }),
-        ],
-      ),
+            if (canShowAd) AdsController.find.showModelScreenAd(),
+          ],
+        );
+      },
     );
   }
 }

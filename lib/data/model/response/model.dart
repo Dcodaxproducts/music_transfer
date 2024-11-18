@@ -14,6 +14,7 @@ class Model {
   final Map<String, dynamic> apiParameters;
   final ParameterMapping parametersMapping;
   final AdType? adType;
+  final String? adId;
 
   Model({
     required this.id,
@@ -31,6 +32,7 @@ class Model {
     required this.apiParameters,
     required this.parametersMapping,
     this.adType,
+    this.adId,
   });
 
   factory Model.fromJson(Map<String, dynamic> json) {
@@ -50,6 +52,7 @@ class Model {
       apiParameters: json['provider'],
       parametersMapping: ParameterMapping.fromJson(json['parameters']),
       adType: AdTypeExtension.fromString(json['ad_type']),
+      adId: json['ad_id'],
     );
   }
 
@@ -70,6 +73,7 @@ class Model {
       'provider': apiParameters,
       'parameters': parametersMapping.toJson(),
       'ad_type': adType?.name,
+      'ad_id': adId,
     };
   }
 }
@@ -114,26 +118,51 @@ class ParameterMapping {
   }
 }
 
-enum AdType { rewardVideo, rewardInterstitial }
+enum AdType {
+  reward,
+  interstital,
+  banner,
+  appOpen,
+  native,
+  rewardedInterstitial
+}
 
 extension AdTypeExtension on AdType {
   String get name {
     switch (this) {
-      case AdType.rewardVideo:
-        return 'reward_video';
-      case AdType.rewardInterstitial:
-        return 'reward_interstitial';
+      case AdType.appOpen:
+        return 'app_open';
+      case AdType.reward:
+        return 'reward';
+      case AdType.rewardedInterstitial:
+        return 'rewarded_interstitial';
+      case AdType.interstital:
+        return 'interstitial';
+      case AdType.banner:
+        return 'banner';
+      case AdType.native:
+        return 'native';
+      default:
+        return 'reward';
     }
   }
 
-  static AdType fromString(String? value) {
+  static AdType? fromString(String? value) {
     switch (value) {
-      case 'reward_video':
-        return AdType.rewardVideo;
-      case 'reward_interstitial':
-        return AdType.rewardInterstitial;
+      case 'reward':
+        return AdType.reward;
+      case 'rewarded_interstitial':
+        return AdType.rewardedInterstitial;
+      case 'interstitial':
+        return AdType.interstital;
+      case 'banner':
+        return AdType.banner;
+      case 'app_open':
+        return AdType.appOpen;
+      case 'native':
+        return AdType.native;
       default:
-        return AdType.rewardVideo;
+        return null;
     }
   }
 }

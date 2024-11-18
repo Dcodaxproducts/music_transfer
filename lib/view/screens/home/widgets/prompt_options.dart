@@ -47,14 +47,11 @@ class PromptSettingsWidget extends StatelessWidget {
                             (e) => e.id == con.configModel.aspectRatio);
                         return Text(
                           '${aspectRatio.width} x ${aspectRatio.height}',
-                          style: const TextStyle(fontSize: 14),
+                          style: Theme.of(context).textTheme.bodyMedium,
                         );
                       }),
                       const Spacer(),
-                      const Icon(
-                        Iconsax.image,
-                        size: 18,
-                      ),
+                      Icon(Iconsax.image, size: 18.sp),
                     ],
                   ),
                 ),
@@ -77,13 +74,10 @@ class PromptSettingsWidget extends StatelessWidget {
                     children: [
                       Text(
                         'prompt_settings'.tr,
-                        style: const TextStyle(fontSize: 14),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const Spacer(),
-                      const Icon(
-                        Iconsax.setting_4,
-                        size: 18,
-                      ),
+                      Icon(Iconsax.setting_4, size: 18.sp),
                     ],
                   ),
                 ),

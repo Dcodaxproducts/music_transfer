@@ -29,12 +29,11 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
   Future<void> _showAds(Model model) async {
     if (!isPro) {
-      if (model.adType == AdType.rewardVideo &&
-          ModelsController.find.canShowVideoAd()) {
-        await AdsController.find.showRewardVideoAd();
-      } else if (model.adType == AdType.rewardInterstitial &&
+      if (model.adType == AdType.reward) {
+        await AdsController.find.showOnGenerateVideo();
+      } else if (model.adType == AdType.interstital &&
           ModelsController.find.canShowInterstitialAd()) {
-        await AdsController.find.showInterstitialAd();
+        await AdsController.find.showOnGenerateInterstitial();
       }
     }
   }

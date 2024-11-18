@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:matrix_ai/data/model/response/ad_model.dart';
+
 abstract class AdsServiceInterface {
-  /// Set the status of ads (enable or disable) based on conditions.
-  void setAdStatus();
+  Future<List<AdModel>> getAdIds();
 
   /// Initialize the ads and request consent if needed.
   void initialize();
@@ -9,11 +12,17 @@ abstract class AdsServiceInterface {
   void loadForm();
 
   /// Show an interstitial ad.
-  Future<void> showOnGenerateInterstitial();
+  Future<void> showInterstitial(String adId);
 
   /// Show a rewarded video ad.
-  Future<void> showOnGenerateRewardVideo();
+  Future<void> showRewardVideo(String adId);
+
+  // Show a rewarded interstitial ad.
+  Future<void> showRewardInterstitial(String adId);
 
   /// Show an app open ad.
-  Future<void> showAppOpen();
+  Future<AppOpenAd?> showAppOpen(String adId);
+
+  /// Get the banner widget for the given ad.
+  Widget getBannerWidget(AdModel? ad);
 }

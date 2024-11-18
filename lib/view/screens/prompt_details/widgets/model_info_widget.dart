@@ -57,9 +57,12 @@ class ModelInfoWidget extends StatelessWidget {
               response.meta.prompt.trim(),
               trimLines: 2,
               trimMode: Trimer.line,
+              textAlign: TextAlign.start,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).hintColor,
                   ),
+              trimExpandedText: ' View Less',
+              trimCollapsedText: ' View More',
             ),
           ],
         );

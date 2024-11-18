@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -46,8 +47,7 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     if (!(await isConnected())) {
       disconnected = true;
     }
-    AdsController.find.initialize();
-    // await AdsController.find.getAdIds();
+
     _checkInternetConnection();
     WidgetsBinding.instance.addObserver(this);
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -56,16 +56,17 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
 
       //get data from api
       await Future.wait([
+        AdsController.find.initialize(),
         ModelsController.find.getModels(),
         InspirationController.find.getInspirations()
       ]);
 
       // show add
-      // await loadAppOpenAd()
-      //     .then((value) async => await _appOpenAd?.showIfNotPro())
-      //     .catchError((e) {
-      //   FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
-      // });
+      await _loadAppOpenAd().then((value) async {
+        await _appOpenAd?.showIfNotPro();
+      }).catchError((e) {
+        FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
+      });
       //
       Future.delayed(const Duration(seconds: 3)).then((value) {
         _ready = true;
@@ -103,9 +104,29 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
         _lastShownTime = DateTime.now();
       }
     } else if (state == AppLifecycleState.paused) {
-      // loadAppOpenAd();
+      _loadAppOpenAd();
     }
     super.didChangeAppLifecycleState(state);
+  }
+
+  Future<AppOpenAd?> _loadAppOpenAd() async {
+    openAdTimeout?.cancel();
+
+    return AdsController.find.showAppOpenAd().then((value) {
+      if (value != null) {
+        _appOpenAd = value;
+        _appOpenAd?.fullScreenContentCallback = FullScreenContentCallback(
+          onAdDismissedFullScreenContent: (ad) {
+            _appOpenAd?.dispose();
+            _appOpenAd = null;
+            _loadAppOpenAd();
+          },
+        );
+      } else {
+        openAdTimeout = Timer(const Duration(minutes: 1), _loadAppOpenAd);
+      }
+      return value;
+    });
   }
 
   @override

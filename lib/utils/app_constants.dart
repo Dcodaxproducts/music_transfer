@@ -14,30 +14,16 @@ class AppConstants {
   static const String INSIPIRATIONS_URL = 'inspirations';
   static const String FEEDBACK_URL = 'feedback-save';
   static const String CONFIG_URL = 'config';
+  static const String GET_ADS = 'ad-list';
+
+  static const String API_KEY =
+      "Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI";
 
   // queue url
   static const String QUEUE_URL = 'https://modelslab.com/api/v6/images/fetch';
 
   static const String APP_URL =
       "https://play.google.com/store/apps/details?id=$APP_PACKAGE_NAME";
-
-  static const String API_KEY =
-      "Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI";
-
-  static const int FREE_GENERATIONS = 10;
-
-  // width: Width of the generated image. height will be calculated from selcted aspect ratio.
-  static const double BASE_WIDTH = 512;
-
-  static const double MAX_HEIGHT = 512;
-
-  // samples: Number of images to be returned in response. The maximum value is 4.
-  static const String SAMPLES = '1';
-
-  // safety_checker: A checker for NSFW images. If such an image is detected, it will be replaced by a blank image.
-  static const bool SAFETY = true;
-
-  // enhance_prompt: Enhance prompts for better results; default: yes, options: yes/no;
 
   static const List<String> ADULT_WORDS = [
     'sex',

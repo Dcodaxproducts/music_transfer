@@ -35,6 +35,7 @@ void main() async {
     RequestConfiguration(testDeviceIds: [
       '35AC28268E54129E754D61AC6566DC39',
       '5702440426D82D25D48028FD42E2DBEF',
+      'B4A6C2D13ADA1561CB1579936DBE6E64'
     ]),
   );
   // Firebase Crashlytics

@@ -1,24 +1,37 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:matrix_ai/data/repository/ad_repo_interface.dart';
 import '../../controller/subscription_controller.dart';
-import '../../view/base/ads/ad_loading_dialog.dart';
 import '../../utils/ads.dart';
 import '../../common/snackbar.dart';
+import '../../view/base/ads/ad_loading_dialog.dart';
+import '../../view/base/ads/native_ad.dart';
+import '../model/response/ad_model.dart';
+import '../model/response/model.dart';
 import 'ads_service_interface.dart';
 
 class AdsService implements AdsServiceInterface {
-  final Map<String, bool> _adStatus = {};
+  final AdRepoInterface adRepo;
+  AdsService({required this.adRepo});
 
   @override
-  void setAdStatus() {
-    _adStatus[AdIds.APP_OPEN_ID] = true;
-    _adStatus[AdIds.ONGENERATE_INTERSTITIAL_ID] = true;
-    _adStatus[AdIds.ONGENERATE_REWARD_AD_ID] = true;
-  }
-
-  bool _isAdIdActive(String adId) {
-    return _adStatus[adId] ?? false;
+  Future<List<AdModel>> getAdIds() async {
+    List<AdModel> ads = [];
+    final response = await adRepo.getAdIds();
+    if (response != null) {
+      final data = jsonDecode(response.body)['ads'];
+      for (var item in data) {
+        ads.add(AdModel.fromJson(item));
+      }
+    }
+    return ads;
   }
 
   @override
@@ -50,11 +63,8 @@ class AdsService implements AdsServiceInterface {
   }
 
   @override
-  Future<void> showOnGenerateInterstitial() async {
-    String adId = AdIds.ONGENERATE_INTERSTITIAL_ID;
-    bool isAdAvailable = _isAdIdActive(adId);
-    if (!isAdAvailable) return;
-
+  Future<void> showInterstitial(String adId) async {
+    if (isPro) return;
     showAdLoadingDialog();
     InterstitialAd? interstitialAd = await _loadInterstitial(adId);
     if (interstitialAd != null) {
@@ -64,11 +74,8 @@ class AdsService implements AdsServiceInterface {
   }
 
   @override
-  Future<void> showOnGenerateRewardVideo() async {
-    String adId = AdIds.ONGENERATE_REWARD_AD_ID;
-    bool isAdAvailable = _isAdIdActive(adId);
-    if (!isAdAvailable) return;
-
+  Future<void> showRewardVideo(String adId) async {
+    if (isPro) return;
     showAdLoadingDialog();
     RewardedAd? rewardedAd = await _loadRewardVideoAd(adId);
     if (rewardedAd != null) {
@@ -80,23 +87,30 @@ class AdsService implements AdsServiceInterface {
   }
 
   @override
-  Future<void> showAppOpen() async {
-    String adId = AdIds.APP_OPEN_ID;
-    bool isAdAvailable = _isAdIdActive(adId);
-    if (!isAdAvailable) return;
-
-    AppOpenAd? appOpenAd = await _loadOpenAd(adId);
-    if (appOpenAd != null) {
-      await appOpenAd.show();
+  Future<void> showRewardInterstitial(String adId) async {
+    if (isPro) return;
+    showAdLoadingDialog();
+    RewardedInterstitialAd? rewardedAd = await _loadRewardInterstitialAd(adId);
+    log('rewardedAd: ${rewardedAd?.adUnitId}');
+    if (rewardedAd != null) {
+      await rewardedAd.show(onUserEarnedReward: (ad, reward) {
+        FirebaseAnalytics.instance.logAdImpression();
+      });
     }
+    dismiss();
+  }
+
+  @override
+  Future<AppOpenAd?> showAppOpen(String adId) async {
+    if (isPro) return null;
+    return await _loadOpenAd(adId);
   }
 
   Future<InterstitialAd?> _loadInterstitial(String unitId) async {
-    if (SubscriptionController.find.isPro) return null;
     Completer<InterstitialAd?> completer = Completer();
 
     InterstitialAd.load(
-      adUnitId: unitId,
+      adUnitId: kDebugMode ? AdIds.INTERSTITIAL_ID : unitId,
       request: AdIds.adRequest,
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
@@ -125,11 +139,10 @@ class AdsService implements AdsServiceInterface {
   }
 
   Future<AppOpenAd?> _loadOpenAd(String unitId) async {
-    if (SubscriptionController.find.isPro) return null;
     Completer<AppOpenAd?> completer = Completer();
 
     AppOpenAd.load(
-      adUnitId: unitId,
+      adUnitId: kDebugMode ? AdIds.APP_OPEN_ID : unitId,
       request: AdIds.adRequest,
       adLoadCallback: AppOpenAdLoadCallback(
         onAdLoaded: (ad) {
@@ -157,9 +170,8 @@ class AdsService implements AdsServiceInterface {
 
   Future<RewardedAd?> _loadRewardVideoAd(String unitId) async {
     Completer<RewardedAd?> completer = Completer();
-
     RewardedAd.load(
-      adUnitId: unitId,
+      adUnitId: kDebugMode ? AdIds.REWARD_VIDEO_AD_ID : unitId,
       request: AdIds.adRequest,
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
@@ -183,6 +195,73 @@ class AdsService implements AdsServiceInterface {
     } catch (e) {
       return null;
     }
+  }
+
+  Future<RewardedInterstitialAd?> _loadRewardInterstitialAd(
+      String unitId) async {
+    Completer<RewardedInterstitialAd?> completer = Completer();
+    RewardedInterstitialAd.load(
+      adUnitId: kDebugMode ? AdIds.REWARD_INTERSTITIAL_AD_ID : unitId,
+      request: AdIds.adRequest,
+      rewardedInterstitialAdLoadCallback: RewardedInterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          if (!completer.isCompleted) {
+            completer.complete(ad);
+            FirebaseAnalytics.instance.logAdImpression();
+          }
+        },
+        onAdFailedToLoad: (error) {
+          if (!completer.isCompleted) completer.complete();
+        },
+      ),
+    );
+
+    try {
+      return await completer.future.timeout(const Duration(seconds: 4),
+          onTimeout: () {
+        if (!completer.isCompleted) completer.complete();
+        return null;
+      });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Widget getBannerWidget(AdModel? ad) {
+    Widget adWidget = const SizedBox.shrink();
+    // if ad is not null and active and type is interstitial
+    if (ad != null && ad.active) {
+      String adId = _getAdId(ad);
+      if (ad.type == AdType.banner) {
+        adWidget = FutureBuilder(
+            future: AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+              MediaQuery.sizeOf(Get.context!).width.truncate(),
+            ),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const SizedBox();
+              }
+
+              final size = snapshot.data as AdSize;
+              return BannerAdWidget(adId: adId, adSize: size);
+            });
+      } else if (ad.type == AdType.native) {
+        {
+          adWidget = NativeAdWidget(adId: adId);
+        }
+      }
+    }
+    return adWidget;
+  }
+
+  _getAdId(AdModel ad) {
+    String adId = '';
+    adId = Platform.isAndroid ? ad.androidAdId : ad.iosAdId;
+    if (kDebugMode) {
+      adId = AdIds.BANNER_ID;
+    }
+    return adId;
   }
 
   void showSnack(String text) {

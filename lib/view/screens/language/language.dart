@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/common/textfield.dart';
+import 'package:matrix_ai/controller/ads_controller.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
@@ -10,7 +11,6 @@ import 'package:matrix_ai/view/base/divider.dart';
 import '../../../common/primary_button.dart';
 import '../../../controller/localization_controller.dart';
 import '../../../data/model/language.dart';
-import '../../../utils/app_constants.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -46,41 +46,50 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   separatorBuilder: (context, index) =>
                       CustomDivider(padding: 0.sp),
                   itemBuilder: (context, index) {
-                    LanguageModel language = AppConstants.languages[index];
+                    LanguageModel language = con.languages[index];
                     bool selected = con.selectedIndex == index;
-                    return InkWell(
-                      onTap: () {
-                        con.setSelectIndex(index);
-                        LocalizationController.to.setLanguage(Locale(
-                            language.languageCode, language.countryCode));
-                      },
-                      overlayColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12.sp),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              height: 35,
-                              width: 35,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(40),
-                                child: Image.asset(
-                                  'assets/images/${language.countryCode.toLowerCase()}.png',
-                                  fit: BoxFit.cover,
+
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            con.setSelectIndex(index);
+                            LocalizationController.to.setLanguage(Locale(
+                                language.languageCode, language.countryCode));
+                          },
+                          overlayColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12.sp),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 35,
+                                  width: 35,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(40),
+                                    child: Image.asset(
+                                      'assets/images/${language.countryCode.toLowerCase()}.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    language.languageName,
+                                  ),
+                                ),
+                                LanguageRadioButton(selected: selected),
+                              ],
                             ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                language.languageName,
-                              ),
-                            ),
-                            LanguageRadioButton(selected: selected),
-                          ],
+                          ),
                         ),
-                      ),
+                        // show ad after every 5th item,
+                        if (index % 5 == 0)
+                          AdsController.find.showLanguageScreenAd(),
+                      ],
                     );
                   },
                 ),
@@ -103,7 +112,8 @@ class LanguageRadioButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
       height: 20.sp,
       width: 20.sp,
       decoration: BoxDecoration(
@@ -113,7 +123,8 @@ class LanguageRadioButton extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
           height: 12.sp,
           width: 12.sp,
           decoration: BoxDecoration(

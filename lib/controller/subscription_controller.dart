@@ -128,7 +128,7 @@ class SubscriptionController extends GetxController implements GetxService {
   }
 
   bool get isPro {
-    return true;
+    return false;
     // if (proLimitDate == null) {
     //   return false;
     // } else {

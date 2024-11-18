@@ -8,6 +8,7 @@ import 'package:matrix_ai/utils/style.dart';
 import 'package:matrix_ai/view/screens/home/home.dart';
 import '../../../common/primary_button.dart';
 import '../../../common/snackbar.dart';
+import '../../../controller/ads_controller.dart';
 import '../../../controller/settings_controller.dart';
 import '../../../helper/navigation.dart';
 import 'widgets/model_info_widget.dart';
@@ -80,6 +81,16 @@ class PromptDetailScreen extends StatelessWidget {
                   ),
                 )
               ],
+            ),
+          ),
+          bottomNavigationBar: Visibility(
+            visible: result != null,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                height: 64.sp,
+                child: AdsController.find.showModelScreenAd(),
+              ),
             ),
           ),
         );

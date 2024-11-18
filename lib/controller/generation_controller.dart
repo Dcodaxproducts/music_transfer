@@ -1,10 +1,10 @@
-import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'settings_controller.dart';
 
 class GenerationController extends GetxController {
-  static GenerationController get find => Get.find<GenerationController>();
+  static GenerationController get find => Get.put(GenerationController());
 
   static const String _keyPrefix = "generation_count_";
   int _dailyGenerationCount = 0;
@@ -31,6 +31,12 @@ class GenerationController extends GetxController {
     update();
   }
 
-  bool get canGenerateImage =>
-      _dailyGenerationCount < AppConstants.FREE_GENERATIONS;
+  bool get canGenerateImage {
+    if (SettingsController.find.settingModel.freeGenerations > 0) {
+      return _dailyGenerationCount <
+          SettingsController.find.settingModel.freeGenerations;
+    } else {
+      return true;
+    }
+  }
 }

@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:matrix_ai/common/snackbar.dart';
-import 'package:matrix_ai/controller/ads_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:get/get.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -25,7 +24,6 @@ class DownloadImage {
     } else {
       showToast('image_download_fail'.tr);
     }
-    AdsController.find.showInterstitialAd();
     var directory = await getTemporaryDirectory();
     // save image
     String fileName = url.substring(url.lastIndexOf("/") + 1, url.length);

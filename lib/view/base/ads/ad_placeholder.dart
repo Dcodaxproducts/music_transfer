@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
@@ -56,11 +58,16 @@ class NativeAdPlaceholder extends StatelessWidget {
 }
 
 class BannerAdPlaceholder extends StatelessWidget {
-  const BannerAdPlaceholder({super.key});
+  final double width;
+  final double height;
+  const BannerAdPlaceholder(
+      {super.key, this.width = double.infinity, this.height = 64});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: height.sp,
+      width: width.sp,
       padding: pagePadding,
       alignment: Alignment.center,
       color: Theme.of(context).cardColor,
@@ -70,29 +77,29 @@ class BannerAdPlaceholder extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height: 50,
-              width: 80,
+              height: height.sp,
+              width: height.sp,
               color: primaryColor,
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.sp),
             Expanded(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 15,
+                  height: (6 + (Platform.isAndroid ? 2 : 0)).sp,
                   color: primaryColor,
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: (4 + (Platform.isAndroid ? 1 : 0)).sp),
                 Container(
-                  height: 15,
-                  width: 20,
+                  height: 6.sp,
+                  width: 20.sp,
                   color: primaryColor,
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: (4 + (Platform.isAndroid ? 1 : 0)).sp),
                 Container(
-                  height: 15,
+                  height: (6 + (Platform.isAndroid ? 2 : 0)).sp,
                   color: primaryColor,
                 ),
               ],

@@ -21,4 +21,13 @@ class SettingModel {
         cancelAnytime: json["cancel_anytime"]["value"],
         freeGenerations: json["free_generations"] ?? 0,
       );
+
+  // to json
+  Map<String, dynamic> toJson() => {
+        "terms_condition": {"value": termsAndConditions},
+        "privacy_policy": {"value": privacyPolicy},
+        "user_agreement": {"value": userAgreement},
+        "cancel_anytime": {"value": cancelAnytime},
+        "free_generations": freeGenerations,
+      };
 }

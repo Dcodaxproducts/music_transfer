@@ -141,12 +141,13 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
                   height: widget.adSize.height.truncateToDouble(),
                   width: widget.adSize.width.truncateToDouble(),
                   color: Colors.white,
-                  child: AdWidget(
-                    ad: _ad,
-                  ),
+                  child: AdWidget(ad: _ad),
                 )
               : isLoading
-                  ? const BannerAdPlaceholder()
+                  ? BannerAdPlaceholder(
+                      width: widget.adSize.width.truncateToDouble(),
+                      height: widget.adSize.height.truncateToDouble(),
+                    )
                   : const SizedBox.shrink();
     });
   }

@@ -23,22 +23,25 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size.sp,
-      width: size.sp,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Center(child: CircleLoading(size: size)),
-          Center(
-            child: Lottie.asset(
-              Images.animation_1,
-              width: (size / 1.5).sp,
-              height: (size / 1.5).sp,
-              fit: BoxFit.cover,
+    return Hero(
+      tag: 'loading',
+      child: SizedBox(
+        height: size.sp,
+        width: size.sp,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Center(child: CircleLoading(size: size)),
+            Center(
+              child: Lottie.asset(
+                Images.animation_1,
+                width: (size / 1.5).sp,
+                height: (size / 1.5).sp,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

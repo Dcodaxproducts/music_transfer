@@ -14,6 +14,8 @@ import 'package:matrix_ai/controller/update_controller.dart';
 import 'package:matrix_ai/data/api/api_client.dart';
 import 'package:matrix_ai/data/api/api_client_interface.dart';
 import 'package:matrix_ai/data/model/language.dart';
+import 'package:matrix_ai/data/repository/ad_repo.dart';
+import 'package:matrix_ai/data/repository/ad_repo_interface.dart';
 import 'package:matrix_ai/data/repository/history_repo_interface.dart';
 import 'package:matrix_ai/data/repository/image_generation_repo.dart';
 import 'package:matrix_ai/data/repository/history_repo.dart';
@@ -78,6 +80,8 @@ Future<Map<String, Map<String, String>>> init() async {
   SettingsRepoInterface settingsRepoInterface =
       SettingsRepo(apiClient: Get.find(), sharedPreferences: Get.find());
   Get.lazyPut(() => settingsRepoInterface);
+  AdRepoInterface adRepoInterface = AdRepo(apiClient: Get.find());
+  Get.lazyPut(() => adRepoInterface);
 
   // Service
   ImageGenerationServiceInterface imageGenerationService =
@@ -88,7 +92,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => settingsService);
   UpdateServiceInterface updateServiceInterface = UpdateService();
   Get.lazyPut(() => updateServiceInterface);
-  AdsServiceInterface adsServiceInterface = AdsService();
+  AdsServiceInterface adsServiceInterface = AdsService(adRepo: Get.find());
   Get.lazyPut(() => adsServiceInterface);
   HistoryServiceInterface historyService =
       HistoryService(historyRepo: Get.find());
