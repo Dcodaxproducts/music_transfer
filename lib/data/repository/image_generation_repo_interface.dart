@@ -9,7 +9,8 @@ abstract class ImageGenerationRepoInterface {
     required Map<String, dynamic> headers,
   });
 
-  Future<Response?> getQueueImage({required int requestId});
+  Future<Response?> getQueueImage(
+      {required String url, required Map<String, dynamic> body});
 
   Future<Uint8List?> downloadImage(String url);
 

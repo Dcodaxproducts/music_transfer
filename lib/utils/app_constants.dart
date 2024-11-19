@@ -8,7 +8,7 @@ class AppConstants {
   static const String APP_PACKAGE_NAME = 'ai.art.photo.generator';
 
   // API
-  static const String DOMAIN = 'https://matrixai.dcodax.net';
+  static const String DOMAIN = 'https://pixartai.dcodax.net';
   static const String BASE_URL = '$DOMAIN/api/';
   static const String MODELS_URL = 'ai-models';
   static const String INSIPIRATIONS_URL = 'inspirations';
@@ -16,20 +16,20 @@ class AppConstants {
   static const String CONFIG_URL = 'config';
   static const String GET_ADS = 'ad-list';
 
-  static const String API_KEY =
-      "Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI";
-
-  // queue url
-  static const String QUEUE_URL = 'https://modelslab.com/api/v6/images/fetch';
-
   static const String APP_URL =
       "https://play.google.com/store/apps/details?id=$APP_PACKAGE_NAME";
 
   static const List<String> ADULT_WORDS = [
     'sex',
+    'sexy',
     'nude',
+    'nudity',
     'porn',
     'erotic',
+    'eroticism',
+    'erotic',
+    'pornography',
+    'pornographic',
     'adult',
     'xxx',
     'nsfw',

@@ -31,9 +31,7 @@ class PromptOptionWidget extends StatelessWidget {
             OptionButton(
               icon: Iconsax.copy,
               onTap: () {
-                Clipboard.setData(
-                  ClipboardData(text: result!.meta.prompt),
-                );
+                Clipboard.setData(ClipboardData(text: result!.meta.prompt));
               },
             ),
             SizedBox(width: 16.sp),

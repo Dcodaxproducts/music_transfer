@@ -146,8 +146,18 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   Future<bool> getQueuedImages(PromptResponse value) async {
     // Save the original value in case of rollback
     PromptResponse oldResponse = value;
+
+    // prepare body
+    Map<String, dynamic> body = {
+      "key": value.model!.apiKey,
+      "request_id": value.id,
+    };
+
+    // get queue url
+    String url = value.model!.queueUrl;
+
     http.Response? response =
-        await imageGenerationRepo.getQueueImage(requestId: value.id);
+        await imageGenerationRepo.getQueueImage(url: url, body: body);
 
     if (response != null) {
       Map<String, dynamic> data = jsonDecode(response.body);

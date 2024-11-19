@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:get/get.dart';
 import 'package:matrix_ai/common/snackbar.dart';
 import 'package:matrix_ai/data/model/response/api_response.dart';
 import 'package:matrix_ai/data/repository/history_repo_interface.dart';
@@ -50,11 +49,5 @@ class HistoryService implements HistoryServiceInterface {
     int index = currentHistory.indexWhere((e) => e.id == response.id);
     currentHistory[index] = response;
     await historyRepo.savePromptResponsesInPref(currentHistory);
-
-    if (response.bookmarked) {
-      showToast('bookmark_added'.tr, success: true);
-    } else {
-      showToast('bookmark_removed'.tr, success: true);
-    }
   }
 }

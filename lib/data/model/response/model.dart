@@ -11,6 +11,7 @@ class Model {
   final String apiUrl;
   final String apiKey;
   final String apiKeyLoation;
+  final String queueUrl;
   final Map<String, dynamic> apiParameters;
   final ParameterMapping parametersMapping;
   final AdType? adType;
@@ -28,6 +29,7 @@ class Model {
     required this.promptEngeenring,
     required this.apiUrl,
     required this.apiKey,
+    required this.queueUrl,
     required this.apiKeyLoation,
     required this.apiParameters,
     required this.parametersMapping,
@@ -48,6 +50,7 @@ class Model {
       promptEngeenring: json['prompt_engineering'],
       apiUrl: json['api_url'],
       apiKey: json['api_key'],
+      queueUrl: json['queue_url'] ?? '',
       apiKeyLoation: json['api_key_location'],
       apiParameters: json['provider'],
       parametersMapping: ParameterMapping.fromJson(json['parameters']),
@@ -70,6 +73,7 @@ class Model {
       'api_url': apiUrl,
       'api_key': apiKey,
       'api_key_location': apiKeyLoation,
+      'queue_url': queueUrl,
       'provider': apiParameters,
       'parameters': parametersMapping.toJson(),
       'ad_type': adType?.name,

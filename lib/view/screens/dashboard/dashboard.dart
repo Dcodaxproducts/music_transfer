@@ -30,6 +30,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     NavigationItem(icon: Iconsax.setting, child: const MenuScreen()),
   ];
 
+  final List<String> _titles = [
+    AppConstants.APP_NAME,
+    'inspirations'.tr,
+    // 'tools'.tr,
+    'settings'.tr,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (dashboardController) {
@@ -50,7 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text(AppConstants.APP_NAME),
+            title: Text(_titles[currentIndex]),
             actions: [
               if (Platform.isIOS) const SubsriptionButton(),
               SizedBox(width: 10.sp),
