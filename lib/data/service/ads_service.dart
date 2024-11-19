@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
@@ -42,7 +41,7 @@ class AdsService implements AdsServiceInterface {
         loadForm();
       });
     }, (error) {
-      showSnack("Consent initialization failed: $error");
+      showSnack("Consent initialization failed: ${error.message}");
     });
   }
 
@@ -53,12 +52,12 @@ class AdsService implements AdsServiceInterface {
           ConsentStatus.required) {
         consentForm.show((formError) {
           if (formError != null) {
-            showSnack("Consent form error: $formError");
+            showSnack("Consent form error: ${formError.message}");
           }
         });
       }
     }, (formError) {
-      showSnack("Failed to load consent form: $formError");
+      showSnack("Failed to load consent form: ${formError.message}");
     });
   }
 
@@ -91,7 +90,6 @@ class AdsService implements AdsServiceInterface {
     if (isPro) return;
     showAdLoadingDialog();
     RewardedInterstitialAd? rewardedAd = await _loadRewardInterstitialAd(adId);
-    log('rewardedAd: ${rewardedAd?.adUnitId}');
     if (rewardedAd != null) {
       await rewardedAd.show(onUserEarnedReward: (ad, reward) {
         FirebaseAnalytics.instance.logAdImpression();

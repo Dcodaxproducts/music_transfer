@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,8 +8,7 @@ import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:matrix_ai/utils/style.dart';
 import 'package:matrix_ai/view/base/appVersion_widget.dart';
 import 'package:matrix_ai/view/screens/html/html_screen.dart';
-import 'package:matrix_ai/view/screens/subscription/subscription.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:share_plus/share_plus.dart';
 import '../language/language.dart';
 import 'widgets/theme.dart';
 
@@ -42,12 +40,12 @@ class _MenuScreenState extends State<MenuScreen> {
   ];
 
   final List<Widget> _moreMenuItems = [
-    if (Platform.isIOS)
-      MenuItem(
-        text: 'subscription',
-        icon: Iconsax.crown_1,
-        onTap: () => launchScreen(const SubscriptionScreen()),
-      ),
+    // if (Platform.isIOS)
+    //   MenuItem(
+    //     text: 'subscription',
+    //     icon: Iconsax.crown_1,
+    //     onTap: () => launchScreen(const SubscriptionScreen()),
+    //   ),
     MenuItem(
       text: 'privacy_policy',
       icon: Iconsax.lock,
@@ -67,8 +65,9 @@ class _MenuScreenState extends State<MenuScreen> {
       text: 'share_app',
       icon: Iconsax.share,
       onTap: () {
-        launchUrlString(AppConstants.APP_LINK,
-            mode: LaunchMode.externalApplication);
+        String shareText =
+            'Check out this amazing AI app\n${AppConstants.APP_LINK}';
+        Share.share(shareText);
       },
     ),
   ];

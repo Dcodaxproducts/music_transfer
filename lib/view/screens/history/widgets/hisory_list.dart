@@ -6,6 +6,7 @@ import 'package:matrix_ai/common/network_image.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/model/response/api_response.dart';
 import 'package:matrix_ai/utils/colors.dart';
+import 'package:matrix_ai/utils/images.dart';
 import 'package:matrix_ai/utils/style.dart';
 import 'favorite_widget.dart';
 import 'history_countdown_widget.dart';
@@ -16,19 +17,31 @@ class HistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: pagePadding.copyWith(top: 0),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 16.sp,
-        crossAxisSpacing: 16.sp,
-        childAspectRatio: 0.75,
-      ),
-      itemCount: promptHistory.length,
-      itemBuilder: (context, index) {
-        return HistoryCard(response: promptHistory[index]);
-      },
-    );
+    return promptHistory.isEmpty
+        ? Center(
+            child: Column(
+              children: [
+                Image.asset(Images.no_favorite, width: 200.sp),
+                Text(
+                  'no_favorites_yet'.tr,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ],
+            ),
+          )
+        : GridView.builder(
+            padding: pagePadding.copyWith(top: 0),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 16.sp,
+              crossAxisSpacing: 16.sp,
+              childAspectRatio: 0.75,
+            ),
+            itemCount: promptHistory.length,
+            itemBuilder: (context, index) {
+              return HistoryCard(response: promptHistory[index]);
+            },
+          );
   }
 }
 

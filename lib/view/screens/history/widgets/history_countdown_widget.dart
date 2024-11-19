@@ -33,7 +33,9 @@ class HistoryCountdownWidget extends StatelessWidget {
 
     final imageUrl = response.output.isNotEmpty
         ? response.output[0]
-        : response.futureLinks.first;
+        : response.futureLinks.isNotEmpty
+            ? response.futureLinks.first
+            : '';
 
     return Obx(() {
       // Use the centralized controller to get the remaining time

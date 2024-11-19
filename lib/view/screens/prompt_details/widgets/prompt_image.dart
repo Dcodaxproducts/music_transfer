@@ -19,7 +19,9 @@ class PromptImageWidget extends StatelessWidget {
       int height = result?.meta.h ?? 0;
       String url = '';
       if (result?.output.isEmpty ?? true) {
-        url = result?.futureLinks.first ?? '';
+        url = (result?.futureLinks.isNotEmpty ?? false)
+            ? result?.futureLinks.first ?? ''
+            : '';
       } else {
         url = result?.output.first ?? '';
       }

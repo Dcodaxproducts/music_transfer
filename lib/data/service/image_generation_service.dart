@@ -131,6 +131,8 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     // add prompt history
     HistoryController.find.addPrompt(value, seed: seed);
 
+    // TODO: log impression for model to track usage to firebase
+
     if (value.status == "success") {
       return value;
     } else if (value.status == "processing") {

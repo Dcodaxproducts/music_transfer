@@ -7,6 +7,7 @@ import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import '../../../../data/model/response/model.dart';
 import '../../../../utils/colors.dart';
+import '../../../../utils/images.dart';
 
 class ModelsGrid extends StatelessWidget {
   final List<Model> models;
@@ -16,25 +17,39 @@ class ModelsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<SettingsController>(
       builder: (setting) {
-        return GetBuilder<ModelsController>(
-          builder: (modelsController) {
-            return GridView.builder(
-              padding: EdgeInsets.only(top: 8.sp),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16.sp,
-                crossAxisSpacing: 16.sp,
-                childAspectRatio: 0.75,
-              ),
-              itemCount: models.length,
-              itemBuilder: (context, index) {
-                bool selected =
-                    setting.configModel.selectedModel?.id == models[index].id;
-                return AIModelCard(model: models[index], selected: selected);
-              },
-            );
-          },
-        );
+        return models.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(Images.no_favorite, width: 200.sp),
+                    Text(
+                      'no_favorites_yet'.tr,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ],
+                ),
+              )
+            : GetBuilder<ModelsController>(
+                builder: (modelsController) {
+                  return GridView.builder(
+                    padding: EdgeInsets.only(top: 8.sp),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16.sp,
+                      crossAxisSpacing: 16.sp,
+                      childAspectRatio: 0.75,
+                    ),
+                    itemCount: models.length,
+                    itemBuilder: (context, index) {
+                      bool selected = setting.configModel.selectedModel?.id ==
+                          models[index].id;
+                      return AIModelCard(
+                          model: models[index], selected: selected);
+                    },
+                  );
+                },
+              );
       },
     );
   }

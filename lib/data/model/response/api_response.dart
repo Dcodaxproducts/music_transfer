@@ -28,11 +28,7 @@ class PromptResponse {
         id: json["id"] ?? DateTime.now().millisecondsSinceEpoch,
         meta: Meta.fromJson(json["meta"]),
         eta: json["eta"]?.toDouble(),
-        output: json["output"] == null
-            ? []
-            : List<String>.from(
-                json["output"].map((x) => x),
-              ),
+        output: getOutput(json),
         futureLinks: json["future_links"] == null
             ? []
             : List<String>.from(
@@ -124,4 +120,11 @@ class Meta {
       seed: seed ?? this.seed,
     );
   }
+}
+
+List<String> getOutput(Map<String, dynamic> body) {
+  if (body['output'] != null && body['output'].isNotEmpty) {
+    return List<String>.from(body['output'].map((x) => x));
+  }
+  return [];
 }

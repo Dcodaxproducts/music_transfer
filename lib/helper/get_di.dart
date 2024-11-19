@@ -10,7 +10,6 @@ import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/controller/localization_controller.dart';
 import 'package:matrix_ai/controller/subscription_controller.dart';
 import 'package:matrix_ai/controller/theme_controller.dart';
-import 'package:matrix_ai/controller/update_controller.dart';
 import 'package:matrix_ai/data/api/api_client.dart';
 import 'package:matrix_ai/data/api/api_client_interface.dart';
 import 'package:matrix_ai/data/model/language.dart';
@@ -39,8 +38,6 @@ import 'package:matrix_ai/data/service/setting_service.dart';
 import 'package:matrix_ai/data/service/setting_service_interface.dart';
 import 'package:matrix_ai/data/service/subscription_service_interface.dart';
 import 'package:matrix_ai/data/service/theme_service_interface.dart';
-import 'package:matrix_ai/data/service/update_service.dart';
-import 'package:matrix_ai/data/service/update_service_interface.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -97,8 +94,6 @@ Future<Map<String, Map<String, String>>> init() async {
   SettingsServiceInterface settingsService =
       SettingsService(settingsRepo: Get.find());
   Get.lazyPut(() => settingsService);
-  UpdateServiceInterface updateServiceInterface = UpdateService();
-  Get.lazyPut(() => updateServiceInterface);
   AdsServiceInterface adsServiceInterface = AdsService(adRepo: Get.find());
   Get.lazyPut(() => adsServiceInterface);
   HistoryServiceInterface historyService =
@@ -137,7 +132,6 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => ModelsController(modelsService: Get.find()));
   Get.lazyPut(() => HistoryController(historyService: Get.find()));
   Get.lazyPut(() => InspirationController(inspirationService: Get.find()));
-  Get.lazyPut(() => UpdateController(updateService: Get.find()));
   Get.lazyPut(
       () => GenerationController(generationServiceInterface: Get.find()));
   Get.lazyPut(() => DashboardController());

@@ -35,7 +35,7 @@ class ImageGenerationController extends GetxController implements GetxService {
       faceFix: faceFix,
       modelValue: model,
     );
-
+    // log("Response ${response?.body.toString()}");
     PromptResponse? value = imageGenerationServiceInterface
         .processGenerationResponse(response, prompt, model, upscale, seed);
 

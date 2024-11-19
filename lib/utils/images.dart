@@ -9,6 +9,7 @@ class Images {
   static const String background = 'assets/images/bg.png';
   static const String noInternet = 'assets/images/no_connection.png';
   static const String gradient_circle = 'assets/images/gradient_circle.png';
+  static const String no_favorite = 'assets/images/empty_favorite.png';
 
   // animation
   static const String animation = 'assets/animations/loading.json';
