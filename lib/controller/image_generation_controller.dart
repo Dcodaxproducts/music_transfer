@@ -46,13 +46,4 @@ class ImageGenerationController extends GetxController implements GetxService {
   Future<bool> getQueuedImages(PromptResponse response) async {
     return await imageGenerationServiceInterface.getQueuedImages(response);
   }
-
-  // toggle favorite
-  void toggleFavorite(PromptResponse response) {
-    imageGenerationServiceInterface.toggleFavorite(response);
-    if (_promptResponse?.id == response.id) {
-      _promptResponse = response.copyWith(bookmarked: !response.bookmarked);
-      update();
-    }
-  }
 }

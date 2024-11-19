@@ -177,14 +177,4 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     }
     return false;
   }
-
-  @override
-  void toggleFavorite(PromptResponse promptResponse) {
-    // Toggle the bookmarked status
-    PromptResponse updatedResponse = promptResponse.copyWith(
-      bookmarked: !promptResponse.bookmarked,
-    );
-    // Update history and UI
-    HistoryController.find.toggleFavourite(updatedResponse);
-  }
 }

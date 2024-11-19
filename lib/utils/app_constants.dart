@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:io';
+
 import 'package:matrix_ai/data/model/language.dart';
 
 class AppConstants {
@@ -15,9 +17,6 @@ class AppConstants {
   static const String FEEDBACK_URL = 'feedback-save';
   static const String CONFIG_URL = 'config';
   static const String GET_ADS = 'ad-list';
-
-  static const String APP_URL =
-      "https://play.google.com/store/apps/details?id=$APP_PACKAGE_NAME";
 
   static const List<String> ADULT_WORDS = [
     'sex',
@@ -72,6 +71,13 @@ class AppConstants {
     'swinger',
   ];
 
+  /* App link */
+  static String APP_LINK = Platform.isAndroid ? ANDROID_APP_URL : IOS_APP_URL;
+  static const String ANDROID_APP_URL =
+      "https://play.google.com/store/apps/details?id=$APP_PACKAGE_NAME";
+  static const String IOS_APP_URL =
+      "https://apps.apple.com/us/app/pixart-the-ai-art-generator/id6737462382";
+
   /* Privacy and terms Url's */
   static const String PRIVACY_POLICY = '$DOMAIN/privacy-policy';
   static const String TERMS_AND_CONDITIONS = '$DOMAIN/terms-condition';
@@ -96,6 +102,7 @@ class AppConstants {
   static const String FAVORITE_MODELS = 'favorite_models_1';
   static const String OPEN_COUNT = 'open_count_1';
   static const String PROMPT_HISTORY = 'promptList_1';
+  static const String NOTIFICATION = 'notification_1';
 
   // Language
   static List<LanguageModel> languages = [

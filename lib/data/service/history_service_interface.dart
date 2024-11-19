@@ -8,8 +8,6 @@ abstract class HistoryServiceInterface {
       PromptResponse prompt, List<PromptResponse> currentHistory);
   Future<Uint8List?> downloadImage(String url);
   List<PromptResponse> getPromptHistoryFromRepo();
-  Future<void> deletePrompt(
-      PromptResponse response, List<PromptResponse> currentHistory);
-  Future<void> toggleFavourite(
-      PromptResponse response, List<PromptResponse> currentHistory);
+  Future<void> deletePrompt(List<PromptResponse> currentHistory);
+  Future<void> toggleFavorite(List<PromptResponse> currentHistory);
 }

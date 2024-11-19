@@ -10,7 +10,7 @@ class AppReview {
       inAppReview.requestReview();
     } else {
       launchUrl(
-        Uri.parse(AppConstants.APP_URL),
+        Uri.parse(AppConstants.ANDROID_APP_URL),
         mode: LaunchMode.externalApplication,
       );
     }

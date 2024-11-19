@@ -20,6 +20,4 @@ abstract class ImageGenerationServiceInterface<T> {
   );
 
   Future<bool> getQueuedImages(PromptResponse response);
-
-  void toggleFavorite(PromptResponse response);
 }

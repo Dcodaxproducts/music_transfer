@@ -37,17 +37,12 @@ class HistoryService implements HistoryServiceInterface {
   }
 
   @override
-  Future<void> deletePrompt(
-      PromptResponse response, List<PromptResponse> currentHistory) async {
-    currentHistory.remove(response);
+  Future<void> deletePrompt(List<PromptResponse> currentHistory) async {
     await historyRepo.savePromptResponsesInPref(currentHistory);
   }
 
   @override
-  Future<void> toggleFavourite(
-      PromptResponse response, List<PromptResponse> currentHistory) async {
-    int index = currentHistory.indexWhere((e) => e.id == response.id);
-    currentHistory[index] = response;
+  Future<void> toggleFavorite(List<PromptResponse> currentHistory) async {
     await historyRepo.savePromptResponsesInPref(currentHistory);
   }
 }

@@ -25,7 +25,7 @@ class PromptResponse {
 
   factory PromptResponse.fromJson(Map<String, dynamic> json) => PromptResponse(
         status: json["status"],
-        id: json["id"] ?? 0,
+        id: json["id"] ?? DateTime.now().millisecondsSinceEpoch,
         meta: Meta.fromJson(json["meta"]),
         eta: json["eta"]?.toDouble(),
         output: json["output"] == null

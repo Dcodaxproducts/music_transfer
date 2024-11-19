@@ -11,8 +11,7 @@ showToast(String text, {bool success = false}) {
   Get.snackbar(
     success ? 'success'.tr : 'error'.tr,
     text.tr,
-    backgroundColor:
-        success ? Theme.of(Get.context!).cardColor : const Color(0xFF90323D),
+    backgroundColor: success ? Colors.black : const Color(0xFF90323D),
     colorText: Colors.white,
   );
 }

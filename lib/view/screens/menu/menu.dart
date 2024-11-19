@@ -1,15 +1,16 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/helper/navigation.dart';
+import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:matrix_ai/utils/style.dart';
 import 'package:matrix_ai/view/base/appVersion_widget.dart';
 import 'package:matrix_ai/view/screens/html/html_screen.dart';
 import 'package:matrix_ai/view/screens/subscription/subscription.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../language/language.dart';
 import 'widgets/theme.dart';
 
@@ -28,6 +29,16 @@ class _MenuScreenState extends State<MenuScreen> {
       onTap: () => launchScreen(const LanguageScreen()),
     ),
     const ThemeTile(),
+    // MenuItem(
+    //   text: 'notifications',
+    //   icon: Iconsax.notification,
+    //   notification: true,
+    //   onTap: () {
+    //     SettingsController setting = SettingsController.find;
+    //     setting.configModel = setting.configModel.copyWith(
+    //         notificationsEnabled: !setting.configModel.notificationsEnabled);
+    //   },
+    // ),
   ];
 
   final List<Widget> _moreMenuItems = [
@@ -51,6 +62,14 @@ class _MenuScreenState extends State<MenuScreen> {
         HtmlScreen(
             html: SettingsController.find.settingModel.termsAndConditions),
       ),
+    ),
+    MenuItem(
+      text: 'share_app',
+      icon: Iconsax.share,
+      onTap: () {
+        launchUrlString(AppConstants.APP_LINK,
+            mode: LaunchMode.externalApplication);
+      },
     ),
   ];
 
@@ -100,11 +119,13 @@ class MenuItem extends StatelessWidget {
   final String? subtile;
   final IconData icon;
   final Function()? onTap;
+  final bool notification;
   const MenuItem(
       {required this.text,
       this.subtile,
       required this.icon,
       required this.onTap,
+      this.notification = false,
       super.key});
 
   @override
@@ -134,11 +155,23 @@ class MenuItem extends StatelessWidget {
               ),
             )
           : null,
-      trailing: Icon(
-        Iconsax.arrow_right_3,
-        size: 16.sp,
-        color: Theme.of(context).hintColor,
-      ),
+      trailing: notification
+          ? GetBuilder<SettingsController>(builder: (setting) {
+              bool notification = setting.configModel.notificationsEnabled;
+              return Switch(
+                value: notification,
+                onChanged: (value) {
+                  setting.configModel =
+                      setting.configModel.copyWith(notificationsEnabled: value);
+                },
+                activeColor: Theme.of(context).primaryColor,
+              );
+            })
+          : Icon(
+              Iconsax.arrow_right_3,
+              size: 16.sp,
+              color: Theme.of(context).hintColor,
+            ),
       contentPadding: EdgeInsets.symmetric(horizontal: 16.sp),
     );
   }

@@ -7,6 +7,7 @@ class ConfigModel {
   Model? selectedModel;
   String negativePrompt;
   int? seed;
+  bool notificationsEnabled;
 
   ConfigModel({
     required this.onBoardingSkip,
@@ -15,6 +16,7 @@ class ConfigModel {
     required this.selectedModel,
     required this.negativePrompt,
     this.seed,
+    required this.notificationsEnabled,
   });
 
   // copy with
@@ -25,6 +27,7 @@ class ConfigModel {
     Model? selectedModel,
     String? negativePrompt,
     int? seed,
+    bool? notificationsEnabled,
   }) {
     return ConfigModel(
       onBoardingSkip: onBoardingSkip ?? this.onBoardingSkip,
@@ -33,6 +36,7 @@ class ConfigModel {
       selectedModel: selectedModel ?? this.selectedModel,
       negativePrompt: negativePrompt ?? this.negativePrompt,
       seed: seed ?? this.seed,
+      notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
     );
   }
 }

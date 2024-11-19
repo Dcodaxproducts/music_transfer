@@ -39,6 +39,10 @@ class SettingsRepo implements SettingsRepoInterface {
     bool onBoardingSkip =
         sharedPreferences.getBool(AppConstants.ON_BOARDING_SKIP) ?? false;
 
+    // notification enabled
+    bool notificationEnabled =
+        sharedPreferences.getBool(AppConstants.NOTIFICATION) ?? false;
+
     // check if the theme, language and country code are set
     if (!sharedPreferences.containsKey(AppConstants.THEME)) {
       sharedPreferences.setString(AppConstants.THEME, 'system');
@@ -62,6 +66,7 @@ class SettingsRepo implements SettingsRepoInterface {
       aspectRatio: aspectRatio,
       selectedModel: selectedModel,
       negativePrompt: negativePrompt,
+      notificationsEnabled: notificationEnabled,
     );
   }
 
@@ -87,6 +92,10 @@ class SettingsRepo implements SettingsRepoInterface {
       sharedPreferences.setBool(
         AppConstants.ON_BOARDING_SKIP,
         configModel.onBoardingSkip,
+      ),
+      sharedPreferences.setBool(
+        AppConstants.NOTIFICATION,
+        configModel.notificationsEnabled,
       ),
     ]);
   }

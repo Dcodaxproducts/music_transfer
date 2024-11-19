@@ -92,5 +92,6 @@
   "feedback_submitted_successfully": "フィードバックは正常に送信されました",
   "result_is_not_accurate": "結果は正確ではありません",
   "inappropriate_content": "不適切なコンテンツ",
-  "version": "バージョン"
+  "version": "バージョン",
+  "share_app": "アプリを共有する"
 }

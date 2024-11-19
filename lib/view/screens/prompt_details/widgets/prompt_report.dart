@@ -173,6 +173,7 @@ class _ReportingDialogState extends State<ReportingDialog> {
               width: double.infinity,
               child: PrimaryButton(
                 color: Theme.of(context).cardColor,
+                textColor: Theme.of(context).textTheme.bodyLarge?.color,
                 text: "submit".tr,
                 onPressed: _submit,
               ),

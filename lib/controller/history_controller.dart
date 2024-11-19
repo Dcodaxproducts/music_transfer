@@ -52,12 +52,16 @@ class HistoryController extends GetxController {
   }
 
   void deletePrompt(PromptResponse response) {
-    historyService.deletePrompt(response, _promptHistory);
+    _promptHistory.removeWhere((e) => e.id == response.id);
     update();
+    historyService.deletePrompt(_promptHistory);
   }
 
-  void toggleFavourite(PromptResponse response) {
-    historyService.toggleFavourite(response, _promptHistory);
+  void toggleFavorite(PromptResponse response) {
+    response = response.copyWith(bookmarked: !response.bookmarked);
+    int index = _promptHistory.indexWhere((e) => e.id == response.id);
+    _promptHistory[index] = response;
     update();
+    historyService.toggleFavorite(_promptHistory);
   }
 }
