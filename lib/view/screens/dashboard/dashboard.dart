@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,7 +52,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           appBar: AppBar(
             title: const Text(AppConstants.APP_NAME),
             actions: [
-              const SubsriptionButton(),
+              if (Platform.isIOS) const SubsriptionButton(),
               SizedBox(width: 10.sp),
             ],
           ),

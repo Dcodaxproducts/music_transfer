@@ -13,8 +13,7 @@ class SubsriptionButton extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.sp),
       child: ElevatedButton(
-        onPressed: () => Get.bottomSheet(const SubscriptionScreen(),
-            isScrollControlled: true),
+        onPressed: showPremiumSheet,
         style: TextButton.styleFrom(
           padding: EdgeInsets.zero,
           backgroundColor: primaryColor,

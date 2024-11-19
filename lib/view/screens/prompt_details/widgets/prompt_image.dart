@@ -5,7 +5,8 @@ import 'package:matrix_ai/controller/image_generation_controller.dart';
 import '../../../../common/network_image.dart';
 import '../../../../helper/navigation.dart';
 import '../../../base/view_image.dart';
-import 'prompt_actions.dart';
+import 'prompt_edit.dart';
+import 'prompt_report.dart';
 
 class PromptImageWidget extends StatelessWidget {
   const PromptImageWidget({super.key});
@@ -32,11 +33,17 @@ class PromptImageWidget extends StatelessWidget {
               // image
               Hero(
                 tag: url,
-                child: CustomNetworkImage(url: url, errorLoading: true),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(16.sp),
+                  ),
+                  child: CustomNetworkImage(url: url, errorLoading: true),
+                ),
               ),
 
               const BackButton(),
               const PromptEditButton(),
+              const PromptReportButton(),
             ],
           ),
         ),

@@ -23,7 +23,7 @@ class SettingsRepo implements SettingsRepoInterface {
 
     // guidance scale
     double guidanceScale =
-        sharedPreferences.getDouble(AppConstants.GUIDANCE_SCALE) ?? 7.5;
+        sharedPreferences.getDouble(AppConstants.GUIDANCE_SCALE) ?? 3.5;
 
     // aspect ratio
     int aspectRatio = sharedPreferences.getInt(AppConstants.ASPECT_RATIO) ?? 1;

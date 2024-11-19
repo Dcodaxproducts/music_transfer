@@ -85,5 +85,12 @@
     "rate_us_message": "We are working hard for better user experience and to improve the app. We greatly appreciate your feedback.",
     "later": "Later",
     "free_generations_are_left_for_today": "Free generations are left for today",
-    "search_langauge": "Search Language"
+    "search_langauge": "Search Language",
+    "feedback": "Feedback",
+    "report": "Report",
+    "is_this_the_result_you_were_expecting": "Is this the result you were expecting?",
+    "feedback_submitted_successfully": "Feedback submitted successfully",
+    "result_is_not_accurate": "Result is not accurate",
+    "inappropriate_content": "Inappropriate content",
+    "version": "Version"
 }

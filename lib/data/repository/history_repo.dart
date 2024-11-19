@@ -9,10 +9,7 @@ import 'history_repo_interface.dart';
 class HistoryRepo implements HistoryRepoInteraface {
   final ApiClientInterface apiClient;
   final SharedPreferences sharedPreferences;
-  HistoryRepo({
-    required this.apiClient,
-    required this.sharedPreferences,
-  });
+  HistoryRepo({required this.apiClient, required this.sharedPreferences});
 
   @override
   Future<Uint8List?> downloadImage(String url) async =>

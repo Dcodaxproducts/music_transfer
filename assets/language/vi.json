@@ -85,5 +85,12 @@
   "rate_us_message": "Chúng tôi đang nỗ lực để có trải nghiệm người dùng tốt hơn và cải thiện ứng dụng. ",
   "later": "Sau đó",
   "free_generations_are_left_for_today": "Ngày nay còn lại những thế hệ tự do",
-  "search_langauge": "Tìm kiếm ngôn ngữ"
+  "search_langauge": "Tìm kiếm ngôn ngữ",
+  "feedback": "Nhận xét",
+  "report": "Báo cáo",
+  "is_this_the_result_you_were_expecting": "Đây có phải là kết quả mà bạn mong đợi?",
+  "feedback_submitted_successfully": "Đã gửi phản hồi thành công",
+  "result_is_not_accurate": "Kết quả không chính xác",
+  "inappropriate_content": "Nội dung không phù hợp",
+  "version": "Phiên bản"
 }

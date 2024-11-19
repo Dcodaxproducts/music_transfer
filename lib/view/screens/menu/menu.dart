@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/utils/style.dart';
+import 'package:matrix_ai/view/base/appVersion_widget.dart';
 import 'package:matrix_ai/view/screens/html/html_screen.dart';
 import 'package:matrix_ai/view/screens/subscription/subscription.dart';
 import '../language/language.dart';
@@ -28,11 +31,12 @@ class _MenuScreenState extends State<MenuScreen> {
   ];
 
   final List<Widget> _moreMenuItems = [
-    MenuItem(
-      text: 'subscription',
-      icon: Iconsax.crown_1,
-      onTap: () => launchScreen(const SubscriptionScreen()),
-    ),
+    if (Platform.isIOS)
+      MenuItem(
+        text: 'subscription',
+        icon: Iconsax.crown_1,
+        onTap: () => launchScreen(const SubscriptionScreen()),
+      ),
     MenuItem(
       text: 'privacy_policy',
       icon: Iconsax.lock,
@@ -85,13 +89,7 @@ class _MenuScreenState extends State<MenuScreen> {
             itemBuilder: (context, index) => _moreMenuItems[index],
           ),
         ),
-        SizedBox(height: 16.sp),
-        Center(
-          child: Text(
-            'Verson 1.0.0',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ),
+        const AppVersionWidget(),
       ],
     );
   }

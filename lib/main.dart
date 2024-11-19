@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -12,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/view/screens/welcome/welcome.dart';
+import 'package:upgrader/upgrader.dart';
 import 'common/loading.dart';
 import 'controller/localization_controller.dart';
 import 'controller/theme_controller.dart';
@@ -96,15 +98,20 @@ class MyApp extends StatelessWidget {
                 navigatorObservers: [FlutterSmartDialog.observer],
                 builder: FlutterSmartDialog.init(
                     loadingBuilder: (string) => const LoadingWidget()),
-                home: RestartWidget(
-                  child: GetBuilder<SettingsController>(
-                    builder: (con) {
-                      if (SettingsController.find.isFirstTime) {
-                        return const WelcomeScreen();
-                      } else {
-                        return const Root();
-                      }
-                    },
+                home: UpgradeAlert(
+                  dialogStyle: Platform.isIOS
+                      ? UpgradeDialogStyle.cupertino
+                      : UpgradeDialogStyle.material,
+                  child: RestartWidget(
+                    child: GetBuilder<SettingsController>(
+                      builder: (con) {
+                        if (SettingsController.find.isFirstTime) {
+                          return const WelcomeScreen();
+                        } else {
+                          return const Root();
+                        }
+                      },
+                    ),
                   ),
                 ),
               ),

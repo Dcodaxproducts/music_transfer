@@ -7,6 +7,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:matrix_ai/view/screens/dashboard/dashboard.dart';
 import '../../controller/ads_controller.dart';
+import '../../controller/generation_controller.dart';
 import '../../controller/history_controller.dart';
 import '../../controller/inspiration_controller.dart';
 import '../../controller/models_controller.dart';
@@ -53,6 +54,9 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       // get history from shared preferences
       HistoryController.find.initPromptHistory();
+
+      // initialize generation count
+      GenerationController.find.initialize();
 
       //get data from api
       await Future.wait([

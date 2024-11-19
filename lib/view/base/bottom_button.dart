@@ -4,7 +4,7 @@ import '../../utils/colors.dart';
 
 class BottomButton extends StatelessWidget {
   final String text;
-  final Function() onPressed;
+  final Function()? onPressed;
   const BottomButton({super.key, required this.text, required this.onPressed});
 
   @override
@@ -14,11 +14,14 @@ class BottomButton extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
           height: 80.sp,
-          decoration: const BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          decoration: BoxDecoration(
+            color: onPressed != null
+                ? primaryColor
+                : Theme.of(context).disabledColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Center(
             child: Text(

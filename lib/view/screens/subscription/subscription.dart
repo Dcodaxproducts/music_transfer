@@ -1,16 +1,32 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inapp_purchase/modules.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-import 'package:matrix_ai/helper/navigation.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../common/primary_button.dart';
 import '../../../controller/subscription_controller.dart';
-import '../../../utils/app_constants.dart';
+import '../../../helper/navigation.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/images.dart';
 import '../../../utils/style.dart';
 import 'widgets/purchase_item.dart';
+
+showPremiumSheet() => showModalBottomSheet(
+      context: Get.context!,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const SubscriptionScreen(),
+    );
+
+List<String> _premiumFeatures = [
+  'upscale_image',
+  'face_fix',
+  'models',
+  'remove_ads',
+  'image_quality',
+  'denoise_steps',
+];
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
@@ -20,183 +36,238 @@ class SubscriptionScreen extends StatefulWidget {
 }
 
 class _SubscriptionScreenState extends State<SubscriptionScreen> {
-  int _selectedIndex = 0;
-  List<String> get benefits => [
-        'No Ads',
-        'Unlimited Time',
-        'Access to all servers',
-        'Ultra-fast connection',
-      ];
+  int _selectedPackage = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: pagePadding,
-        child: GetBuilder<SubscriptionController>(builder: (con) {
-          return Column(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    SizedBox(height: 16.sp),
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: pop,
-                        visualDensity: VisualDensity(horizontal: -4),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            Images.background,
+            fit: BoxFit.cover,
+          ),
+          GetBuilder<SubscriptionController>(
+            builder: (subscription) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: pagePadding,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 340),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _premiumFeatures.length,
                         padding: EdgeInsets.zero,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          childAspectRatio: 8,
+                        ),
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              const Icon(
+                                Iconsax.check,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                _premiumFeatures[index].tr,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: Colors.white,
+                                    ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
-                    ),
-                    Hero(
-                      tag: 'crown',
-                      child: LottieBuilder.asset(
-                        "assets/animations/crown_pro.json",
-                        width: 150.sp,
-                      ),
-                    ),
-                    Text(
-                      'Upgrade to ${AppConstants.APP_NAME} Pro',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    // benefits
-                    GridView.builder(
-                      padding: EdgeInsets.only(top: 32.sp),
-                      shrinkWrap: true,
-                      itemCount: benefits.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8.sp,
-                        mainAxisSpacing: 8.sp,
-                        childAspectRatio: 10.sp,
-                      ),
-                      itemBuilder: (context, index) {
-                        return Row(
-                          children: [
-                            Icon(
-                              Icons.check_circle,
-                              color: primaryColor,
-                              size: 16.sp,
-                            ),
-                            SizedBox(width: 4.sp),
-                            Text(
-                              benefits[index],
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    // subscription list
-                    ListView.separated(
-                      padding: EdgeInsets.only(top: 32.sp),
-                      itemCount: con.products.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 16.sp),
-                      itemBuilder: (context, index) {
-                        final item = con.products[index];
-                        return PurchaseItem(
-                          item: item,
-                          selected: _selectedIndex == index,
+                      const SizedBox(height: 20),
+                      for (int i = 0;
+                          i < subscription.products.length;
+                          i++) ...[
+                        SubscriptionPackageWidget(
+                          selected: _selectedPackage == i,
+                          title: getText(subscription.products[i])['title'],
+                          price: getText(subscription.products[i])['price'],
                           onTap: () {
                             setState(() {
-                              _selectedIndex = index;
+                              _selectedPackage = i;
                             });
                           },
-                        );
-                      },
-                    ),
-
-                    //
-                    Padding(
-                      padding: EdgeInsets.only(top: 32.sp),
-                      child: RichText(
-                        text: TextSpan(
-                          text:
-                              'This subscription is auto-renewable, will be re- activated at the end of selected period and can be cancelled at any time. ',
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+                      const SizedBox(height: 32),
+                      PrimaryButton(
+                        text: 'continue'.tr,
+                        onPressed: () {
+                          subscription.buyProduct(
+                            subscription.products[_selectedPackage],
+                          );
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: RichText(
+                            text: TextSpan(
                           style: Theme.of(context).textTheme.bodySmall,
                           children: [
                             TextSpan(
-                              text: 'Cancel Subscription',
-                              style: const TextStyle(
-                                color: primaryColor,
-                                decoration: TextDecoration.underline,
-                                decorationColor: primaryColor,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  final url = Uri.parse(
-                                      AppConstants.cancelSubscriptionUrl);
-                                  launchUrl(url);
-                                },
+                              text: '${'note'.tr}: ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                            ),
+                            TextSpan(
+                              text:
+                                  'these_subscriptions_can_be_cancelled_anytime_they_are_automatically_renewed_at_the_end_of_selected_period'
+                                      .tr,
+                            ),
+                          ],
+                        )),
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: pagePadding,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF171819),
+                          borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(radius)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              blurRadius: 10,
+                              offset: const Offset(0, -2),
                             ),
                           ],
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: PrimaryButton(
-                  text: 'Continue',
-                  onPressed: () {
-                    con.buyProduct(con.products[_selectedIndex]);
-                  },
-                ),
-              ),
-              SizedBox(height: 16.sp),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.sp),
-                child: RichText(
-                  text: TextSpan(
-                    text: 'By continuing, you agree to our ',
-                    style: Theme.of(context).textTheme.bodySmall,
-                    children: [
-                      TextSpan(
-                        text: 'Privacy Policy',
-                        style: const TextStyle(
-                          color: primaryColor,
-                          decoration: TextDecoration.underline,
-                          decorationColor: primaryColor,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(height: 5),
+                            Text(
+                              'by_continuing_you_agree_to'.tr,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // privacy policy,
+                                LinkButton(
+                                  text: 'privacy_policy'.tr,
+                                  url:
+                                      'https://payments.google.com/payments/apis-secure/u/0/get_legal_document?ldo=0&ldt=privacynotice&ldl=en_GB',
+                                ),
+
+                                // cancel anytime,
+                                LinkButton(
+                                  text: 'terms_of_service'.tr,
+                                  url:
+                                      'https://payments.google.com/payments/apis-secure/u/0/get_legal_document?ldl=en_GB&ldo=0&ldt=buyertos',
+                                ),
+
+                                // privacy policy,
+                                LinkButton(
+                                  text: 'terms_of_service'.tr,
+                                  url:
+                                      'https://payments.google.com/payments/apis-secure/u/0/get_legal_document?ldo=0&ldt=buyertos&ldl=en_GB',
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            final url =
-                                Uri.parse(AppConstants.privacyPolicyUrl);
-                            launchUrl(url);
-                          },
-                      ),
-                      const TextSpan(text: ' and '),
-                      TextSpan(
-                        text: 'Google Terms of Service',
-                        style: const TextStyle(
-                          color: primaryColor,
-                          decoration: TextDecoration.underline,
-                          decorationColor: primaryColor,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            final url =
-                                Uri.parse(AppConstants.termsAndConditionsUrl);
-                            launchUrl(url);
-                          },
-                      ),
-                      const TextSpan(
-                          text: ' which describes how the data is handled.'),
+                      )
                     ],
                   ),
                 ),
-              ),
-            ],
-          );
-        }),
+              );
+            },
+          ),
+          Positioned(
+            top: 40.sp,
+            right: 16.sp,
+            child: const CloseButton(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  getText(IAPItem productDetails) {
+    if (productDetails.productId == 'monthly_plan') {
+      return {
+        'title': 'monthly',
+        "price": productDetails.localizedPrice,
+      };
+    } else if (productDetails.productId == 'weekly_plan') {
+      return {
+        'title': 'weekly',
+        "price": productDetails.localizedPrice,
+      };
+    } else {
+      return {
+        'title': 'yearly',
+        "price": productDetails.localizedPrice,
+      };
+    }
+  }
+}
+
+class LinkButton extends StatelessWidget {
+  final String text;
+  final String url;
+  const LinkButton({super.key, required this.text, required this.url});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () => launchUrl(Uri.parse(url)),
+      child: Text(
+        text.tr,
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: primaryColor,
+              decorationColor: primaryColor,
+              decoration: TextDecoration.underline,
+            ),
+      ),
+    );
+  }
+}
+
+class CloseButton extends StatelessWidget {
+  const CloseButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: pop,
+      child: Container(
+        padding: EdgeInsets.all(5.sp),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          Icons.close,
+          color: Colors.black,
+          size: 20.sp,
+        ),
       ),
     );
   }

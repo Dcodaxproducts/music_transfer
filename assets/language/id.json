@@ -85,5 +85,12 @@
   "rate_us_message": "Kami bekerja keras untuk pengalaman pengguna yang lebih baik dan meningkatkan aplikasi. ",
   "later": "Nanti",
   "free_generations_are_left_for_today": "Generasi bebas tersisa untuk saat ini",
-  "search_langauge": "Cari Bahasa"
+  "search_langauge": "Cari Bahasa",
+  "feedback": "Masukan",
+  "report": "Laporan",
+  "is_this_the_result_you_were_expecting": "Apakah ini hasil yang Anda harapkan?",
+  "feedback_submitted_successfully": "Masukan berhasil dikirimkan",
+  "result_is_not_accurate": "Hasilnya tidak akurat",
+  "inappropriate_content": "Konten yang tidak pantas",
+  "version": "Versi"
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/common/loading.dart';
+import 'package:matrix_ai/utils/images.dart';
 import '../../../utils/app_constants.dart';
 import '../../../utils/style.dart';
 import '../../base/background_widget.dart';
@@ -27,7 +28,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const FlutterLogo(size: 100),
+                    CircleAvatar(
+                      radius: 50.sp,
+                      backgroundImage: const AssetImage(Images.logo),
+                    ),
                     SizedBox(height: 150.sp),
                     // pixart Title
                     Text(

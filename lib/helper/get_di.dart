@@ -16,6 +16,8 @@ import 'package:matrix_ai/data/api/api_client_interface.dart';
 import 'package:matrix_ai/data/model/language.dart';
 import 'package:matrix_ai/data/repository/ad_repo.dart';
 import 'package:matrix_ai/data/repository/ad_repo_interface.dart';
+import 'package:matrix_ai/data/repository/generation_repo.dart';
+import 'package:matrix_ai/data/repository/generation_repo_interface.dart';
 import 'package:matrix_ai/data/repository/history_repo_interface.dart';
 import 'package:matrix_ai/data/repository/image_generation_repo.dart';
 import 'package:matrix_ai/data/repository/history_repo.dart';
@@ -26,6 +28,8 @@ import 'package:matrix_ai/data/repository/settings_repo.dart';
 import 'package:matrix_ai/data/repository/settings_repo_interface.dart';
 import 'package:matrix_ai/data/service/ads_service.dart';
 import 'package:matrix_ai/data/service/ads_service_interface.dart';
+import 'package:matrix_ai/data/service/generation_service.dart';
+import 'package:matrix_ai/data/service/generation_service_interface.dart';
 import 'package:matrix_ai/data/service/history_service_interface.dart';
 import 'package:matrix_ai/data/service/inspiration_service_interface.dart';
 import 'package:matrix_ai/data/service/localization_service.dart';
@@ -82,6 +86,9 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => settingsRepoInterface);
   AdRepoInterface adRepoInterface = AdRepo(apiClient: Get.find());
   Get.lazyPut(() => adRepoInterface);
+  GenerationRepoInterface generationRepoInterface =
+      GenerationRepo(sharedPreferences: Get.find());
+  Get.lazyPut(() => generationRepoInterface);
 
   // Service
   ImageGenerationServiceInterface imageGenerationService =
@@ -115,6 +122,9 @@ Future<Map<String, Map<String, String>>> init() async {
   SettingsServiceInterface settingsServiceInterface =
       SettingsService(settingsRepo: Get.find());
   Get.lazyPut(() => settingsServiceInterface);
+  GenerationServiceInterface generationServiceInterface =
+      GenerationService(generationRepoInterface: Get.find());
+  Get.lazyPut(() => generationServiceInterface);
 
   // Controller
   Get.lazyPut(() => ThemeController(themeService: Get.find()));
@@ -128,7 +138,8 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => HistoryController(historyService: Get.find()));
   Get.lazyPut(() => InspirationController(inspirationService: Get.find()));
   Get.lazyPut(() => UpdateController(updateService: Get.find()));
-  Get.lazyPut(() => GenerationController());
+  Get.lazyPut(
+      () => GenerationController(generationServiceInterface: Get.find()));
   Get.lazyPut(() => DashboardController());
   Get.lazyPut(() => SettingsController(settingsService: Get.find()));
   Get.lazyPut(() => QueueController());

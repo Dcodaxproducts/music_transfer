@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:matrix_ai/data/model/response/model.dart';
 
 class AdModel {
@@ -21,7 +23,8 @@ class AdModel {
     return AdModel(
       id: json['id'],
       type: AdTypeExtension.fromString(json['type']),
-      active: json['status'] == 1,
+      active:
+          Platform.isAndroid ? json['status'] == 1 : json['ios_status'] == 1,
       androidAdId: json['android_ad_id'] ?? '',
       iosAdId: json['ios_ad_id'] ?? '',
       position: AdPositionExtension.fromString(json['position']),

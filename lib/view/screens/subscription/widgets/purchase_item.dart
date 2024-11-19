@@ -1,112 +1,160 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:matrix_ai/utils/style.dart';
+import 'package:get/get.dart';
 import '../../../../utils/colors.dart';
 
-class PurchaseItem extends StatelessWidget {
-  final IAPItem item;
+class SubscriptionPackageWidget extends StatelessWidget {
+  final String title;
   final bool selected;
-  final Function()? onTap;
-  const PurchaseItem(
-      {required this.item, required this.selected, this.onTap, super.key});
+  final Function() onTap;
+  final String price;
+  const SubscriptionPackageWidget(
+      {required this.selected,
+      required this.title,
+      required this.onTap,
+      required this.price,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> data = getText();
     return InkWell(
       onTap: onTap,
-      borderRadius: borderRadius,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        padding: EdgeInsets.all(10.sp),
+      child: Container(
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: borderRadius,
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color:
-                selected ? Theme.of(context).primaryColor : Colors.transparent,
-            width: 1.sp,
+            width: 2,
+            color: selected ? primaryColor : Colors.grey[800]!,
           ),
-          // boxShadow: boxShadow,
         ),
         child: Row(
           children: [
-            // selected container,
             Container(
-              width: 18.sp,
-              height: 18.sp,
-              padding: EdgeInsets.all(3.sp),
+              width: 20,
+              height: 20,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: selected ? primaryColor : Colors.grey,
-                  width: 1.sp,
-                ),
+                borderRadius: BorderRadius.circular(10),
+                color: selected ? Colors.white : null,
+                border: selected
+                    ? null
+                    : Border.all(width: 1.5, color: Colors.white),
               ),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: selected ? primaryColor : Colors.transparent,
-                  shape: BoxShape.circle,
-                ),
-              ),
+              child: selected
+                  ? const Icon(
+                      Icons.check,
+                      size: 16,
+                      color: Colors.black,
+                    )
+                  : null,
             ),
-            SizedBox(width: 16.sp),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    data['title'],
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    title.tr,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
-                  SizedBox(height: 3.sp),
-                  Text(
-                    data['subtitle'],
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 11.sp,
-                          color: Theme.of(context).hintColor,
-                        ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Auto-renewable',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
             ),
-            SizedBox(width: 16.sp),
+            const SizedBox(width: 8),
+            Container(
+              width: 1,
+              height: 30,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 8),
             Text(
-              data['price'],
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              price,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ],
         ),
       ),
     );
   }
-
-  Map<String, dynamic> getText() {
-    if (item.productId == 'monthly_plan') {
-      return {
-        'title': '1 Month',
-        'subtitle': 'One Week Subscription',
-        "price": item.localizedPrice ?? '0.0',
-      };
-    } else if (item.productId == 'weekly_plan') {
-      return {
-        'title': '1 Week',
-        'subtitle': 'One Month Subscription',
-        "price": item.localizedPrice ?? '0.0',
-      };
-    } else {
-      return {
-        'title': '1 Year',
-        'subtitle': 'One Year Subscription',
-        "price": item.localizedPrice ?? '0.0',
-      };
-    }
-  }
 }
+
+// class SubscriptionPackageWidget extends StatelessWidget {
+//   final String title;
+//   final bool selected;
+//   final Function() onTap;
+//   const SubscriptionPackageWidget(
+//       {required this.selected,
+//       required this.title,
+//       required this.onTap,
+//       super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: onTap,
+//       child: AnimatedContainer(
+//         duration: const Duration(milliseconds: 300),
+//         padding: const EdgeInsets.all(10),
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(16),
+//           color: selected
+//               ? Theme.of(context).primaryColor
+//               : const Color(0xFF242424),
+//           border: Border.all(
+//             width: 1,
+//             color: selected ? primaryColor : Colors.grey[800]!,
+//           ),
+//         ),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Container(
+//               width: 20,
+//               height: 20,
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(10),
+//                 color: selected ? const Color(0xFF242424) : null,
+//                 border: selected
+//                     ? null
+//                     : Border.all(width: 1.5, color: Colors.white),
+//               ),
+//               child: selected
+//                   ? const Icon(
+//                       Icons.check,
+//                       size: 16,
+//                       color: Colors.white,
+//                     )
+//                   : null,
+//             ),
+//             const SizedBox(height: 28),
+//             Text(
+//               title,
+//               style: TextStyle(
+//                 fontSize: 16,
+//                 fontWeight: FontWeight.bold,
+//                 color: selected
+//                     ? Theme.of(context).scaffoldBackgroundColor
+//                     : Colors.white,
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

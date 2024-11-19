@@ -6,6 +6,7 @@ import 'package:matrix_ai/view/screens/onboarding/onboarding.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../base/bottom_button.dart';
 import '../../base/gradient_widget.dart';
+import '../language/language.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -16,6 +17,7 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   bool _agreed = false;
+  bool _radioSelected = false;
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
@@ -60,18 +62,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     const Spacer(),
                     Row(
                       children: [
-                        Radio(
-                          value: true,
-                          groupValue: true,
-                          onChanged: (value) {},
-                          activeColor:
-                              Theme.of(context).textTheme.bodySmall?.color,
-                          visualDensity: const VisualDensity(
-                            horizontal: -4,
-                            vertical: -4,
-                          ),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
+                        InkWell(
+                          borderRadius: BorderRadius.circular(32.sp),
+                          onTap: () {
+                            setState(() {
+                              _radioSelected = !_radioSelected;
+                            });
+                          },
+                          child: LanguageRadioButton(selected: _radioSelected),
                         ),
                         SizedBox(width: 10.sp),
                         Expanded(
@@ -123,11 +121,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               bottomNavigationBar: BottomButton(
                 text: 'Agree & Continue',
-                onPressed: () {
-                  setState(() {
-                    _agreed = true;
-                  });
-                },
+                onPressed: _radioSelected
+                    ? () {
+                        setState(() {
+                          _agreed = true;
+                        });
+                      }
+                    : null,
               ),
             ),
     );

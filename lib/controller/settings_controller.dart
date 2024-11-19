@@ -62,6 +62,7 @@ class SettingsController extends GetxController implements GetxService {
     seedController.text =
         _configModel.seed == null ? '-1' : _configModel.seed!.toString();
     getSettings();
+    getPackageInfo();
     return _configModel;
   }
 

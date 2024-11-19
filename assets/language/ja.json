@@ -85,5 +85,12 @@
   "rate_us_message": "私たちはユーザーエクスペリエンスを向上させ、アプリを改善するために懸命に取り組んでいます。",
   "later": "後で",
   "free_generations_are_left_for_today": "無料の世代は今日まで残っています",
-  "search_langauge": "言語を検索する"
+  "search_langauge": "言語を検索する",
+  "feedback": "フィードバック",
+  "report": "報告",
+  "is_this_the_result_you_were_expecting": "これは期待していた結果ですか?",
+  "feedback_submitted_successfully": "フィードバックは正常に送信されました",
+  "result_is_not_accurate": "結果は正確ではありません",
+  "inappropriate_content": "不適切なコンテンツ",
+  "version": "バージョン"
 }
