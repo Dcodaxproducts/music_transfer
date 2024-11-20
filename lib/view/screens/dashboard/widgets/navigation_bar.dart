@@ -38,7 +38,7 @@ class GlasmorphicNavigationBar extends StatelessWidget {
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   child: Container(
-                    width: 125.sp,
+                    width: context.width / navigationItems.length,
                     height: 53.sp,
                     decoration: BoxDecoration(
                       color: primaryColor,

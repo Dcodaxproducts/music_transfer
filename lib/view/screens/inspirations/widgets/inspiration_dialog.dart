@@ -16,12 +16,12 @@ class InspirationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.symmetric(horizontal: 30.sp),
+      insetPadding: EdgeInsets.symmetric(horizontal: context.width * 0.1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.sp),
       ),
       child: Container(
-        height: 450.sp,
+        height: context.height * (context.width < 600 ? 0.5 : 0.65),
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: borderRadius,

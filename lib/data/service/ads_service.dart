@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -34,14 +35,16 @@ class AdsService implements AdsServiceInterface {
   }
 
   @override
-  void initialize() {
+  void initialize() async {
+    // Show tracking authorization dialog and ask for permission
+    await AppTrackingTransparency.requestTrackingAuthorization();
     final params = ConsentRequestParameters();
     ConsentInformation.instance.requestConsentInfoUpdate(params, () {
       ConsentInformation.instance.isConsentFormAvailable().then((value) {
         loadForm();
       });
     }, (error) {
-      showSnack("Consent initialization failed: ${error.message}");
+      // showSnack("Consent initialization failed: ${error.message}");
     });
   }
 
@@ -52,12 +55,12 @@ class AdsService implements AdsServiceInterface {
           ConsentStatus.required) {
         consentForm.show((formError) {
           if (formError != null) {
-            showSnack("Consent form error: ${formError.message}");
+            // showSnack("Consent form error: ${formError.message}");
           }
         });
       }
     }, (formError) {
-      showSnack("Failed to load consent form: ${formError.message}");
+      // showSnack("Failed to load consent form: ${formError.message}");
     });
   }
 

@@ -110,11 +110,13 @@ class HistoryCard extends StatelessWidget {
                       left: 8.sp,
                       child: InkWell(
                         onTap: () {
+                          final setting = SettingsController.find;
                           Clipboard.setData(
                             ClipboardData(text: response.meta.prompt),
                           );
-                          SettingsController.find
-                              .setPromptText(response.meta.prompt);
+                          setting.setPromptText(response.meta.prompt);
+                          setting.configModel = setting.configModel
+                              .copyWith(seed: response.meta.seed);
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

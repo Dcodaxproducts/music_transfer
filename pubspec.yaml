@@ -40,6 +40,7 @@ dependencies:
 
   # Admob
   google_mobile_ads: ^5.1.0
+  app_tracking_transparency: ^2.0.5
 
   # Firebase
   firebase_core: ^3.4.0

@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
               child: GetMaterialApp(
                 title: AppConstants.APP_NAME,
                 debugShowCheckedModeBanner: false,
-                themeMode: themeController.themeMode,
+                themeMode: ThemeMode.dark,
                 theme: light(),
                 darkTheme: dark(),
                 locale: localizeController.locale,

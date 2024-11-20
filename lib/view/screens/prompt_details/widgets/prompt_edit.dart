@@ -154,6 +154,7 @@ class _ActionSheetState extends State<ActionSheet> {
               itemCount: items.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
               separatorBuilder: (context, index) => divider,
               itemBuilder: (context, index) => items[index],
             ),

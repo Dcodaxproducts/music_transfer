@@ -7,7 +7,7 @@ import 'package:matrix_ai/data/model/language.dart';
 class AppConstants {
   //
   static const String APP_NAME = 'PixArt';
-  static const String APP_PACKAGE_NAME = 'ai.art.photo.generator';
+  static const String APP_PACKAGE_NAME = 'pixart.aiart.generator';
 
   // API
   static const String DOMAIN = 'https://pixartai.dcodax.net';

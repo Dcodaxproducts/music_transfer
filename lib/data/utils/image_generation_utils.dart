@@ -1,3 +1,5 @@
+import 'package:matrix_ai/controller/models_controller.dart';
+
 import '../model/body/aspect_ratio.dart';
 import '../model/body/config_model.dart';
 import '../model/response/model.dart';
@@ -11,6 +13,13 @@ class ImageGenerationUtils {
   }
 
   static Model getModel(Model? model) {
+    // if model is not null check if it is available in the models list and get it from the list
+    if (model != null) {
+      final models = ModelsController.find.models;
+      if (models.any((e) => e.id == model.id)) {
+        return models.firstWhere((e) => e.modelId == model.modelId);
+      }
+    }
     return model ?? SettingsController.find.configModel.selectedModel!;
   }
 

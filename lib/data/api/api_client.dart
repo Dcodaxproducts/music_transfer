@@ -108,6 +108,10 @@ class ApiClient extends GetxService implements ApiClientInterface {
   }
 
   _handleError(Map<String, dynamic> body) {
+    if (body.containsKey('message')) {
+      showToast(body['message']);
+      return null;
+    }
     ErrorResponse response = ErrorResponse.fromJson(body);
     dismiss();
     showToast(response.errors.first.message);

@@ -25,9 +25,9 @@ class InspirationScreen extends StatelessWidget {
             child: MasonryGridView.builder(
               itemCount: inspirations.length,
               padding: EdgeInsets.all(8.sp).copyWith(bottom: 100.sp),
-              gridDelegate:
-                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
+              gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: context.width < 600 ? 2 : 3,
+              ),
               mainAxisSpacing: 8.sp,
               crossAxisSpacing: 8.sp,
               itemBuilder: (context, index) => InkWell(
