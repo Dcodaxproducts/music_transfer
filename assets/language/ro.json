@@ -94,5 +94,19 @@
   "inappropriate_content": "Conținut inadecvat",
   "version": "Versiune",
   "share_app": "Partajați aplicația",
-  "no_favorites_yet": "Încă nu există favorite"
+  "no_favorites_yet": "Încă nu există favorite",
+  "manage_subscription": "Gestionați abonamentul",
+  "restore": "Restabili",
+  "continue": "Continua",
+  "weekly": "Săptămânal",
+  "monthly": "Lunar",
+  "yearly": "Anual",
+  "off": "Oprit",
+  "only": "Numai",
+  "week": "Săptămână",
+  "month": "Lună",
+  "year": "An",
+  "enjoy_a_year_of_no_ads": "Bucurați-vă de un an fără reclame",
+  "enjoy_a_month_of_no_ads": "Bucurați-vă de o lună fără anunțuri",
+  "test_ad_free_for_a_week": "Testați fără anunțuri timp de o săptămână"
 }

@@ -94,5 +94,19 @@
   "inappropriate_content": "不当内容",
   "version": "版本",
   "share_app": "分享应用程序",
-  "no_favorites_yet": "尚无收藏"
+  "no_favorites_yet": "尚无收藏",
+  "manage_subscription": "管理订阅",
+  "restore": "恢复",
+  "continue": "继续",
+  "weekly": "每周",
+  "monthly": "每月",
+  "yearly": "每年",
+  "off": "离开",
+  "only": "仅有的",
+  "week": "星期",
+  "month": "月",
+  "year": "年",
+  "enjoy_a_year_of_no_ads": "享受无广告一年",
+  "enjoy_a_month_of_no_ads": "享受一个月无广告的体验",
+  "test_ad_free_for_a_week": "测试一周无广告"
 }

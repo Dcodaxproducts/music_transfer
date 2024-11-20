@@ -1,13 +1,13 @@
 // ignore_for_file: avoid_print
 
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:matrix_ai/common/snackbar.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:get/get.dart';
-
 import '../data/service/subscription_service_interface.dart';
 
 bool get isPro => SubscriptionController.find.isPro;
@@ -55,6 +55,7 @@ class SubscriptionController extends GetxController implements GetxService {
 
   Future<void> _getSubscriptions() async {
     var data = await subscriptionService.getSubscriptions(_subscriptionIds);
+    log('data: $data');
     if (data.isNotEmpty) {
       products = data;
     }
@@ -127,13 +128,23 @@ class SubscriptionController extends GetxController implements GetxService {
     }
   }
 
+  // restore purchase
+  Future<void> restorePurchase() async {
+    var result = await subscriptionService.getPurchaseHistory();
+    if (result != null && result.isNotEmpty) {
+      for (var item in result) {
+        _verifyPurchase(item);
+      }
+    }
+  }
+
   bool get isPro {
-    return false;
-    // if (proLimitDate == null) {
-    //   return false;
-    // } else {
-    //   return DateTime.now().isBefore(proLimitDate!);
-    // }
+    // return false;
+    if (proLimitDate == null) {
+      return false;
+    } else {
+      return DateTime.now().isBefore(proLimitDate!);
+    }
   }
 
   @override

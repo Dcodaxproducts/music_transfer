@@ -94,5 +94,19 @@
   "inappropriate_content": "Contenuti inappropriati",
   "version": "Versione",
   "share_app": "Condividi l'app",
-  "no_favorites_yet": "Ancora nessun preferito"
+  "no_favorites_yet": "Ancora nessun preferito",
+  "manage_subscription": "Gestisci abbonamento",
+  "restore": "Ripristina",
+  "continue": "Continuare",
+  "weekly": "Settimanale",
+  "monthly": "Mensile",
+  "yearly": "Annuale",
+  "off": "Spento",
+  "only": "Soltanto",
+  "week": "Settimana",
+  "month": "Mese",
+  "year": "Anno",
+  "enjoy_a_year_of_no_ads": "Goditi un anno senza pubblicità",
+  "enjoy_a_month_of_no_ads": "Goditi un mese senza pubblicità",
+  "test_ad_free_for_a_week": "Provalo senza pubblicità per una settimana"
 }

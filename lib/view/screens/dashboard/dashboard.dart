@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/dashboard_controller.dart';
 import 'package:matrix_ai/view/base/confirmation_dialog.dart';
+import 'package:matrix_ai/view/base/subscription_button.dart';
 import '../../../utils/app_constants.dart';
 import '../home/home.dart';
 import '../inspirations/inspirations.dart';
@@ -56,7 +57,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           appBar: AppBar(
             title: Text(_titles[currentIndex]),
             actions: [
-              // if (Platform.isIOS) const SubsriptionButton(),
+              // if (Platform.isIOS)
+              const SubsriptionButton(),
               SizedBox(width: 10.sp),
             ],
           ),

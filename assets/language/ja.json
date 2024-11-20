@@ -94,5 +94,19 @@
   "inappropriate_content": "不適切なコンテンツ",
   "version": "バージョン",
   "share_app": "アプリを共有する",
-  "no_favorites_yet": "お気に入りはまだありません"
+  "no_favorites_yet": "お気に入りはまだありません",
+  "manage_subscription": "サブスクリプションを管理する",
+  "restore": "復元",
+  "continue": "続く",
+  "weekly": "毎週",
+  "monthly": "毎月",
+  "yearly": "毎年",
+  "off": "オフ",
+  "only": "のみ",
+  "week": "週",
+  "month": "月",
+  "year": "年",
+  "enjoy_a_year_of_no_ads": "広告なしで 1 年間お楽しみください",
+  "enjoy_a_month_of_no_ads": "広告なしで 1 か月間お楽しみください",
+  "test_ad_free_for_a_week": "1週間広告なしでテストしてください"
 }

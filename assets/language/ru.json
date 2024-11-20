@@ -94,5 +94,19 @@
   "inappropriate_content": "Неприемлемый контент",
   "version": "Версия",
   "share_app": "Поделиться приложением",
-  "no_favorites_yet": "Пока нет избранного"
+  "no_favorites_yet": "Пока нет избранного",
+  "manage_subscription": "Управление подпиской",
+  "restore": "Восстановить",
+  "continue": "Продолжать",
+  "weekly": "Еженедельно",
+  "monthly": "Ежемесячно",
+  "yearly": "Ежегодно",
+  "off": "Выключенный",
+  "only": "Только",
+  "week": "Неделя",
+  "month": "Месяц",
+  "year": "Год",
+  "enjoy_a_year_of_no_ads": "Наслаждайтесь годом без рекламы",
+  "enjoy_a_month_of_no_ads": "Наслаждайтесь месяцем без рекламы",
+  "test_ad_free_for_a_week": "Протестируйте неделю без рекламы"
 }

@@ -94,5 +94,19 @@
   "inappropriate_content": "Nội dung không phù hợp",
   "version": "Phiên bản",
   "share_app": "Chia sẻ ứng dụng",
-  "no_favorites_yet": "Chưa có mục ưa thích"
+  "no_favorites_yet": "Chưa có mục ưa thích",
+  "manage_subscription": "Quản lý đăng ký",
+  "restore": "Khôi phục",
+  "continue": "Tiếp tục",
+  "weekly": "hàng tuần",
+  "monthly": "hàng tháng",
+  "yearly": "Hàng năm",
+  "off": "Tắt",
+  "only": "Chỉ một",
+  "week": "Tuần",
+  "month": "Tháng",
+  "year": "Năm",
+  "enjoy_a_year_of_no_ads": "Tận hưởng một năm không có quảng cáo",
+  "enjoy_a_month_of_no_ads": "Tận hưởng một tháng không có quảng cáo",
+  "test_ad_free_for_a_week": "Dùng thử không có quảng cáo trong một tuần"
 }

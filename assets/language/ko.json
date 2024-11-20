@@ -93,5 +93,19 @@
   "result_is_not_accurate": "결과가 정확하지 않음",
   "inappropriate_content": "부적절한 콘텐츠",
   "share_app": "앱 공유",
-  "no_favorites_yet": "아직 즐겨찾기가 없습니다"
+  "no_favorites_yet": "아직 즐겨찾기가 없습니다",
+  "manage_subscription": "구독 관리",
+  "restore": "복원",
+  "continue": "계속하다",
+  "weekly": "주간",
+  "monthly": "월간 간행물",
+  "yearly": "매년",
+  "off": "끄다",
+  "only": "오직",
+  "week": "주",
+  "month": "월",
+  "year": "년도",
+  "enjoy_a_year_of_no_ads": "광고 없는 1년을 즐겨보세요",
+  "enjoy_a_month_of_no_ads": "광고 없는 한 달을 즐겨보세요",
+  "test_ad_free_for_a_week": "일주일 동안 광고 없이 테스트해보세요"
 }

@@ -94,5 +94,19 @@
   "inappropriate_content": "محتوای نامناسب",
   "version": "نسخه",
   "share_app": "اشتراک گذاری برنامه",
-  "no_favorites_yet": "هنوز هیچ مورد علاقه ای وجود ندارد"
+  "no_favorites_yet": "هنوز هیچ مورد علاقه ای وجود ندارد",
+  "manage_subscription": "مدیریت اشتراک",
+  "restore": "بازیابی",
+  "continue": "ادامه دهید",
+  "weekly": "هفتگی",
+  "monthly": "ماهانه",
+  "yearly": "سالانه",
+  "off": "خاموش",
+  "only": "فقط",
+  "week": "هفته",
+  "month": "ماه",
+  "year": "سال",
+  "enjoy_a_year_of_no_ads": "از یک سال بدون تبلیغات لذت ببرید",
+  "enjoy_a_month_of_no_ads": "از یک ماه بدون تبلیغات لذت ببرید",
+  "test_ad_free_for_a_week": "یک هفته بدون آگهی تست کنید"
 }

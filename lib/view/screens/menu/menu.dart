@@ -9,6 +9,7 @@ import 'package:matrix_ai/utils/style.dart';
 import 'package:matrix_ai/view/base/appVersion_widget.dart';
 import 'package:matrix_ai/view/screens/html/html_screen.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../language/language.dart';
 import 'widgets/theme.dart';
 
@@ -41,11 +42,11 @@ class _MenuScreenState extends State<MenuScreen> {
 
   final List<Widget> _moreMenuItems = [
     // if (Platform.isIOS)
-    //   MenuItem(
-    //     text: 'subscription',
-    //     icon: Iconsax.crown_1,
-    //     onTap: () => launchScreen(const SubscriptionScreen()),
-    //   ),
+    MenuItem(
+      text: 'manage_subscription',
+      icon: Iconsax.crown_1,
+      onTap: () => launchUrlString(AppConstants.MANAGE_SUBSCRIPTIONS_URL),
+    ),
     MenuItem(
       text: 'privacy_policy',
       icon: Iconsax.lock,

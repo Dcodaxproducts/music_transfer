@@ -94,5 +94,19 @@
   "inappropriate_content": "เนื้อหาที่ไม่เหมาะสม",
   "version": "เวอร์ชัน",
   "share_app": "แชร์แอป",
-  "no_favorites_yet": "ยังไม่มีรายการโปรด"
+  "no_favorites_yet": "ยังไม่มีรายการโปรด",
+  "manage_subscription": "จัดการการสมัครสมาชิก",
+  "restore": "คืนค่า",
+  "continue": "ดำเนินการต่อ",
+  "weekly": "รายสัปดาห์",
+  "monthly": "รายเดือน",
+  "yearly": "เป็นประจำทุกปี",
+  "off": "ปิด",
+  "only": "เท่านั้น",
+  "week": "สัปดาห์",
+  "month": "เดือน",
+  "year": "ปี",
+  "enjoy_a_year_of_no_ads": "เพลิดเพลินกับหนึ่งปีที่ไม่มีโฆษณา",
+  "enjoy_a_month_of_no_ads": "เพลิดเพลินกับเดือนที่ไม่มีโฆษณา",
+  "test_ad_free_for_a_week": "ทดสอบแบบไม่มีโฆษณาเป็นเวลาหนึ่งสัปดาห์"
 }

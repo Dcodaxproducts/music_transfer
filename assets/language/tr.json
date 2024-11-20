@@ -94,5 +94,19 @@
   "inappropriate_content": "Uygunsuz içerik",
   "version": "Sürüm",
   "share_app": "Uygulamayı Paylaş",
-  "no_favorites_yet": "Henüz favori yok"
+  "no_favorites_yet": "Henüz favori yok",
+  "manage_subscription": "Aboneliği Yönet",
+  "restore": "Geri yükle",
+  "continue": "Devam etmek",
+  "weekly": "Haftalık",
+  "monthly": "Aylık",
+  "yearly": "Yıllık",
+  "off": "Kapalı",
+  "only": "Sadece",
+  "week": "Hafta",
+  "month": "Ay",
+  "year": "Yıl",
+  "enjoy_a_year_of_no_ads": "Reklamsız bir yılın tadını çıkarın",
+  "enjoy_a_month_of_no_ads": "Reklamsız bir ayın tadını çıkarın",
+  "test_ad_free_for_a_week": "Bir hafta boyunca reklamsız deneyin"
 }

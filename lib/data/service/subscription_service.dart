@@ -29,4 +29,10 @@ class SubscriptionService implements SubscriptionServiceInterface {
   Future<void> finishTransaction(PurchasedItem result) async {
     await _iap.finishTransaction(result);
   }
+
+  // restore purchase
+  @override
+  Future<List<PurchasedItem>?> getPurchaseHistory() async {
+    return await _iap.getPurchaseHistory();
+  }
 }

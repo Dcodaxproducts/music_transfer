@@ -7,4 +7,5 @@ abstract class SubscriptionServiceInterface {
   Future<void> requestSubscription(String productId);
   Future<List<PurchasedItem>?> getAvailablePurchases();
   Future<void> finishTransaction(PurchasedItem result);
+  Future<List<PurchasedItem>?> getPurchaseHistory();
 }

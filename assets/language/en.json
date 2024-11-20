@@ -94,5 +94,20 @@
     "inappropriate_content": "Inappropriate content",
     "version": "Version",
     "share_app": "Share App",
-    "no_favorites_yet": "No favorites yet"
+    "no_favorites_yet": "No favorites yet",
+    "manage_subscription": "Manage Subscription",
+    "restore": "Restore",
+    "continue": "Continue",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "off": "Off",
+    "only": "Only",
+    "week": "Week",
+    "month": "Month",
+    "year": "Year",
+    "enjoy_a_year_of_no_ads": "Enjoy a year of no ads",
+    "enjoy_a_month_of_no_ads": "Enjoy a month of no ads",
+    "test_ad_free_for_a_week": "Test ad-free for a week"
+    
 }

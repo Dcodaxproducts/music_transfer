@@ -94,5 +94,19 @@
   "inappropriate_content": "Konten yang tidak pantas",
   "version": "Versi",
   "share_app": "Bagikan Aplikasi",
-  "no_favorites_yet": "Belum ada favorit"
+  "no_favorites_yet": "Belum ada favorit",
+  "manage_subscription": "Kelola Berlangganan",
+  "restore": "Mengembalikan",
+  "continue": "Melanjutkan",
+  "weekly": "Mingguan",
+  "monthly": "Bulanan",
+  "yearly": "Tahunan",
+  "off": "Mati",
+  "only": "Hanya",
+  "week": "Pekan",
+  "month": "Bulan",
+  "year": "Tahun",
+  "enjoy_a_year_of_no_ads": "Nikmati satu tahun tanpa iklan",
+  "enjoy_a_month_of_no_ads": "Nikmati satu bulan tanpa iklan",
+  "test_ad_free_for_a_week": "Uji bebas iklan selama seminggu"
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 import 'dart:io';
 
@@ -78,13 +78,20 @@ class AppConstants {
   static const String IOS_APP_URL =
       "https://apps.apple.com/us/app/pixart-the-ai-art-generator/id6737462382";
 
+  /* manage subscription link */
+  static String MANAGE_SUBSCRIPTIONS_URL = Platform.isAndroid
+      ? MANAGE_SUBSCRIPTIONS_URL_ANDROID
+      : MANAGE_SUBSCRIPTIONS_URL_IOS;
+  static const String MANAGE_SUBSCRIPTIONS_URL_ANDROID =
+      'https://play.google.com/store/account/subscriptions';
+  static const String MANAGE_SUBSCRIPTIONS_URL_IOS =
+      'https://apps.apple.com/account/subscriptions';
+
   /* Privacy and terms Url's */
   static const String PRIVACY_POLICY = '$DOMAIN/privacy-policy';
   static const String TERMS_AND_CONDITIONS = '$DOMAIN/terms-condition';
 
   /* Subscription Url's */
-  static const String cancelSubscriptionUrl =
-      'https://play.google.com/store/account/subscriptions?pli=1';
   static const String privacyPolicyUrl =
       'https://payments.google.com/payments/apis-secure/u/0/get_legal_document?ldo=0&ldt=privacynotice&ldl=en_GB';
   static const String termsAndConditionsUrl =

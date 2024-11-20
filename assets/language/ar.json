@@ -94,5 +94,19 @@
   "inappropriate_content": "محتوى غير مناسب",
   "version": "الإصدار",
   "share_app": "شارك التطبيق",
-  "no_favorites_yet": "لا توجد مفضلات بعد"
+  "no_favorites_yet": "لا توجد مفضلات بعد",
+  "manage_subscription": "إدارة الاشتراك",
+  "restore": "يستعيد",
+  "continue": "يكمل",
+  "weekly": "أسبوعي",
+  "monthly": "شهريا",
+  "yearly": "سنوي",
+  "off": "عن",
+  "only": "فقط",
+  "week": "أسبوع",
+  "month": "شهر",
+  "year": "سنة",
+  "enjoy_a_year_of_no_ads": "استمتع بسنة خالية من الإعلانات",
+  "enjoy_a_month_of_no_ads": "استمتع بشهر خالي من الإعلانات",
+  "test_ad_free_for_a_week": "تجربة خالية من الإعلانات لمدة أسبوع"
 }

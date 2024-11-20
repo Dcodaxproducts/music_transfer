@@ -94,5 +94,19 @@
   "inappropriate_content": "Kandungan yang tidak sesuai",
   "version": "Versi",
   "share_app": "Kongsi Apl",
-  "no_favorites_yet": "Tiada kegemaran lagi"
+  "no_favorites_yet": "Tiada kegemaran lagi",
+  "manage_subscription": "Urus Langganan",
+  "restore": "Pulihkan",
+  "continue": "teruskan",
+  "weekly": "Mingguan",
+  "monthly": "Bulanan",
+  "yearly": "setiap tahun",
+  "off": "Mati",
+  "only": "Sahaja",
+  "week": "Minggu",
+  "month": "bulan",
+  "year": "tahun",
+  "enjoy_a_year_of_no_ads": "Nikmati setahun tanpa iklan",
+  "enjoy_a_month_of_no_ads": "Nikmati sebulan tanpa iklan",
+  "test_ad_free_for_a_week": "Uji tanpa iklan selama seminggu"
 }

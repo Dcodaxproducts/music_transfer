@@ -94,5 +94,19 @@
   "inappropriate_content": "Olämpligt innehåll",
   "version": "Version",
   "share_app": "Dela appen",
-  "no_favorites_yet": "Inga favoriter ännu"
+  "no_favorites_yet": "Inga favoriter ännu",
+  "manage_subscription": "Hantera prenumeration",
+  "restore": "Återställ",
+  "continue": "Fortsätta",
+  "weekly": "Varje vecka",
+  "monthly": "Månatlig",
+  "yearly": "Årlig",
+  "off": "Av",
+  "only": "Endast",
+  "week": "Vecka",
+  "month": "Månad",
+  "year": "År",
+  "enjoy_a_year_of_no_ads": "Njut av ett år utan annonser",
+  "enjoy_a_month_of_no_ads": "Njut av en månad utan annonser",
+  "test_ad_free_for_a_week": "Testa annonsfritt i en vecka"
 }
