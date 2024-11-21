@@ -117,6 +117,8 @@ class HistoryCard extends StatelessWidget {
                           setting.setPromptText(response.meta.prompt);
                           setting.configModel = setting.configModel
                               .copyWith(seed: response.meta.seed);
+                          setting.seedController.text =
+                              response.meta.seed.toString();
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

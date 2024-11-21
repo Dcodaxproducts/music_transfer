@@ -30,7 +30,7 @@ class SubscriptionPackageWidget extends StatelessWidget {
             ),
             onPressed: onTap,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 8.sp),
+              padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 12.sp),
               decoration: BoxDecoration(
                 borderRadius: borderRadius,
                 color: cardColorDark.withOpacity(0.7),

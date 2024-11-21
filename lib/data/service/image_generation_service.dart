@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
@@ -69,6 +70,10 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     // create request body (parameters to send to the api)
     Map<String, dynamic> body = ImageGenerationUtils.createRequestBody(
         prompt, size, model, seed, upscale, faceFix);
+
+    // add a random delay to simulate network delay
+    int randomValue = Random().nextInt(1000);
+    await Future.delayed(Duration(milliseconds: randomValue));
 
     // send request to api
     return await imageGenerationRepo.generateImages(

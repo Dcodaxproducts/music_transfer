@@ -48,6 +48,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
     String url,
     Map<String, dynamic> body, {
     Map<String, dynamic>? headers,
+    bool dismissDelay = false,
   }) async {
     try {
       // print the api call
@@ -65,7 +66,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
       ).timeout(Duration(seconds: timeoutInSeconds));
 
       // handle response
-      return _handleResponse(response);
+      return _handleResponse(response, dismissDelay: dismissDelay);
     } catch (e) {
       dismiss();
       _socketException(e);
@@ -98,11 +99,16 @@ class ApiClient extends GetxService implements ApiClientInterface {
     }
   }
 
-  http.Response? _handleResponse(http.Response response) {
+  Future<http.Response?> _handleResponse(http.Response response,
+      {bool? dismissDelay = false}) async {
     if (response.statusCode != 200) {
       return _handleError(jsonDecode(response.body));
     } else {
-      dismiss();
+      if (dismissDelay == true) {
+        await Future.delayed(const Duration(seconds: 2), dismiss);
+      } else {
+        dismiss();
+      }
       return response;
     }
   }

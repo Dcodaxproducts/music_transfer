@@ -21,7 +21,7 @@ class ImageGenerationRepo implements ImageGenerationRepoInterface {
     required Map<String, dynamic> body,
     required Map<String, dynamic> headers,
   }) async =>
-      await apiClient.post(url, body, headers: headers);
+      await apiClient.post(url, body, headers: headers, dismissDelay: true);
 
   @override
   Future<Response?> getQueueImage(

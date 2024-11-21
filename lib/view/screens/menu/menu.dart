@@ -67,7 +67,7 @@ class _MenuScreenState extends State<MenuScreen> {
       icon: Iconsax.share,
       onTap: () {
         String shareText =
-            'Check out this amazing AI app\n${AppConstants.APP_LINK}';
+            'Check out this amazing AI app\n\nAndroid:${AppConstants.ANDROID_APP_URL}\n\niOS:${AppConstants.IOS_APP_URL}';
         Share.share(shareText);
       },
     ),

@@ -11,6 +11,7 @@ abstract class ApiClientInterface<T> {
     String url,
     Map<String, dynamic> body, {
     Map<String, dynamic>? headers,
+    bool dismissDelay = false,
   });
 
   Future<Uint8List?> downloadImage(String uri);

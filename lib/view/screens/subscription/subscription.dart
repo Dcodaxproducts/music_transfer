@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:matrix_ai/utils/app_constants.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import '../../../common/primary_button.dart';
+import '../../../controller/settings_controller.dart';
 import '../../../controller/subscription_controller.dart';
 import '../../../data/model/subscription_item.dart';
 import '../../../helper/navigation.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/images.dart';
 import '../../../utils/style.dart';
+import '../html/html_screen.dart';
 import 'widgets/purchase_item.dart';
 
 showPremiumSheet() => showModalBottomSheet(
@@ -28,6 +29,7 @@ class SubscriptionScreen extends StatefulWidget {
 
 class _SubscriptionScreenState extends State<SubscriptionScreen> {
   int _selectedPackage = 0;
+  SubscriptionItem get _selectedItem => getSubscriptionItems(_selectedPackage);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +43,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               fit: BoxFit.cover,
               color: Colors.black.withOpacity(0.35),
               colorBlendMode: BlendMode.srcOver,
+              height: context.height * 0.695,
             ),
           ),
           // add black gradient to the background (it should cover half bottom screen),
@@ -84,9 +87,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       separatorBuilder: (context, index) =>
                           SizedBox(height: 12.sp),
                       itemBuilder: (context, index) {
+                        SubscriptionItem item = getSubscriptionItems(index);
                         return SubscriptionPackageWidget(
                           selected: _selectedPackage == index,
-                          item: getSubscriptionItems(index),
+                          item: item,
                           onTap: () {
                             setState(() {
                               _selectedPackage = index;
@@ -101,6 +105,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       child: PrimaryButton(
                         text: 'continue'.tr,
                         onPressed: () {
+                          if (_selectedItem.product == null) return;
                           subscription.buyProduct(
                             subscription.products[_selectedPackage],
                           );
@@ -115,15 +120,19 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         children: [
                           LinkButton(
                             text: 'privacy_policy'.tr,
-                            onTap: () {
-                              launchUrlString(AppConstants.privacyPolicyUrl);
-                            },
+                            onTap: () => launchScreen(
+                              HtmlScreen(
+                                  html: SettingsController
+                                      .find.settingModel.privacyPolicy),
+                            ),
                           ),
                           LinkButton(
                             text: 'terms_of_service'.tr,
-                            onTap: () {
-                              launchUrlString(AppConstants.privacyPolicyUrl);
-                            },
+                            onTap: () => launchScreen(
+                              HtmlScreen(
+                                  html: SettingsController
+                                      .find.settingModel.termsAndConditions),
+                            ),
                           ),
                           LinkButton(
                             text: 'restore'.tr,
@@ -152,23 +161,31 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     String subtitle = '';
     String price = '';
     String promotionalText = '';
+    IAPItem? product;
+    List<IAPItem> products = SubscriptionController.find.products;
 
     if (index == 2) {
+      product = products
+          .firstWhereOrNull((element) => element.productId == 'weekly_plan');
       title = 'weekly'.tr;
       subtitle = 'test_ad_free_for_a_week'.tr;
-      price = "\$6.99";
+      price = product?.localizedPrice ?? "\$6.99";
       promotionalText = '';
     } else if (index == 1) {
+      product = products
+          .firstWhereOrNull((element) => element.productId == 'monthly_plan');
       title = 'monthly'.tr;
       subtitle =
-          '${'only'.tr} \$5.99/ ${'month'.tr}, ${'enjoy_a_month_of_no_ads'.tr}!';
-      price = '\$23.99';
+          '${'only'.tr} \$5.99/ ${'week'.tr}, ${'enjoy_a_month_of_no_ads'.tr}!';
+      price = product?.localizedPrice ?? '\$23.99';
       promotionalText = '14% ${'off'.tr.toUpperCase()}';
     } else {
+      product = products
+          .firstWhereOrNull((element) => element.productId == 'monthly_plan');
       title = 'yearly'.tr;
       subtitle =
-          '${'only'.tr} \$7.50/ ${'year'.tr}, ${'enjoy_a_year_of_no_ads'.tr}!';
-      price = '\$84.99';
+          '${'only'.tr} \$7.50/ ${'month'.tr}, ${'enjoy_a_year_of_no_ads'.tr}!';
+      price = product?.localizedPrice ?? '\$84.99';
       promotionalText = '75% ${'off'.tr.toUpperCase()}';
     }
     return SubscriptionItem(
@@ -176,6 +193,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       subtitle: subtitle,
       price: price,
       promotionText: promotionalText,
+      product: product,
     );
   }
 }

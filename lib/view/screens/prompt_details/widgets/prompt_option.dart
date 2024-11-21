@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
+import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/model/response/api_response.dart';
 import '../../../../controller/history_controller.dart';
 import '../../../../helper/image_download.dart';
@@ -38,7 +39,12 @@ class PromptOptionWidget extends StatelessWidget {
               OptionButton(
                 icon: Iconsax.copy,
                 onTap: () {
+                  SettingsController setting = SettingsController.find;
                   Clipboard.setData(ClipboardData(text: result!.meta.prompt));
+                  setting.setPromptText(result.meta.prompt);
+                  setting.configModel =
+                      setting.configModel.copyWith(seed: result.meta.seed);
+                  setting.seedController.text = result.meta.seed.toString();
                 },
               ),
               SizedBox(width: 16.sp),
