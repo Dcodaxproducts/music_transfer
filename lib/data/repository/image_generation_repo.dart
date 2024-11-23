@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../api/api_client_interface.dart';
@@ -21,7 +21,7 @@ class ImageGenerationRepo implements ImageGenerationRepoInterface {
     required Map<String, dynamic> body,
     required Map<String, dynamic> headers,
   }) async =>
-      await apiClient.post(url, body, headers: headers, dismissDelay: true);
+      await apiClient.post(url, body, headers: headers);
 
   @override
   Future<Response?> getQueueImage(

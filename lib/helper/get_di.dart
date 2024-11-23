@@ -6,6 +6,7 @@ import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:matrix_ai/controller/inspiration_controller.dart';
 import 'package:matrix_ai/controller/models_controller.dart';
+import 'package:matrix_ai/controller/review_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/controller/localization_controller.dart';
 import 'package:matrix_ai/controller/subscription_controller.dart';
@@ -23,6 +24,7 @@ import 'package:matrix_ai/data/repository/history_repo.dart';
 import 'package:matrix_ai/data/repository/inspiration_repo.dart';
 import 'package:matrix_ai/data/repository/language_repo.dart';
 import 'package:matrix_ai/data/repository/models_repo.dart';
+import 'package:matrix_ai/data/repository/review_repo_interface.dart';
 import 'package:matrix_ai/data/repository/settings_repo.dart';
 import 'package:matrix_ai/data/repository/settings_repo_interface.dart';
 import 'package:matrix_ai/data/service/ads_service.dart';
@@ -34,6 +36,8 @@ import 'package:matrix_ai/data/service/inspiration_service_interface.dart';
 import 'package:matrix_ai/data/service/localization_service.dart';
 import 'package:matrix_ai/data/service/localization_service_interface.dart';
 import 'package:matrix_ai/data/service/model_service_interface.dart';
+import 'package:matrix_ai/data/service/review_service.dart';
+import 'package:matrix_ai/data/service/review_service_interface.dart';
 import 'package:matrix_ai/data/service/setting_service.dart';
 import 'package:matrix_ai/data/service/setting_service_interface.dart';
 import 'package:matrix_ai/data/service/subscription_service_interface.dart';
@@ -46,6 +50,7 @@ import '../controller/queue_controller.dart';
 import '../data/repository/image_generation_repo_interface.dart';
 import '../data/repository/inspiration_repo_interface.dart';
 import '../data/repository/models_repo_interface.dart';
+import '../data/repository/review_repo.dart';
 import '../data/service/history_service.dart';
 import '../data/service/image_generation_service.dart';
 import '../data/service/image_generation_service_interface.dart';
@@ -86,6 +91,9 @@ Future<Map<String, Map<String, String>>> init() async {
   GenerationRepoInterface generationRepoInterface =
       GenerationRepo(sharedPreferences: Get.find());
   Get.lazyPut(() => generationRepoInterface);
+  ReviewRepoInterface reviewRepoInterface =
+      ReviewRepo(sharedPreferences: Get.find(), apiClient: Get.find());
+  Get.lazyPut(() => reviewRepoInterface);
 
   // Service
   ImageGenerationServiceInterface imageGenerationService =
@@ -120,6 +128,9 @@ Future<Map<String, Map<String, String>>> init() async {
   GenerationServiceInterface generationServiceInterface =
       GenerationService(generationRepoInterface: Get.find());
   Get.lazyPut(() => generationServiceInterface);
+  ReviewServiceInterface reviewServiceInterface =
+      ReviewService(reviewRepo: Get.find());
+  Get.lazyPut(() => reviewServiceInterface);
 
   // Controller
   Get.lazyPut(() => ThemeController(themeService: Get.find()));
@@ -137,6 +148,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => DashboardController());
   Get.lazyPut(() => SettingsController(settingsService: Get.find()));
   Get.lazyPut(() => QueueController());
+  Get.lazyPut(() => ReviewController(reviewService: Get.find()));
 
   // Retrieving localized data
   Map<String, Map<String, String>> languages = {};

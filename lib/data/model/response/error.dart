@@ -5,24 +5,18 @@ class ErrorResponse {
 
   factory ErrorResponse.fromJson(Map<String, dynamic> json) {
     return ErrorResponse(
-      errors: List<Error>.from(json['errors'].map((x) => Error.fromJson(x))),
+      errors: json['error'] != null
+          ? [Error.fromJson(json['error'])]
+          : List<Error>.from(json['errors'].map((x) => Error.fromJson(x))),
     );
   }
 }
 
 class Error {
   final String message;
-  final String code;
-
-  Error({
-    required this.message,
-    required this.code,
-  });
+  Error({required this.message});
 
   factory Error.fromJson(Map<String, dynamic> json) {
-    return Error(
-      message: json['message'],
-      code: json['code'],
-    );
+    return Error(message: json['message']);
   }
 }

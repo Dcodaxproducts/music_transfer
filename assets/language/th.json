@@ -108,5 +108,14 @@
   "year": "ปี",
   "enjoy_a_year_of_no_ads": "เพลิดเพลินกับหนึ่งปีที่ไม่มีโฆษณา",
   "enjoy_a_month_of_no_ads": "เพลิดเพลินกับเดือนที่ไม่มีโฆษณา",
-  "test_ad_free_for_a_week": "ทดสอบแบบไม่มีโฆษณาเป็นเวลาหนึ่งสัปดาห์"
+  "test_ad_free_for_a_week": "ทดสอบแบบไม่มีโฆษณาเป็นเวลาหนึ่งสัปดาห์",
+  "notifications": "การแจ้งเตือน",
+  "retrying": "กำลังลองอีกครั้ง",
+  "almost_there": "เกือบจะถึงแล้ว",
+  "creating_your_image": "การสร้างภาพของคุณ",
+  "rate_us": "ให้คะแนนเรา",
+  "do_you_like": "คุณชอบ",
+  "your_feedback_will_help_us_improve_our_service_for_you": "ความคิดเห็นของคุณจะช่วยให้เราปรับปรุงบริการของเราสำหรับคุณ",
+  "add_a_comment": "เพิ่มความคิดเห็น",
+  "please_write_your_review": "โปรดเขียนรีวิวของคุณ"
 }

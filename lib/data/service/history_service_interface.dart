@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 
 abstract class HistoryServiceInterface {
   Future<void> savePromptHistory(List<PromptResponse> promptHistory);

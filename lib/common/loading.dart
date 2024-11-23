@@ -34,7 +34,7 @@ class Loading extends StatelessWidget {
             Center(child: CircleLoading(size: size)),
             Center(
               child: Lottie.asset(
-                Images.animation_1,
+                Images.starAnimation,
                 width: (size / 1.5).sp,
                 height: (size / 1.5).sp,
                 fit: BoxFit.cover,

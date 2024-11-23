@@ -1,9 +1,12 @@
 import 'package:matrix_ai/controller/models_controller.dart';
 
+import '../../common/snackbar.dart';
 import '../model/body/aspect_ratio.dart';
 import '../model/body/config_model.dart';
+import '../model/response/models_lab_response.dart';
 import '../model/response/model.dart';
 import '../../controller/settings_controller.dart';
+import '../model/response/together_ai_response.dart';
 
 class ImageGenerationUtils {
   static AspectRatioModel getAspectRatio() {
@@ -34,23 +37,28 @@ class ImageGenerationUtils {
     // get the model api parameters
     final body = {...model.apiParameters};
 
+    // get the model parameters mapping
+    ParameterMapping params = model.parametersMapping;
+
     // get the config model
     ConfigModel config = SettingsController.find.configModel;
 
     // add the prompt to the body
-    body[model.parametersMapping.prompt] = prompt;
+    body[params.prompt] = prompt;
 
     // (if prompt engineering is enabled, add the prompt engineering to the prompt)
     if (model.promptEngeenring != null) {
-      body[model.parametersMapping.prompt] =
-          '$prompt(${model.promptEngeenring!})';
+      body[params.prompt] = '$prompt(${model.promptEngeenring!})';
     }
 
+    // add the model id to the body
+    body[params.modelId] = model.modelId;
+
     // add the negative prompt to the body
-    body[model.parametersMapping.negativePrompt] = config.negativePrompt;
+    body[params.negativePrompt] = config.negativePrompt;
 
     // add the guidance scale to the body
-    body[model.parametersMapping.cfgScale] = config.guidanceScale.toString();
+    body[params.cfgScale] = config.guidanceScale.toString();
 
     // if upscale is enabled and the model supports upscaling, add upscale to the body
     if (upscale && body.containsKey('upscale')) {
@@ -63,19 +71,15 @@ class ImageGenerationUtils {
     // if seed is not null, add seed to the body
     if (seed != null) body['seed'] = seed.toString();
 
-    // add the model id to the body
-    body['model_id'] = model.modelId;
-
     // if the model supports aspect ratio, add aspect ratio to the body
-    if (model.parametersMapping.aspectRatio != null) {
-      body[model.parametersMapping.aspectRatio!] = size.aspectRatio;
+    if (params.aspectRatio != null) {
+      body[params.aspectRatio!] = size.aspectRatio;
     }
 
     // if the model supports width and height, add width and height to the body
-    if (model.parametersMapping.width != null &&
-        model.parametersMapping.height != null) {
-      body[model.parametersMapping.width!] = size.width;
-      body[model.parametersMapping.height!] = size.height;
+    if (params.width != null && params.height != null) {
+      body[params.width!] = size.width;
+      body[params.height!] = size.height;
     }
 
     // if the model supports the api key in the body, add the api key to the body
@@ -84,6 +88,45 @@ class ImageGenerationUtils {
     }
 
     return body;
+  }
+
+  static bool isSuccessResponse(Map<String, dynamic> data) {
+    if (data['status'] == 'error') {
+      String message = '';
+      final res = data['message'] ?? data['messege'];
+      if (res is String) {
+        message = res;
+      } else {
+        Map<String, dynamic> messageMap = res;
+        message = messageMap.entries.first.value[0];
+      }
+      showToast(message);
+      dismiss();
+      return false;
+    }
+    return true;
+  }
+
+  static PromptResponse getPromptResponse(Map<String, dynamic> data) {
+    if (data['status'] != null) {
+      return PromptResponse.fromJson(data);
+    } else {
+      TogetherAiRespsonse response = TogetherAiRespsonse.fromJson(data);
+      final List<String> urls = response.data.map((e) => e.url).toList();
+      return PromptResponse(
+        status: 'success',
+        id: DateTime.now().millisecondsSinceEpoch,
+        meta: Meta(
+          h: 1,
+          w: 1,
+          prompt: '',
+          seed: -1,
+        ),
+        eta: null,
+        output: urls,
+        futureLinks: [],
+      );
+    }
   }
 
   static Map<String, dynamic> getHeaders(Model model) {

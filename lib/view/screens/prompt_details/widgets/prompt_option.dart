@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
-import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import '../../../../controller/history_controller.dart';
 import '../../../../helper/image_download.dart';
 import '../../../../helper/navigation.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
-import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:matrix_ai/utils/style.dart';
 import 'package:matrix_ai/view/screens/home/home.dart';
 import '../../../common/primary_button.dart';
@@ -29,68 +29,68 @@ class PromptDetailScreen extends StatelessWidget {
         return Scaffold(
           body: Visibility(
             visible: result != null,
-            child: ListView(
-              padding: EdgeInsets.zero,
+            child: Column(
               children: [
-                const PromptImageWidget(),
-                Padding(
-                  padding: pagePadding,
-                  child: Column(
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
                     children: [
-                      const ModelInfoWidget(),
-                      const PromptOptionWidget(),
+                      const PromptImageWidget(),
                       Padding(
-                        padding: EdgeInsets.only(top: 32.sp, bottom: 16.sp),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: PrimaryButton(
-                            gradient: true,
-                            text: 'recreate'.tr,
-                            icon: Icon(
-                              Iconsax.magicpen,
-                              size: 18.sp,
-                              color: Colors.white,
-                            ),
-                            textColor: Colors.white,
-                            onPressed: () {
-                              SettingsController.find.promptController.text =
-                                  result?.meta.prompt ?? '';
-                              Get.bottomSheet(
-                                Container(
-                                  margin: EdgeInsets.only(top: 200.sp),
-                                  padding: EdgeInsets.only(
-                                      top: MediaQuery.of(context).padding.top),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(16.sp),
-                                    ),
+                        padding: pagePadding,
+                        child: Column(
+                          children: [
+                            const ModelInfoWidget(),
+                            const PromptOptionWidget(),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(top: 32.sp, bottom: 16.sp),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: PrimaryButton(
+                                  gradient: true,
+                                  text: 'recreate'.tr,
+                                  icon: Icon(
+                                    Iconsax.magicpen,
+                                    size: 18.sp,
+                                    color: Colors.white,
                                   ),
-                                  child: HomeScreen(
-                                    onRegenerate: _handleTap,
-                                  ),
+                                  textColor: Colors.white,
+                                  onPressed: () {
+                                    SettingsController.find.promptController
+                                        .text = result?.meta.prompt ?? '';
+                                    Get.bottomSheet(
+                                      Container(
+                                        margin: EdgeInsets.only(top: 200.sp),
+                                        padding: EdgeInsets.only(
+                                            top: MediaQuery.of(context)
+                                                .padding
+                                                .top),
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(16.sp),
+                                          ),
+                                        ),
+                                        child: HomeScreen(
+                                          onRegenerate: _handleTap,
+                                        ),
+                                      ),
+                                      isScrollControlled: true,
+                                    );
+                                  },
                                 ),
-                                isScrollControlled: true,
-                              );
-                            },
-                          ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                      )
                     ],
                   ),
-                )
+                ),
+                AdsController.find.showModelScreenAd(),
               ],
-            ),
-          ),
-          bottomNavigationBar: Visibility(
-            visible: result != null,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 64.sp,
-                child: AdsController.find.showModelScreenAd(),
-              ),
             ),
           ),
         );
@@ -120,6 +120,7 @@ class PromptDetailScreen extends StatelessWidget {
         .then(
       (response) {
         if (response != null) {
+          pop();
           launchScreen(PromptDetailScreen(response: response), replace: true);
         }
       },

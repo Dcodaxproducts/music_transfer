@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
-import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 
 class FavoriteHistoryIcon extends StatelessWidget {
   final PromptResponse response;

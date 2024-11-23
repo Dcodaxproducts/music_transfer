@@ -107,5 +107,14 @@
   "year": "년도",
   "enjoy_a_year_of_no_ads": "광고 없는 1년을 즐겨보세요",
   "enjoy_a_month_of_no_ads": "광고 없는 한 달을 즐겨보세요",
-  "test_ad_free_for_a_week": "일주일 동안 광고 없이 테스트해보세요"
+  "test_ad_free_for_a_week": "일주일 동안 광고 없이 테스트해보세요",
+  "notifications": "알림",
+  "retrying": "재시도 중",
+  "almost_there": "거의 다 왔어",
+  "creating_your_image": "이미지 만들기",
+  "rate_us": "우리를 평가해 주세요",
+  "do_you_like": "당신은 좋아합니까?",
+  "your_feedback_will_help_us_improve_our_service_for_you": "귀하의 의견은 서비스를 개선하는 데 도움이 됩니다.",
+  "add_a_comment": "댓글 추가",
+  "please_write_your_review": "리뷰를 작성해 주세요"
 }

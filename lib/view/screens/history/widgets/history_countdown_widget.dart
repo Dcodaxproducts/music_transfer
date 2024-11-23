@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/utils/style.dart';
 import 'package:matrix_ai/view/screens/prompt_details/prompt_details.dart';
@@ -14,11 +14,11 @@ class HistoryCountdownWidget extends StatelessWidget {
     bool isCompleted,
     String imageUrl,
     String remainingTime,
+    bool isRetrying,
   ) builder;
 
   HistoryCountdownWidget(
       {super.key, required this.response, required this.builder}) {
-    // Add response to controller if it needs to be tracked (avoid setState() or markNeedsBuild() called during build error)
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (response.status != 'success') {
         Get.find<QueueController>().addResponse(response);
@@ -38,12 +38,18 @@ class HistoryCountdownWidget extends StatelessWidget {
             : '';
 
     return Obx(() {
-      // Use the centralized controller to get the remaining time
+      // Get the remaining time by the response id
       Duration remainingTime =
           controller.remainingTimes[response.id.toString()]?.value ??
               Duration.zero;
+
+      // Check if the response is completed
       bool isCompleted =
           response.status == 'success' || remainingTime == Duration.zero;
+
+      // Check if the response is retrying
+      bool isRetrying =
+          controller.retryingStatus[response.id.toString()]?.value ?? false;
 
       return InkWell(
         onTap: () {
@@ -56,6 +62,7 @@ class HistoryCountdownWidget extends StatelessWidget {
           isCompleted,
           imageUrl,
           _formatDuration(remainingTime),
+          isRetrying,
         ),
       );
     });

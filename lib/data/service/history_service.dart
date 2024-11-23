@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:matrix_ai/common/snackbar.dart';
-import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:matrix_ai/data/repository/history_repo_interface.dart';
 import 'history_service_interface.dart';
 

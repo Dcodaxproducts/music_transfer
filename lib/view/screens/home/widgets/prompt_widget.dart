@@ -33,6 +33,8 @@ class PromptWidget extends StatelessWidget {
               TextFormField(
                 maxLines: 5,
                 maxLength: 1200,
+                textInputAction: TextInputAction.done,
+                textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(
                   hintText: 'enter_prompt_message'.tr,
                   border: InputBorder.none,

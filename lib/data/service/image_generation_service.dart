@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
@@ -9,8 +8,9 @@ import '../../controller/ads_controller.dart';
 import '../../controller/models_controller.dart';
 import '../../controller/subscription_controller.dart';
 import '../../view/base/loading/prompt_loading.dart';
+import '../../view/screens/subscription/subscription.dart';
 import '../model/body/aspect_ratio.dart';
-import '../model/response/api_response.dart';
+import '../model/response/models_lab_response.dart';
 import '../model/response/model.dart';
 import '../utils/image_generation_utils.dart';
 import 'image_generation_service_interface.dart';
@@ -22,7 +22,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   bool _canGenerateImage() {
     if (!GenerationController.find.canGenerateImage && !isPro) {
       showToast('You have reached the daily generation limit');
-      // showPremiumSheet();
+      showPremiumSheet();
       return false;
     }
     return true;
@@ -71,33 +71,12 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     Map<String, dynamic> body = ImageGenerationUtils.createRequestBody(
         prompt, size, model, seed, upscale, faceFix);
 
-    // add a random delay to simulate network delay
-    int randomValue = Random().nextInt(1000);
-    await Future.delayed(Duration(milliseconds: randomValue));
-
     // send request to api
     return await imageGenerationRepo.generateImages(
       url: apiUrl,
       body: body,
       headers: headers,
     );
-  }
-
-  bool _handleErrorResponse(Map<String, dynamic> data) {
-    if (data['status'] == 'error') {
-      String message = '';
-      final res = data['message'] ?? data['messege'];
-      if (res is String) {
-        message = res;
-      } else {
-        Map<String, dynamic> messageMap = res;
-        message = messageMap.entries.first.value[0];
-      }
-      showToast(message);
-      dismiss();
-      return false;
-    }
-    return true;
   }
 
   // process generation response
@@ -112,11 +91,11 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     if (response == null) return null;
     Map<String, dynamic> data = jsonDecode(response.body);
 
-    if (!_handleErrorResponse(data)) return null;
+    if (!ImageGenerationUtils.isSuccessResponse(data)) return null;
 
     GenerationController.find.incrementGenerationCount();
 
-    PromptResponse value = PromptResponse.fromJson(data);
+    PromptResponse value = ImageGenerationUtils.getPromptResponse(data);
 
     Model model = ImageGenerationUtils.getModel(modelValue);
 

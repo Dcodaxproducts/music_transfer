@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   color: Theme.of(context).textTheme.bodyLarge?.color,
                   textColor: Theme.of(context).scaffoldBackgroundColor,
-                  onPressed: _handleTap,
+                  onPressed: widget.onRegenerate ?? _handleTap,
                 ),
               ),
               GetBuilder<SettingsController>(

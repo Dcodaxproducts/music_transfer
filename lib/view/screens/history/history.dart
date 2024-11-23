@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:matrix_ai/utils/style.dart';
 import '../../../controller/ads_controller.dart';
-import '../../../data/model/response/api_response.dart';
+import '../../../data/model/response/models_lab_response.dart';
 import '../../../helper/navigation.dart';
 import '../../base/tab_button.dart';
 import '../dashboard/widgets/glassbox_curve.dart';

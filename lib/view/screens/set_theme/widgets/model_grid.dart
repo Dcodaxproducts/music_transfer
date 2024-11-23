@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
+import 'package:matrix_ai/view/base/animated_heart.dart';
 import '../../../../data/model/response/model.dart';
 import '../../../../utils/colors.dart';
-import '../../../../utils/images.dart';
 
 class ModelsGrid extends StatelessWidget {
   final List<Model> models;
@@ -18,18 +18,7 @@ class ModelsGrid extends StatelessWidget {
     return GetBuilder<SettingsController>(
       builder: (setting) {
         return models.isEmpty
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(Images.no_favorite, width: 200.sp),
-                    Text(
-                      'no_favorites_yet'.tr,
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-              )
+            ? const NoFavoritesWidget()
             : GetBuilder<ModelsController>(
                 builder: (modelsController) {
                   return GridView.builder(
@@ -51,6 +40,29 @@ class ModelsGrid extends StatelessWidget {
                 },
               );
       },
+    );
+  }
+}
+
+class NoFavoritesWidget extends StatelessWidget {
+  const NoFavoritesWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const AnimatedHeart(),
+          SizedBox(height: 16.sp),
+          Text(
+            'no_favorites_yet'.tr,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+        ],
+      ),
     );
   }
 }

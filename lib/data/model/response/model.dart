@@ -89,6 +89,7 @@ class ParameterMapping {
   final String? aspectRatio;
   final String? width;
   final String? height;
+  final String modelId;
 
   ParameterMapping({
     required this.prompt,
@@ -97,6 +98,7 @@ class ParameterMapping {
     required this.aspectRatio,
     required this.width,
     required this.height,
+    required this.modelId,
   });
 
   factory ParameterMapping.fromJson(Map<String, dynamic> json) {
@@ -107,6 +109,7 @@ class ParameterMapping {
       aspectRatio: json['aspect_ratio'],
       width: json['width'],
       height: json['height'],
+      modelId: json['model_id'] ?? 'model_id',
     );
   }
 
@@ -118,6 +121,7 @@ class ParameterMapping {
       'aspect_ratio': aspectRatio,
       'width': width,
       'height': height,
+      'model_id': modelId,
     };
   }
 }

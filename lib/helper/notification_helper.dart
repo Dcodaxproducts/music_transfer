@@ -1,13 +1,8 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'dart:convert';
-import 'dart:io';
-import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
+import '../utils/app_constants.dart';
 
 class NotificationHelper {
   static Future<void> initialize() async {
@@ -29,44 +24,19 @@ class NotificationHelper {
     );
 
     // initialize
-    flutterLocalNotificationsPlugin.initialize(
-      initializationsSettings,
-    );
+    flutterLocalNotificationsPlugin.initialize(initializationsSettings);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      showNotification(message, flutterLocalNotificationsPlugin, kIsWeb);
+      showNotification(message, flutterLocalNotificationsPlugin);
     });
   }
 
-  static Future<void> showNotification(RemoteMessage message,
-      FlutterLocalNotificationsPlugin fln, bool data) async {
-    String? title;
-    String? body;
-    String? orderID;
-    String? image;
-    String? type = '';
+  static Future<void> showNotification(
+      RemoteMessage message, FlutterLocalNotificationsPlugin fln) async {
+    String title = message.notification?.title ?? '';
+    String body = message.notification!.body ?? '';
 
-    if (data) {
-      title = message.data['title'];
-      body = message.data['body'];
-      orderID = message.data['order_id'];
-    } else {
-      title = message.notification!.title;
-      body = message.notification!.body;
-      orderID = message.notification!.titleLocKey;
-    }
-
-    if (message.data['type'] != null) {
-      type = message.data['type'];
-    }
-
-    Map<String, String> payloadData = {
-      'title': '$title',
-      'body': '$body',
-      'order_id': '$orderID',
-      'image': '$image',
-      'type': '$type',
-    };
+    Map<String, String> payloadData = {'title': title, 'body': body};
 
     PayloadModel payload = PayloadModel.fromJson(payloadData);
 
@@ -89,7 +59,6 @@ class NotificationHelper {
       styleInformation: bigTextStyleInformation,
       priority: Priority.max,
       playSound: true,
-      // sound: const RawResourceAndroidNotificationSound('notification'),
     );
 
     final platformChannelSpecifics =
@@ -102,51 +71,6 @@ class NotificationHelper {
       platformChannelSpecifics,
       payload: jsonEncode(payload.toJson()),
     );
-  }
-
-  static Future<void> showBigPictureNotificationHiddenLargeIcon(
-      PayloadModel payload, FlutterLocalNotificationsPlugin fln) async {
-    final String largeIconPath =
-        await _downloadAndSaveFile(payload.image!, 'largeIcon');
-
-    final String bigPicturePath =
-        await _downloadAndSaveFile(payload.image!, 'bigPicture');
-
-    final bigPictureStyleInformation = BigPictureStyleInformation(
-      FilePathAndroidBitmap(bigPicturePath),
-      hideExpandedLargeIcon: true,
-      contentTitle: payload.title,
-      htmlFormatContentTitle: true,
-      summaryText: payload.body,
-      htmlFormatSummaryText: true,
-    );
-
-    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      AppConstants.APP_NAME,
-      AppConstants.APP_NAME,
-      largeIcon: FilePathAndroidBitmap(largeIconPath),
-      priority: Priority.max,
-      playSound: true,
-      styleInformation: bigPictureStyleInformation,
-      importance: Importance.max,
-      // sound: const RawResourceAndroidNotificationSound('notification'),
-    );
-    final platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-    );
-
-    await fln.show(0, payload.title, payload.body, platformChannelSpecifics,
-        payload: jsonEncode(payload.toJson()));
-  }
-
-  static Future<String> _downloadAndSaveFile(
-      String url, String fileName) async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final String filePath = '${directory.path}/$fileName';
-    final http.Response response = await http.get(Uri.parse(url));
-    final File file = File(filePath);
-    await file.writeAsBytes(response.bodyBytes);
-    return filePath;
   }
 
   static Future<dynamic> myBackgroundMessageHandler(

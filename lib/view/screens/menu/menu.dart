@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:matrix_ai/utils/style.dart';
 import 'package:matrix_ai/view/base/appVersion_widget.dart';
+import 'package:matrix_ai/view/base/rate_us_sheet.dart';
 import 'package:matrix_ai/view/screens/html/html_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../language/language.dart';
+import 'widgets/menu_item.dart';
 import 'widgets/theme.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -28,16 +29,10 @@ class _MenuScreenState extends State<MenuScreen> {
       onTap: () => launchScreen(const LanguageScreen()),
     ),
     const ThemeTile(),
-    // MenuItem(
-    //   text: 'notifications',
-    //   icon: Iconsax.notification,
-    //   notification: true,
-    //   onTap: () {
-    //     SettingsController setting = SettingsController.find;
-    //     setting.configModel = setting.configModel.copyWith(
-    //         notificationsEnabled: !setting.configModel.notificationsEnabled);
-    //   },
-    // ),
+    const NotificationTile(
+      text: 'notifications',
+      icon: Iconsax.notification,
+    ),
   ];
 
   final List<Widget> _moreMenuItems = [
@@ -61,6 +56,11 @@ class _MenuScreenState extends State<MenuScreen> {
         HtmlScreen(
             html: SettingsController.find.settingModel.termsAndConditions),
       ),
+    ),
+    const MenuItem(
+      text: 'rate_us',
+      icon: Iconsax.star,
+      onTap: showRateUsSheet,
     ),
     MenuItem(
       text: 'share_app',
@@ -112,69 +112,6 @@ class _MenuScreenState extends State<MenuScreen> {
         ),
         const AppVersionWidget(),
       ],
-    );
-  }
-}
-
-class MenuItem extends StatelessWidget {
-  final String text;
-  final String? subtile;
-  final IconData icon;
-  final Function()? onTap;
-  final bool notification;
-  const MenuItem(
-      {required this.text,
-      this.subtile,
-      required this.icon,
-      required this.onTap,
-      this.notification = false,
-      super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      tileColor: Theme.of(context).cardColor,
-      shape: RoundedRectangleBorder(borderRadius: borderRadius),
-      leading: Icon(
-        icon,
-        size: 18.sp,
-        color: Theme.of(context).textTheme.bodyMedium?.color,
-      ),
-      title: Text(
-        text.tr,
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
-      subtitle: subtile != null
-          ? Padding(
-              padding: EdgeInsets.only(top: 5.sp),
-              child: Text(
-                subtile!.tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Theme.of(context).hintColor),
-              ),
-            )
-          : null,
-      trailing: notification
-          ? GetBuilder<SettingsController>(builder: (setting) {
-              bool notification = setting.configModel.notificationsEnabled;
-              return Switch(
-                value: notification,
-                onChanged: (value) {
-                  setting.configModel =
-                      setting.configModel.copyWith(notificationsEnabled: value);
-                },
-                activeColor: Theme.of(context).primaryColor,
-              );
-            })
-          : Icon(
-              Iconsax.arrow_right_3,
-              size: 16.sp,
-              color: Theme.of(context).hintColor,
-            ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16.sp),
     );
   }
 }

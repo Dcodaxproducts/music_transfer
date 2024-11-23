@@ -87,7 +87,7 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
                 child: Center(
                   child: widget.errorLoading
                       ? Lottie.asset(
-                          Images.animation_1,
+                          Images.starAnimation,
                           fit: BoxFit.cover,
                         )
                       : Icon(Iconsax.image, size: 50.sp),

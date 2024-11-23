@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:view_more/view_more.dart';
-import '../../../../data/model/response/api_response.dart';
+import '../../../../data/model/response/models_lab_response.dart';
 import '../../../../data/model/response/model.dart';
 import '../../../../helper/date_converter.dart';
 

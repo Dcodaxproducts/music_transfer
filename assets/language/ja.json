@@ -108,5 +108,14 @@
   "year": "年",
   "enjoy_a_year_of_no_ads": "広告なしで 1 年間お楽しみください",
   "enjoy_a_month_of_no_ads": "広告なしで 1 か月間お楽しみください",
-  "test_ad_free_for_a_week": "1週間広告なしでテストしてください"
+  "test_ad_free_for_a_week": "1週間広告なしでテストしてください",
+  "notifications": "通知",
+  "retrying": "再試行中",
+  "almost_there": "もうすぐそこ",
+  "creating_your_image": "あなたのイメージを作成する",
+  "rate_us": "評価してください",
+  "do_you_like": "好きですか",
+  "your_feedback_will_help_us_improve_our_service_for_you": "あなたのフィードバックは、サービスの向上に役立ちます。",
+  "add_a_comment": "コメントを追加する",
+  "please_write_your_review": "レビューを書いてください"
 }

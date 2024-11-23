@@ -5,7 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
 import '../../../../helper/navigation.dart';
 import '../../../../utils/style.dart';
-import '../../menu/menu.dart';
+import '../../menu/widgets/menu_item.dart';
 
 class PromptEditButton extends StatelessWidget {
   const PromptEditButton({super.key});
@@ -16,7 +16,7 @@ class PromptEditButton extends StatelessWidget {
         ImageGenerationController.find.promptResponse!.model!.apiParameters
             .containsKey('upscale') &&
         ImageGenerationController.find.promptResponse!.model!.apiParameters
-            .containsKey('upscale');
+            .containsKey('highres_fix');
     return Visibility(
       visible: visible,
       child: Positioned(

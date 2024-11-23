@@ -1,4 +1,3 @@
-import 'package:matrix_ai/data/model/body/api_langauge.dart';
 import 'package:matrix_ai/data/model/body/config_model.dart';
 import 'package:matrix_ai/data/model/response/model.dart';
 import 'package:matrix_ai/data/model/response/setting_model.dart';
@@ -26,13 +25,11 @@ class SettingsController extends GetxController implements GetxService {
   final negativePromptController = TextEditingController();
 
   // Internal state
-  final ApiLanguage _selectedLanguage = apiLanguageList[0];
   late ConfigModel _configModel;
   late SettingModel _settingModel;
   int _openCount = 0;
 
   // Getters for accessing data in the UI
-  ApiLanguage get selectedLanguage => _selectedLanguage;
   ConfigModel get configModel => _configModel;
   SettingModel get settingModel => _settingModel;
   bool get isThirdTime => _openCount >= 3;

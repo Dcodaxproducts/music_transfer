@@ -4,10 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/common/network_image.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
-import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:matrix_ai/utils/colors.dart';
-import 'package:matrix_ai/utils/images.dart';
 import 'package:matrix_ai/utils/style.dart';
+import 'package:shimmer/shimmer.dart';
+import '../../set_theme/widgets/model_grid.dart';
 import 'favorite_widget.dart';
 import 'history_countdown_widget.dart';
 
@@ -18,17 +19,7 @@ class HistoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return promptHistory.isEmpty
-        ? Center(
-            child: Column(
-              children: [
-                Image.asset(Images.no_favorite, width: 200.sp),
-                Text(
-                  'no_favorites_yet'.tr,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-              ],
-            ),
-          )
+        ? const NoFavoritesWidget()
         : GridView.builder(
             padding: pagePadding.copyWith(top: 0),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -56,7 +47,7 @@ class HistoryCard extends StatelessWidget {
     );
     return HistoryCountdownWidget(
       response: response,
-      builder: (context, isCompleted, imageUrl, remainingTime) {
+      builder: (context, isCompleted, imageUrl, remainingTime, isRetrying) {
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
@@ -88,15 +79,41 @@ class HistoryCard extends StatelessWidget {
                         : Container(
                             decoration: BoxDecoration(
                               borderRadius: borderRadius,
-                              color: Colors.grey.shade300,
+                              color: Theme.of(context).hoverColor,
+                              border: Border(
+                                bottom: BorderSide(
+                                    width: 0.5.sp,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor),
+                              ),
                             ),
-                            child: Center(
-                              child: Text(
-                                remainingTime,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayLarge
-                                    ?.copyWith(color: primaryColor),
+                            child: Shimmer.fromColors(
+                              baseColor: primaryColor,
+                              highlightColor: secondaryColor,
+                              period: const Duration(seconds: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 16.sp),
+                                  Text(
+                                    remainingTime,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge
+                                        ?.copyWith(color: primaryColor),
+                                  ),
+                                  SizedBox(height: 8.sp),
+                                  Text(
+                                    isRetrying
+                                        ? "${'retrying'.tr}. ${'almost_there'.tr}!"
+                                        : 'creating_your_image'.tr,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(color: primaryColor),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

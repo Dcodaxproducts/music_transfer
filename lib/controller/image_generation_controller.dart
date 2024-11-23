@@ -1,4 +1,4 @@
-import 'package:matrix_ai/data/model/response/api_response.dart';
+import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:matrix_ai/data/model/response/model.dart';
 import 'package:matrix_ai/data/service/image_generation_service_interface.dart';
 import 'package:get/get.dart';

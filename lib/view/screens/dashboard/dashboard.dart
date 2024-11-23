@@ -54,6 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           }
         },
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             title: Text(_titles[currentIndex]),
             actions: [
