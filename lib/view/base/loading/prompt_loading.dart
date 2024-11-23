@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import '../../../common/loading.dart';
 
@@ -41,6 +42,8 @@ class _PromptLoadingState extends State<PromptLoading> {
 
   int _currentIndex = 0;
   Timer? _timer;
+  Timer? _closeButtonTimer;
+  bool _showCloseButton = false;
 
   @override
   void initState() {
@@ -57,16 +60,18 @@ class _PromptLoadingState extends State<PromptLoading> {
       ];
     }
     super.initState();
-    _startTimer();
+    _startTimers();
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _closeButtonTimer?.cancel();
     super.dispose();
   }
 
-  void _startTimer() {
+  void _startTimers() {
+    // Timer for updating messages
     _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       if (_currentIndex < _messages.length - 1) {
         setState(() {
@@ -76,6 +81,18 @@ class _PromptLoadingState extends State<PromptLoading> {
         timer.cancel(); // Stop the timer when all messages are displayed
       }
     });
+
+    // Timer for showing the close button after 15 seconds
+    _closeButtonTimer = Timer(const Duration(seconds: 15), () {
+      setState(() {
+        _showCloseButton = true;
+      });
+    });
+  }
+
+  void _cancelApiCall() {
+    ImageGenerationController.find.cancelRequest();
+    SmartDialog.dismiss();
   }
 
   @override
@@ -84,49 +101,74 @@ class _PromptLoadingState extends State<PromptLoading> {
       padding: EdgeInsets.symmetric(horizontal: 10.sp),
       child: Container(
         color: Colors.transparent,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            const Loading(size: 250),
-            SizedBox(height: 10.sp),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "${_messages[_currentIndex].tr} ",
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  width: 14.sp,
-                  child: DefaultTextStyle(
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                    child: AnimatedTextKit(
-                      pause: const Duration(milliseconds: 500),
-                      repeatForever: true,
-                      animatedTexts: [
-                        TyperAnimatedText(
-                          '...',
-                          speed: const Duration(milliseconds: 500),
-                        ),
-                      ],
+                const Loading(size: 250),
+                SizedBox(height: 10.sp),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${_messages[_currentIndex].tr} ",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                )
+                    SizedBox(
+                      width: 14.sp,
+                      child: DefaultTextStyle(
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                        child: AnimatedTextKit(
+                          pause: const Duration(milliseconds: 500),
+                          repeatForever: true,
+                          animatedTexts: [
+                            TyperAnimatedText(
+                              '...',
+                              speed: const Duration(milliseconds: 500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  widget.upscale || widget.facefix
+                      ? _subheading[0].tr
+                      : _subheading[_currentIndex].tr,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: Colors.white),
+                ),
               ],
             ),
-            const SizedBox(height: 16),
-            Text(
-              widget.upscale || widget.facefix
-                  ? _subheading[0].tr
-                  : _subheading[_currentIndex].tr,
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.white),
+            // Close button
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 10,
+              right: 10,
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 300),
+                opacity: _showCloseButton ? 1 : 0,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32.sp),
+                    ),
+                    visualDensity:
+                        const VisualDensity(horizontal: -4, vertical: -3),
+                  ),
+                  onPressed: _cancelApiCall,
+                  child: Text('cancel'.tr),
+                ),
+              ),
             ),
           ],
         ),

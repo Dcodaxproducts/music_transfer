@@ -8,6 +8,7 @@ class ConfigModel {
   String negativePrompt;
   int? seed;
   bool notificationsEnabled;
+  bool hasViewdAdsDialog;
 
   ConfigModel({
     required this.onBoardingSkip,
@@ -17,6 +18,7 @@ class ConfigModel {
     required this.negativePrompt,
     this.seed,
     required this.notificationsEnabled,
+    required this.hasViewdAdsDialog,
   });
 
   // copy with
@@ -28,6 +30,7 @@ class ConfigModel {
     String? negativePrompt,
     int? seed,
     bool? notificationsEnabled,
+    bool? hasViewdAdsDialog,
   }) {
     return ConfigModel(
       onBoardingSkip: onBoardingSkip ?? this.onBoardingSkip,
@@ -37,6 +40,7 @@ class ConfigModel {
       negativePrompt: negativePrompt ?? this.negativePrompt,
       seed: seed ?? this.seed,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+      hasViewdAdsDialog: hasViewdAdsDialog ?? this.hasViewdAdsDialog,
     );
   }
 }

@@ -20,4 +20,6 @@ abstract class ImageGenerationServiceInterface<T> {
   );
 
   Future<bool> getQueuedImages(PromptResponse response);
+
+  Future<void> cancelRequest();
 }

@@ -35,6 +35,10 @@ class SettingsRepo implements SettingsRepoInterface {
       selectedModel = Model.fromJson(jsonDecode(model));
     }
 
+    // has viewed ads dialog
+    bool hasViewedAdsDialog =
+        sharedPreferences.getBool(AppConstants.HAS_VIEWED_ADS_DIALOG) ?? false;
+
     // onboarding skip
     bool onBoardingSkip =
         sharedPreferences.getBool(AppConstants.ON_BOARDING_SKIP) ?? false;
@@ -67,6 +71,7 @@ class SettingsRepo implements SettingsRepoInterface {
       selectedModel: selectedModel,
       negativePrompt: negativePrompt,
       notificationsEnabled: notificationEnabled,
+      hasViewdAdsDialog: hasViewedAdsDialog,
     );
   }
 
@@ -96,6 +101,10 @@ class SettingsRepo implements SettingsRepoInterface {
       sharedPreferences.setBool(
         AppConstants.NOTIFICATION,
         configModel.notificationsEnabled,
+      ),
+      sharedPreferences.setBool(
+        AppConstants.HAS_VIEWED_ADS_DIALOG,
+        configModel.hasViewdAdsDialog,
       ),
     ]);
   }

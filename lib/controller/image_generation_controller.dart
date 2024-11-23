@@ -46,4 +46,8 @@ class ImageGenerationController extends GetxController implements GetxService {
   Future<bool> getQueuedImages(PromptResponse response) async {
     return await imageGenerationServiceInterface.getQueuedImages(response);
   }
+
+  Future<void> cancelRequest() async {
+    await imageGenerationServiceInterface.cancelRequest();
+  }
 }

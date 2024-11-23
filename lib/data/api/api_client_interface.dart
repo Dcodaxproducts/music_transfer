@@ -2,6 +2,8 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 
 abstract class ApiClientInterface<T> {
+  Future<void> cancelRequest();
+
   Future<Response?> get(
     String uri, {
     Map<String, String>? headers,

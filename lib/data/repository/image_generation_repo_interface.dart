@@ -17,4 +17,6 @@ abstract class ImageGenerationRepoInterface {
   Future<void> savePromptResponsesInPref(List<PromptResponse> prompts);
 
   List<PromptResponse> getPromptResponsesFromPref();
+
+  Future<void> cancelRequest();
 }

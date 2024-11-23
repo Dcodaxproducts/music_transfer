@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:matrix_ai/common/snackbar.dart';
@@ -14,8 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiClient extends GetxService implements ApiClientInterface {
   final SharedPreferences sharedPreferences;
   final int timeoutInSeconds = 120;
+  http.Client? _client; // Track the client for cancellation
 
-  String? token;
   final Map<String, String> _mainHeaders = {
     "Content-Type": "application/json",
     'Accept': 'application/json',
@@ -24,19 +23,35 @@ class ApiClient extends GetxService implements ApiClientInterface {
   ApiClient({required this.sharedPreferences});
 
   @override
+  Future<void> cancelRequest() async {
+    if (_client != null) {
+      _client!.close(); // Cancel the ongoing request
+      _client = null; // Reset the client
+      debugPrint('====> API request canceled');
+    }
+  }
+
+  @override
   Future<http.Response?> get(String uri, {Map<String, String>? headers}) async {
     try {
       // print the api call
       debugPrint('====> API Call: $uri, ====> Header: $_mainHeaders');
+
+      // Initialize a new client
+      _client = http.Client();
+
       // api call
-      http.Response response = await http
+      http.Response response = await _client!
           .get(Uri.parse(AppConstants.BASE_URL + uri),
               headers: headers ?? _mainHeaders)
           .timeout(Duration(seconds: timeoutInSeconds));
 
+      _client = null; // Reset the client after completion
+
       // handle response
       return _handleResponse(response);
     } catch (e) {
+      _client = null; // Reset the client after completion
       dismiss();
       _socketException(e);
       return null;
@@ -55,8 +70,11 @@ class ApiClient extends GetxService implements ApiClientInterface {
       debugPrint('====> API Call: $url, ====> Header: $_mainHeaders');
       debugPrint('====> Body: $body');
 
+      // Initialize a new client
+      _client = http.Client();
+
       // api call
-      http.Response response = await http.post(
+      http.Response response = await _client!.post(
         Uri.parse(url),
         body: jsonEncode(body),
         headers: {
@@ -65,9 +83,12 @@ class ApiClient extends GetxService implements ApiClientInterface {
         },
       ).timeout(Duration(seconds: timeoutInSeconds));
 
+      _client = null; // Reset the client after completion
+
       // handle response
       return _handleResponse(response, dismissDelay: dismissDelay);
     } catch (e) {
+      _client = null; // Reset the client after completion
       dismiss();
       _socketException(e);
       return null;
@@ -128,8 +149,13 @@ class ApiClient extends GetxService implements ApiClientInterface {
     if (e is SocketException) {
       showToast('Please check your internet connection');
     } else {
-      log(e.toString());
-      showToast('Something went wrong');
+      if (e is http.ClientException) {
+        if (e.message != 'Connection closed before full header was received') {
+          showToast('Something went wrong');
+        }
+      } else {
+        showToast('Something went wrong');
+      }
     }
   }
 }

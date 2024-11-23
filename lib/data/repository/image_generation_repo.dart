@@ -49,4 +49,9 @@ class ImageGenerationRepo implements ImageGenerationRepoInterface {
     }
     return [];
   }
+
+  @override
+  Future<void> cancelRequest() async {
+    await apiClient.cancelRequest();
+  }
 }

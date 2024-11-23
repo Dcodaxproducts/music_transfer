@@ -163,4 +163,9 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     }
     return false;
   }
+
+  @override
+  Future<void> cancelRequest() async {
+    await imageGenerationRepo.cancelRequest();
+  }
 }

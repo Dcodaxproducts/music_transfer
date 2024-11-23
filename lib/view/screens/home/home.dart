@@ -11,6 +11,7 @@ import '../../../common/snackbar.dart';
 import '../../../controller/generation_controller.dart';
 import '../../../controller/image_generation_controller.dart';
 import '../../../helper/navigation.dart';
+import '../../base/ads_dialog.dart';
 import '../prompt_details/prompt_details.dart';
 import 'widgets/history_view.dart';
 import 'widgets/prompt_options.dart';
@@ -92,7 +93,14 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (settings.hasOffensiveWords) {
       showToast('please_remove_offensive_words'.tr);
     } else {
-      _generateImage(text);
+      if (SettingsController.find.configModel.hasViewdAdsDialog) {
+        _generateImage(text);
+      } else {
+        showAdsDialog(onWatchAdPressed: () {
+          pop();
+          _generateImage(text);
+        });
+      }
     }
   }
 

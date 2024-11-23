@@ -35,6 +35,7 @@ class AppConstants {
   static const String PROMPT_HISTORY = 'promptList_1';
   static const String NOTIFICATION = 'notification_1';
   static const String REVIEWED = 'reviewed';
+  static const String HAS_VIEWED_ADS_DIALOG = 'has_viewed_ads_dialog_1';
 
   /* App Share link */
   static String APP_LINK = Platform.isAndroid ? ANDROID_APP_URL : IOS_APP_URL;
