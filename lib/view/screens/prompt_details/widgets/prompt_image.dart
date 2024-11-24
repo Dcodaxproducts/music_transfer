@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
+import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import '../../../../common/network_image.dart';
 import '../../../../helper/navigation.dart';
 import '../../../base/view_image.dart';
@@ -9,22 +10,21 @@ import 'prompt_edit.dart';
 import 'prompt_report.dart';
 
 class PromptImageWidget extends StatelessWidget {
-  const PromptImageWidget({super.key});
+  final PromptResponse response;
+  const PromptImageWidget({super.key, required this.response});
 
   @override
   Widget build(BuildContext context) {
+    final result = response;
+    int width = result.meta.w;
+    int height = result.meta.h;
+    String url = '';
+    if (result.output.isEmpty) {
+      url = (result.futureLinks.isNotEmpty) ? result.futureLinks.first : '';
+    } else {
+      url = result.output.first;
+    }
     return GetBuilder<ImageGenerationController>(builder: (controller) {
-      final result = controller.promptResponse;
-      int width = result?.meta.w ?? 0;
-      int height = result?.meta.h ?? 0;
-      String url = '';
-      if (result?.output.isEmpty ?? true) {
-        url = (result?.futureLinks.isNotEmpty ?? false)
-            ? result?.futureLinks.first ?? ''
-            : '';
-      } else {
-        url = result?.output.first ?? '';
-      }
       return InkWell(
         onTap: () => launchScreen(ViewImage(url)),
         child: AspectRatio(

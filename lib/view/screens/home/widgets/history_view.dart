@@ -14,7 +14,6 @@ class HistoryView extends StatelessWidget {
     return GetBuilder<HistoryController>(builder: (historyController) {
       final List<PromptResponse> promptHistory =
           historyController.promptHistory;
-      promptHistory.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
       return Visibility(
         visible: promptHistory.isNotEmpty,
         child: Column(

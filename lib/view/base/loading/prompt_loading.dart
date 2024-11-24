@@ -166,7 +166,11 @@ class _PromptLoadingState extends State<PromptLoading> {
                         const VisualDensity(horizontal: -4, vertical: -3),
                   ),
                   onPressed: _cancelApiCall,
-                  child: Text('cancel'.tr),
+                  child: Text('cancel'.tr,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: primaryColor)),
                 ),
               ),
             ),

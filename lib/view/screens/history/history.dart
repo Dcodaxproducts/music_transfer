@@ -111,7 +111,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 },
                 children: [
                   HistoryList(promptHistory: promptHistory),
-                  HistoryList(promptHistory: bookmarkedHistory),
+                  HistoryList(
+                      promptHistory: bookmarkedHistory, isFavorite: true),
                 ],
               ),
             ),

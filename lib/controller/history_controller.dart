@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
@@ -7,13 +8,11 @@ import 'settings_controller.dart';
 
 class HistoryController extends GetxController {
   final HistoryServiceInterface historyService;
-
   HistoryController({required this.historyService});
 
   static HistoryController get find => Get.find<HistoryController>();
 
   List<PromptResponse> _promptHistory = [];
-
   List<PromptResponse> get promptHistory => _promptHistory;
 
   set promptHistory(List<PromptResponse> value) {
@@ -27,7 +26,8 @@ class HistoryController extends GetxController {
     if (seed != null) {
       _promptHistory.removeWhere((e) => e.meta.seed == seed);
     }
-    _promptHistory.add(prompt);
+    // add prompt at the beginning of the list
+    _promptHistory.insert(0, prompt);
     update();
     historyService.addPrompt(_promptHistory);
   }
@@ -46,7 +46,7 @@ class HistoryController extends GetxController {
       _promptHistory = historyService.getPromptHistoryFromRepo();
     }
     SettingsController.find.setPromptText(
-      _promptHistory.isNotEmpty ? _promptHistory.last.meta.prompt : '',
+      _promptHistory.isNotEmpty ? _promptHistory.first.meta.prompt : '',
     );
     update();
   }
@@ -63,5 +63,18 @@ class HistoryController extends GetxController {
     _promptHistory[index] = response;
     update();
     historyService.toggleFavorite(_promptHistory);
+  }
+
+  int getInitialIndex(PromptResponse response, {bool favorites = false}) {
+    final history = getFilteredHistory(favorites: favorites);
+    return history.indexWhere((item) => item.id == response.id);
+  }
+
+  List<PromptResponse> getFilteredHistory({bool favorites = false}) {
+    if (favorites) {
+      log('Favorites, ${_promptHistory.where((e) => e.bookmarked).toList().length}');
+      return _promptHistory.where((e) => e.bookmarked).toList();
+    }
+    return _promptHistory;
   }
 }

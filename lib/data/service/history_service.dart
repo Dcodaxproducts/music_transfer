@@ -33,7 +33,9 @@ class HistoryService implements HistoryServiceInterface {
 
   @override
   List<PromptResponse> getPromptHistoryFromRepo() {
-    return historyRepo.getPromptResponsesFromPref();
+    List<PromptResponse> list = historyRepo.getPromptResponsesFromPref();
+    list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    return list;
   }
 
   @override

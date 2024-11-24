@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
-import 'package:matrix_ai/helper/navigation.dart';
-import 'package:matrix_ai/utils/style.dart';
-import 'package:matrix_ai/view/screens/prompt_details/prompt_details.dart';
 import 'package:get/get.dart';
 import '../../../../controller/queue_controller.dart';
 
@@ -51,19 +48,12 @@ class HistoryCountdownWidget extends StatelessWidget {
       bool isRetrying =
           controller.retryingStatus[response.id.toString()]?.value ?? false;
 
-      return InkWell(
-        onTap: () {
-          // Navigate to prompt details screen
-          launchScreen(PromptDetailScreen(response: response));
-        },
-        borderRadius: BorderRadius.circular(radius),
-        child: builder(
-          context,
-          isCompleted,
-          imageUrl,
-          _formatDuration(remainingTime),
-          isRetrying,
-        ),
+      return builder(
+        context,
+        isCompleted,
+        imageUrl,
+        _formatDuration(remainingTime),
+        isRetrying,
       );
     });
   }

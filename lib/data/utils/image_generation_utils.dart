@@ -113,7 +113,7 @@ class ImageGenerationUtils {
     } else {
       TogetherAiRespsonse response = TogetherAiRespsonse.fromJson(data);
       final List<String> urls = response.data.map((e) => e.url).toList();
-      return PromptResponse(
+      final promptResponse = PromptResponse(
         status: 'success',
         id: DateTime.now().millisecondsSinceEpoch,
         meta: Meta(
@@ -126,6 +126,7 @@ class ImageGenerationUtils {
         output: urls,
         futureLinks: [],
       );
+      return promptResponse;
     }
   }
 
