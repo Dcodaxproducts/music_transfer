@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:matrix_ai/controller/models_controller.dart';
 
 import '../../common/snackbar.dart';
@@ -113,6 +115,7 @@ class ImageGenerationUtils {
     } else {
       TogetherAiRespsonse response = TogetherAiRespsonse.fromJson(data);
       final List<String> urls = response.data.map((e) => e.url).toList();
+      int randomSeed = Random(30).nextInt(10000);
       final promptResponse = PromptResponse(
         status: 'success',
         id: DateTime.now().millisecondsSinceEpoch,
@@ -120,7 +123,7 @@ class ImageGenerationUtils {
           h: 1,
           w: 1,
           prompt: '',
-          seed: -1,
+          seed: randomSeed,
         ),
         eta: null,
         output: urls,

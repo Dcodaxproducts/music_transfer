@@ -5,7 +5,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/common/primary_button.dart';
 import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
+import 'package:matrix_ai/controller/subscription_controller.dart';
 import 'package:matrix_ai/utils/style.dart';
+import 'package:matrix_ai/view/base/rate_us_sheet.dart';
 import 'package:matrix_ai/view/screens/home/widgets/models_view.dart';
 import '../../../common/snackbar.dart';
 import '../../../controller/generation_controller.dart';
@@ -93,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (settings.hasOffensiveWords) {
       showToast('please_remove_offensive_words'.tr);
     } else {
-      if (SettingsController.find.configModel.hasViewdAdsDialog) {
+      if (SubscriptionController.find.isPro) {
         _generateImage(text);
       } else {
         showAdsDialog(onWatchAdPressed: () {
@@ -109,6 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
       (response) {
         if (response != null) {
           launchScreen(PromptDetailScreen(response: response));
+          Future.delayed(const Duration(seconds: 2), () {
+            showConditionalRateUsDialog();
+          });
         }
       },
     );

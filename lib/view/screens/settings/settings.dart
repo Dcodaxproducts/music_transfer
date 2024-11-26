@@ -17,81 +17,83 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.only(top: 32.sp),
-            padding: pagePadding,
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // cancel button,
-                    const IconButton(
-                      onPressed: pop,
-                      icon: Icon(Icons.close),
-                      padding: EdgeInsets.zero,
-                      visualDensity:
-                          VisualDensity(horizontal: -4, vertical: -4),
-                    ),
-                    Text(
-                      'settings'.tr,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        SettingsController con = SettingsController.find;
-                        con.configModel = con.configModel.copyWith(
-                            negativePrompt:
-                                con.negativePromptController.text.trim());
-                        pop();
-                      },
-                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                      child: Text(
-                        'done'.tr,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(top: 32.sp),
+              padding: pagePadding,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // cancel button,
+                      const IconButton(
+                        onPressed: pop,
+                        icon: Icon(Icons.close),
+                        padding: EdgeInsets.zero,
+                        visualDensity:
+                            VisualDensity(horizontal: -4, vertical: -4),
+                      ),
+                      Text(
+                        'settings'.tr,
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium
-                            ?.copyWith(color: primaryColor),
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: GetBuilder<SettingsController>(
-                    builder: (con) {
-                      final selectedAspectRatio = aspectRatios
-                          .firstWhere(
-                              (e) => e.id == con.configModel.aspectRatio)
-                          .aspectRatio;
-                      return ListView(
-                        children: [
-                          AspectRatioSelectionWidget(
-                            con: con,
-                            selectedAspectRatio: selectedAspectRatio,
-                          ),
-                          NegativePromptWidget(con: con),
-                          CFGWidget(con: con),
-                          SeedWidget(con: con),
-                        ],
-                      );
-                    },
+                      TextButton(
+                        onPressed: () {
+                          SettingsController con = SettingsController.find;
+                          con.configModel = con.configModel.copyWith(
+                              negativePrompt:
+                                  con.negativePromptController.text.trim());
+                          pop();
+                        },
+                        style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                        child: Text(
+                          'done'.tr,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: primaryColor),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: GetBuilder<SettingsController>(
+                      builder: (con) {
+                        final selectedAspectRatio = aspectRatios
+                            .firstWhere(
+                                (e) => e.id == con.configModel.aspectRatio)
+                            .aspectRatio;
+                        return ListView(
+                          children: [
+                            AspectRatioSelectionWidget(
+                              con: con,
+                              selectedAspectRatio: selectedAspectRatio,
+                            ),
+                            NegativePromptWidget(con: con),
+                            CFGWidget(con: con),
+                            SeedWidget(con: con),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        AdsController.find.showPromptSettingAd()
-      ],
+          AdsController.find.showPromptSettingAd()
+        ],
+      ),
     );
   }
 }

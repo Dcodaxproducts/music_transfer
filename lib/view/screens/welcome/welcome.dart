@@ -17,7 +17,7 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   bool _agreed = false;
-  bool _radioSelected = false;
+  bool _radioSelected = true;
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(

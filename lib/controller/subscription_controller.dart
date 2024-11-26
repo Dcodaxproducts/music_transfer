@@ -46,6 +46,7 @@ class SubscriptionController extends GetxController implements GetxService {
     await refreshProStatus();
     _purchaseUpdatedSubscription =
         FlutterInappPurchase.purchaseUpdated.listen((result) {
+      log('Purchase updated: $result');
       _verifyPurchase(result, callback: () {
         pop();
         showToast('purchase_success'.tr, success: true);
@@ -55,7 +56,7 @@ class SubscriptionController extends GetxController implements GetxService {
 
   Future<void> _getSubscriptions() async {
     var data = await subscriptionService.getSubscriptions(_subscriptionIds);
-    log('data: $data');
+    log('Subscriptions: $data');
     if (data.isNotEmpty) {
       products = data;
     }
@@ -63,6 +64,10 @@ class SubscriptionController extends GetxController implements GetxService {
 
   Future<void> buyProduct(IAPItem productDetails,
       {Function()? callback}) async {
+    showLoading();
+    Future.delayed(const Duration(seconds: 3), () {
+      dismiss();
+    });
     try {
       await subscriptionService.requestSubscription(productDetails.productId!);
     } catch (e) {
@@ -139,7 +144,6 @@ class SubscriptionController extends GetxController implements GetxService {
   }
 
   bool get isPro {
-    // return false;
     if (proLimitDate == null) {
       return false;
     } else {

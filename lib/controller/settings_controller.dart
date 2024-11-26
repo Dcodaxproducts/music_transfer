@@ -27,14 +27,10 @@ class SettingsController extends GetxController implements GetxService {
   // Internal state
   late ConfigModel _configModel;
   late SettingModel _settingModel;
-  int _openCount = 0;
 
   // Getters for accessing data in the UI
   ConfigModel get configModel => _configModel;
   SettingModel get settingModel => _settingModel;
-  bool get isThirdTime => _openCount >= 3;
-  int get openCount => _openCount;
-
   set configModel(ConfigModel configModel) {
     _configModel = configModel;
     settingsService.updateSharedData(_configModel);
@@ -46,15 +42,9 @@ class SettingsController extends GetxController implements GetxService {
     update();
   }
 
-  set openCount(int openCount) {
-    _openCount = openCount;
-    update();
-  }
-
   // Load initial data from service
   ConfigModel initSharedData() {
     _configModel = settingsService.initSharedData();
-    _openCount = settingsService.getOpenCount();
     negativePromptController.text = _configModel.negativePrompt;
     seedController.text =
         _configModel.seed == null ? '-1' : _configModel.seed!.toString();
@@ -93,6 +83,11 @@ class SettingsController extends GetxController implements GetxService {
 
   Future<void> saveFirstTime() async => await settingsService.saveFirstTime();
   bool get isFirstTime => settingsService.getFirstTime();
+
+  Future<bool> saveShowAppOpen() async =>
+      await settingsService.saveShowAppOpen();
+
+  bool get showAppOpen => settingsService.getShowAppOpen();
 
   PackageInfo? _packageInfo;
   PackageInfo? get packageInfo => _packageInfo;

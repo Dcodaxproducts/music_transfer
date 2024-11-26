@@ -37,4 +37,13 @@ class ReviewController extends GetxController implements GetxService {
   }
 
   void checkReviewed() => isReviewed = reviewService.isReviewed();
+
+  // Rate us dialog
+  Future<void> setLastDialogShowed() async {
+    await reviewService.lastDialogShowed();
+  }
+
+  bool canShowDialog() {
+    return reviewService.canShowDialog();
+  }
 }

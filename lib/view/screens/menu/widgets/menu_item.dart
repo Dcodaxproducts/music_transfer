@@ -70,12 +70,42 @@ class MenuItem extends StatelessWidget {
   }
 }
 
-class NotificationTile extends StatelessWidget {
+class NotificationTile extends StatefulWidget {
   final String text;
   final String? subtile;
   final IconData icon;
   const NotificationTile(
       {required this.text, this.subtile, required this.icon, super.key});
+
+  @override
+  State<NotificationTile> createState() => _NotificationTileState();
+}
+
+class _NotificationTileState extends State<NotificationTile>
+    with WidgetsBindingObserver {
+  //
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  //
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  //
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // rebuild the widget
+      setState(() {});
+    }
+    super.didChangeAppLifecycleState(state);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,19 +122,19 @@ class NotificationTile extends StatelessWidget {
             tileColor: Theme.of(context).cardColor,
             shape: RoundedRectangleBorder(borderRadius: borderRadius),
             leading: Icon(
-              icon,
+              widget.icon,
               size: 18.sp,
               color: Theme.of(context).textTheme.bodyMedium?.color,
             ),
             title: Text(
-              text.tr,
+              widget.text.tr,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            subtitle: subtile != null
+            subtitle: widget.subtile != null
                 ? Padding(
                     padding: EdgeInsets.only(top: 5.sp),
                     child: Text(
-                      subtile!.tr,
+                      widget.subtile!.tr,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall
@@ -123,11 +153,7 @@ class NotificationTile extends StatelessWidget {
   }
 
   _onTap(bool authorized) {
-    if (!authorized) {
-      FirebaseMessaging.instance.requestPermission();
-    } else {
-      AppSettings.openAppSettings(
-          type: AppSettingsType.notification, asAnotherTask: true);
-    }
+    AppSettings.openAppSettings(
+        type: AppSettingsType.notification, asAnotherTask: true);
   }
 }

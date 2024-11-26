@@ -9,4 +9,10 @@ abstract class ReviewRepoInterface {
 
   // is reviewed
   bool isReviewed();
+
+  // set last dialog showed
+  Future<bool> setLastDialogShowed();
+
+  // get last dialog showed
+  String? getLastDialogShowed();
 }

@@ -128,4 +128,12 @@ class SettingsRepo implements SettingsRepoInterface {
   @override
   bool getFirstTime() =>
       sharedPreferences.getBool(AppConstants.ON_BOARDING_SKIP) ?? true;
+
+  @override
+  Future<bool> saveShowAppOpen() async =>
+      await sharedPreferences.setBool(AppConstants.SHOW_APP_OPEN, true);
+
+  @override
+  bool getShowAppOpen() =>
+      sharedPreferences.getBool(AppConstants.SHOW_APP_OPEN) ?? false;
 }

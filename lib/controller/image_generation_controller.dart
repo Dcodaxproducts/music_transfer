@@ -17,6 +17,8 @@ class ImageGenerationController extends GetxController implements GetxService {
 
   set promptResponse(PromptResponse? value) {
     _promptResponse = value;
+    // avoid error: setState() or markNeedsBuild() called during build.
+    Future.delayed(const Duration(milliseconds: 10), () => update());
     update();
   }
 
@@ -35,7 +37,6 @@ class ImageGenerationController extends GetxController implements GetxService {
       faceFix: faceFix,
       modelValue: model,
     );
-    // log("Response ${response?.body.toString()}");
     PromptResponse? value = imageGenerationServiceInterface
         .processGenerationResponse(response, prompt, model, upscale, seed);
 

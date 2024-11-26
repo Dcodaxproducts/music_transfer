@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/common/primary_button.dart';
 import 'package:matrix_ai/view/screens/prompt_details/prompt_details.dart';
-
 import '../../../../common/snackbar.dart';
 import '../../../../controller/image_generation_controller.dart';
 import '../../../../controller/settings_controller.dart';
 import '../../../../data/model/response/models_lab_response.dart';
 import '../../../../helper/navigation.dart';
+import '../../../base/rate_us_sheet.dart';
 import '../../home/home.dart';
 
 class RegenerateButton extends StatelessWidget {
@@ -19,7 +19,6 @@ class RegenerateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: response.meta.seed != -1,
       child: Padding(
         padding: EdgeInsets.only(top: 32.sp, bottom: 16.sp),
         child: SizedBox(
@@ -81,6 +80,9 @@ class RegenerateButton extends StatelessWidget {
         if (response != null) {
           pop();
           launchScreen(PromptDetailScreen(response: response), replace: true);
+          Future.delayed(const Duration(seconds: 2), () {
+            showConditionalRateUsDialog();
+          });
         }
       },
     );

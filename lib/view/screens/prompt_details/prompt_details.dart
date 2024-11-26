@@ -37,35 +37,37 @@ class PromptDetailScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final currentResponse = history[index];
           ImageGenerationController.find.promptResponse = currentResponse;
-          return GetBuilder<ImageGenerationController>(builder: (controller) {
-            final result = controller.promptResponse;
-            return Visibility(
-              visible: result != null,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: [
-                        PromptImageWidget(response: currentResponse),
-                        Padding(
-                          padding: pagePadding,
-                          child: Column(
-                            children: [
-                              ModelInfoWidget(response: currentResponse),
-                              const PromptOptionWidget(),
-                              RegenerateButton(response: currentResponse),
-                            ],
-                          ),
-                        )
-                      ],
+          return GetBuilder<ImageGenerationController>(
+            builder: (controller) {
+              final result = controller.promptResponse;
+              return Visibility(
+                visible: result != null,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        children: [
+                          PromptImageWidget(response: currentResponse),
+                          Padding(
+                            padding: pagePadding,
+                            child: Column(
+                              children: [
+                                ModelInfoWidget(response: currentResponse),
+                                const PromptOptionWidget(),
+                                RegenerateButton(response: currentResponse),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  AdsController.find.showModelScreenAd(),
-                ],
-              ),
-            );
-          });
+                    AdsController.find.showModelScreenAd(),
+                  ],
+                ),
+              );
+            },
+          );
         },
       ),
     );

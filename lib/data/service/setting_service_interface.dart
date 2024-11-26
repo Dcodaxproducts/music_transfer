@@ -5,7 +5,8 @@ abstract class SettingsServiceInterface<T> {
   ConfigModel initSharedData();
   Future<void> updateSharedData(ConfigModel configModel);
   Future<SettingModel> getSettings();
-  int getOpenCount();
   Future<bool> saveFirstTime();
   bool getFirstTime();
+  Future<bool> saveShowAppOpen();
+  bool getShowAppOpen();
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/dashboard_controller.dart';
+import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/view/base/confirmation_dialog.dart';
 import 'package:matrix_ai/view/base/subscription_button.dart';
 import '../../../utils/app_constants.dart';
@@ -11,6 +13,7 @@ import '../home/home.dart';
 import '../inspirations/inspirations.dart';
 import '../menu/menu.dart';
 // import '../tools/tools.dart';
+import '../subscription/subscription.dart';
 import 'widgets/navigation_bar.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -34,6 +37,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // 'tools'.tr,
     'settings'.tr,
   ];
+
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      showPremiumSheet();
+      SettingsController.find.saveShowAppOpen();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

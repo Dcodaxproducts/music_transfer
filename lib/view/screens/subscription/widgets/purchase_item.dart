@@ -88,11 +88,13 @@ class SubscriptionPackageWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6.sp),
                 color: selected ? primaryColor : Colors.grey[800]!,
               ),
-              child: Text(item.promotionText.tr,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(color: Colors.white)),
+              child: Text(
+                item.promotionText.toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(color: Colors.white),
+              ),
             ),
           )
       ],

@@ -16,7 +16,7 @@ class SubscriptionService implements SubscriptionServiceInterface {
   }
 
   @override
-  Future<void> requestSubscription(String productId) async {
+  Future<dynamic> requestSubscription(String productId) async {
     await _iap.requestSubscription(productId);
   }
 

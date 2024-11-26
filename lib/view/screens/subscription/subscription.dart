@@ -57,21 +57,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               ),
             ),
           ),
-          // Positioned(
-          //   top: MediaQuery.of(context).padding.top + 70.sp,
-          //   left: 0,
-          //   right: 0,
-          //   child: Center(
-          //     child: Text(
-          //       'Ad-free experience'.tr,
-          //       style: Theme.of(context).textTheme.displayLarge?.copyWith(
-          //             color: Colors.white,
-          //             fontSize: 24.sp,
-          //             fontWeight: FontWeight.bold,
-          //           ),
-          //     ),
-          //   ),
-          // ),
+
           GetBuilder<SubscriptionController>(
             builder: (subscription) {
               return Padding(
@@ -146,10 +132,20 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               );
             },
           ),
-          Positioned(
-            top: 40.sp,
-            right: 16.sp,
-            child: const CloseButton(),
+          // show button after 2 seconds with tween animation builder
+          TweenAnimationBuilder(
+            tween: Tween<double>(begin: 0, end: 1),
+            duration: const Duration(seconds: 5),
+            builder: (context, double value, child) {
+              return Positioned(
+                top: 40.sp,
+                left: 16.sp,
+                child: Opacity(
+                  opacity: value,
+                  child: const CloseButton(),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -157,44 +153,15 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   }
 
   SubscriptionItem getSubscriptionItems(int index) {
-    String title = '';
-    String subtitle = '';
-    String price = '';
-    String promotionalText = '';
-    IAPItem? product;
     List<IAPItem> products = SubscriptionController.find.products;
 
-    if (index == 2) {
-      product = products
-          .firstWhereOrNull((element) => element.productId == 'weekly_plan');
-      title = 'weekly'.tr;
-      subtitle = 'test_ad_free_for_a_week'.tr;
-      price = product?.localizedPrice ?? "\$6.99";
-      promotionalText = '';
+    if (index == 0) {
+      return SubscriptionItem.yearlySubscription(products);
     } else if (index == 1) {
-      product = products
-          .firstWhereOrNull((element) => element.productId == 'monthly_plan');
-      title = 'monthly'.tr;
-      subtitle =
-          '${'only'.tr} \$5.99/ ${'week'.tr}, ${'enjoy_a_month_of_no_ads'.tr}!';
-      price = product?.localizedPrice ?? '\$23.99';
-      promotionalText = '14% ${'off'.tr.toUpperCase()}';
+      return SubscriptionItem.monthlySubscription(products);
     } else {
-      product = products
-          .firstWhereOrNull((element) => element.productId == 'monthly_plan');
-      title = 'yearly'.tr;
-      subtitle =
-          '${'only'.tr} \$7.50/ ${'month'.tr}, ${'enjoy_a_year_of_no_ads'.tr}!';
-      price = product?.localizedPrice ?? '\$84.99';
-      promotionalText = '75% ${'off'.tr.toUpperCase()}';
+      return SubscriptionItem.weeklySubscription(products);
     }
-    return SubscriptionItem(
-      title: title,
-      subtitle: subtitle,
-      price: price,
-      promotionText: promotionalText,
-      product: product,
-    );
   }
 }
 

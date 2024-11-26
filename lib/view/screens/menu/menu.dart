@@ -60,7 +60,7 @@ class _MenuScreenState extends State<MenuScreen> {
     const MenuItem(
       text: 'rate_us',
       icon: Iconsax.star,
-      onTap: showRateUsSheet,
+      onTap: showRateUsDialog,
     ),
     MenuItem(
       text: 'share_app',

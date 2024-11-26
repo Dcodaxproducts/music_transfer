@@ -3,13 +3,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/common/primary_button.dart';
+import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../common/snackbar.dart';
 import '../../controller/review_controller.dart';
 import '../../utils/style.dart';
 
-Future showRateUsSheet() => Get.dialog(const RateUsSheet());
+Future showRateUsDialog() {
+  return Get.dialog(const RateUsSheet());
+}
+
+Future showConditionalRateUsDialog() {
+  if (!ReviewController.find.isReviewed &&
+      ReviewController.find.canShowDialog() &&
+      GenerationController.find.dailyGenerationCount >= 3) {
+    return Get.dialog(const RateUsSheet());
+  } else {
+    return Future.value();
+  }
+}
 
 class RateUsSheet extends StatefulWidget {
   const RateUsSheet({super.key});
@@ -114,12 +127,17 @@ class _RateUsSheetState extends State<RateUsSheet> {
     if (_rating > 3) {
       launchUrlString(AppConstants.APP_LINK,
           mode: LaunchMode.externalApplication);
+      ReviewController.find.setReviewed();
+      Get.back();
       return;
     }
     if (_review.text.isNotEmpty) {
       ReviewController.find
           .saveReview(_rating, _review.text.trim())
-          .then((value) => Get.back());
+          .then((value) {
+        ReviewController.find.setReviewed();
+        Get.back();
+      });
     } else {
       showToast('please_write_your_review'.tr);
     }

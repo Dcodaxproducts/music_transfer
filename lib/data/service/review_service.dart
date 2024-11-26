@@ -25,4 +25,26 @@ class ReviewService implements ReviewServiceInterface {
   bool isReviewed() {
     return reviewRepo.isReviewed();
   }
+
+  @override
+  Future<void> lastDialogShowed() async {
+    await reviewRepo.setLastDialogShowed();
+  }
+
+  @override
+  bool canShowDialog() {
+    final lastDialogShowed = reviewRepo.getLastDialogShowed();
+    if (lastDialogShowed != null) {
+      final last = DateTime.parse(lastDialogShowed);
+      final now = DateTime.now();
+      final difference = now.difference(last).inDays;
+      if (difference >= 2) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
 }

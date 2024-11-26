@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:matrix_ai/data/model/response/model.dart';
 
 class AdModel {

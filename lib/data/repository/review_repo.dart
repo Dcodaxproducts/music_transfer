@@ -24,4 +24,15 @@ class ReviewRepo implements ReviewRepoInterface {
   bool isReviewed() {
     return sharedPreferences.getBool(AppConstants.REVIEWED) ?? false;
   }
+
+  @override
+  Future<bool> setLastDialogShowed() {
+    return sharedPreferences.setString(
+        AppConstants.LAST_DIALOG_SHOWED, DateTime.now().toString());
+  }
+
+  @override
+  String? getLastDialogShowed() {
+    return sharedPreferences.getString(AppConstants.LAST_DIALOG_SHOWED);
+  }
 }

@@ -1,8 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
+import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/repository/image_generation_repo_interface.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../../common/snackbar.dart';
 import '../../controller/ads_controller.dart';
 import '../../controller/models_controller.dart';
@@ -115,7 +119,16 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     // add prompt history
     HistoryController.find.addPrompt(value, seed: seed);
 
-    // TODO: log impression for model to track usage to firebase
+    //  log impression for model to track usage to firebase
+    PackageInfo? packageInfo = SettingsController.find.packageInfo;
+    FirebaseAnalytics.instance.logEvent(
+      name: 'model_impression',
+      parameters: {
+        'model': model.name,
+        'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
+        'platform': Platform.isAndroid ? 'Android' : 'iOS',
+      },
+    );
 
     if (value.status == "success") {
       return value;

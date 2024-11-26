@@ -8,4 +8,6 @@ abstract class SettingsRepoInterface {
   int getOpenCount();
   Future<bool> saveFirstTime();
   bool getFirstTime();
+  Future<bool> saveShowAppOpen();
+  bool getShowAppOpen();
 }
