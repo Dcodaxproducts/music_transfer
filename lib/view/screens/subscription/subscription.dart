@@ -92,9 +92,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         text: 'continue'.tr,
                         onPressed: () {
                           if (_selectedItem.product == null) return;
-                          subscription.buyProduct(
-                            subscription.products[_selectedPackage],
-                          );
+                          subscription.buyProduct(_selectedItem.product!);
                         },
                       ),
                     ),

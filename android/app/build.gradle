@@ -47,8 +47,8 @@ android {
         applicationId "pixart.aiart.generator"
         minSdkVersion 24
         targetSdkVersion 34
-        versionCode '6'.toInteger()
-        versionName '1.4'
+        versionCode '8'.toInteger()
+        versionName '1.5'
         multiDexEnabled true
     }
 

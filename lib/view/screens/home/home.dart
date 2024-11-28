@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -61,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (settingCon) {
                   return GetBuilder<GenerationController>(
                     builder: (con) => Visibility(
-                      visible: settingCon.settingModel.freeGenerations > 0,
+                      visible:
+                          settingCon.settingModel.freeGenerations > 0 && !isPro,
                       child: Padding(
                         padding: EdgeInsets.only(top: 8.sp),
                         child: Center(
@@ -95,13 +98,19 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (settings.hasOffensiveWords) {
       showToast('please_remove_offensive_words'.tr);
     } else {
-      if (SubscriptionController.find.isPro) {
+      if (Platform.isAndroid) {
         _generateImage(text);
       } else {
-        showAdsDialog(onWatchAdPressed: () {
-          pop();
+        if (SubscriptionController.find.isPro) {
           _generateImage(text);
-        });
+        } else {
+          showAdsDialog(
+            onWatchAdPressed: () {
+              pop();
+              _generateImage(text);
+            },
+          );
+        }
       }
     }
   }

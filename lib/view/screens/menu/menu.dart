@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
@@ -36,12 +38,12 @@ class _MenuScreenState extends State<MenuScreen> {
   ];
 
   final List<Widget> _moreMenuItems = [
-    // if (Platform.isIOS)
-    MenuItem(
-      text: 'manage_subscription',
-      icon: Iconsax.crown_1,
-      onTap: () => launchUrlString(AppConstants.MANAGE_SUBSCRIPTIONS_URL),
-    ),
+    if (Platform.isIOS)
+      MenuItem(
+        text: 'manage_subscription',
+        icon: Iconsax.crown_1,
+        onTap: () => launchUrlString(AppConstants.MANAGE_SUBSCRIPTIONS_URL),
+      ),
     MenuItem(
       text: 'privacy_policy',
       icon: Iconsax.lock,

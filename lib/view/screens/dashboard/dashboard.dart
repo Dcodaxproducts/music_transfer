@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -41,7 +43,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      showPremiumSheet();
+      if (Platform.isIOS) {
+        showPremiumSheet();
+      }
       SettingsController.find.saveShowAppOpen();
     });
     super.initState();
@@ -70,8 +74,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           appBar: AppBar(
             title: Text(_titles[currentIndex]),
             actions: [
-              // if (Platform.isIOS)
-              const SubsriptionButton(),
+              if (Platform.isIOS) const SubsriptionButton(),
               SizedBox(width: 10.sp),
             ],
           ),
