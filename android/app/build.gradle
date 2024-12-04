@@ -88,4 +88,6 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation files('mobileproxy.aar')
+}

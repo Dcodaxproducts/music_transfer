@@ -44,7 +44,7 @@ class AppConstants {
   static const String ANDROID_APP_URL =
       "https://play.google.com/store/apps/details?id=$APP_PACKAGE_NAME";
   static const String IOS_APP_URL =
-      "https://apps.apple.com/us/app/pixart-the-ai-art-generator/id6737462382";
+      "https://apps.apple.com/app/pixart-the-ai-art-generator/id6737462382";
 
   /* manage subscription link */
   static String MANAGE_SUBSCRIPTIONS_URL = Platform.isAndroid

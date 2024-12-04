@@ -39,6 +39,8 @@ dependencies:
   upgrader: any
   app_settings: ^5.1.1
 
+  flutter_inappwebview: ^6.0.0
+
   # # AWS s3 bucket
   # minio_flutter:
   #   path: packages/minio_flutter

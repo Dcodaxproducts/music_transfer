@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
@@ -73,6 +72,11 @@ class _MenuScreenState extends State<MenuScreen> {
         Share.share(shareText);
       },
     ),
+    // MenuItem(
+    //   text: 'outline_proxy',
+    //   icon: Iconsax.global_refresh,
+    //   onTap: () => launchScreen(const LoadWebView()),
+    // ),
   ];
 
   //

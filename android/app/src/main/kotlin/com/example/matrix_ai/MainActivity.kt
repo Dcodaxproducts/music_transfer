@@ -1,24 +1,40 @@
 package pixart.aiart.generator
 
+import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
+
 import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin
 
-class MainActivity: FlutterActivity() {
+import pixart.aiart.generator.ProxyManager
 
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+class MainActivity : FlutterActivity() {
+
+    private lateinit var proxyManager: ProxyManager
+
+    override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
-        // TODO: Register the ListTileNativeAdFactory
+        // Register Google Mobile Ads Native Ad Factory
         GoogleMobileAdsPlugin.registerNativeAdFactory(
-                flutterEngine, "listTile", ListTileNativeAdFactory(context))
+            flutterEngine, "listTile", ListTileNativeAdFactory(context)
+        )
+
+        // Initialize and set up ProxyManager
+        proxyManager = ProxyManager(context)
+        proxyManager.setupMethodChannel(flutterEngine.dartExecutor.binaryMessenger)
+    }
+
+    override fun onDestroy() {
+        // Clean up ProxyManager
+        proxyManager.onDestroy()
+        super.onDestroy()
     }
 
     override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
         super.cleanUpFlutterEngine(flutterEngine)
 
-        // TODO: Unregister the ListTileNativeAdFactory
+        // Unregister Google Mobile Ads Native Ad Factory
         GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "listTile")
     }
-
 }

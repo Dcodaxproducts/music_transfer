@@ -5,6 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:matrix_ai/controller/review_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/view/screens/dashboard/dashboard.dart';
 import '../../controller/ads_controller.dart';
@@ -55,7 +56,7 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       // get history from shared preferences
       HistoryController.find.initPromptHistory();
-
+      ReviewController.find.checkReviewed();
       //get data from api
       await Future.wait([
         GenerationController.find.initialize(),
@@ -63,6 +64,8 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
         ModelsController.find.getModels(),
         InspirationController.find.getInspirations()
       ]);
+
+      await SubscriptionController.find.initialize().catchError((_) {});
 
       // show add
       await _loadAppOpenAd().then((value) async {
@@ -75,7 +78,6 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
         _ready = true;
         if (mounted) setState(() {});
       });
-      await SubscriptionController.find.initialize().catchError((_) {});
     });
   }
 
