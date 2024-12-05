@@ -69,9 +69,99 @@ Future<void> _handleTap() async {
 }
 ```
 
+### \_isPromptEmpty
+
 ```dart
-_isPromptEmpty
 
 bool _isPromptEmpty(String text) => text.isEmpty;
 
+```
+
+### \_hasOffensiveWords
+
+```dart
+bool _hasOffensiveWords() => SettingsController.find.hasOffensiveWords;
+```
+
+### \_isProModel
+
+```dart
+bool _isProModel() =>
+    SettingsController.find.configModel.selectedModel?.premium ?? false;
+```
+
+### \_handleImageGeneration
+
+```dart
+void _handleImageGeneration(String text) async {
+  if (Platform.isAndroid || SubscriptionController.find.isPro) {
+    _handleProOrAndroidUser(text);
+  } else {
+    _handleFreeUser(text);
+  }
+}
+```
+
+### \_handleProOrAndroidUser
+
+```dart
+void _handleProOrAndroidUser(String text) async {
+  if (GenerationController.find.proUserLimitExceeded) {
+    bool hasShowedFreeLimitDialog =
+        await ImageGenerationController.find.hasShowedFreeLimitDialog();
+    if (hasShowedFreeLimitDialog) {
+      _generateImage(text, showAds: false);
+    }
+  } else {
+    _generateImage(text);
+  }
+}
+```
+
+### \_handleFreeUser
+
+```dart
+void _handleFreeUser(String text) {
+  if (_isProModel()) {
+    showPremiumSheet();
+  } else {
+    _handleFreeUserGeneration(text);
+  }
+}
+```
+
+### \_handleFreeUserGeneration
+
+```dart
+Future<void> _handleFreeUserGeneration(String text) async {
+  bool hasShowedFreeLimitDialog =
+      await ImageGenerationController.find.hasShowedFreeLimitDialog();
+  if (hasShowedFreeLimitDialog) {
+    _generateImage(text, showAds: false);
+  } else {
+    showAdsDialog(
+      onWatchAdPressed: () {
+        pop();
+        _generateImage(text);
+      },
+    );
+  }
+}
+```
+
+### \_generateImage
+
+```dart
+void _generateImage(String text, {bool showAds = true}) {
+  ImageGenerationController.find.generateImages(text, showAds: showAds).then(
+    (response) {
+      if (response != null) {
+        launchScreen(PromptDetailScreen(response: response));
+        Future.delayed(const Duration(seconds: 2), () {
+          showConditionalRateUsDialog();
+        });
+      }
+    },
+  );
+}
 ```
