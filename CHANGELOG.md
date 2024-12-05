@@ -10,7 +10,7 @@
   - Third generation triggers an interstitial ad.
   - Fourth generation triggers a reward ad.
   - Fifth generation triggers an interstitial ad.
-  - Subscribed users have a daily limit of 75 generations ad-free.
+  - Subscribed users have a daily limit of 100 generations ad-free.
   - Implemented dialog flow to prompt users to watch an ad if they have reached their free generation limit.
   - Refactored `ImageGenerationService` to handle ad flow and dialog properly.
   - Added `showAdAccordingToGeneration` method in `ModelsService` to determine ad type based on generation count.
