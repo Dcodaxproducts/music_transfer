@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -70,7 +71,7 @@ class _ActionSheetState extends State<ActionSheet> {
       subtile: 'improve_face_realism_in_your_art_with_ai',
       icon: Iconsax.user,
       onTap: () {
-        if (!isPro) {
+        if (!isPro && Platform.isIOS) {
           showPremiumSheet();
           return;
         }
@@ -97,7 +98,7 @@ class _ActionSheetState extends State<ActionSheet> {
       subtile: 'remove_noise_and_sharpen_images_with_ai',
       icon: Iconsax.magicpen,
       onTap: () {
-        if (!isPro) {
+        if (!isPro && Platform.isIOS) {
           showPremiumSheet();
           return;
         }
