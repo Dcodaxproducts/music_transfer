@@ -42,13 +42,6 @@
 
 - N/A
 
-- **Features**
-
-  - Mobile proxy implementation
-  - Old ad flow sequence:
-    - Removed the old implementation of ad flow sequence whcih was based on showing ads at specific intervals without considering the new sequence.
-    - Remove model base ad implementation
-
 ## [1.0.0] - 2023-XX-XX
 
 ### Added
