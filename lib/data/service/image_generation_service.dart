@@ -13,6 +13,7 @@ import '../../common/snackbar.dart';
 import '../../controller/ads_controller.dart';
 import '../../controller/subscription_controller.dart';
 import '../../helper/navigation.dart';
+import '../../utils/app_constants.dart';
 import '../../view/base/free_limit_dialog.dart';
 import '../../view/base/loading/prompt_loading.dart';
 import '../model/body/aspect_ratio.dart';
@@ -37,8 +38,14 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   Future<bool> willShowFreeLimitDialog(
       int freeGenerations, int dailyGenerationCount) async {
     bool success = false;
+
+    bool proUserCondition = freeGenerations >= AppConstants.PRO_USER_DAILY_LIMIT;
+    bool freeUserCondition = freeGenerations - dailyGenerationCount <= 0;
+
+    bool condition = isPro ? proUserCondition : freeUserCondition;
+
     // if user has no free generations left
-    if (freeGenerations - dailyGenerationCount <= 0) {
+    if (condition) {
       Completer<bool> completer = Completer<bool>();
       await showFreeLimitDialog(onWatchAdPressed: () async {
         showAdLoadingDialog();

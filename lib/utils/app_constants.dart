@@ -39,6 +39,9 @@ class AppConstants {
   static const String LAST_DIALOG_SHOWED = 'last_dialog_showed_1';
   static const String SHOW_APP_OPEN = 'show_app_open_1';
 
+  //
+  static const int PRO_USER_DAILY_LIMIT = 100;
+
   /* App Share link */
   static String APP_LINK = Platform.isAndroid ? ANDROID_APP_URL : IOS_APP_URL;
   static const String ANDROID_APP_URL =

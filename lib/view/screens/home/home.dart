@@ -105,25 +105,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool _hasOffensiveWords() => SettingsController.find.hasOffensiveWords;
 
-  void _handleImageGeneration(String text) {
-    // check if user is pro or on android
+  void _handleImageGeneration(String text) async {
     if (Platform.isAndroid || SubscriptionController.find.isPro) {
-      _generateImage(text);
+      _handleProOrAndroidUser(text);
     } else {
-      // if selected model is pro show premium sheet
-      if (_isProModel()) {
-        showPremiumSheet();
-      } else {
-        _handleFreeUserGeneration(text);
+      _handleFreeUser(text);
+    }
+  }
+
+  void _handleProOrAndroidUser(String text) async {
+    if (GenerationController.find.proUserLimitExceeded) {
+      bool hasShowedFreeLimitDialog =
+          await ImageGenerationController.find.hasShowedFreeLimitDialog();
+      if (hasShowedFreeLimitDialog) {
+        _generateImage(text, showAds: false);
       }
+    } else {
+      _generateImage(text);
+    }
+  }
+
+  void _handleFreeUser(String text) {
+    if (_isProModel()) {
+      showPremiumSheet();
+    } else {
+      _handleFreeUserGeneration(text);
     }
   }
 
   Future<void> _handleFreeUserGeneration(String text) async {
-    // check if user has free generations left (if not it will show dialog to watch ad or buy subscription)
     bool hasShowedFreeLimitDialog =
         await ImageGenerationController.find.hasShowedFreeLimitDialog();
-    // if ad is watched
     if (hasShowedFreeLimitDialog) {
       _generateImage(text, showAds: false);
     } else {

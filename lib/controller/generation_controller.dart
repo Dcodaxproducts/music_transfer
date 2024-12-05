@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:matrix_ai/data/service/generation_service.dart';
 
+import '../utils/app_constants.dart';
+
 class GenerationController extends GetxController {
   final GenerationServiceInterface generationServiceInterface;
   GenerationController({required this.generationServiceInterface});
@@ -27,4 +29,7 @@ class GenerationController extends GetxController {
     _dailyGenerationCount = 0;
     update();
   }
+
+  bool get proUserLimitExceeded =>
+      _dailyGenerationCount >= AppConstants.PRO_USER_DAILY_LIMIT;
 }

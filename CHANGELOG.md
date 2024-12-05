@@ -16,6 +16,15 @@
   - Added `showAdAccordingToGeneration` method in `ModelsService` to determine ad type based on generation count.
   - Updated `HomeScreen` to handle image generation and ad flow logic.
 
+### Changed
+
+- Refactored `_handleTap` method in `HomeScreen` to improve readability and maintainability.
+- Updated `_handleImageGeneration` method in `HomeScreen` to separate logic for pro/Android users and free users.
+- Added `_handleProOrAndroidUser` method in `HomeScreen` to handle image generation for pro/Android users.
+- Added `_handleFreeUser` method in `HomeScreen` to handle image generation for free users.
+- Added `_handleFreeUserGeneration` method in `HomeScreen` to handle ad flow for free users.
+- Updated `_generateImage` method in `HomeScreen` to handle image generation and navigate to `PromptDetailScreen`.
+
 ### Removed
 
 - **Packages**
@@ -32,11 +41,6 @@
     - Removed the old implementation of ad flow sequence which was based on showing ads at specific intervals without considering the new sequence.
     - Removed model-based ad implementation.
   - Ad model and Settings model to determine separate values for android and iOS (model premium, free generations)
-
-### Changed
-
-- Refactored `_handleTap` method in `HomeScreen` to improve readability and maintainability.
-- Updated `ImageGenerationService` to ensure the dialog is shown, the ad is loaded and shown, and then the success value is returned correctly.
 
 ### Fixed
 
@@ -202,14 +206,6 @@
     - Allows users to manage their subscriptions.
     - Displays subscription options and handles in-app purchases.
 
-### Changed
-
-- N/A
-
 ### Fixed
-
-- N/A
-
-### Removed
 
 - N/A
