@@ -15,6 +15,8 @@
   - Refactored `ImageGenerationService` to handle ad flow and dialog properly.
   - Added `showAdAccordingToGeneration` method in `ModelsService` to determine ad type based on generation count.
   - Updated `HomeScreen` to handle image generation and ad flow logic.
+  - Created `ImageGenerationHelper` utility class to centralize image generation logic.
+  - Updated `HomeScreen` and `RegenerateButton` to use `ImageGenerationHelper` for handling image generation logic.
 
 ### Changed
 

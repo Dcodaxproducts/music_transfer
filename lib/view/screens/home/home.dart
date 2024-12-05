@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,15 +7,9 @@ import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/controller/subscription_controller.dart';
 import 'package:matrix_ai/utils/style.dart';
-import 'package:matrix_ai/view/base/rate_us_sheet.dart';
 import 'package:matrix_ai/view/screens/home/widgets/models_view.dart';
-import 'package:matrix_ai/view/screens/subscription/subscription.dart';
-import '../../../common/snackbar.dart';
 import '../../../controller/generation_controller.dart';
-import '../../../controller/image_generation_controller.dart';
-import '../../../helper/navigation.dart';
-import '../../base/ads_dialog.dart';
-import '../prompt_details/prompt_details.dart';
+import '../../../helper/image_generation_helper.dart';
 import 'widgets/history_view.dart';
 import 'widgets/prompt_options.dart';
 import 'widgets/prompt_widget.dart';
@@ -56,7 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   color: Theme.of(context).textTheme.bodyLarge?.color,
                   textColor: Theme.of(context).scaffoldBackgroundColor,
-                  onPressed: widget.onRegenerate ?? _handleTap,
+                  onPressed: widget.onRegenerate ??
+                      () => ImageGenerationHelper.handleTap(
+                          _handleImageGeneration),
                 ),
               ),
               GetBuilder<SettingsController>(
@@ -89,78 +84,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> _handleTap() async {
-    final text = SettingsController.find.promptController.text;
-
-    if (_isPromptEmpty(text)) {
-      showToast('please_enter_prompt'.tr);
-    } else if (_hasOffensiveWords()) {
-      showToast('please_remove_offensive_words'.tr);
-    } else {
-      _handleImageGeneration(text);
-    }
+  Future<void> _handleImageGeneration(String text) async {
+    await ImageGenerationHelper.handleImageGeneration(text,
+        generateImage: _generateImage);
   }
-
-  bool _isPromptEmpty(String text) => text.isEmpty;
-
-  bool _hasOffensiveWords() => SettingsController.find.hasOffensiveWords;
-
-  void _handleImageGeneration(String text) async {
-    if (Platform.isAndroid || SubscriptionController.find.isPro) {
-      _handleProOrAndroidUser(text);
-    } else {
-      _handleFreeUser(text);
-    }
-  }
-
-  void _handleProOrAndroidUser(String text) async {
-    if (GenerationController.find.proUserLimitExceeded) {
-      bool hasShowedFreeLimitDialog =
-          await ImageGenerationController.find.hasShowedFreeLimitDialog();
-      if (hasShowedFreeLimitDialog) {
-        _generateImage(text, showAds: false);
-      }
-    } else {
-      _generateImage(text);
-    }
-  }
-
-  void _handleFreeUser(String text) {
-    if (_isProModel()) {
-      showPremiumSheet();
-    } else {
-      _handleFreeUserGeneration(text);
-    }
-  }
-
-  Future<void> _handleFreeUserGeneration(String text) async {
-    bool hasShowedFreeLimitDialog =
-        await ImageGenerationController.find.hasShowedFreeLimitDialog();
-    if (hasShowedFreeLimitDialog) {
-      _generateImage(text, showAds: false);
-    } else {
-      showAdsDialog(
-        onWatchAdPressed: () {
-          pop();
-          _generateImage(text);
-        },
-      );
-    }
-  }
-
-  bool _isProModel() =>
-      SettingsController.find.configModel.selectedModel?.premium ?? false;
 
   void _generateImage(String text, {bool showAds = true}) {
-    ImageGenerationController.find.generateImages(text, showAds: showAds).then(
-      (response) {
-        if (response != null) {
-          launchScreen(PromptDetailScreen(response: response));
-          Future.delayed(const Duration(seconds: 2), () {
-            showConditionalRateUsDialog();
-          });
-        }
-      },
-    );
+    ImageGenerationHelper.generateImage(text, showAds: showAds);
   }
 }

@@ -3,13 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/common/primary_button.dart';
-import 'package:matrix_ai/view/screens/prompt_details/prompt_details.dart';
-import '../../../../common/snackbar.dart';
-import '../../../../controller/image_generation_controller.dart';
 import '../../../../controller/settings_controller.dart';
 import '../../../../data/model/response/models_lab_response.dart';
-import '../../../../helper/navigation.dart';
-import '../../../base/rate_us_sheet.dart';
+import '../../../../helper/image_generation_helper.dart';
 import '../../home/home.dart';
 
 class RegenerateButton extends StatelessWidget {
@@ -47,7 +43,8 @@ class RegenerateButton extends StatelessWidget {
                     ),
                   ),
                   child: HomeScreen(
-                    onRegenerate: _handleTap,
+                    onRegenerate: () =>
+                        ImageGenerationHelper.handleTap(_handleImageGeneration),
                   ),
                 ),
                 isScrollControlled: true,
@@ -59,32 +56,13 @@ class RegenerateButton extends StatelessWidget {
     );
   }
 
-  _handleTap() {
-    final settings = SettingsController.find;
-    final text = settings.promptController.text;
-
-    if (settings.promptController.text.isEmpty) {
-      showToast('please_enter_prompt'.tr);
-    } else if (settings.hasOffensiveWords) {
-      showToast('please_remove_offensive_words'.tr);
-    } else {
-      _generateImage(text);
-    }
+  Future<void> _handleImageGeneration(String text) async {
+    await ImageGenerationHelper.handleImageGeneration(text,
+        generateImage: _generateImage);
   }
 
-  _generateImage(String text) {
-    ImageGenerationController.find
-        .generateImages(text, seed: response.meta.seed)
-        .then(
-      (response) {
-        if (response != null) {
-          pop();
-          launchScreen(PromptDetailScreen(response: response), replace: true);
-          Future.delayed(const Duration(seconds: 2), () {
-            showConditionalRateUsDialog();
-          });
-        }
-      },
-    );
+  void _generateImage(String text, {bool showAds = true}) {
+    ImageGenerationHelper.generateImage(text,
+        showAds: showAds, seed: response.meta.seed);
   }
 }
