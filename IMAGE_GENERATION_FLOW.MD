@@ -8,21 +8,21 @@ This document outlines the flow of the image generation process in the applicati
 
 1. **User Initiates Image Generation**:
 
-   - The user taps the "Create" button, which triggers the `_handleTap` method.
+   - The user taps the "Create" button, which triggers the `ImageGenerationHelper.handleTap` method.
 
 2. **Validation**:
 
-   - `_handleTap` method checks if the prompt is empty using `_isPromptEmpty`.
+   - `ImageGenerationHelper.handleTap` method checks if the prompt is empty using `_isPromptEmpty`.
    - It also checks if the prompt contains offensive words using `_hasOffensiveWords`.
    - If either condition is true, a toast message is shown, and the process stops.
 
 3. **Handle Image Generation**:
 
-   - If the prompt is valid, `_handleImageGeneration` is called with the prompt text.
+   - If the prompt is valid, `ImageGenerationHelper.handleImageGeneration` is called with the prompt text.
 
 4. **Check Subscription and Platform**:
 
-   - `_handleImageGeneration` checks if the user is on Android or is a subscribed user (`SubscriptionController.find.isPro`).
+   - `ImageGenerationHelper.handleImageGeneration` checks if the user is on Android or is a subscribed user (`SubscriptionController.find.isPro`).
    - If true, it calls `_handleProOrAndroidUser`.
    - If false, it calls `_handleFreeUser`.
 
@@ -30,8 +30,8 @@ This document outlines the flow of the image generation process in the applicati
 
    - `_handleProOrAndroidUser` checks if the user has exceeded the daily limit for pro users (`GenerationController.find.proUserLimitExceeded`).
    - If the limit is exceeded, it calls `ImageGenerationController.find.hasShowedFreeLimitDialog` to show a dialog prompting the user to watch an ad.
-   - If the user watches the ad, `_generateImage` is called with `showAds: false`.
-   - If the limit is not exceeded, `_generateImage` is called directly.
+   - If the user watches the ad, `generateImage` is called with `showAds: false`.
+   - If the limit is not exceeded, `generateImage` is called directly.
 
 6. **Handle Free User**:
 
@@ -43,28 +43,29 @@ This document outlines the flow of the image generation process in the applicati
 
    - `_handleFreeUserGeneration` checks if the user has free generations left using `ImageGenerationController.find.hasShowedFreeLimitDialog`.
    - If the user has no free generations left, it shows a dialog to watch an ad or buy a subscription.
-   - If the user watches the ad, `_generateImage` is called with `showAds: false`.
-   - If the user has free generations left, `_generateImage` is called directly.
+   - If the user watches the ad, `generateImage` is called with `showAds: false`.
+   - If the user has free generations left, `generateImage` is called directly.
 
 8. **Generate Image**:
-   - `_generateImage` calls `ImageGenerationController.find.generateImages` to generate the image.
+   - `generateImage` calls `ImageGenerationController.find.generateImages` to generate the image.
    - If the image generation is successful, it navigates to the `PromptDetailScreen` to display the generated image.
    - It also shows a "Rate Us" dialog after a delay.
 
 ## Methods
 
-### `_handleTap`
+### `ImageGenerationHelper.handleTap`
 
 ```dart
-Future<void> _handleTap() async {
-  final text = SettingsController.find.promptController.text;
+static Future<void> handleTap(Function(String) handleImageGeneration) async {
+  final settings = SettingsController.find;
+  final text = settings.promptController.text;
 
   if (_isPromptEmpty(text)) {
     showToast('please_enter_prompt'.tr);
   } else if (_hasOffensiveWords()) {
     showToast('please_remove_offensive_words'.tr);
   } else {
-    _handleImageGeneration(text);
+    handleImageGeneration(text);
   }
 }
 ```
@@ -90,14 +91,15 @@ bool _isProModel() =>
     SettingsController.find.configModel.selectedModel?.premium ?? false;
 ```
 
-### \_handleImageGeneration
+### \_ImageGenerationHelper.handleImageGeneration
 
 ```dart
-void _handleImageGeneration(String text) async {
+static Future<void> handleImageGeneration(String text,
+    {required Function(String, {bool showAds}) generateImage}) async {
   if (Platform.isAndroid || SubscriptionController.find.isPro) {
-    _handleProOrAndroidUser(text);
+    await _handleProOrAndroidUser(text, generateImage: generateImage);
   } else {
-    _handleFreeUser(text);
+    _handleFreeUser(text, generateImage: generateImage);
   }
 }
 ```
@@ -105,15 +107,16 @@ void _handleImageGeneration(String text) async {
 ### \_handleProOrAndroidUser
 
 ```dart
-void _handleProOrAndroidUser(String text) async {
+static Future<void> _handleProOrAndroidUser(String text,
+    {required Function(String, {bool showAds}) generateImage}) async {
   if (GenerationController.find.proUserLimitExceeded) {
     bool hasShowedFreeLimitDialog =
         await ImageGenerationController.find.hasShowedFreeLimitDialog();
     if (hasShowedFreeLimitDialog) {
-      _generateImage(text, showAds: false);
+      generateImage(text, showAds: false);
     }
   } else {
-    _generateImage(text);
+    generateImage(text);
   }
 }
 ```
@@ -121,11 +124,12 @@ void _handleProOrAndroidUser(String text) async {
 ### \_handleFreeUser
 
 ```dart
-void _handleFreeUser(String text) {
+static void _handleFreeUser(String text,
+    {required Function(String, {bool showAds}) generateImage}) {
   if (_isProModel()) {
     showPremiumSheet();
   } else {
-    _handleFreeUserGeneration(text);
+    _handleFreeUserGeneration(text, generateImage: generateImage);
   }
 }
 ```
@@ -133,16 +137,17 @@ void _handleFreeUser(String text) {
 ### \_handleFreeUserGeneration
 
 ```dart
-Future<void> _handleFreeUserGeneration(String text) async {
+static Future<void> _handleFreeUserGeneration(String text,
+    {required Function(String, {bool showAds}) generateImage}) async {
   bool hasShowedFreeLimitDialog =
       await ImageGenerationController.find.hasShowedFreeLimitDialog();
   if (hasShowedFreeLimitDialog) {
-    _generateImage(text, showAds: false);
+    generateImage(text, showAds: false);
   } else {
     showAdsDialog(
       onWatchAdPressed: () {
         pop();
-        _generateImage(text);
+        generateImage(text);
       },
     );
   }
@@ -152,11 +157,18 @@ Future<void> _handleFreeUserGeneration(String text) async {
 ### \_generateImage
 
 ```dart
-void _generateImage(String text, {bool showAds = true}) {
-  ImageGenerationController.find.generateImages(text, showAds: showAds).then(
+static void generateImage(String text, {bool showAds = true, int? seed}) {
+  ImageGenerationController.find
+      .generateImages(text, seed: seed, showAds: showAds)
+      .then(
     (response) {
       if (response != null) {
-        launchScreen(PromptDetailScreen(response: response));
+        bool fromRegenerate = seed != null;
+        if (fromRegenerate) {
+          pop();
+        }
+        launchScreen(PromptDetailScreen(response: response),
+            replace: fromRegenerate);
         Future.delayed(const Duration(seconds: 2), () {
           showConditionalRateUsDialog();
         });
