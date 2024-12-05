@@ -1,8 +1,7 @@
 import 'dart:math';
-
 import 'package:matrix_ai/controller/models_controller.dart';
-
 import '../../common/snackbar.dart';
+import '../../controller/ads_controller.dart';
 import '../model/body/aspect_ratio.dart';
 import '../model/body/config_model.dart';
 import '../model/response/models_lab_response.dart';
@@ -11,6 +10,23 @@ import '../../controller/settings_controller.dart';
 import '../model/response/together_ai_response.dart';
 
 class ImageGenerationUtils {
+  static Future<bool> showAdAccordingToGeneration(
+      int freeGenerations, int dailyGenerationCount) async {
+    // if generation feature is disabled or first generation is free
+    if (SettingsController.find.settingModel.freeGenerations == 0 ||
+        dailyGenerationCount == 0) {
+      return Future.value(true);
+    }
+
+    //  show video or interstitial ad based on even or odd
+    if (dailyGenerationCount.isEven) {
+      await AdsController.find.showOnGenerateVideo();
+    } else {
+      await AdsController.find.showOnGenerateInterstitial();
+    }
+    return Future.value(true);
+  }
+
   static AspectRatioModel getAspectRatio() {
     return aspectRatios.firstWhere(
       (e) => e.id == SettingsController.find.configModel.aspectRatio,

@@ -1,5 +1,54 @@
 # Changelog
 
+## [2.3] - 2023-12-05 (iOS)
+
+### Added
+
+- **Ad Flow Sequence**:
+  - First generation is free without ads.
+  - Second generation triggers a reward ad.
+  - Third generation triggers an interstitial ad.
+  - Fourth generation triggers a reward ad.
+  - Fifth generation triggers an interstitial ad.
+  - Subscribed users have a daily limit of 75 generations ad-free.
+  - Implemented dialog flow to prompt users to watch an ad if they have reached their free generation limit.
+  - Refactored `ImageGenerationService` to handle ad flow and dialog properly.
+  - Added `showAdAccordingToGeneration` method in `ModelsService` to determine ad type based on generation count.
+  - Updated `HomeScreen` to handle image generation and ad flow logic.
+
+### Removed
+
+- **Packages**
+
+  - flutter_staggered_animations: ^1.1.1
+  - in_app_review: ^2.0.9
+  - flutter_rating_bar: ^4.0.1
+  - flutter_inappwebview: ^6.0.0
+  - in_app_purchase: ^3.2.0
+
+- **Features**
+  - Mobile proxy implementation
+  - Old ad flow sequence:
+    - Removed the old implementation of ad flow sequence which was based on showing ads at specific intervals without considering the new sequence.
+    - Removed model-based ad implementation.
+  - Ad model and Settings model to determine separate values for android and iOS (model premium, free generations)
+
+### Changed
+
+- Refactored `_handleTap` method in `HomeScreen` to improve readability and maintainability.
+- Updated `ImageGenerationService` to ensure the dialog is shown, the ad is loaded and shown, and then the success value is returned correctly.
+
+### Fixed
+
+- N/A
+
+- **Features**
+
+  - Mobile proxy implementation
+  - Old ad flow sequence:
+    - Removed the old implementation of ad flow sequence whcih was based on showing ads at specific intervals without considering the new sequence.
+    - Remove model base ad implementation
+
 ## [1.0.0] - 2023-XX-XX
 
 ### Added

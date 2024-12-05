@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
+import 'package:matrix_ai/controller/subscription_controller.dart';
+import 'package:matrix_ai/view/screens/subscription/subscription.dart';
 import '../../../../helper/navigation.dart';
 import '../../../../utils/style.dart';
 import '../../menu/widgets/menu_item.dart';
@@ -68,6 +70,10 @@ class _ActionSheetState extends State<ActionSheet> {
       subtile: 'improve_face_realism_in_your_art_with_ai',
       icon: Iconsax.user,
       onTap: () {
+        if (!isPro) {
+          showPremiumSheet();
+          return;
+        }
         pop();
         ImageGenerationController api = ImageGenerationController.find;
         api
@@ -91,6 +97,10 @@ class _ActionSheetState extends State<ActionSheet> {
       subtile: 'remove_noise_and_sharpen_images_with_ai',
       icon: Iconsax.magicpen,
       onTap: () {
+        if (!isPro) {
+          showPremiumSheet();
+          return;
+        }
         pop();
         ImageGenerationController api = ImageGenerationController.find;
         api

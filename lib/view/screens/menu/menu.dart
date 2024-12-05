@@ -72,11 +72,6 @@ class _MenuScreenState extends State<MenuScreen> {
         Share.share(shareText);
       },
     ),
-    // MenuItem(
-    //   text: 'outline_proxy',
-    //   icon: Iconsax.global_refresh,
-    //   onTap: () => launchScreen(const LoadWebView()),
-    // ),
   ];
 
   //

@@ -25,4 +25,10 @@ abstract class AdsServiceInterface {
 
   /// Get the banner widget for the given ad.
   Widget getBannerWidget(AdModel? ad);
+
+  Future<RewardedInterstitialAd?> loadRewardInterstitialAd(String adId);
+
+  Future<RewardedAd?> loadRewardVideoAd(String adId);
+
+  Future<InterstitialAd?> loadInterstitial(String adId);
 }

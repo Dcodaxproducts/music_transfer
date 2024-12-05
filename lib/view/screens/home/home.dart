@@ -10,6 +10,7 @@ import 'package:matrix_ai/controller/subscription_controller.dart';
 import 'package:matrix_ai/utils/style.dart';
 import 'package:matrix_ai/view/base/rate_us_sheet.dart';
 import 'package:matrix_ai/view/screens/home/widgets/models_view.dart';
+import 'package:matrix_ai/view/screens/subscription/subscription.dart';
 import '../../../common/snackbar.dart';
 import '../../../controller/generation_controller.dart';
 import '../../../controller/image_generation_controller.dart';
@@ -88,34 +89,58 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _handleTap() {
-    final settings = SettingsController.find;
-    final text = settings.promptController.text;
+  Future<void> _handleTap() async {
+    final text = SettingsController.find.promptController.text;
 
-    if (settings.promptController.text.isEmpty) {
+    if (_isPromptEmpty(text)) {
       showToast('please_enter_prompt'.tr);
-    } else if (settings.hasOffensiveWords) {
+    } else if (_hasOffensiveWords()) {
       showToast('please_remove_offensive_words'.tr);
     } else {
-      if (Platform.isAndroid) {
-        _generateImage(text);
+      _handleImageGeneration(text);
+    }
+  }
+
+  bool _isPromptEmpty(String text) => text.isEmpty;
+
+  bool _hasOffensiveWords() => SettingsController.find.hasOffensiveWords;
+
+  void _handleImageGeneration(String text) {
+    // check if user is pro or on android
+    if (Platform.isAndroid || SubscriptionController.find.isPro) {
+      _generateImage(text);
+    } else {
+      // if selected model is pro show premium sheet
+      if (_isProModel()) {
+        showPremiumSheet();
       } else {
-        if (SubscriptionController.find.isPro) {
-          _generateImage(text);
-        } else {
-          showAdsDialog(
-            onWatchAdPressed: () {
-              pop();
-              _generateImage(text);
-            },
-          );
-        }
+        _handleFreeUserGeneration(text);
       }
     }
   }
 
-  _generateImage(String text) {
-    ImageGenerationController.find.generateImages(text).then(
+  Future<void> _handleFreeUserGeneration(String text) async {
+    // check if user has free generations left (if not it will show dialog to watch ad or buy subscription)
+    bool hasShowedFreeLimitDialog =
+        await ImageGenerationController.find.hasShowedFreeLimitDialog();
+    // if ad is watched
+    if (hasShowedFreeLimitDialog) {
+      _generateImage(text, showAds: false);
+    } else {
+      showAdsDialog(
+        onWatchAdPressed: () {
+          pop();
+          _generateImage(text);
+        },
+      );
+    }
+  }
+
+  bool _isProModel() =>
+      SettingsController.find.configModel.selectedModel?.premium ?? false;
+
+  void _generateImage(String text, {bool showAds = true}) {
+    ImageGenerationController.find.generateImages(text, showAds: showAds).then(
       (response) {
         if (response != null) {
           launchScreen(PromptDetailScreen(response: response));

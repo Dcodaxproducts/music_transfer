@@ -8,6 +8,7 @@ class Images {
   static const String play = 'assets/images/play.png';
   static const String background = 'assets/images/bg.png';
   static const String noInternet = 'assets/images/no_connection.png';
+  static const String generate = 'assets/images/generate.png';
   static const String gradient_circle = 'assets/images/gradient_circle.png';
   static const String subscriptionBg = 'assets/images/subscription_bg.png';
 

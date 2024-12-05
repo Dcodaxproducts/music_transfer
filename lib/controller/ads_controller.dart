@@ -61,6 +61,24 @@ class AdsController extends GetxController {
     }
   }
 
+  Future<dynamic> getOnGenerateVideo() async {
+    // get ad
+    AdModel? ad = ads.firstWhereOrNull(
+        (element) => element.position == AdPosition.onGenerateVideo);
+
+    // if ad is not null and active and type is reward
+    if (ad != null && ad.active) {
+      String adId = _getAdId(ad);
+      if (ad.type == AdType.reward) {
+        return await adsService.loadRewardVideoAd(adId);
+      }
+      if (ad.type == AdType.rewardedInterstitial) {
+        return await adsService.loadRewardInterstitialAd(adId);
+      }
+    }
+    return null;
+  }
+
   Future<void> showOnGenerateInterstitial() async {
     // get ad
     AdModel? ad = ads.firstWhereOrNull(

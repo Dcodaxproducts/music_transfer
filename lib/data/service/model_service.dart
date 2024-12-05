@@ -52,16 +52,4 @@ class ModelsService implements ModelsServiceInterface {
     }
     modelsRepo.saveFavoriteModel(favoriteModels);
   }
-
-  @override
-  bool canShowVideoAd(int freeGenerations, int dailyGenerationCount) {
-    int count = freeGenerations - dailyGenerationCount;
-    return count > 0 && count % 2 == 1;
-  }
-
-  @override
-  bool canShowInterstitialAd(int freeGenerations, int dailyGenerationCount) {
-    int count = freeGenerations - dailyGenerationCount;
-    return count > 0 && count % 2 == 0;
-  }
 }

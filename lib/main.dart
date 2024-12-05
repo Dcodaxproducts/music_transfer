@@ -54,6 +54,9 @@ void main() async {
   };
   // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
   PlatformDispatcher.instance.onError = (error, stack) {
+    if (error.toString().contains('HttpException: Invalid statusCode: 404')) {
+      return false;
+    }
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };

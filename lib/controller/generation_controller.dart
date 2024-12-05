@@ -22,5 +22,9 @@ class GenerationController extends GetxController {
     update();
   }
 
-  bool get canGenerateImage => generationServiceInterface.canGenerateImage();
+  Future<void> resetGenerationCount() async {
+    await generationServiceInterface.resetDailyGenerationCount();
+    _dailyGenerationCount = 0;
+    update();
+  }
 }

@@ -1,8 +1,11 @@
+import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:matrix_ai/data/model/response/model.dart';
 import 'package:matrix_ai/data/service/image_generation_service_interface.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
+import 'generation_controller.dart';
 
 class ImageGenerationController extends GetxController implements GetxService {
   final ImageGenerationServiceInterface imageGenerationServiceInterface;
@@ -28,6 +31,7 @@ class ImageGenerationController extends GetxController implements GetxService {
     bool upscale = false,
     bool faceFix = false,
     Model? model,
+    bool showAds = true,
   }) async {
     http.Response? response =
         await imageGenerationServiceInterface.generateImages(
@@ -36,6 +40,7 @@ class ImageGenerationController extends GetxController implements GetxService {
       upscale: upscale,
       faceFix: faceFix,
       modelValue: model,
+      showAds: showAds,
     );
     PromptResponse? value = imageGenerationServiceInterface
         .processGenerationResponse(response, prompt, model, upscale, seed);
@@ -50,5 +55,12 @@ class ImageGenerationController extends GetxController implements GetxService {
 
   Future<void> cancelRequest() async {
     await imageGenerationServiceInterface.cancelRequest();
+  }
+
+  Future<bool> hasShowedFreeLimitDialog() async {
+    return imageGenerationServiceInterface.willShowFreeLimitDialog(
+      SettingsController.find.settingModel.freeGenerations,
+      GenerationController.find.dailyGenerationCount,
+    );
   }
 }

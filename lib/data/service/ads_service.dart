@@ -68,7 +68,7 @@ class AdsService implements AdsServiceInterface {
   Future<void> showInterstitial(String adId) async {
     if (isPro) return;
     showAdLoadingDialog();
-    InterstitialAd? interstitialAd = await _loadInterstitial(adId);
+    InterstitialAd? interstitialAd = await loadInterstitial(adId);
     if (interstitialAd != null) {
       await interstitialAd.show();
     }
@@ -79,7 +79,7 @@ class AdsService implements AdsServiceInterface {
   Future<void> showRewardVideo(String adId) async {
     if (isPro) return;
     showAdLoadingDialog();
-    RewardedAd? rewardedAd = await _loadRewardVideoAd(adId);
+    RewardedAd? rewardedAd = await loadRewardVideoAd(adId);
     if (rewardedAd != null) {
       await rewardedAd.show(onUserEarnedReward: (ad, reward) {
         FirebaseAnalytics.instance.logAdImpression();
@@ -92,7 +92,7 @@ class AdsService implements AdsServiceInterface {
   Future<void> showRewardInterstitial(String adId) async {
     if (isPro) return;
     showAdLoadingDialog();
-    RewardedInterstitialAd? rewardedAd = await _loadRewardInterstitialAd(adId);
+    RewardedInterstitialAd? rewardedAd = await loadRewardInterstitialAd(adId);
     if (rewardedAd != null) {
       await rewardedAd.show(onUserEarnedReward: (ad, reward) {
         FirebaseAnalytics.instance.logAdImpression();
@@ -107,7 +107,8 @@ class AdsService implements AdsServiceInterface {
     return await _loadOpenAd(adId);
   }
 
-  Future<InterstitialAd?> _loadInterstitial(String unitId) async {
+  @override
+  Future<InterstitialAd?> loadInterstitial(String unitId) async {
     Completer<InterstitialAd?> completer = Completer();
 
     InterstitialAd.load(
@@ -169,7 +170,8 @@ class AdsService implements AdsServiceInterface {
     }
   }
 
-  Future<RewardedAd?> _loadRewardVideoAd(String unitId) async {
+  @override
+  Future<RewardedAd?> loadRewardVideoAd(String unitId) async {
     Completer<RewardedAd?> completer = Completer();
     RewardedAd.load(
       adUnitId: kDebugMode ? AdIds.REWARD_VIDEO_AD_ID : unitId,
@@ -182,6 +184,7 @@ class AdsService implements AdsServiceInterface {
           }
         },
         onAdFailedToLoad: (error) {
+          print('Failed to load rewarded video ad: $error');
           if (!completer.isCompleted) completer.complete();
         },
       ),
@@ -198,7 +201,8 @@ class AdsService implements AdsServiceInterface {
     }
   }
 
-  Future<RewardedInterstitialAd?> _loadRewardInterstitialAd(
+  @override
+  Future<RewardedInterstitialAd?> loadRewardInterstitialAd(
       String unitId) async {
     Completer<RewardedInterstitialAd?> completer = Completer();
     RewardedInterstitialAd.load(
@@ -212,6 +216,7 @@ class AdsService implements AdsServiceInterface {
           }
         },
         onAdFailedToLoad: (error) {
+          print('Failed to load rewarded interstitial ad: $error');
           if (!completer.isCompleted) completer.complete();
         },
       ),

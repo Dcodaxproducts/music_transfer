@@ -9,6 +9,7 @@ abstract class ImageGenerationServiceInterface<T> {
     bool upscale = false,
     bool faceFix = false,
     Model? modelValue,
+    bool showAds = true,
   });
 
   PromptResponse? processGenerationResponse(
@@ -22,4 +23,7 @@ abstract class ImageGenerationServiceInterface<T> {
   Future<bool> getQueuedImages(PromptResponse response);
 
   Future<void> cancelRequest();
+
+  Future<bool> willShowFreeLimitDialog(
+      int freeGenerations, int dailyGenerationCount);
 }

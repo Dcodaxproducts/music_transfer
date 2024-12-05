@@ -6,11 +6,9 @@ import io.flutter.embedding.engine.FlutterEngine
 
 import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin
 
-import pixart.aiart.generator.ProxyManager
 
 class MainActivity : FlutterActivity() {
 
-    private lateinit var proxyManager: ProxyManager
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -19,16 +17,6 @@ class MainActivity : FlutterActivity() {
         GoogleMobileAdsPlugin.registerNativeAdFactory(
             flutterEngine, "listTile", ListTileNativeAdFactory(context)
         )
-
-        // Initialize and set up ProxyManager
-        proxyManager = ProxyManager(context)
-        proxyManager.setupMethodChannel(flutterEngine.dartExecutor.binaryMessenger)
-    }
-
-    override fun onDestroy() {
-        // Clean up ProxyManager
-        proxyManager.onDestroy()
-        super.onDestroy()
     }
 
     override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {

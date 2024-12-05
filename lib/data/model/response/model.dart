@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class Model {
   final int id;
   final String modelId;
@@ -43,7 +45,8 @@ class Model {
       modelId: json['model_id'],
       name: json['name'],
       image: json['image'],
-      premium: json['premium'],
+      premium:
+          Platform.isAndroid ? json['premium'] : (json['ios_premium'] ?? false),
       popular: json['popular'] ?? false,
       isDefault: json['default'] ?? false,
       shortDescription: json['short_desc'] ?? '',

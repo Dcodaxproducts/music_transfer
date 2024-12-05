@@ -3,7 +3,6 @@ import 'package:matrix_ai/data/model/response/model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../data/service/model_service_interface.dart';
-import 'generation_controller.dart';
 import 'settings_controller.dart';
 
 class ModelsController extends GetxController {
@@ -62,19 +61,5 @@ class ModelsController extends GetxController {
   void initFavoriteModels() {
     _favoriteModels.addAll(modelsService.getFavoriteModels());
     update();
-  }
-
-  bool canShowVideoAd() {
-    return modelsService.canShowVideoAd(
-      SettingsController.find.settingModel.freeGenerations,
-      GenerationController.find.dailyGenerationCount,
-    );
-  }
-
-  bool canShowInterstitialAd() {
-    return modelsService.canShowInterstitialAd(
-      SettingsController.find.settingModel.freeGenerations,
-      GenerationController.find.dailyGenerationCount,
-    );
   }
 }

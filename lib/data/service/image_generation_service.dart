@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -6,13 +7,14 @@ import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/repository/image_generation_repo_interface.dart';
+import 'package:matrix_ai/view/base/ads/ad_loading_dialog.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../common/snackbar.dart';
 import '../../controller/ads_controller.dart';
-import '../../controller/models_controller.dart';
 import '../../controller/subscription_controller.dart';
+import '../../helper/navigation.dart';
+import '../../view/base/free_limit_dialog.dart';
 import '../../view/base/loading/prompt_loading.dart';
-import '../../view/screens/subscription/subscription.dart';
 import '../model/body/aspect_ratio.dart';
 import '../model/response/models_lab_response.dart';
 import '../model/response/model.dart';
@@ -23,24 +25,43 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   final ImageGenerationRepoInterface imageGenerationRepo;
   ImageGenerationService({required this.imageGenerationRepo});
 
-  bool _canGenerateImage() {
-    if (!GenerationController.find.canGenerateImage && !isPro) {
-      showToast('You have reached the daily generation limit');
-      showPremiumSheet();
-      return false;
-    }
-    return true;
+  Future<bool> _showAds() async {
+    if (isPro) return Future.value(true);
+    return ImageGenerationUtils.showAdAccordingToGeneration(
+      SettingsController.find.settingModel.freeGenerations,
+      GenerationController.find.dailyGenerationCount,
+    );
   }
 
-  Future<void> _showAds(Model model) async {
-    if (!isPro) {
-      if (model.adType == AdType.reward) {
-        await AdsController.find.showOnGenerateVideo();
-      } else if (model.adType == AdType.interstital &&
-          ModelsController.find.canShowInterstitialAd()) {
-        await AdsController.find.showOnGenerateInterstitial();
-      }
+  @override
+  Future<bool> willShowFreeLimitDialog(
+      int freeGenerations, int dailyGenerationCount) async {
+    bool success = false;
+    // if user has no free generations left
+    if (freeGenerations - dailyGenerationCount <= 0) {
+      Completer<bool> completer = Completer<bool>();
+      await showFreeLimitDialog(onWatchAdPressed: () async {
+        showAdLoadingDialog();
+        final value = await AdsController.find.getOnGenerateVideo();
+        dismiss();
+        // if ad is loaded
+        if (value != null) {
+          await value.show(onUserEarnedReward: (ad, reward) {
+            FirebaseAnalytics.instance.logAdImpression();
+
+            // increment daily generation count
+            success = true;
+            GenerationController.find.resetGenerationCount();
+            completer.complete(true);
+            pop();
+          });
+        } else {
+          completer.complete(false);
+        }
+      });
+      return completer.future;
     }
+    return Future.value(success);
   }
 
   @override
@@ -50,15 +71,15 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     bool upscale = false,
     bool faceFix = false,
     Model? modelValue,
+    bool showAds = true,
   }) async {
-    // check if user can generate image (daily limit)
-    if (!_canGenerateImage()) return null;
+    // show ads
+    if (showAds) {
+      await _showAds();
+    }
 
     // get model (selected or from models list)
     Model model = ImageGenerationUtils.getModel(modelValue);
-
-    // show ads (if not pro user and model has ads)
-    await _showAds(model);
 
     showPromptLoading(facefix: faceFix, upscale: upscale);
 
