@@ -8,7 +8,7 @@ on:
 jobs:
   build-apk:
     name: Build Debug and Release APKs
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       # Checkout the code
@@ -63,13 +63,13 @@ jobs:
 
       # Upload APKs as Artifacts
       - name: Upload Debug APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # Updated to v4
         with:
           name: Debug APK
           path: build/app/outputs/flutter-apk/*_debug.apk
 
       - name: Upload Release APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # Updated to v4
         with:
           name: Release APK
           path: build/app/outputs/flutter-apk/*_release.apk
@@ -82,11 +82,10 @@ jobs:
           server_port: 587
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
+          from: ${{ secrets.EMAIL_USERNAME }} # Specify the sender email
           subject: "New APKs Generated - ${{ github.event.pull_request.title }}"
           body: "The debug and release APKs have been generated. Please find them attached."
-          to: |
-            shafiquecbl@gmail.com,
-            usamadcodax@gmail.com
+          to: "shafiquecbl@gmail.com,usamadcodax@gmail.com" # Add multiple recipients here
           attachments: |
             build/app/outputs/flutter-apk/*_debug.apk
             build/app/outputs/flutter-apk/*_release.apk
