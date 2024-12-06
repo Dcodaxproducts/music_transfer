@@ -81,11 +81,11 @@ jobs:
           # Fetch artifact IDs using GitHub API
           debug_apk_url=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" | \
-            jq -r '.artifacts[] | select(.name == "Debug APK") | .archive_download_url')
+            jq -r '.artifacts[] | select(.name == "Debug APK") | .url')
           
           release_apk_url=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" | \
-            jq -r '.artifacts[] | select(.name == "Release APK") | .archive_download_url')
+            jq -r '.artifacts[] | select(.name == "Release APK") | .url')
 
           echo "::set-output name=debug_apk_url::$debug_apk_url"
           echo "::set-output name=release_apk_url::$release_apk_url"
