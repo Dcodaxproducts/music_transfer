@@ -79,7 +79,7 @@ jobs:
         id: get_urls
         run: |
           # Fetch artifact details using GitHub API
-          artifacts=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          artifacts=$(curl -s -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts")
           
           # Extract artifact IDs for Debug and Release APKs
