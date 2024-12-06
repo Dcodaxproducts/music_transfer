@@ -110,4 +110,4 @@ jobs:
             
             - Debug APK: ${{ env.DEBUG_APK_URL }}
             - Release APK: ${{ env.RELEASE_APK_URL }}
-          to: "shafiquecbl@gmail.com,usamadcodax@gmail.com" # Add multiple recipients here
+          to: "shafiquecbl@gmail.com,usamadcodax@gmail.com,talhaali3390137@gmail.com" # Add multiple recipients here
