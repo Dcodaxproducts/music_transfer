@@ -84,7 +84,9 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "New APKs Generated - ${{ github.event.pull_request.title }}"
           body: "The debug and release APKs have been generated. Please find them attached."
-          to: "recipient@example.com"
+          to: |
+            shafiquecbl@gmail.com,
+            usamadcodax@gmail.com
           attachments: |
             build/app/outputs/flutter-apk/*_debug.apk
             build/app/outputs/flutter-apk/*_release.apk
