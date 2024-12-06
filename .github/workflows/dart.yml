@@ -104,10 +104,10 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           from: ${{ secrets.EMAIL_USERNAME }} # Specify the sender email
-          subject: "New APKs Generated - ${{ github.event.pull_request.title }}"
+          subject: "New APKs Generated - PixArt - ${{ github.event.pull_request.title }}"
           body: |
             The debug and release APKs have been generated. You can download them from the following links:
             
-            - Debug APK: $DEBUG_APK_URL
-            - Release APK: $RELEASE_APK_URL
+            - Debug APK: ${{ env.DEBUG_APK_URL }}
+            - Release APK: ${{ env.RELEASE_APK_URL }}
           to: "shafiquecbl@gmail.com,usamadcodax@gmail.com" # Add multiple recipients here
