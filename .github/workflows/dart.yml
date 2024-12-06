@@ -8,7 +8,7 @@ on:
 jobs:
   build-apk:
     name: Build Debug and Release APKs
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       # Checkout the code
@@ -50,7 +50,7 @@ jobs:
           --dart-define=KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
           --dart-define=KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}
 
-      # Rename APKs with Pull Request Title or Default
+      # Rename APK Files
       - name: Rename APK Files
         run: |
           PR_TITLE="${{ github.event.pull_request.title }}"
@@ -63,16 +63,31 @@ jobs:
 
       # Upload APKs as Artifacts
       - name: Upload Debug APK
-        uses: actions/upload-artifact@v4 # Updated to v4
+        uses: actions/upload-artifact@v4
         with:
           name: Debug APK
           path: build/app/outputs/flutter-apk/*_debug.apk
 
       - name: Upload Release APK
-        uses: actions/upload-artifact@v4 # Updated to v4
+        uses: actions/upload-artifact@v4
         with:
           name: Release APK
           path: build/app/outputs/flutter-apk/*_release.apk
+
+      # Retrieve Artifact URLs
+      - name: Get Artifact URLs
+        id: get_urls
+        run: |
+          debug_apk_url=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | \
+            jq -r '.artifacts[] | select(.name == "Debug APK") | .archive_download_url')
+          
+          release_apk_url=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | \
+            jq -r '.artifacts[] | select(.name == "Release APK") | .archive_download_url')
+          
+          echo "::set-output name=debug_apk_url::$debug_apk_url"
+          echo "::set-output name=release_apk_url::$release_apk_url"
 
       # Email APKs
       - name: Send Email
@@ -84,7 +99,11 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           from: ${{ secrets.EMAIL_USERNAME }} # Specify the sender email
           subject: "New APKs Generated - ${{ github.event.pull_request.title }}"
-          body: "The debug and release APKs have been generated. Please find them attached."
+          body: |
+            The debug and release APKs have been generated. You can download them from the following links:
+            
+            - Debug APK: ${{ steps.get_urls.outputs.debug_apk_url }}
+            - Release APK: ${{ steps.get_urls.outputs.release_apk_url }}
           to: "shafiquecbl@gmail.com,usamadcodax@gmail.com" # Add multiple recipients here
           attachments: |
             build/app/outputs/flutter-apk/*_debug.apk
