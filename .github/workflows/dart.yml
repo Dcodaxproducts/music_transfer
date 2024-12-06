@@ -79,11 +79,11 @@ jobs:
         id: get_urls
         run: |
           # Fetch artifact IDs using GitHub API
-          debug_apk_url=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          debug_apk_url=$(curl -s -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" | \
             jq -r '.artifacts[] | select(.name == "Debug APK") | .url')
           
-          release_apk_url=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          release_apk_url=$(curl -s -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" | \
             jq -r '.artifacts[] | select(.name == "Release APK") | .url')
 
