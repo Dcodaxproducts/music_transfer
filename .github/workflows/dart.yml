@@ -1,0 +1,90 @@
+name: Build APKs and Email
+
+on:
+  pull_request:
+    branches:
+      - production
+
+jobs:
+  build-apk:
+    name: Build Debug and Release APKs
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Set up Java
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '18'
+
+      # Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.6'
+
+      # Restore Keystore
+      - name: Decode Keystore File
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/keystore.jks
+
+      # Install Dependencies
+      - name: Install Dependencies
+        run: flutter pub get
+
+      # Build Debug APK
+      - name: Build Debug APK
+        run: flutter build apk --debug
+
+      # Build Release APK
+      - name: Build Release APK
+        run: |
+          flutter build apk --release \
+          --dart-define=KEYSTORE_PATH=android/app/keystore.jks \
+          --dart-define=KEYSTORE_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }} \
+          --dart-define=KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
+          --dart-define=KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}
+
+      # Rename APKs with Pull Request Title or Default
+      - name: Rename APK Files
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          APK_NAME=${{ github.repository }}
+          if [ -z "$PR_TITLE" ]; then
+            PR_TITLE=$APK_NAME
+          fi
+          mv build/app/outputs/flutter-apk/app-debug.apk build/app/outputs/flutter-apk/${PR_TITLE}_debug.apk
+          mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${PR_TITLE}_release.apk
+
+      # Upload APKs as Artifacts
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: Debug APK
+          path: build/app/outputs/flutter-apk/*_debug.apk
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: Release APK
+          path: build/app/outputs/flutter-apk/*_release.apk
+
+      # Email APKs
+      - name: Send Email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "New APKs Generated - ${{ github.event.pull_request.title }}"
+          body: "The debug and release APKs have been generated. Please find them attached."
+          to: "recipient@example.com"
+          attachments: |
+            build/app/outputs/flutter-apk/*_debug.apk
+            build/app/outputs/flutter-apk/*_release.apk
