@@ -10,16 +10,14 @@ import '../../controller/settings_controller.dart';
 import '../model/response/together_ai_response.dart';
 
 class ImageGenerationUtils {
-  static Future<bool> showAdAccordingToGeneration(
-      int freeGenerations, int dailyGenerationCount) async {
+  static Future<bool> showAdAccordingToGeneration(int freeGenerations, int dailyGenerationCount) async {
     // if generation feature is disabled or first generation is free
-    if (SettingsController.find.settingModel.freeGenerations == 0 ||
-        dailyGenerationCount == 0) {
+    if (SettingsController.find.settingModel.freeGenerations == 0 || dailyGenerationCount == 0) {
       return Future.value(true);
     }
 
     //  show video or interstitial ad based on even or odd
-    if (dailyGenerationCount.isEven) {
+    if (dailyGenerationCount.isOdd) {
       await AdsController.find.showOnGenerateVideo();
     } else {
       await AdsController.find.showOnGenerateInterstitial();
@@ -150,8 +148,6 @@ class ImageGenerationUtils {
   }
 
   static Map<String, dynamic> getHeaders(Model model) {
-    return model.apiKeyLoation == 'header'
-        ? {'Authorization': 'Bearer ${model.apiKey}'}
-        : {};
+    return model.apiKeyLoation == 'header' ? {'Authorization': 'Bearer ${model.apiKey}'} : {};
   }
 }

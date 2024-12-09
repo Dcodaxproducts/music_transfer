@@ -35,15 +35,14 @@ class ApiClient extends GetxService implements ApiClientInterface {
   Future<http.Response?> get(String uri, {Map<String, String>? headers}) async {
     try {
       // print the api call
-      debugPrint('====> API Call: $uri, ====> Header: $_mainHeaders');
+      debugPrint('====> API Call: ${AppConstants.BASE_URL + uri}, ====> Header: $_mainHeaders');
 
       // Initialize a new client
       _client = http.Client();
 
       // api call
       http.Response response = await _client!
-          .get(Uri.parse(AppConstants.BASE_URL + uri),
-              headers: headers ?? _mainHeaders)
+          .get(Uri.parse(AppConstants.BASE_URL + uri), headers: headers ?? _mainHeaders)
           .timeout(Duration(seconds: timeoutInSeconds));
 
       _client = null; // Reset the client after completion
@@ -120,8 +119,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
     }
   }
 
-  Future<http.Response?> _handleResponse(http.Response response,
-      {bool? dismissDelay = false}) async {
+  Future<http.Response?> _handleResponse(http.Response response, {bool? dismissDelay = false}) async {
     if (response.statusCode != 200) {
       return _handleError(jsonDecode(response.body));
     } else {

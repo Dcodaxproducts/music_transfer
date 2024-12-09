@@ -8,12 +8,10 @@ import 'package:matrix_ai/view/base/gradient_widget.dart';
 import 'package:matrix_ai/view/screens/subscription/subscription.dart';
 import '../../utils/style.dart';
 
-Future showFreeLimitDialog({required Function() onWatchAdPressed}) =>
-    Get.dialog(FreeLimitDialog(onWatchAdPressed: onWatchAdPressed));
+Future showFreeLimitDialog() => Get.dialog(const FreeLimitDialog());
 
 class FreeLimitDialog extends StatelessWidget {
-  final Function() onWatchAdPressed;
-  const FreeLimitDialog({super.key, required this.onWatchAdPressed});
+  const FreeLimitDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +30,7 @@ class FreeLimitDialog extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                visualDensity:
-                    const VisualDensity(horizontal: -4, vertical: -4),
+                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                 padding: EdgeInsets.zero,
                 icon: const Icon(Icons.close, color: primaryColor),
                 onPressed: Get.back,
@@ -50,10 +47,7 @@ class FreeLimitDialog extends StatelessWidget {
             SizedBox(height: 8.sp),
             Text(
               "Free Limit Reached".tr,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16.sp),
             Text(
@@ -64,22 +58,12 @@ class FreeLimitDialog extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(top: 32.sp),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: PrimaryOutlineButton(
-                      text: 'Watch Ad',
-                      onPressed: onWatchAdPressed,
-                    ),
-                  ),
-                  SizedBox(width: 16.sp),
-                  Expanded(
-                    child: PrimaryButton(
-                      text: 'Go Pro'.tr,
-                      onPressed: showPremiumSheet,
-                    ),
-                  ),
-                ],
+              child: SizedBox(
+                width: double.infinity,
+                child: PrimaryButton(
+                  text: 'Go Pro'.tr,
+                  onPressed: showPremiumSheet,
+                ),
               ),
             ),
           ],

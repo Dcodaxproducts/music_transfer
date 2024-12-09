@@ -56,9 +56,10 @@ void main() async {
   PlatformDispatcher.instance.onError = (error, stack) {
     if (error.toString().contains('HttpException: Invalid statusCode: 404')) {
       return false;
+    } else {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
     }
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
   };
   runApp(MyApp(languages: languages));
 }
@@ -88,12 +89,10 @@ class MyApp extends StatelessWidget {
             designSize: designSize,
             minTextAdapt: true,
             splitScreenMode: true,
-            fontSizeResolver: (size, util) =>
-                _screenSize(size, isTablet, isLargeTablet, util),
+            fontSizeResolver: (size, util) => _screenSize(size, isTablet, isLargeTablet, util),
             builder: (context, child) => MediaQuery(
               data: MediaQuery.of(context).copyWith(
-                  textScaler: TextScaler.linear(
-                      MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.2))),
+                  textScaler: TextScaler.linear(MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.2))),
               child: GetMaterialApp(
                 title: AppConstants.APP_NAME,
                 debugShowCheckedModeBanner: false,
@@ -107,12 +106,9 @@ class MyApp extends StatelessWidget {
                   AppConstants.languages[0].countryCode,
                 ),
                 navigatorObservers: [FlutterSmartDialog.observer],
-                builder: FlutterSmartDialog.init(
-                    loadingBuilder: (string) => const LoadingWidget()),
+                builder: FlutterSmartDialog.init(loadingBuilder: (string) => const LoadingWidget()),
                 home: UpgradeAlert(
-                  dialogStyle: Platform.isIOS
-                      ? UpgradeDialogStyle.cupertino
-                      : UpgradeDialogStyle.material,
+                  dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
                   child: RestartWidget(
                     child: GetBuilder<SettingsController>(
                       builder: (con) {
