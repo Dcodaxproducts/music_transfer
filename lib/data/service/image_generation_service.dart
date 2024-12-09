@@ -7,14 +7,10 @@ import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/repository/image_generation_repo_interface.dart';
-import 'package:matrix_ai/view/base/ads/ad_loading_dialog.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../common/snackbar.dart';
-import '../../controller/ads_controller.dart';
 import '../../controller/subscription_controller.dart';
-import '../../helper/navigation.dart';
 import '../../utils/app_constants.dart';
-import '../../view/base/free_limit_dialog.dart';
 import '../../view/base/loading/prompt_loading.dart';
 import '../model/body/aspect_ratio.dart';
 import '../model/response/models_lab_response.dart';
@@ -35,40 +31,21 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   }
 
   @override
-  Future<bool> willShowFreeLimitDialog(
-      int freeGenerations, int dailyGenerationCount) async {
-    bool success = false;
+  Future<bool> willShowFreeLimitDialog(int freeGenerations, int dailyGenerationCount) async {
+    // if generation feature is disabled
+    if (SettingsController.find.settingModel.freeGenerations == 0) {
+      return Future.value(false);
+    }
 
-    bool proUserCondition = freeGenerations >= AppConstants.PRO_USER_DAILY_LIMIT;
-    bool freeUserCondition = freeGenerations - dailyGenerationCount <= 0;
+    // daily generation limit exceeded
+    bool proUserCondition = dailyGenerationCount >= AppConstants.PRO_USER_DAILY_LIMIT;
+
+    // free generation limit exceeded
+    int count = freeGenerations - dailyGenerationCount;
+    bool freeUserCondition = count <= 0 || count.isNegative;
 
     bool condition = isPro ? proUserCondition : freeUserCondition;
-
-    // if user has no free generations left
-    if (condition) {
-      Completer<bool> completer = Completer<bool>();
-      await showFreeLimitDialog(onWatchAdPressed: () async {
-        showAdLoadingDialog();
-        final value = await AdsController.find.getOnGenerateVideo();
-        dismiss();
-        // if ad is loaded
-        if (value != null) {
-          await value.show(onUserEarnedReward: (ad, reward) {
-            FirebaseAnalytics.instance.logAdImpression();
-
-            // increment daily generation count
-            success = true;
-            GenerationController.find.resetGenerationCount();
-            completer.complete(true);
-            pop();
-          });
-        } else {
-          completer.complete(false);
-        }
-      });
-      return completer.future;
-    }
-    return Future.value(success);
+    return Future.value(condition);
   }
 
   @override
@@ -100,8 +77,8 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     Map<String, dynamic> headers = ImageGenerationUtils.getHeaders(model);
 
     // create request body (parameters to send to the api)
-    Map<String, dynamic> body = ImageGenerationUtils.createRequestBody(
-        prompt, size, model, seed, upscale, faceFix);
+    Map<String, dynamic> body =
+        ImageGenerationUtils.createRequestBody(prompt, size, model, seed, upscale, faceFix);
 
     // send request to api
     return await imageGenerationRepo.generateImages(
@@ -183,8 +160,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     // get queue url
     String url = value.model!.queueUrl;
 
-    http.Response? response =
-        await imageGenerationRepo.getQueueImage(url: url, body: body);
+    http.Response? response = await imageGenerationRepo.getQueueImage(url: url, body: body);
 
     if (response != null) {
       Map<String, dynamic> data = jsonDecode(response.body);

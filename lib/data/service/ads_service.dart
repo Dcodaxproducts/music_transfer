@@ -51,8 +51,7 @@ class AdsService implements AdsServiceInterface {
   @override
   void loadForm() {
     ConsentForm.loadConsentForm((consentForm) async {
-      if (await ConsentInformation.instance.getConsentStatus() ==
-          ConsentStatus.required) {
+      if (await ConsentInformation.instance.getConsentStatus() == ConsentStatus.required) {
         consentForm.show((formError) {
           if (formError != null) {
             // showSnack("Consent form error: ${formError.message}");
@@ -130,8 +129,7 @@ class AdsService implements AdsServiceInterface {
     );
 
     try {
-      return await completer.future.timeout(const Duration(seconds: 4),
-          onTimeout: () {
+      return await completer.future.timeout(const Duration(seconds: 4), onTimeout: () {
         if (!completer.isCompleted) completer.complete();
         return null;
       });
@@ -160,8 +158,7 @@ class AdsService implements AdsServiceInterface {
     );
 
     try {
-      return await completer.future.timeout(const Duration(seconds: 4),
-          onTimeout: () {
+      return await completer.future.timeout(const Duration(seconds: 4), onTimeout: () {
         if (!completer.isCompleted) completer.complete();
         return null;
       });
@@ -184,15 +181,13 @@ class AdsService implements AdsServiceInterface {
           }
         },
         onAdFailedToLoad: (error) {
-          print('Failed to load rewarded video ad: $error');
           if (!completer.isCompleted) completer.complete();
         },
       ),
     );
 
     try {
-      return await completer.future.timeout(const Duration(seconds: 4),
-          onTimeout: () {
+      return await completer.future.timeout(const Duration(seconds: 4), onTimeout: () {
         if (!completer.isCompleted) completer.complete();
         return null;
       });
@@ -202,8 +197,7 @@ class AdsService implements AdsServiceInterface {
   }
 
   @override
-  Future<RewardedInterstitialAd?> loadRewardInterstitialAd(
-      String unitId) async {
+  Future<RewardedInterstitialAd?> loadRewardInterstitialAd(String unitId) async {
     Completer<RewardedInterstitialAd?> completer = Completer();
     RewardedInterstitialAd.load(
       adUnitId: kDebugMode ? AdIds.REWARD_INTERSTITIAL_AD_ID : unitId,
@@ -216,15 +210,13 @@ class AdsService implements AdsServiceInterface {
           }
         },
         onAdFailedToLoad: (error) {
-          print('Failed to load rewarded interstitial ad: $error');
           if (!completer.isCompleted) completer.complete();
         },
       ),
     );
 
     try {
-      return await completer.future.timeout(const Duration(seconds: 4),
-          onTimeout: () {
+      return await completer.future.timeout(const Duration(seconds: 4), onTimeout: () {
         if (!completer.isCompleted) completer.complete();
         return null;
       });

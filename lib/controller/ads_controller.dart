@@ -33,8 +33,7 @@ class AdsController extends GetxController {
   Future<AppOpenAd?> showAppOpenAd() async {
     AppOpenAd? appOpenAd;
     // get ad
-    AdModel? ad = ads
-        .firstWhereOrNull((element) => element.position == AdPosition.appOpen);
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.appOpen);
 
     // if ad is not null and active and type is appOpen
     if (ad != null && ad.type == AdType.appOpen && ad.active) {
@@ -46,8 +45,7 @@ class AdsController extends GetxController {
 
   Future<void> showOnGenerateVideo() async {
     // get ad
-    AdModel? ad = ads.firstWhereOrNull(
-        (element) => element.position == AdPosition.onGenerateVideo);
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.onGenerateVideo);
 
     // if ad is not null and active and type is reward
     if (ad != null && ad.active) {
@@ -63,8 +61,7 @@ class AdsController extends GetxController {
 
   Future<dynamic> getOnGenerateVideo() async {
     // get ad
-    AdModel? ad = ads.firstWhereOrNull(
-        (element) => element.position == AdPosition.onGenerateVideo);
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.onGenerateVideo);
 
     // if ad is not null and active and type is reward
     if (ad != null && ad.active) {
@@ -81,8 +78,7 @@ class AdsController extends GetxController {
 
   Future<void> showOnGenerateInterstitial() async {
     // get ad
-    AdModel? ad = ads.firstWhereOrNull(
-        (element) => element.position == AdPosition.onGenerateInterstitial);
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.onGenerateInterstitial);
 
     // if ad is not null and active and type is interstitial
     if (ad != null && ad.type == AdType.interstital && ad.active) {
@@ -93,48 +89,42 @@ class AdsController extends GetxController {
 
   Widget showModelScreenAd() {
     // get ad
-    AdModel? ad = ads.firstWhereOrNull(
-        (element) => element.position == AdPosition.modelScreen);
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.modelScreen);
 
     return adsService.getBannerWidget(ad);
   }
 
   Widget showPromptSettingAd() {
     // get ad
-    AdModel? ad = ads.firstWhereOrNull(
-        (element) => element.position == AdPosition.promptSettingScreen);
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.promptSettingScreen);
 
     return adsService.getBannerWidget(ad);
   }
 
   Widget showHistoryScreenAd() {
     // get ad
-    AdModel? ad = ads.firstWhereOrNull(
-        (element) => element.position == AdPosition.historyScreen);
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.historyScreen);
 
     return adsService.getBannerWidget(ad);
   }
 
   Widget showResultScreenAd() {
     // get ad
-    AdModel? ad = ads.firstWhereOrNull(
-        (element) => element.position == AdPosition.resultScreen);
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.resultScreen);
 
     return adsService.getBannerWidget(ad);
   }
 
   Widget showLanguageScreenAd() {
     // get ad
-    AdModel? ad = ads.firstWhereOrNull(
-        (element) => element.position == AdPosition.languageScreen);
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.languageScreen);
 
     return adsService.getBannerWidget(ad);
   }
 
   Widget showInspirationScreenAd() {
     // get ad
-    AdModel? ad = ads.firstWhereOrNull(
-        (element) => element.position == AdPosition.inspirationScreen);
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.inspirationScreen);
 
     return adsService.getBannerWidget(ad);
   }
