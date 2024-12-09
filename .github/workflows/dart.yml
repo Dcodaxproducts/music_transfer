@@ -1,9 +1,35 @@
 name: Build APKs and Email
 
 on:
-  pull_request:
-    branches:
-      - production
+  workflow_dispatch:
+    inputs:
+      title:
+        description: "Pull Request Title (Optional)"
+        required: false
+      debug_apk:
+        description: "Build Debug APK"
+        required: true
+        type: choice
+        options:
+          - "true"
+          - "false"
+        default: true
+      release_apk:
+        description: "Build Release APK"
+        required: true
+        type: choice
+        options:
+          - "true"
+          - "false"
+        default: true
+      send_email:
+        description: "Send Email with APK links"
+        required: false
+        type: choice
+        options:
+          - "true"
+          - "false"
+        default: true
 
 jobs:
   build-apk:
@@ -37,12 +63,14 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      # Build Debug APK
+      # Build Debug APK (if requested)
       - name: Build Debug APK
+        if: ${{ inputs.debug_apk == 'true' }}
         run: flutter build apk --debug
 
-      # Build Release APK
+      # Build Release APK (if requested)
       - name: Build Release APK
+        if: ${{ inputs.release_apk == 'true' }}
         run: |
           flutter build apk --release \
           --dart-define=KEYSTORE_PATH=android/app/keystore.jks \
@@ -53,50 +81,57 @@ jobs:
       # Rename APK Files
       - name: Rename APK Files
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          APK_NAME=${{ github.repository }}
-          if [ -z "$PR_TITLE" ]; then
-            PR_TITLE=$APK_NAME
+          TITLE="${{ inputs.title || 'Untitled_PR' }}"
+          if [ "${{ inputs.debug_apk }}" == "true" ]; then
+            mv build/app/outputs/flutter-apk/app-debug.apk build/app/outputs/flutter-apk/${TITLE}_debug.apk
           fi
-          mv build/app/outputs/flutter-apk/app-debug.apk build/app/outputs/flutter-apk/${PR_TITLE}_debug.apk
-          mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${PR_TITLE}_release.apk
+          if [ "${{ inputs.release_apk }}" == "true" ]; then
+            mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${TITLE}_release.apk
+          fi
 
-      # Upload APKs as Artifacts
+      # Upload APKs as Artifacts (if built)
       - name: Upload Debug APK
+        if: ${{ inputs.debug_apk == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: Debug APK
           path: build/app/outputs/flutter-apk/*_debug.apk
 
       - name: Upload Release APK
+        if: ${{ inputs.release_apk == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: Release APK
           path: build/app/outputs/flutter-apk/*_release.apk
 
-      # Retrieve Artifact URLs
+      # Retrieve Artifact URLs (if sending email)
       - name: Get Artifact Download URLs
         id: get_urls
+        if: ${{ inputs.send_email == 'true' }}
         run: |
           # Fetch artifact details using GitHub API
           artifacts=$(curl -s -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts")
           
           # Extract artifact IDs for Debug and Release APKs
-          debug_artifact_id=$(echo "$artifacts" | jq -r '.artifacts[] | select(.name == "Debug APK") | .id')
-          release_artifact_id=$(echo "$artifacts" | jq -r '.artifacts[] | select(.name == "Release APK") | .id')
-          
-          # Construct download URLs using artifact IDs
-          debug_apk_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/$debug_artifact_id"
-          release_apk_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/$release_artifact_id"
-      
+          debug_apk_url=""
+          release_apk_url=""
+          if [ "${{ inputs.debug_apk }}" == "true" ]; then
+            debug_artifact_id=$(echo "$artifacts" | jq -r '.artifacts[] | select(.name == "Debug APK") | .id')
+            debug_apk_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/$debug_artifact_id"
+          fi
+          if [ "${{ inputs.release_apk }}" == "true" ]; then
+            release_artifact_id=$(echo "$artifacts" | jq -r '.artifacts[] | select(.name == "Release APK") | .id')
+            release_apk_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/$release_artifact_id"
+          fi
+
           # Save output variables to environment files
           echo "DEBUG_APK_URL=$debug_apk_url" >> $GITHUB_ENV
           echo "RELEASE_APK_URL=$release_apk_url" >> $GITHUB_ENV
 
-
-      # Email APKs
+      # Email APKs (if requested)
       - name: Send Email
+        if: ${{ inputs.send_email == 'true' }}
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: dcodax.net
@@ -104,10 +139,10 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           from: ${{ secrets.EMAIL_USERNAME }} # Specify the sender email
-          subject: "New APKs Generated - PixArt - ${{ github.event.pull_request.title }}"
+          subject: "New APKs Generated - PixArt - ${{ inputs.title || 'Untitled_PR' }}"
           body: |
-            The debug and release APKs have been generated. You can download them from the following links:
+            The APKs have been generated. You can download them from the following links:
             
             - Debug APK: ${{ env.DEBUG_APK_URL }}
             - Release APK: ${{ env.RELEASE_APK_URL }}
-          to: "shafiquecbl@gmail.com,usamadcodax@gmail.com,talhaali3390137@gmail.com" # Add multiple recipients here
+          to: "shafiquecbl@gmail.com,usamadcodax@gmail.com,talhaali3390137@gmail.com"
