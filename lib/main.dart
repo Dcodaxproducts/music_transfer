@@ -7,6 +7,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
@@ -32,6 +33,8 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // initialize firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Load the .env file
+  await dotenv.load();
   // initialize localization
   Map<String, Map<String, String>> languages = await di.init();
   // request permission for firebase messaging
@@ -40,14 +43,6 @@ void main() async {
   NotificationHelper.initialize();
   // initialize google mobile ads
   await MobileAds.instance.initialize();
-  // set test device ids
-  MobileAds.instance.updateRequestConfiguration(
-    RequestConfiguration(testDeviceIds: [
-      '35AC28268E54129E754D61AC6566DC39',
-      '5702440426D82D25D48028FD42E2DBEF',
-      'B4A6C2D13ADA1561CB1579936DBE6E64'
-    ]),
-  );
   // Firebase Crashlytics
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);

@@ -45,7 +45,8 @@ class ImageGenerationHelper {
     if (GenerationController.find.proUserLimitExceeded) {
       bool hasShowedFreeLimitDialog = await ImageGenerationController.find.hasShowedFreeLimitDialog();
       if (hasShowedFreeLimitDialog) {
-        generateImage(text, showAds: false);
+        await showFreeLimitDialog();
+        return;
       }
     } else {
       generateImage(text);
