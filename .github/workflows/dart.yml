@@ -7,17 +7,29 @@ on:
         description: "Pull Request Title (Optional)"
         required: false
       debug_apk:
-        description: "Build Debug APK (true/false)"
+        description: "Build Debug APK"
         required: true
-        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+        default: true
       release_apk:
-        description: "Build Release APK (true/false)"
+        description: "Build Release APK"
         required: true
-        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+        default: true
       send_email:
-        description: "Send Email with APK links (true/false)"
+        description: "Send Email with APK links"
         required: false
-        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+        default: true
 
 jobs:
   build-apk:
