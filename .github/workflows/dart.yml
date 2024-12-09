@@ -4,6 +4,11 @@ on:
   pull_request:
     branches:
       - production
+  workflow_dispatch:
+    inputs:
+      pr_title:
+        description: "Pull Request Title (Optional)"
+        required: false
 
 jobs:
   build-apk:
@@ -53,10 +58,9 @@ jobs:
       # Rename APK Files
       - name: Rename APK Files
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          APK_NAME=${{ github.repository }}
+          PR_TITLE="${{ github.event.inputs.pr_title || github.event.pull_request.title }}"
           if [ -z "$PR_TITLE" ]; then
-            PR_TITLE=$APK_NAME
+            PR_TITLE="Untitled_PR"
           fi
           mv build/app/outputs/flutter-apk/app-debug.apk build/app/outputs/flutter-apk/${PR_TITLE}_debug.apk
           mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${PR_TITLE}_release.apk
@@ -104,7 +108,7 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           from: ${{ secrets.EMAIL_USERNAME }} # Specify the sender email
-          subject: "New APKs Generated - PixArt - ${{ github.event.pull_request.title }}"
+          subject: "New APKs Generated - PixArt - ${{ github.event.inputs.pr_title || github.event.pull_request.title }}"
           body: |
             The debug and release APKs have been generated. You can download them from the following links:
             
