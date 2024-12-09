@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.4] - 2023-12-9 (iOS)
+
+### Added
+
+- N/A
+
+### Changed
+
+- Show reward ad first instead of interstitial (in free limit, on basic of even odd)
+
+### Removed
+
+- **Features**
+
+  - Remove watch ad button on limit reached dialog
+
+### Fixed
+
+- Ad and Image generation flow
+
 ## [2.3] - 2023-12-05 (iOS)
 
 ### Added
