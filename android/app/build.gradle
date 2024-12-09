@@ -25,8 +25,26 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// Load environment variables from .env file
+def loadEnv() {
+    Properties properties = new Properties()
+    // Ensure the .env file is loaded from the project root directory
+    def envFile = new File(rootProject.projectDir.parentFile, '.env')
+    if (envFile.exists()) {
+        envFile.withInputStream { stream ->
+            properties.load(stream)
+        }
+    } else {
+        throw new FileNotFoundException(".env file not found in project root directory")
+    }
+    return properties
+}
+
+// Apply the environment variables
+project.ext.env = loadEnv()
+
 android {
-    namespace "pixart.aiart.generator"
+    namespace project.env.BUNDLE_ID_ANDROID
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -44,28 +62,31 @@ android {
     }
 
     defaultConfig {
-        applicationId "pixart.aiart.generator"
-        minSdkVersion 24
-        targetSdkVersion 34
-        versionCode '8'.toInteger()
-        versionName '1.5'
+        applicationId project.env.BUNDLE_ID_ANDROID
+        minSdkVersion project.env.MIN_SDK_VERSION
+        targetSdkVersion project.env.TARGET_SDK_VERSION
+        versionCode project.env.ANDROID_VERSION_CODE.toInteger()
+        versionName project.env.ANDROID_VERSION_NAME.toString()
         multiDexEnabled true
+
+        // Define placeholder for app name
+        resValue "string", "app_name", project.env.APP_NAME
     }
 
     signingConfigs {
 
         debug {
-             storeFile file('keystore.jks')
-            storePassword 'upload'
-            keyAlias 'upload'
-            keyPassword 'upload'
+            storeFile file(project.env.KEYSTORE_PATH.toString())
+            storePassword project.env.KEYSTORE_PASSWORD
+            keyAlias project.env.KEYSTORE_ALIAS
+            keyPassword project.env.KEY_PASSWORD
         }
 
         release {
-            storeFile file('keystore.jks')
-            storePassword 'upload'
-            keyAlias 'upload'
-            keyPassword 'upload'
+            storeFile file(project.env.KEYSTORE_PATH.toString())
+            storePassword project.env.KEYSTORE_PASSWORD
+            keyAlias project.env.KEYSTORE_ALIAS
+            keyPassword project.env.KEY_PASSWORD
         }
     }
 
