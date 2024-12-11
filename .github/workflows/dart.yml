@@ -53,14 +53,14 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
-          java-version: '18'
+          distribution: "zulu"
+          java-version: "18"
 
       # Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.6'
+          flutter-version: "3.19.6"
 
       # Install Fastlane (for TestFlight upload)
       - name: Install Fastlane
@@ -142,7 +142,7 @@ jobs:
           # Fetch artifact details using GitHub API
           artifacts=$(curl -s -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts")
-          
+
           # Extract artifact IDs for Debug and Release APKs
           debug_apk_url=""
           release_apk_url=""
@@ -172,7 +172,7 @@ jobs:
           subject: "New APKs Generated - PixArt - ${{ inputs.title || 'Untitled_PR' }}"
           body: |
             The APKs have been generated. You can download them from the following links:
-            
+
             - Debug APK: ${{ env.DEBUG_APK_URL }}
             - Release APK: ${{ env.RELEASE_APK_URL }}
           to: "shafiquecbl@gmail.com,usamadcodax@gmail.com,talhaali3390137@gmail.com"
