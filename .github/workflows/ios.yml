@@ -46,8 +46,7 @@ jobs:
 
       - name: Set up Distribution Certificate
         run: |
-          BASE64_CERT="${DISTRIBUTION_CERTIFICATE}"
-          echo "$BASE64_CERT" | base64 --decode > /tmp/certificate.p12
+          echo "${DISTRIBUTION_CERTIFICATE}" | base64 --decode > /tmp/certificate.p12
           keychain add-certificates --certificate /tmp/certificate.p12 --certificate-password "${DISTRIBUTION_CERTIFICATE_PASSWORD}"
 
       - name: Extract Version and Build Number from Environment.xcconfig
