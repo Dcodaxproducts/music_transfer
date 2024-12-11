@@ -48,6 +48,10 @@ jobs:
         run: |
           echo ${DISTRIBUTION_CERTIFICATE} | base64 --decode > /tmp/certificate.p12
           ls -l /tmp/certificate.p12
+          if [ $? -ne 0 ]; then
+          echo "Base64 decoding failed!"
+            exit 1
+          fi
           keychain add-certificates --certificate /tmp/certificate.p12 --certificate-password ${DISTRIBUTION_CERTIFICATE_PASSWORD}
 
       - name: Extract Version and Build Number from Environment.xcconfig
