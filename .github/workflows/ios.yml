@@ -47,8 +47,7 @@ jobs:
       - name: Set up Distribution Certificate
         run: |
           echo ${DISTRIBUTION_CERTIFICATE} | base64 --decode > /tmp/certificate.p12
-          echo "Password is: $DISTRIBUTION_CERTIFICATE_PASSWORD"
-          echo "Certificate is: $DISTRIBUTION_CERTIFICATE"
+          ls -l /tmp/
           ls -l /tmp/certificate.p12
           keychain add-certificates --certificate /tmp/certificate.p12 --certificate-password ${DISTRIBUTION_CERTIFICATE_PASSWORD}
 
