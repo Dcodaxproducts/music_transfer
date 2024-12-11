@@ -1,9 +1,7 @@
 name: Push iOS build on TestFlight
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   ios_deployment:
