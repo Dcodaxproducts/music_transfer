@@ -29,10 +29,15 @@ jobs:
           channel: stable
           version: 3.19.6
 
-      - name: Install dependencies & pods
+      - name: Install dependencies
         run: |
           flutter clean
           flutter pub get
+          cd ios
+          pod install
+          
+      - name: Install pods (pod install)
+        run: |
           cd ios
           pod install
           
