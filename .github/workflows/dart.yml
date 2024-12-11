@@ -1,4 +1,4 @@
-name: Build APKs and Upload to TestFlight
+name: Build APKs and Upload and Send Email
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ on:
         options:
           - "true"
           - "false"
-        default: true
+        default: "true"
       release_apk:
         description: "Build Release APK"
         required: true
@@ -21,7 +21,7 @@ on:
         options:
           - "true"
           - "false"
-        default: true
+        default: "true"
       send_email:
         description: "Send Email with APK links"
         required: false
@@ -29,15 +29,7 @@ on:
         options:
           - "true"
           - "false"
-        default: true
-      upload_testflight:
-        description: "Upload iOS App to TestFlight"
-        required: true
-        type: choice
-        options:
-          - "true"
-          - "false"
-        default: "false"
+        default: "true"
 
 jobs:
   build-and-upload:
@@ -61,10 +53,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.6"
-
-      # Install Fastlane (for TestFlight upload)
-      - name: Install Fastlane
-        run: sudo gem install fastlane
 
       # Restore Keystore
       - name: Decode Keystore File
@@ -115,37 +103,6 @@ jobs:
         with:
           name: Release APK
           path: build/app/outputs/flutter-apk/*_release.apk
-
-      # Install CocoaPods dependencies (for iOS)
-      - name: Install iOS Dependencies (pod install)
-        if: ${{ inputs.upload_testflight == 'true' }}
-        run: |
-          cd ios
-          pod install
-
-      # Build iOS IPA (for TestFlight or production)
-      - name: Build iOS IPA
-        if: ${{ inputs.upload_testflight == 'true' }}
-        run: |
-          flutter build ios --release --no-codesign
-
-      # TestFlight Upload
-      - name: Upload to TestFlight
-        if: ${{ inputs.upload_testflight == 'true' }}
-        run: |
-          echo '{
-            "key_id": "${{ secrets.APP_STORE_API_KEY_ID }}",
-            "issuer_id": "${{ secrets.APP_STORE_ISSUER_ID }}",
-            "key": "${{ secrets.APP_STORE_API_KEY }}"
-          }' > app_store_connect_key.json
-
-          fastlane pilot upload \
-            --api_key_path app_store_connect_key.json \
-            --ipa build/ios/ipa/app.ipa
-        env:
-          APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
-          APP_STORE_API_KEY_ID: ${{ secrets.APP_STORE_API_KEY_ID }}
-          APP_STORE_ISSUER_ID: ${{ secrets.APP_STORE_ISSUER_ID }}
 
       # Retrieve Artifact URLs (if sending email)
       - name: Get Artifact Download URLs
