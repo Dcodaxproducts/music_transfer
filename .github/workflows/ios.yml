@@ -47,13 +47,9 @@ jobs:
       - name: Set up Distribution Certificate
         run: |
           echo ${DISTRIBUTION_CERTIFICATE} | base64 --decode > /tmp/certificate.p12
-          ls -l ${DISTRIBUTION_CERTIFICATE}
-          ls -l ${DISTRIBUTION_CERTIFICATE_PASSWORD}
+          echo "Password is: $DISTRIBUTION_CERTIFICATE_PASSWORD"
+          echo "Certificate is: $DISTRIBUTION_CERTIFICATE"
           ls -l /tmp/certificate.p12
-          if [ $? -ne 0 ]; then
-          echo "Base64 decoding failed!"
-            exit 1
-          fi
           keychain add-certificates --certificate /tmp/certificate.p12 --certificate-password ${DISTRIBUTION_CERTIFICATE_PASSWORD}
 
       - name: Extract Version and Build Number from Environment.xcconfig
