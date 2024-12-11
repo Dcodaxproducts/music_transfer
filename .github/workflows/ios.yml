@@ -60,11 +60,6 @@ jobs:
           echo "${DISTRIBUTION_CERTIFICATE}" | base64 --decode > /tmp/certificate.p12
           keychain add-certificates --certificate /tmp/certificate.p12 --certificate-password "${DISTRIBUTION_CERTIFICATE_PASSWORD}"
 
-      - name: Print export_options.plist content
-        run: |
-          cat /Users/runner/export_options.plist
-
-
       - name: Extract Version and Build Number from Environment.xcconfig
         run: |
           # Extract MARKETING_VERSION
