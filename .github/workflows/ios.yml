@@ -16,6 +16,10 @@ jobs:
       PROVISIONING_PROFILE: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
 
     steps:
+      - name: Set up Xcode 15.2
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.2.app
+  
       - name: Checkout Repo
         uses: actions/checkout@v4
 
@@ -25,10 +29,12 @@ jobs:
           channel: stable
           version: 3.19.6
 
-      - name: Install dependencies
+      - name: Install dependencies & pods
         run: |
           flutter clean
           flutter pub get
+          cd ios
+          pod install
           
       - name: Install the CodeMagic CLI
         run: pip install codemagic-cli-tools
