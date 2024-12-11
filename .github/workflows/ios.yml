@@ -16,6 +16,17 @@ jobs:
       PROVISIONING_PROFILE: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
 
     steps:
+      - name: Debug DISTRIBUTION_CERTIFICATE
+        run: |
+          if [ -z "${DISTRIBUTION_CERTIFICATE}" ]; then
+            echo "DISTRIBUTION_CERTIFICATE is empty!"
+            exit 1
+          else
+            echo "DISTRIBUTION_CERTIFICATE length: ${#DISTRIBUTION_CERTIFICATE}"
+            echo "First 10 characters: $(echo "${DISTRIBUTION_CERTIFICATE}" | head -c 10)"
+            echo "Last 10 characters: $(echo "${DISTRIBUTION_CERTIFICATE}" | tail -c 10)"
+          fi
+
       - name: Checkout Repo
         uses: actions/checkout@v4
 
