@@ -47,6 +47,8 @@ jobs:
       - name: Set up Distribution Certificate
         run: |
           echo ${DISTRIBUTION_CERTIFICATE} | base64 --decode > /tmp/certificate.p12
+          ls -l ${DISTRIBUTION_CERTIFICATE}
+          ls -l ${DISTRIBUTION_CERTIFICATE_PASSWORD}
           ls -l /tmp/certificate.p12
           if [ $? -ne 0 ]; then
           echo "Base64 decoding failed!"
