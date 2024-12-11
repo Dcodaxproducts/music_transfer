@@ -20,14 +20,6 @@ jobs:
         run: |
           sudo xcode-select -s /Applications/Xcode_15.2.app
           xcodebuild -version
-          
-      - name: Verify Xcode Version
-        run: |
-          xcodebuild -version | grep 'Xcode ' | cut -d ' ' -f 2 | grep -q 15.2
-          if [ $? -ne 0 ]; then
-            echo "Xcode version mismatch. Expected 15.2"
-            exit 1
-          fi
   
       - name: Checkout Repo
         uses: actions/checkout@v4
