@@ -90,6 +90,7 @@ jobs:
           --dart-define=KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
           --dart-define=KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}
 
+
       # Rename APK Files
       - name: Rename APK Files
         run: |
@@ -116,6 +117,19 @@ jobs:
           name: Release APK
           path: build/app/outputs/flutter-apk/*_release.apk
 
+      # Install CocoaPods dependencies (for iOS)
+      - name: Install iOS Dependencies (pod install)
+        if: ${{ inputs.upload_testflight == 'true' }}
+        run: |
+          cd ios
+          pod install
+
+      # Build iOS IPA (for TestFlight or production)
+      - name: Build iOS IPA
+        if: ${{ inputs.upload_testflight == 'true' }}
+        run: |
+          flutter build ios --release --no-codesign
+
       # TestFlight Upload
       - name: Upload to TestFlight
         if: ${{ inputs.upload_testflight == 'true' }}
@@ -139,11 +153,9 @@ jobs:
         id: get_urls
         if: ${{ inputs.send_email == 'true' }}
         run: |
-          # Fetch artifact details using GitHub API
           artifacts=$(curl -s -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts")
           
-          # Extract artifact IDs for Debug and Release APKs
           debug_apk_url=""
           release_apk_url=""
           if [ "${{ inputs.debug_apk }}" == "true" ]; then
@@ -155,7 +167,6 @@ jobs:
             release_apk_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/$release_artifact_id"
           fi
 
-          # Save output variables to environment files
           echo "DEBUG_APK_URL=$debug_apk_url" >> $GITHUB_ENV
           echo "RELEASE_APK_URL=$release_apk_url" >> $GITHUB_ENV
 
@@ -168,7 +179,7 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          from: ${{ secrets.EMAIL_USERNAME }} # Specify the sender email
+          from: ${{ secrets.EMAIL_USERNAME }}
           subject: "New APKs Generated - PixArt - ${{ inputs.title || 'Untitled_PR' }}"
           body: |
             The APKs have been generated. You can download them from the following links:
