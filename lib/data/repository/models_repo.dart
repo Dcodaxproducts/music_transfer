@@ -6,10 +6,10 @@ import 'models_repo_interface.dart';
 
 class ModelsRepo implements ModelsRepoInterface {
   final ApiClientInterface apiClient;
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences prefs;
   ModelsRepo({
     required this.apiClient,
-    required this.sharedPreferences,
+    required this.prefs,
   });
 
   @override
@@ -19,7 +19,7 @@ class ModelsRepo implements ModelsRepoInterface {
 
   @override
   Future<bool> saveFavoriteModel(List<int> models) async {
-    return await sharedPreferences.setStringList(
+    return await prefs.setStringList(
       AppConstants.FAVORITE_MODELS,
       models.map((e) => e.toString()).toList(),
     );
@@ -27,8 +27,7 @@ class ModelsRepo implements ModelsRepoInterface {
 
   @override
   List<int> getFavoriteModels() {
-    List<String>? list =
-        sharedPreferences.getStringList(AppConstants.FAVORITE_MODELS);
+    List<String>? list = prefs.getStringList(AppConstants.FAVORITE_MODELS);
     if (list != null) {
       return list.map((e) => int.parse(e)).toList();
     } else {

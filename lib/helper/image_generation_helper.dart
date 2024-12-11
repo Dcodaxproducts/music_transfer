@@ -10,7 +10,6 @@ import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/common/snackbar.dart';
 import 'package:matrix_ai/view/base/rate_us_sheet.dart';
 import 'package:matrix_ai/view/screens/subscription/subscription.dart';
-
 import '../view/base/free_limit_dialog.dart';
 
 class ImageGenerationHelper {

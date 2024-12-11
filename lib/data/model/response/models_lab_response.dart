@@ -34,9 +34,7 @@ class PromptResponse {
             : List<String>.from(
                 json["future_links"].map((x) => x),
               ),
-        createdAt: json["created_at"] != null
-            ? DateTime.parse(json["created_at"])
-            : null,
+        createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
         bookmarked: json["bookmarked"] ?? false,
         model: json["model"] != null ? Model.fromJson(json["model"]) : null,
       );
@@ -48,7 +46,7 @@ class PromptResponse {
         "eta": eta,
         "output": List<String>.from(output.map((x) => x)),
         "future_links": List<String>.from(futureLinks.map((x) => x)),
-        "created_at": createdAt?.toIso8601String() ?? DateTime.now(),
+        "created_at": createdAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
         "bookmarked": bookmarked,
         'model': model?.toJson(),
       };

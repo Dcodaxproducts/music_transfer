@@ -38,26 +38,24 @@ class AppConstants {
   static const String HAS_VIEWED_ADS_DIALOG = 'has_viewed_ads_dialog_1';
   static const String LAST_DIALOG_SHOWED = 'last_dialog_showed_1';
   static const String SHOW_APP_OPEN = 'show_app_open_1';
+  static const String BACKGROUND_REMOVER_HISTORY = 'background_remover_history_1';
+  static const String UPSCALE_IMAGE_HISTORY = 'upscale_image_history_1';
 
   //
   static const int PRO_USER_DAILY_LIMIT = 100;
 
   /* App Share link */
   static String APP_LINK = Platform.isAndroid ? ANDROID_APP_URL : IOS_APP_URL;
-  static const String ANDROID_APP_URL =
-      "https://play.google.com/store/apps/details?id=$APP_PACKAGE_NAME";
-  static const String IOS_APP_URL =
-      "https://apps.apple.com/app/pixart-the-ai-art-generator/id6737462382";
+  static const String ANDROID_APP_URL = "https://play.google.com/store/apps/details?id=$APP_PACKAGE_NAME";
+  static const String IOS_APP_URL = "https://apps.apple.com/app/pixart-the-ai-art-generator/id6737462382";
 
   /* manage subscription link */
-  static String MANAGE_SUBSCRIPTIONS_URL = Platform.isAndroid
-      ? MANAGE_SUBSCRIPTIONS_URL_ANDROID
-      : MANAGE_SUBSCRIPTIONS_URL_IOS;
+  static String MANAGE_SUBSCRIPTIONS_URL =
+      Platform.isAndroid ? MANAGE_SUBSCRIPTIONS_URL_ANDROID : MANAGE_SUBSCRIPTIONS_URL_IOS;
 
   static const String MANAGE_SUBSCRIPTIONS_URL_ANDROID =
       'https://play.google.com/store/account/subscriptions';
-  static const String MANAGE_SUBSCRIPTIONS_URL_IOS =
-      'https://apps.apple.com/account/subscriptions';
+  static const String MANAGE_SUBSCRIPTIONS_URL_IOS = 'https://apps.apple.com/account/subscriptions';
 
   /* Privacy and terms Url's */
   static const String PRIVACY_POLICY = '$DOMAIN/privacy-policy';

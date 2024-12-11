@@ -44,7 +44,7 @@ def loadEnv() {
 project.ext.env = loadEnv()
 
 android {
-    namespace project.env.BUNDLE_ID_ANDROID
+    namespace "pixart.aiart.generator"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 

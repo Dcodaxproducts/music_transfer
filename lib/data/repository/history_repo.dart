@@ -8,29 +8,23 @@ import 'history_repo_interface.dart';
 
 class HistoryRepo implements HistoryRepoInteraface {
   final ApiClientInterface apiClient;
-  final SharedPreferences sharedPreferences;
-  HistoryRepo({required this.apiClient, required this.sharedPreferences});
+  final SharedPreferences prefs;
+  HistoryRepo({required this.apiClient, required this.prefs});
 
   @override
-  Future<Uint8List?> downloadImage(String url) async =>
-      await apiClient.downloadImage(url);
+  Future<Uint8List?> downloadImage(String url) async => await apiClient.downloadImage(url);
 
   @override
   Future<void> savePromptResponsesInPref(List<PromptResponse> prompts) async {
-    List<String> promptList =
-        prompts.map((e) => jsonEncode(e.toJson())).toList();
-    await sharedPreferences.setStringList(
-        AppConstants.PROMPT_HISTORY, promptList);
+    List<String> promptList = prompts.map((e) => jsonEncode(e.toJson())).toList();
+    await prefs.setStringList(AppConstants.PROMPT_HISTORY, promptList);
   }
 
   @override
   List<PromptResponse> getPromptResponsesFromPref() {
-    List<String>? promptList =
-        sharedPreferences.getStringList(AppConstants.PROMPT_HISTORY);
+    List<String>? promptList = prefs.getStringList(AppConstants.PROMPT_HISTORY);
     if (promptList != null) {
-      return promptList
-          .map((e) => PromptResponse.fromJson(jsonDecode(e)))
-          .toList();
+      return promptList.map((e) => PromptResponse.fromJson(jsonDecode(e))).toList();
     }
     return [];
   }

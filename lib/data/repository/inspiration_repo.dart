@@ -6,10 +6,10 @@ import 'inspiration_repo_interface.dart';
 
 class InspirationRepo implements InspirationRepoInterface {
   final ApiClientInterface apiClient;
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences prefs;
   InspirationRepo({
     required this.apiClient,
-    required this.sharedPreferences,
+    required this.prefs,
   });
 
   @override

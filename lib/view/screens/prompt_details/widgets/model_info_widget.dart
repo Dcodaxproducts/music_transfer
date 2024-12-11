@@ -30,18 +30,13 @@ class ModelInfoWidget extends StatelessWidget {
                 children: [
                   Text(
                     model.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 2.sp),
                   Text(
                     DateConverter.convertDate(response.createdAt!),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(color: Theme.of(context).hintColor),
+                    style:
+                        Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).hintColor),
                   ),
                 ],
               ),

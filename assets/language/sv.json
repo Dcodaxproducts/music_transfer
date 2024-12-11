@@ -117,5 +117,9 @@
   "do_you_like": "Gillar du",
   "your_feedback_will_help_us_improve_our_service_for_you": "Din feedback hjälper oss att förbättra vår tjänst åt dig.",
   "add_a_comment": "Lägg till en kommentar",
-  "please_write_your_review": "Skriv din recension"
+  "please_write_your_review": "Skriv din recension",
+  "nsfw_content_detected": "NSFW-innehåll upptäckt",
+  "tools": "Verktyg",
+  "your_image_is_processing_in_the_queue": "Din bild bearbetas i kön",
+  "your_prompt_is_processing_in_the_queue": "Din uppmaning bearbetas i kön"
 }

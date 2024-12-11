@@ -8,11 +8,11 @@ import 'image_generation_repo_interface.dart';
 
 class ImageGenerationRepo implements ImageGenerationRepoInterface {
   final ApiClientInterface apiClient;
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences prefs;
 
   ImageGenerationRepo({
     required this.apiClient,
-    required this.sharedPreferences,
+    required this.prefs,
   });
 
   @override
@@ -24,28 +24,23 @@ class ImageGenerationRepo implements ImageGenerationRepoInterface {
       await apiClient.post(url, body, headers: headers);
 
   @override
-  Future<Response?> getQueueImage(
-          {required String url, required Map<String, dynamic> body}) async =>
+  Future<Response?> getQueueImage({required String url, required Map<String, dynamic> body}) async =>
       await apiClient.post(url, body);
 
   @override
-  Future<Uint8List?> downloadImage(String url) async =>
-      await apiClient.downloadImage(url);
+  Future<Uint8List?> downloadImage(String url) async => await apiClient.downloadImage(url);
 
   @override
   Future<void> savePromptResponsesInPref(List<PromptResponse> prompts) async {
-    List<String> promptList =
-        prompts.map((e) => jsonEncode(e.toJson())).toList();
-    await sharedPreferences.setStringList('promptList', promptList);
+    List<String> promptList = prompts.map((e) => jsonEncode(e.toJson())).toList();
+    await prefs.setStringList('promptList', promptList);
   }
 
   @override
   List<PromptResponse> getPromptResponsesFromPref() {
-    List<String>? promptList = sharedPreferences.getStringList('promptList');
+    List<String>? promptList = prefs.getStringList('promptList');
     if (promptList != null) {
-      return promptList
-          .map((e) => PromptResponse.fromJson(jsonDecode(e)))
-          .toList();
+      return promptList.map((e) => PromptResponse.fromJson(jsonDecode(e))).toList();
     }
     return [];
   }

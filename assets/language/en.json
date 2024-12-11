@@ -117,6 +117,9 @@
     "do_you_like": "Do you like",
     "your_feedback_will_help_us_improve_our_service_for_you": "Your feedback will help us improve our service for you.",
     "add_a_comment": "Add a comment",
-    "please_write_your_review": "Please write your review"
-    
+    "please_write_your_review": "Please write your review",
+    "nsfw_content_detected": "NSFW content detected",
+    "tools": "Tools",
+    "your_image_is_processing_in_the_queue": "Your image is processing in the queue.",
+    "your_prompt_is_processing_in_the_queue": "Your prompt is processing in the queue."
 }

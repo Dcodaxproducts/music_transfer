@@ -6,33 +6,31 @@ import 'review_repo_interface.dart';
 
 class ReviewRepo implements ReviewRepoInterface {
   final ApiClientInterface apiClient;
-  final SharedPreferences sharedPreferences;
-  ReviewRepo({required this.apiClient, required this.sharedPreferences});
+  final SharedPreferences prefs;
+  ReviewRepo({required this.apiClient, required this.prefs});
 
   @override
   Future<Response?> saveReview(Map<String, dynamic> body) async {
-    return await apiClient.post(
-        AppConstants.BASE_URL + AppConstants.FEEDBACK_URL, body);
+    return await apiClient.post(AppConstants.BASE_URL + AppConstants.FEEDBACK_URL, body);
   }
 
   @override
   Future<bool> setReviewed() async {
-    return await sharedPreferences.setBool(AppConstants.REVIEWED, true);
+    return await prefs.setBool(AppConstants.REVIEWED, true);
   }
 
   @override
   bool isReviewed() {
-    return sharedPreferences.getBool(AppConstants.REVIEWED) ?? false;
+    return prefs.getBool(AppConstants.REVIEWED) ?? false;
   }
 
   @override
   Future<bool> setLastDialogShowed() {
-    return sharedPreferences.setString(
-        AppConstants.LAST_DIALOG_SHOWED, DateTime.now().toString());
+    return prefs.setString(AppConstants.LAST_DIALOG_SHOWED, DateTime.now().toString());
   }
 
   @override
   String? getLastDialogShowed() {
-    return sharedPreferences.getString(AppConstants.LAST_DIALOG_SHOWED);
+    return prefs.getString(AppConstants.LAST_DIALOG_SHOWED);
   }
 }

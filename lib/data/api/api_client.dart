@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiClient extends GetxService implements ApiClientInterface {
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences prefs;
   final int timeoutInSeconds = 120;
   http.Client? _client; // Track the client for cancellation
 
@@ -20,7 +20,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
     'Accept': 'application/json',
   };
 
-  ApiClient({required this.sharedPreferences});
+  ApiClient({required this.prefs});
 
   @override
   Future<void> cancelRequest() async {

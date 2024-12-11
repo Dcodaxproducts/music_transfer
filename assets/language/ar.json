@@ -117,5 +117,9 @@
   "do_you_like": "هل تحب",
   "your_feedback_will_help_us_improve_our_service_for_you": "ستساعدنا ملاحظاتك على تحسين خدماتنا لك.",
   "add_a_comment": "أضف تعليقا",
-  "please_write_your_review": "يرجى كتابة مراجعتك"
+  "please_write_your_review": "يرجى كتابة مراجعتك",
+  "nsfw_content_detected": "تم اكتشاف محتوى NSFW",
+  "tools": "أدوات",
+  "your_image_is_processing_in_the_queue": "صورتك قيد المعالجة في قائمة الانتظار.",
+  "your_prompt_is_processing_in_the_queue": "طلبك قيد المعالجة في قائمة الانتظار."
 }

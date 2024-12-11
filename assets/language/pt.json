@@ -117,5 +117,9 @@
   "do_you_like": "Você gosta",
   "your_feedback_will_help_us_improve_our_service_for_you": "Seu feedback nos ajudará a melhorar nosso serviço para você.",
   "add_a_comment": "Adicione um comentário",
-  "please_write_your_review": "Por favor, escreva sua avaliação"
+  "please_write_your_review": "Por favor, escreva sua avaliação",
+  "nsfw_content_detected": "Conteúdo NSFW detectado",
+  "tools": "Ferramentas",
+  "your_image_is_processing_in_the_queue": "Sua imagem está sendo processada na fila",
+  "your_prompt_is_processing_in_the_queue": "Seu prompt está sendo processado na fila"
 }

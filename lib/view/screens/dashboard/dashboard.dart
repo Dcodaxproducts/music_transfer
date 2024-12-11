@@ -16,6 +16,7 @@ import '../inspirations/inspirations.dart';
 import '../menu/menu.dart';
 // import '../tools/tools.dart';
 import '../subscription/subscription.dart';
+import '../tools/tools.dart';
 import 'widgets/navigation_bar.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -29,14 +30,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<NavigationItem> _screens = [
     NavigationItem(icon: Iconsax.home, child: const HomeScreen()),
     NavigationItem(icon: Iconsax.activity, child: const InspirationScreen()),
-    // NavigationItem(icon: Iconsax.category, child: const ToolScreen()),
+    NavigationItem(icon: Iconsax.category, child: const ToolScreen()),
     NavigationItem(icon: Iconsax.setting, child: const MenuScreen()),
   ];
 
   final List<String> _titles = [
     AppConstants.APP_NAME,
     'inspirations'.tr,
-    // 'tools'.tr,
+    'tools'.tr,
     'settings'.tr,
   ];
 

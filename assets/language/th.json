@@ -45,7 +45,7 @@
   "remove_noise_and_sharpen_images_with_ai": "ลบจุดรบกวนและเพิ่มความคมชัดของภาพด้วย AI",
   "delete": "ลบ",
   "delete_prompt": "ลบพรอมต์",
-  "delete_prompt_message": "คุณแน่ใจหรือไม่ว่าต้องการลบข้อความแจ้งนี้",
+  "delete_prompt_message": "คุณแน่ใจหรือไม่ว่าต้องการลบข้อความ���จ้งนี้",
   "inspirations": "แรงบันดาลใจ",
   "language": "ภาษา",
   "theme": "ธีม",
@@ -115,7 +115,11 @@
   "creating_your_image": "การสร้างภาพของคุณ",
   "rate_us": "ให้คะแนนเรา",
   "do_you_like": "คุณชอบ",
-  "your_feedback_will_help_us_improve_our_service_for_you": "ความคิดเห็นของคุณจะช่วยให้เราปรับปรุงบริการของเราสำหรับคุณ",
+  "your_feedback_will_help_us_improve_our_service_for_you": "ความคิดเห็นของคุณจะ���่วยให้เราปรับปรุงบริการของเราสำหรับคุณ",
   "add_a_comment": "เพิ่มความคิดเห็น",
-  "please_write_your_review": "โปรดเขียนรีวิวของคุณ"
+  "please_write_your_review": "โปรดเขียนรีวิวของคุณ",
+  "nsfw_content_detected": "ตรวจพบเนื้อหา NSFW",
+  "tools": "เครื่องมือ",
+  "your_image_is_processing_in_the_queue": "ภาพของคุณกำลังประมวลผลในคิว",
+  "your_prompt_is_processing_in_the_queue": "พรอมต์ของคุณกำลังประมวลผลในคิว"
 }

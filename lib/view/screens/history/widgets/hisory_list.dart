@@ -7,8 +7,8 @@ import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../../helper/navigation.dart';
+import '../../../base/queue_countdown.dart';
 import '../../prompt_details/prompt_details.dart';
 import '../../set_theme/widgets/model_grid.dart';
 import 'favorite_widget.dart';
@@ -17,8 +17,7 @@ import 'history_countdown_widget.dart';
 class HistoryList extends StatelessWidget {
   final List<PromptResponse> promptHistory;
   final bool isFavorite;
-  const HistoryList(
-      {super.key, required this.promptHistory, this.isFavorite = false});
+  const HistoryList({super.key, required this.promptHistory, this.isFavorite = false});
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +33,7 @@ class HistoryList extends StatelessWidget {
             ),
             itemCount: promptHistory.length,
             itemBuilder: (context, index) {
-              return HistoryCard(
-                  response: promptHistory[index], isFavorite: isFavorite);
+              return HistoryCard(response: promptHistory[index], isFavorite: isFavorite);
             },
           );
   }
@@ -44,8 +42,7 @@ class HistoryList extends StatelessWidget {
 class HistoryCard extends StatelessWidget {
   final PromptResponse response;
   final bool isFavorite;
-  const HistoryCard(
-      {super.key, required this.response, this.isFavorite = false});
+  const HistoryCard({super.key, required this.response, this.isFavorite = false});
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +55,7 @@ class HistoryCard extends StatelessWidget {
         return InkWell(
           onTap: () {
             // Navigate to prompt details screen
-            launchScreen(
-                PromptDetailScreen(response: response, favorites: isFavorite));
+            launchScreen(PromptDetailScreen(response: response, favorites: isFavorite));
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
@@ -89,47 +85,7 @@ class HistoryCard extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : Container(
-                              decoration: BoxDecoration(
-                                borderRadius: borderRadius,
-                                color: Theme.of(context).hoverColor,
-                                border: Border(
-                                  bottom: BorderSide(
-                                      width: 0.5.sp,
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor),
-                                ),
-                              ),
-                              child: Shimmer.fromColors(
-                                baseColor: primaryColor,
-                                highlightColor: secondaryColor,
-                                period: const Duration(seconds: 4),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(height: 16.sp),
-                                    Text(
-                                      remainingTime,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge
-                                          ?.copyWith(color: primaryColor),
-                                    ),
-                                    SizedBox(height: 8.sp),
-                                    Text(
-                                      isRetrying
-                                          ? "${'retrying'.tr}. ${'almost_there'.tr}!"
-                                          : 'creating_your_image'.tr,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(color: primaryColor),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          : QueueCountdown(remainingTime: remainingTime, isRetrying: isRetrying),
 
                       // favorite button
                       FavoriteHistoryIcon(response: response),
@@ -145,10 +101,8 @@ class HistoryCard extends StatelessWidget {
                               ClipboardData(text: response.meta.prompt),
                             );
                             setting.setPromptText(response.meta.prompt);
-                            setting.configModel = setting.configModel
-                                .copyWith(seed: response.meta.seed);
-                            setting.seedController.text =
-                                response.meta.seed.toString();
+                            setting.configModel = setting.configModel.copyWith(seed: response.meta.seed);
+                            setting.seedController.text = response.meta.seed.toString();
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(
@@ -158,15 +112,11 @@ class HistoryCard extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.6),
                               borderRadius: BorderRadius.circular(32.sp),
-                              border: Border.all(
-                                  color: secondaryColor, width: 1.sp),
+                              border: Border.all(color: secondaryColor, width: 1.sp),
                             ),
                             child: Text(
                               'copy'.tr.toUpperCase(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(color: Colors.white),
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                             ),
                           ),
                         ),
@@ -181,10 +131,7 @@ class HistoryCard extends StatelessWidget {
                     children: [
                       Text(
                         response.model?.name ?? '',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 8.sp),
                       Text(

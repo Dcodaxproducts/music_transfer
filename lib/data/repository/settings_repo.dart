@@ -9,59 +9,52 @@ import 'settings_repo_interface.dart';
 
 class SettingsRepo implements SettingsRepoInterface {
   final ApiClientInterface apiClient;
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences prefs;
   SettingsRepo({
-    required this.sharedPreferences,
+    required this.prefs,
     required this.apiClient,
   });
 
   @override
   ConfigModel initSharedData() {
     // negative prompt
-    String negativePrompt =
-        sharedPreferences.getString(AppConstants.NEGATIVE_PROMPT) ?? '';
+    String negativePrompt = prefs.getString(AppConstants.NEGATIVE_PROMPT) ?? '';
 
     // guidance scale
-    double guidanceScale =
-        sharedPreferences.getDouble(AppConstants.GUIDANCE_SCALE) ?? 3.5;
+    double guidanceScale = prefs.getDouble(AppConstants.GUIDANCE_SCALE) ?? 3.5;
 
     // aspect ratio
-    int aspectRatio = sharedPreferences.getInt(AppConstants.ASPECT_RATIO) ?? 1;
+    int aspectRatio = prefs.getInt(AppConstants.ASPECT_RATIO) ?? 1;
 
     // selected model
-    String? model = sharedPreferences.getString(AppConstants.SELECTED_MODEL);
+    String? model = prefs.getString(AppConstants.SELECTED_MODEL);
     Model? selectedModel;
     if (model != null) {
       selectedModel = Model.fromJson(jsonDecode(model));
     }
 
     // has viewed ads dialog
-    bool hasViewedAdsDialog =
-        sharedPreferences.getBool(AppConstants.HAS_VIEWED_ADS_DIALOG) ?? false;
+    bool hasViewedAdsDialog = prefs.getBool(AppConstants.HAS_VIEWED_ADS_DIALOG) ?? false;
 
     // onboarding skip
-    bool onBoardingSkip =
-        sharedPreferences.getBool(AppConstants.ON_BOARDING_SKIP) ?? false;
+    bool onBoardingSkip = prefs.getBool(AppConstants.ON_BOARDING_SKIP) ?? false;
 
     // notification enabled
-    bool notificationEnabled =
-        sharedPreferences.getBool(AppConstants.NOTIFICATION) ?? false;
+    bool notificationEnabled = prefs.getBool(AppConstants.NOTIFICATION) ?? false;
 
     // check if the theme, language and country code are set
-    if (!sharedPreferences.containsKey(AppConstants.THEME)) {
-      sharedPreferences.setString(AppConstants.THEME, 'system');
+    if (!prefs.containsKey(AppConstants.THEME)) {
+      prefs.setString(AppConstants.THEME, 'system');
     }
 
     // check if the theme, language and country code are set
-    if (!sharedPreferences.containsKey(AppConstants.COUNTRY_CODE)) {
-      sharedPreferences.setString(
-          AppConstants.COUNTRY_CODE, AppConstants.languages[0].countryCode);
+    if (!prefs.containsKey(AppConstants.COUNTRY_CODE)) {
+      prefs.setString(AppConstants.COUNTRY_CODE, AppConstants.languages[0].countryCode);
     }
 
     // check if the theme, language and country code are set
-    if (!sharedPreferences.containsKey(AppConstants.LANGUAGE_CODE)) {
-      sharedPreferences.setString(
-          AppConstants.LANGUAGE_CODE, AppConstants.languages[0].languageCode);
+    if (!prefs.containsKey(AppConstants.LANGUAGE_CODE)) {
+      prefs.setString(AppConstants.LANGUAGE_CODE, AppConstants.languages[0].languageCode);
     }
 
     return ConfigModel(
@@ -78,31 +71,31 @@ class SettingsRepo implements SettingsRepoInterface {
   @override
   Future<void> updateSharedData(ConfigModel configModel) async {
     await Future.wait([
-      sharedPreferences.setDouble(
+      prefs.setDouble(
         AppConstants.GUIDANCE_SCALE,
         configModel.guidanceScale,
       ),
-      sharedPreferences.setInt(
+      prefs.setInt(
         AppConstants.ASPECT_RATIO,
         configModel.aspectRatio,
       ),
-      sharedPreferences.setString(
+      prefs.setString(
         AppConstants.SELECTED_MODEL,
         jsonEncode(configModel.selectedModel?.toJson()),
       ),
-      sharedPreferences.setString(
+      prefs.setString(
         AppConstants.NEGATIVE_PROMPT,
         configModel.negativePrompt,
       ),
-      sharedPreferences.setBool(
+      prefs.setBool(
         AppConstants.ON_BOARDING_SKIP,
         configModel.onBoardingSkip,
       ),
-      sharedPreferences.setBool(
+      prefs.setBool(
         AppConstants.NOTIFICATION,
         configModel.notificationsEnabled,
       ),
-      sharedPreferences.setBool(
+      prefs.setBool(
         AppConstants.HAS_VIEWED_ADS_DIALOG,
         configModel.hasViewdAdsDialog,
       ),
@@ -110,30 +103,25 @@ class SettingsRepo implements SettingsRepoInterface {
   }
 
   @override
-  Future<Response?> getConfig() async =>
-      await apiClient.get(AppConstants.CONFIG_URL);
+  Future<Response?> getConfig() async => await apiClient.get(AppConstants.CONFIG_URL);
 
   @override
   int getOpenCount() {
-    int openCount = sharedPreferences.getInt(AppConstants.OPEN_COUNT) ?? 0;
+    int openCount = prefs.getInt(AppConstants.OPEN_COUNT) ?? 0;
     openCount++;
-    sharedPreferences.setInt(AppConstants.OPEN_COUNT, openCount);
+    prefs.setInt(AppConstants.OPEN_COUNT, openCount);
     return openCount;
   }
 
   @override
-  Future<bool> saveFirstTime() async =>
-      await sharedPreferences.setBool(AppConstants.ON_BOARDING_SKIP, false);
+  Future<bool> saveFirstTime() async => await prefs.setBool(AppConstants.ON_BOARDING_SKIP, false);
 
   @override
-  bool getFirstTime() =>
-      sharedPreferences.getBool(AppConstants.ON_BOARDING_SKIP) ?? true;
+  bool getFirstTime() => prefs.getBool(AppConstants.ON_BOARDING_SKIP) ?? true;
 
   @override
-  Future<bool> saveShowAppOpen() async =>
-      await sharedPreferences.setBool(AppConstants.SHOW_APP_OPEN, true);
+  Future<bool> saveShowAppOpen() async => await prefs.setBool(AppConstants.SHOW_APP_OPEN, true);
 
   @override
-  bool getShowAppOpen() =>
-      sharedPreferences.getBool(AppConstants.SHOW_APP_OPEN) ?? false;
+  bool getShowAppOpen() => prefs.getBool(AppConstants.SHOW_APP_OPEN) ?? false;
 }

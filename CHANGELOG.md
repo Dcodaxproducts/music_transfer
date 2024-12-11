@@ -1,5 +1,44 @@
 # Changelog
 
+## [2.5] - 2023-12-11
+
+### Added
+
+- **Tools Screen**:
+  - **Image Upscale**:
+    - Added functionality to upscale images.
+    - Created `UpscaleImageScreen` for image input and history display.
+    - Created `UpscaleController` to manage image upscaling tasks.
+    - Created `UpscaleQueueController` to manage the queue and countdown for upscaling tasks.
+    - Created `UpscaleCountdownWidget` to display the countdown and handle UI updates for upscaling tasks.
+  - **Background Removal**:
+    - Added functionality to remove background from images.
+    - Created `BackgroundRemovalScreen` for image input and history display.
+    - Created `BackgroundRemoverController` to manage background removal tasks.
+    - Created `BackgroundRemoverQueueController` to manage the queue and countdown for background removal tasks.
+    - Created `BackgroundRemoverCountdownWidget` to display the countdown and handle UI updates for background removal tasks.
+  - **Details Screen**:
+    - Added details screen for image input and history display for both upscale and background remover.
+
+### Changed
+
+- **CustomNetworkImage**:
+  - Refactored for checking if the image is black when fully loaded (NSFW content).
+- **BackgroundRemovalScreen**:
+  - Updated to use `SliverAppBar` and `NestedScrollView` for a better scrolling experience.
+- **UpscaleImageScreen**:
+  - Updated to use `BackgroundRemoverCountdownWidget` for displaying the countdown and handling UI updates for background removal tasks.
+
+### Removed
+
+s
+
+- N/A
+
+### Fixed
+
+- N/A
+
 ## [2.4] - 2023-12-9 (iOS)
 
 ### Added

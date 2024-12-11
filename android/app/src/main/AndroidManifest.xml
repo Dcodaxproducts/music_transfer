@@ -19,9 +19,6 @@
             <action android:name="android.intent.action.SEND" />
             <data android:mimeType="*/*" />
         </intent>
-        <intent>
-            <action android:name="android.speech.RecognitionService" />
-        </intent>
     </queries>
     <application android:label="@string/app_name" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
         <!-- firebase notifications -->

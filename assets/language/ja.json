@@ -117,5 +117,9 @@
   "do_you_like": "好きですか",
   "your_feedback_will_help_us_improve_our_service_for_you": "あなたのフィードバックは、サービスの向上に役立ちます。",
   "add_a_comment": "コメントを追加する",
-  "please_write_your_review": "レビューを書いてください"
+  "please_write_your_review": "レビューを書いてください",
+  "nsfw_content_detected": "NSFW コンテンツが検出されました",
+  "tools": "ツール",
+  "your_image_is_processing_in_the_queue": "あなたの画像はキューで処理されています。",
+  "your_prompt_is_processing_in_the_queue": "あなたのプロンプトはキューで処理されています。"
 }

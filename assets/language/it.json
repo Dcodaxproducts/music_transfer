@@ -117,5 +117,9 @@
   "do_you_like": "Ti piace",
   "your_feedback_will_help_us_improve_our_service_for_you": "Il tuo feedback ci aiuterà a migliorare il nostro servizio per te.",
   "add_a_comment": "Aggiungi un commento",
-  "please_write_your_review": "Si prega di scrivere la tua recensione"
+  "please_write_your_review": "Si prega di scrivere la tua recensione",
+  "nsfw_content_detected": "Contenuto NSFW rilevato",
+  "tools": "Strumenti",
+  "your_image_is_processing_in_the_queue": "La tua immagine è in fase di elaborazione nella coda.",
+  "your_prompt_is_processing_in_the_queue": "Il tuo prompt è in fase di elaborazione nella coda."
 }

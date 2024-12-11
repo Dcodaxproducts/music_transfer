@@ -117,5 +117,9 @@
   "do_you_like": "sever misin",
   "your_feedback_will_help_us_improve_our_service_for_you": "Geri bildiriminiz size sunduğumuz hizmeti geliştirmemize yardımcı olacaktır.",
   "add_a_comment": "Yorum ekle",
-  "please_write_your_review": "Lütfen incelemenizi yazın"
+  "please_write_your_review": "Lütfen incelemenizi yazın",
+  "nsfw_content_detected": "NSFW içeriği tespit edildi",
+  "tools": "Araçlar",
+  "your_image_is_processing_in_the_queue": "Görüntünüz sırada işleniyor",
+  "your_prompt_is_processing_in_the_queue": "İsteminiz sırada işleniyor"
 }

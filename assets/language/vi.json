@@ -117,5 +117,9 @@
   "do_you_like": "Bạn có thích không?",
   "your_feedback_will_help_us_improve_our_service_for_you": "Phản hồi của bạn sẽ giúp chúng tôi cải thiện dịch vụ dành cho bạn.",
   "add_a_comment": "Thêm một bình luận",
-  "please_write_your_review": "Vui lòng viết đánh giá của bạn"
+  "please_write_your_review": "Vui lòng viết đánh giá của bạn",
+  "nsfw_content_detected": "Phát hiện nội dung không phù hợp",
+  "tools": "Công cụ",
+  "your_image_is_processing_in_the_queue": "Hình ảnh của bạn đang được xử lý trong hàng đợi",
+  "your_prompt_is_processing_in_the_queue": "Lời nhắc của bạn đang được xử lý trong hàng đợi"
 }

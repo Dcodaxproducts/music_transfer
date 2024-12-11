@@ -63,7 +63,7 @@
   "analyzing_prompt": "تجزیه و تحلیل درخواست شما",
   "creating_your_idea": "ایده خود را زنده کنید",
   "generating_image": "ساختن تصویر شما",
-  "it_may_take_a_while_please_dont_close_your_app": "این ممکن است کمی طول بکشد، لطفاً برنامه را نبندید",
+  "it_may_take_a_while_please_dont_close_your_app": "این ممکن است کمی ��ول بکشد، لطفاً برنامه را نبندید",
   "awaiting_your_imagination": "در انتظار آشکار شدن چشم انداز شما",
   "patience_masterpiece_loading": "صبر، شاهکاری در راه است",
   "analyzing_image": "پردازش تصویر شما",
@@ -117,5 +117,9 @@
   "do_you_like": "دوست داری",
   "your_feedback_will_help_us_improve_our_service_for_you": "نظرات شما به ما کمک می کند تا خدمات خود را برای شما بهبود بخشیم.",
   "add_a_comment": "یک نظر اضافه کنید",
-  "please_write_your_review": "لطفاً نظر خود را بنویسید"
+  "please_write_your_review": "لطفاً نظر خود را بنویسید",
+  "nsfw_content_detected": "محتوای NSFW شناسایی شد",
+  "tools": "ابزارها",
+  "your_image_is_processing_in_the_queue": "تصویر شما در صف در حال پردازش است.",
+  "your_prompt_is_processing_in_the_queue": "درخواست شما در صف در حال پردازش است."
 }

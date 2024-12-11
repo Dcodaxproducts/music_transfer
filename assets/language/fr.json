@@ -117,5 +117,9 @@
   "do_you_like": "Aimez-vous",
   "your_feedback_will_help_us_improve_our_service_for_you": "Vos commentaires nous aideront à améliorer notre service pour vous.",
   "add_a_comment": "Ajouter un commentaire",
-  "please_write_your_review": "Veuillez écrire votre avis"
+  "please_write_your_review": "Veuillez écrire votre avis",
+  "nsfw_content_detected": "Contenu NSFW détecté",
+  "tools": "Outils",
+  "your_image_is_processing_in_the_queue": "Votre image est en cours de traitement dans la file d'attente.",
+  "your_prompt_is_processing_in_the_queue": "Votre invite est en cours de traitement dans la file d'attente."
 }

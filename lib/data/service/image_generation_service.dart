@@ -138,7 +138,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     if (value.status == "success") {
       return value;
     } else if (value.status == "processing") {
-      showToast('Your prompt is processing in the queue', success: true);
+      showToast('your_prompt_is_processing_in_the_queue', success: true);
     } else {
       showToast(data["message"]);
     }
