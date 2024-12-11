@@ -55,6 +55,11 @@ jobs:
           echo "${DISTRIBUTION_CERTIFICATE}" | base64 --decode > /tmp/certificate.p12
           keychain add-certificates --certificate /tmp/certificate.p12 --certificate-password "${DISTRIBUTION_CERTIFICATE_PASSWORD}"
 
+      - name: Print export_options.plist content
+        run: |
+          cat /Users/runner/export_options.plist
+
+
       - name: Extract Version and Build Number from Environment.xcconfig
         run: |
           # Extract MARKETING_VERSION
@@ -71,7 +76,7 @@ jobs:
       - name: Build IPA for Distribution
         run: |
           # Build the app
-          flutter build ipa --release --build-name=$MARKETING_VERSION --build-number=$CURRENT_PROJECT_VERSION --export-options-plist=$HOME/export_options.plist
+          flutter build ipa --release --verbose --build-name=$MARKETING_VERSION --build-number=$CURRENT_PROJECT_VERSION --export-options-plist=$HOME/export_options.plist
 
       - name: Upload IPA to App Store Connect
         run: |
