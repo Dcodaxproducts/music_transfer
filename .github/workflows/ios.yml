@@ -68,13 +68,9 @@ jobs:
           # Extract CURRENT_PROJECT_VERSION
           export CURRENT_PROJECT_VERSION=$(grep CURRENT_PROJECT_VERSION ios/Flutter/Environment.xcconfig | sed 's/[^0-9]*//g')
           echo "CURRENT_PROJECT_VERSION=$CURRENT_PROJECT_VERSION" >> $GITHUB_ENV
-
-      - name: Verify Version Numbers
-        run: |
-          if [ -z "$MARKETING_VERSION" ] || [ -z "$CURRENT_PROJECT_VERSION" ]; then
-            echo "MARKETING_VERSION or CURRENT_PROJECT_VERSION is not set"
-            exit 1
-          fi
+      
+      - name: Set up Code signing settings on Xcode project
+        run: xcode-project use-profiles
 
       - name: Build IPA for Distribution
         run: |
