@@ -27,11 +27,6 @@ jobs:
           sudo gem uninstall cocoapods
           sudo gem install cocoapods -v 1.15.2
           pod --version
-
-      - name: Install flutter fire
-        run: |
-          npm install -g firebase-tools
-          dart pub global activate flutterfire_cli
   
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -46,6 +41,11 @@ jobs:
         run: |
           flutter clean
           flutter pub get
+
+      - name: Install flutter fire
+        run: |
+          npm install -g firebase-tools
+          dart pub global activate flutterfire_cli
           
       - name: Install pods (pod install)
         run: |
