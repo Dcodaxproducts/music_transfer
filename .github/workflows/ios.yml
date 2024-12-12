@@ -21,6 +21,12 @@ jobs:
           sudo xcode-select -s /Applications/Xcode_15.2.app
           xcodebuild -version
           pod --version
+
+      - name: Set up Cocapods (1.15.2)
+        run: |
+          sudo gem uninstall cocoapods
+          sudo gem install cocoapods -v 1.15.2
+          pod --version
   
       - name: Checkout Repo
         uses: actions/checkout@v4
