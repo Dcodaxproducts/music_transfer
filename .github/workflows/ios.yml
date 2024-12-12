@@ -45,7 +45,7 @@ jobs:
       - name: Install pods (pod install)
         run: |
           cd ios
-          pod install --repo-update
+          pod install
           
       - name: Install the CodeMagic CLI
         run: pip install codemagic-cli-tools
