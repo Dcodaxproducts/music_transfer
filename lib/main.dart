@@ -88,7 +88,8 @@ class MyApp extends StatelessWidget {
             fontSizeResolver: (size, util) => _screenSize(size, isTablet, isLargeTablet, util),
             builder: (context, child) => MediaQuery(
               data: MediaQuery.of(context).copyWith(
-                  textScaler: TextScaler.linear(MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.2))),
+                textScaler: TextScaler.linear(MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.0)),
+              ),
               child: GetMaterialApp(
                 title: AppConstants.APP_NAME,
                 debugShowCheckedModeBanner: false,

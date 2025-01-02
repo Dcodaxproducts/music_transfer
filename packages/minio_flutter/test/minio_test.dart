@@ -555,25 +555,6 @@ void testListenBucketNotification() {
       expect(poller.isStarted, isTrue);
       poller.stop();
     });
-
-    // test('can receive notification', () async {
-    //   final poller = minio.listenBucketNotification(
-    //     bucketName,
-    //     events: ['s3:ObjectCreated:*'],
-    //   );
-
-    //   final receivedEvents = [];
-    //   poller.stream.listen((event) => receivedEvents.add(event));
-    //   expect(receivedEvents, isEmpty);
-
-    //   await minio.putObject(bucketName, objectName, Stream.value([0]));
-    //   await minio.removeObject(bucketName, objectName);
-
-    //   // FIXME: Needs sleep here
-    //   expect(receivedEvents, isNotEmpty);
-
-    //   poller.stop();
-    // });
   });
 }
 
