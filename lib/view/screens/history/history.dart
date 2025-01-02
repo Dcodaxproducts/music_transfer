@@ -56,7 +56,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       SizedBox(width: spacingExtraLarge),
                       Text(
                         'history'.tr,
-                        style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+                        style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
                       ),
                       const IconButton(
                         onPressed: pop,

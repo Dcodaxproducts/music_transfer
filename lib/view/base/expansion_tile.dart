@@ -54,7 +54,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
         childrenPadding: paddingDefault,
         title: Text(
           widget.title.tr,
-          style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+          style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
         ),
         children: widget.children,
       ),

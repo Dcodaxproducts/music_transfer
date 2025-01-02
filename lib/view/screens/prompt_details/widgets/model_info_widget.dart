@@ -26,7 +26,7 @@ class ModelInfoWidget extends StatelessWidget {
                 children: [
                   Text(
                     model.name,
-                    style: bodySmall(context).copyWith(fontWeight: FontWeight.bold),
+                    style: bodySmall(context).copyWith(fontWeight: FontWeight.w600),
                   ),
                   SizedBox(height: 2.sp),
                   Text(

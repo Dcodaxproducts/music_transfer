@@ -36,7 +36,7 @@ class UpscaleHistoryList extends StatelessWidget {
                 SizedBox(height: spacingDefault),
                 Text(
                   'Recent'.tr,
-                  style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+                  style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 12.sp),
                 Expanded(

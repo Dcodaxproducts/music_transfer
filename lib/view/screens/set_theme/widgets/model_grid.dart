@@ -123,7 +123,7 @@ class AIModelCard extends StatelessWidget {
                 children: [
                   Text(
                     model.name,
-                    style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+                    style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
                   ),
                   SizedBox(height: spacingSmall),
                   Text(

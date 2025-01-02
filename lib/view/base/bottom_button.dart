@@ -23,7 +23,7 @@ class BottomButton extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: bodyMedium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              style: bodyMedium(context).copyWith(color: Colors.white, fontWeight: FontWeight.w600),
             ),
           ),
         ),

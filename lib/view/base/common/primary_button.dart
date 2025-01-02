@@ -38,7 +38,7 @@ class PrimaryButton extends StatelessWidget {
             if (icon != null) ...[icon!, SizedBox(width: spacingSmall)],
             Text(
               text.tr,
-              style: bodyMedium(context).copyWith(fontWeight: FontWeight.w700, color: textColor),
+              style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600, color: textColor),
             ),
           ],
         ),
@@ -78,7 +78,7 @@ class PrimaryOutlineButton extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodySmall
-                  ?.copyWith(fontWeight: FontWeight.bold, color: textColor),
+                  ?.copyWith(fontWeight: FontWeight.w600, color: textColor),
             ),
         ],
       ),

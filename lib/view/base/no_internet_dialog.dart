@@ -20,7 +20,7 @@ class NoInternetDialog extends StatelessWidget {
           SizedBox(height: spacingDefault),
           Text(
             'no_internet'.tr,
-            style: bodyLarge(context).copyWith(fontWeight: FontWeight.bold),
+            style: bodyLarge(context).copyWith(fontWeight: FontWeight.w600),
           ),
           SizedBox(height: spacingSmall),
           Text('no_internet_message'.tr, textAlign: TextAlign.center, style: bodyMedium(context)),

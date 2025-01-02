@@ -68,7 +68,7 @@ class ToolCard extends StatelessWidget {
                   Text(
                     tool.name,
                     style: bodyMedium(context).copyWith(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 8.0),

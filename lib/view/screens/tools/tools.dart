@@ -80,7 +80,7 @@ class _ToolScreenState extends State<ToolScreen> {
                                     Text(
                                       con.tools.first.name,
                                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight: FontWeight.w600,
                                             color: textColorDark,
                                           ),
                                     ),
@@ -105,7 +105,7 @@ class _ToolScreenState extends State<ToolScreen> {
                                   'try_now'.tr.toUpperCase(),
                                   style: labelLarge(context).copyWith(
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),

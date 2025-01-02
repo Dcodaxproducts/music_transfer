@@ -30,7 +30,7 @@ class AspectRatioScreen extends StatelessWidget {
               ),
               Text(
                 'aspect_ratio'.tr,
-                style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+                style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
               ),
               TextButton(
                 onPressed: () {
@@ -92,7 +92,7 @@ class AspectRatioScreen extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: bodyMedium(context).copyWith(
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),

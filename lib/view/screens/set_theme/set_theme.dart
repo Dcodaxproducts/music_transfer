@@ -67,7 +67,7 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
                           ),
                           Text(
                             'set_theme'.tr,
-                            style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+                            style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
                           ),
                           TextButton(
                             onPressed: pop,

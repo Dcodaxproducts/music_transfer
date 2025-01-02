@@ -48,7 +48,7 @@ class _AdsDialogState extends State<AdsDialog> {
             SizedBox(height: spacingSmall),
             Text(
               "You're Using the Free Version".tr,
-              style: bodyLarge(context).copyWith(fontWeight: FontWeight.bold),
+              style: bodyLarge(context).copyWith(fontWeight: FontWeight.w600),
             ),
             SizedBox(height: spacingDefault),
             Text(

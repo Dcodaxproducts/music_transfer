@@ -109,12 +109,12 @@ class _PromptLoadingState extends State<PromptLoading> {
                   children: [
                     Text(
                       "${_messages[_currentIndex].tr} ",
-                      style: bodyLarge(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                      style: bodyLarge(context).copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
                       width: 14.sp,
                       child: DefaultTextStyle(
-                        style: bodyLarge(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                        style: bodyLarge(context).copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                         child: AnimatedTextKit(
                           pause: const Duration(milliseconds: 500),
                           repeatForever: true,

@@ -166,14 +166,14 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => HistoryController(historyService: Get.find()));
   Get.lazyPut(() => InspirationController(inspirationService: Get.find()));
   Get.lazyPut(() => GenerationController(generationServiceInterface: Get.find()));
-  Get.lazyPut(() => DashboardController());
+  Get.lazyPut(() => DashboardController(), fenix: true);
   Get.lazyPut(() => SettingsController(settingsService: Get.find()));
-  Get.lazyPut(() => QueueController());
+  Get.lazyPut(() => QueueController(), fenix: true);
   Get.lazyPut(() => ReviewController(reviewService: Get.find()));
   Get.lazyPut(() => ImageUpscaleController(imageUpscaleService: Get.find()));
   Get.lazyPut(() => BackgroundRemoverController(backgroundRemoverService: Get.find()));
   Get.lazyPut(() => ToolsController(toolsService: Get.find()));
-  Get.lazyPut(() => UpscaleImageQueueController());
+  Get.lazyPut(() => UpscaleImageQueueController(), fenix: true);
   Get.lazyPut(() => AwsController(awsService: Get.find()));
 
   // Retrieving localized data

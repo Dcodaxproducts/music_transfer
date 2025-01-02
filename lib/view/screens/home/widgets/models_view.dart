@@ -39,11 +39,11 @@ class ModelsView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text('set_a_theme'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold)),
+                    Text('set_a_theme'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600)),
                     Text(
                       ' • ( ${selectedModel.name} )',
                       style: bodySmall(context).copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                         color: context.theme.hintColor,
                       ),
                     ),
@@ -122,7 +122,7 @@ class ModelsViewShimmer extends StatelessWidget {
           children: [
             Text(
               'set_a_theme'.tr,
-              style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+              style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
             ),
             const Spacer(),
             TextButton(

@@ -139,7 +139,7 @@ class _ActionSheetState extends State<ActionSheet> {
           SizedBox(height: spacingDefault),
           Text(
             'edit_result'.tr,
-            style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+            style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
           ),
           SizedBox(height: 8.sp),
           Container(

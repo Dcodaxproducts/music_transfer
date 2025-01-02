@@ -23,8 +23,7 @@ class StyleableTextFieldController extends TextEditingController {
 
         if (textPart == null) return '';
 
-        final TextPartStyleDefinition? styleDefinition =
-            styles.getStyleOfTextPart(
+        final TextPartStyleDefinition? styleDefinition = styles.getStyleOfTextPart(
           textPart,
           text,
         );
@@ -64,11 +63,10 @@ class StyleableTextFieldController extends TextEditingController {
 }
 
 class TextPartStyleDefinitions {
-  TextPartStyleDefinitions(
-      {required this.definitionList, required this.adultWords})
+  TextPartStyleDefinitions({required this.definitionList, required this.adultWords})
       : adultWordStyle = const TextStyle(
           color: Colors.red,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w600,
         );
 
   final List<TextPartStyleDefinition> definitionList;
@@ -77,10 +75,8 @@ class TextPartStyleDefinitions {
 
   RegExp createCombinedPatternBasedOnStyleMap() {
     final adultWordsPattern = adultWords.join('|');
-    final combinedPatternString = [
-      ...definitionList.map<String>((definition) => definition.pattern),
-      adultWordsPattern
-    ].join('|');
+    final combinedPatternString =
+        [...definitionList.map<String>((definition) => definition.pattern), adultWordsPattern].join('|');
     return RegExp(combinedPatternString, multiLine: true, caseSensitive: false);
   }
 
@@ -99,9 +95,7 @@ class TextPartStyleDefinitions {
 
         bool hasMatch = false;
 
-        RegExp(styleDefinition.pattern, caseSensitive: false)
-            .allMatches(text)
-            .forEach(
+        RegExp(styleDefinition.pattern, caseSensitive: false).allMatches(text).forEach(
           (RegExpMatch currentMatch) {
             if (hasMatch) return;
 

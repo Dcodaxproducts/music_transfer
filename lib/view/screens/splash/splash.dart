@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     // pixart Title
                     Text(
                       AppConstants.APP_NAME,
-                      style: Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.w600),
                     ),
                     SizedBox(height: 10.sp),
                     // pixart Subtitle

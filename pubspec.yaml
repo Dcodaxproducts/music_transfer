@@ -71,24 +71,24 @@ flutter:
     - assets/fonts/
     - .env
 
-fonts:
-    - family: Poppins
-      fonts:
-        - asset: assets/fonts/100.ttf
-          weight: 100
-        - asset: assets/fonts/200.ttf
-          weight: 200
-        - asset: assets/fonts/300.ttf
-          weight: 300
-        - asset: assets/fonts/400.ttf
-          weight: 400
-        - asset: assets/fonts/500.ttf
-          weight: 500
-        - asset: assets/fonts/600.ttf
-          weight: 600
-        - asset: assets/fonts/700.ttf
-          weight: 700
-        - asset: assets/fonts/800.ttf
-          weight: 800
-        - asset: assets/fonts/900.ttf
-          weight: 900
+  fonts:
+      - family: Poppins
+        fonts:
+          - asset: assets/fonts/100.ttf
+            weight: 100
+          - asset: assets/fonts/200.ttf
+            weight: 200
+          - asset: assets/fonts/300.ttf
+            weight: 300
+          - asset: assets/fonts/400.ttf
+            weight: 400
+          - asset: assets/fonts/500.ttf
+            weight: 500
+          - asset: assets/fonts/600.ttf
+            weight: 600
+          - asset: assets/fonts/700.ttf
+            weight: 700
+          - asset: assets/fonts/800.ttf
+            weight: 800
+          - asset: assets/fonts/900.ttf
+            weight: 900

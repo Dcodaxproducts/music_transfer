@@ -54,7 +54,7 @@ class InspirationScreen extends StatelessWidget {
                           'try_now'.tr.toUpperCase(),
                           style: labelLarge(context).copyWith(
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),

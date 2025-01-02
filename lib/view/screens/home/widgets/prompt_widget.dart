@@ -16,7 +16,7 @@ class PromptWidget extends StatelessWidget {
       children: [
         Text(
           'type_your_idea'.tr,
-          style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+          style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
         ),
         SizedBox(height: spacingSmall),
         GradientBorder(

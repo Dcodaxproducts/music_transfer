@@ -19,7 +19,7 @@ class HistoryView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('history'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold)),
+                Text('history'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600)),
                 // prompt settings
                 TextButton(
                   onPressed: () => Get.bottomSheet(const HistoryScreen(), isScrollControlled: true),

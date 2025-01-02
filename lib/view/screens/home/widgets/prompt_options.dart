@@ -17,7 +17,7 @@ class PromptSettingsWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: spacingDefault),
-        Text('advance_options'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold)),
+        Text('advance_options'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600)),
         SizedBox(height: spacingSmall),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

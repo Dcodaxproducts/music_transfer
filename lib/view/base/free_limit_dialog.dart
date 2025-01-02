@@ -41,7 +41,7 @@ class FreeLimitDialog extends StatelessWidget {
             SizedBox(height: 8.sp),
             Text(
               "Free Limit Reached".tr,
-              style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+              style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
             ),
             SizedBox(height: spacingDefault),
             Text(

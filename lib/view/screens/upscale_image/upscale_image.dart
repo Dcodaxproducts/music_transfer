@@ -49,7 +49,7 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
                     SizedBox(height: MediaQuery.of(context).padding.top * 2.8),
                     Text(
                       widget.tool.name,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                     ),
                     SizedBox(height: 8.sp),
                     Text(

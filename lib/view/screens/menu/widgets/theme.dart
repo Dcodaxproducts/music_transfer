@@ -25,15 +25,9 @@ class _ThemeTileState extends State<ThemeTile> {
         },
         backgroundColor: Theme.of(context).cardColor,
         collapsedBackgroundColor: Theme.of(context).cardColor,
-        collapsedShape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
-        shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
         tilePadding: EdgeInsets.symmetric(horizontal: spacingDefault),
         childrenPadding: paddingDefault,
-        leading: Icon(
-          Iconsax.moon,
-          size: 18.sp,
-          color: bodyMedium(context).color,
-        ),
+        leading: Icon(Iconsax.moon, size: 18.sp, color: bodyMedium(context).color),
         title: Text('theme'.tr, style: bodyMedium(context)),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
@@ -48,7 +42,7 @@ class _ThemeTileState extends State<ThemeTile> {
             Icon(
               _isExpanded ? Iconsax.arrow_down_1 : Iconsax.arrow_right_3,
               size: spacingDefault,
-              color: Theme.of(context).hintColor,
+              color: context.theme.hintColor,
             ),
           ],
         ),

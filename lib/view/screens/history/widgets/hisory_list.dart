@@ -120,7 +120,7 @@ class HistoryCard extends StatelessWidget {
                     children: [
                       Text(
                         response.model?.name ?? '',
-                        style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
+                        style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
                       ),
                       SizedBox(height: spacingSmall),
                       Text(response.meta.prompt, maxLines: 2, style: bodySmall(context)),
