@@ -59,15 +59,16 @@ class AwsService implements AwsServiceInterface {
   }
 
   @override
-  Future<void> downloadImageAndUploadToAWS(String url) async {
+  Future<String?> downloadImageAndUploadToAWS(String url) async {
     try {
-      final Uint8List? response = await apiClient.downloadImage(url);
+      final Uint8List? response = await apiClient.downloadImage(url, hideLoading: false);
       if (response != null) {
-        await uploadBytes(response);
+        return await uploadBytes(response);
       }
     } catch (e) {
       showToast('Error downloading and uploading file: $e');
     }
+    return null;
   }
 
   Future<String?> uploadBytes(Uint8List bytes) async {

@@ -24,7 +24,7 @@ class HistoryView extends StatelessWidget {
                 TextButton(
                   onPressed: () => Get.bottomSheet(const HistoryScreen(), isScrollControlled: true),
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                  child: Text('see_all'.tr, style: bodyMedium(context)),
+                  child: Text('see_all'.tr, style: bodySmall(context)),
                 ),
               ],
             ),

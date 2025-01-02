@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:matrix_ai/controller/models_controller.dart';
+import '../../controller/aws_controller.dart';
 import '../../view/base/common/snackbar.dart';
 import '../../controller/ads_controller.dart';
 import '../model/body/aspect_ratio.dart';
@@ -128,27 +129,24 @@ class ImageGenerationUtils {
     return true;
   }
 
-  static PromptResponse getPromptResponse(Map<String, dynamic> data) {
+  static Future<PromptResponse> getPromptResponse(Map<String, dynamic> data) async {
     if (data['status'] != null) {
       return PromptResponse.fromJson(data);
     } else {
       TogetherAiRespsonse response = TogetherAiRespsonse.fromJson(data);
       final List<String> urls = response.data.map((e) => e.url).toList();
+      String? imageUrl = await AwsController.find.downloadImageAndUploadToAWS(urls.first);
       int randomSeed = Random(30).nextInt(10000);
       final promptResponse = PromptResponse(
         status: 'success',
         id: DateTime.now().millisecondsSinceEpoch,
-        meta: Meta(
-          h: 1,
-          w: 1,
-          prompt: '',
-          seed: randomSeed,
-        ),
+        meta: Meta(h: 1, w: 1, prompt: '', seed: randomSeed),
         eta: null,
-        output: urls,
+        output: imageUrl != null ? [imageUrl] : urls,
         futureLinks: [],
       );
-      return promptResponse;
+      // if success and fast ai model then add delay of 4 seconds
+      return await Future.delayed(const Duration(seconds: 6), () => promptResponse);
     }
   }
 

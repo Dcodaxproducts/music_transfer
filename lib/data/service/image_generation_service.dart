@@ -102,7 +102,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     GenerationController.find.incrementGenerationCount();
 
-    PromptResponse value = ImageGenerationUtils.getPromptResponse(data);
+    PromptResponse value = await ImageGenerationUtils.getPromptResponse(data);
 
     Model model = ImageGenerationUtils.getModel(modelValue);
 
@@ -119,10 +119,6 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
       model: model,
     );
 
-    // if success and fast ai model then add delay of 7 seconds
-    if (model.modelId.contains("black-forest-labs")) {
-      await _delay(7);
-    }
     // add prompt history
     HistoryController.find.addPrompt(value, seed: seed);
 
@@ -138,7 +134,6 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     );
     dismiss();
     if (value.status == "success") {
-      AwsController.find.downloadImageAndUploadToAWS(value.output.first);
       return value;
     } else if (value.status == "processing") {
       showToast('your_prompt_is_processing_in_the_queue', success: true);
@@ -194,6 +189,4 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   Future<void> cancelRequest() async {
     await imageGenerationRepo.cancelRequest();
   }
-
-  Future<void> _delay(int seconds) async => await Future.delayed(Duration(seconds: seconds));
 }

@@ -9,5 +9,5 @@ abstract class ApiClientInterface<T> {
   Future<Response?> post(String url, Map<String, dynamic> body,
       {Map<String, dynamic>? headers, bool hideLoading = true});
 
-  Future<Uint8List?> downloadImage(String uri);
+  Future<Uint8List?> downloadImage(String uri, {bool hideLoading = true});
 }

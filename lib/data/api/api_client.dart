@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:matrix_ai/view/base/common/snackbar.dart';
 import 'package:matrix_ai/data/api/api_client_interface.dart';
 import 'package:matrix_ai/data/model/response/error.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,10 +14,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
   final int timeoutInSeconds = 120;
   http.Client? _client; // Track the client for cancellation
 
-  final Map<String, String> _mainHeaders = {
-    "Content-Type": "application/json",
-    'Accept': 'application/json',
-  };
+  final Map<String, String> _mainHeaders = {"Content-Type": "application/json", 'Accept': 'application/json'};
 
   ApiClient({required this.prefs});
 
@@ -76,14 +72,10 @@ class ApiClient extends GetxService implements ApiClientInterface {
       http.Response response = await _client!.post(
         Uri.parse(url),
         body: jsonEncode(body),
-        headers: {
-          ..._mainHeaders,
-          if (headers != null) ...headers,
-        },
+        headers: {..._mainHeaders, if (headers != null) ...headers},
       ).timeout(Duration(seconds: timeoutInSeconds));
 
       _client = null; // Reset the client after completion
-
       // handle response
       return _handleResponse(response, hideLoading: hideLoading);
     } catch (e) {
@@ -95,21 +87,17 @@ class ApiClient extends GetxService implements ApiClientInterface {
   }
 
   @override
-  Future<Uint8List?> downloadImage(String uri) async {
+  Future<Uint8List?> downloadImage(String uri, {bool hideLoading = true}) async {
     try {
       // print the api call
       debugPrint('====> API Call: $uri, ====> Header: $_mainHeaders');
 
-      http.Response response = await http
-          .get(
-            Uri.parse(uri),
-            headers: _mainHeaders,
-          )
-          .timeout(Duration(seconds: timeoutInSeconds));
+      http.Response response =
+          await http.get(Uri.parse(uri), headers: _mainHeaders).timeout(Duration(seconds: timeoutInSeconds));
       if (response.statusCode != 200) {
         return _handleError(jsonDecode(response.body));
       } else {
-        dismiss();
+        if (hideLoading) dismiss();
         return Uint8List.fromList(response.bodyBytes);
       }
     } catch (e) {
@@ -137,7 +125,11 @@ class ApiClient extends GetxService implements ApiClientInterface {
     }
     ErrorResponse response = ErrorResponse.fromJson(body);
     dismiss();
+    // if (kDebugMode) {
     showToast(response.errors.first.message);
+    // } else {
+    //   showToast('too_many_requests');
+    // }
     return null;
   }
 

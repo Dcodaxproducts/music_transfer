@@ -14,7 +14,7 @@ class AwsController extends GetxController implements GetxService {
     return await awsService.uploadFile(file);
   }
 
-  Future<void> downloadImageAndUploadToAWS(String url) async {
-    await awsService.downloadImageAndUploadToAWS(url);
+  Future<String?> downloadImageAndUploadToAWS(String url) async {
+    return await awsService.downloadImageAndUploadToAWS(url);
   }
 }
