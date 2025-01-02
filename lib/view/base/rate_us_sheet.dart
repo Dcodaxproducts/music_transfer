@@ -64,7 +64,7 @@ class _RateUsSheetState extends State<RateUsSheet> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 for (int i = 1; i <= 5; i++)
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       setState(() {
                         _rating = i;
@@ -73,7 +73,7 @@ class _RateUsSheetState extends State<RateUsSheet> {
                     child: Icon(
                       Iconsax.star1,
                       size: 40.sp,
-                      color: i <= _rating ? Colors.orange : Theme.of(context).disabledColor,
+                      color: i <= _rating ? Colors.orange : context.theme.disabledColor,
                     ),
                   ),
               ],
