@@ -121,5 +121,10 @@
   "nsfw_content_detected": "Обнаружен контент NSFW",
   "tools": "Инструменты",
   "your_image_is_processing_in_the_queue": "Ваше изображение обрабатывается в очереди",
-  "your_prompt_is_processing_in_the_queue": "Ваш запрос обрабатывается в очереди"
+  "your_prompt_is_processing_in_the_queue": "Ваш запрос обрабатывается в очереди",
+  "image_upload_failed": "Не удалось загрузить изображение",
+  "upload_image": "Загрузить изображение",
+  "remove_background": "Удалить фон",
+  "upscale_image": "Повысить качество изображения",
+  "too_many_requests": "Ой! Слишком много запросов. Пожалуйста, попробуйте еще раз через минуту."
 }

@@ -63,7 +63,7 @@
   "analyzing_prompt": "تجزیه و تحلیل درخواست شما",
   "creating_your_idea": "ایده خود را زنده کنید",
   "generating_image": "ساختن تصویر شما",
-  "it_may_take_a_while_please_dont_close_your_app": "این ممکن است کمی ��ول بکشد، لطفاً برنامه را نبندید",
+  "it_may_take_a_while_please_dont_close_your_app": "این ممکن است کمی طول بکشد، لطفاً برنامه را نبندید",
   "awaiting_your_imagination": "در انتظار آشکار شدن چشم انداز شما",
   "patience_masterpiece_loading": "صبر، شاهکاری در راه است",
   "analyzing_image": "پردازش تصویر شما",
@@ -121,5 +121,10 @@
   "nsfw_content_detected": "محتوای NSFW شناسایی شد",
   "tools": "ابزارها",
   "your_image_is_processing_in_the_queue": "تصویر شما در صف در حال پردازش است.",
-  "your_prompt_is_processing_in_the_queue": "درخواست شما در صف در حال پردازش است."
+  "your_prompt_is_processing_in_the_queue": "درخواست شما در صف در حال پردازش است.",
+  "image_upload_failed": "بارگذاری تصویر ناموفق بود",
+  "upload_image": "بارگذاری تصویر",
+  "remove_background": "حذف پس زمینه",
+  "upscale_image": "بزرگنمایی تصویر",
+  "too_many_requests": "اوه! درخواست های زیادی وجود دارد. لطفا لحظاتی بعد دوباره امتحان کنید."
 }

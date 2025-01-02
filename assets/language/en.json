@@ -121,5 +121,10 @@
     "nsfw_content_detected": "NSFW content detected",
     "tools": "Tools",
     "your_image_is_processing_in_the_queue": "Your image is processing in the queue.",
-    "your_prompt_is_processing_in_the_queue": "Your prompt is processing in the queue."
+    "your_prompt_is_processing_in_the_queue": "Your prompt is processing in the queue.",
+    "image_upload_failed": "Image upload failed",
+    "upload_image": "Upload Image",
+    "remove_background": "Remove Background",
+    "upscale_image": "Upscale Image",
+    "too_many_requests": "Oops! Too many requests. Please try again in a moment."
 }

@@ -121,5 +121,9 @@
   "nsfw_content_detected": "تم اكتشاف محتوى NSFW",
   "tools": "أدوات",
   "your_image_is_processing_in_the_queue": "صورتك قيد المعالجة في قائمة الانتظار.",
-  "your_prompt_is_processing_in_the_queue": "طلبك قيد المعالجة في قائمة الانتظار."
+  "your_prompt_is_processing_in_the_queue": "طلبك قيد المعالجة في قائمة الانتظار.",
+  "image_upload_failed": "فشل تحميل الصورة",
+  "upload_image": "تحميل الصورة",
+  "remove_background": "إزالة الخلفية",
+  "too_many_requests": "عذرًا! الطلبات كثيرة جدًا. يرجى المحاولة مرة أخرى بعد لحظات."
 }

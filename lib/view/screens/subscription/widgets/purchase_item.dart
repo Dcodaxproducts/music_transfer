@@ -11,10 +11,7 @@ class SubscriptionPackageWidget extends StatelessWidget {
   final bool selected;
   final Function() onTap;
   const SubscriptionPackageWidget(
-      {required this.item,
-      required this.selected,
-      required this.onTap,
-      super.key});
+      {required this.item, required this.selected, required this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,54 +20,38 @@ class SubscriptionPackageWidget extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 10.sp),
           child: TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: const Size(0, 0),
-              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-            ),
             onPressed: onTap,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 12.sp),
+              padding: paddingMedium,
               decoration: BoxDecoration(
-                borderRadius: borderRadius,
+                borderRadius: borderRadiusDefault,
                 color: cardColorDark.withOpacity(0.7),
-                border: Border.all(
-                  color: selected ? primaryColor : Colors.grey[800]!,
-                ),
+                border: Border.all(color: selected ? primaryColor : dividerColorDark),
               ),
               child: Row(
                 children: [
                   LanguageRadioButton(selected: selected),
-                  SizedBox(width: 8.sp),
+                  SizedBox(width: spacingSmall),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           item.title.tr,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.white,
-                          ),
+                          style: bodyMedium(context).copyWith(color: Colors.white),
                         ),
-                        SizedBox(height: 4.sp),
+                        SizedBox(height: spacingExtraSmall),
                         Text(
                           item.subtitle.tr,
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: Colors.grey[400],
-                          ),
+                          style: bodySmall(context).copyWith(color: Colors.grey[400]),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(width: 8.sp),
+                  SizedBox(width: spacingSmall),
                   Text(
                     item.price,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: Colors.white,
-                    ),
+                    style: bodyMedium(context).copyWith(color: Colors.white),
                   ),
                 ],
               ),
@@ -80,20 +61,17 @@ class SubscriptionPackageWidget extends StatelessWidget {
         if (item.promotionText.isNotEmpty)
           Positioned(
             top: 0.sp,
-            right: 32.sp,
+            right: spacingExtraLarge,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
+              padding: EdgeInsets.symmetric(horizontal: spacingSmall, vertical: spacingExtraSmall),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.sp),
-                color: selected ? primaryColor : Colors.grey[800]!,
+                color: selected ? primaryColor : dividerColorDark,
               ),
               child: Text(
                 item.promotionText.toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(color: Colors.white),
+                style: labelLarge(context).copyWith(color: Colors.white),
               ),
             ),
           )

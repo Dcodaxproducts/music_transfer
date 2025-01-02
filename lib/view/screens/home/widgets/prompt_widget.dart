@@ -1,9 +1,6 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
+import 'package:matrix_ai/imports.dart';
 import '../../../../controller/inspiration_controller.dart';
 import '../../../../data/model/response/inspiration.dart';
 import '../../../base/gradient_widget.dart';
@@ -19,12 +16,9 @@ class PromptWidget extends StatelessWidget {
       children: [
         Text(
           'type_your_idea'.tr,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 12.sp),
+        SizedBox(height: spacingSmall),
         GradientBorder(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,31 +32,28 @@ class PromptWidget extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: 'enter_prompt_message'.tr,
                   border: InputBorder.none,
-                  hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).hintColor,
-                      ),
                   contentPadding: EdgeInsets.zero,
                   counterText: '',
+                  focusedBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
                 ),
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: bodyMedium(context),
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 controller: con.promptController,
                 onChanged: (value) => con.update(),
               ),
-              SizedBox(height: 5.sp),
+              SizedBox(height: spacingExtraSmall),
               // prompt options
               Row(
                 children: [
                   // random insipiration
                   IconButton(
-                    visualDensity:
-                        const VisualDensity(horizontal: -4, vertical: -4),
+                    visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                     padding: EdgeInsets.zero,
                     onPressed: () {
-                      InspirationController inspirationCon =
-                          InspirationController.find;
-                      Inspiration inspiration = inspirationCon.inspirations[
-                          Random().nextInt(inspirationCon.inspirations.length)];
+                      InspirationController inspirationCon = InspirationController.find;
+                      Inspiration inspiration =
+                          inspirationCon.inspirations[Random().nextInt(inspirationCon.inspirations.length)];
                       con.promptController.text = inspiration.prompt;
                       con.update();
                     },
@@ -72,8 +63,7 @@ class PromptWidget extends StatelessWidget {
                   if (con.promptController.text.isNotEmpty) ...[
                     SizedBox(width: 8.sp),
                     IconButton(
-                      visualDensity:
-                          const VisualDensity(horizontal: -4, vertical: -4),
+                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         con.promptController.clear();

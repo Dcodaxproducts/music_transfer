@@ -26,25 +26,15 @@ class MenuItem extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       tileColor: Theme.of(context).cardColor,
-      shape: RoundedRectangleBorder(borderRadius: borderRadius),
-      leading: Icon(
-        icon,
-        size: 18.sp,
-        color: Theme.of(context).textTheme.bodyMedium?.color,
-      ),
-      title: Text(
-        text.tr,
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
+      shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
+      leading: Icon(icon, size: 18.sp, color: bodyMedium(context).color),
+      title: Text(text.tr, style: bodyMedium(context)),
       subtitle: subtile != null
           ? Padding(
               padding: EdgeInsets.only(top: 5.sp),
               child: Text(
                 subtile!.tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Theme.of(context).hintColor),
+                style: bodySmall(context).copyWith(color: Theme.of(context).hintColor),
               ),
             )
           : null,
@@ -54,18 +44,17 @@ class MenuItem extends StatelessWidget {
               return Switch(
                 value: notification,
                 onChanged: (value) {
-                  setting.configModel =
-                      setting.configModel.copyWith(notificationsEnabled: value);
+                  setting.configModel = setting.configModel.copyWith(notificationsEnabled: value);
                 },
                 activeColor: Theme.of(context).primaryColor,
               );
             })
           : Icon(
               Iconsax.arrow_right_3,
-              size: 16.sp,
+              size: spacingDefault,
               color: Theme.of(context).hintColor,
             ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16.sp),
+      contentPadding: EdgeInsets.symmetric(horizontal: spacingDefault),
     );
   }
 }
@@ -74,15 +63,13 @@ class NotificationTile extends StatefulWidget {
   final String text;
   final String? subtile;
   final IconData icon;
-  const NotificationTile(
-      {required this.text, this.subtile, required this.icon, super.key});
+  const NotificationTile({required this.text, this.subtile, required this.icon, super.key});
 
   @override
   State<NotificationTile> createState() => _NotificationTileState();
 }
 
-class _NotificationTileState extends State<NotificationTile>
-    with WidgetsBindingObserver {
+class _NotificationTileState extends State<NotificationTile> with WidgetsBindingObserver {
   //
   @override
   void initState() {
@@ -114,31 +101,20 @@ class _NotificationTileState extends State<NotificationTile>
         builder: (context, snapshot) {
           bool authorized = false;
           if (snapshot.data != null) {
-            authorized = snapshot.data?.authorizationStatus ==
-                AuthorizationStatus.authorized;
+            authorized = snapshot.data?.authorizationStatus == AuthorizationStatus.authorized;
           }
           return ListTile(
             onTap: () => _onTap(authorized),
             tileColor: Theme.of(context).cardColor,
-            shape: RoundedRectangleBorder(borderRadius: borderRadius),
-            leading: Icon(
-              widget.icon,
-              size: 18.sp,
-              color: Theme.of(context).textTheme.bodyMedium?.color,
-            ),
-            title: Text(
-              widget.text.tr,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+            shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
+            leading: Icon(widget.icon, size: 18.sp, color: bodyMedium(context).color),
+            title: Text(widget.text.tr, style: bodyMedium(context)),
             subtitle: widget.subtile != null
                 ? Padding(
                     padding: EdgeInsets.only(top: 5.sp),
                     child: Text(
                       widget.subtile!.tr,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: Theme.of(context).hintColor),
+                      style: bodySmall(context).copyWith(color: Theme.of(context).hintColor),
                     ),
                   )
                 : null,
@@ -147,13 +123,12 @@ class _NotificationTileState extends State<NotificationTile>
               onChanged: (value) => _onTap(authorized),
               activeColor: Theme.of(context).primaryColor,
             ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 16.sp),
+            contentPadding: EdgeInsets.symmetric(horizontal: spacingDefault),
           );
         });
   }
 
   _onTap(bool authorized) {
-    AppSettings.openAppSettings(
-        type: AppSettingsType.notification, asAnotherTask: true);
+    AppSettings.openAppSettings(type: AppSettingsType.notification, asAnotherTask: true);
   }
 }

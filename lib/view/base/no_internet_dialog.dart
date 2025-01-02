@@ -1,9 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import '../../common/primary_button.dart';
-import '../../utils/images.dart';
+import 'package:matrix_ai/imports.dart';
 
 class NoInternetDialog extends StatelessWidget {
   const NoInternetDialog({super.key});
@@ -15,27 +11,20 @@ class NoInternetDialog extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 30.sp),
       width: double.infinity,
       height: double.infinity,
-      color: Theme.of(context).scaffoldBackgroundColor,
+      color: context.theme.scaffoldBackgroundColor,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(Images.noInternet, width: 300.sp),
-          SizedBox(height: 20.sp),
+          SizedBox(height: spacingDefault),
           Text(
             'no_internet'.tr,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: bodyLarge(context).copyWith(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 10.sp),
-          Text(
-            'no_internet_message'.tr,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 20),
+          SizedBox(height: spacingSmall),
+          Text('no_internet_message'.tr, textAlign: TextAlign.center, style: bodyMedium(context)),
+          SizedBox(height: spacingLarge),
           SizedBox(
             width: 200.sp,
             child: PrimaryOutlineButton(
@@ -43,7 +32,7 @@ class NoInternetDialog extends StatelessWidget {
               text: 'retry'.tr,
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: spacingLarge),
         ],
       ),
     );
@@ -51,7 +40,6 @@ class NoInternetDialog extends StatelessWidget {
 }
 
 Future<bool> isConnected() async {
-  List<ConnectivityResult> connectivityResult =
-      await Connectivity().checkConnectivity();
+  List<ConnectivityResult> connectivityResult = await Connectivity().checkConnectivity();
   return !connectivityResult.contains(ConnectivityResult.none);
 }

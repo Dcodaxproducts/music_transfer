@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:matrix_ai/utils/images.dart';
-import '../utils/colors.dart';
-import '../view/base/loading/rotation_loading.dart';
+import '../../../utils/colors.dart';
+import '../loading/rotation_loading.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({super.key});
@@ -51,15 +51,13 @@ class AnimatedProgressBar extends StatefulWidget {
   final Duration duration;
   final Color color;
 
-  const AnimatedProgressBar(
-      {super.key, required this.duration, this.color = primaryColor});
+  const AnimatedProgressBar({super.key, required this.duration, this.color = primaryColor});
 
   @override
   AnimatedProgressBarState createState() => AnimatedProgressBarState();
 }
 
-class AnimatedProgressBarState extends State<AnimatedProgressBar>
-    with SingleTickerProviderStateMixin {
+class AnimatedProgressBarState extends State<AnimatedProgressBar> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override

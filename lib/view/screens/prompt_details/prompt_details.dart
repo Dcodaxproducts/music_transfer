@@ -13,8 +13,7 @@ import 'widgets/prompt_option.dart';
 class PromptDetailScreen extends StatelessWidget {
   final PromptResponse response;
   final bool favorites;
-  const PromptDetailScreen(
-      {super.key, required this.response, this.favorites = false});
+  const PromptDetailScreen({super.key, required this.response, this.favorites = false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +23,7 @@ class PromptDetailScreen extends StatelessWidget {
     final history = historyController.getFilteredHistory(favorites: favorites);
 
     // Get initial index
-    final initialIndex =
-        historyController.getInitialIndex(response, favorites: favorites);
+    final initialIndex = historyController.getInitialIndex(response, favorites: favorites);
 
     // Create page controller
     final pageController = PageController(initialPage: initialIndex);
@@ -50,7 +48,7 @@ class PromptDetailScreen extends StatelessWidget {
                         children: [
                           PromptImageWidget(response: currentResponse),
                           Padding(
-                            padding: pagePadding,
+                            padding: paddingDefault,
                             child: Column(
                               children: [
                                 ModelInfoWidget(response: currentResponse),

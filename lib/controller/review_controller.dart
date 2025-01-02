@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:matrix_ai/common/snackbar.dart';
+import 'package:matrix_ai/view/base/common/snackbar.dart';
 import 'package:matrix_ai/data/service/review_service_interface.dart';
 
 class ReviewController extends GetxController implements GetxService {

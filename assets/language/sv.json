@@ -121,5 +121,9 @@
   "nsfw_content_detected": "NSFW-innehåll upptäckt",
   "tools": "Verktyg",
   "your_image_is_processing_in_the_queue": "Din bild bearbetas i kön",
-  "your_prompt_is_processing_in_the_queue": "Din uppmaning bearbetas i kön"
+  "your_prompt_is_processing_in_the_queue": "Din uppmaning bearbetas i kön",
+  "image_upload_failed": "Bildöverföring misslyckades",
+  "upload_image": "Ladda upp bild",
+  "remove_background": "Ta bort bakgrund",
+  "too_many_requests": "Oj! För många förfrågningar. Försök igen om en stund."
 }

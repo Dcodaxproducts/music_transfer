@@ -121,5 +121,10 @@
   "nsfw_content_detected": "Konten NSFW terdeteksi",
   "tools": "Alat",
   "your_image_is_processing_in_the_queue": "Gambar Anda sedang diproses dalam antrian.",
-  "your_prompt_is_processing_in_the_queue": "Prompt Anda sedang diproses dalam antrian."
+  "your_prompt_is_processing_in_the_queue": "Prompt Anda sedang diproses dalam antrian.",
+  "image_upload_failed": "Gagal mengunggah gambar",
+  "upload_image": "Unggah gambar",
+  "remove_background": "Hapus latar belakang",
+  "upscale_image": "Perbesar gambar",
+  "too_many_requests": "Ups! Terlalu banyak permintaan. Silakan coba lagi sebentar lagi."
 }

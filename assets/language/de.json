@@ -121,5 +121,10 @@
   "nsfw_content_detected": "NSFW-Inhalt erkannt",
   "tools": "Werkzeuge",
   "your_image_is_processing_in_the_queue": "Ihr Bild wird in der Warteschlange verarbeitet.",
-  "your_prompt_is_processing_in_the_queue": "Ihre Eingabeaufforderung wird in der Warteschlange verarbeitet."
+  "your_prompt_is_processing_in_the_queue": "Ihre Eingabeaufforderung wird in der Warteschlange verarbeitet.",
+  "image_upload_failed": "Bild-Upload fehlgeschlagen",
+  "upload_image": "Bild hochladen",
+  "remove_background": "Hintergrund entfernen",
+  "upscale_image": "Bild vergrößern",
+  "too_many_requests": "Ups! Zu viele Anfragen. Bitte versuchen Sie es in einem Moment erneut."
 }

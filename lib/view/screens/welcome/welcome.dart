@@ -1,9 +1,7 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:matrix_ai/view/screens/onboarding/onboarding.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import '../../../imports.dart';
 import '../../base/bottom_button.dart';
 import '../../base/gradient_widget.dart';
 import '../language/language.dart';
@@ -26,44 +24,29 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ? const OnboardingScreen()
           : Scaffold(
               body: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                padding: EdgeInsets.symmetric(horizontal: spacingDefault),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 150.h),
-                    Text(
-                      'Get ready to',
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 3.sp),
+                    Text('Get ready to', style: displaySmall(context)),
+                    SizedBox(height: spacingExtraSmall),
                     GradientWidget(
                       child: Text(
                         'turn your\nimagination',
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayLarge
-                            ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                height: 1.4,
-                                color: Colors.white),
+                        style: displaySmall(context).copyWith(height: 1.4, color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 3.sp),
+                    SizedBox(height: spacingExtraSmall),
                     Text(
                       'into art: Your\ncreative\njourney begins\nnow!',
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayLarge
-                          ?.copyWith(fontWeight: FontWeight.bold, height: 1.4),
+                      style: displaySmall(context).copyWith(height: 1.4),
                     ),
                     const Spacer(),
                     Row(
                       children: [
                         InkWell(
-                          borderRadius: BorderRadius.circular(32.sp),
+                          borderRadius: BorderRadius.circular(spacingExtraLarge),
                           onTap: () {
                             setState(() {
                               _radioSelected = !_radioSelected;
@@ -71,15 +54,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           },
                           child: LanguageRadioButton(selected: _radioSelected),
                         ),
-                        SizedBox(width: 10.sp),
+                        SizedBox(width: spacingMedium),
                         Expanded(
                           child: RichText(
                             text: TextSpan(
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: bodySmall(context),
                               children: [
-                                const TextSpan(
-                                  text: 'I agree to the ',
-                                ),
+                                const TextSpan(text: 'I agree to the '),
                                 TextSpan(
                                   text: 'Terms of use',
                                   style: const TextStyle(
@@ -89,8 +70,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      launchUrlString(
-                                          AppConstants.TERMS_AND_CONDITIONS);
+                                      launchUrlString(AppConstants.TERMS_AND_CONDITIONS);
                                     },
                                 ),
                                 const TextSpan(
@@ -105,8 +85,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      launchUrlString(
-                                          AppConstants.PRIVACY_POLICY);
+                                      launchUrlString(AppConstants.PRIVACY_POLICY);
                                     },
                                 ),
                               ],

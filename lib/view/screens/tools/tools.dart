@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/controller/background_remover_controller.dart';
+import 'package:matrix_ai/controller/image_upscale_controller.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
 import '../../../controller/tools_controller.dart';
@@ -21,6 +22,7 @@ class _ToolScreenState extends State<ToolScreen> {
   @override
   void initState() {
     BackgroundRemoverController.find.getHistoryFromPrefs();
+    ImageUpscaleController.find.getHistoryFromPrefs();
     ToolsController.find.getTools();
     super.initState();
   }
@@ -33,7 +35,7 @@ class _ToolScreenState extends State<ToolScreen> {
               child: SizedBox(width: 27.sp, height: 27.sp, child: const CircularProgressIndicator.adaptive()),
             )
           : ListView(
-              padding: pagePadding,
+              padding: paddingDefault,
               children: [
                 // Featured Tool Banner
                 InkWell(
@@ -42,7 +44,7 @@ class _ToolScreenState extends State<ToolScreen> {
                     height: 200.sp,
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
-                      borderRadius: borderRadius,
+                      borderRadius: borderRadiusDefault,
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: CachedNetworkImageProvider(con.tools.first.image),
@@ -54,7 +56,7 @@ class _ToolScreenState extends State<ToolScreen> {
                         // shadow,
                         Container(
                           decoration: BoxDecoration(
-                            borderRadius: borderRadius,
+                            borderRadius: borderRadiusDefault,
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -66,7 +68,7 @@ class _ToolScreenState extends State<ToolScreen> {
                           ),
                         ),
                         Padding(
-                          padding: pagePadding,
+                          padding: paddingDefault,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -76,35 +78,35 @@ class _ToolScreenState extends State<ToolScreen> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      con.tools.first.title,
+                                      con.tools.first.name,
                                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                             fontWeight: FontWeight.bold,
-                                            color: textColordark,
+                                            color: textColorDark,
                                           ),
                                     ),
-                                    SizedBox(height: 8.sp),
+                                    SizedBox(height: spacingSmall),
                                     Text(
                                       con.tools.first.description,
-                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                            color: textColordark,
-                                          ),
+                                      style: bodyMedium(context).copyWith(
+                                        color: textColorDark,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 16.sp),
+                              SizedBox(width: spacingDefault),
                               Container(
-                                padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 16.sp),
+                                padding: EdgeInsets.symmetric(vertical: 10.sp, horizontal: spacingDefault),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(32.sp),
+                                  borderRadius: BorderRadius.circular(spacingExtraLarge),
                                   gradient: secondaryGradient,
                                 ),
                                 child: Text(
                                   'try_now'.tr.toUpperCase(),
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  style: labelLarge(context).copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ],
@@ -114,7 +116,7 @@ class _ToolScreenState extends State<ToolScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 32.sp),
+                SizedBox(height: spacingExtraLarge),
                 ToolsGridWidget(tools: con.tools)
               ],
             );

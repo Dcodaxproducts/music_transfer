@@ -34,6 +34,7 @@ import 'package:matrix_ai/data/repository/settings_repo_interface.dart';
 import 'package:matrix_ai/data/repository/tools_repo_interface.dart';
 import 'package:matrix_ai/data/service/ads_service.dart';
 import 'package:matrix_ai/data/service/ads_service_interface.dart';
+import 'package:matrix_ai/data/service/aws_service_intereface.dart';
 import 'package:matrix_ai/data/service/generation_service.dart';
 import 'package:matrix_ai/data/service/generation_service_interface.dart';
 import 'package:matrix_ai/data/service/history_service_interface.dart';
@@ -53,6 +54,7 @@ import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
+import '../controller/aws_controller.dart';
 import '../controller/background_remover_controller.dart';
 import '../controller/image_upscale_controller.dart';
 import '../controller/queue_controller.dart';
@@ -63,6 +65,7 @@ import '../data/repository/inspiration_repo_interface.dart';
 import '../data/repository/models_repo_interface.dart';
 import '../data/repository/review_repo.dart';
 import '../data/repository/tools_repo.dart';
+import '../data/service/aws_service.dart';
 import '../data/service/background_remover_service.dart';
 import '../data/service/background_remover_service_interface.dart';
 import '../data/service/history_service.dart';
@@ -149,6 +152,8 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => backgroundRemoverServiceInterface);
   ToolsServiceInterface toolsServiceInterface = ToolsService(toolsRepo: Get.find());
   Get.lazyPut(() => toolsServiceInterface);
+  AwsServiceInterface awsServiceInterface = AwsService(apiClient: Get.find());
+  Get.lazyPut(() => awsServiceInterface);
 
   // Controller
   Get.lazyPut(() => ThemeController(themeService: Get.find()));
@@ -169,6 +174,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => BackgroundRemoverController(backgroundRemoverService: Get.find()));
   Get.lazyPut(() => ToolsController(toolsService: Get.find()));
   Get.lazyPut(() => UpscaleImageQueueController());
+  Get.lazyPut(() => AwsController(awsService: Get.find()));
 
   // Retrieving localized data
   Map<String, Map<String, String>> languages = {};

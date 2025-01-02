@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../controller/settings_controller.dart';
 import '../../../../data/model/body/aspect_ratio.dart';
+import '../../../../imports.dart';
 import '../../../base/expansion_tile.dart';
 
 class AspectRatioSelectionWidget extends StatelessWidget {
@@ -31,44 +30,30 @@ class AspectRatioSelectionWidget extends StatelessWidget {
               bool selected = con.configModel.aspectRatio == aspectRatio.id;
               return GestureDetector(
                   onTap: () {
-                    con.configModel =
-                        con.configModel.copyWith(aspectRatio: aspectRatio.id);
+                    con.configModel = con.configModel.copyWith(aspectRatio: aspectRatio.id);
                   },
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(32.sp),
-                      color: selected
-                          ? Theme.of(context).textTheme.bodySmall?.color
-                          : Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(spacingExtraLarge),
+                      color: selected ? bodySmall(context).color : context.theme.scaffoldBackgroundColor,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(width: 16.sp),
+                        SizedBox(width: spacingDefault),
                         SizedBox(
                           width: 14.sp,
                           height: 14.sp,
-                          child: FittedBox(
-                            child: AspectRatioBox(
-                              ratio: aspectRatio,
-                              selected: selected,
-                            ),
-                          ),
+                          child: FittedBox(child: AspectRatioBox(ratio: aspectRatio, selected: selected)),
                         ),
-                        SizedBox(width: 8.sp),
+                        SizedBox(width: spacingSmall),
                         Text(
                           aspectRatio.aspectRatio,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                color: selected
-                                    ? Theme.of(context).scaffoldBackgroundColor
-                                    : null,
-                              ),
+                          style: bodySmall(context)
+                              .copyWith(color: selected ? context.theme.scaffoldBackgroundColor : null),
                         ),
-                        SizedBox(width: 16.sp),
+                        SizedBox(width: spacingDefault),
                       ],
                     ),
                   ));
@@ -96,9 +81,7 @@ class AspectRatioBox extends StatelessWidget {
       child: Container(
         width: ratio.width.toDouble(),
         height: ratio.height.toDouble(),
-        color: selected
-            ? Theme.of(context).scaffoldBackgroundColor
-            : Theme.of(context).textTheme.bodyMedium!.color,
+        color: selected ? Theme.of(context).scaffoldBackgroundColor : bodyMedium(context).color,
       ),
     );
   }

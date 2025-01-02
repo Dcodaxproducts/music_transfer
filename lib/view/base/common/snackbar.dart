@@ -7,7 +7,6 @@ showLoading() => SmartDialog.showLoading();
 dismiss() => SmartDialog.dismiss();
 
 showToast(String text, {bool success = false}) {
-  Get.closeAllSnackbars();
   Get.snackbar(
     success ? 'success'.tr : 'error'.tr,
     text.tr,

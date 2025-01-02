@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/common/primary_button.dart';
+import 'package:matrix_ai/view/base/common/primary_button.dart';
 import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import '../../common/snackbar.dart';
+import 'common/snackbar.dart';
 import '../../controller/review_controller.dart';
 import '../../utils/style.dart';
 
@@ -44,30 +44,22 @@ class _RateUsSheetState extends State<RateUsSheet> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: borderRadius),
-      child: Container(
-        padding: pagePadding,
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: borderRadius,
-        ),
+      child: Padding(
+        padding: paddingDefault,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               '${'do_you_like'.tr} ${AppConstants.APP_NAME}?'.tr,
-              style: Theme.of(context)
-                  .textTheme
-                  .displaySmall
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: titleMedium(context),
             ),
-            SizedBox(height: 16.sp),
+            SizedBox(height: spacingSmall),
             Text(
               'your_feedback_will_help_us_improve_our_service_for_you'.tr,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: bodyMedium(context),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 16.sp),
+            SizedBox(height: spacingDefault),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -81,40 +73,35 @@ class _RateUsSheetState extends State<RateUsSheet> {
                     child: Icon(
                       Iconsax.star1,
                       size: 40.sp,
-                      color: i <= _rating
-                          ? Colors.orange
-                          : Theme.of(context).disabledColor,
+                      color: i <= _rating ? Colors.orange : Theme.of(context).disabledColor,
                     ),
                   ),
               ],
             ),
             if (_rating < 4)
               Padding(
-                padding: EdgeInsets.only(top: 16.sp),
+                padding: EdgeInsets.only(top: spacingDefault),
                 child: TextField(
                   controller: _review,
                   decoration: InputDecoration(
                     hintText: 'add_a_comment'.tr,
-                    border: OutlineInputBorder(borderRadius: borderRadius),
+                    border: OutlineInputBorder(borderRadius: borderRadiusDefault),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: borderRadius,
+                      borderRadius: borderRadiusDefault,
                       borderSide: BorderSide(
                         color: Theme.of(context).dividerColor,
                       ),
                     ),
                   ),
                   maxLines: 3,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: bodyMedium(context),
                 ),
               ),
             Padding(
-              padding: EdgeInsets.only(top: 32.sp),
+              padding: EdgeInsets.only(top: spacingExtraLarge),
               child: SizedBox(
                 width: double.infinity,
-                child: PrimaryButton(
-                  text: 'submit'.tr,
-                  onPressed: _submitReview,
-                ),
+                child: PrimaryButton(text: 'submit'.tr, onPressed: _submitReview),
               ),
             ),
           ],
@@ -125,16 +112,13 @@ class _RateUsSheetState extends State<RateUsSheet> {
 
   _submitReview() {
     if (_rating > 3) {
-      launchUrlString(AppConstants.APP_LINK,
-          mode: LaunchMode.externalApplication);
+      launchUrlString(AppConstants.APP_LINK, mode: LaunchMode.externalApplication);
       ReviewController.find.setReviewed();
       Get.back();
       return;
     }
     if (_review.text.isNotEmpty) {
-      ReviewController.find
-          .saveReview(_rating, _review.text.trim())
-          .then((value) {
+      ReviewController.find.saveReview(_rating, _review.text.trim()).then((value) {
         ReviewController.find.setReviewed();
         Get.back();
       });

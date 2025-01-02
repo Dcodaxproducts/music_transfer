@@ -28,12 +28,9 @@ class PromptOptionWidget extends StatelessWidget {
           }
         }
         return Container(
-          margin: EdgeInsets.only(top: 16.sp),
+          margin: EdgeInsets.only(top: spacingDefault),
           height: 50.sp,
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(radius),
-          ),
+          decoration: BoxDecoration(color: context.theme.cardColor, borderRadius: borderRadiusDefault),
           child: Row(
             children: [
               OptionButton(
@@ -42,12 +39,11 @@ class PromptOptionWidget extends StatelessWidget {
                   SettingsController setting = SettingsController.find;
                   Clipboard.setData(ClipboardData(text: result!.meta.prompt));
                   setting.setPromptText(result.meta.prompt);
-                  setting.configModel =
-                      setting.configModel.copyWith(seed: result.meta.seed);
+                  setting.configModel = setting.configModel.copyWith(seed: result.meta.seed);
                   setting.seedController.text = result.meta.seed.toString();
                 },
               ),
-              SizedBox(width: 16.sp),
+              SizedBox(width: spacingDefault),
               OptionButton(
                 icon: bookmarked ? Iconsax.heart5 : Iconsax.heart,
                 color: bookmarked ? Colors.red : null,
@@ -57,12 +53,14 @@ class PromptOptionWidget extends StatelessWidget {
                   HistoryController.find.toggleFavorite(result);
                 },
               ),
-              SizedBox(width: 16.sp),
-              OptionButton(
-                icon: Iconsax.import,
-                onTap: () => _downloadImage(result!.output.first),
-              ),
-              SizedBox(width: 16.sp),
+              SizedBox(width: spacingDefault),
+              if (result!.output.isNotEmpty) ...[
+                OptionButton(
+                  icon: Iconsax.import,
+                  onTap: () => _downloadImage(result.output.first),
+                ),
+                SizedBox(width: spacingDefault),
+              ],
               OptionButton(
                 icon: Iconsax.trash,
                 onTap: () {
@@ -70,7 +68,7 @@ class PromptOptionWidget extends StatelessWidget {
                     title: 'delete_prompt'.tr,
                     subtitle: 'delete_prompt_message'.tr,
                     actionText: 'delete'.tr,
-                    onAccept: () => _deletePrompt(result!),
+                    onAccept: () => _deletePrompt(result),
                   );
                 },
               ),
@@ -94,20 +92,15 @@ class OptionButton extends StatelessWidget {
   final IconData icon;
   final Function() onTap;
   final Color? color;
-  const OptionButton(
-      {required this.onTap, required this.icon, this.color, super.key});
+  const OptionButton({required this.onTap, required this.icon, this.color, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(radius),
-        child: Icon(
-          icon,
-          color: color,
-          size: 22.sp,
-        ),
+        borderRadius: borderRadiusDefault,
+        child: Icon(icon, color: color, size: 22.sp),
       ),
     );
   }

@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import '../utils/colors.dart';
+import 'package:matrix_ai/imports.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
@@ -9,8 +6,6 @@ class PrimaryButton extends StatelessWidget {
   final Widget? icon;
   final Color? color;
   final Color? textColor;
-  final double? radius;
-  final EdgeInsets? margin;
   final bool gradient;
   const PrimaryButton(
       {required this.text,
@@ -18,8 +13,6 @@ class PrimaryButton extends StatelessWidget {
       this.icon,
       this.color,
       this.textColor,
-      this.margin,
-      this.radius,
       this.gradient = false,
       super.key});
 
@@ -27,32 +20,25 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color backgroundColor = color ?? primaryColor;
     final Color textColor = this.textColor ?? Colors.white;
-    return Container(
-      margin: margin,
-      decoration: BoxDecoration(
-        gradient: gradient ? secondaryGradient : null,
-        borderRadius: BorderRadius.circular(radius ?? 16.sp),
-      ),
+    return DecoratedBox(
+      decoration:
+          BoxDecoration(gradient: gradient ? secondaryGradient : null, borderRadius: borderRadiusDefault),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: gradient ? Colors.transparent : backgroundColor,
-          minimumSize: Size(100.sp, 55.sp),
+          minimumSize: Size(100.sp, 50.sp),
           elevation: 0,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius ?? 16.sp)),
+          shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
           disabledBackgroundColor: backgroundColor,
         ),
         onPressed: onPressed,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (icon != null) ...[icon!, SizedBox(width: 8.sp)],
+            if (icon != null) ...[icon!, SizedBox(width: spacingSmall)],
             Text(
               text.tr,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(fontWeight: FontWeight.bold, color: textColor),
+              style: bodyMedium(context).copyWith(fontWeight: FontWeight.w700, color: textColor),
             ),
           ],
         ),
@@ -70,13 +56,7 @@ class PrimaryOutlineButton extends StatelessWidget {
   final Color? textColor;
   final double? width;
   const PrimaryOutlineButton(
-      {required this.onPressed,
-      this.text,
-      this.icon,
-      this.radius,
-      this.textColor,
-      this.width,
-      super.key});
+      {required this.onPressed, this.text, this.icon, this.radius, this.textColor, this.width, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +65,7 @@ class PrimaryOutlineButton extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         minimumSize: Size((width ?? 100).sp, 55.sp),
         side: BorderSide(color: Theme.of(context).dividerColor),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular((radius ?? 16).sp)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular((radius ?? 16).sp)),
       ),
       onPressed: onPressed,
       child: Row(

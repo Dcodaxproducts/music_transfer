@@ -12,7 +12,7 @@ abstract class ImageGenerationServiceInterface<T> {
     bool showAds = true,
   });
 
-  PromptResponse? processGenerationResponse(
+  Future<PromptResponse?> processGenerationResponse(
     Response? response,
     String prompt,
     Model? model,
@@ -24,6 +24,5 @@ abstract class ImageGenerationServiceInterface<T> {
 
   Future<void> cancelRequest();
 
-  Future<bool> willShowFreeLimitDialog(
-      int freeGenerations, int dailyGenerationCount);
+  Future<bool> willShowFreeLimitDialog(int freeGenerations, int dailyGenerationCount);
 }

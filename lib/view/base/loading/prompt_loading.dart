@@ -1,15 +1,11 @@
 import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:get/get.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
-import 'package:matrix_ai/utils/colors.dart';
-import '../../../common/loading.dart';
+import 'package:matrix_ai/imports.dart';
+import '../common/loading.dart';
 
-showPromptLoading({bool upscale = false, bool facefix = false}) =>
-    SmartDialog.show(
+showPromptLoading({bool upscale = false, bool facefix = false}) => SmartDialog.show(
       maskColor: backgroundColorDark,
       backType: SmartBackType.block,
       builder: (context) => PromptLoading(
@@ -20,8 +16,7 @@ showPromptLoading({bool upscale = false, bool facefix = false}) =>
 
 class PromptLoading extends StatefulWidget {
   final bool upscale, facefix;
-  const PromptLoading(
-      {required this.facefix, required this.upscale, super.key});
+  const PromptLoading({required this.facefix, required this.upscale, super.key});
 
   @override
   State<PromptLoading> createState() => _PromptLoadingState();
@@ -98,7 +93,7 @@ class _PromptLoadingState extends State<PromptLoading> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.sp),
+      padding: paddingDefault,
       child: Container(
         color: Colors.transparent,
         child: Stack(
@@ -108,26 +103,24 @@ class _PromptLoadingState extends State<PromptLoading> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Loading(size: 250),
-                SizedBox(height: 10.sp),
+                SizedBox(height: spacingSmall),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "${_messages[_currentIndex].tr} ",
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                      style: bodyLarge(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       width: 14.sp,
                       child: DefaultTextStyle(
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                        style: bodyLarge(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                         child: AnimatedTextKit(
                           pause: const Duration(milliseconds: 500),
                           repeatForever: true,
                           animatedTexts: [
                             TyperAnimatedText(
-                              '...',
+                              '..',
                               speed: const Duration(milliseconds: 500),
                             ),
                           ],
@@ -136,16 +129,11 @@ class _PromptLoadingState extends State<PromptLoading> {
                     )
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: spacingDefault),
                 Text(
-                  widget.upscale || widget.facefix
-                      ? _subheading[0].tr
-                      : _subheading[_currentIndex].tr,
+                  widget.upscale || widget.facefix ? _subheading[0].tr : _subheading[_currentIndex].tr,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: Colors.white),
+                  style: bodyMedium(context).copyWith(color: Colors.white),
                 ),
               ],
             ),
@@ -160,17 +148,12 @@ class _PromptLoadingState extends State<PromptLoading> {
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32.sp),
+                      borderRadius: BorderRadius.circular(spacingExtraLarge),
                     ),
-                    visualDensity:
-                        const VisualDensity(horizontal: -4, vertical: -3),
+                    visualDensity: const VisualDensity(horizontal: 1, vertical: -2),
                   ),
                   onPressed: _cancelApiCall,
-                  child: Text('cancel'.tr,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: primaryColor)),
+                  child: Text('cancel'.tr, style: bodySmall(context).copyWith(color: primaryColor)),
                 ),
               ),
             ),

@@ -121,5 +121,10 @@
   "nsfw_content_detected": "检测到不适宜内容",
   "tools": "工具",
   "your_image_is_processing_in_the_queue": "您的图像正在队列中处理",
-  "your_prompt_is_processing_in_the_queue": "您的提示正在队列中处理"
+  "your_prompt_is_processing_in_the_queue": "您的提示正在队列中处理",
+  "image_upload_failed": "图片上传失败",
+  "upload_image": "上传图片",
+  "remove_background": "移除背景",
+  "upscale_image": "提高图像质量",
+  "too_many_requests": "哎呀！请求太多。请稍后再试。"
 }

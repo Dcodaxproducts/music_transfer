@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
+import 'package:matrix_ai/imports.dart';
 
 class AppVersionWidget extends StatelessWidget {
   const AppVersionWidget({
@@ -14,14 +12,11 @@ class AppVersionWidget extends StatelessWidget {
       return Visibility(
         visible: con.packageInfo != null,
         child: Padding(
-          padding: EdgeInsets.only(top: 16.sp),
+          padding: EdgeInsets.only(top: spacingDefault),
           child: Center(
             child: Text(
               '${'version'.tr} ${con.packageInfo?.version} (${con.packageInfo?.buildNumber})',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: Theme.of(context).hintColor),
+              style: bodyMedium(context).copyWith(color: Theme.of(context).hintColor),
             ),
           ),
         ),

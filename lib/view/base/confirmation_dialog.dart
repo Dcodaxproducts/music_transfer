@@ -1,19 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:matrix_ai/view/base/divider.dart';
-import '../../common/primary_button.dart';
-import '../../helper/navigation.dart';
+import '../../imports.dart';
 
 Future showConfirmationDialog({
   required String title,
   required String subtitle,
   required String actionText,
   required Function() onAccept,
-  BuildContext? context,
 }) {
   return showDialog(
-    context: context ?? Get.context!,
+    context: Get.context!,
     builder: (context) => ConfirmationDialog(
       title: title,
       subtitle: subtitle,
@@ -37,33 +31,18 @@ class ConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.symmetric(horizontal: 30.sp),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Container(
-        padding: EdgeInsets.all(20.sp),
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(15.sp),
-        ),
+      child: Padding(
+        padding: paddingDefault,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               title.tr,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: bodyLarge(context).copyWith(fontWeight: FontWeight.w700),
             ),
-            CustomDivider(padding: 16.sp),
-            Text(
-              subtitle.tr,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            SizedBox(height: 24.sp),
+            Divider(height: spacingLarge),
+            Text(subtitle.tr, textAlign: TextAlign.center, style: bodyMedium(context)),
+            SizedBox(height: spacingLarge),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -71,16 +50,11 @@ class ConfirmationDialog extends StatelessWidget {
                   child: PrimaryOutlineButton(
                     text: 'cancel'.tr,
                     onPressed: pop,
-                    textColor: Theme.of(context).textTheme.bodyLarge!.color,
+                    textColor: context.textTheme.bodyLarge!.color,
                   ),
                 ),
-                SizedBox(width: 16.sp),
-                Expanded(
-                  child: PrimaryButton(
-                    text: actionText,
-                    onPressed: onAccept,
-                  ),
-                ),
+                SizedBox(width: spacingDefault),
+                Expanded(child: PrimaryButton(text: actionText, onPressed: onAccept)),
               ],
             ),
           ],

@@ -121,5 +121,9 @@
   "nsfw_content_detected": "Phát hiện nội dung không phù hợp",
   "tools": "Công cụ",
   "your_image_is_processing_in_the_queue": "Hình ảnh của bạn đang được xử lý trong hàng đợi",
-  "your_prompt_is_processing_in_the_queue": "Lời nhắc của bạn đang được xử lý trong hàng đợi"
+  "your_prompt_is_processing_in_the_queue": "Lời nhắc của bạn đang được xử lý trong hàng đợi",
+  "image_upload_failed": "Tải lên hình ảnh thất bại",
+  "upload_image": "Tải lên hình ảnh",
+  "remove_background": "Xóa nền",
+  "too_many_requests": "Rất tiếc! Quá nhiều yêu cầu. Vui lòng thử lại sau một lúc."
 }

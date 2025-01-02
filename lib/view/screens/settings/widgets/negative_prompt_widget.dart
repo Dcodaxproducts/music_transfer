@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:matrix_ai/view/base/expansion_tile.dart';
 import '../../../../controller/settings_controller.dart';
+import '../../../../imports.dart';
 import '../../../base/gradient_widget.dart';
 
 class NegativePromptWidget extends StatelessWidget {
@@ -27,12 +25,11 @@ class NegativePromptWidget extends StatelessWidget {
             decoration: InputDecoration(
               hintText: 'negative_prompt_message'.tr,
               border: InputBorder.none,
-              hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).hintColor,
-                  ),
               contentPadding: EdgeInsets.zero,
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
             ),
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: bodyMedium(context),
           ),
         ),
       ],

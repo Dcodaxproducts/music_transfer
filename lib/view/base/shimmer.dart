@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:matrix_ai/imports.dart';
 
 class CustomShimmer extends StatelessWidget {
   final Widget child;
@@ -8,9 +8,8 @@ class CustomShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Theme.of(context).cardColor,
-      highlightColor:
-          Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.05),
+      baseColor: context.theme.cardColor,
+      highlightColor: bodyLarge(context).color!.withOpacity(0.05),
       child: child,
     );
   }

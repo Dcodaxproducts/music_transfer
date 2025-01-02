@@ -1,6 +1,7 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:matrix_ai/controller/models_controller.dart';
-import '../../common/snackbar.dart';
+import '../../view/base/common/snackbar.dart';
 import '../../controller/ads_controller.dart';
 import '../model/body/aspect_ratio.dart';
 import '../model/body/config_model.dart';
@@ -116,7 +117,11 @@ class ImageGenerationUtils {
         Map<String, dynamic> messageMap = res;
         message = messageMap.entries.first.value[0];
       }
-      showToast(message);
+      if (kDebugMode) {
+        showToast(message);
+      } else {
+        showToast('too_many_requests');
+      }
       dismiss();
       return false;
     }

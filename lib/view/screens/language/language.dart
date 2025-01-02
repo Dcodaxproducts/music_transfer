@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/common/textfield.dart';
+import 'package:matrix_ai/view/base/common/textfield.dart';
 import 'package:matrix_ai/controller/ads_controller.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
-import 'package:matrix_ai/view/base/divider.dart';
-import '../../../common/primary_button.dart';
+import '../../base/common/primary_button.dart';
 import '../../../controller/localization_controller.dart';
 import '../../../data/model/language.dart';
 
@@ -28,23 +27,21 @@ class _LanguageScreenState extends State<LanguageScreen> {
       ),
       body: GetBuilder<LocalizationController>(builder: (con) {
         return Padding(
-          padding: pagePadding,
+          padding: paddingDefault,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomTextField(
                 hintText: 'search_langauge'.tr,
-                suffixIcon: Icon(Iconsax.search_normal, size: 20.sp),
-                radius: 32.sp,
-                filled: true,
+                suffixIcon: Iconsax.search_normal,
                 onChanged: con.searchLanguage,
+                filled: true,
               ),
-              SizedBox(height: 16.sp),
+              SizedBox(height: spacingDefault),
               Expanded(
                 child: ListView.separated(
                   itemCount: con.languages.length,
-                  separatorBuilder: (context, index) =>
-                      CustomDivider(padding: 0.sp),
+                  separatorBuilder: (context, index) => const Divider(),
                   itemBuilder: (context, index) {
                     LanguageModel language = con.languages[index];
                     bool selected = con.selectedIndex == index;
@@ -55,40 +52,29 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         InkWell(
                           onTap: () {
                             con.setSelectIndex(index);
-                            LocalizationController.to.setLanguage(Locale(
-                                language.languageCode, language.countryCode));
+                            LocalizationController.to
+                                .setLanguage(Locale(language.languageCode, language.countryCode));
                           },
-                          overlayColor:
-                              MaterialStateProperty.all(Colors.transparent),
+                          overlayColor: WidgetStateProperty.all(Colors.transparent),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12.sp),
+                            padding: EdgeInsets.symmetric(vertical: spacingMedium),
                             child: Row(
                               children: [
-                                SizedBox(
-                                  height: 35,
-                                  width: 35,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(40),
-                                    child: Image.asset(
-                                      'assets/images/${language.countryCode.toLowerCase()}.png',
-                                      fit: BoxFit.cover,
-                                    ),
+                                CircleAvatar(
+                                  radius: 18.sp,
+                                  backgroundImage: AssetImage(
+                                    'assets/images/${language.countryCode.toLowerCase()}.png',
                                   ),
                                 ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    language.languageName,
-                                  ),
-                                ),
+                                SizedBox(width: spacingMedium),
+                                Expanded(child: Text(language.languageName)),
                                 LanguageRadioButton(selected: selected),
                               ],
                             ),
                           ),
                         ),
                         // show ad after every 5th item,
-                        if (index % 5 == 0)
-                          AdsController.find.showLanguageScreenAd(),
+                        if (index % 5 == 0) AdsController.find.showLanguageScreenAd(),
                       ],
                     );
                   },
@@ -99,7 +85,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
         );
       }),
       bottomNavigationBar: Padding(
-        padding: pagePadding.copyWith(top: 0),
+        padding: paddingDefault.copyWith(top: 0),
         child: PrimaryButton(text: 'done'.tr, onPressed: pop),
       ),
     );

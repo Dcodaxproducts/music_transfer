@@ -1,13 +1,19 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 import 'dart:io';
-
 import 'package:matrix_ai/data/model/language.dart';
 
 class AppConstants {
   // app name and package name
   static const String APP_NAME = 'PixArt';
   static const String APP_PACKAGE_NAME = 'pixart.aiart.generator';
+
+  /* AWS Credientials */
+  static const String AWS_ENDPOINT = 's3.amazonaws.com';
+  static const String AWS_ACCESS_KEY = 'AKIA4MI2J3YJLGPHFR7L';
+  static const String AWS_SECRET_KEY = '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';
+  static const String AWS_REGION = 'eu-west-2';
+  static const String AWS_BUCKET_NAME = 'matrixart';
 
   // Base URL
   static const String DOMAIN = 'https://pixartai.dcodax.net';

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/utils/style.dart';
-import '../../../../common/network_image.dart';
-import '../../../../common/primary_button.dart';
+import '../../../base/common/network_image.dart';
+import '../../../base/common/primary_button.dart';
 import '../../../../controller/dashboard_controller.dart';
 import '../../../../controller/settings_controller.dart';
 import '../../../../data/model/response/inspiration.dart';
@@ -17,20 +17,17 @@ class InspirationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: context.width * 0.1),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.sp),
-      ),
       child: Container(
         height: context.height * (context.width < 600 ? 0.5 : 0.65),
         decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: borderRadius,
+          color: context.theme.scaffoldBackgroundColor,
+          borderRadius: borderRadiusDefault,
         ),
         child: Stack(
           fit: StackFit.expand,
           children: [
             ClipRRect(
-              borderRadius: borderRadius,
+              borderRadius: borderRadiusDefault,
               child: CustomNetworkImage(
                 url: inspiration.image,
                 fit: BoxFit.cover,
@@ -40,7 +37,7 @@ class InspirationDialog extends StatelessWidget {
             // shadow,
             Container(
               decoration: BoxDecoration(
-                borderRadius: borderRadius,
+                borderRadius: borderRadiusDefault,
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -63,16 +60,12 @@ class InspirationDialog extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: Colors.white,
                   ),
-                  child: Icon(
-                    Icons.close,
-                    size: 20.sp,
-                    color: Colors.black,
-                  ),
+                  child: Icon(Icons.close, size: 20.sp, color: Colors.black),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.sp),
+              padding: EdgeInsets.symmetric(horizontal: spacingMedium),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -80,26 +73,25 @@ class InspirationDialog extends StatelessWidget {
                   Text(
                     inspiration.prompt,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: Colors.white),
+                    style: bodySmall(context).copyWith(color: Colors.white),
                   ),
-                  SizedBox(height: 16.sp),
-                  PrimaryButton(
-                    text: 'try_now'.tr,
-                    onPressed: () {
-                      final settings = SettingsController.find;
-                      pop();
-                      DashboardController.find.selectedIndex = 0;
-                      settings.configModel =
-                          settings.configModel.copyWith(seed: inspiration.seed);
-                      settings.promptController.text = inspiration.prompt;
-                      settings.seedController.text =
-                          inspiration.seed.toString();
-                    },
+                  SizedBox(height: spacingDefault),
+                  SizedBox(
+                    height: 50.sp,
+                    width: 120.sp,
+                    child: PrimaryButton(
+                      text: 'try_now'.tr,
+                      onPressed: () {
+                        final settings = SettingsController.find;
+                        pop();
+                        DashboardController.find.selectedIndex = 0;
+                        settings.configModel = settings.configModel.copyWith(seed: inspiration.seed);
+                        settings.promptController.text = inspiration.prompt;
+                        settings.seedController.text = inspiration.seed.toString();
+                      },
+                    ),
                   ),
-                  SizedBox(height: 16.sp),
+                  SizedBox(height: spacingDefault),
                 ],
               ),
             ),

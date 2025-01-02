@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/data/model/body/aspect_ratio.dart';
 import 'package:matrix_ai/helper/navigation.dart';
@@ -18,15 +17,13 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-      ),
+      decoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
       child: Column(
         children: [
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(top: 32.sp),
-              padding: pagePadding,
+              margin: EdgeInsets.only(top: spacingExtraLarge),
+              padding: paddingDefault,
               child: Column(
                 children: [
                   Row(
@@ -37,31 +34,23 @@ class SettingScreen extends StatelessWidget {
                         onPressed: pop,
                         icon: Icon(Icons.close),
                         padding: EdgeInsets.zero,
-                        visualDensity:
-                            VisualDensity(horizontal: -4, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                       ),
                       Text(
                         'settings'.tr,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
                       ),
                       TextButton(
                         onPressed: () {
                           SettingsController con = SettingsController.find;
-                          con.configModel = con.configModel.copyWith(
-                              negativePrompt:
-                                  con.negativePromptController.text.trim());
+                          con.configModel = con.configModel
+                              .copyWith(negativePrompt: con.negativePromptController.text.trim());
                           pop();
                         },
                         style: TextButton.styleFrom(padding: EdgeInsets.zero),
                         child: Text(
                           'done'.tr,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: primaryColor),
+                          style: bodyMedium(context).copyWith(color: primaryColor),
                         ),
                       ),
                     ],
@@ -69,10 +58,8 @@ class SettingScreen extends StatelessWidget {
                   Expanded(
                     child: GetBuilder<SettingsController>(
                       builder: (con) {
-                        final selectedAspectRatio = aspectRatios
-                            .firstWhere(
-                                (e) => e.id == con.configModel.aspectRatio)
-                            .aspectRatio;
+                        final selectedAspectRatio =
+                            aspectRatios.firstWhere((e) => e.id == con.configModel.aspectRatio).aspectRatio;
                         return ListView(
                           children: [
                             AspectRatioSelectionWidget(

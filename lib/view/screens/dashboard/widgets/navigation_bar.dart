@@ -21,7 +21,7 @@ class GlasmorphicNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: pagePadding,
+      padding: paddingDefault,
       child: Center(
         child: GlassBoxCurve(
           child: Stack(
@@ -30,8 +30,7 @@ class GlasmorphicNavigationBar extends StatelessWidget {
               // Sliding Indicator for the selected button
               GetBuilder<LocalizationController>(builder: (con) {
                 bool isLtr = con.isLtr;
-                double alignment =
-                    -1 + (2 / (navigationItems.length - 1)) * currentIndex;
+                double alignment = -1 + (2 / (navigationItems.length - 1)) * currentIndex;
                 if (!isLtr) alignment *= -1;
                 return AnimatedAlign(
                   alignment: Alignment(alignment, 0),
@@ -97,9 +96,7 @@ class NavigationButton extends StatelessWidget {
         child: Icon(
           icon,
           key: ValueKey(selected),
-          color: selected
-              ? Colors.white
-              : Theme.of(context).textTheme.bodyMedium?.color,
+          color: selected ? Colors.white : bodyMedium(context).color,
           size: selected ? 24.sp : 20.sp,
         ),
       ),

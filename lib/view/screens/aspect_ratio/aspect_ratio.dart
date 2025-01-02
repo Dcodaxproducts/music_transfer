@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../common/network_image.dart';
+import '../../base/common/network_image.dart';
 import '../../../controller/settings_controller.dart';
 import '../../../data/model/body/aspect_ratio.dart';
 import '../../../helper/navigation.dart';
@@ -14,11 +13,9 @@ class AspectRatioScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 32.sp),
-      padding: pagePadding,
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-      ),
+      margin: EdgeInsets.only(top: spacingExtraLarge),
+      padding: paddingDefault,
+      decoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
       child: Column(
         children: [
           Row(
@@ -33,26 +30,17 @@ class AspectRatioScreen extends StatelessWidget {
               ),
               Text(
                 'aspect_ratio'.tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
               ),
               TextButton(
                 onPressed: () {
                   SettingsController con = SettingsController.find;
-                  con.configModel = con.configModel.copyWith(
-                      negativePrompt: con.negativePromptController.text.trim());
+                  con.configModel =
+                      con.configModel.copyWith(negativePrompt: con.negativePromptController.text.trim());
                   pop();
                 },
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                child: Text(
-                  'done'.tr,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: primaryColor),
-                ),
+                child: Text('done'.tr, style: bodyMedium(context).copyWith(color: primaryColor)),
               ),
             ],
           ),
@@ -60,47 +48,40 @@ class AspectRatioScreen extends StatelessWidget {
             child: GetBuilder<SettingsController>(builder: (con) {
               return GridView.builder(
                 itemCount: aspectRatios.length,
-                padding: EdgeInsets.only(top: 16.sp),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                padding: EdgeInsets.only(top: spacingDefault),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+                  crossAxisSpacing: spacingSmall,
+                  mainAxisSpacing: spacingSmall,
                 ),
                 itemBuilder: (context, index) {
                   final ratio = aspectRatios[index];
                   bool selected = con.configModel.aspectRatio == ratio.id;
                   return InkWell(
                     onTap: () {
-                      con.configModel =
-                          con.configModel.copyWith(aspectRatio: ratio.id);
+                      con.configModel = con.configModel.copyWith(aspectRatio: ratio.id);
                       pop();
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
-                      padding: pagePadding,
+                      padding: paddingDefault,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: selected
-                              ? primaryColor
-                              : Theme.of(context).dividerColor,
+                          color: selected ? primaryColor : context.theme.dividerColor,
                           width: selected ? 2 : 1,
                         ),
-                        borderRadius: borderRadius,
+                        borderRadius: borderRadiusDefault,
                       ),
                       child: Stack(
                         fit: StackFit.expand,
                         children: [
-                          FittedBox(
-                            child: AspectRatioBox(ratio: ratio),
-                          ),
+                          FittedBox(child: AspectRatioBox(ratio: ratio)),
                           FittedBox(
                             child: Container(
                               width: ratio.width.toDouble(),
                               height: ratio.height.toDouble(),
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.2),
-                                borderRadius: borderRadius,
-                              ),
+                                  color: Colors.black.withOpacity(0.2), borderRadius: borderRadiusDefault),
                             ),
                           ),
                           Center(
@@ -109,13 +90,10 @@ class AspectRatioScreen extends StatelessWidget {
                               '\n'
                               '(${ratio.aspectRatio})',
                               textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              style: bodyMedium(context).copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -142,9 +120,8 @@ class AspectRatioBox extends StatelessWidget {
       width: ratio.width.toDouble(),
       height: ratio.height.toDouble(),
       child: ClipRRect(
-        borderRadius: borderRadius,
-        child: const CustomNetworkImage(
-            url: 'https://picsum.photos/seed/4:3/200/300'),
+        borderRadius: borderRadiusDefault,
+        child: const CustomNetworkImage(url: 'https://picsum.photos/seed/4:3/200/300'),
       ),
     );
   }

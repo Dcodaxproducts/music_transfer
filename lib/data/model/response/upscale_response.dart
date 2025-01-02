@@ -9,6 +9,7 @@ class UpscaleResponse {
   DateTime? createdAt;
   String? queueUrl;
   String? apiKey;
+  bool isBackgroundRemover;
 
   UpscaleResponse({
     required this.status,
@@ -19,6 +20,7 @@ class UpscaleResponse {
     this.createdAt,
     this.queueUrl,
     this.apiKey,
+    this.isBackgroundRemover = true,
   });
 
   factory UpscaleResponse.fromJson(Map<String, dynamic> json) => UpscaleResponse(
@@ -34,6 +36,7 @@ class UpscaleResponse {
         createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
         queueUrl: json["queue_url"],
         apiKey: json["api_key"],
+        isBackgroundRemover: json["is_background_remover"] ?? true,
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,6 +48,7 @@ class UpscaleResponse {
         "created_at": createdAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
         "queue_url": queueUrl,
         "api_key": apiKey,
+        "is_background_remover": isBackgroundRemover,
       };
 
   // copy with
@@ -57,6 +61,7 @@ class UpscaleResponse {
     DateTime? createdAt,
     String? queueUrl,
     String? apiKey,
+    bool? isBackgroundRemover,
   }) {
     return UpscaleResponse(
       status: status ?? this.status,
@@ -67,6 +72,7 @@ class UpscaleResponse {
       createdAt: createdAt ?? this.createdAt,
       queueUrl: queueUrl ?? this.queueUrl,
       apiKey: apiKey ?? this.apiKey,
+      isBackgroundRemover: isBackgroundRemover ?? this.isBackgroundRemover,
     );
   }
 }

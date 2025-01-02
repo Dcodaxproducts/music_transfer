@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/common/primary_button.dart';
+import 'package:matrix_ai/view/base/common/primary_button.dart';
 import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/controller/subscription_controller.dart';
@@ -32,47 +32,23 @@ class _HomeScreenState extends State<HomeScreen> {
             ModelsController.find.getModels();
           },
           child: ListView(
-            padding: pagePadding.copyWith(top: 5.sp),
+            padding: paddingDefault.copyWith(top: spacingExtraSmall),
             children: [
               PromptWidget(con: con),
               const ModelsView(),
               const PromptSettingsWidget(),
               Padding(
-                padding: EdgeInsets.only(top: 32.sp),
+                padding: EdgeInsets.only(top: spacingExtraLarge),
                 child: PrimaryButton(
-                  text:
-                      (widget.onRegenerate != null ? 'recreate' : 'create').tr,
-                  icon: Icon(
-                    Iconsax.magicpen,
-                    size: 18.sp,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                  ),
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                  textColor: Theme.of(context).scaffoldBackgroundColor,
-                  onPressed: widget.onRegenerate ??
-                      () => ImageGenerationHelper.handleTap(
-                          _handleImageGeneration),
+                  text: (widget.onRegenerate != null ? 'recreate' : 'create').tr,
+                  icon: Icon(Iconsax.magicpen, size: 18.sp, color: context.theme.scaffoldBackgroundColor),
+                  color: bodyLarge(context).color,
+                  textColor: context.theme.scaffoldBackgroundColor,
+                  onPressed:
+                      widget.onRegenerate ?? () => ImageGenerationHelper.handleTap(_handleImageGeneration),
                 ),
               ),
-              GetBuilder<SettingsController>(
-                builder: (settingCon) {
-                  return GetBuilder<GenerationController>(
-                    builder: (con) => Visibility(
-                      visible:
-                          settingCon.settingModel.freeGenerations > 0 && !isPro,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 8.sp),
-                        child: Center(
-                          child: Text(
-                            "${(settingCon.settingModel.freeGenerations - GenerationController.find.dailyGenerationCount)} ${'free_generations_are_left_for_today'.tr}",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+              const FreeGenerationLeftWidget(),
               if (widget.onRegenerate == null) ...[
                 const HistoryView(),
                 SizedBox(height: 80.sp),
@@ -85,11 +61,36 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _handleImageGeneration(String text) async {
-    await ImageGenerationHelper.handleImageGeneration(text,
-        generateImage: _generateImage);
+    await ImageGenerationHelper.handleImageGeneration(text, generateImage: _generateImage);
   }
 
   void _generateImage(String text, {bool showAds = true}) {
     ImageGenerationHelper.generateImage(text, showAds: showAds);
+  }
+}
+
+class FreeGenerationLeftWidget extends StatelessWidget {
+  const FreeGenerationLeftWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<SettingsController>(
+      builder: (settingCon) {
+        return GetBuilder<GenerationController>(
+          builder: (con) => Visibility(
+            visible: settingCon.settingModel.freeGenerations > 0 && !isPro,
+            child: Padding(
+              padding: EdgeInsets.only(top: spacingSmall),
+              child: Center(
+                child: Text(
+                  "${(settingCon.settingModel.freeGenerations - GenerationController.find.dailyGenerationCount)} ${'free_generations_are_left_for_today'.tr}",
+                  style: bodySmall(context),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

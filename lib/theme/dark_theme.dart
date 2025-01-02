@@ -1,53 +1,39 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../utils/colors.dart';
+import '../imports.dart';
+import 'src/appbar_theme.dart';
+import 'src/bottom_sheet_theme.dart';
+import 'src/dialog_theme.dart';
+import 'src/divider_theme.dart';
+import 'src/dropdown_theme.dart';
+import 'src/elevated_button_theme.dart';
+import 'src/icon_theme.dart';
+import 'src/input_decoration_theme.dart';
+import 'src/outline_button_theme.dart';
+import 'src/text_theme.dart';
+import 'src/textbuton_theme.dart';
 
-ThemeData dark({Color color = primaryColor}) => ThemeData(
-      useMaterial3: true,
+ThemeData dark(BuildContext context) => ThemeData(
       fontFamily: 'Poppins',
-      primaryColor: color,
-      secondaryHeaderColor: const Color(0xFF009f67),
-      disabledColor: const Color(0xffa2a7ad),
+      useMaterial3: true,
+      brightness: Brightness.light,
+      primaryColor: primaryColor,
+      disabledColor: disabledColorDark,
       scaffoldBackgroundColor: backgroundColorDark,
-      brightness: null,
-      hintColor: const Color(0xFFA4A6A4),
+      hintColor: hintColorDark,
       cardColor: cardColorDark,
-      dividerColor: Colors.grey[800]!,
       shadowColor: shadowColorDark,
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(foregroundColor: color),
+      colorScheme: ColorScheme.fromSeed(seedColor: primaryColor, secondary: primaryColor).copyWith(
+        outline: dividerColorDark,
+        surface: cardColorDark,
       ),
-      colorScheme:
-          ColorScheme.fromSeed(seedColor: color, secondary: color).copyWith(
-        error: const Color(0xFFdd3135),
-        outline: const Color(0xFF2C2C2C),
-      ),
-      iconTheme: IconThemeData(color: Colors.white, size: 24.sp),
-      textTheme: GoogleFonts.poppinsTextTheme(TextTheme(
-        displayLarge: TextStyle(fontSize: 30.sp),
-        displayMedium: TextStyle(fontSize: 24.sp),
-        displaySmall: TextStyle(fontSize: 20.sp),
-        headlineMedium: TextStyle(fontSize: 18.sp),
-        bodyLarge: TextStyle(fontSize: 16.sp),
-        bodyMedium: TextStyle(fontSize: 14.sp),
-        bodySmall: TextStyle(fontSize: 12.sp),
-        titleMedium: TextStyle(fontSize: 10.sp),
-        titleSmall: TextStyle(fontSize: 8.sp),
-      ).apply(
-        bodyColor: textColordark,
-        displayColor: textColordark,
-      )),
-      appBarTheme: AppBarTheme(
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        titleSpacing: 16.sp,
-        color: backgroundColorDark,
-        surfaceTintColor: backgroundColorDark,
-        shadowColor: backgroundColorDark,
-        iconTheme: IconThemeData(color: Colors.white, size: 24.sp),
-        titleTextStyle:
-            GoogleFonts.poppins(fontSize: 22.sp, color: textColordark),
-        centerTitle: false,
-      ),
+      textTheme: textThemeDark(context),
+      iconTheme: iconThemeDark(context),
+      appBarTheme: appBarThemeDark(context),
+      elevatedButtonTheme: elevatedButtonThemeData(context),
+      outlinedButtonTheme: outlinedButtonThemeData(context),
+      textButtonTheme: textButtonTheme(context),
+      inputDecorationTheme: inputDecorationThemeDark(context),
+      dropdownMenuTheme: dropdownMenuThemeDark(context),
+      dialogTheme: dialogThemeDark(context),
+      bottomSheetTheme: bottomSheetThemeDark(context),
+      dividerTheme: dividerThemeDark(context),
     );

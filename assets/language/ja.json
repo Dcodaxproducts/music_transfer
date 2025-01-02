@@ -121,5 +121,10 @@
   "nsfw_content_detected": "NSFW コンテンツが検出されました",
   "tools": "ツール",
   "your_image_is_processing_in_the_queue": "あなたの画像はキューで処理されています。",
-  "your_prompt_is_processing_in_the_queue": "あなたのプロンプトはキューで処理されています。"
+  "your_prompt_is_processing_in_the_queue": "あなたのプロンプトはキューで処理されています。",
+  "image_upload_failed": "画像のアップロードに失敗しました",
+  "upload_image": "画像をアップロード",
+  "remove_background": "背景を削除",
+  "upscale_image": "画像をアップスケール",
+  "too_many_requests": "おっと！リクエストが多すぎます。しばらくしてからもう一度お試しください。"
 }

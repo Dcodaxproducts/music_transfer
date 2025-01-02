@@ -10,11 +10,7 @@ class CustomExpansionTile extends StatefulWidget {
   final List<Widget> children;
   final EdgeInsetsGeometry? padding;
   const CustomExpansionTile(
-      {required this.title,
-      required this.children,
-      required this.value,
-      this.padding,
-      super.key});
+      {required this.title, required this.children, required this.value, this.padding, super.key});
 
   @override
   State<CustomExpansionTile> createState() => _CustomExpansionTileState();
@@ -26,43 +22,39 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding ?? EdgeInsets.only(top: 16.sp),
+      padding: widget.padding ?? EdgeInsets.only(top: spacingDefault),
       child: ExpansionTile(
         onExpansionChanged: (value) {
           setState(() {
             _isExpanded = value;
           });
         },
-        backgroundColor: Theme.of(context).cardColor,
-        collapsedBackgroundColor: Theme.of(context).cardColor,
-        collapsedShape: RoundedRectangleBorder(borderRadius: borderRadius),
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        backgroundColor: context.theme.cardColor,
+        collapsedBackgroundColor: context.theme.cardColor,
+        collapsedShape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
+        shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               widget.value.tr,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: Theme.of(context).hintColor),
+              style: bodySmall(context).copyWith(
+                color: context.theme.hintColor,
+              ),
             ),
             SizedBox(width: 8.sp),
             Icon(
               _isExpanded ? Iconsax.arrow_down_1 : Iconsax.arrow_right_3,
-              size: 16.sp,
-              color: Theme.of(context).hintColor,
+              size: spacingDefault,
+              color: context.theme.hintColor,
             ),
           ],
         ),
-        tilePadding: EdgeInsets.symmetric(horizontal: 16.sp),
-        childrenPadding: pagePadding,
+        tilePadding: EdgeInsets.symmetric(horizontal: spacingDefault),
+        childrenPadding: paddingDefault,
         title: Text(
           widget.title.tr,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
         ),
         children: widget.children,
       ),

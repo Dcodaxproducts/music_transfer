@@ -7,8 +7,7 @@ import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 class FavoriteHistoryIcon extends StatelessWidget {
   final PromptResponse response;
   final double positioned;
-  const FavoriteHistoryIcon(
-      {super.key, required this.response, this.positioned = 8});
+  const FavoriteHistoryIcon({super.key, required this.response, this.positioned = 8});
 
   @override
   Widget build(BuildContext context) {
@@ -19,21 +18,14 @@ class FavoriteHistoryIcon extends StatelessWidget {
         onTap: () => HistoryController.find.toggleFavorite(response),
         child: Container(
           padding: EdgeInsets.all(5.sp),
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4,
-                  offset: Offset(0, 2),
-                ),
-              ]),
-          child: Icon(
-            getIcon(),
-            size: 15.sp,
-            color: isFavorite ? Colors.red : Colors.black,
-          ),
+          decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle, boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ]),
+          child: Icon(getIcon(), size: 15.sp, color: isFavorite ? Colors.red : Colors.black),
         ),
       ),
     );

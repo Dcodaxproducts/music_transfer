@@ -1,16 +1,11 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
-import 'package:matrix_ai/helper/navigation.dart';
-import 'package:matrix_ai/utils/app_constants.dart';
-import 'package:matrix_ai/utils/style.dart';
-import 'package:matrix_ai/view/base/appVersion_widget.dart';
+import 'package:matrix_ai/view/base/app_version_widget.dart';
 import 'package:matrix_ai/view/base/rate_us_sheet.dart';
 import 'package:matrix_ai/view/screens/html/html_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import '../../../imports.dart';
 import '../language/language.dart';
 import 'widgets/menu_item.dart';
 import 'widgets/theme.dart';
@@ -54,8 +49,7 @@ class _MenuScreenState extends State<MenuScreen> {
       text: 'terms_of_service',
       icon: Iconsax.info_circle,
       onTap: () => launchScreen(
-        HtmlScreen(
-            html: SettingsController.find.settingModel.termsAndConditions),
+        HtmlScreen(html: SettingsController.find.settingModel.termsAndConditions),
       ),
     ),
     const MenuItem(
@@ -75,17 +69,16 @@ class _MenuScreenState extends State<MenuScreen> {
   ];
 
   //
-  Widget get divider =>
-      Divider(color: Theme.of(context).scaffoldBackgroundColor, height: 0);
+  Widget get divider => Divider(color: context.theme.scaffoldBackgroundColor);
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: pagePadding,
+      padding: paddingDefault,
       children: [
-        Container(
+        DecoratedBox(
           decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: borderRadius,
+            color: context.theme.cardColor,
+            borderRadius: borderRadiusDefault,
           ),
           child: ListView.separated(
             itemCount: _appMenuItems.length,
@@ -96,11 +89,11 @@ class _MenuScreenState extends State<MenuScreen> {
             itemBuilder: (context, index) => _appMenuItems[index],
           ),
         ),
-        SizedBox(height: 16.sp),
-        Container(
+        SizedBox(height: spacingDefault),
+        DecoratedBox(
           decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: borderRadius,
+            color: context.theme.cardColor,
+            borderRadius: borderRadiusDefault,
           ),
           child: ListView.separated(
             itemCount: _moreMenuItems.length,

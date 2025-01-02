@@ -25,32 +25,29 @@ class _ThemeTileState extends State<ThemeTile> {
         },
         backgroundColor: Theme.of(context).cardColor,
         collapsedBackgroundColor: Theme.of(context).cardColor,
-        collapsedShape: RoundedRectangleBorder(borderRadius: borderRadius),
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
-        tilePadding: EdgeInsets.symmetric(horizontal: 16.sp),
-        childrenPadding: pagePadding,
+        collapsedShape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
+        shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
+        tilePadding: EdgeInsets.symmetric(horizontal: spacingDefault),
+        childrenPadding: paddingDefault,
         leading: Icon(
           Iconsax.moon,
           size: 18.sp,
-          color: Theme.of(context).textTheme.bodyMedium?.color,
+          color: bodyMedium(context).color,
         ),
-        title: Text('theme'.tr, style: Theme.of(context).textTheme.bodyMedium),
+        title: Text('theme'.tr, style: bodyMedium(context)),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             GetBuilder<ThemeController>(builder: (con) {
               return Text(
                 con.themeMode.toString().split('.').last.tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Theme.of(context).hintColor),
+                style: bodySmall(context).copyWith(color: Theme.of(context).hintColor),
               );
             }),
             SizedBox(width: 8.sp),
             Icon(
               _isExpanded ? Iconsax.arrow_down_1 : Iconsax.arrow_right_3,
-              size: 16.sp,
+              size: spacingDefault,
               color: Theme.of(context).hintColor,
             ),
           ],
@@ -86,11 +83,7 @@ class ThemeModeWidget extends StatelessWidget {
   final String text;
   final ThemeMode themeMode;
   final bool selected;
-  const ThemeModeWidget(
-      {required this.text,
-      required this.themeMode,
-      required this.selected,
-      super.key});
+  const ThemeModeWidget({required this.text, required this.themeMode, required this.selected, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -112,15 +105,13 @@ class ThemeModeWidget extends StatelessWidget {
             child: Icon(
               icon,
               size: 18.sp,
-              color: selected
-                  ? Theme.of(context).textTheme.bodyMedium?.color
-                  : Theme.of(context).hintColor,
+              color: selected ? bodyMedium(context).color : Theme.of(context).hintColor,
             ),
           ),
           SizedBox(height: 8.sp),
           Text(
             text.tr,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: bodySmall(context),
           ),
         ],
       ),

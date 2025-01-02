@@ -16,10 +16,10 @@ class QueueCountdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: borderRadius,
+        borderRadius: borderRadiusDefault,
         color: Theme.of(context).hoverColor,
         border: Border(
-          bottom: BorderSide(width: 0.5.sp, color: Theme.of(context).scaffoldBackgroundColor),
+          bottom: BorderSide(width: 0.5.sp, color: context.theme.scaffoldBackgroundColor),
         ),
       ),
       child: Shimmer.fromColors(
@@ -30,15 +30,15 @@ class QueueCountdown extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (padding) SizedBox(height: 16.sp),
+            if (padding) SizedBox(height: spacingDefault),
             Text(
               remainingTime,
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(color: primaryColor),
+              style: headlineLarge(context).copyWith(color: primaryColor),
             ),
-            SizedBox(height: 8.sp),
+            SizedBox(height: spacingSmall),
             Text(
               isRetrying ? "${'retrying'.tr}. ${'almost_there'.tr}!" : 'creating_your_image'.tr,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: primaryColor),
+              style: bodySmall(context).copyWith(color: primaryColor),
             ),
           ],
         ),

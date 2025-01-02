@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'package:matrix_ai/common/snackbar.dart';
+import 'package:matrix_ai/view/base/common/snackbar.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
@@ -44,9 +44,7 @@ class SubscriptionController extends GetxController implements GetxService {
     await subscriptionService.initialize();
     await _getSubscriptions();
     await refreshProStatus();
-    _purchaseUpdatedSubscription =
-        FlutterInappPurchase.purchaseUpdated.listen((result) {
-      log('Purchase updated: $result');
+    _purchaseUpdatedSubscription = FlutterInappPurchase.purchaseUpdated.listen((result) {
       _verifyPurchase(result, callback: () {
         pop();
         showToast('purchase_success'.tr, success: true);
@@ -62,8 +60,7 @@ class SubscriptionController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> buyProduct(IAPItem productDetails,
-      {Function()? callback}) async {
+  Future<void> buyProduct(IAPItem productDetails, {Function()? callback}) async {
     showLoading();
     Future.delayed(const Duration(seconds: 3), () {
       dismiss();
@@ -93,8 +90,7 @@ class SubscriptionController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> _finishTransaction(PurchasedItem result,
-      {Function()? callback}) async {
+  Future<void> _finishTransaction(PurchasedItem result, {Function()? callback}) async {
     DateTime? purchaseTime = result.transactionDate;
 
     switch (result.productId!.toLowerCase()) {

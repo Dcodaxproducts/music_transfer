@@ -5,7 +5,8 @@ import 'package:http/http.dart';
 import 'package:matrix_ai/data/model/response/tools.dart';
 import 'package:matrix_ai/data/repository/image_upscale_repo_interface.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../../common/snackbar.dart';
+import '../../view/base/common/snackbar.dart';
+import '../../controller/aws_controller.dart';
 import '../../controller/image_upscale_controller.dart';
 import '../../controller/settings_controller.dart';
 import '../model/response/upscale_response.dart';
@@ -20,7 +21,13 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
   @override
   Future<Response?> upscaleImage({required File image, required ToolModel tool}) async {
     showLoading();
-    final Map<String, dynamic> body = ImageUpscaleUtils.createRequestBody(image, tool);
+    final String? imageUrl = await AwsController.find.uploadFile(image);
+    if (imageUrl == null) {
+      showToast('image_upload_failed');
+      dismiss();
+      return null;
+    }
+    final Map<String, dynamic> body = ImageUpscaleUtils.createRequestBody(imageUrl, tool);
     final Map<String, dynamic> headers = ImageUpscaleUtils.getHeaders(tool);
     final String url = tool.apiUrl;
     return await imageUpscaleRepo.upscaleImage(url: url, body: body, headers: headers);
@@ -40,7 +47,12 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
     UpscaleResponse value = UpscaleResponse.fromJson(data);
 
     // Update the UpscaleResponse object
-    value = value.copyWith(createdAt: DateTime.now(), queueUrl: tool.queueUrl, apiKey: tool.apiKey);
+    value = value.copyWith(
+      createdAt: DateTime.now(),
+      queueUrl: tool.queueUrl,
+      apiKey: tool.apiKey,
+      isBackgroundRemover: false,
+    );
 
     // addd the response to the history
     ImageUpscaleController.find.addUpscaleHistory(value);
@@ -50,7 +62,7 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
     FirebaseAnalytics.instance.logEvent(
       name: 'upscale_image_impression',
       parameters: {
-        'tool_name': tool.title,
+        'tool_name': tool.name,
         'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
         'platform': Platform.isAndroid ? 'Android' : 'iOS',
       },

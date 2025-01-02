@@ -46,16 +46,15 @@ class SettingsController extends GetxController implements GetxService {
   ConfigModel initSharedData() {
     _configModel = settingsService.initSharedData();
     negativePromptController.text = _configModel.negativePrompt;
-    seedController.text =
-        _configModel.seed == null ? '-1' : _configModel.seed!.toString();
-    getSettings();
+    seedController.text = _configModel.seed == null ? '-1' : _configModel.seed!.toString();
     getPackageInfo();
     return _configModel;
   }
 
-  Future<void> getSettings() async {
+  Future<SettingModel> getSettings() async {
     _settingModel = await settingsService.getSettings();
     update();
+    return _settingModel;
   }
 
   void setPromptText(String text) {
@@ -72,8 +71,7 @@ class SettingsController extends GetxController implements GetxService {
     bool isOffensive = false;
     final textParts = promptController.text.split(' ');
     for (final textPart in textParts) {
-      if (AppConstants.ADULT_WORDS
-          .contains(removePunctuation(textPart.toLowerCase()))) {
+      if (AppConstants.ADULT_WORDS.contains(removePunctuation(textPart.toLowerCase()))) {
         isOffensive = true;
         break;
       }
@@ -84,8 +82,7 @@ class SettingsController extends GetxController implements GetxService {
   Future<void> saveFirstTime() async => await settingsService.saveFirstTime();
   bool get isFirstTime => settingsService.getFirstTime();
 
-  Future<bool> saveShowAppOpen() async =>
-      await settingsService.saveShowAppOpen();
+  Future<bool> saveShowAppOpen() async => await settingsService.saveShowAppOpen();
 
   bool get showAppOpen => settingsService.getShowAppOpen();
 

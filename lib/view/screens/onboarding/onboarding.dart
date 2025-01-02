@@ -38,7 +38,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: _currentPage == 0,
-      onPopInvoked: (value) {
+      onPopInvokedWithResult: (value, result) {
         if (_currentPage > 0) {
           SystemNavigator.pop();
         }
@@ -66,7 +66,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             Padding(
-              padding: pagePadding,
+              padding: paddingDefault,
               child: Column(
                 children: [
                   Row(
@@ -78,12 +78,9 @@ class OnboardingScreenState extends State<OnboardingScreen> {
                         width: (_currentPage == index ? 20 : 8).sp,
                         height: (_currentPage == index ? 8 : 8).sp,
                         decoration: BoxDecoration(
-                          color: _currentPage == index
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(8.sp),
-                          gradient:
-                              _currentPage == index ? secondaryGradient : null,
+                          color: _currentPage == index ? Colors.white : Colors.white.withOpacity(0.5),
+                          borderRadius: borderRadiusSmall,
+                          gradient: _currentPage == index ? secondaryGradient : null,
                         ),
                       ),
                     ),
@@ -96,15 +93,11 @@ class OnboardingScreenState extends State<OnboardingScreen> {
                         onPressed: _saveFirstTime,
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
-                          visualDensity:
-                              const VisualDensity(horizontal: -4, vertical: -4),
+                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                         ),
                         child: Text(
                           "skip".tr,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(color: Colors.white),
+                          style: bodyLarge(context).copyWith(color: Colors.white),
                         ),
                       ),
                       GestureDetector(
@@ -118,9 +111,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
                             _saveFirstTime();
                           }
                         },
-                        child: ProgressButton(
-                          percentage: 0.34 * (_currentPage + 1).toDouble(),
-                        ),
+                        child: ProgressButton(percentage: 0.34 * (_currentPage + 1).toDouble()),
                       ),
                     ],
                   ),
@@ -157,33 +148,21 @@ class ParallaxCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Image.asset(
-            imagePath,
-            width: double.infinity,
-            fit: BoxFit.fitWidth,
-          ),
-        ),
-        SizedBox(height: 16.sp),
+        Expanded(child: Image.asset(imagePath, width: double.infinity, fit: BoxFit.fitWidth)),
+        SizedBox(height: spacingDefault),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.sp),
+          padding: EdgeInsets.symmetric(horizontal: spacingDefault),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title.tr.toUpperCase(),
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                textAlign: TextAlign.center,
+                style: displaySmall(context).copyWith(color: Colors.white),
               ),
-              SizedBox(height: 8.sp),
+              SizedBox(height: spacingSmall),
               Text(
                 subtitle.tr,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.white,
-                    ),
+                style: bodyLarge(context).copyWith(color: Colors.white),
               ),
             ],
           ),

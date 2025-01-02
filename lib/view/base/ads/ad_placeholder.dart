@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
@@ -12,7 +11,7 @@ class NativeAdPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: pagePadding,
+      padding: paddingDefault,
       alignment: Alignment.center,
       height: 170.sp,
       width: double.infinity,
@@ -22,32 +21,18 @@ class NativeAdPlaceholder extends StatelessWidget {
         highlightColor: Colors.grey.shade500,
         child: Row(
           children: [
-            Container(
-              height: 80.sp,
-              width: 80.sp,
-              color: primaryColor,
-            ),
+            Container(height: 80.sp, width: 80.sp, color: primaryColor),
             SizedBox(width: 10.sp),
             Expanded(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 25.sp,
-                  color: primaryColor,
-                ),
+                Container(height: 25.sp, color: primaryColor),
                 SizedBox(height: 5.sp),
-                Container(
-                  height: 20.sp,
-                  width: 30.sp,
-                  color: primaryColor,
-                ),
+                Container(height: 20.sp, width: 30.sp, color: primaryColor),
                 SizedBox(height: 5.sp),
-                Container(
-                  height: 25.sp,
-                  color: primaryColor,
-                ),
+                Container(height: 25.sp, color: primaryColor),
               ],
             )),
           ],
@@ -60,15 +45,14 @@ class NativeAdPlaceholder extends StatelessWidget {
 class BannerAdPlaceholder extends StatelessWidget {
   final double width;
   final double height;
-  const BannerAdPlaceholder(
-      {super.key, this.width = double.infinity, this.height = 64});
+  const BannerAdPlaceholder({super.key, this.width = double.infinity, this.height = 64});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height.sp,
       width: width.sp,
-      padding: pagePadding,
+      padding: paddingDefault,
       alignment: Alignment.center,
       color: Theme.of(context).cardColor,
       child: Shimmer.fromColors(
@@ -76,32 +60,18 @@ class BannerAdPlaceholder extends StatelessWidget {
         highlightColor: Colors.grey.shade500,
         child: Row(
           children: [
-            Container(
-              height: height.sp,
-              width: height.sp,
-              color: primaryColor,
-            ),
+            Container(height: height.sp, width: height.sp, color: primaryColor),
             SizedBox(width: 10.sp),
             Expanded(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: (6 + (Platform.isAndroid ? 2 : 0)).sp,
-                  color: primaryColor,
-                ),
+                Container(height: (6 + (Platform.isAndroid ? 2 : 0)).sp, color: primaryColor),
                 SizedBox(height: (4 + (Platform.isAndroid ? 1 : 0)).sp),
-                Container(
-                  height: 6.sp,
-                  width: 20.sp,
-                  color: primaryColor,
-                ),
+                Container(height: 6.sp, width: 20.sp, color: primaryColor),
                 SizedBox(height: (4 + (Platform.isAndroid ? 1 : 0)).sp),
-                Container(
-                  height: (6 + (Platform.isAndroid ? 2 : 0)).sp,
-                  color: primaryColor,
-                ),
+                Container(height: (6 + (Platform.isAndroid ? 2 : 0)).sp, color: primaryColor),
               ],
             )),
           ],

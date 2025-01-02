@@ -121,5 +121,10 @@
   "nsfw_content_detected": "Kandungan NSFW dikesan",
   "tools": "Alat",
   "your_image_is_processing_in_the_queue": "Imej anda sedang diproses dalam barisan",
-  "your_prompt_is_processing_in_the_queue": "Gesaan anda sedang diproses dalam barisan"
+  "your_prompt_is_processing_in_the_queue": "Gesaan anda sedang diproses dalam barisan",
+  "image_upload_failed": "Muat naik imej gagal",
+  "upload_image": "Muat naik imej",
+  "remove_background": "Alih keluar latar belakang",
+  "upscale_image": "Meningkatkan kualiti imej",
+  "too_many_requests": "Ups! Terlalu banyak permintaan. Sila cuba lagi sebentar lagi."
 }

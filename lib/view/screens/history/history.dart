@@ -32,8 +32,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HistoryController>(builder: (historyController) {
-      final List<PromptResponse> promptHistory =
-          historyController.promptHistory;
+      final List<PromptResponse> promptHistory = historyController.promptHistory;
       final List<PromptResponse> bookmarkedHistory =
           historyController.promptHistory.where((e) => e.bookmarked).toList();
       bool canShowAd = false;
@@ -43,37 +42,31 @@ class _HistoryScreenState extends State<HistoryScreen> {
         canShowAd = true;
       }
       return Container(
-        margin: EdgeInsets.only(top: 32.sp),
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
+        margin: EdgeInsets.only(top: spacingExtraLarge),
+        decoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
         child: Column(
           children: [
             Padding(
-              padding: pagePadding,
+              padding: paddingDefault,
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(width: 30),
+                      SizedBox(width: spacingExtraLarge),
                       Text(
                         'history'.tr,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
                       ),
                       const IconButton(
                         onPressed: pop,
                         icon: Icon(Icons.close),
                         padding: EdgeInsets.zero,
-                        visualDensity:
-                            VisualDensity(horizontal: -4, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                       ),
                     ],
                   ),
-                  SizedBox(height: 16.sp),
+                  SizedBox(height: spacingDefault),
                   GlassBoxCurve(
                     child: Row(
                       children: [
@@ -111,15 +104,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 },
                 children: [
                   HistoryList(promptHistory: promptHistory),
-                  HistoryList(
-                      promptHistory: bookmarkedHistory, isFavorite: true),
+                  HistoryList(promptHistory: bookmarkedHistory, isFavorite: true),
                 ],
               ),
             ),
-            if (canShowAd) ...[
-              SizedBox(height: 16.sp),
-              AdsController.find.showHistoryScreenAd()
-            ],
+            if (canShowAd) ...[SizedBox(height: spacingDefault), AdsController.find.showHistoryScreenAd()],
           ],
         ),
       );

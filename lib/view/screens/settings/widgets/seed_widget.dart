@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../common/textfield.dart';
+import '../../../base/common/textfield.dart';
 import '../../../../controller/settings_controller.dart';
-import '../../../../utils/style.dart';
 import '../../../base/expansion_tile.dart';
 
 class SeedWidget extends StatelessWidget {
@@ -16,27 +13,16 @@ class SeedWidget extends StatelessWidget {
       title: 'seed',
       value: 'change',
       children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.sp),
-          decoration: BoxDecoration(
-            borderRadius: borderRadius,
-            border: Border.all(
-              color: Theme.of(context).dividerColor,
-            ),
-          ),
-          child: CustomTextField(
-            padding: EdgeInsets.zero,
-            controller: con.seedController,
-            keyboardType: TextInputType.number,
-            onSaved: (value) {
-              if (value != null) {
-                con.configModel = con.configModel.copyWith(
-                  seed:
-                      value == '-1' || value.isEmpty ? null : int.parse(value),
-                );
-              }
-            },
-          ),
+        CustomTextField(
+          controller: con.seedController,
+          keyboardType: TextInputType.number,
+          onSaved: (value) {
+            if (value != null) {
+              con.configModel = con.configModel.copyWith(
+                seed: value == '-1' || value.isEmpty ? null : int.parse(value),
+              );
+            }
+          },
         ),
       ],
     );

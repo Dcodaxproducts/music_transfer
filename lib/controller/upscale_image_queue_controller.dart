@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import '../data/model/response/upscale_response.dart';
 import 'background_remover_controller.dart';
+import 'image_upscale_controller.dart';
 
 class UpscaleImageQueueController extends GetxController {
   var responseList = <UpscaleResponse>[].obs;
@@ -39,7 +40,12 @@ class UpscaleImageQueueController extends GetxController {
   }
 
   Future<void> _checkImageStatus(UpscaleResponse response) async {
-    bool success = await BackgroundRemoverController.find.getQueuedImages(response);
+    bool success = false;
+    if (response.isBackgroundRemover) {
+      success = await BackgroundRemoverController.find.getQueuedImages(response);
+    } else {
+      success = await ImageUpscaleController.find.getQueuedImages(response);
+    }
     final id = response.id.toString();
 
     if (success) {

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:matrix_ai/common/snackbar.dart';
+import 'package:matrix_ai/view/base/common/snackbar.dart';
 import 'package:matrix_ai/data/api/api_client_interface.dart';
 import 'package:matrix_ai/data/model/response/error.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
@@ -62,7 +62,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
     String url,
     Map<String, dynamic> body, {
     Map<String, dynamic>? headers,
-    bool dismissDelay = false,
+    bool hideLoading = true,
   }) async {
     try {
       // print the api call
@@ -85,7 +85,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
       _client = null; // Reset the client after completion
 
       // handle response
-      return _handleResponse(response, dismissDelay: dismissDelay);
+      return _handleResponse(response, hideLoading: hideLoading);
     } catch (e) {
       _client = null; // Reset the client after completion
       dismiss();
@@ -119,13 +119,11 @@ class ApiClient extends GetxService implements ApiClientInterface {
     }
   }
 
-  Future<http.Response?> _handleResponse(http.Response response, {bool? dismissDelay = false}) async {
+  Future<http.Response?> _handleResponse(http.Response response, {bool hideLoading = true}) async {
     if (response.statusCode != 200) {
       return _handleError(jsonDecode(response.body));
     } else {
-      if (dismissDelay == true) {
-        await Future.delayed(const Duration(seconds: 2), dismiss);
-      } else {
+      if (hideLoading) {
         dismiss();
       }
       return response;

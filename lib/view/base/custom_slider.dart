@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:matrix_ai/imports.dart';
 
 class CustomSlider extends StatelessWidget {
   final double value;
@@ -28,36 +26,28 @@ class CustomSlider extends StatelessWidget {
             trackHeight: 2,
             thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8.sp),
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 0),
-            valueIndicatorTextStyle: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(color: Theme.of(context).scaffoldBackgroundColor),
+            valueIndicatorTextStyle:
+                bodySmall(context).copyWith(color: context.theme.scaffoldBackgroundColor),
           ),
           child: Slider(
             value: value,
             min: min,
             max: max,
             divisions: divisions,
-            activeColor: Theme.of(context).textTheme.bodyMedium?.color,
-            inactiveColor: Theme.of(context).dividerColor,
+            activeColor: bodySmall(context).color,
+            inactiveColor: context.theme.dividerColor,
             onChanged: onChanged,
             label: value.toStringAsFixed(1),
           ),
         ),
         SizedBox(height: 5.sp),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+          padding: EdgeInsets.symmetric(horizontal: spacingSmall),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: labels
                 .map(
-                  (e) => Text(
-                    e.tr,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: Theme.of(context).hintColor),
-                  ),
+                  (e) => Text(e.tr, style: bodySmall(context).copyWith(color: context.theme.hintColor)),
                 )
                 .toList(),
           ),

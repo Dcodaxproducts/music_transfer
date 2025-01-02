@@ -36,8 +36,7 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
       builder: (modelsController) {
         final List<Model> models = modelsController.models;
         final List<Model> favoriteModels = modelsController.models
-            .where(
-                (model) => modelsController.favoriteModels.contains(model.id))
+            .where((model) => modelsController.favoriteModels.contains(model.id))
             .toList();
         bool canShowAd = false;
         if (currentIndex == 0 && models.isNotEmpty) {
@@ -46,18 +45,14 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
           canShowAd = true;
         }
         return DecoratedBox(
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-          ),
+          decoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
           child: Column(
             children: [
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(top: 32.sp),
-                  padding: pagePadding,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                  ),
+                  margin: EdgeInsets.only(top: spacingExtraLarge),
+                  padding: paddingDefault,
+                  decoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
                   child: Column(
                     children: [
                       Row(
@@ -68,34 +63,21 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
                             onPressed: pop,
                             icon: Icon(Icons.close),
                             padding: EdgeInsets.zero,
-                            visualDensity:
-                                VisualDensity(horizontal: -4, vertical: -4),
+                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                           ),
                           Text(
                             'set_theme'.tr,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                            style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
                           ),
                           TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style:
-                                TextButton.styleFrom(padding: EdgeInsets.zero),
-                            child: Text(
-                              'done'.tr,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: primaryColor),
-                            ),
+                            onPressed: pop,
+                            style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                            child: Text('done'.tr, style: bodyMedium(context).copyWith(color: primaryColor)),
                           ),
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.sp),
+                        padding: EdgeInsets.symmetric(vertical: spacingDefault),
                         child: GlassBoxCurve(
                           child: Row(
                             children: [

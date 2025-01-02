@@ -121,5 +121,9 @@
   "nsfw_content_detected": "Conteúdo NSFW detectado",
   "tools": "Ferramentas",
   "your_image_is_processing_in_the_queue": "Sua imagem está sendo processada na fila",
-  "your_prompt_is_processing_in_the_queue": "Seu prompt está sendo processado na fila"
+  "your_prompt_is_processing_in_the_queue": "Seu prompt está sendo processado na fila",
+  "image_upload_failed": "Falha no upload da imagem",
+  "upload_image": "Carregar imagem",
+  "remove_background": "Remover fundo",
+  "too_many_requests": "Ops! Muitas solicitações. Por favor, tente novamente em um momento."
 }

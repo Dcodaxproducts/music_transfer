@@ -10,7 +10,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:matrix_ai/data/repository/ad_repo_interface.dart';
 import '../../controller/subscription_controller.dart';
 import '../../utils/ads.dart';
-import '../../common/snackbar.dart';
+import '../../view/base/common/snackbar.dart';
 import '../../view/base/ads/ad_loading_dialog.dart';
 import '../../view/base/ads/native_ad.dart';
 import '../model/response/ad_model.dart';

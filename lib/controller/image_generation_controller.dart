@@ -11,8 +11,7 @@ class ImageGenerationController extends GetxController implements GetxService {
   final ImageGenerationServiceInterface imageGenerationServiceInterface;
   ImageGenerationController({required this.imageGenerationServiceInterface});
 
-  static ImageGenerationController get find =>
-      Get.find<ImageGenerationController>();
+  static ImageGenerationController get find => Get.find<ImageGenerationController>();
 
   PromptResponse? _promptResponse;
 
@@ -20,9 +19,7 @@ class ImageGenerationController extends GetxController implements GetxService {
 
   set promptResponse(PromptResponse? value) {
     _promptResponse = value;
-    // avoid error: setState() or markNeedsBuild() called during build.
     Future.delayed(const Duration(milliseconds: 10), () => update());
-    update();
   }
 
   Future<PromptResponse?> generateImages(
@@ -33,8 +30,7 @@ class ImageGenerationController extends GetxController implements GetxService {
     Model? model,
     bool showAds = true,
   }) async {
-    http.Response? response =
-        await imageGenerationServiceInterface.generateImages(
+    http.Response? response = await imageGenerationServiceInterface.generateImages(
       prompt,
       seed: seed,
       upscale: upscale,
@@ -42,8 +38,8 @@ class ImageGenerationController extends GetxController implements GetxService {
       modelValue: model,
       showAds: showAds,
     );
-    PromptResponse? value = imageGenerationServiceInterface
-        .processGenerationResponse(response, prompt, model, upscale, seed);
+    PromptResponse? value = await imageGenerationServiceInterface.processGenerationResponse(
+        response, prompt, model, upscale, seed);
 
     return value;
   }

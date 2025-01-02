@@ -121,5 +121,10 @@
   "nsfw_content_detected": "Contenuto NSFW rilevato",
   "tools": "Strumenti",
   "your_image_is_processing_in_the_queue": "La tua immagine è in fase di elaborazione nella coda.",
-  "your_prompt_is_processing_in_the_queue": "Il tuo prompt è in fase di elaborazione nella coda."
+  "your_prompt_is_processing_in_the_queue": "Il tuo prompt è in fase di elaborazione nella coda.",
+  "image_upload_failed": "Caricamento dell'immagine non riuscito",
+  "upload_image": "Carica immagine",
+  "remove_background": "Rimuovi sfondo",
+  "upscale_image": "Ingrandisci immagine",
+  "too_many_requests": "Ops! Troppe richieste. Per favore riprova tra un momento."
 }

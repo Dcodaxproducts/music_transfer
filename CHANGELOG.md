@@ -19,6 +19,9 @@
     - Created `BackgroundRemoverCountdownWidget` to display the countdown and handle UI updates for background removal tasks.
   - **Details Screen**:
     - Added details screen for image input and history display for both upscale and background remover.
+  - **Fonts**
+    - Poppins font family added in assets
+  - Imports file added
 
 ### Changed
 
@@ -28,16 +31,27 @@
   - Updated to use `SliverAppBar` and `NestedScrollView` for a better scrolling experience.
 - **UpscaleImageScreen**:
   - Updated to use `BackgroundRemoverCountdownWidget` for displaying the countdown and handling UI updates for background removal tasks.
+- theme updated to add theme for every component.
+- style.dart updated and used values throughout the codebase.
+- colors.dart updated
+- navigation helper changed to use getx
+- hide errors from image generation api
+- use s3 bucket to upload user generations
+- handle failed generations
+- delay for fast ai model
 
 ### Removed
 
-s
-
-- N/A
+- google_fonts removed due to some limitations.
+- remove delay from splash.
 
 ### Fixed
 
-- N/A
+- \_HomeScreenState.build.<fn>.<fn>.<fn> (LateInitializationError: Field '\_settingModel@1044017817' has not been initialized.. Error thrown.)
+- PromptOptionWidget.build.<fn>.<fn>.<fn> (io.flutter.plugins.firebase.crashlytics.FlutterError - Bad state: No element. Error thrown.)
+- PromptSettingsWidget.build.<fn>.<fn> (io.flutter.plugins.firebase.crashlytics.FlutterError - LateInitializationError: Field '\_configModel@1009017817' has not been initialized.. Error thrown.)
+- SnackbarController.\_removeEntry (io.flutter.plugins.firebase.crashlytics.FlutterError - LateInitializationError: Field '\_controller@403359576' has not been initialized.)
+-
 
 ## [2.4] - 2023-12-9 (iOS)
 

@@ -2,7 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:matrix_ai/common/loading.dart';
+import 'package:matrix_ai/view/base/common/loading.dart';
 import 'package:matrix_ai/utils/images.dart';
 import '../../../utils/app_constants.dart';
 import '../../../utils/style.dart';
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: BackgroundWidget(
         child: Padding(
-          padding: pagePadding,
+          padding: paddingDefault,
           child: Column(
             children: [
               Expanded(
@@ -36,10 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     // pixart Title
                     Text(
                       AppConstants.APP_NAME,
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 10.sp),
                     // pixart Subtitle
@@ -61,10 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   Text(
                     'getting_started'.tr,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: Theme.of(context).hintColor),
+                    style: bodyMedium(context).copyWith(color: Theme.of(context).hintColor),
                   ),
                   SizedBox(
                     width: 14.sp,
@@ -87,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   )
                 ],
               ),
-              SizedBox(height: 32.sp),
+              SizedBox(height: spacingExtraLarge),
             ],
           ),
         ),

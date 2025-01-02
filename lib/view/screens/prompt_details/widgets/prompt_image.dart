@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
-import '../../../../common/network_image.dart';
-import '../../../../helper/navigation.dart';
+import '../../../../imports.dart';
+import '../../../base/common/network_image.dart';
 import '../../../base/view_image.dart';
 import 'prompt_edit.dart';
 import 'prompt_report.dart';
@@ -36,9 +33,7 @@ class PromptImageWidget extends StatelessWidget {
               Hero(
                 tag: url,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(16.sp),
-                  ),
+                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(spacingDefault)),
                   child: CustomNetworkImage(url: url, errorLoading: true),
                 ),
               ),

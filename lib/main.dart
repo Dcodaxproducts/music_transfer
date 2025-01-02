@@ -15,7 +15,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/view/screens/welcome/welcome.dart';
 import 'package:upgrader/upgrader.dart';
-import 'common/loading.dart';
+import 'utils/scroll_behavior.dart';
+import 'view/base/common/loading.dart';
 import 'controller/localization_controller.dart';
 import 'controller/theme_controller.dart';
 import 'firebase_options.dart';
@@ -92,8 +93,8 @@ class MyApp extends StatelessWidget {
                 title: AppConstants.APP_NAME,
                 debugShowCheckedModeBanner: false,
                 themeMode: themeController.themeMode,
-                theme: light(),
-                darkTheme: dark(),
+                theme: light(context),
+                darkTheme: dark(context),
                 locale: localizeController.locale,
                 translations: Messages(languages: languages),
                 fallbackLocale: Locale(
@@ -101,7 +102,15 @@ class MyApp extends StatelessWidget {
                   AppConstants.languages[0].countryCode,
                 ),
                 navigatorObservers: [FlutterSmartDialog.observer],
-                builder: FlutterSmartDialog.init(loadingBuilder: (string) => const LoadingWidget()),
+                builder: FlutterSmartDialog.init(
+                  loadingBuilder: (string) => const LoadingWidget(),
+                  builder: (context, child) {
+                    return ScrollConfiguration(
+                      behavior: CustomScrollBehavior(),
+                      child: child ?? const SizedBox(),
+                    );
+                  },
+                ),
                 home: UpgradeAlert(
                   dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
                   child: RestartWidget(

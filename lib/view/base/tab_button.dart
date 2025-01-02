@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../utils/colors.dart';
+import 'package:matrix_ai/imports.dart';
 
 class PrimaryTabButton extends StatelessWidget {
   final String text;
@@ -37,9 +35,7 @@ class PrimaryTabButton extends StatelessWidget {
         child: Center(
           child: Text(
             text,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: selected ? Colors.white : null,
-                ),
+            style: bodyMedium(context).copyWith(color: selected ? Colors.white : null),
           ),
         ),
       ),

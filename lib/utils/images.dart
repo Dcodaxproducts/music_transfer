@@ -14,4 +14,8 @@ class Images {
 
   // animation
   static const String starAnimation = 'assets/animations/loading_1.json';
+
+  // s3
+  static const String generationFailed =
+      'https://matrixart.s3.eu-west-2.amazonaws.com/uploads/generation_failed.png';
 }

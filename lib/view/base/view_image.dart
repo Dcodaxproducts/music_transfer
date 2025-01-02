@@ -1,13 +1,8 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:matrix_ai/imports.dart';
 import 'package:photo_view/photo_view.dart';
-
-import '../../utils/colors.dart';
 
 class ViewImage extends StatefulWidget {
   final String url;
@@ -41,13 +36,11 @@ class _ViewImageState extends State<ViewImage> {
                     child: Text(
                       "nsfw_content_detected".tr,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: textColordark),
+                      style: bodyMedium(context).copyWith(color: textColorDark),
                     ),
                   )
                 : PhotoView(
-                    backgroundDecoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                    ),
+                    backgroundDecoration: const BoxDecoration(color: Colors.black),
                     imageProvider: CachedNetworkImageProvider(widget.url),
                     errorBuilder: (context, error, stackTrace) {
                       return Center(child: Icon(Iconsax.image, size: 50.sp));

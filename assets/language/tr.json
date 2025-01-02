@@ -121,5 +121,9 @@
   "nsfw_content_detected": "NSFW içeriği tespit edildi",
   "tools": "Araçlar",
   "your_image_is_processing_in_the_queue": "Görüntünüz sırada işleniyor",
-  "your_prompt_is_processing_in_the_queue": "İsteminiz sırada işleniyor"
+  "your_prompt_is_processing_in_the_queue": "İsteminiz sırada işleniyor",
+  "image_upload_failed": "Resim yükleme başarısız oldu",
+  "upload_image": "Resim Yükle",
+  "remove_background": "Arka Planı Kaldır",
+  "too_many_requests": "Hata! Çok fazla istek. Lütfen bir süre sonra tekrar deneyin."
 }

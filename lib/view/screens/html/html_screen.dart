@@ -13,7 +13,7 @@ class HtmlScreen extends StatelessWidget {
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: pagePadding.copyWith(top: 0),
+          padding: paddingDefault.copyWith(top: 0),
           child: Html(
             data: html,
             style: {

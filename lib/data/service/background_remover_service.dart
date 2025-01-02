@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:http/http.dart';
+import 'package:matrix_ai/controller/aws_controller.dart';
 import 'package:matrix_ai/data/model/response/upscale_response.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../../common/snackbar.dart';
+import '../../view/base/common/snackbar.dart';
 import '../../controller/background_remover_controller.dart';
 import '../../controller/settings_controller.dart';
 import '../model/response/tools.dart';
@@ -21,7 +21,13 @@ class BackgroundRemoverService implements BackgroundRemoverServiceInterface {
   @override
   Future<Response?> removeImageBackground({required File image, required ToolModel tool}) async {
     showLoading();
-    final Map<String, dynamic> body = BackgroundRemoverUtils.createRequestBody(image, tool);
+    final String? imageUrl = await AwsController.find.uploadFile(image);
+    if (imageUrl == null) {
+      showToast('image_upload_failed');
+      dismiss();
+      return null;
+    }
+    final Map<String, dynamic> body = BackgroundRemoverUtils.createRequestBody(imageUrl, tool);
     final Map<String, dynamic> headers = BackgroundRemoverUtils.getHeaders(tool);
     final String url = tool.apiUrl;
     return await backgroundRemoverRepo.removeImageBackground(url: url, body: body, headers: headers);
@@ -41,7 +47,12 @@ class BackgroundRemoverService implements BackgroundRemoverServiceInterface {
     UpscaleResponse value = UpscaleResponse.fromJson(data);
 
     // Update the UpscaleResponse object
-    value = value.copyWith(createdAt: DateTime.now(), queueUrl: tool.queueUrl, apiKey: tool.apiKey);
+    value = value.copyWith(
+      createdAt: DateTime.now(),
+      queueUrl: tool.queueUrl,
+      apiKey: tool.apiKey,
+      isBackgroundRemover: true,
+    );
 
     // addd the response to the history
     BackgroundRemoverController.find.addBackgroundRemovalHistory(value);
@@ -51,7 +62,7 @@ class BackgroundRemoverService implements BackgroundRemoverServiceInterface {
     FirebaseAnalytics.instance.logEvent(
       name: 'background_remover_impression',
       parameters: {
-        'tool_name': tool.title,
+        'tool_name': tool.name,
         'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
         'platform': Platform.isAndroid ? 'Android' : 'iOS',
       },
@@ -81,7 +92,6 @@ class BackgroundRemoverService implements BackgroundRemoverServiceInterface {
     String url = "${value.queueUrl!}/${value.id}";
 
     Response? response = await backgroundRemoverRepo.getQueueImage(url: url, body: body);
-    log('Response: ${response?.body}');
 
     if (response != null) {
       Map<String, dynamic> data = jsonDecode(response.body);

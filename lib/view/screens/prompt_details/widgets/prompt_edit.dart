@@ -16,10 +16,8 @@ class PromptEditButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool visible = ImageGenerationController.find.promptResponse != null &&
-        ImageGenerationController.find.promptResponse!.model!.apiParameters
-            .containsKey('upscale') &&
-        ImageGenerationController.find.promptResponse!.model!.apiParameters
-            .containsKey('highres_fix');
+        ImageGenerationController.find.promptResponse!.model!.apiParameters.containsKey('upscale') &&
+        ImageGenerationController.find.promptResponse!.model!.apiParameters.containsKey('highres_fix');
     return Visibility(
       visible: visible,
       child: Positioned(
@@ -27,25 +25,17 @@ class PromptEditButton extends StatelessWidget {
         right: 10.sp,
         child: InkWell(
           onTap: showActionSheet,
-          borderRadius: BorderRadius.circular(16.sp),
+          borderRadius: borderRadiusDefault,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16.sp),
-            ),
+            padding: EdgeInsets.symmetric(horizontal: spacingDefault, vertical: spacingMedium),
+            decoration:
+                BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: borderRadiusDefault),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Iconsax.edit, size: 16.sp, color: Colors.white),
-                SizedBox(width: 8.sp),
-                Text(
-                  'edit'.tr,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: Colors.white),
-                ),
+                Icon(Iconsax.edit, size: spacingDefault, color: Colors.white),
+                SizedBox(width: spacingSmall),
+                Text('edit'.tr, style: bodyMedium(context).copyWith(color: Colors.white)),
               ],
             ),
           ),
@@ -123,16 +113,15 @@ class _ActionSheetState extends State<ActionSheet> {
   ];
 
   //
-  Widget get divider =>
-      Divider(color: Theme.of(context).scaffoldBackgroundColor, height: 0);
+  Widget get divider => Divider(color: context.theme.scaffoldBackgroundColor);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: pagePadding,
+      padding: paddingDefault,
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: borderRadius,
+        color: context.theme.scaffoldBackgroundColor,
+        borderRadius: borderRadiusDefault,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,20 +136,14 @@ class _ActionSheetState extends State<ActionSheet> {
               ),
             ),
           ),
-          SizedBox(height: 16.sp),
+          SizedBox(height: spacingDefault),
           Text(
             'edit_result'.tr,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.sp),
           Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: borderRadius,
-            ),
+            decoration: BoxDecoration(color: context.theme.cardColor, borderRadius: borderRadiusDefault),
             child: ListView.separated(
               itemCount: items.length,
               shrinkWrap: true,

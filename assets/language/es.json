@@ -121,5 +121,10 @@
   "nsfw_content_detected": "Contenido NSFW detectado",
   "tools": "Herramientas",
   "your_image_is_processing_in_the_queue": "Tu imagen se está procesando en la cola.",
-  "your_prompt_is_processing_in_the_queue": "Tu solicitud se está procesando en la cola."
+  "your_prompt_is_processing_in_the_queue": "Tu solicitud se está procesando en la cola.",
+  "image_upload_failed": "Error al subir la imagen",
+  "upload_image": "Subir imagen",
+  "remove_background": "Eliminar fondo",
+  "upscale_image": "Aumentar imagen",
+  "too_many_requests": "¡Ups! Demasiadas solicitudes. Por favor, inténtelo de nuevo en un momento."
 }

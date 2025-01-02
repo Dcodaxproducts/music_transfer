@@ -37,7 +37,6 @@ class BackgroundRemoverRepo implements BackgroundRemoverRepoInterface {
 
   @override
   List<String>? getHistoryFromPrefs() {
-    // prefs.setStringList(AppConstants.BACKGROUND_REMOVER_HISTORY, []);
     return prefs.getStringList(AppConstants.BACKGROUND_REMOVER_HISTORY);
   }
 }

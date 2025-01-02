@@ -16,38 +16,31 @@ class PromptSettingsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 22.sp),
-        Text(
-          'advance_options'.tr,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
+        SizedBox(height: spacingDefault),
+        Text('advance_options'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.bold)),
+        SizedBox(height: spacingSmall),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Expanded(
               child: InkWell(
-                borderRadius: borderRadius,
-                onTap: () => Get.bottomSheet(const AspectRatioScreen(),
-                    isScrollControlled: true),
+                borderRadius: borderRadiusDefault,
+                onTap: () => Get.bottomSheet(const AspectRatioScreen(), isScrollControlled: true),
                 child: Container(
                   height: 55.sp,
-                  padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                  padding: EdgeInsets.symmetric(horizontal: spacingDefault),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: borderRadius,
+                    color: context.theme.cardColor,
+                    borderRadius: borderRadiusDefault,
                   ),
                   child: Row(
                     children: [
                       GetBuilder<SettingsController>(builder: (con) {
-                        final aspectRatio = aspectRatios.firstWhere(
-                            (e) => e.id == con.configModel.aspectRatio);
+                        final aspectRatio =
+                            aspectRatios.firstWhere((e) => e.id == con.configModel.aspectRatio);
                         return Text(
                           '${aspectRatio.width} x ${aspectRatio.height}',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: bodyMedium(context),
                         );
                       }),
                       const Spacer(),
@@ -57,25 +50,21 @@ class PromptSettingsWidget extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: spacingDefault),
             Expanded(
               child: InkWell(
-                borderRadius: borderRadius,
-                onTap: () => Get.bottomSheet(const SettingScreen(),
-                    isScrollControlled: true),
+                borderRadius: borderRadiusDefault,
+                onTap: () => Get.bottomSheet(const SettingScreen(), isScrollControlled: true),
                 child: Container(
                   height: 55.sp,
-                  padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                  padding: EdgeInsets.symmetric(horizontal: spacingDefault),
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
-                    borderRadius: borderRadius,
+                    borderRadius: borderRadiusDefault,
                   ),
                   child: Row(
                     children: [
-                      Text(
-                        'prompt_settings'.tr,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
+                      Text('prompt_settings'.tr, style: bodyMedium(context)),
                       const Spacer(),
                       Icon(Iconsax.setting_4, size: 18.sp),
                     ],

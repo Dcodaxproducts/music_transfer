@@ -28,14 +28,11 @@ class GradientBorder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(1.sp),
-      decoration: BoxDecoration(
-        borderRadius: borderRadius,
-        gradient: primaryGradient,
-      ),
+      decoration: BoxDecoration(borderRadius: borderRadiusDefault, gradient: primaryGradient),
       child: Container(
-        padding: padding ?? EdgeInsets.all(12.sp),
+        padding: padding ?? EdgeInsets.all(spacingMedium),
         decoration: BoxDecoration(
-          borderRadius: borderRadius,
+          borderRadius: borderRadiusDefault,
           color: Theme.of(context).scaffoldBackgroundColor,
         ),
         child: child,

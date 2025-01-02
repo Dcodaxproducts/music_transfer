@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +12,6 @@ import '../../../utils/app_constants.dart';
 import '../home/home.dart';
 import '../inspirations/inspirations.dart';
 import '../menu/menu.dart';
-// import '../tools/tools.dart';
 import '../subscription/subscription.dart';
 import '../tools/tools.dart';
 import 'widgets/navigation_bar.dart';
@@ -44,9 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      if (Platform.isIOS) {
-        showPremiumSheet();
-      }
+      showPremiumSheet();
       SettingsController.find.saveShowAppOpen();
     });
     super.initState();
@@ -58,7 +53,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       int currentIndex = dashboardController.selectedIndex;
       return PopScope(
         canPop: false,
-        onPopInvoked: (value) {
+        onPopInvokedWithResult: (value, result) {
           if (currentIndex != 0) {
             dashboardController.selectedIndex = 0;
           } else {
@@ -75,7 +70,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           appBar: AppBar(
             title: Text(_titles[currentIndex]),
             actions: [
-              if (Platform.isIOS) const SubsriptionButton(),
+              const SubsriptionButton(),
               SizedBox(width: 10.sp),
             ],
           ),

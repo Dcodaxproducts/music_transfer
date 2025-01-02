@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import '../../../common/loading.dart';
+import '../common/loading.dart';
 import '../../../utils/style.dart';
 
 showAdLoadingDialog() {
@@ -25,24 +25,17 @@ class _AdLoadingDialogState extends State<AdLoadingDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 100.sp),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
       child: Container(
         width: 150.sp,
-        padding: pagePadding,
+        padding: paddingDefault,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: borderRadius,
+          borderRadius: borderRadiusDefault,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'loading_ad'.tr,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
+            Text('loading_ad'.tr, textAlign: TextAlign.center, style: bodyLarge(context)),
             Padding(
               padding: EdgeInsets.only(top: 24.sp, bottom: 8.sp),
               child: const Loading(),

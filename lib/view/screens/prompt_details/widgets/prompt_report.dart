@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/common/primary_button.dart';
-import 'package:matrix_ai/common/snackbar.dart';
+import 'package:matrix_ai/view/base/common/primary_button.dart';
+import 'package:matrix_ai/view/base/common/snackbar.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
@@ -18,13 +18,10 @@ class PromptReportButton extends StatelessWidget {
       right: 10.sp,
       child: InkWell(
         onTap: showFeedbackDialog,
-        borderRadius: borderRadius,
+        borderRadius: borderRadiusDefault,
         child: Container(
-          padding: EdgeInsets.all(8.sp),
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.5),
-            borderRadius: borderRadius,
-          ),
+          padding: paddingSmall,
+          decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: borderRadiusDefault),
           child: Icon(Iconsax.flag, size: 22.sp, color: Colors.white),
         ),
       ),
@@ -40,53 +37,45 @@ class FeedbackDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: borderRadius),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      surfaceTintColor: Theme.of(context).shadowColor,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
+      surfaceTintColor: context.theme.scaffoldBackgroundColor,
       child: Padding(
-        padding: pagePadding,
+        padding: paddingDefault,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             // Title
             Text(
               "${'feedback'.tr}/${'report'.tr}",
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: headlineSmall(context),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 12.sp),
-
+            SizedBox(height: spacingMedium),
             // Subtitle
             Text(
               "is_this_the_result_you_were_expecting".tr,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: bodyLarge(context),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 24.sp),
+            SizedBox(height: spacingLarge),
             Row(
               children: [
                 Expanded(
                   child: PrimaryButton(
-                    color: Theme.of(context).cardColor,
+                    color: context.theme.cardColor,
                     icon: Icon(
                       Iconsax.dislike,
-                      color: Theme.of(context).disabledColor,
+                      color: context.theme.disabledColor,
                     ),
                     text: "",
                     onPressed: showReportDialog,
                   ),
                 ),
-                SizedBox(width: 16.sp),
+                SizedBox(width: spacingDefault),
                 Expanded(
                   child: PrimaryButton(
-                    icon: Icon(
-                      Iconsax.like_1,
-                      color: Theme.of(context).disabledColor,
-                    ),
-                    color: Theme.of(context).cardColor,
+                    icon: Icon(Iconsax.like_1, color: context.theme.disabledColor),
+                    color: context.theme.cardColor,
                     text: "",
                     onPressed: _like,
                   ),
@@ -123,22 +112,20 @@ class _ReportingDialogState extends State<ReportingDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: borderRadius),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      surfaceTintColor: Theme.of(context).shadowColor,
+      shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
+      backgroundColor: context.theme.scaffoldBackgroundColor,
+      surfaceTintColor: context.theme.shadowColor,
       child: Padding(
-        padding: pagePadding,
+        padding: paddingDefault,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "${'feedback'.tr}/${'report'.tr}",
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: headlineSmall(context),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 12.sp),
+            SizedBox(height: spacingMedium),
             RadioListTile<String>(
               visualDensity: VisualDensity.compact,
               activeColor: primaryColor, // Custom active color
@@ -168,12 +155,12 @@ class _ReportingDialogState extends State<ReportingDialog> {
                 });
               },
             ),
-            SizedBox(height: 16.sp),
+            SizedBox(height: spacingDefault),
             SizedBox(
               width: double.infinity,
               child: PrimaryButton(
-                color: Theme.of(context).cardColor,
-                textColor: Theme.of(context).textTheme.bodyLarge?.color,
+                color: context.theme.cardColor,
+                textColor: bodyLarge(context).color,
                 text: "submit".tr,
                 onPressed: _submit,
               ),

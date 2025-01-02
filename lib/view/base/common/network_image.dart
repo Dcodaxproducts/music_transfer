@@ -6,14 +6,14 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
-import '../utils/colors.dart';
-import '../utils/images.dart';
+import '../../../utils/colors.dart';
+import '../../../utils/images.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import '../utils/style.dart';
+import '../../../utils/style.dart';
 
 class CustomNetworkImage extends StatefulWidget {
   final String? url;
@@ -135,7 +135,7 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
         // If the image is black, show a custom UI
         if (_isBlackImage) {
           return Container(
-            padding: pagePadding,
+            padding: paddingDefault,
             width: double.infinity,
             height: double.infinity,
             color: Colors.black,
@@ -143,7 +143,7 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
               child: Text(
                 "nsfw_content_detected".tr,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: textColordark),
+                style: bodyMedium(context).copyWith(color: textColorDark),
               ),
             ),
           );
@@ -158,13 +158,7 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
         );
       },
       placeholder: (context, url) {
-        return Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(
-            color: Colors.grey[300],
-          ),
-        );
+        return _buildShimmer();
       },
       errorWidget: (c, s, o) {
         _checkImageAvailability();
@@ -173,19 +167,24 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
             : Container(
                 width: double.infinity,
                 height: double.infinity,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                ),
+                decoration: BoxDecoration(color: Theme.of(context).cardColor),
                 child: Center(
                   child: widget.errorLoading
-                      ? Lottie.asset(
-                          Images.starAnimation,
-                          fit: BoxFit.cover,
-                        )
+                      ? Lottie.asset(Images.starAnimation, fit: BoxFit.cover)
                       : Icon(Iconsax.image, size: 50.sp),
                 ),
               );
       },
+    );
+  }
+
+  Widget _buildShimmer() {
+    return Shimmer.fromColors(
+      baseColor: Theme.of(context).cardColor,
+      highlightColor: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.05),
+      child: Container(
+        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.3),
+      ),
     );
   }
 }

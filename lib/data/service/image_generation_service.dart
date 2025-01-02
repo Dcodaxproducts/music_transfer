@@ -2,13 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:matrix_ai/controller/aws_controller.dart';
 import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/repository/image_generation_repo_interface.dart';
+import 'package:matrix_ai/utils/images.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../../common/snackbar.dart';
+import '../../view/base/common/snackbar.dart';
 import '../../controller/subscription_controller.dart';
 import '../../utils/app_constants.dart';
 import '../../view/base/loading/prompt_loading.dart';
@@ -81,22 +83,18 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
         ImageGenerationUtils.createRequestBody(prompt, size, model, seed, upscale, faceFix);
 
     // send request to api
-    return await imageGenerationRepo.generateImages(
-      url: apiUrl,
-      body: body,
-      headers: headers,
-    );
+    return await imageGenerationRepo.generateImages(url: apiUrl, body: body, headers: headers);
   }
 
   // process generation response
   @override
-  PromptResponse? processGenerationResponse(
+  Future<PromptResponse?> processGenerationResponse(
     http.Response? response,
     String prompt,
     Model? modelValue,
     bool upscale,
     int? seed,
-  ) {
+  ) async {
     if (response == null) return null;
     Map<String, dynamic> data = jsonDecode(response.body);
 
@@ -121,6 +119,10 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
       model: model,
     );
 
+    // if success and fast ai model then add delay of 7 seconds
+    if (model.modelId.contains("black-forest-labs")) {
+      await _delay(7);
+    }
     // add prompt history
     HistoryController.find.addPrompt(value, seed: seed);
 
@@ -134,11 +136,18 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
         'platform': Platform.isAndroid ? 'Android' : 'iOS',
       },
     );
-
+    dismiss();
     if (value.status == "success") {
+      AwsController.find.downloadImageAndUploadToAWS(value.output.first);
       return value;
     } else if (value.status == "processing") {
       showToast('your_prompt_is_processing_in_the_queue', success: true);
+    } else if (value.status == "queued") {
+      // if genration failed then add link to output
+      value = value.copyWith(
+        output: [...value.output, Images.generationFailed],
+        futureLinks: [value.futureLinks.first],
+      );
     } else {
       showToast(data["message"]);
     }
@@ -174,7 +183,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
         // Update the history
         HistoryController.find.removePrompt(oldResponse);
         HistoryController.find.addPrompt(value);
-
+        AwsController.find.downloadImageAndUploadToAWS(value.output.first);
         return true;
       }
     }
@@ -185,4 +194,6 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   Future<void> cancelRequest() async {
     await imageGenerationRepo.cancelRequest();
   }
+
+  Future<void> _delay(int seconds) async => await Future.delayed(Duration(seconds: seconds));
 }

@@ -5,6 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:matrix_ai/controller/aws_controller.dart';
 import 'package:matrix_ai/controller/review_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/view/screens/dashboard/dashboard.dart';
@@ -57,12 +58,16 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
       // get history from shared preferences
       HistoryController.find.initPromptHistory();
       ReviewController.find.checkReviewed();
+      SettingsController.find.initSharedData();
+      // init aws
+      AwsController.find.initAWS();
       //get data from api
       await Future.wait([
         GenerationController.find.initialize(),
         AdsController.find.initialize(),
         ModelsController.find.getModels(),
-        InspirationController.find.getInspirations()
+        InspirationController.find.getInspirations(),
+        SettingsController.find.getSettings(),
       ]);
 
       await SubscriptionController.find.initialize().catchError((_) {});
@@ -74,17 +79,13 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
         FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       });
       //
-      Future.delayed(const Duration(seconds: 3)).then((value) {
-        _ready = true;
-        if (mounted) setState(() {});
-      });
+      _ready = true;
+      if (mounted) setState(() {});
     });
   }
 
   _checkInternetConnection() {
-    _onConnectivityChanged = Connectivity()
-        .onConnectivityChanged
-        .listen((List<ConnectivityResult> result) {
+    _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
       if (result.contains(ConnectivityResult.none)) {
         disconnected = true;
       } else {

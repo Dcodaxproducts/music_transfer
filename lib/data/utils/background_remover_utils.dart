@@ -1,18 +1,13 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:matrix_ai/data/model/response/tools.dart';
 
 class BackgroundRemoverUtils {
-  static Map<String, dynamic> createRequestBody(File initImage, ToolModel tool) {
+  static Map<String, dynamic> createRequestBody(String initImage, ToolModel tool) {
     Map<String, dynamic> body = {};
     for (var entry in tool.backgroundRemover!.toJson().entries.toList()) {
       body[entry.key] = entry.value;
     }
     body['key'] = tool.apiKey;
-
-    // image to base64
-    String base64 = base64Encode(initImage.readAsBytesSync());
-    body['image'] = "data:image/jpeg;base64,$base64";
+    body['image'] = initImage;
 
     // return body
     return body;

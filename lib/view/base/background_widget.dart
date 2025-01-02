@@ -12,10 +12,7 @@ class BackgroundWidget extends StatelessWidget {
       children: [
         Container(
           decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(Images.background),
-              fit: BoxFit.cover,
-            ),
+            image: DecorationImage(image: AssetImage(Images.background), fit: BoxFit.cover),
           ),
         ),
         child,

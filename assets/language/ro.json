@@ -121,5 +121,9 @@
   "nsfw_content_detected": "Conținut NSFW detectat",
   "tools": "Instrumente",
   "your_image_is_processing_in_the_queue": "Imaginea dvs. este procesată în coadă",
-  "your_prompt_is_processing_in_the_queue": "Solicitarea dvs. este procesată în coadă"
+  "your_prompt_is_processing_in_the_queue": "Solicitarea dvs. este procesată în coadă",
+  "image_upload_failed": "Încărcarea imaginii a eșuat",
+  "upload_image": "Încărcați imaginea",
+  "remove_background": "Eliminați fundalul",
+  "too_many_requests": "Hopa! Prea multe cereri. Vă rugăm să încercați din nou în câteva momente."
 }

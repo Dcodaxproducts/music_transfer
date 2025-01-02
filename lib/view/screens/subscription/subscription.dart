@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../common/primary_button.dart';
+import '../../base/common/primary_button.dart';
 import '../../../controller/settings_controller.dart';
 import '../../../controller/subscription_controller.dart';
 import '../../../data/model/subscription_item.dart';
@@ -61,7 +61,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           GetBuilder<SubscriptionController>(
             builder: (subscription) {
               return Padding(
-                padding: pagePadding,
+                padding: paddingDefault,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -70,8 +70,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: 3,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 12.sp),
+                      separatorBuilder: (context, index) => SizedBox(height: spacingMedium),
                       itemBuilder: (context, index) {
                         SubscriptionItem item = getSubscriptionItems(index);
                         return SubscriptionPackageWidget(
@@ -85,7 +84,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         );
                       },
                     ),
-                    SizedBox(height: 32.sp),
+                    SizedBox(height: spacingExtraLarge),
                     SizedBox(
                       width: double.infinity,
                       child: PrimaryButton(
@@ -96,32 +95,25 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 12.sp),
+                    SizedBox(height: spacingMedium),
                     Center(
                       child: Wrap(
-                        spacing: 8.sp,
+                        spacing: spacingSmall,
                         alignment: WrapAlignment.spaceBetween,
                         children: [
                           LinkButton(
                             text: 'privacy_policy'.tr,
                             onTap: () => launchScreen(
-                              HtmlScreen(
-                                  html: SettingsController
-                                      .find.settingModel.privacyPolicy),
+                              HtmlScreen(html: SettingsController.find.settingModel.privacyPolicy),
                             ),
                           ),
                           LinkButton(
                             text: 'terms_of_service'.tr,
                             onTap: () => launchScreen(
-                              HtmlScreen(
-                                  html: SettingsController
-                                      .find.settingModel.termsAndConditions),
+                              HtmlScreen(html: SettingsController.find.settingModel.termsAndConditions),
                             ),
                           ),
-                          LinkButton(
-                            text: 'restore'.tr,
-                            onTap: subscription.restorePurchase,
-                          ),
+                          LinkButton(text: 'restore'.tr, onTap: subscription.restorePurchase),
                         ],
                       ),
                     ),
@@ -137,7 +129,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             builder: (context, double value, child) {
               return Positioned(
                 top: 40.sp,
-                left: 16.sp,
+                left: spacingDefault,
                 child: Opacity(
                   opacity: value,
                   child: const CloseButton(),
@@ -174,10 +166,7 @@ class LinkButton extends StatelessWidget {
       onPressed: onTap,
       child: Text(
         text,
-        style: Theme.of(context)
-            .textTheme
-            .bodySmall
-            ?.copyWith(color: primaryColor),
+        style: bodySmall(context).copyWith(color: primaryColor),
       ),
     );
   }
@@ -192,11 +181,7 @@ class CloseButton extends StatelessWidget {
       onTap: pop,
       child: Container(
         padding: EdgeInsets.all(5.sp),
-        child: Icon(
-          Icons.close,
-          color: Colors.grey,
-          size: 20.sp,
-        ),
+        child: Icon(Icons.close, color: Colors.grey, size: 20.sp),
       ),
     );
   }

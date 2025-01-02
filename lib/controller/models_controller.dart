@@ -38,7 +38,7 @@ class ModelsController extends GetxController {
       _models = modelsService.parseModels(response.body);
       _filteredModels = _models;
 
-      final config = SettingsController.find.initSharedData();
+      final config = SettingsController.find.configModel;
       if (!config.onBoardingSkip) {
         config.selectedModel = _models.firstWhere((e) => e.isDefault == true);
       }
@@ -47,8 +47,7 @@ class ModelsController extends GetxController {
   }
 
   void filterModels(int index) {
-    _filteredModels =
-        modelsService.filterModels(_models, _favoriteModels, index);
+    _filteredModels = modelsService.filterModels(_models, _favoriteModels, index);
     type = index;
     update();
   }

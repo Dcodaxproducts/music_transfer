@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:matrix_ai/common/snackbar.dart';
+import 'package:matrix_ai/view/base/common/snackbar.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:matrix_ai/data/repository/history_repo_interface.dart';
 import 'history_service_interface.dart';
@@ -19,8 +19,7 @@ class HistoryService implements HistoryServiceInterface {
   }
 
   @override
-  Future<void> removePrompt(
-      PromptResponse prompt, List<PromptResponse> currentHistory) async {
+  Future<void> removePrompt(PromptResponse prompt, List<PromptResponse> currentHistory) async {
     currentHistory.remove(prompt);
     await historyRepo.savePromptResponsesInPref(currentHistory);
   }
