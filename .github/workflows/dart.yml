@@ -1,11 +1,8 @@
-name: Build APKs and Upload and Send Email
+name: Build APKs and Upload to AWS
 
 on:
   workflow_dispatch:
     inputs:
-      title:
-        description: "Pull Request Title (Optional)"
-        required: false
       debug_apk:
         description: "Build Debug APK"
         required: true
@@ -13,7 +10,7 @@ on:
         options:
           - "true"
           - "false"
-        default: "true"
+        default: "false"
       release_apk:
         description: "Build Release APK"
         required: true
@@ -33,8 +30,19 @@ on:
 
 jobs:
   build-and-upload:
-    name: Build APKs and Upload to TestFlight
-    runs-on: macos-latest # Required for TestFlight upload
+    name: Build APKs and Upload to AWS
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      REGION: ${{ secrets.AWS_REGION }}
+      APKNAME: "pixart"
+      APPNAME: "PixArt"
 
     steps:
       # Checkout the code
@@ -52,12 +60,29 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.19.6"
+          flutter-version: "3.22.0"
 
       # Restore Keystore
       - name: Decode Keystore File
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/keystore.jks
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/app/keystore.jks
+
+      # Extract APP_NAME and Version Information
+      - name: Extract Metadata
+        run: |
+          # Extract values from .env
+          export ANDROID_VERSION_CODE=$(grep ANDROID_VERSION_CODE .env | cut -d '=' -f 2)
+          export ANDROID_VERSION_NAME=$(grep ANDROID_VERSION_NAME .env | cut -d '=' -f 2)
+
+          # Set filenames
+          export DEBUG_APK_NAME="${APKNAME}_v${ANDROID_VERSION_NAME}_b${ANDROID_VERSION_CODE}_debug.apk"
+          export RELEASE_APK_NAME="${APKNAME}_v${ANDROID_VERSION_NAME}_b${ANDROID_VERSION_CODE}_release.apk"
+
+          echo "DEBUG_APK_NAME=$DEBUG_APK_NAME" >> $GITHUB_ENV
+          echo "RELEASE_APK_NAME=$RELEASE_APK_NAME" >> $GITHUB_ENV
+          echo "ANDROID_VERSION_NAME=$ANDROID_VERSION_NAME" >> $GITHUB_ENV
+          echo "ANDROID_VERSION_CODE=$ANDROID_VERSION_CODE" >> $GITHUB_ENV
+          echo "${{env.APPNAME}}"
 
       # Install Dependencies
       - name: Install Dependencies
@@ -74,72 +99,83 @@ jobs:
         run: |
           flutter build apk --release \
           --dart-define=KEYSTORE_PATH=android/app/keystore.jks \
-          --dart-define=KEYSTORE_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }} \
-          --dart-define=KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
-          --dart-define=KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}
+          --dart-define=KEYSTORE_ALIAS=$KEYSTORE_ALIAS \
+          --dart-define=KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD \
+          --dart-define=KEY_PASSWORD=$KEY_PASSWORD
 
       # Rename APK Files
       - name: Rename APK Files
         run: |
-          TITLE="${{ inputs.title || 'Untitled_PR' }}"
           if [ "${{ inputs.debug_apk }}" == "true" ]; then
-            mv build/app/outputs/flutter-apk/app-debug.apk build/app/outputs/flutter-apk/${TITLE}_debug.apk
+            mv build/app/outputs/flutter-apk/app-debug.apk build/app/outputs/flutter-apk/${{env.DEBUG_APK_NAME}}
           fi
           if [ "${{ inputs.release_apk }}" == "true" ]; then
-            mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${TITLE}_release.apk
+            mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${{env.RELEASE_APK_NAME}}
           fi
+          
 
-      # Upload APKs as Artifacts (if built)
-      - name: Upload Debug APK
+      # Upload Debug APK to AWS S3
+      - name: Upload Debug APK to AWS S3
         if: ${{ inputs.debug_apk == 'true' }}
-        uses: actions/upload-artifact@v4
+        id: upload_debug_s3
+        uses: ahkohd/s3-upload-action@master
         with:
-          name: Debug APK
-          path: build/app/outputs/flutter-apk/*_debug.apk
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-bucket: ${{ secrets.AWS_BUCKET_NAME }}
+          output-file-url: 'true' # specify true
+          file-path: "build/app/outputs/flutter-apk/${{env.DEBUG_APK_NAME}}"
 
-      - name: Upload Release APK
+      # Upload Release APK to AWS S3
+      - name: Upload Release APK to AWS S3
         if: ${{ inputs.release_apk == 'true' }}
-        uses: actions/upload-artifact@v4
+        id: upload_release_s3
+        uses: ahkohd/s3-upload-action@master
         with:
-          name: Release APK
-          path: build/app/outputs/flutter-apk/*_release.apk
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-bucket: ${{ secrets.AWS_BUCKET_NAME }}
+          output-file-url: 'true' # specify true
+          file-path: "build/app/outputs/flutter-apk/${{env.RELEASE_APK_NAME}}"
 
-      # Retrieve Artifact URLs (if sending email)
-      - name: Get Artifact Download URLs
+      # Retrieve Public URLs
+      - name: Get Public URLs
         id: get_urls
-        if: ${{ inputs.send_email == 'true' }}
         run: |
-          artifacts=$(curl -s -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts")
-
           debug_apk_url=""
           release_apk_url=""
           if [ "${{ inputs.debug_apk }}" == "true" ]; then
-            debug_artifact_id=$(echo "$artifacts" | jq -r '.artifacts[] | select(.name == "Debug APK") | .id')
-            debug_apk_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/$debug_artifact_id"
+            debug_apk_url="${{ steps.upload_debug_s3.outputs.file-url }}"
           fi
           if [ "${{ inputs.release_apk }}" == "true" ]; then
-            release_artifact_id=$(echo "$artifacts" | jq -r '.artifacts[] | select(.name == "Release APK") | .id')
-            release_apk_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/$release_artifact_id"
+            release_apk_url="${{ steps.upload_release_s3.outputs.file-url }}"
           fi
 
           echo "DEBUG_APK_URL=$debug_apk_url" >> $GITHUB_ENV
           echo "RELEASE_APK_URL=$release_apk_url" >> $GITHUB_ENV
 
-      # Email APKs (if requested)
+      # Email APK Links (if requested)
       - name: Send Email
         if: ${{ inputs.send_email == 'true' }}
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: dcodax.net
+          server_address: mail.dcodax.net
           server_port: 465
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          from: ${{ secrets.EMAIL_USERNAME }}
-          subject: "New APKs Generated - PixArt - ${{ inputs.title || 'Untitled_PR' }}"
+          username: "${{ secrets.EMAIL_USERNAME }}"
+          password: "${{ secrets.EMAIL_PASSWORD }}"
+          from: "${{ secrets.EMAIL_USERNAME }}"
+          subject: "New APKs Generated - ${{env.APPNAME}} version ${{env.ANDROID_VERSION_NAME}} build ${{env.ANDROID_VERSION_CODE}}"
           body: |
             The APKs have been generated. You can download them from the following links:
 
             - Debug APK: ${{ env.DEBUG_APK_URL }}
             - Release APK: ${{ env.RELEASE_APK_URL }}
-          to: "shafiquecbl@gmail.com,usamadcodax@gmail.com,talhaali3390137@gmail.com"
+          to: |
+            shafiquecbl@gmail.com,
+            usamadcodax@gmail.com,
+            kanwalusm78@gmail.com,
+            talhaali3390137@gmail.com,
+            tahagujjar.tg@gmail.com,
+            dcodaxtester@gmail.com
