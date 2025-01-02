@@ -1,15 +1,11 @@
-import 'dart:typed_data';
-import 'package:matrix_ai/view/base/common/snackbar.dart';
-import 'package:matrix_ai/controller/history_controller.dart';
-import 'package:get/get.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:gallery_saver_plus/gallery_saver.dart';
+import 'package:matrix_ai/imports.dart';
 
 class DownloadImage {
   static downloadImage(String url) async {
     showLoading();
-    Uint8List? bytes = await HistoryController.find.downloadImage(url);
-    if (bytes != null) {
-      ImageGallerySaver.saveImage(bytes, quality: 100, name: DateTime.now().toString());
+    bool success = (await GallerySaver.saveImage(url, albumName: AppConstants.APP_NAME)) ?? false;
+    if (success) {
       showToast('image_download_success'.tr, success: true);
     } else {
       showToast('image_download_fail'.tr);
