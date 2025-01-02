@@ -86,7 +86,9 @@ jobs:
 
       # Install Dependencies
       - name: Install Dependencies
-        run: flutter pub get
+        run: |
+          flutter pub upgrade
+          flutter pub get
 
       # Build Debug APK (if requested)
       - name: Build Debug APK
