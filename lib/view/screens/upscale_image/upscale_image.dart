@@ -39,7 +39,7 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
             pinned: true,
-            expandedHeight: (context.height * 0.52).sp,
+            expandedHeight: 450.sp,
             flexibleSpace: FlexibleSpaceBar(
               background: Padding(
                 padding: paddingDefault,
