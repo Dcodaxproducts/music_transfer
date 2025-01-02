@@ -41,6 +41,11 @@ jobs:
         run: |
           flutter clean
           flutter pub get
+
+      - name: Install flutter fire
+        run: |
+          npm install -g firebase-tools
+          dart pub global activate flutterfire_cli
           
       - name: Install pods (pod install)
         run: |
@@ -93,3 +98,16 @@ jobs:
           # Upload to App Store Connect
           app-store-connect publish \
             --path "$APP_FILE" 
+      - name: Cleanup storage
+        run: |
+          echo "Cleaning up temporary files and storage..."
+          rm -rf "$HOME/Library/MobileDevice/Provisioning Profiles"
+          rm -rf /tmp/certificate.p12
+          rm -rf ~/.pub-cache
+          rm -rf ios/Pods
+          rm -rf ios/Podfile.lock
+          flutter clean
+          sudo gem uninstall cocoapods
+          sudo gem uninstall fastlane
+          pip uninstall codemagic-cli-tools -y
+          echo "Cleanup complete."
