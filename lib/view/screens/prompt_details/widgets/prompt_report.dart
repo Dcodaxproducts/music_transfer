@@ -181,11 +181,11 @@ class _ReportingDialogState extends State<ReportingDialog> {
     showLoading();
     Future.delayed(const Duration(milliseconds: 500), () {
       dismiss();
-      showToast("feedback_submitted_successfully", success: true);
       if (selectedOption == 'inappropriate') {
         _deleteResult();
       }
       pop(2);
+      showToast("feedback_submitted_successfully", success: true);
     });
   }
 
