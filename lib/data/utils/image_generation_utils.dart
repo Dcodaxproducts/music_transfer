@@ -159,6 +159,6 @@ class ImageGenerationUtils {
   }
 
   static int generateSeed() {
-    return Random(30).nextInt(10000);
+    return Random().nextInt(10000);
   }
 }

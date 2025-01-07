@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/view/base/app_version_widget.dart';
 import 'package:matrix_ai/view/base/rate_us_sheet.dart';
@@ -32,7 +31,6 @@ class _MenuScreenState extends State<MenuScreen> {
   ];
 
   final List<Widget> _moreMenuItems = [
-    if (Platform.isIOS)
       MenuItem(
         text: 'manage_subscription',
         icon: Iconsax.crown_1,
