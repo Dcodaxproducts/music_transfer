@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
@@ -72,7 +71,6 @@ class HistoryController extends GetxController {
 
   List<PromptResponse> getFilteredHistory({bool favorites = false}) {
     if (favorites) {
-      log('Favorites, ${_promptHistory.where((e) => e.bookmarked).toList().length}');
       return _promptHistory.where((e) => e.bookmarked).toList();
     }
     return _promptHistory;

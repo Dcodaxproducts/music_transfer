@@ -126,5 +126,8 @@
   "upload_image": "Télécharger l'image",
   "remove_background": "Supprimer l'arrière-plan",
   "upscale_image": "Agrandir l'image",
-  "too_many_requests": "Oups ! Trop de demandes. Veuillez réessayer dans un instant."
+  "too_many_requests": "Oups ! Trop de demandes. Veuillez réessayer dans un instant.",
+  "success": "succès",
+  "error": "erreur",
+  "subscription_agreement": "En continuant, vous acceptez notre politique de confidentialité. Seuls @price/@period seront facturés via votre compte @provider. Vous pouvez annuler à tout moment, mais assurez-vous de le faire au moins 24 heures avant la fin de l'abonnement pour éviter les frais de l'année suivante. La suppression de l'application ne résiliera pas votre abonnement. Pour obtenir de l'aide, visitez @provider Subscriptions. Envisagez de définir un rappel."
 }

@@ -126,5 +126,8 @@
   "image_upload_failed": "การอัปโหลดรูปภาพล้มเหลว",
   "upload_image": "อัปโหลดรูปภาพ",
   "remove_background": "ลบพื้นหลัง",
-  "upscale_image": "ปรับปรุงคุณภาพของภาพ"
+  "upscale_image": "ปรับปรุงคุณภาพของภาพ",
+  "success": "สำเร็จ",
+  "error": "ข้อผิดพลาด",
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
 }

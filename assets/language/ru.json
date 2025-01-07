@@ -126,5 +126,8 @@
   "upload_image": "Загрузить изображение",
   "remove_background": "Удалить фон",
   "upscale_image": "Повысить качество изображения",
-  "too_many_requests": "Ой! Слишком много запросов. Пожалуйста, попробуйте еще раз через минуту."
+  "too_many_requests": "Ой! Слишком много запросов. Пожалуйста, попробуйте еще раз через минуту.",
+  "success": "Успех",
+  "error": "Ошибка",
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
 }

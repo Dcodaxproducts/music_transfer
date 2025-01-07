@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -96,6 +98,18 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       ),
                     ),
                     SizedBox(height: spacingMedium),
+                    Text(
+                      "subscription_agreement".trParams({
+                        'price': _selectedItem.price,
+                        'period': _selectedPackage == 0
+                            ? 'year'
+                            : _selectedPackage == 1
+                                ? 'month'
+                                : 'week',
+                        'provider': Platform.isIOS ? 'Apple' : 'Google',
+                      }),
+                      style: labelLarge(context).copyWith(color: context.theme.hintColor),
+                    ),
                     Center(
                       child: Wrap(
                         spacing: spacingSmall,

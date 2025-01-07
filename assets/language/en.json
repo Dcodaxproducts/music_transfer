@@ -13,14 +13,14 @@
     "retry": "Retry",
     "type_your_idea": "Type your idea",
     "enter_prompt_message": "Describe anything, Let our app create magic for you.",
-    "set_a_theme": "Set a theme",
+    "set_a_theme": "Select model",
     "set_theme": "Set Theme",
     "ai_models": "AI Models",
     "favorites": "Favorites",
     "see_all": "See All",
     "advance_options": "Advance Options",
     "aspect_ratio": "Aspect Ratio",
-    "prompt_settings": "Prompt Settings",
+    "prompt_settings": "Prompt Setting",
     "settings": "Settings",
     "negative_prompt": "Negative Prompt",
     "negative_prompt_message": "Tell the model what not to generate.",
@@ -126,5 +126,8 @@
     "upload_image": "Upload Image",
     "remove_background": "Remove Background",
     "upscale_image": "Upscale Image",
-    "too_many_requests": "Oops! Too many requests. Please try again in a moment."
+    "too_many_requests": "Oops! Too many requests. Please try again in a moment.",
+    "success": "Success",
+    "error": "Error",
+    "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
 }

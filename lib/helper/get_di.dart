@@ -81,100 +81,100 @@ import '../data/service/theme_service.dart';
 Future<Map<String, Map<String, String>>> init() async {
   // Core
   final sharedPreferences = await SharedPreferences.getInstance();
-  Get.lazyPut(() => sharedPreferences);
+  Get.lazyPut(() => sharedPreferences, fenix: true);
   ApiClientInterface apiClient = ApiClient(prefs: Get.find());
-  Get.lazyPut(() => apiClient);
+  Get.lazyPut(() => apiClient, fenix: true);
 
   // Repository
   ImageGenerationRepoInterface imageGenerationRepo =
       ImageGenerationRepo(apiClient: Get.find(), prefs: Get.find());
-  Get.lazyPut(() => imageGenerationRepo);
+  Get.lazyPut(() => imageGenerationRepo, fenix: true);
   SettingsRepoInterface settingsRepo = SettingsRepo(prefs: Get.find(), apiClient: Get.find());
-  Get.lazyPut(() => settingsRepo);
-  Get.lazyPut(() => LanguageRepo());
+  Get.lazyPut(() => settingsRepo, fenix: true);
+  Get.lazyPut(() => LanguageRepo(), fenix: true);
   ModelsRepoInterface modelsRepoInterface = ModelsRepo(apiClient: Get.find(), prefs: Get.find());
-  Get.lazyPut(() => modelsRepoInterface);
+  Get.lazyPut(() => modelsRepoInterface, fenix: true);
   HistoryRepoInteraface historyRepoInteraface = HistoryRepo(apiClient: Get.find(), prefs: Get.find());
-  Get.lazyPut(() => historyRepoInteraface);
+  Get.lazyPut(() => historyRepoInteraface, fenix: true);
   InspirationRepoInterface inspirationRepoInterface =
       InspirationRepo(apiClient: Get.find(), prefs: Get.find());
-  Get.lazyPut(() => inspirationRepoInterface);
+  Get.lazyPut(() => inspirationRepoInterface, fenix: true);
   SettingsRepoInterface settingsRepoInterface = SettingsRepo(apiClient: Get.find(), prefs: Get.find());
-  Get.lazyPut(() => settingsRepoInterface);
+  Get.lazyPut(() => settingsRepoInterface, fenix: true);
   AdRepoInterface adRepoInterface = AdRepo(apiClient: Get.find());
-  Get.lazyPut(() => adRepoInterface);
+  Get.lazyPut(() => adRepoInterface, fenix: true);
   GenerationRepoInterface generationRepoInterface = GenerationRepo(prefs: Get.find());
-  Get.lazyPut(() => generationRepoInterface);
+  Get.lazyPut(() => generationRepoInterface, fenix: true);
   ReviewRepoInterface reviewRepoInterface = ReviewRepo(prefs: Get.find(), apiClient: Get.find());
-  Get.lazyPut(() => reviewRepoInterface);
+  Get.lazyPut(() => reviewRepoInterface, fenix: true);
   ImageUpscaleRepoInterface imageUpscaleRepoInterface =
       ImageUpscaleRepo(prefs: Get.find(), apiClient: Get.find());
-  Get.lazyPut(() => imageUpscaleRepoInterface);
+  Get.lazyPut(() => imageUpscaleRepoInterface, fenix: true);
   BackgroundRemoverRepoInterface backgroundRemoverRepoInterface =
       BackgroundRemoverRepo(prefs: Get.find(), apiClient: Get.find());
-  Get.lazyPut(() => backgroundRemoverRepoInterface);
+  Get.lazyPut(() => backgroundRemoverRepoInterface, fenix: true);
   ToolsRepoInterface toolsRepoInterface = ToolsRepo(apiClient: Get.find());
-  Get.lazyPut(() => toolsRepoInterface);
+  Get.lazyPut(() => toolsRepoInterface, fenix: true);
 
   // Service
   ImageGenerationServiceInterface imageGenerationService =
       ImageGenerationService(imageGenerationRepo: Get.find());
-  Get.lazyPut(() => imageGenerationService);
+  Get.lazyPut(() => imageGenerationService, fenix: true);
   SettingsServiceInterface settingsService = SettingsService(settingsRepo: Get.find());
-  Get.lazyPut(() => settingsService);
+  Get.lazyPut(() => settingsService, fenix: true);
   AdsServiceInterface adsServiceInterface = AdsService(adRepo: Get.find());
-  Get.lazyPut(() => adsServiceInterface);
+  Get.lazyPut(() => adsServiceInterface, fenix: true);
   HistoryServiceInterface historyService = HistoryService(historyRepo: Get.find());
-  Get.lazyPut(() => historyService);
+  Get.lazyPut(() => historyService, fenix: true);
   InspirationServiceInterface inspirationServiceInterface = InspirationService(inspirationRepo: Get.find());
-  Get.lazyPut(() => inspirationServiceInterface);
+  Get.lazyPut(() => inspirationServiceInterface, fenix: true);
   ModelsServiceInterface modelsServiceInterface = ModelsService(modelsRepo: Get.find());
-  Get.lazyPut(() => modelsServiceInterface);
+  Get.lazyPut(() => modelsServiceInterface, fenix: true);
   ThemeServiceInterface themeServiceInterface = ThemeService(sharedPreferences: Get.find());
-  Get.lazyPut(() => themeServiceInterface);
+  Get.lazyPut(() => themeServiceInterface, fenix: true);
   SubscriptionServiceInterface subscriptionServiceInterface = SubscriptionService();
-  Get.lazyPut(() => subscriptionServiceInterface);
+  Get.lazyPut(() => subscriptionServiceInterface, fenix: true);
   LocalizationServiceInterface localizationServiceInterface =
       LocalizationService(sharedPreferences: Get.find());
-  Get.lazyPut(() => localizationServiceInterface);
+  Get.lazyPut(() => localizationServiceInterface, fenix: true);
   SettingsServiceInterface settingsServiceInterface = SettingsService(settingsRepo: Get.find());
-  Get.lazyPut(() => settingsServiceInterface);
+  Get.lazyPut(() => settingsServiceInterface, fenix: true);
   GenerationServiceInterface generationServiceInterface =
       GenerationService(generationRepoInterface: Get.find());
-  Get.lazyPut(() => generationServiceInterface);
+  Get.lazyPut(() => generationServiceInterface, fenix: true);
   ReviewServiceInterface reviewServiceInterface = ReviewService(reviewRepo: Get.find());
-  Get.lazyPut(() => reviewServiceInterface);
+  Get.lazyPut(() => reviewServiceInterface, fenix: true);
   ImageUpscaleServiceInterface imageUpscaleServiceInterface =
       ImageUpscaleService(imageUpscaleRepo: Get.find());
-  Get.lazyPut(() => imageUpscaleServiceInterface);
+  Get.lazyPut(() => imageUpscaleServiceInterface, fenix: true);
   BackgroundRemoverServiceInterface backgroundRemoverServiceInterface =
       BackgroundRemoverService(backgroundRemoverRepo: Get.find());
-  Get.lazyPut(() => backgroundRemoverServiceInterface);
+  Get.lazyPut(() => backgroundRemoverServiceInterface, fenix: true);
   ToolsServiceInterface toolsServiceInterface = ToolsService(toolsRepo: Get.find());
-  Get.lazyPut(() => toolsServiceInterface);
+  Get.lazyPut(() => toolsServiceInterface, fenix: true);
   AwsServiceInterface awsServiceInterface = AwsService(apiClient: Get.find());
-  Get.lazyPut(() => awsServiceInterface);
+  Get.lazyPut(() => awsServiceInterface, fenix: true);
 
   // Controller
-  Get.lazyPut(() => ThemeController(themeService: Get.find()));
-  Get.lazyPut(() => LocalizationController(localizationService: Get.find()));
-  Get.lazyPut(() => SettingsController(settingsService: Get.find()));
-  Get.lazyPut(() => ImageGenerationController(imageGenerationServiceInterface: Get.find()));
-  Get.lazyPut(() => AdsController(adsService: Get.find()));
-  Get.lazyPut(() => SubscriptionController(subscriptionService: Get.find()));
-  Get.lazyPut(() => ModelsController(modelsService: Get.find()));
-  Get.lazyPut(() => HistoryController(historyService: Get.find()));
-  Get.lazyPut(() => InspirationController(inspirationService: Get.find()));
-  Get.lazyPut(() => GenerationController(generationServiceInterface: Get.find()));
+  Get.lazyPut(() => ThemeController(themeService: Get.find()), fenix: true);
+  Get.lazyPut(() => LocalizationController(localizationService: Get.find()), fenix: true);
+  Get.lazyPut(() => SettingsController(settingsService: Get.find()), fenix: true);
+  Get.lazyPut(() => ImageGenerationController(imageGenerationServiceInterface: Get.find()), fenix: true);
+  Get.lazyPut(() => AdsController(adsService: Get.find()), fenix: true);
+  Get.lazyPut(() => SubscriptionController(subscriptionService: Get.find()), fenix: true);
+  Get.lazyPut(() => ModelsController(modelsService: Get.find()), fenix: true);
+  Get.lazyPut(() => HistoryController(historyService: Get.find()), fenix: true);
+  Get.lazyPut(() => InspirationController(inspirationService: Get.find()), fenix: true);
+  Get.lazyPut(() => GenerationController(generationServiceInterface: Get.find()), fenix: true);
   Get.lazyPut(() => DashboardController(), fenix: true);
-  Get.lazyPut(() => SettingsController(settingsService: Get.find()));
+  Get.lazyPut(() => SettingsController(settingsService: Get.find()), fenix: true);
   Get.lazyPut(() => QueueController(), fenix: true);
-  Get.lazyPut(() => ReviewController(reviewService: Get.find()));
-  Get.lazyPut(() => ImageUpscaleController(imageUpscaleService: Get.find()));
-  Get.lazyPut(() => BackgroundRemoverController(backgroundRemoverService: Get.find()));
-  Get.lazyPut(() => ToolsController(toolsService: Get.find()));
+  Get.lazyPut(() => ReviewController(reviewService: Get.find()), fenix: true);
+  Get.lazyPut(() => ImageUpscaleController(imageUpscaleService: Get.find()), fenix: true);
+  Get.lazyPut(() => BackgroundRemoverController(backgroundRemoverService: Get.find()), fenix: true);
+  Get.lazyPut(() => ToolsController(toolsService: Get.find()), fenix: true);
   Get.lazyPut(() => UpscaleImageQueueController(), fenix: true);
-  Get.lazyPut(() => AwsController(awsService: Get.find()));
+  Get.lazyPut(() => AwsController(awsService: Get.find()), fenix: true);
 
   // Retrieving localized data
   Map<String, Map<String, String>> languages = {};

@@ -66,7 +66,7 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
                             visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                           ),
                           Text(
-                            'set_theme'.tr,
+                            'set_a_theme'.tr,
                             style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
                           ),
                           TextButton(

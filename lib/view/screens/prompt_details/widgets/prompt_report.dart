@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:matrix_ai/view/base/common/primary_button.dart';
 import 'package:matrix_ai/view/base/common/snackbar.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
+
+import '../../../../controller/image_generation_controller.dart';
 
 class PromptReportButton extends StatelessWidget {
   const PromptReportButton({super.key});
@@ -176,11 +179,19 @@ class _ReportingDialogState extends State<ReportingDialog> {
       return;
     }
     showLoading();
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       dismiss();
-      pop();
-      pop();
       showToast("feedback_submitted_successfully", success: true);
+      if (selectedOption == 'inappropriate') {
+        _deleteResult();
+      }
+      pop(2);
     });
+  }
+
+  _deleteResult() {
+    final response = ImageGenerationController.find.promptResponse;
+    HistoryController.find.deletePrompt(response!);
+    pop();
   }
 }

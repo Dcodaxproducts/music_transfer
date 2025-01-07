@@ -87,7 +87,7 @@ class ImageGenerationUtils {
     if (faceFix && body.containsKey('highres_fix')) body['highres_fix'] = 'yes';
 
     // if seed is not null, add seed to the body
-    if (seed != null && !isTogetherAi(model)) body['seed'] = seed.toString();
+    if (seed != null) body['seed'] = ImageGenerationUtils.isTogetherAi(model) ? seed : seed.toString();
 
     // if the model supports aspect ratio, add aspect ratio to the body
     if (params.aspectRatio != null) {
@@ -156,5 +156,9 @@ class ImageGenerationUtils {
 
   static bool isTogetherAi(Model model) {
     return model.apiUrl.contains('together');
+  }
+
+  static int generateSeed() {
+    return Random(30).nextInt(10000);
   }
 }

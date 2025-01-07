@@ -124,5 +124,8 @@
   "image_upload_failed": "이미지 업로드 실패",
   "upload_image": "이미지 업로드",
   "remove_background": "배경 제거",
-  "too_many_requests": "이런! 요청이 너무 많습니다. 잠시 후 다시 시도해 주세요."
+  "too_many_requests": "이런! 요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.",
+  "success": "성공",
+  "error": "오류",
+  "subscription_agreement": "계속 진행하면 개인정보 보호정책에 동의하는 것입니다. @provider 계정을 통해 @price/@period만 청구됩니다. 언제든지 취소할 수 있지만, 다음 해의 요금을 피하기 위해 구독이 종료되기 최소 24시간 전에 취소해야 합니다. 앱을 삭제해도 구독이 취소되지 않습니다. 도움이 필요하면 @provider 구독을 방문하세요. 알림 설정을 고려하세요."
 }

@@ -1,15 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import '../../../../controller/history_controller.dart';
 import '../../../../helper/image_download.dart';
-import '../../../../helper/navigation.dart';
-import '../../../../utils/style.dart';
+import '../../../../imports.dart';
 import '../../../base/confirmation_dialog.dart';
 
 class PromptOptionWidget extends StatelessWidget {
@@ -83,8 +78,7 @@ class PromptOptionWidget extends StatelessWidget {
 
   _deletePrompt(PromptResponse response) async {
     HistoryController.find.deletePrompt(response);
-    pop();
-    pop();
+    pop(2);
   }
 }
 

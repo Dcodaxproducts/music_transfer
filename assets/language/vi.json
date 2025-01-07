@@ -125,5 +125,8 @@
   "image_upload_failed": "Tải lên hình ảnh thất bại",
   "upload_image": "Tải lên hình ảnh",
   "remove_background": "Xóa nền",
-  "too_many_requests": "Rất tiếc! Quá nhiều yêu cầu. Vui lòng thử lại sau một lúc."
+  "too_many_requests": "Rất tiếc! Quá nhiều yêu cầu. Vui lòng thử lại sau một lúc.",
+  "success": "Thành công",
+  "error": "Lỗi",
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
 }

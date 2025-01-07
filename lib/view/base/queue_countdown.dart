@@ -14,10 +14,8 @@ class QueueCountdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: borderRadiusDefault,
-        color: Theme.of(context).hoverColor,
         border: Border(
           bottom: BorderSide(width: 0.5.sp, color: context.theme.scaffoldBackgroundColor),
         ),

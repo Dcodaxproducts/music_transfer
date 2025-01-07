@@ -25,4 +25,6 @@ abstract class ImageGenerationServiceInterface<T> {
   Future<void> cancelRequest();
 
   Future<bool> willShowFreeLimitDialog(int freeGenerations, int dailyGenerationCount);
+
+  int? getSeed(int? seed, Model? model);
 }

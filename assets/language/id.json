@@ -126,5 +126,8 @@
   "upload_image": "Unggah gambar",
   "remove_background": "Hapus latar belakang",
   "upscale_image": "Perbesar gambar",
-  "too_many_requests": "Ups! Terlalu banyak permintaan. Silakan coba lagi sebentar lagi."
+  "too_many_requests": "Ups! Terlalu banyak permintaan. Silakan coba lagi sebentar lagi.",
+  "success": "sukses",
+  "error": "kesalahan",
+  "subscription_agreement": "Dengan melanjutkan, Anda menyetujui Kebijakan Privasi kami. Hanya @price/@period yang akan ditagih melalui akun @provider Anda. Anda dapat membatalkan kapan saja, tetapi pastikan setidaknya 24 jam sebelum langganan berakhir untuk menghindari biaya tahun depan. Menghapus aplikasi tidak akan membatalkan langganan Anda. Untuk bantuan, kunjungi @provider Subscriptions. Pertimbangkan untuk mengatur pengingat."
 }

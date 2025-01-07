@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-pop() => Get.back();
+pop([int times = 1]) {
+  for (int i = 0; i < times; i++) {
+    Get.back();
+  }
+}
 
 /// Launch a new screen
 Future<dynamic> launchScreen(Widget child, {bool pushAndRemove = false, bool replace = false}) async {
@@ -9,9 +13,9 @@ Future<dynamic> launchScreen(Widget child, {bool pushAndRemove = false, bool rep
   if (pushAndRemove) {
     return Get.offAll(() => child, duration: duration, routeName: routeName(child));
   } else if (replace) {
-    return Get.off(() => child, duration: duration, routeName: routeName(child));
+    return Get.off(() => child, duration: duration, routeName: routeName(child), preventDuplicates: false);
   } else {
-    return Get.to(() => child, duration: duration, routeName: routeName(child));
+    return Get.to(() => child, duration: duration, routeName: routeName(child), preventDuplicates: false);
   }
 }
 

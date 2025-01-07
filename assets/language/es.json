@@ -126,5 +126,8 @@
   "upload_image": "Subir imagen",
   "remove_background": "Eliminar fondo",
   "upscale_image": "Aumentar imagen",
-  "too_many_requests": "¡Ups! Demasiadas solicitudes. Por favor, inténtelo de nuevo en un momento."
+  "too_many_requests": "¡Ups! Demasiadas solicitudes. Por favor, inténtelo de nuevo en un momento.",
+  "success": "éxito",
+  "error": "error",
+  "subscription_agreement": "Al continuar, aceptas nuestra Política de privacidad. Solo se te cobrará @price/@period a través de tu cuenta @provider. Puedes cancelar en cualquier momento, pero asegúrate de hacerlo al menos 24 horas antes de que finalice la suscripción para evitar cargos del próximo año. Eliminar la aplicación no cancelará tu suscripción. Para obtener ayuda, visita Suscripciones de @provider. Considera configurar un recordatorio."
 }

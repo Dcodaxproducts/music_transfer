@@ -125,5 +125,8 @@
   "image_upload_failed": "Încărcarea imaginii a eșuat",
   "upload_image": "Încărcați imaginea",
   "remove_background": "Eliminați fundalul",
-  "too_many_requests": "Hopa! Prea multe cereri. Vă rugăm să încercați din nou în câteva momente."
+  "too_many_requests": "Hopa! Prea multe cereri. Vă rugăm să încercați din nou în câteva momente.",
+  "success": "Succes",
+  "error": "Eroare",
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
 }

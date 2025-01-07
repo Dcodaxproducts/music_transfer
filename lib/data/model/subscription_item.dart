@@ -36,11 +36,12 @@ class SubscriptionItem {
     IAPItem? product = products.firstWhereOrNull((element) => element.productId == 'monthly_plan');
     String price = Platform.isIOS ? '\$23.99' : '\$14.99';
     String subtitlePrice = Platform.isIOS ? '\$5.99' : '\$3.99';
+    String promotionalText = Platform.isIOS ? '14% ${'off'.tr}' : '24% ${'off'.tr}';
     return SubscriptionItem(
       title: 'monthly',
       subtitle: '${'only'.tr} $subtitlePrice/ ${'week'.tr}, ${'enjoy_a_month_of_no_ads'.tr}!',
       price: product?.localizedPrice ?? price,
-      promotionText: '14% ${'off'.tr}',
+      promotionText: promotionalText,
       product: product,
     );
   }

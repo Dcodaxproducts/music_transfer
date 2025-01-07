@@ -106,15 +106,9 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     Model model = ImageGenerationUtils.getModel(modelValue);
 
-    AspectRatioModel size = ImageGenerationUtils.getAspectRatio();
-
     // replace prompt with original prompt
     value = value.copyWith(
-      meta: value.meta.copyWith(
-        prompt: prompt,
-        h: (size.height.toInt()) * (upscale ? 2 : 1),
-        w: (size.width.toInt()) * (upscale ? 2 : 1),
-      ),
+      meta: value.meta.copyWith(prompt: prompt, seed: ImageGenerationUtils.isTogetherAi(model) ? seed : null),
       createdAt: DateTime.now(),
       model: model,
     );
@@ -188,5 +182,14 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   @override
   Future<void> cancelRequest() async {
     await imageGenerationRepo.cancelRequest();
+  }
+
+  @override
+  int? getSeed(int? seed, Model? model) {
+    Model modelValue = ImageGenerationUtils.getModel(model);
+    if (seed == null && ImageGenerationUtils.isTogetherAi(modelValue)) {
+      return ImageGenerationUtils.generateSeed();
+    }
+    return seed;
   }
 }
