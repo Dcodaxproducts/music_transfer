@@ -21,10 +21,7 @@ class SettingModel {
         privacyPolicy: json["privacy_policy"]["value"],
         userAgreement: json["user_agreement"]["value"],
         cancelAnytime: json["cancel_anytime"]["value"],
-        freeGenerations: (Platform.isAndroid
-                ? json["free_generations"]
-                : json["ios_free_generations"]) ??
-            0,
+        freeGenerations: (Platform.isAndroid ? json["free_generations"] : json["ios_free_generations"]) ?? 0,
       );
 
   // to json

@@ -59,11 +59,11 @@ class AwsService implements AwsServiceInterface {
   }
 
   @override
-  Future<String?> downloadImageAndUploadToAWS(String url) async {
+  Future<String?> downloadImageAndUploadToAWS(String url, [String? prompt]) async {
     try {
       final Uint8List? response = await apiClient.downloadImage(url, hideLoading: false);
       if (response != null) {
-        return await uploadBytes(response);
+        return await uploadBytes(response, prompt);
       }
     } catch (e) {
       showToast('Error downloading and uploading file: $e');
@@ -71,7 +71,7 @@ class AwsService implements AwsServiceInterface {
     return null;
   }
 
-  Future<String?> uploadBytes(Uint8List bytes) async {
+  Future<String?> uploadBytes(Uint8List bytes, [String? prompt]) async {
     final String fileName = "${DateTime.now().millisecondsSinceEpoch}.jpeg";
     String? fileLink;
     try {
@@ -79,7 +79,7 @@ class AwsService implements AwsServiceInterface {
         AppConstants.AWS_BUCKET_NAME,
         'uploads/$fileName',
         Stream.value(bytes),
-        metadata: {'Content-Type': 'image/jpeg'},
+        metadata: {'Content-Type': 'image/jpeg', 'prompt': prompt ?? ''},
       );
       fileLink = _createFileLink(fileName);
     } catch (e) {

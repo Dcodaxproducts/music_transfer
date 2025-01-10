@@ -102,7 +102,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     GenerationController.find.incrementGenerationCount();
 
-    PromptResponse value = await ImageGenerationUtils.getPromptResponse(data);
+    PromptResponse value = await ImageGenerationUtils.getPromptResponse(data, prompt);
 
     Model model = ImageGenerationUtils.getModel(modelValue);
 

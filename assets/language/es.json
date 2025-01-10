@@ -129,5 +129,8 @@
   "too_many_requests": "¡Ups! Demasiadas solicitudes. Por favor, inténtelo de nuevo en un momento.",
   "success": "éxito",
   "error": "error",
-  "subscription_agreement": "Al continuar, aceptas nuestra Política de privacidad. Solo se te cobrará @price/@period a través de tu cuenta @provider. Puedes cancelar en cualquier momento, pero asegúrate de hacerlo al menos 24 horas antes de que finalice la suscripción para evitar cargos del próximo año. Eliminar la aplicación no cancelará tu suscripción. Para obtener ayuda, visita Suscripciones de @provider. Considera configurar un recordatorio."
+  "subscription_agreement": "Al continuar, aceptas nuestra Política de privacidad. Solo se te cobrará @price/@period a través de tu cuenta @provider. Puedes cancelar en cualquier momento, pero asegúrate de hacerlo al menos 24 horas antes de que finalice la suscripción para evitar cargos del próximo año. Eliminar la aplicación no cancelará tu suscripción. Para obtener ayuda, visita Suscripciones de @provider. Considera configurar un recordatorio.",
+  "free_limit_reached": "Límite gratuito alcanzado",
+  "free_limit_reached_message1": "Has alcanzado tu límite gratuito para hoy. Mira un anuncio para generar más imágenes o hazte profesional para eliminar el límite.",
+  "free_limit_reached_message2": "Has alcanzado tu límite gratuito para hoy. Vuelve mañana para generar más imágenes."
 }

@@ -128,5 +128,8 @@
   "too_many_requests": "Ops! Muitas solicitações. Por favor, tente novamente em um momento.",
   "success": "Sucesso",
   "error": "Erro",
-  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
+  "free_limit_reached": "Limite Gratuito Atingido",
+  "free_limit_reached_message1": "Você atingiu seu limite gratuito para hoje. Assista a um anúncio para gerar mais imagens ou vá para a versão pro para remover o limite.",
+  "free_limit_reached_message2": "Você atingiu seu limite gratuito para hoje. Por favor, volte amanhã para gerar mais imagens."
 }

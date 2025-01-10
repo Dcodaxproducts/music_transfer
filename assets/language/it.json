@@ -129,5 +129,8 @@
   "too_many_requests": "Ops! Troppe richieste. Per favore riprova tra un momento.",
   "success": "successo",
   "error": "errore",
-  "subscription_agreement": "Continuando, accetti la nostra Informativa sulla privacy. Solo @price/@period verranno addebitati tramite il tuo account @provider. Puoi annullare in qualsiasi momento, ma assicurati che sia almeno 24 ore prima della fine dell'abbonamento per evitare addebiti per l'anno successivo. Eliminare l'app non annullerà l'abbonamento. Per assistenza, visita @provider Subscriptions. Considera di impostare un promemoria."
+  "subscription_agreement": "Continuando, accetti la nostra Informativa sulla privacy. Solo @price/@period verranno addebitati tramite il tuo account @provider. Puoi annullare in qualsiasi momento, ma assicurati che sia almeno 24 ore prima della fine dell'abbonamento per evitare addebiti per l'anno successivo. Eliminare l'app non annullerà l'abbonamento. Per assistenza, visita @provider Subscriptions. Considera di impostare un promemoria.",
+  "free_limit_reached": "Limite gratuito raggiunto",
+  "free_limit_reached_message1": "Hai raggiunto il limite gratuito per oggi. Guarda un annuncio per generare altre immagini o passa a pro per rimuovere il limite.",
+  "free_limit_reached_message2": "Hai raggiunto il limite gratuito per oggi. Ricontrolla domani per generare altre immagini."
 }

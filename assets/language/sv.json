@@ -128,5 +128,8 @@
   "too_many_requests": "Oj! För många förfrågningar. Försök igen om en stund.",
   "success": "Framgång",
   "error": "Fel",
-  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
+  "free_limit_reached": "Gratisgräns nådd",
+  "free_limit_reached_message1": "Du har nått din gratisgräns för idag. Titta på en annons för att generera fler bilder eller gå pro för att ta bort gränsen.",
+  "free_limit_reached_message2": "Du har nått din gratisgräns för idag. Vänligen kom tillbaka imorgon för att generera fler bilder."
 }

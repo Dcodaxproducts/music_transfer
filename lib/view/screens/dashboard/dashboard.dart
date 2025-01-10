@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/controller/dashboard_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
+import 'package:matrix_ai/controller/subscription_controller.dart';
 import 'package:matrix_ai/view/base/confirmation_dialog.dart';
 import 'package:matrix_ai/view/base/subscription_button.dart';
 import '../../../utils/app_constants.dart';
@@ -13,7 +14,6 @@ import '../home/home.dart';
 import '../inspirations/inspirations.dart';
 import '../menu/menu.dart';
 import '../subscription/subscription.dart';
-import '../tools/tools.dart';
 import 'widgets/navigation_bar.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -27,21 +27,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<NavigationItem> _screens = [
     NavigationItem(icon: Iconsax.home, child: const HomeScreen()),
     NavigationItem(icon: Iconsax.activity, child: const InspirationScreen()),
-    NavigationItem(icon: Iconsax.category, child: const ToolScreen()),
+    // NavigationItem(icon: Iconsax.category, child: const ToolScreen()),
     NavigationItem(icon: Iconsax.setting, child: const MenuScreen()),
   ];
 
-  final List<String> _titles = [
-    AppConstants.APP_NAME,
-    'inspirations'.tr,
-    'tools'.tr,
-    'settings'.tr,
-  ];
+  // final List<String> _titles = [AppConstants.APP_NAME, 'inspirations'.tr, 'tools'.tr, 'settings'.tr];
+  final List<String> _titles = [AppConstants.APP_NAME, 'inspirations'.tr, 'settings'.tr];
 
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      showPremiumSheet();
+      if (SubscriptionController.find.products.isNotEmpty) {
+        Future.delayed(const Duration(seconds: 2), () => showPremiumSheet());
+      }
       SettingsController.find.saveShowAppOpen();
     });
     super.initState();
@@ -70,8 +68,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           appBar: AppBar(
             title: Text(_titles[currentIndex]),
             actions: [
-              const SubsriptionButton(),
-              SizedBox(width: 10.sp),
+              if (SubscriptionController.find.products.isNotEmpty) ...[
+                const SubsriptionButton(),
+                SizedBox(width: 10.sp),
+              ],
             ],
           ),
           body: Stack(

@@ -129,5 +129,8 @@
     "too_many_requests": "Oops! Too many requests. Please try again in a moment.",
     "success": "Success",
     "error": "Error",
-    "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
+    "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
+    "free_limit_reached": "Free Limit Reached",
+    "free_limit_reached_message1": "You have reached your free limit for today. Watch an ad to generate more images or go pro to remove the limit.",
+    "free_limit_reached_message2": "You have reached your free limit for today. Please check back tomorrow to generate more images."
 }

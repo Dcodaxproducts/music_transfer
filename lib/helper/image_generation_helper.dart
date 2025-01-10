@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
@@ -30,9 +31,11 @@ class ImageGenerationHelper {
 
   static bool _hasOffensiveWords() => SettingsController.find.hasOffensiveWords;
 
-  static Future<void> handleImageGeneration(String text,
-      {required Function(String, {bool showAds}) generateImage}) async {
-    if (Platform.isAndroid || SubscriptionController.find.isPro) {
+  static Future<void> handleImageGeneration(
+    String text, {
+    required Function(String, {bool showAds}) generateImage,
+  }) async {
+    if (SubscriptionController.find.isPro) {
       await _handleProOrAndroidUser(text, generateImage: generateImage);
     } else {
       _handleFreeUser(text, generateImage: generateImage);
@@ -70,12 +73,17 @@ class ImageGenerationHelper {
       if (GenerationController.find.dailyGenerationCount == 0) {
         generateImage(text, showAds: false);
       } else {
-        showAdsDialog(
-          onWatchAdPressed: () {
-            pop();
-            generateImage(text);
-          },
-        );
+        // for now we are showing ads only on iOS devices
+        if (Platform.isAndroid) {
+          generateImage(text);
+        } else {
+          showAdsDialog(
+            onWatchAdPressed: () {
+              pop();
+              generateImage(text);
+            },
+          );
+        }
       }
     }
   }

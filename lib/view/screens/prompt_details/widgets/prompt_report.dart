@@ -8,7 +8,6 @@ import 'package:matrix_ai/view/base/common/snackbar.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/utils/colors.dart';
 import 'package:matrix_ai/utils/style.dart';
-
 import '../../../../controller/image_generation_controller.dart';
 
 class PromptReportButton extends StatelessWidget {
@@ -66,10 +65,7 @@ class FeedbackDialog extends StatelessWidget {
                 Expanded(
                   child: PrimaryButton(
                     color: context.theme.cardColor,
-                    icon: Icon(
-                      Iconsax.dislike,
-                      color: context.theme.disabledColor,
-                    ),
+                    icon: Icon(Iconsax.dislike, color: context.theme.disabledColor),
                     text: "",
                     onPressed: showReportDialog,
                   ),
@@ -132,10 +128,7 @@ class _ReportingDialogState extends State<ReportingDialog> {
             RadioListTile<String>(
               visualDensity: VisualDensity.compact,
               activeColor: primaryColor, // Custom active color
-              title: Text(
-                "result_is_not_accurate".tr,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+              title: Text("result_is_not_accurate".tr, style: bodyLarge(context)),
               value: "not_accurate",
               groupValue: selectedOption,
               onChanged: (value) {
@@ -146,10 +139,7 @@ class _ReportingDialogState extends State<ReportingDialog> {
             ),
             RadioListTile<String>(
               activeColor: primaryColor,
-              title: Text(
-                "inappropriate_content".tr,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+              title: Text("inappropriate_content".tr, style: bodyLarge(context)),
               value: "inappropriate",
               groupValue: selectedOption,
               onChanged: (value) {

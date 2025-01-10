@@ -129,5 +129,8 @@
   "too_many_requests": "哎呀！请求太多。请稍后再试。",
   "success": "成功",
   "error": "错误",
-  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
+  "free_limit_reached": "达到免费限制",
+  "free_limit_reached_message1": "您今天已达到免费限制。观看广告以生成更多图像或升级到专业版以移除限制。",
+  "free_limit_reached_message2": "您今天已达到免费限制。请明天再来生成更多图像。"
 }

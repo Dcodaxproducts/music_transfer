@@ -129,5 +129,8 @@
   "too_many_requests": "Ой! Слишком много запросов. Пожалуйста, попробуйте еще раз через минуту.",
   "success": "Успех",
   "error": "Ошибка",
-  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
+  "free_limit_reached": "Достигнут бесплатный лимит",
+  "free_limit_reached_message1": "Вы достигли бесплатного лимита на сегодня. Посмотрите рекламу, чтобы создать больше изображений, или перейдите на профессиональную версию, чтобы снять ограничение.",
+  "free_limit_reached_message2": "Вы достигли бесплатного лимита на сегодня. Пожалуйста, вернитесь завтра, чтобы создать больше изображений."
 }

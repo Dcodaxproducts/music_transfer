@@ -129,5 +129,8 @@
   "upscale_image": "ปรับปรุงคุณภาพของภาพ",
   "success": "สำเร็จ",
   "error": "ข้อผิดพลาด",
-  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
+  "free_limit_reached": "ถึงขีดจำกัดฟรีแล้ว",
+  "free_limit_reached_message1": "คุณถึงขีดจำกัดฟรีสำหรับวันนี้แล้ว ดูโฆษณาเพื่อสร้างภาพเพิ่มเติมหรืออัปเกรดเป็นโปรเพื่อยกเลิกขีดจำกัด",
+  "free_limit_reached_message2": "คุณถึงขีดจำกัดฟรีสำหรับวันนี้แล้ว โปรดกลับมาตรวจสอบใหม่ในวันพรุ่งนี้เพื่อสร้างภาพเพิ่มเติม"
 }

@@ -36,6 +36,9 @@ dependencies:
   app_settings: ^5.1.1
   dotted_border: ^2.1.0
 
+  # Together AI
+  together_ai_sdk: ^2.0.2
+
   # AWS s3 bucket
   minio_flutter:
     path: packages/minio_flutter

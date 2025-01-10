@@ -129,13 +129,13 @@ class ImageGenerationUtils {
     return true;
   }
 
-  static Future<PromptResponse> getPromptResponse(Map<String, dynamic> data) async {
+  static Future<PromptResponse> getPromptResponse(Map<String, dynamic> data, [String? prompt]) async {
     if (data['status'] != null) {
       return PromptResponse.fromJson(data);
     } else {
       TogetherAiRespsonse response = TogetherAiRespsonse.fromJson(data);
       final List<String> urls = response.data.map((e) => e.url).toList();
-      String? imageUrl = await AwsController.find.downloadImageAndUploadToAWS(urls.first);
+      String? imageUrl = await AwsController.find.downloadImageAndUploadToAWS(urls.first, prompt);
       int randomSeed = Random(30).nextInt(10000);
       final promptResponse = PromptResponse(
         status: 'success',
