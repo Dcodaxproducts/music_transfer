@@ -31,11 +31,17 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Set up Flutter SDK
-        uses: flutter-actions/setup-flutter@v3
+      # Extract Flutter version from .fvmrc
+      - name: Extract Flutter Version
+        run: |
+          export FLUTTER_VERSION=$(cat .fvmrc | jq -r '.flutter')
+          echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
+
+      # Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          version: 3.19.6
+          flutter-version: "${{ env.FLUTTER_VERSION }}"
 
       - name: Install dependencies
         run: |
