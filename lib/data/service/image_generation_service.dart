@@ -150,10 +150,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     PromptResponse oldResponse = value;
 
     // prepare body
-    Map<String, dynamic> body = {
-      "key": value.model!.apiKey,
-      "request_id": value.id,
-    };
+    Map<String, dynamic> body = {"key": value.model!.apiKey, "request_id": value.id};
 
     // get queue url
     String url = value.model!.queueUrl;

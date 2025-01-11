@@ -135,7 +135,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
           aws-bucket: ${{ secrets.AWS_BUCKET_NAME }}
-          output-file-url: 'true' # specify true
+          output-file-url: "true" # specify true
           file-path: "build/app/outputs/bundle/release/${{env.RELEASE_AAB_NAME}}"
 
       # Upload Release APK to AWS S3
@@ -148,7 +148,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
           aws-bucket: ${{ secrets.AWS_BUCKET_NAME }}
-          output-file-url: 'true' # specify true
+          output-file-url: "true" # specify true
           file-path: "build/app/outputs/flutter-apk/${{env.RELEASE_APK_NAME}}"
 
       # Retrieve Public URLs
@@ -190,4 +190,5 @@ jobs:
             kanwalusm78@gmail.com,
             talhaali3390137@gmail.com,
             tahagujjar.tg@gmail.com,
-            dcodaxtester@gmail.com
+            dcodaxtester@gmail.com,
+            maqboolsaira7@gmail.com
