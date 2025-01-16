@@ -4,18 +4,17 @@ import 'dart:io';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:matrix_ai/data/repository/ad_repo_interface.dart';
+import 'package:matrix_ai/imports.dart';
 import '../../controller/subscription_controller.dart';
 import '../../utils/ads.dart';
-import '../../view/base/common/snackbar.dart';
 import '../../view/base/ads/ad_loading_dialog.dart';
 import '../../view/base/ads/native_ad.dart';
 import '../model/response/ad_model.dart';
 import '../model/response/model.dart';
 import 'ads_service_interface.dart';
+import 'package:easy_audience_network/easy_audience_network.dart' as meta;
 
 class AdsService implements AdsServiceInterface {
   final AdRepoInterface adRepo;
@@ -227,6 +226,7 @@ class AdsService implements AdsServiceInterface {
 
   @override
   Widget getBannerWidget(AdModel? ad) {
+    if (Platform.isAndroid) return getFacebookBannerWidget(ad);
     Widget adWidget = const SizedBox.shrink();
     // if ad is not null and active and type is interstitial
     if (ad != null && ad.active) {
@@ -251,6 +251,172 @@ class AdsService implements AdsServiceInterface {
       }
     }
     return adWidget;
+  }
+
+  // Facebook Ads
+
+  @override
+  Future<void> showFacebookInterstitial(String adId) async {
+    if (isPro) return; // Skip if user is Pro
+    showAdLoadingDialog();
+    meta.InterstitialAd? ad = await loadFacebookInterstitial(adId);
+    if (ad != null) {
+      await ad.show(); // Show the ad if loaded
+      ad.destroy(); // Clean up resources after showing
+    }
+    dismiss(); // Ensure the dialog is dismissed in all cases
+  }
+
+  Future<meta.InterstitialAd?> loadFacebookInterstitial(String adId) async {
+    if (isPro) return null; // Skip loading if user is Pro
+
+    Completer<meta.InterstitialAd?> completer = Completer();
+
+    // Create a new interstitial ad instance
+    final interstitialAd = meta.InterstitialAd(kDebugMode ? meta.InterstitialAd.testPlacementId : adId);
+
+    // Attach event listeners
+    interstitialAd.listener = meta.InterstitialAdListener(
+      onLoaded: () {
+        if (!completer.isCompleted) {
+          completer.complete(interstitialAd); // Complete with the loaded ad
+          FirebaseAnalytics.instance.logAdImpression();
+        }
+      },
+      onError: (code, error) {
+        if (!completer.isCompleted) {
+          completer.complete(null); // Complete with null on error
+        }
+        interstitialAd.destroy(); // Destroy the ad to release resources
+      },
+      onDismissed: () {
+        interstitialAd.destroy(); // Ensure the ad is destroyed after dismissal
+      },
+    );
+
+    // Attempt to load the ad
+    interstitialAd.load();
+
+    try {
+      return await completer.future.timeout(
+        const Duration(seconds: 4),
+        onTimeout: () {
+          if (!completer.isCompleted) {
+            completer.complete(null); // Timeout fallback returns null
+          }
+          interstitialAd.destroy(); // Clean up resources in case of timeout
+          return null;
+        },
+      );
+    } catch (e) {
+      interstitialAd.destroy(); // Ensure ad destruction on exception
+      return null; // Return null as a fallback
+    }
+  }
+
+  @override
+  Future<void> showFacebookRewardAd(String adId) async {
+    if (isPro) return; // Skip if user is Pro
+    showAdLoadingDialog();
+    meta.RewardedAd? ad = await loadFacebookRewardAd(adId);
+    if (ad != null) {
+      await ad.show(); // Show the ad if loaded
+      ad.destroy(); // Clean up resources after showing
+    }
+    dismiss(); // Ensure the dialog is dismissed in all cases
+  }
+
+  Future<meta.RewardedAd?> loadFacebookRewardAd(String adId) async {
+    if (isPro) return null; // Skip loading if user is Pro
+
+    Completer<meta.RewardedAd?> completer = Completer();
+
+    // Create a new interstitial ad instance
+    final rewardedAd = meta.RewardedAd(kDebugMode ? meta.RewardedAd.testPlacementId : adId);
+
+    // Attach event listeners
+    rewardedAd.listener = meta.RewardedAdListener(
+      onLoaded: () {
+        if (!completer.isCompleted) {
+          completer.complete(rewardedAd); // Complete with the loaded ad
+        }
+      },
+      onError: (code, error) {
+        if (!completer.isCompleted) {
+          completer.complete(null); // Complete with null on error
+        }
+        rewardedAd.destroy(); // Destroy the ad to release resources
+      },
+      onVideoComplete: () {
+        rewardedAd.destroy();
+        FirebaseAnalytics.instance.logAdImpression();
+      },
+      onVideoClosed: rewardedAd.destroy,
+    );
+
+    // Attempt to load the ad
+    rewardedAd.load();
+
+    try {
+      return await completer.future.timeout(
+        const Duration(seconds: 4),
+        onTimeout: () {
+          if (!completer.isCompleted) {
+            completer.complete(null); // Timeout fallback returns null
+          }
+          rewardedAd.destroy(); // Clean up resources in case of timeout
+          return null;
+        },
+      );
+    } catch (e) {
+      rewardedAd.destroy(); // Ensure ad destruction on exception
+      return null; // Return null as a fallback
+    }
+  }
+
+  @override
+  Widget getFacebookBannerWidget(AdModel? ad) {
+    Widget adWidget = const SizedBox.shrink();
+    // if ad is not null and active and type is interstitial
+    if (ad != null && ad.active) {
+      String adId = _getAdId(ad);
+
+      if (ad.type == AdType.banner) {
+        adWidget = meta.BannerAd(
+          placementId: kDebugMode ? meta.BannerAd.testPlacementId : adId,
+          bannerSize: meta.BannerSize.STANDARD,
+          listener: meta.BannerAdListener(
+            onLoggingImpression: FirebaseAnalytics.instance.logAdImpression,
+          ),
+        );
+      } else if (ad.type == AdType.native) {
+        adWidget = meta.NativeAd(
+          placementId: kDebugMode ? meta.NativeAd.testPlacementId : adId,
+          adType: meta.NativeAdType.NATIVE_AD,
+          width: double.infinity,
+          height: 300,
+          backgroundColor: primaryColor,
+          titleColor: Colors.white,
+          descriptionColor: Colors.white,
+          buttonColor: primaryColor,
+          buttonTitleColor: Colors.white,
+          buttonBorderColor: Colors.white,
+          keepAlive: true,
+          keepExpandedWhileLoading: true,
+          expandAnimationDuraion: 300,
+          listener: meta.NativeAdListener(
+            onLoggingImpression: FirebaseAnalytics.instance.logAdImpression,
+          ),
+        );
+      }
+    }
+    return adWidget;
+  }
+
+  @override
+  Future<meta.InterstitialAd?> showAppOpenFacebook(String adId) async {
+    if (isPro) return null; // Skip if user is Pro
+    return await loadFacebookInterstitial(adId);
   }
 
   _getAdId(AdModel ad) {

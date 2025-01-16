@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:matrix_ai/data/model/response/ad_model.dart';
+import 'package:easy_audience_network/easy_audience_network.dart' as meta;
 
 abstract class AdsServiceInterface {
   Future<List<AdModel>> getAdIds();
@@ -31,4 +32,13 @@ abstract class AdsServiceInterface {
   Future<RewardedAd?> loadRewardVideoAd(String adId);
 
   Future<InterstitialAd?> loadInterstitial(String adId);
+
+  // Facebook ads
+  Future<void> showFacebookInterstitial(String adId);
+
+  Future<void> showFacebookRewardAd(String adId);
+
+  Widget getFacebookBannerWidget(AdModel? ad);
+
+  Future<meta.InterstitialAd?> showAppOpenFacebook(String adId);
 }

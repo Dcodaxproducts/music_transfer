@@ -1,12 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/view/base/common/primary_button.dart';
+import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/controller/subscription_controller.dart';
-import 'package:matrix_ai/utils/style.dart';
 import 'package:matrix_ai/view/screens/home/widgets/models_view.dart';
 import '../../../controller/generation_controller.dart';
 import '../../../helper/image_generation_helper.dart';

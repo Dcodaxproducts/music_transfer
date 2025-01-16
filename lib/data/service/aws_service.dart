@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:matrix_ai/view/base/common/snackbar.dart';
+import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/data/api/api_client_interface.dart';
 import 'package:minio_flutter/minio.dart';
-import '../../utils/app_constants.dart';
 import 'aws_service_intereface.dart';
 
 class AwsService implements AwsServiceInterface {
@@ -66,7 +65,7 @@ class AwsService implements AwsServiceInterface {
         return await uploadBytes(response, prompt);
       }
     } catch (e) {
-      showToast('Error downloading and uploading file: $e');
+      debugPrint("Error downloading file: $e");
     }
     return null;
   }
@@ -83,7 +82,7 @@ class AwsService implements AwsServiceInterface {
       );
       fileLink = _createFileLink(fileName);
     } catch (e) {
-      showToast('Error uploading file: $e');
+      debugPrint("Error uploading file: $e");
     }
     return fileLink;
   }

@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:matrix_ai/controller/models_controller.dart';
 import '../../controller/aws_controller.dart';
@@ -12,10 +12,10 @@ import '../../controller/settings_controller.dart';
 import '../model/response/together_ai_response.dart';
 
 class ImageGenerationUtils {
-  static Future<bool> showAdAccordingToGeneration(int freeGenerations, int dailyGenerationCount) async {
-    // if generation feature is disabled or first generation is free
-    if (SettingsController.find.settingModel.freeGenerations == 0 || dailyGenerationCount == 0) {
-      return Future.value(true);
+  static Future<void> showAdAccordingToGeneration(int freeGenerations, int dailyGenerationCount) async {
+    // if first generation is free
+    if (dailyGenerationCount == 0) {
+      return;
     }
 
     //  show video or interstitial ad based on even or odd
@@ -24,7 +24,7 @@ class ImageGenerationUtils {
     } else {
       await AdsController.find.showOnGenerateInterstitial();
     }
-    return Future.value(true);
+    return;
   }
 
   static AspectRatioModel getAspectRatio() {
@@ -129,14 +129,18 @@ class ImageGenerationUtils {
     return true;
   }
 
-  static Future<PromptResponse> getPromptResponse(Map<String, dynamic> data, [String? prompt]) async {
+  static Future<PromptResponse> getPromptResponse(
+    Map<String, dynamic> data,
+    Model model,
+    String prompt,
+  ) async {
     if (data['status'] != null) {
       return PromptResponse.fromJson(data);
     } else {
       TogetherAiRespsonse response = TogetherAiRespsonse.fromJson(data);
       final List<String> urls = response.data.map((e) => e.url).toList();
       String? imageUrl = await AwsController.find.downloadImageAndUploadToAWS(urls.first, prompt);
-      int randomSeed = Random(30).nextInt(10000);
+      int randomSeed = math.Random(30).nextInt(10000);
       final promptResponse = PromptResponse(
         status: 'success',
         id: DateTime.now().millisecondsSinceEpoch,
@@ -146,7 +150,7 @@ class ImageGenerationUtils {
         futureLinks: [],
       );
       // if success and fast ai model then add delay of 4 seconds
-      return await Future.delayed(const Duration(seconds: 6), () => promptResponse);
+      return await Future.delayed(Duration(seconds: model.delay), () => promptResponse);
     }
   }
 
@@ -159,6 +163,6 @@ class ImageGenerationUtils {
   }
 
   static int generateSeed() {
-    return Random().nextInt(10000);
+    return math.Random().nextInt(10000);
   }
 }

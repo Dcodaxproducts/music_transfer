@@ -1,6 +1,24 @@
 # Changelog
 
-## [2.5] - 2023-12-11
+## iOS [2.6], android [1.7(10)] - 16-01-2025
+
+### Added
+
+- Facebook Ads for androidd
+
+### Changed
+
+- Delay on response connected with backend
+
+### Removed
+
+- N/A
+
+### Fixed
+
+- Ads will show even when unlimited generation is enabled from backend
+
+## iOS [2.5], android [1.6(9)] - 13-01-2025
 
 ### Added
 

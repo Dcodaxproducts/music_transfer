@@ -18,6 +18,7 @@ class Model {
   final ParameterMapping parametersMapping;
   final AdType? adType;
   final String? adId;
+  final int delay;
 
   Model({
     required this.id,
@@ -37,6 +38,7 @@ class Model {
     required this.parametersMapping,
     this.adType,
     this.adId,
+    this.delay = 0,
   });
 
   factory Model.fromJson(Map<String, dynamic> json) {
@@ -45,8 +47,7 @@ class Model {
       modelId: json['model_id'],
       name: json['name'],
       image: json['image'],
-      premium:
-          Platform.isAndroid ? json['premium'] : (json['ios_premium'] ?? false),
+      premium: Platform.isAndroid ? json['premium'] : (json['ios_premium'] ?? false),
       popular: json['popular'] ?? false,
       isDefault: json['default'] ?? false,
       shortDescription: json['short_desc'] ?? '',
@@ -59,6 +60,7 @@ class Model {
       parametersMapping: ParameterMapping.fromJson(json['parameters']),
       adType: AdTypeExtension.fromString(json['ad_type']),
       adId: json['ad_id'],
+      delay: json['delay'] != null ? int.parse(json['delay'].toString()) : 0,
     );
   }
 
@@ -81,6 +83,7 @@ class Model {
       'parameters': parametersMapping.toJson(),
       'ad_type': adType?.name,
       'ad_id': adId,
+      'delay': delay,
     };
   }
 }
@@ -129,14 +132,7 @@ class ParameterMapping {
   }
 }
 
-enum AdType {
-  reward,
-  interstital,
-  banner,
-  appOpen,
-  native,
-  rewardedInterstitial
-}
+enum AdType { reward, interstital, banner, appOpen, native, rewardedInterstitial }
 
 extension AdTypeExtension on AdType {
   String get name {

@@ -45,6 +45,7 @@ dependencies:
 
   # Admob
   google_mobile_ads: ^5.1.0 # do not change this version (xcode symbols not found issue) (pubspec.lock)
+  easy_audience_network: ^0.0.7
   app_tracking_transparency: ^2.0.6+1
 
   # Firebase

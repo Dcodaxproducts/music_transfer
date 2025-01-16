@@ -77,6 +77,7 @@ import '../data/service/inspiration_service.dart';
 import '../data/service/model_service.dart';
 import '../data/service/subscription_service.dart';
 import '../data/service/theme_service.dart';
+import 'package:easy_audience_network/easy_audience_network.dart';
 
 Future<Map<String, Map<String, String>>> init() async {
   // Core
@@ -84,7 +85,9 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => sharedPreferences, fenix: true);
   ApiClientInterface apiClient = ApiClient(prefs: Get.find());
   Get.lazyPut(() => apiClient, fenix: true);
-
+  if (GetPlatform.isAndroid) {
+    await EasyAudienceNetwork.init(testingId: '1abedfd3-166d-465c-bc36-1c9a59729f0d');
+  }
   // Repository
   ImageGenerationRepoInterface imageGenerationRepo =
       ImageGenerationRepo(apiClient: Get.find(), prefs: Get.find());

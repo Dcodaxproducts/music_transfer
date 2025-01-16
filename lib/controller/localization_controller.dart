@@ -4,7 +4,6 @@ import 'package:matrix_ai/data/model/language.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../data/service/localization_service_interface.dart';
 
 class LocalizationController extends GetxController implements GetxService {
@@ -56,8 +55,7 @@ class LocalizationController extends GetxController implements GetxService {
     } else {
       _selectedIndex = -1;
       _languages = AppConstants.languages
-          .where((language) =>
-              language.languageName.toLowerCase().contains(query.toLowerCase()))
+          .where((language) => language.languageName.toLowerCase().contains(query.toLowerCase()))
           .toList();
     }
     update();

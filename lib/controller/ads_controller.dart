@@ -7,6 +7,7 @@ import 'package:matrix_ai/data/service/ads_service_interface.dart';
 import '../data/model/response/ad_model.dart';
 import '../data/model/response/model.dart';
 import 'subscription_controller.dart';
+import 'package:easy_audience_network/easy_audience_network.dart' as meta;
 
 class AdsController extends GetxController {
   final AdsServiceInterface adsService;
@@ -38,7 +39,22 @@ class AdsController extends GetxController {
     // if ad is not null and active and type is appOpen
     if (ad != null && ad.type == AdType.appOpen && ad.active) {
       String adId = _getAdId(ad);
-      appOpenAd = await adsService.showAppOpen(adId);
+      if (Platform.isIOS) {
+        appOpenAd = await adsService.showAppOpen(adId);
+      }
+    }
+    return appOpenAd;
+  }
+
+  Future<meta.InterstitialAd?> showAppOpenAdFacebook() async {
+    meta.InterstitialAd? appOpenAd;
+    // get ad
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.appOpen);
+
+    // if ad is not null and active and type is appOpen
+    if (ad != null && ad.type == AdType.appOpen && ad.active) {
+      String adId = _getAdId(ad);
+      appOpenAd = await adsService.showAppOpenFacebook(adId);
     }
     return appOpenAd;
   }
@@ -51,29 +67,20 @@ class AdsController extends GetxController {
     if (ad != null && ad.active) {
       String adId = _getAdId(ad);
       if (ad.type == AdType.reward) {
-        await adsService.showRewardVideo(adId);
+        if (Platform.isIOS) {
+          await adsService.showRewardVideo(adId);
+        } else {
+          await adsService.showFacebookInterstitial(adId);
+        }
       }
       if (ad.type == AdType.rewardedInterstitial) {
-        await adsService.showRewardInterstitial(adId);
+        if (Platform.isIOS) {
+          await adsService.showRewardInterstitial(adId);
+        } else {
+          await adsService.showFacebookInterstitial(adId);
+        }
       }
     }
-  }
-
-  Future<dynamic> getOnGenerateVideo() async {
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.onGenerateVideo);
-
-    // if ad is not null and active and type is reward
-    if (ad != null && ad.active) {
-      String adId = _getAdId(ad);
-      if (ad.type == AdType.reward) {
-        return await adsService.loadRewardVideoAd(adId);
-      }
-      if (ad.type == AdType.rewardedInterstitial) {
-        return await adsService.loadRewardInterstitialAd(adId);
-      }
-    }
-    return null;
   }
 
   Future<void> showOnGenerateInterstitial() async {
@@ -83,7 +90,11 @@ class AdsController extends GetxController {
     // if ad is not null and active and type is interstitial
     if (ad != null && ad.type == AdType.interstital && ad.active) {
       String adId = _getAdId(ad);
-      await adsService.showInterstitial(adId);
+      if (Platform.isIOS) {
+        await adsService.showInterstitial(adId);
+      } else {
+        await adsService.showFacebookInterstitial(adId);
+      }
     }
   }
 

@@ -24,8 +24,8 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   final ImageGenerationRepoInterface imageGenerationRepo;
   ImageGenerationService({required this.imageGenerationRepo});
 
-  Future<bool> _showAds() async {
-    if (isPro) return Future.value(true);
+  Future<void> _showAds() async {
+    if (isPro) return Future.value();
     return ImageGenerationUtils.showAdAccordingToGeneration(
       SettingsController.find.settingModel.freeGenerations,
       GenerationController.find.dailyGenerationCount,
@@ -102,9 +102,9 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     GenerationController.find.incrementGenerationCount();
 
-    PromptResponse value = await ImageGenerationUtils.getPromptResponse(data, prompt);
-
     Model model = ImageGenerationUtils.getModel(modelValue);
+
+    PromptResponse value = await ImageGenerationUtils.getPromptResponse(data, model, prompt);
 
     // replace prompt with original prompt
     value = value.copyWith(
