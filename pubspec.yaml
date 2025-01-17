@@ -43,9 +43,12 @@ dependencies:
   minio_flutter:
     path: packages/minio_flutter
 
+  # Facebook ads 
+  easy_audience_network:
+    path: packages/audience_network_flutter
+
   # Admob
-  google_mobile_ads: ^5.1.0 # do not change this version (xcode symbols not found issue) (pubspec.lock)
-  easy_audience_network: ^0.0.7
+  google_mobile_ads: 5.1.0 # do not change this version (xcode symbols not found issue) (pubspec.lock)
   app_tracking_transparency: ^2.0.6+1
 
   # Firebase
@@ -64,7 +67,7 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
 dependency_overrides: 
-  win32: ^5.5.4 # fix for iOS build issue (pubspec.lock)
+  win32: 5.5.4 # fix for iOS build issue (pubspec.lock)
 
 # The following section is specific to Flutter packages.
 flutter:
