@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/controller/subscription_controller.dart';
 import 'package:matrix_ai/view/base/common/primary_button.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/utils/colors.dart';
@@ -47,13 +48,14 @@ class _AdsDialogState extends State<AdsDialog> {
             ),
             SizedBox(height: spacingSmall),
             Text(
-              "You're Using the Free Version".tr,
+              "you're_using_the_free_version".tr,
               style: bodyLarge(context).copyWith(fontWeight: FontWeight.w600),
             ),
             SizedBox(height: spacingDefault),
             Text(
-              "To keep this service free, ads are displayed during your experience. Upgrade to an Ad-free experience!"
-                  .tr,
+              SubscriptionController.find.products.isNotEmpty
+                  ? "${"to_keep_this_service_free_ads_are_displayed_during_your_experience".tr}${"upgrade_to_an_ad-free_experience".tr}"
+                  : "to_keep_this_service_free_ads_are_displayed_during_your_experience".tr,
               style: bodyMedium(context),
               textAlign: TextAlign.center,
             ),
@@ -61,9 +63,12 @@ class _AdsDialogState extends State<AdsDialog> {
               padding: EdgeInsets.only(top: spacingExtraLarge),
               child: Row(
                 children: [
-                  Expanded(child: PrimaryOutlineButton(text: 'Watch Ad', onPressed: widget.onWatchAdPressed)),
-                  SizedBox(width: spacingDefault),
-                  Expanded(child: PrimaryButton(text: 'Go Pro'.tr, onPressed: showPremiumSheet)),
+                  Expanded(
+                      child: PrimaryOutlineButton(text: 'watch_ad'.tr, onPressed: widget.onWatchAdPressed)),
+                  if (SubscriptionController.find.products.isNotEmpty) ...[
+                    SizedBox(width: spacingDefault),
+                    Expanded(child: PrimaryButton(text: 'go_pro'.tr, onPressed: showPremiumSheet)),
+                  ],
                 ],
               ),
             ),

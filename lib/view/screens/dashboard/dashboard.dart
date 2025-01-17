@@ -32,7 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   ];
 
   // final List<String> _titles = [AppConstants.APP_NAME, 'inspirations'.tr, 'tools'.tr, 'settings'.tr];
-  final List<String> _titles = [AppConstants.APP_NAME, 'inspirations'.tr, 'settings'.tr];
+  final List<String> _titles = [AppConstants.APP_NAME, 'inspirations', 'settings'];
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-            title: Text(_titles[currentIndex]),
+            title: Text(_titles[currentIndex].tr),
             actions: [
               if (SubscriptionController.find.products.isNotEmpty) ...[
                 const SubsriptionButton(),

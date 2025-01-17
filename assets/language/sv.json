@@ -131,5 +131,9 @@
   "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
   "free_limit_reached": "Gratisgräns nådd",
   "free_limit_reached_message1": "Du har nått din gratisgräns för idag. Titta på en annons för att generera fler bilder eller gå pro för att ta bort gränsen.",
-  "free_limit_reached_message2": "Du har nått din gratisgräns för idag. Vänligen kom tillbaka imorgon för att generera fler bilder."
+  "free_limit_reached_message2": "Du har nått din gratisgräns för idag. Vänligen kom tillbaka imorgon för att generera fler bilder.",
+  "you're_using_the_free_version": "Du använder gratisversionen",
+  "to_keep_this_service_free_ads_are_displayed_during_your_experience": "För att hålla denna tjänst gratis visas annonser under din upplevelse.",
+  "upgrade_to_an_ad_free_experience": "Uppgradera till en annonsfri upplevelse!",
+  "watch_ad": "Titta på annons"
 }

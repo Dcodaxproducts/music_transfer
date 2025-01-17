@@ -131,5 +131,9 @@
   "free_limit_reached": "Đạt giới hạn miễn phí",
   "free_limit_reached_message1": "Bạn đã đạt đến giới hạn miễn phí cho hôm nay. Xem quảng cáo để tạo thêm hình ảnh hoặc nâng cấp lên phiên bản chuyên nghiệp để loại bỏ giới hạn.",
   "free_limit_reached_message2": "Bạn đã đạt đến giới hạn miễn phí cho hôm nay. Vui lòng quay lại vào ngày mai để tạo thêm hình ảnh.",
-  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
+  "you're_using_the_free_version": "Bạn đang sử dụng phiên bản miễn phí",
+  "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Để giữ dịch vụ này miễn phí, quảng cáo sẽ được hiển thị trong quá trình trải nghiệm của bạn.",
+  "upgrade_to_an_ad_free_experience": "Nâng cấp để trải nghiệm không có quảng cáo!",
+  "watch_ad": "Xem quảng cáo"
 }

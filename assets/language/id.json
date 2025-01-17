@@ -132,5 +132,9 @@
   "subscription_agreement": "Dengan melanjutkan, Anda menyetujui Kebijakan Privasi kami. Hanya @price/@period yang akan ditagih melalui akun @provider Anda. Anda dapat membatalkan kapan saja, tetapi pastikan setidaknya 24 jam sebelum langganan berakhir untuk menghindari biaya tahun depan. Menghapus aplikasi tidak akan membatalkan langganan Anda. Untuk bantuan, kunjungi @provider Subscriptions. Pertimbangkan untuk mengatur pengingat.",
   "free_limit_reached": "Batas Gratis Tercapai",
   "free_limit_reached_message1": "Anda telah mencapai batas gratis untuk hari ini. Tonton iklan untuk menghasilkan lebih banyak gambar atau beralih ke pro untuk menghapus batas.",
-  "free_limit_reached_message2": "Anda telah mencapai batas gratis untuk hari ini. Silakan periksa kembali besok untuk menghasilkan lebih banyak gambar."
+  "free_limit_reached_message2": "Anda telah mencapai batas gratis untuk hari ini. Silakan periksa kembali besok untuk menghasilkan lebih banyak gambar.",
+  "you're_using_the_free_version": "Anda menggunakan versi gratis",
+  "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Untuk menjaga layanan ini tetap gratis, iklan ditampilkan selama pengalaman Anda.",
+  "upgrade_to_an_ad_free_experience": "Tingkatkan ke pengalaman bebas iklan!",
+  "watch_ad": "Tonton Iklan"
 }

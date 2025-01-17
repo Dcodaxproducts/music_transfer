@@ -132,5 +132,9 @@
   "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
   "free_limit_reached": "Had Percuma Dicapai",
   "free_limit_reached_message1": "Anda telah mencapai had percuma untuk hari ini. Tonton iklan untuk menjana lebih banyak imej atau pergi pro untuk mengalih keluar had.",
-  "free_limit_reached_message2": "Anda telah mencapai had percuma untuk hari ini. Sila semak semula esok untuk menjana lebih banyak imej."
+  "free_limit_reached_message2": "Anda telah mencapai had percuma untuk hari ini. Sila semak semula esok untuk menjana lebih banyak imej.",
+  "you're_using_the_free_version": "Anda menggunakan versi percuma",
+  "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Untuk memastikan perkhidmatan ini percuma, iklan dipaparkan semasa pengalaman anda.",
+  "upgrade_to_an_ad_free_experience": "Tingkatkan kepada pengalaman tanpa iklan!",
+  "watch_ad": "Tonton Iklan"
 }

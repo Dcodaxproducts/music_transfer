@@ -132,5 +132,9 @@
   "subscription_agreement": "Indem Sie fortfahren, stimmen Sie unserer Datenschutzrichtlinie zu. Nur {price}/{period} werden über Ihr Google-Konto abgerechnet. Sie können jederzeit kündigen, stellen Sie jedoch sicher, dass dies mindestens 24 Stunden vor Ablauf des Abonnements erfolgt, um Gebühren für das nächste Jahr zu vermeiden. Das Löschen der App beendet Ihr Abonnement nicht. Besuchen Sie für Hilfe Google Play-Abonnements. Erwägen Sie, eine Erinnerung einzurichten.",
   "free_limit_reached": "Kostenloses Limit erreicht",
   "free_limit_reached_message1": "Sie haben Ihr kostenloses Limit für heute erreicht. Sehen Sie sich eine Anzeige an, um weitere Bilder zu generieren, oder wechseln Sie zu Pro, um das Limit zu entfernen.",
-  "free_limit_reached_message2": "Sie haben Ihr kostenloses Limit für heute erreicht. Bitte kommen Sie morgen wieder, um weitere Bilder zu generieren."
+  "free_limit_reached_message2": "Sie haben Ihr kostenloses Limit für heute erreicht. Bitte kommen Sie morgen wieder, um weitere Bilder zu generieren.",
+  "you're_using_the_free_version": "Sie verwenden die kostenlose Version",
+  "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Um diesen Dienst kostenlos zu halten, werden während Ihrer Nutzung Anzeigen angezeigt.",
+  "upgrade_to_an_ad_free_experience": "Wechseln Sie zu einem werbefreien Erlebnis!",
+  "watch_ad": "Anzeige ansehen"
 }

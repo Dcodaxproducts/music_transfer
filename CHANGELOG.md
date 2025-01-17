@@ -5,10 +5,12 @@
 ### Added
 
 - Facebook Ads for androidd
+- Translations for main pages titles
 
 ### Changed
 
 - Delay on response connected with backend
+- Watch ad dialog for android and iOS (text and button)
 
 ### Removed
 

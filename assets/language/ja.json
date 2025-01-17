@@ -132,5 +132,9 @@
   "subscription_agreement": "続行することで、プライバシーポリシーに同意したことになります。@provider アカウントを通じてのみ @price/@period が請求されます。いつでもキャンセルできますが、次の年の料金を回避するために、サブスクリプションが終了する少なくとも 24 時間前にキャンセルしてください。アプリを削除してもサブスクリプションはキャンセルされません。サポートが必要な場合は、@provider サブスクリプションをご覧ください。リマインダーを設定することを検討してください。",
   "free_limit_reached": "無料制限に達しました",
   "free_limit_reached_message1": "本日の無料制限に達しました。広告を見てさらに画像を生成するか、プロに移行して制限を解除してください。",
-  "free_limit_reached_message2": "本日の無料制限に達しました。明日再度確認してさらに画像を生成してください。"
+  "free_limit_reached_message2": "本日の無料制限に達しました。明日再度確認してさらに画像を生成してください。",
+  "you're_using_the_free_version": "無料版を使用しています",
+  "to_keep_this_service_free_ads_are_displayed_during_your_experience": "このサービスを無料で提供するために、使用中に広告が表示されます。",
+  "upgrade_to_an_ad_free_experience": "広告なしの体験にアップグレード！",
+  "watch_ad": "広告を見る"
 }

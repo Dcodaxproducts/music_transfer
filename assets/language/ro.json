@@ -131,5 +131,9 @@
   "free_limit_reached": "Limită gratuită atinsă",
   "free_limit_reached_message1": "Ați atins limita gratuită pentru astăzi. Urmăriți un anunț pentru a genera mai multe imagini sau treceți la versiunea pro pentru a elimina limita.",
   "free_limit_reached_message2": "Ați atins limita gratuită pentru astăzi. Vă rugăm să reveniți mâine pentru a genera mai multe imagini.",
-  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder."
+  "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
+  "you're_using_the_free_version": "Utilizați versiunea gratuită",
+  "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Pentru a menține acest serviciu gratuit, anunțurile sunt afișate în timpul experienței dvs.",
+  "upgrade_to_an_ad_free_experience": "Faceți upgrade la o experiență fără reclame!",
+  "watch_ad": "Urmăriți anunțul"
 }

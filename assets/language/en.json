@@ -132,5 +132,9 @@
     "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
     "free_limit_reached": "Free Limit Reached",
     "free_limit_reached_message1": "You have reached your free limit for today. Watch an ad to generate more images or go pro to remove the limit.",
-    "free_limit_reached_message2": "You have reached your free limit for today. Please check back tomorrow to generate more images."
+    "free_limit_reached_message2": "You have reached your free limit for today. Please check back tomorrow to generate more images.",
+    "you're_using_the_free_version": "You're Using the Free Version",
+    "to_keep_this_service_free_ads_are_displayed_during_your_experience": "To keep this service free, ads are displayed during your experience.",
+    "upgrade_to_an_ad-free_experience": "Upgrade to an Ad-free experience!",
+    "watch_ad": "Watch Ad"
 }

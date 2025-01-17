@@ -131,5 +131,9 @@
   "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
   "free_limit_reached": "Limite Gratuito Atingido",
   "free_limit_reached_message1": "Você atingiu seu limite gratuito para hoje. Assista a um anúncio para gerar mais imagens ou vá para a versão pro para remover o limite.",
-  "free_limit_reached_message2": "Você atingiu seu limite gratuito para hoje. Por favor, volte amanhã para gerar mais imagens."
+  "free_limit_reached_message2": "Você atingiu seu limite gratuito para hoje. Por favor, volte amanhã para gerar mais imagens.",
+  "you're_using_the_free_version": "Você está usando a versão gratuita",
+  "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Para manter este serviço gratuito, os anúncios são exibidos durante a sua experiência.",
+  "upgrade_to_an_ad_free_experience": "Atualize para uma experiência sem anúncios!",
+  "watch_ad": "Assistir anúncio"
 }

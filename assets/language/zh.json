@@ -132,5 +132,9 @@
   "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
   "free_limit_reached": "达到免费限制",
   "free_limit_reached_message1": "您今天已达到免费限制。观看广告以生成更多图像或升级到专业版以移除限制。",
-  "free_limit_reached_message2": "您今天已达到免费限制。请明天再来生成更多图像。"
+  "free_limit_reached_message2": "您今天已达到免费限制。请明天再来生成更多图像。",
+  "you're_using_the_free_version": "您正在使用免费版本",
+  "to_keep_this_service_free_ads_are_displayed_during_your_experience": "为了保持此服务免费，您的体验过程中会显示广告。",
+  "upgrade_to_an_ad_free_experience": "升级到无广告体验！",
+  "watch_ad": "观看广告"
 }
