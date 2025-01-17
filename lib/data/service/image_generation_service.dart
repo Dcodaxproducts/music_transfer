@@ -18,7 +18,7 @@ import '../model/body/aspect_ratio.dart';
 import '../model/response/models_lab_response.dart';
 import '../model/response/model.dart';
 import '../utils/image_generation_utils.dart';
-import 'image_generation_service_interface.dart';
+import 'image_generation_service_interface.dart'; 
 
 class ImageGenerationService implements ImageGenerationServiceInterface {
   final ImageGenerationRepoInterface imageGenerationRepo;
