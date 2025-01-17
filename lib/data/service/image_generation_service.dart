@@ -104,7 +104,9 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     Model model = ImageGenerationUtils.getModel(modelValue);
 
-    PromptResponse value = await ImageGenerationUtils.getPromptResponse(data, model, prompt);
+    PromptResponse value = await ImageGenerationUtils.getPromptResponse(data, prompt);
+
+    await Future.delayed(Duration(seconds: model.delay), () => value);
 
     // replace prompt with original prompt
     value = value.copyWith(

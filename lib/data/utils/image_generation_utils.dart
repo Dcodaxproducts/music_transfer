@@ -129,11 +129,7 @@ class ImageGenerationUtils {
     return true;
   }
 
-  static Future<PromptResponse> getPromptResponse(
-    Map<String, dynamic> data,
-    Model model,
-    String prompt,
-  ) async {
+  static Future<PromptResponse> getPromptResponse(Map<String, dynamic> data, String prompt) async {
     if (data['status'] != null) {
       return PromptResponse.fromJson(data);
     } else {
@@ -150,7 +146,7 @@ class ImageGenerationUtils {
         futureLinks: [],
       );
       // if success and fast ai model then add delay of 4 seconds
-      return await Future.delayed(Duration(seconds: model.delay), () => promptResponse);
+      return promptResponse;
     }
   }
 
