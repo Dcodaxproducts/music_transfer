@@ -1,6 +1,3 @@
-#
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
 Pod::Spec.new do |s|
   s.name             = 'easy_audience_network'
   s.version          = '0.0.7'
@@ -19,6 +16,8 @@ Facebook Audience Network plugin for Flutter application
 
   s.static_framework = true
   s.swift_version = '5.0'
-  s.ios.deployment_target = '12.0'
-end
+  s.ios.deployment_target = '13.0'
 
+  # Add CoreAudioTypes framework explicitly
+  s.frameworks = ['CoreAudioTypes']
+end
