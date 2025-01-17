@@ -34,7 +34,7 @@ class AwsService implements AwsServiceInterface {
       }
     } catch (e) {
       // Throw bucket creation error
-      throw Exception('Error checking or creating bucket: $e');
+      debugPrint('Error checking or creating bucket: $e');
     }
   }
 
