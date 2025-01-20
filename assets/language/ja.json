@@ -136,5 +136,15 @@
   "you're_using_the_free_version": "無料版を使用しています",
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "このサービスを無料で提供するために、使用中に広告が表示されます。",
   "upgrade_to_an_ad_free_experience": "広告なしの体験にアップグレード！",
-  "watch_ad": "広告を見る"
+  "watch_ad": "広告を見る",
+  "invalid_api_key": "無効な API キーが提供されました。資格情報を確認してください。",
+  "bad_request": "リクエストが無効です。パラメータを確認して、もう一度やり直してください。",
+  "not_found": "要求されたリソースが見つかりませんでした。URL を確認して、もう一度やり直してください。",
+  "rate_limit_exceeded": "レート制限を超えました。しばらく待ってから再度リクエストしてください。",
+  "invalid_request": "リクエストが無効です。パラメータを確認して、もう一度やり直してください。",
+  "engine_overloaded": "サーバーが過負荷状態です。後でもう一度やり直してください。",
+  "timeout": "リクエストがタイムアウトしました。インターネット接続を確認して、もう一度やり直してください。",
+  "server_error": "内部サーバー エラーが発生しました。後でもう一度やり直してください。",
+  "connection_timeout": "接続がタイムアウトしました。インターネット接続を確認して、もう一度やり直してください。",
+  "unknown_error": "不明なエラーが発生しました。後でもう一度やり直してください。"
 }

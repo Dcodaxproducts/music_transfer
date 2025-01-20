@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:http/http.dart';
+import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../api/api_client_interface.dart';
 import 'image_generation_repo_interface.dart';
@@ -10,10 +11,7 @@ class ImageGenerationRepo implements ImageGenerationRepoInterface {
   final ApiClientInterface apiClient;
   final SharedPreferences prefs;
 
-  ImageGenerationRepo({
-    required this.apiClient,
-    required this.prefs,
-  });
+  ImageGenerationRepo({required this.apiClient, required this.prefs});
 
   @override
   Future<Response?> generateImages({
@@ -48,5 +46,10 @@ class ImageGenerationRepo implements ImageGenerationRepoInterface {
   @override
   Future<void> cancelRequest() async {
     await apiClient.cancelRequest();
+  }
+
+  @override
+  Future<Response?> getTogetherApiKey() async {
+    return await apiClient.get(AppConstants.TOGETHER_API_KEY, hideLoading: false);
   }
 }

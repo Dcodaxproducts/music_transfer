@@ -11,7 +11,7 @@ class AwsController extends GetxController implements GetxService {
   void initAWS() => awsService.init();
 
   Future<String?> uploadFile(File file) async {
-    return await awsService.uploadFile(file);
+    return await awsService.uploadBytes(file.readAsBytesSync());
   }
 
   Future<String?> downloadImageAndUploadToAWS(String url, [String? prompt]) async {

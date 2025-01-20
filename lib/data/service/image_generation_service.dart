@@ -7,6 +7,7 @@ import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:matrix_ai/controller/settings_controller.dart';
+import 'package:matrix_ai/data/model/response/api_model.dart';
 import 'package:matrix_ai/data/repository/image_generation_repo_interface.dart';
 import 'package:matrix_ai/utils/images.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -18,7 +19,7 @@ import '../model/body/aspect_ratio.dart';
 import '../model/response/models_lab_response.dart';
 import '../model/response/model.dart';
 import '../utils/image_generation_utils.dart';
-import 'image_generation_service_interface.dart'; 
+import 'image_generation_service_interface.dart';
 
 class ImageGenerationService implements ImageGenerationServiceInterface {
   final ImageGenerationRepoInterface imageGenerationRepo;
@@ -51,6 +52,26 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   }
 
   @override
+  Future<ApiKeyModel?> getTogetherApiKey(
+    Model? modelValue, {
+    bool upscale = false,
+    bool faceFix = false,
+  }) async {
+    showPromptLoading(facefix: faceFix, upscale: upscale);
+    Model model = ImageGenerationUtils.getModel(modelValue);
+    bool isTogetherAi = ImageGenerationUtils.isTogetherAi(model);
+    await Future.delayed(Duration(seconds: model.delay));
+    if (isTogetherAi) {
+      http.Response? response = await imageGenerationRepo.getTogetherApiKey();
+      if (response != null) {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        return ApiKeyModel.fromJson(data);
+      }
+    }
+    return null;
+  }
+
+  @override
   Future<http.Response?> generateImages(
     String prompt, {
     int? seed,
@@ -58,6 +79,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     bool faceFix = false,
     Model? modelValue,
     bool showAds = true,
+    String? apiKey,
   }) async {
     // show ads
     if (showAds) {
@@ -66,8 +88,6 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     // get model (selected or from models list)
     Model model = ImageGenerationUtils.getModel(modelValue);
-
-    showPromptLoading(facefix: faceFix, upscale: upscale);
 
     // get aspect ratio
     AspectRatioModel size = ImageGenerationUtils.getAspectRatio();
@@ -80,7 +100,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     // create request body (parameters to send to the api)
     Map<String, dynamic> body =
-        ImageGenerationUtils.createRequestBody(prompt, size, model, seed, upscale, faceFix);
+        ImageGenerationUtils.createRequestBody(prompt, size, model, seed, upscale, faceFix, apiKey);
 
     // send request to api
     return await imageGenerationRepo.generateImages(url: apiUrl, body: body, headers: headers);
@@ -105,8 +125,6 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     Model model = ImageGenerationUtils.getModel(modelValue);
 
     PromptResponse value = await ImageGenerationUtils.getPromptResponse(data, prompt);
-
-    await Future.delayed(Duration(seconds: model.delay), () => value);
 
     // replace prompt with original prompt
     value = value.copyWith(

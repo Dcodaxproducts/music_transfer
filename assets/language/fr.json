@@ -136,5 +136,15 @@
   "you're_using_the_free_version": "Vous utilisez la version gratuite",
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Pour maintenir ce service gratuit, des publicités sont affichées pendant votre expérience.",
   "upgrade_to_an_ad_free_experience": "Passez à une expérience sans publicité !",
-  "watch_ad": "Regarder l'annonce"
+  "watch_ad": "Regarder l'annonce",
+  "invalid_api_key": "Clé API invalide fournie. Veuillez vérifier vos informations d'identification.",
+  "bad_request": "La demande est invalide. Veuillez vérifier les paramètres et réessayer.",
+  "not_found": "La ressource demandée est introuvable. Veuillez vérifier l'URL et réessayer.",
+  "rate_limit_exceeded": "Limite de taux dépassée. Veuillez patienter un moment avant de faire plus de demandes.",
+  "invalid_request": "La demande est invalide. Veuillez vérifier les paramètres et réessayer.",
+  "engine_overloaded": "Le serveur est actuellement surchargé. Veuillez réessayer plus tard.",
+  "timeout": "La demande a expiré. Veuillez vérifier votre connexion Internet et réessayer.",
+  "server_error": "Une erreur interne du serveur s'est produite. Veuillez réessayer plus tard.",
+  "connection_timeout": "La connexion a expiré. Veuillez vérifier votre connexion Internet et réessayer.",
+  "unknown_error": "Une erreur inconnue s'est produite. Veuillez réessayer plus tard."
 }

@@ -3,7 +3,9 @@ import 'package:matrix_ai/controller/generation_controller.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/controller/subscription_controller.dart';
+import 'package:matrix_ai/data/api/together_ai_error.dart';
 import 'package:matrix_ai/view/base/ads/ads_dialog.dart';
+import 'package:matrix_ai/view/base/common/together_ai_error_dialog.dart';
 import 'package:matrix_ai/view/screens/prompt_details/prompt_details.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/view/base/common/snackbar.dart';
@@ -19,7 +21,7 @@ class ImageGenerationHelper {
     if (_isPromptEmpty(text)) {
       showToast('please_enter_prompt'.tr);
     } else if (_hasOffensiveWords()) {
-      showToast('please_remove_offensive_words'.tr);
+      showTogetherAiErrorDialog(BadRequest('please_remove_offensive_words'.tr));
     } else {
       handleImageGeneration(text);
     }

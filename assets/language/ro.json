@@ -135,5 +135,15 @@
   "you're_using_the_free_version": "Utilizați versiunea gratuită",
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Pentru a menține acest serviciu gratuit, anunțurile sunt afișate în timpul experienței dvs.",
   "upgrade_to_an_ad_free_experience": "Faceți upgrade la o experiență fără reclame!",
-  "watch_ad": "Urmăriți anunțul"
+  "watch_ad": "Urmăriți anunțul",
+  "invalid_api_key": "Cheie API nevalidă furnizată. Vă rugăm să verificați acreditările.",
+  "bad_request": "Cererea a fost invalidă. Vă rugăm să verificați parametrii și să încercați din nou.",
+  "not_found": "Resursa solicitată nu a fost găsită. Vă rugăm să verificați URL-ul și să încercați din nou.",
+  "rate_limit_exceeded": "Limita de rată depășită. Vă rugăm să așteptați puțin înainte de a face mai multe cereri.",
+  "invalid_request": "Cererea a fost invalidă. Vă rugăm să verificați parametrii și să încercați din nou.",
+  "engine_overloaded": "Serverul este suprasolicitat. Vă rugăm să încercați din nou mai târziu.",
+  "timeout": "Cererea a expirat. Vă rugăm să verificați conexiunea la internet și să încercați din nou.",
+  "server_error": "A apărut o eroare internă a serverului. Vă rugăm să încercați din nou mai târziu.",
+  "connection_timeout": "Conexiunea a expirat. Vă rugăm să verificați conexiunea la internet și să încercați din nou.",
+  "unknown_error": "A apărut o eroare necunoscută. Vă rugăm să încercați din nou mai târziu."
 }

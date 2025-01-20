@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:matrix_ai/controller/settings_controller.dart';
+import 'package:matrix_ai/data/model/response/api_model.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:matrix_ai/data/model/response/model.dart';
 import 'package:matrix_ai/data/service/image_generation_service_interface.dart';
@@ -32,7 +31,10 @@ class ImageGenerationController extends GetxController implements GetxService {
     bool showAds = true,
   }) async {
     seed = imageGenerationServiceInterface.getSeed(seed, model);
-    log('seed: $seed');
+
+    ApiKeyModel? apiKeyModel = await imageGenerationServiceInterface.getTogetherApiKey(model);
+
+    //
     http.Response? response = await imageGenerationServiceInterface.generateImages(
       prompt,
       seed: seed,
@@ -40,7 +42,10 @@ class ImageGenerationController extends GetxController implements GetxService {
       faceFix: faceFix,
       modelValue: model,
       showAds: showAds,
+      apiKey: apiKeyModel?.apiKey,
     );
+
+    //
     PromptResponse? value = await imageGenerationServiceInterface.processGenerationResponse(
         response, prompt, model, upscale, seed);
 

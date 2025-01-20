@@ -135,5 +135,15 @@
   "you're_using_the_free_version": "Ücretsiz sürümü kullanıyorsunuz",
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Bu hizmeti ücretsiz tutmak için, deneyiminiz sırasında reklamlar gösterilir.",
   "upgrade_to_an_ad_free_experience": "Reklamsız bir deneyime yükseltin!",
-  "watch_ad": "Reklam İzle"
+  "watch_ad": "Reklam İzle",
+  "invalid_api_key": "Geçersiz API anahtarı sağlandı. Lütfen kimlik bilgilerinizi kontrol edin.",
+  "bad_request": "İstek geçersiz. Lütfen parametreleri kontrol edin ve tekrar deneyin.",
+  "not_found": "İstenen kaynak bulunamadı. Lütfen URL'yi kontrol edin ve tekrar deneyin.",
+  "rate_limit_exceeded": "Hız sınırı aşıldı. Lütfen daha fazla istek yapmadan önce biraz bekleyin.",
+  "invalid_request": "İstek geçersiz. Lütfen parametreleri kontrol edin ve tekrar deneyin.",
+  "engine_overloaded": "Sunucu şu anda aşırı yüklü. Lütfen daha sonra tekrar deneyin.",
+  "timeout": "İstek zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.",
+  "server_error": "Dahili sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin.",
+  "connection_timeout": "Bağlantı zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.",
+  "unknown_error": "Bilinmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 }

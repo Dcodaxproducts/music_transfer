@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/data/api/api_client_interface.dart';
@@ -39,25 +38,6 @@ class AwsService implements AwsServiceInterface {
   }
 
   @override
-  Future<String?> uploadFile(File file) async {
-    final String fileName = "${DateTime.now().millisecondsSinceEpoch}.jpeg";
-    String? fileLink;
-    try {
-      await Minio.shared.putObject(
-        AppConstants.AWS_BUCKET_NAME,
-        'uploads/$fileName',
-        Stream.value(file.readAsBytesSync()),
-        size: file.lengthSync(),
-        metadata: {'Content-Type': 'image/jpeg'},
-      );
-      fileLink = _createFileLink(fileName);
-    } catch (e) {
-      showToast('Error uploading file: $e');
-    }
-    return fileLink;
-  }
-
-  @override
   Future<String?> downloadImageAndUploadToAWS(String url, [String? prompt]) async {
     try {
       final Uint8List? response = await apiClient.downloadImage(url, hideLoading: false);
@@ -70,6 +50,7 @@ class AwsService implements AwsServiceInterface {
     return null;
   }
 
+  @override
   Future<String?> uploadBytes(Uint8List bytes, [String? prompt]) async {
     final String fileName = "${DateTime.now().millisecondsSinceEpoch}.jpeg";
     String? fileLink;

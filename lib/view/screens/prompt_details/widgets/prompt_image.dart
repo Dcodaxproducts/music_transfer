@@ -3,7 +3,6 @@ import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import '../../../../imports.dart';
 import '../../../base/common/network_image.dart';
 import '../../../base/view_image.dart';
-import 'prompt_edit.dart';
 import 'prompt_report.dart';
 
 class PromptImageWidget extends StatelessWidget {
@@ -39,7 +38,7 @@ class PromptImageWidget extends StatelessWidget {
               ),
 
               const BackButton(),
-              const PromptEditButton(),
+              // const PromptEditButton(),
               const PromptReportButton(),
             ],
           ),

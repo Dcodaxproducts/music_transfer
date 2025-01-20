@@ -136,5 +136,15 @@
   "you're_using_the_free_version": "Estás usando la versión gratuita",
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Para mantener este servicio gratuito, se muestran anuncios durante tu experiencia.",
   "upgrade_to_an_ad_free_experience": "¡Mejora a una experiencia sin anuncios!",
-  "watch_ad": "Ver anuncio"
+  "watch_ad": "Ver anuncio",
+  "invalid_api_key": "Clave API inválida proporcionada. Por favor, verifique sus credenciales.",
+  "bad_request": "La solicitud es inválida. Por favor, verifique los parámetros e intente nuevamente.",
+  "not_found": "El recurso solicitado no fue encontrado. Por favor, verifique la URL e intente nuevamente.",
+  "rate_limit_exceeded": "Límite de tasa excedido. Por favor, espere un momento antes de hacer más solicitudes.",
+  "invalid_request": "La solicitud es inválida. Por favor, verifique los parámetros e intente nuevamente.",
+  "engine_overloaded": "El servidor está actualmente sobrecargado. Por favor, intente nuevamente más tarde.",
+  "timeout": "La solicitud ha caducado. Por favor, verifique su conexión a Internet e intente nuevamente.",
+  "server_error": "Ocurrió un error interno del servidor. Por favor, intente nuevamente más tarde.",
+  "connection_timeout": "La conexión ha caducado. Por favor, verifique su conexión a Internet e intente nuevamente.",
+  "unknown_error": "Ocurrió un error desconocido. Por favor, intente nuevamente más tarde."
 }

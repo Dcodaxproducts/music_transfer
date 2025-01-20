@@ -136,5 +136,15 @@
   "you're_using_the_free_version": "Anda menggunakan versi percuma",
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Untuk memastikan perkhidmatan ini percuma, iklan dipaparkan semasa pengalaman anda.",
   "upgrade_to_an_ad_free_experience": "Tingkatkan kepada pengalaman tanpa iklan!",
-  "watch_ad": "Tonton Iklan"
+  "watch_ad": "Tonton Iklan",
+  "invalid_api_key": "Kunci API tidak sah disediakan. Sila semak kelayakan anda.",
+  "bad_request": "Permintaan tidak sah. Sila semak parameter dan cuba lagi.",
+  "not_found": "Sumber yang diminta tidak ditemui. Sila semak URL dan cuba lagi.",
+  "rate_limit_exceeded": "Had kadar melebihi. Sila tunggu sebentar sebelum membuat lebih banyak permintaan.",
+  "invalid_request": "Permintaan tidak sah. Sila semak parameter dan cuba lagi.",
+  "engine_overloaded": "Pelayan sedang sibuk. Sila cuba lagi kemudian.",
+  "timeout": "Permintaan tamat masa. Sila semak sambungan internet anda dan cuba lagi.",
+  "server_error": "Ralat pelayan dalaman berlaku. Sila cuba lagi kemudian.",
+  "connection_timeout": "Sambungan tamat masa. Sila semak sambungan internet anda dan cuba lagi.",
+  "unknown_error": "Ralat tidak diketahui berlaku. Sila cuba lagi kemudian."
 }

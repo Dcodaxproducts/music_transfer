@@ -7,7 +7,9 @@ import 'package:matrix_ai/data/model/response/error.dart';
 import 'package:matrix_ai/utils/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:matrix_ai/view/base/common/together_ai_error_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:matrix_ai/data/api/together_ai_error.dart';
 
 class ApiClient extends GetxService implements ApiClientInterface {
   final SharedPreferences prefs;
@@ -28,7 +30,11 @@ class ApiClient extends GetxService implements ApiClientInterface {
   }
 
   @override
-  Future<http.Response?> get(String uri, {Map<String, String>? headers}) async {
+  Future<http.Response?> get(
+    String uri, {
+    Map<String, String>? headers,
+    bool hideLoading = true,
+  }) async {
     try {
       // print the api call
       debugPrint('====> API Call: ${AppConstants.BASE_URL + uri}, ====> Header: $_mainHeaders');
@@ -44,7 +50,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
       _client = null; // Reset the client after completion
 
       // handle response
-      return _handleResponse(response);
+      return _handleResponse(response, hideLoading: hideLoading);
     } catch (e) {
       _client = null; // Reset the client after completion
       dismiss();
@@ -124,23 +130,27 @@ class ApiClient extends GetxService implements ApiClientInterface {
       return null;
     }
     ErrorResponse response = ErrorResponse.fromJson(body);
-    dismiss();
-    // if (kDebugMode) {
-    showToast(response.errors.first.message);
-    // } else {
-    //   showToast('too_many_requests');
-    // }
+    // {id: 904eb9308d7c8986-SIN, error: {message: You have reached the rate limit specific to this model black-forest-labs/FLUX.1-schnell-Free. The maximum rate limit for this model is 10.000020000000001 queries per minute. This limit differs from the general rate limits published at Together AI rate limits documentation (https://docs.together.ai/docs/rate-limits). For inquiries about increasing your model-specific rate limit, please contact our sales team (https://www.together.ai/forms/contact-sales), type: model_rate_limit, param: null, code: null}}
+    // Handle TogetherAIError
+    if (body.containsKey('id')) {
+      TogetherAIError error = getTogetherAIError(body['error']['type'], body['error']['message']);
+      _showCustomErrorDialog(error);
+    } else {
+      dismiss();
+      showToast(response.errors.first.message);
+    }
+
     return null;
   }
+
+  _showCustomErrorDialog(TogetherAIError error) => showTogetherAiErrorDialog(error);
 
   _socketException(Object e) {
     if (e is SocketException) {
       showToast('Please check your internet connection');
     } else {
       if (e is http.ClientException) {
-        if (e.message != 'Connection closed before full header was received') {
-          showToast('Something went wrong');
-        }
+        showToast('Something went wrong');
       } else {
         showToast('Something went wrong');
       }

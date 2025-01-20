@@ -51,6 +51,7 @@ class ImageGenerationUtils {
     int? seed,
     bool upscale,
     bool faceFix,
+    String? apiKey,
   ) {
     // get the model api parameters
     final body = {...model.apiParameters};
@@ -102,7 +103,7 @@ class ImageGenerationUtils {
 
     // if the model supports the api key in the body, add the api key to the body
     if (model.apiKeyLoation == 'body') {
-      body['key'] = model.apiKey;
+      body['key'] = apiKey ?? model.apiKey;
     }
 
     return body;

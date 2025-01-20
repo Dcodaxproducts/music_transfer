@@ -9,8 +9,7 @@ abstract class ImageGenerationRepoInterface {
     required Map<String, dynamic> headers,
   });
 
-  Future<Response?> getQueueImage(
-      {required String url, required Map<String, dynamic> body});
+  Future<Response?> getQueueImage({required String url, required Map<String, dynamic> body});
 
   Future<Uint8List?> downloadImage(String url);
 
@@ -19,4 +18,6 @@ abstract class ImageGenerationRepoInterface {
   List<PromptResponse> getPromptResponsesFromPref();
 
   Future<void> cancelRequest();
+
+  Future<Response?> getTogetherApiKey();
 }
