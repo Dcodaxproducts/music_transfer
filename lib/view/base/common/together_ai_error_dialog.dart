@@ -26,7 +26,7 @@ class TogetherAiErrorDialog extends StatelessWidget {
             SizedBox(height: spacingDefault),
             Text("Oops!", style: titleLarge(context)),
             SizedBox(height: spacingDefault),
-            Text(error.message, style: bodyMedium(context), textAlign: TextAlign.center),
+            Text(error.message.tr, style: bodyMedium(context), textAlign: TextAlign.center),
             const SizedBox(height: 16),
             SizedBox(
               width: 120.sp,
