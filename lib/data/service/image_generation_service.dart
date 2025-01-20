@@ -96,7 +96,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     String apiUrl = model.apiUrl;
 
     // get headers (if api key is in header)
-    Map<String, dynamic> headers = ImageGenerationUtils.getHeaders(model);
+    Map<String, dynamic> headers = ImageGenerationUtils.getHeaders(model, apiKey);
 
     // create request body (parameters to send to the api)
     Map<String, dynamic> body =

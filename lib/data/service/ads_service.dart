@@ -9,7 +9,6 @@ import 'package:matrix_ai/data/repository/ad_repo_interface.dart';
 import 'package:matrix_ai/imports.dart';
 import '../../controller/subscription_controller.dart';
 import '../../utils/ads.dart';
-import '../../view/base/ads/ad_loading_dialog.dart';
 import '../../view/base/ads/native_ad.dart';
 import '../model/response/ad_model.dart';
 import '../model/response/model.dart';
@@ -65,7 +64,7 @@ class AdsService implements AdsServiceInterface {
   @override
   Future<void> showInterstitial(String adId) async {
     if (isPro) return;
-    showAdLoadingDialog();
+    // showAdLoadingDialog();
     InterstitialAd? interstitialAd = await loadInterstitial(adId);
     if (interstitialAd != null) {
       await interstitialAd.show();
@@ -76,7 +75,7 @@ class AdsService implements AdsServiceInterface {
   @override
   Future<void> showRewardVideo(String adId) async {
     if (isPro) return;
-    showAdLoadingDialog();
+    // showAdLoadingDialog();
     RewardedAd? rewardedAd = await loadRewardVideoAd(adId);
     if (rewardedAd != null) {
       await rewardedAd.show(onUserEarnedReward: (ad, reward) {
@@ -89,7 +88,7 @@ class AdsService implements AdsServiceInterface {
   @override
   Future<void> showRewardInterstitial(String adId) async {
     if (isPro) return;
-    showAdLoadingDialog();
+    // showAdLoadingDialog();
     RewardedInterstitialAd? rewardedAd = await loadRewardInterstitialAd(adId);
     if (rewardedAd != null) {
       await rewardedAd.show(onUserEarnedReward: (ad, reward) {
@@ -258,7 +257,7 @@ class AdsService implements AdsServiceInterface {
   @override
   Future<void> showFacebookInterstitial(String adId) async {
     if (isPro) return; // Skip if user is Pro
-    showAdLoadingDialog();
+    // showAdLoadingDialog();
     meta.InterstitialAd? ad = await loadFacebookInterstitial(adId);
     if (ad != null) {
       await ad.show(); // Show the ad if loaded
@@ -317,7 +316,7 @@ class AdsService implements AdsServiceInterface {
   @override
   Future<void> showFacebookRewardAd(String adId) async {
     if (isPro) return; // Skip if user is Pro
-    showAdLoadingDialog();
+    // showAdLoadingDialog();
     meta.RewardedAd? ad = await loadFacebookRewardAd(adId);
     if (ad != null) {
       await ad.show(); // Show the ad if loaded

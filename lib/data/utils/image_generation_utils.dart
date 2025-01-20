@@ -151,8 +151,9 @@ class ImageGenerationUtils {
     }
   }
 
-  static Map<String, dynamic> getHeaders(Model model) {
-    return model.apiKeyLoation == 'header' ? {'Authorization': 'Bearer ${model.apiKey}'} : {};
+  static Map<String, dynamic> getHeaders(Model model, String? apiKey) {
+    String key = apiKey ?? model.apiKey;
+    return model.apiKeyLoation == 'header' ? {'Authorization': 'Bearer $key'} : {};
   }
 
   static bool isTogetherAi(Model model) {

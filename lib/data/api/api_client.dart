@@ -115,6 +115,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
 
   Future<http.Response?> _handleResponse(http.Response response, {bool hideLoading = true}) async {
     if (response.statusCode != 200) {
+      dismiss();
       return _handleError(jsonDecode(response.body));
     } else {
       if (hideLoading) {
