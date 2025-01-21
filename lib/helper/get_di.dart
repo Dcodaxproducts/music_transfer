@@ -86,8 +86,9 @@ Future<Map<String, Map<String, String>>> init() async {
   ApiClientInterface apiClient = ApiClient(prefs: Get.find());
   Get.lazyPut(() => apiClient, fenix: true);
   if (GetPlatform.isAndroid) {
-    await EasyAudienceNetwork.init(testingId: '1abedfd3-166d-465c-bc36-1c9a59729f0d');
+    await EasyAudienceNetwork.init(testingId: '989e018e-7371-4335-a782-5bc0f8f910d3');
   }
+
   // Repository
   ImageGenerationRepoInterface imageGenerationRepo =
       ImageGenerationRepo(apiClient: Get.find(), prefs: Get.find());

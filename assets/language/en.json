@@ -140,7 +140,7 @@
     "invalid_api_key": "The provided API key is invalid. Please check your credentials and try again.",
     "bad_request": "Your request is invalid. Please verify the parameters and try again.",
     "not_found": "The requested resource could not be found. Please check the URL and try again.",
-    "rate_limit_exceeded": "You’ve exceeded the rate limit. Please wait a moment before making more requests.",
+    "rate_limit_exceeded": "High traffic detected. Please wait a moment before sending another request.",
     "invalid_request": "The request is invalid. Please verify the parameters and try again.",
     "engine_overloaded": "The server is currently experiencing high traffic. Please try again later.",
     "timeout": "Your request has timed out. Please check your internet connection and try again.",
