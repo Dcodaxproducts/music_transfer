@@ -34,6 +34,9 @@ class HistoryService implements HistoryServiceInterface {
   List<PromptResponse> getPromptHistoryFromRepo() {
     List<PromptResponse> list = historyRepo.getPromptResponsesFromPref();
     list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    if (list.isNotEmpty) {
+      list.removeWhere((e) => e.createdAt!.isBefore(DateTime.now().subtract(const Duration(days: 30))));
+    }
     return list;
   }
 
