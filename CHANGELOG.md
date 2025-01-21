@@ -1,16 +1,22 @@
 # Changelog
 
-## iOS [2.6], android [1.7(10)] - 16-01-2025
+## iOS [2.6], android [1.7(10)] - 21-01-2025
 
 ### Added
 
 - Facebook Ads for androidd
 - Translations for main pages titles
+- handle together ai errors (show dialog)
+- multi apis (from backend)
 
 ### Changed
 
 - Delay on response connected with backend
 - Watch ad dialog for android and iOS (text and button)
+- Show history only for last 30 days
+- 18+ keywords error handling (show dialog)
+- hide edit button
+- remove nsfw content from black image
 
 ### Removed
 
