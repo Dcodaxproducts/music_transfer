@@ -69,7 +69,7 @@ class AdsService implements AdsServiceInterface {
     if (interstitialAd != null) {
       await interstitialAd.show();
     }
-    dismiss();
+    // dismiss();
   }
 
   @override
@@ -82,7 +82,7 @@ class AdsService implements AdsServiceInterface {
         FirebaseAnalytics.instance.logAdImpression();
       });
     }
-    dismiss();
+    // dismiss();
   }
 
   @override
@@ -95,7 +95,7 @@ class AdsService implements AdsServiceInterface {
         FirebaseAnalytics.instance.logAdImpression();
       });
     }
-    dismiss();
+    // dismiss();
   }
 
   @override
@@ -263,7 +263,7 @@ class AdsService implements AdsServiceInterface {
       await ad.show(); // Show the ad if loaded
       ad.destroy(); // Clean up resources after showing
     }
-    dismiss(); // Ensure the dialog is dismissed in all cases
+    // dismiss(); // Ensure the dialog is dismissed in all cases
   }
 
   Future<meta.InterstitialAd?> loadFacebookInterstitial(String adId) async {
@@ -322,7 +322,7 @@ class AdsService implements AdsServiceInterface {
       await ad.show(); // Show the ad if loaded
       ad.destroy(); // Clean up resources after showing
     }
-    dismiss(); // Ensure the dialog is dismissed in all cases
+    // dismiss(); // Ensure the dialog is dismissed in all cases
   }
 
   Future<meta.RewardedAd?> loadFacebookRewardAd(String adId) async {

@@ -65,6 +65,7 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: "${widget.url}",
+      fit: widget.fit,
       placeholder: (context, url) {
         return _buildShimmer();
       },
