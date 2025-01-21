@@ -137,14 +137,14 @@
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Untuk menjaga layanan ini tetap gratis, iklan ditampilkan selama pengalaman Anda.",
   "upgrade_to_an_ad_free_experience": "Tingkatkan ke pengalaman bebas iklan!",
   "watch_ad": "Tonton Iklan",
-  "invalid_api_key": "Kunci API tidak valid disediakan. Silakan periksa kredensial Anda.",
-  "bad_request": "Permintaan tidak valid. Silakan periksa parameter dan coba lagi.",
-  "not_found": "Sumber daya yang diminta tidak ditemukan. Silakan periksa URL dan coba lagi.",
-  "rate_limit_exceeded": "Batas kecepatan terlampaui. Silakan tunggu sebentar sebelum membuat lebih banyak permintaan.",
-  "invalid_request": "Permintaan tidak valid. Silakan periksa parameter dan coba lagi.",
-  "engine_overloaded": "Server saat ini kelebihan beban. Silakan coba lagi nanti.",
-  "timeout": "Permintaan habis waktu. Silakan periksa koneksi internet Anda dan coba lagi.",
+  "invalid_api_key": "Kunci API yang diberikan tidak valid. Silakan periksa kredensial Anda dan coba lagi.",
+  "bad_request": "Permintaan Anda tidak valid. Silakan verifikasi parameter dan coba lagi.",
+  "not_found": "Sumber daya yang diminta tidak dapat ditemukan. Silakan periksa URL dan coba lagi.",
+  "rate_limit_exceeded": "Anda telah melebihi batas permintaan. Harap tunggu sebentar sebelum membuat lebih banyak permintaan.",
+  "invalid_request": "Permintaan tidak valid. Silakan verifikasi parameter dan coba lagi.",
+  "engine_overloaded": "Server saat ini mengalami lalu lintas tinggi. Silakan coba lagi nanti.",
+  "timeout": "Permintaan Anda telah habis waktu. Silakan periksa koneksi internet Anda dan coba lagi.",
   "server_error": "Terjadi kesalahan server internal. Silakan coba lagi nanti.",
-  "connection_timeout": "Koneksi habis waktu. Silakan periksa koneksi internet Anda dan coba lagi.",
-  "unknown_error": "Terjadi kesalahan yang tidak diketahui. Silakan coba lagi nanti."
+  "connection_timeout": "Koneksi telah habis waktu. Silakan periksa koneksi internet Anda dan coba lagi.",
+  "unknown_error": "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti."
 }

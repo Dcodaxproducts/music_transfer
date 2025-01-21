@@ -136,14 +136,14 @@
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Bu hizmeti ücretsiz tutmak için, deneyiminiz sırasında reklamlar gösterilir.",
   "upgrade_to_an_ad_free_experience": "Reklamsız bir deneyime yükseltin!",
   "watch_ad": "Reklam İzle",
-  "invalid_api_key": "Geçersiz API anahtarı sağlandı. Lütfen kimlik bilgilerinizi kontrol edin.",
-  "bad_request": "İstek geçersiz. Lütfen parametreleri kontrol edin ve tekrar deneyin.",
+  "invalid_api_key": "Sağlanan API anahtarı geçersiz. Lütfen kimlik bilgilerinizi kontrol edin ve tekrar deneyin.",
+  "bad_request": "İsteğiniz geçersiz. Lütfen parametreleri doğrulayın ve tekrar deneyin.",
   "not_found": "İstenen kaynak bulunamadı. Lütfen URL'yi kontrol edin ve tekrar deneyin.",
-  "rate_limit_exceeded": "Hız sınırı aşıldı. Lütfen daha fazla istek yapmadan önce biraz bekleyin.",
-  "invalid_request": "İstek geçersiz. Lütfen parametreleri kontrol edin ve tekrar deneyin.",
-  "engine_overloaded": "Sunucu şu anda aşırı yüklü. Lütfen daha sonra tekrar deneyin.",
-  "timeout": "İstek zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.",
-  "server_error": "Dahili sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin.",
+  "rate_limit_exceeded": "Hız sınırını aştınız. Lütfen daha fazla istek yapmadan önce bir süre bekleyin.",
+  "invalid_request": "İstek geçersiz. Lütfen parametreleri doğrulayın ve tekrar deneyin.",
+  "engine_overloaded": "Sunucu şu anda yüksek trafik yaşıyor. Lütfen daha sonra tekrar deneyin.",
+  "timeout": "İsteğiniz zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.",
+  "server_error": "Dahili bir sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin.",
   "connection_timeout": "Bağlantı zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.",
-  "unknown_error": "Bilinmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+  "unknown_error": "Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 }

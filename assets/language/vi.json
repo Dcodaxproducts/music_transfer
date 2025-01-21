@@ -136,14 +136,14 @@
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Để giữ dịch vụ này miễn phí, quảng cáo sẽ được hiển thị trong quá trình trải nghiệm của bạn.",
   "upgrade_to_an_ad_free_experience": "Nâng cấp để trải nghiệm không có quảng cáo!",
   "watch_ad": "Xem quảng cáo",
-  "invalid_api_key": "Khóa API không hợp lệ. Vui lòng kiểm tra thông tin đăng nhập của bạn.",
-  "bad_request": "Yêu cầu không hợp lệ. Vui lòng kiểm tra các tham số và thử lại.",
-  "not_found": "Không tìm thấy tài nguyên yêu cầu. Vui lòng kiểm tra URL và thử lại.",
-  "rate_limit_exceeded": "Vượt quá giới hạn tốc độ. Vui lòng đợi một lúc trước khi thực hiện thêm yêu cầu.",
-  "invalid_request": "Yêu cầu không hợp lệ. Vui lòng kiểm tra các tham số và thử lại.",
-  "engine_overloaded": "Máy chủ hiện đang quá tải. Vui lòng thử lại sau.",
-  "timeout": "Yêu cầu đã hết thời gian chờ. Vui lòng kiểm tra kết nối internet của bạn và thử lại.",
+  "invalid_api_key": "Khóa API được cung cấp không hợp lệ. Vui lòng kiểm tra thông tin đăng nhập của bạn và thử lại.",
+  "bad_request": "Yêu cầu của bạn không hợp lệ. Vui lòng xác minh các tham số và thử lại.",
+  "not_found": "Không thể tìm thấy tài nguyên yêu cầu. Vui lòng kiểm tra URL và thử lại.",
+  "rate_limit_exceeded": "Bạn đã vượt quá giới hạn tốc độ. Vui lòng đợi một lúc trước khi thực hiện thêm yêu cầu.",
+  "invalid_request": "Yêu cầu không hợp lệ. Vui lòng xác minh các tham số và thử lại.",
+  "engine_overloaded": "Máy chủ hiện đang gặp lưu lượng truy cập cao. Vui lòng thử lại sau.",
+  "timeout": "Yêu cầu của bạn đã hết thời gian chờ. Vui lòng kiểm tra kết nối internet của bạn và thử lại.",
   "server_error": "Đã xảy ra lỗi máy chủ nội bộ. Vui lòng thử lại sau.",
   "connection_timeout": "Kết nối đã hết thời gian chờ. Vui lòng kiểm tra kết nối internet của bạn và thử lại.",
-  "unknown_error": "Đã xảy ra lỗi không xác định. Vui lòng thử lại sau."
+  "unknown_error": "Đã xảy ra lỗi không mong đợi. Vui lòng thử lại sau."
 }

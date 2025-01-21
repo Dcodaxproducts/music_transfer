@@ -136,14 +136,14 @@
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Para manter este serviço gratuito, os anúncios são exibidos durante a sua experiência.",
   "upgrade_to_an_ad_free_experience": "Atualize para uma experiência sem anúncios!",
   "watch_ad": "Assistir anúncio",
-  "invalid_api_key": "Chave de API inválida fornecida. Verifique suas credenciais.",
-  "bad_request": "A solicitação foi inválida. Verifique os parâmetros e tente novamente.",
-  "not_found": "O recurso solicitado não foi encontrado. Verifique a URL e tente novamente.",
-  "rate_limit_exceeded": "Limite de taxa excedido. Aguarde um pouco antes de fazer mais solicitações.",
-  "invalid_request": "A solicitação foi inválida. Verifique os parâmetros e tente novamente.",
-  "engine_overloaded": "O servidor está sobrecarregado no momento. Tente novamente mais tarde.",
-  "timeout": "A solicitação expirou. Verifique sua conexão com a Internet e tente novamente.",
+  "invalid_api_key": "A chave de API fornecida é inválida. Verifique suas credenciais e tente novamente.",
+  "bad_request": "Sua solicitação é inválida. Verifique os parâmetros e tente novamente.",
+  "not_found": "O recurso solicitado não pôde ser encontrado. Verifique a URL e tente novamente.",
+  "rate_limit_exceeded": "Você excedeu o limite de taxa. Aguarde um momento antes de fazer mais solicitações.",
+  "invalid_request": "A solicitação é inválida. Verifique os parâmetros e tente novamente.",
+  "engine_overloaded": "O servidor está atualmente com alto tráfego. Tente novamente mais tarde.",
+  "timeout": "Sua solicitação expirou. Verifique sua conexão com a Internet e tente novamente.",
   "server_error": "Ocorreu um erro interno no servidor. Tente novamente mais tarde.",
   "connection_timeout": "A conexão expirou. Verifique sua conexão com a Internet e tente novamente.",
-  "unknown_error": "Ocorreu um erro desconhecido. Tente novamente mais tarde."
+  "unknown_error": "Ocorreu um erro inesperado. Tente novamente mais tarde."
 }

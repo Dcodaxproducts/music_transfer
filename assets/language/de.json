@@ -137,14 +137,14 @@
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Um diesen Dienst kostenlos zu halten, werden während Ihrer Nutzung Anzeigen angezeigt.",
   "upgrade_to_an_ad_free_experience": "Wechseln Sie zu einem werbefreien Erlebnis!",
   "watch_ad": "Anzeige ansehen",
-  "invalid_api_key": "Ungültiger API-Schlüssel angegeben. Bitte überprüfen Sie Ihre Anmeldeinformationen.",
-  "bad_request": "Die Anfrage war ungültig. Bitte überprüfen Sie die Parameter und versuchen Sie es erneut.",
-  "not_found": "Die angeforderte Ressource wurde nicht gefunden. Bitte überprüfen Sie die URL und versuchen Sie es erneut.",
-  "rate_limit_exceeded": "Ratenlimit überschritten. Bitte warten Sie eine Weile, bevor Sie weitere Anfragen stellen.",
-  "invalid_request": "Die Anfrage war ungültig. Bitte überprüfen Sie die Parameter und versuchen Sie es erneut.",
-  "engine_overloaded": "Der Server ist derzeit überlastet. Bitte versuchen Sie es später erneut.",
-  "timeout": "Die Anfrage ist abgelaufen. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+  "invalid_api_key": "Der angegebene API-Schlüssel ist ungültig. Bitte überprüfen Sie Ihre Anmeldeinformationen und versuchen Sie es erneut.",
+  "bad_request": "Ihre Anfrage ist ungültig. Bitte überprüfen Sie die Parameter und versuchen Sie es erneut.",
+  "not_found": "Die angeforderte Ressource konnte nicht gefunden werden. Bitte überprüfen Sie die URL und versuchen Sie es erneut.",
+  "rate_limit_exceeded": "Sie haben das Ratenlimit überschritten. Bitte warten Sie einen Moment, bevor Sie weitere Anfragen stellen.",
+  "invalid_request": "Die Anfrage ist ungültig. Bitte überprüfen Sie die Parameter und versuchen Sie es erneut.",
+  "engine_overloaded": "Der Server hat derzeit ein hohes Verkehrsaufkommen. Bitte versuchen Sie es später erneut.",
+  "timeout": "Ihre Anfrage ist abgelaufen. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
   "server_error": "Ein interner Serverfehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
   "connection_timeout": "Die Verbindung ist abgelaufen. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
-  "unknown_error": "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
+  "unknown_error": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
 }

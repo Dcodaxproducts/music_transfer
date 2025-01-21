@@ -137,14 +137,14 @@
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "Per mantenere questo servizio gratuito, durante l'utilizzo vengono visualizzati annunci.",
   "upgrade_to_an_ad_free_experience": "Passa a un'esperienza senza pubblicità!",
   "watch_ad": "Guarda l'annuncio",
-  "invalid_api_key": "Chiave API non valida fornita. Si prega di controllare le credenziali.",
-  "bad_request": "La richiesta non è valida. Si prega di controllare i parametri e riprovare.",
+  "invalid_api_key": "La chiave API fornita non è valida. Si prega di controllare le credenziali e riprovare.",
+  "bad_request": "La tua richiesta non è valida. Si prega di verificare i parametri e riprovare.",
   "not_found": "La risorsa richiesta non è stata trovata. Si prega di controllare l'URL e riprovare.",
-  "rate_limit_exceeded": "Limite di velocità superato. Si prega di attendere un po' prima di effettuare altre richieste.",
-  "invalid_request": "La richiesta non è valida. Si prega di controllare i parametri e riprovare.",
-  "engine_overloaded": "Il server è attualmente sovraccarico. Si prega di riprovare più tardi.",
-  "timeout": "La richiesta è scaduta. Si prega di controllare la connessione a Internet e riprovare.",
+  "rate_limit_exceeded": "Hai superato il limite di velocità. Attendere un momento prima di effettuare altre richieste.",
+  "invalid_request": "La richiesta non è valida. Si prega di verificare i parametri e riprovare.",
+  "engine_overloaded": "Il server sta attualmente riscontrando un traffico elevato. Si prega di riprovare più tardi.",
+  "timeout": "La tua richiesta è scaduta. Si prega di controllare la connessione a Internet e riprovare.",
   "server_error": "Si è verificato un errore interno del server. Si prega di riprovare più tardi.",
   "connection_timeout": "La connessione è scaduta. Si prega di controllare la connessione a Internet e riprovare.",
-  "unknown_error": "Si è verificato un errore sconosciuto. Si prega di riprovare più tardi."
+  "unknown_error": "Si è verificato un errore imprevisto. Si prega di riprovare più tardi."
 }

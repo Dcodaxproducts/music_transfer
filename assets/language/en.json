@@ -137,14 +137,14 @@
     "to_keep_this_service_free_ads_are_displayed_during_your_experience": "To keep this service free, ads are displayed during your experience.",
     "upgrade_to_an_ad-free_experience": "Upgrade to an Ad-free experience!",
     "watch_ad": "Watch Ad",
-    "invalid_api_key": "Invalid API key provided. Please check your credentials.",
-    "bad_request": "The request was invalid. Please check the parameters and try again.",
-    "not_found": "The requested resource was not found. Please check the URL and try again.",
-    "rate_limit_exceeded": "Rate limit exceeded. Please wait a while before making more requests.",
-    "invalid_request": "The request was invalid. Please check the parameters and try again.",
-    "engine_overloaded": "The server is currently overloaded. Please try again later.",
-    "timeout": "The request timed out. Please check your internet connection and try again.",
+    "invalid_api_key": "The provided API key is invalid. Please check your credentials and try again.",
+    "bad_request": "Your request is invalid. Please verify the parameters and try again.",
+    "not_found": "The requested resource could not be found. Please check the URL and try again.",
+    "rate_limit_exceeded": "You’ve exceeded the rate limit. Please wait a moment before making more requests.",
+    "invalid_request": "The request is invalid. Please verify the parameters and try again.",
+    "engine_overloaded": "The server is currently experiencing high traffic. Please try again later.",
+    "timeout": "Your request has timed out. Please check your internet connection and try again.",
     "server_error": "An internal server error occurred. Please try again later.",
-    "connection_timeout": "The connection timed out. Please check your internet connection and try again.",
-    "unknown_error": "An unknown error occurred. Please try again later."
+    "connection_timeout": "The connection has timed out. Please check your internet connection and try again.",
+    "unknown_error": "An unexpected error occurred. Please try again later."
 }

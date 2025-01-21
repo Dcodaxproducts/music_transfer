@@ -136,14 +136,14 @@
   "to_keep_this_service_free_ads_are_displayed_during_your_experience": "För att hålla denna tjänst gratis visas annonser under din upplevelse.",
   "upgrade_to_an_ad_free_experience": "Uppgradera till en annonsfri upplevelse!",
   "watch_ad": "Titta på annons",
-  "invalid_api_key": "Ogiltig API-nyckel angiven. Kontrollera dina referenser.",
-  "bad_request": "Begäran var ogiltig. Kontrollera parametrarna och försök igen.",
-  "not_found": "Den begärda resursen hittades inte. Kontrollera URL:en och försök igen.",
-  "rate_limit_exceeded": "Gränsen för begärningar överskriden. Vänta en stund innan du gör fler begärningar.",
-  "invalid_request": "Begäran var ogiltig. Kontrollera parametrarna och försök igen.",
-  "engine_overloaded": "Servern är för närvarande överbelastad. Försök igen senare.",
-  "timeout": "Begäran tog för lång tid. Kontrollera din internetanslutning och försök igen.",
+  "invalid_api_key": "Den angivna API-nyckeln är ogiltig. Kontrollera dina referenser och försök igen.",
+  "bad_request": "Din begäran är ogiltig. Kontrollera parametrarna och försök igen.",
+  "not_found": "Den begärda resursen kunde inte hittas. Kontrollera URL:en och försök igen.",
+  "rate_limit_exceeded": "Du har överskridit hastighetsgränsen. Vänta en stund innan du gör fler förfrågningar.",
+  "invalid_request": "Begäran är ogiltig. Kontrollera parametrarna och försök igen.",
+  "engine_overloaded": "Servern upplever för närvarande hög trafik. Försök igen senare.",
+  "timeout": "Din begäran har tidsgränsen överskridits. Kontrollera din internetanslutning och försök igen.",
   "server_error": "Ett internt serverfel inträffade. Försök igen senare.",
-  "connection_timeout": "Anslutningen tog för lång tid. Kontrollera din internetanslutning och försök igen.",
-  "unknown_error": "Ett okänt fel inträffade. Försök igen senare."
+  "connection_timeout": "Anslutningen har tidsgränsen överskridits. Kontrollera din internetanslutning och försök igen.",
+  "unknown_error": "Ett oväntat fel inträffade. Försök igen senare."
 }

@@ -140,12 +140,11 @@ class SubscriptionController extends GetxController implements GetxService {
   }
 
   bool get isPro {
-    return true;
-    // if (proLimitDate == null) {
-    //   return false;
-    // } else {
-    //   return DateTime.now().isBefore(proLimitDate!);
-    // }
+    if (proLimitDate == null) {
+      return false;
+    } else {
+      return DateTime.now().isBefore(proLimitDate!);
+    }
   }
 
   @override
