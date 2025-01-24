@@ -1,11 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/view/base/common/loading.dart';
-import 'package:matrix_ai/utils/images.dart';
-import '../../../utils/app_constants.dart';
-import '../../../utils/style.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,6 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColorDark,
       body: Padding(
         padding: paddingDefault,
         child: Column(
@@ -31,14 +27,13 @@ class _SplashScreenState extends State<SplashScreen> {
                   // pixart Title
                   Text(
                     AppConstants.APP_NAME,
-                    style: Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.w600),
+                    style: displayMedium(context).copyWith(fontWeight: FontWeight.w600, color: Colors.white),
                   ),
-                  SizedBox(height: 10.sp),
+                  SizedBox(height: spacingSmall),
                   // pixart Subtitle
                   Text(
                     'the_best_ai_image_generator'.tr,
-                    style:
-                        Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).hintColor),
+                    style: bodyMedium(context).copyWith(color: hintColorDark),
                   ),
                   SizedBox(height: 50.sp),
                 ],
@@ -51,13 +46,12 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 Text(
                   'getting_started'.tr,
-                  style: bodyMedium(context).copyWith(color: Theme.of(context).hintColor),
+                  style: bodyMedium(context).copyWith(color: hintColorDark),
                 ),
                 SizedBox(
                   width: 14.sp,
                   child: DefaultTextStyle(
-                    style:
-                        Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).hintColor),
+                    style: bodyMedium(context).copyWith(color: hintColorDark),
                     child: AnimatedTextKit(
                       pause: const Duration(milliseconds: 500),
                       repeatForever: true,
