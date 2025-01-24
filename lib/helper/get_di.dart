@@ -86,7 +86,7 @@ Future<Map<String, Map<String, String>>> init() async {
   ApiClientInterface apiClient = ApiClient(prefs: Get.find());
   Get.lazyPut(() => apiClient, fenix: true);
   if (GetPlatform.isAndroid) {
-    await EasyAudienceNetwork.init(testingId: '989e018e-7371-4335-a782-5bc0f8f910d3');
+    await EasyAudienceNetwork.init(testingId: '4fbcc06a-ce20-488e-a177-548ef22109c3');
   }
 
   // Repository

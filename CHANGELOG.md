@@ -1,5 +1,23 @@
 # Changelog
 
+## iOS [2.7], android [1.8(11)] - 24-01-2025
+
+### Added
+
+- N/A
+
+### Changed
+
+- Move splash screen to start for first time also
+
+### Removed
+
+- Onboarding screens
+
+### Fixed
+
+- - N/A
+
 ## iOS [2.6], android [1.7(10)] - 21-01-2025
 
 ### Added

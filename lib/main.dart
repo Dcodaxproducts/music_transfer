@@ -12,8 +12,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:matrix_ai/controller/settings_controller.dart';
-import 'package:matrix_ai/view/screens/welcome/welcome.dart';
 import 'package:upgrader/upgrader.dart';
 import 'utils/scroll_behavior.dart';
 import 'view/base/common/loading.dart';
@@ -114,17 +112,7 @@ class MyApp extends StatelessWidget {
                 ),
                 home: UpgradeAlert(
                   dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
-                  child: RestartWidget(
-                    child: GetBuilder<SettingsController>(
-                      builder: (con) {
-                        if (SettingsController.find.isFirstTime) {
-                          return const WelcomeScreen();
-                        } else {
-                          return const Root();
-                        }
-                      },
-                    ),
-                  ),
+                  child: const Root(),
                 ),
               ),
             ),
@@ -142,32 +130,5 @@ class MyApp extends StatelessWidget {
       scaleFactor = util.scaleText;
     }
     return size * scaleFactor;
-  }
-}
-
-class RestartWidget extends StatefulWidget {
-  final Widget child;
-  const RestartWidget({super.key, required this.child});
-
-  static void restartApp(BuildContext context) {
-    context.findAncestorStateOfType<RestartWidgetState>()?.restartApp();
-  }
-
-  @override
-  RestartWidgetState createState() => RestartWidgetState();
-}
-
-class RestartWidgetState extends State<RestartWidget> {
-  Key key = UniqueKey();
-
-  void restartApp() {
-    setState(() {
-      key = UniqueKey();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return KeyedSubtree(key: key, child: widget.child);
   }
 }

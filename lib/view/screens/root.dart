@@ -9,6 +9,7 @@ import 'package:matrix_ai/controller/review_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/view/screens/dashboard/dashboard.dart';
+import 'package:matrix_ai/view/screens/welcome/welcome.dart';
 import '../../controller/ads_controller.dart';
 import '../../controller/generation_controller.dart';
 import '../../controller/history_controller.dart';
@@ -180,7 +181,9 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     if (disconnected) {
       return const NoInternetDialog();
     } else if (_ready) {
-      return const DashboardScreen();
+      return GetBuilder<SettingsController>(builder: (settingController) {
+        return settingController.isFirstTime ? const WelcomeScreen() : const DashboardScreen();
+      });
     } else {
       return const SplashScreen();
     }

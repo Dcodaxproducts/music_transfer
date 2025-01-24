@@ -47,6 +47,7 @@ class SettingsController extends GetxController implements GetxService {
     _configModel = settingsService.initSharedData();
     negativePromptController.text = _configModel.negativePrompt;
     seedController.text = _configModel.seed == null ? '-1' : _configModel.seed!.toString();
+    _isFirstTime = settingsService.getFirstTime();
     getPackageInfo();
     return _configModel;
   }
@@ -79,8 +80,14 @@ class SettingsController extends GetxController implements GetxService {
     return isOffensive;
   }
 
-  Future<void> saveFirstTime() async => await settingsService.saveFirstTime();
-  bool get isFirstTime => settingsService.getFirstTime();
+  Future<void> saveFirstTime() async {
+    _isFirstTime = false;
+    update();
+    await settingsService.saveFirstTime();
+  }
+
+  bool _isFirstTime = false;
+  bool get isFirstTime => _isFirstTime;
 
   Future<bool> saveShowAppOpen() async => await settingsService.saveShowAppOpen();
 
