@@ -146,5 +146,6 @@
     "timeout": "Your request has timed out. Please check your internet connection and try again.",
     "server_error": "An internal server error occurred. Please try again later.",
     "connection_timeout": "The connection has timed out. Please check your internet connection and try again.",
-    "unknown_error": "An unexpected error occurred. Please try again later."
+    "unknown_error": "An unexpected error occurred. Please try again later.",
+    "image_not_available": "Image not available for download. Try again shortly."
 }

@@ -146,5 +146,6 @@
   "timeout": "Permintaan anda telah tamat masa. Sila semak sambungan internet anda dan cuba lagi.",
   "server_error": "Ralat pelayan dalaman berlaku. Sila cuba lagi kemudian.",
   "connection_timeout": "Sambungan telah tamat masa. Sila semak sambungan internet anda dan cuba lagi.",
-  "unknown_error": "Ralat yang tidak dijangka berlaku. Sila cuba lagi kemudian."
+  "unknown_error": "Ralat yang tidak dijangka berlaku. Sila cuba lagi kemudian.",
+  "image_not_available_for_download": "Imej tidak tersedia untuk dimuat turun. Sila cuba lagi sebentar lagi."
 }

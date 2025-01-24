@@ -146,5 +146,6 @@
   "timeout": "La tua richiesta è scaduta. Si prega di controllare la connessione a Internet e riprovare.",
   "server_error": "Si è verificato un errore interno del server. Si prega di riprovare più tardi.",
   "connection_timeout": "La connessione è scaduta. Si prega di controllare la connessione a Internet e riprovare.",
-  "unknown_error": "Si è verificato un errore imprevisto. Si prega di riprovare più tardi."
+  "unknown_error": "Si è verificato un errore imprevisto. Si prega di riprovare più tardi.",
+  "image_not_available": "Immagine non disponibile per il download. Riprova tra poco."
 }

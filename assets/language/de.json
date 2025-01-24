@@ -146,5 +146,6 @@
   "timeout": "Ihre Anfrage ist abgelaufen. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
   "server_error": "Ein interner Serverfehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
   "connection_timeout": "Die Verbindung ist abgelaufen. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
-  "unknown_error": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
+  "unknown_error": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
+  "image_not_available": "Bild nicht zum Download verfügbar. Versuchen Sie es in Kürze erneut."
 }

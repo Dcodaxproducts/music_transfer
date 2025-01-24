@@ -146,5 +146,6 @@
   "timeout": "Votre demande a expiré. Veuillez vérifier votre connexion Internet et réessayer.",
   "server_error": "Une erreur interne du serveur s'est produite. Veuillez réessayer plus tard.",
   "connection_timeout": "La connexion a expiré. Veuillez vérifier votre connexion Internet et réessayer.",
-  "unknown_error": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard."
+  "unknown_error": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
+  "image_not_available": "Image non disponible pour le téléchargement. Réessayez dans un instant."
 }

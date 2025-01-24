@@ -146,5 +146,6 @@
   "timeout": "Su solicitud ha caducado. Verifique su conexión a Internet e intente nuevamente.",
   "server_error": "Ocurrió un error interno del servidor. Inténtelo de nuevo más tarde.",
   "connection_timeout": "La conexión ha caducado. Verifique su conexión a Internet e intente nuevamente.",
-  "unknown_error": "Ocurrió un error inesperado. Inténtelo de nuevo más tarde."
+  "unknown_error": "Ocurrió un error inesperado. Inténtelo de nuevo más tarde.",
+  "image_not_available": "Imagen no disponible para descargar. Inténtalo de nuevo en breve."
 }

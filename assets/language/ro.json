@@ -145,5 +145,6 @@
   "timeout": "Solicitarea dvs. a expirat. Vă rugăm să verificați conexiunea la internet și să încercați din nou.",
   "server_error": "A apărut o eroare internă a serverului. Vă rugăm să încercați din nou mai târziu.",
   "connection_timeout": "Conexiunea a expirat. Vă rugăm să verificați conexiunea la internet și să încercați din nou.",
-  "unknown_error": "A apărut o eroare neașteptată. Vă rugăm să încercați din nou mai târziu."
+  "unknown_error": "A apărut o eroare neașteptată. Vă rugăm să încercați din nou mai târziu.",
+  "image_not_available": "Imaginea nu este disponibilă pentru descărcare. Încercați din nou în scurt timp."
 }

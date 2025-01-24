@@ -145,5 +145,6 @@
   "timeout": "İsteğiniz zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.",
   "server_error": "Dahili bir sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin.",
   "connection_timeout": "Bağlantı zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.",
-  "unknown_error": "Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+  "unknown_error": "Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+  "image_not_available": "Görüntü indirilemiyor. Kısa bir süre sonra tekrar deneyin."
 }

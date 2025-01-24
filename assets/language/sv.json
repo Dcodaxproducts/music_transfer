@@ -145,5 +145,6 @@
   "timeout": "Din begäran har tidsgränsen överskridits. Kontrollera din internetanslutning och försök igen.",
   "server_error": "Ett internt serverfel inträffade. Försök igen senare.",
   "connection_timeout": "Anslutningen har tidsgränsen överskridits. Kontrollera din internetanslutning och försök igen.",
-  "unknown_error": "Ett oväntat fel inträffade. Försök igen senare."
+  "unknown_error": "Ett oväntat fel inträffade. Försök igen senare.",
+  "image_not_available": "Bild inte tillgänglig för nedladdning. Försök igen om en stund."
 }

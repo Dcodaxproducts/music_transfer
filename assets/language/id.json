@@ -146,5 +146,6 @@
   "timeout": "Permintaan Anda telah habis waktu. Silakan periksa koneksi internet Anda dan coba lagi.",
   "server_error": "Terjadi kesalahan server internal. Silakan coba lagi nanti.",
   "connection_timeout": "Koneksi telah habis waktu. Silakan periksa koneksi internet Anda dan coba lagi.",
-  "unknown_error": "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti."
+  "unknown_error": "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti.",
+  "image_not_available": "Gambar tidak tersedia untuk diunduh. Coba lagi sebentar lagi."
 }

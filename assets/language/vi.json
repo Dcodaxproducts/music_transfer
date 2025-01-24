@@ -145,5 +145,7 @@
   "timeout": "Yêu cầu của bạn đã hết thời gian chờ. Vui lòng kiểm tra kết nối internet của bạn và thử lại.",
   "server_error": "Đã xảy ra lỗi máy chủ nội bộ. Vui lòng thử lại sau.",
   "connection_timeout": "Kết nối đã hết thời gian chờ. Vui lòng kiểm tra kết nối internet của bạn và thử lại.",
-  "unknown_error": "Đã xảy ra lỗi không mong đợi. Vui lòng thử lại sau."
+  "unknown_error": "Đã xảy ra lỗi không mong đợi. Vui lòng thử lại sau.",
+  "image_not_available_for_download": "Hình ảnh không có sẵn để tải xuống. Vui lòng thử lại sau.",
+  "image_not_available": "Hình ảnh không có sẵn để tải xuống. Vui lòng thử lại sau."
 }
