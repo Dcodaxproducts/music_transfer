@@ -13,7 +13,7 @@ import 'package:matrix_ai/data/api/together_ai_error.dart';
 
 class ApiClient extends GetxService implements ApiClientInterface {
   final SharedPreferences prefs;
-  final int timeoutInSeconds = 120;
+  final int timeoutInSeconds = 30;
   http.Client? _client; // Track the client for cancellation
 
   final Map<String, String> _mainHeaders = {"Content-Type": "application/json", 'Accept': 'application/json'};
