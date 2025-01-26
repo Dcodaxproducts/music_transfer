@@ -45,7 +45,7 @@ project.ext.env = loadEnv()
 
 android {
     namespace "pixart.aiart.generator"
-    compileSdk 34
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {

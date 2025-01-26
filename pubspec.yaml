@@ -15,7 +15,6 @@ dependencies:
   http: ^1.2.2
   shimmer: ^3.0.0
   iconsax: ^0.0.8
-  flutter_dotenv: ^5.2.1
   shared_preferences: ^2.3.5
   cached_network_image: ^3.4.1
   flutter_smart_dialog: ^4.9.8+5
@@ -65,17 +64,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  flutter_native_splash: ^2.4.4
 
-flutter_native_splash:
-    color: "#000000"
-    image: "assets/images/logo.png"
-    android: true
-    ios: false
-    android_12:
-      color: "#000000"
-      icon_background_color: "#000000"
-      image: "assets/images/logo.png"
      
 
 dependency_overrides: 
@@ -91,7 +80,6 @@ flutter:
     - assets/images/
     - assets/animations/
     - assets/fonts/
-    - .env
 
   fonts:
       - family: Poppins
