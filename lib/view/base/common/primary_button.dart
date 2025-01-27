@@ -27,8 +27,6 @@ class PrimaryButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: gradient ? Colors.transparent : backgroundColor,
           minimumSize: Size(100.sp, 50.sp),
-          elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
           disabledBackgroundColor: backgroundColor,
         ),
         onPressed: onPressed,
@@ -38,7 +36,7 @@ class PrimaryButton extends StatelessWidget {
             if (icon != null) ...[icon!, SizedBox(width: spacingSmall)],
             Text(
               text.tr,
-              style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600, color: textColor),
+              style: bodySmall(context).copyWith(fontWeight: FontWeight.w600, color: textColor),
             ),
           ],
         ),
@@ -75,10 +73,7 @@ class PrimaryOutlineButton extends StatelessWidget {
           if (text != null)
             Text(
               text!,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(fontWeight: FontWeight.w600, color: textColor),
+              style: bodySmall(context).copyWith(fontWeight: FontWeight.w600, color: textColor),
             ),
         ],
       ),

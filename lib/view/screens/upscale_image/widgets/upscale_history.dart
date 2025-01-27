@@ -1,15 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/view/base/common/network_image.dart';
 import 'package:matrix_ai/controller/image_upscale_controller.dart';
-import 'package:matrix_ai/helper/navigation.dart';
-import 'package:matrix_ai/utils/style.dart';
-import 'package:matrix_ai/view/base/view_image.dart';
+import 'package:matrix_ai/view/base/confirmation_dialog.dart';
 import '../../../../controller/background_remover_controller.dart';
 import '../../../../data/model/response/tools.dart';
 import '../../../../data/model/response/upscale_response.dart';
 import '../../../base/queue_countdown.dart';
+import '../pages/image_result_screen.dart';
 import 'countdown_widget.dart';
 
 class UpscaleHistoryList extends StatelessWidget {
@@ -26,36 +23,31 @@ class UpscaleHistoryList extends StatelessWidget {
         } else {
           history = upscaleController.upscaleHistory;
         }
+        history = history.reversed.toList();
         return Visibility(
           visible: history.isNotEmpty,
-          child: Padding(
-            padding: paddingDefault,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: spacingDefault),
-                Text(
-                  'Recent'.tr,
-                  style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: spacingLarge),
+              Text('Recent'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600)),
+              SizedBox(height: spacingMedium),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.only(bottom: spacingDefault),
+                itemCount: history.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: spacingDefault,
+                  crossAxisSpacing: spacingDefault,
+                  childAspectRatio: 0.85,
                 ),
-                SizedBox(height: 12.sp),
-                Expanded(
-                  child: GridView.builder(
-                    padding: EdgeInsets.only(bottom: spacingDefault),
-                    itemCount: history.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: spacingDefault,
-                      crossAxisSpacing: spacingDefault,
-                      childAspectRatio: 0.85,
-                    ),
-                    itemBuilder: (context, index) {
-                      return HistoryItem(response: history[index]);
-                    },
-                  ),
-                ),
-              ],
-            ),
+                itemBuilder: (context, index) {
+                  return HistoryItem(response: history[index]);
+                },
+              ),
+            ],
           ),
         );
       });
@@ -71,7 +63,7 @@ class HistoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        launchScreen(ViewImage(response.output.first));
+        launchScreen(ImageResultScreen(response: response));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -84,12 +76,54 @@ class HistoryItem extends StatelessWidget {
             response: response,
             builder: (context, isCompleted, imageUrl, remainingTime, isRetrying) {
               return isCompleted
-                  ? CustomNetworkImage(url: imageUrl, errorLoading: true)
+                  ? Stack(
+                      children: [
+                        CustomNetworkImage(url: imageUrl, errorLoading: true),
+                        Positioned(
+                          top: 10.sp,
+                          right: 10.sp,
+                          child: GestureDetector(
+                            onTap: _deleteResult,
+                            child: Container(
+                              padding: EdgeInsets.all(5.sp),
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Icon(Iconsax.trash, size: 15.sp, color: Colors.red),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
                   : QueueCountdown(remainingTime: remainingTime, isRetrying: isRetrying, padding: false);
             },
           ),
         ),
       ),
+    );
+  }
+
+  _deleteResult() {
+    showConfirmationDialog(
+      title: 'Delete Result',
+      subtitle: "Are you sure you want to result this result?",
+      actionText: 'Delete',
+      onAccept: () {
+        pop();
+        if (response.isBackgroundRemover) {
+          BackgroundRemoverController.find.removeBackgroundRemovalHistory(response);
+        } else {
+          ImageUpscaleController.find.removeUpscaleHistory(response);
+        }
+      },
     );
   }
 }

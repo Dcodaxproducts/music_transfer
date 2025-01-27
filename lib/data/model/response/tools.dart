@@ -47,7 +47,7 @@ class ToolModel {
 
 List<ToolModel> get tools => [
       ToolModel(
-        image: 'https://images.wondershare.com/virtulook/articles/best-ai-background-removal-tools-1.jpg',
+        image: 'https://i.imgur.com/uXQqEdA.png',
         name: 'Background Remover',
         description: 'Remove the background from images easily.',
         apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',

@@ -54,7 +54,7 @@ class BackgroundRemoverService implements BackgroundRemoverServiceInterface {
       isBackgroundRemover: true,
     );
 
-    // addd the response to the history
+    // add the response to the history
     BackgroundRemoverController.find.addBackgroundRemovalHistory(value);
 
     // Log the event
@@ -67,7 +67,6 @@ class BackgroundRemoverService implements BackgroundRemoverServiceInterface {
         'platform': Platform.isAndroid ? 'Android' : 'iOS',
       },
     );
-
     // Check if the response is successful
     if (value.status == "success") {
       return value;
@@ -121,6 +120,12 @@ class BackgroundRemoverService implements BackgroundRemoverServiceInterface {
   List<UpscaleResponse> getHistoryFromPrefs() {
     List<String>? history = backgroundRemoverRepo.getHistoryFromPrefs();
     if (history == null) return [];
-    return history.map((e) => UpscaleResponse.fromJson(jsonDecode(e))).toList();
+
+    List<UpscaleResponse> list = history.map((e) => UpscaleResponse.fromJson(jsonDecode(e))).toList();
+    list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    if (list.isNotEmpty) {
+      list.removeWhere((e) => e.createdAt!.isBefore(DateTime.now().subtract(const Duration(days: 30))));
+    }
+    return list;
   }
 }

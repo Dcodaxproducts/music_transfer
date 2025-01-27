@@ -121,6 +121,11 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
   List<UpscaleResponse> getHistoryFromPrefs() {
     List<String>? history = imageUpscaleRepo.getHistoryFromPrefs();
     if (history == null) return [];
-    return history.map((e) => UpscaleResponse.fromJson(jsonDecode(e))).toList();
+    List<UpscaleResponse> list = history.map((e) => UpscaleResponse.fromJson(jsonDecode(e))).toList();
+    list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    if (list.isNotEmpty) {
+      list.removeWhere((e) => e.createdAt!.isBefore(DateTime.now().subtract(const Duration(days: 30))));
+    }
+    return list;
   }
 }
