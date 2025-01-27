@@ -63,8 +63,11 @@ class HistoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        launchScreen(ImageResultScreen(response: response));
+        if (response.status == 'success') {
+          launchScreen(ImageResultScreen(response: response));
+        }
       },
+      borderRadius: borderRadiusDefault,
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
