@@ -80,6 +80,7 @@ class HistoryItem extends StatelessWidget {
             builder: (context, isCompleted, imageUrl, remainingTime, isRetrying) {
               return isCompleted
                   ? Stack(
+                      fit: StackFit.expand,
                       children: [
                         CustomNetworkImage(url: imageUrl, errorLoading: true),
                         Positioned(
