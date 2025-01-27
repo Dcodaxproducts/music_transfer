@@ -23,7 +23,7 @@ class UpscaleHistoryList extends StatelessWidget {
         } else {
           history = upscaleController.upscaleHistory;
         }
-        history = history.reversed.toList();
+        history.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
         return Visibility(
           visible: history.isNotEmpty,
           child: Column(
