@@ -147,5 +147,13 @@
   "connection_timeout": "Kết nối đã hết thời gian chờ. Vui lòng kiểm tra kết nối internet của bạn và thử lại.",
   "unknown_error": "Đã xảy ra lỗi không mong đợi. Vui lòng thử lại sau.",
   "image_not_available_for_download": "Hình ảnh không có sẵn để tải xuống. Vui lòng thử lại sau.",
-  "image_not_available": "Hình ảnh không có sẵn để tải xuống. Vui lòng thử lại sau."
+  "image_not_available": "Hình ảnh không có sẵn để tải xuống. Vui lòng thử lại sau.",
+  "loading_assets": "Đang tải tài sản",
+  "initializing_ai_models": "Đang khởi tạo mô hình AI",
+  "uploading_image": "Đang tải lên hình ảnh",
+  "removing_background": "Đang xóa nền",
+  "background_remover": "Trình xóa nền",
+  "remove_background_easily": "Dễ dàng xóa nền khỏi hình ảnh.",
+  "image_upscale": "Nâng cấp hình ảnh",
+  "upscale_images_to_higher_resolutions": "Nâng cấp hình ảnh lên độ phân giải cao hơn."
 }

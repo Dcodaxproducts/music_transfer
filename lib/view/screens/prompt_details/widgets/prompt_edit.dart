@@ -1,12 +1,14 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:matrix_ai/controller/background_remover_controller.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
-import 'package:matrix_ai/controller/subscription_controller.dart';
-import 'package:matrix_ai/view/screens/subscription/subscription.dart';
-import '../../../../helper/navigation.dart';
+import 'package:matrix_ai/controller/image_upscale_controller.dart';
+import 'package:matrix_ai/data/model/response/tools.dart';
+import 'package:matrix_ai/data/model/response/upscale_response.dart';
+import 'package:matrix_ai/helper/navigation.dart';
+import 'package:matrix_ai/view/screens/upscale_image/pages/image_result_screen.dart';
 import '../../../../utils/style.dart';
 import '../../menu/widgets/menu_item.dart';
 
@@ -15,29 +17,22 @@ class PromptEditButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool visible = ImageGenerationController.find.promptResponse != null &&
-        ImageGenerationController.find.promptResponse!.model!.apiParameters.containsKey('upscale') &&
-        ImageGenerationController.find.promptResponse!.model!.apiParameters.containsKey('highres_fix');
-    return Visibility(
-      visible: visible,
-      child: Positioned(
-        bottom: 10.sp,
-        right: 10.sp,
-        child: InkWell(
-          onTap: showActionSheet,
-          borderRadius: borderRadiusDefault,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: spacingDefault, vertical: spacingMedium),
-            decoration:
-                BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: borderRadiusDefault),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Iconsax.edit, size: spacingDefault, color: Colors.white),
-                SizedBox(width: spacingSmall),
-                Text('edit'.tr, style: bodyMedium(context).copyWith(color: Colors.white)),
-              ],
-            ),
+    return Positioned(
+      bottom: 10.sp,
+      right: 10.sp,
+      child: InkWell(
+        onTap: showActionSheet,
+        borderRadius: borderRadiusDefault,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: spacingDefault, vertical: spacingMedium),
+          decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: borderRadiusDefault),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Iconsax.edit, size: spacingDefault, color: Colors.white),
+              SizedBox(width: spacingSmall),
+              Text('edit'.tr, style: bodyMedium(context).copyWith(color: Colors.white)),
+            ],
           ),
         ),
       ),
@@ -57,57 +52,33 @@ class ActionSheet extends StatefulWidget {
 class _ActionSheetState extends State<ActionSheet> {
   List<MenuItem> items = [
     MenuItem(
-      text: 'face_fix',
-      subtile: 'improve_face_realism_in_your_art_with_ai',
-      icon: Iconsax.user,
-      onTap: () {
-        if (!isPro && Platform.isIOS) {
-          showPremiumSheet();
-          return;
-        }
+      text: 'upscale_image'.tr,
+      subtile: 'upscale_images_to_higher_resolutions'.tr,
+      icon: Iconsax.magicpen,
+      onTap: () async {
         pop();
-        ImageGenerationController api = ImageGenerationController.find;
-        api
-            .generateImages(
-          api.promptResponse!.meta.prompt,
-          seed: api.promptResponse?.meta.seed,
-          faceFix: true,
-          model: api.promptResponse!.model,
-        )
-            .then((response) {
-          if (response != null) {
-            api.promptResponse = response;
-          } else {
-            pop();
-          }
-        });
+        UpscaleResponse? response = await ImageUpscaleController.find.upscaleImage(
+          tool: ToolModel.upscaleImageTool,
+          urlImage: ImageGenerationController.find.imageUrl,
+        );
+        if (response != null) {
+          launchScreen(ImageResultScreen(response: response));
+        }
       },
     ),
     MenuItem(
-      text: 'ai_enhance',
-      subtile: 'remove_noise_and_sharpen_images_with_ai',
-      icon: Iconsax.magicpen,
-      onTap: () {
-        if (!isPro && Platform.isIOS) {
-          showPremiumSheet();
-          return;
-        }
+      text: 'background_remover'.tr,
+      subtile: 'remove_background_easily'.tr,
+      icon: Iconsax.eraser_1,
+      onTap: () async {
         pop();
-        ImageGenerationController api = ImageGenerationController.find;
-        api
-            .generateImages(
-          api.promptResponse!.meta.prompt,
-          seed: api.promptResponse?.meta.seed,
-          upscale: true,
-          model: api.promptResponse!.model,
-        )
-            .then((response) {
-          if (response != null) {
-            api.promptResponse = response;
-          } else {
-            pop();
-          }
-        });
+        UpscaleResponse? response = await BackgroundRemoverController.find.removeImageBackground(
+          tool: ToolModel.backgroundRemoverTool,
+          urlImage: ImageGenerationController.find.imageUrl,
+        );
+        if (response != null) {
+          launchScreen(ImageResultScreen(response: response));
+        }
       },
     ),
   ];

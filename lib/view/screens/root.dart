@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:easy_audience_network/easy_audience_network.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -55,40 +56,31 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
       disconnected = true;
     }
 
+    // check internet connection
     _checkInternetConnection();
+
+    // add observer
     WidgetsBinding.instance.addObserver(this);
+
+    //
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
+      // load ad network
+      await _loadAdNetwork();
+
       // get history from shared preferences
-      HistoryController.find.initPromptHistory();
-      ReviewController.find.checkReviewed();
-      SettingsController.find.initSharedData();
+      _getHistoryFromPrefs();
+
       // init aws
       AwsController.find.initAWS();
+
       //get data from api
-      await Future.wait([
-        GenerationController.find.initialize(),
-        AdsController.find.initialize(),
-        ModelsController.find.getModels(),
-        InspirationController.find.getInspirations(),
-        SettingsController.find.getSettings(),
-      ]);
+      await _getDataFromApi();
 
       await SubscriptionController.find.initialize().catchError((_) {});
 
       // show add
-      if (GetPlatform.isIOS) {
-        await _loadAppOpenAd().then((value) async {
-          await _appOpenAd?.showIfNotPro();
-        }).catchError((e) {
-          FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
-        });
-      } else {
-        await _loadAppOpenAdFacebook().then((value) async {
-          await _appOpenFacebook?.show();
-        }).catchError((e) {
-          FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
-        });
-      }
+      await _showAds();
+
       //
       _ready = true;
       if (mounted) setState(() {});
@@ -105,6 +97,46 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     });
   }
 
+  Future<void> _loadAdNetwork() async {
+    if (GetPlatform.isAndroid) {
+      await EasyAudienceNetwork.init(testingId: '4fbcc06a-ce20-488e-a177-548ef22109c3');
+    } else {
+      await MobileAds.instance.initialize();
+    }
+  }
+
+  _getHistoryFromPrefs() {
+    HistoryController.find.initPromptHistory();
+    ReviewController.find.checkReviewed();
+    SettingsController.find.initSharedData();
+  }
+
+  Future<void> _getDataFromApi() async {
+    await Future.wait([
+      GenerationController.find.initialize(),
+      AdsController.find.initialize(),
+      ModelsController.find.getModels(),
+      InspirationController.find.getInspirations(),
+      SettingsController.find.getSettings(),
+    ]);
+  }
+
+  Future<void> _showAds() async {
+    if (GetPlatform.isIOS) {
+      await _loadAppOpenAd().then((value) async {
+        await _appOpenAd?.showIfNotPro();
+      }).catchError((e) {
+        FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
+      });
+    } else {
+      await _loadAppOpenAdFacebook().then((value) async {
+        await _appOpenFacebook?.show();
+      }).catchError((e) {
+        FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
+      });
+    }
+  }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -115,6 +147,11 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    _showAdOnAppResume(state);
+    super.didChangeAppLifecycleState(state);
+  }
+
+  _showAdOnAppResume(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       if (_lastShownTime.difference(DateTime.now()).inMinutes > 5) {
         if (GetPlatform.isIOS) {
@@ -131,7 +168,6 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
         _loadAppOpenAdFacebook();
       }
     }
-    super.didChangeAppLifecycleState(state);
   }
 
   Future<AppOpenAd?> _loadAppOpenAd() async {

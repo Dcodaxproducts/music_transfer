@@ -67,15 +67,10 @@ class ToolCard extends StatelessWidget {
                 children: [
                   Text(
                     tool.name,
-                    style: bodyMedium(context).copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
                   ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    tool.description,
-                    style: bodySmall(context),
-                  ),
+                  SizedBox(height: spacingSmall),
+                  Text(tool.description, style: bodySmall(context)),
                 ],
               ),
             ),

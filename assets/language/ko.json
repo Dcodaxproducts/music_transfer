@@ -123,7 +123,13 @@
   "your_prompt_is_processing_in_the_queue": "귀하의 프롬프트가 대기열에서 처리 중입니다.",
   "image_upload_failed": "이미지 업로드 실패",
   "upload_image": "이미지 업로드",
+  "uploading_image": "이미지 업로드 중",
   "remove_background": "배경 제거",
+  "removing_background": "배경 제거 중",
+  "background_remover": "배경 제거기",
+  "remove_background_easily": "이미지에서 배경을 쉽게 제거하세요.",
+  "image_upscale": "이미지 업스케일",
+  "upscale_images_to_higher_resolutions": "이미지를 더 높은 해상도로 업스케일하세요.",
   "too_many_requests": "이런! 요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.",
   "success": "성공",
   "error": "오류",
@@ -145,5 +151,7 @@
   "server_error": "내부 서버 오류가 발생했습니다. 나중에 다시 시도하세요.",
   "connection_timeout": "연결 시간이 초과되었습니다. 인터넷 연결을 확인하고 다시 시도하세요.",
   "unknown_error": "예기치 않은 오류가 발생했습니다. 나중에 다시 시도하세요.",
-  "image_not_available": "이미지를 다운로드할 수 없습니다. 잠시 후 다시 시도하세요."
+  "image_not_available": "이미지를 다운로드할 수 없습니다. 잠시 후 다시 시도하세요.",
+  "loading_assets": "자산 로드 중",
+  "initializing_ai_models": "AI 모델 초기화 중"
 }

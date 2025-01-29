@@ -147,5 +147,13 @@
   "server_error": "内部サーバー エラーが発生しました。後でもう一度お試しください。",
   "connection_timeout": "接続がタイムアウトしました。インターネット接続を確認して、もう一度お試しください。",
   "unknown_error": "予期しないエラーが発生しました。後でもう一度お試しください。",
-  "image_not_available": "画像をダウンロードできません。しばらくしてからもう一度お試しください。"
+  "image_not_available": "画像をダウンロードできません。しばらくしてからもう一度お試しください。",
+  "loading_assets": "アセットの読み込み中",
+  "initializing_ai_models": "AIモデルの初期化中",
+  "uploading_image": "画像をアップロード中",
+  "removing_background": "背景を削除中",
+  "background_remover": "背景リムーバー",
+  "remove_background_easily": "画像から簡単に背景を削除します。",
+  "image_upscale": "画像アップスケール",
+  "upscale_images_to_higher_resolutions": "画像を高解像度にアップスケールします。"
 }

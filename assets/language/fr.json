@@ -147,5 +147,13 @@
   "server_error": "Une erreur interne du serveur s'est produite. Veuillez réessayer plus tard.",
   "connection_timeout": "La connexion a expiré. Veuillez vérifier votre connexion Internet et réessayer.",
   "unknown_error": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
-  "image_not_available": "Image non disponible pour le téléchargement. Réessayez dans un instant."
+  "image_not_available": "Image non disponible pour le téléchargement. Réessayez dans un instant.",
+  "loading_assets": "Chargement des actifs",
+  "initializing_ai_models": "Initialisation des modèles AI",
+  "uploading_image": "Téléchargement de l'image",
+  "removing_background": "Suppression de l'arrière-plan",
+  "background_remover": "Suppresseur de fond",
+  "remove_background_easily": "Supprimez facilement l'arrière-plan des images.",
+  "image_upscale": "Agrandissement d'image",
+  "upscale_images_to_higher_resolutions": "Agrandissez les images à des résolutions plus élevées."
 }

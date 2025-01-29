@@ -125,6 +125,8 @@
   "image_upload_failed": "Falha no upload da imagem",
   "upload_image": "Carregar imagem",
   "remove_background": "Remover fundo",
+  "uploading_image": "Carregando imagem",
+  "removing_background": "Removendo fundo",
   "too_many_requests": "Ops! Muitas solicitações. Por favor, tente novamente em um momento.",
   "success": "Sucesso",
   "error": "Erro",
@@ -146,5 +148,11 @@
   "server_error": "Ocorreu um erro interno no servidor. Tente novamente mais tarde.",
   "connection_timeout": "A conexão expirou. Verifique sua conexão com a Internet e tente novamente.",
   "unknown_error": "Ocorreu um erro inesperado. Tente novamente mais tarde.",
-  "image_not_available": "Imagem não disponível para download. Tente novamente em breve."
+  "image_not_available": "Imagem não disponível para download. Tente novamente em breve.",
+  "loading_assets": "Carregando ativos",
+  "initializing_ai_models": "Inicializando modelos de IA",
+  "background_remover": "Removedor de fundo",
+  "remove_background_easily": "Remova facilmente o fundo das imagens.",
+  "image_upscale": "Aprimoramento de imagem",
+  "upscale_images_to_higher_resolutions": "Aprimore as imagens para resoluções mais altas."
 }

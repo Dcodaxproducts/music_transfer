@@ -146,5 +146,13 @@
   "server_error": "A apărut o eroare internă a serverului. Vă rugăm să încercați din nou mai târziu.",
   "connection_timeout": "Conexiunea a expirat. Vă rugăm să verificați conexiunea la internet și să încercați din nou.",
   "unknown_error": "A apărut o eroare neașteptată. Vă rugăm să încercați din nou mai târziu.",
-  "image_not_available": "Imaginea nu este disponibilă pentru descărcare. Încercați din nou în scurt timp."
+  "image_not_available": "Imaginea nu este disponibilă pentru descărcare. Încercați din nou în scurt timp.",
+  "loading_assets": "Se încarcă activele",
+  "initializing_ai_models": "Se inițializează modelele AI",
+  "uploading_image": "Încărcarea imaginii",
+  "removing_background": "Eliminarea fundalului",
+  "background_remover": "Eliminator de fundal",
+  "remove_background_easily": "Eliminați cu ușurință fundalul din imagini.",
+  "image_upscale": "Îmbunătățirea imaginii",
+  "upscale_images_to_higher_resolutions": "Îmbunătățiți imaginile la rezoluții mai mari."
 }

@@ -14,11 +14,18 @@ class ImageGenerationController extends GetxController implements GetxService {
   static ImageGenerationController get find => Get.find<ImageGenerationController>();
 
   PromptResponse? _promptResponse;
+  String? _imageUrl;
 
   PromptResponse? get promptResponse => _promptResponse;
+  String? get imageUrl => _imageUrl;
 
   set promptResponse(PromptResponse? value) {
     _promptResponse = value;
+    Future.delayed(const Duration(milliseconds: 10), () => update());
+  }
+
+  set imageUrl(String? value) {
+    _imageUrl = value;
     Future.delayed(const Duration(milliseconds: 10), () => update());
   }
 
@@ -38,16 +45,14 @@ class ImageGenerationController extends GetxController implements GetxService {
     http.Response? response = await imageGenerationServiceInterface.generateImages(
       prompt,
       seed: seed,
-      upscale: upscale,
-      faceFix: faceFix,
       modelValue: model,
       showAds: showAds,
       apiKey: apiKeyModel?.apiKey,
     );
 
     //
-    PromptResponse? value = await imageGenerationServiceInterface.processGenerationResponse(
-        response, prompt, model, upscale, seed);
+    PromptResponse? value =
+        await imageGenerationServiceInterface.processGenerationResponse(response, prompt, model, seed);
 
     return value;
   }

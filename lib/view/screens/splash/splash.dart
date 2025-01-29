@@ -1,6 +1,5 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'dart:async';
 import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/view/base/common/loading.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,10 +9,39 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final ValueNotifier<int> _currentTextIndex = ValueNotifier<int>(0);
+  late Timer _timer;
+
+  final List<String> _loadingTexts = [
+    'getting_started'.tr,
+    "loading_assets",
+    "initializing_ai_models",
+    "almost_there"
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+      if (_currentTextIndex.value < _loadingTexts.length - 1) {
+        _currentTextIndex.value++;
+      } else {
+        timer.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _currentTextIndex.dispose();
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColorDark,
       body: Padding(
         padding: paddingDefault,
         child: Column(
@@ -22,48 +50,32 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(Images.logo, width: 100.sp, height: 100.sp),
-                  SizedBox(height: 150.sp),
-                  // pixart Title
-                  Text(
-                    AppConstants.APP_NAME,
-                    style: displayMedium(context).copyWith(fontWeight: FontWeight.w600, color: Colors.white),
-                  ),
-                  SizedBox(height: spacingSmall),
-                  // pixart Subtitle
-                  Text(
-                    'the_best_ai_image_generator'.tr,
-                    style: bodyMedium(context).copyWith(color: hintColorDark),
-                  ),
                   SizedBox(height: 50.sp),
+                  Image.asset(Images.logo, width: 150.sp, height: 150.sp),
                 ],
               ),
             ),
-            const AnimatedProgressBar(duration: Duration(seconds: 5)),
-            SizedBox(height: 10.sp),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'getting_started'.tr,
-                  style: bodyMedium(context).copyWith(color: hintColorDark),
-                ),
                 SizedBox(
-                  width: 14.sp,
-                  child: DefaultTextStyle(
-                    style: bodyMedium(context).copyWith(color: hintColorDark),
-                    child: AnimatedTextKit(
-                      pause: const Duration(milliseconds: 500),
-                      repeatForever: true,
-                      animatedTexts: [
-                        TyperAnimatedText(
-                          '...',
-                          speed: const Duration(milliseconds: 500),
-                        ),
-                      ],
-                    ),
+                  width: 18.sp,
+                  height: 18.sp,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(bodyLarge(context).color!),
                   ),
-                )
+                ),
+                SizedBox(width: spacingMedium),
+                ValueListenableBuilder(
+                  valueListenable: _currentTextIndex,
+                  builder: (BuildContext context, int value, Widget? child) {
+                    return Text(
+                      _loadingTexts[_currentTextIndex.value].tr,
+                      style: bodyMedium(context).copyWith(color: hintColorDark),
+                    );
+                  },
+                ),
               ],
             ),
             SizedBox(height: spacingExtraLarge),

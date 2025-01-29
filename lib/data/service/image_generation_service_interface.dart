@@ -9,8 +9,6 @@ abstract class ImageGenerationServiceInterface<T> {
   Future<Response?> generateImages(
     String prompt, {
     int? seed,
-    bool upscale = false,
-    bool faceFix = false,
     Model? modelValue,
     bool showAds = true,
     String? apiKey,
@@ -20,7 +18,6 @@ abstract class ImageGenerationServiceInterface<T> {
     Response? response,
     String prompt,
     Model? model,
-    bool upscale,
     int? seed,
   );
 

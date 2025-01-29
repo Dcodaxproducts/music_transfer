@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
-import 'package:matrix_ai/utils/style.dart';
+import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/view/screens/prompt_details/widgets/regenerate.dart';
 import '../../../controller/ads_controller.dart';
 import '../../../controller/history_controller.dart';

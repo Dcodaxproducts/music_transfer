@@ -124,7 +124,9 @@
   "your_prompt_is_processing_in_the_queue": "Gesaan anda sedang diproses dalam barisan",
   "image_upload_failed": "Muat naik imej gagal",
   "upload_image": "Muat naik imej",
+  "uploading_image": "Memuat naik imej",
   "remove_background": "Alih keluar latar belakang",
+  "removing_background": "Mengalih keluar latar belakang",
   "upscale_image": "Meningkatkan kualiti imej",
   "too_many_requests": "Ups! Terlalu banyak permintaan. Sila cuba lagi sebentar lagi.",
   "success": "Berjaya",
@@ -147,5 +149,11 @@
   "server_error": "Ralat pelayan dalaman berlaku. Sila cuba lagi kemudian.",
   "connection_timeout": "Sambungan telah tamat masa. Sila semak sambungan internet anda dan cuba lagi.",
   "unknown_error": "Ralat yang tidak dijangka berlaku. Sila cuba lagi kemudian.",
-  "image_not_available_for_download": "Imej tidak tersedia untuk dimuat turun. Sila cuba lagi sebentar lagi."
+  "image_not_available_for_download": "Imej tidak tersedia untuk dimuat turun. Sila cuba lagi sebentar lagi.",
+  "loading_assets": "Memuatkan aset",
+  "initializing_ai_models": "Memulakan model AI",
+  "background_remover": "Penghilang Latar Belakang",
+  "remove_background_easily": "Alih keluar latar belakang daripada imej dengan mudah.",
+  "image_upscale": "Peningkatan Imej",
+  "upscale_images_to_higher_resolutions": "Tingkatkan imej kepada resolusi yang lebih tinggi."
 }

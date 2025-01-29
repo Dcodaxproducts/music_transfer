@@ -147,5 +147,13 @@
   "server_error": "Terjadi kesalahan server internal. Silakan coba lagi nanti.",
   "connection_timeout": "Koneksi telah habis waktu. Silakan periksa koneksi internet Anda dan coba lagi.",
   "unknown_error": "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti.",
-  "image_not_available": "Gambar tidak tersedia untuk diunduh. Coba lagi sebentar lagi."
+  "image_not_available": "Gambar tidak tersedia untuk diunduh. Coba lagi sebentar lagi.",
+  "loading_assets": "Memuat aset",
+  "initializing_ai_models": "Menginisialisasi model AI",
+  "uploading_image": "Mengunggah gambar",
+  "removing_background": "Menghapus latar belakang",
+  "background_remover": "Penghapus Latar Belakang",
+  "remove_background_easily": "Hapus latar belakang dari gambar dengan mudah.",
+  "image_upscale": "Peningkatan Gambar",
+  "upscale_images_to_higher_resolutions": "Perbesar gambar ke resolusi yang lebih tinggi."
 }

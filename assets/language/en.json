@@ -39,10 +39,6 @@
     "all": "All",
     "edit": "Edit",
     "edit_result": "Edit Result",
-    "face_fix": "Face Fix",
-    "improve_face_realism_in_your_art_with_ai" : "Improve face realism in your art with AI",
-    "ai_enhance": "AI Enhance",
-    "remove_noise_and_sharpen_images_with_ai": "Remove noise and sharpen images with AI",
     "delete": "Delete",
     "delete_prompt": "Delete Prompt",
     "delete_prompt_message": "Are you sure you want to delete this prompt?",
@@ -147,5 +143,13 @@
     "server_error": "An internal server error occurred. Please try again later.",
     "connection_timeout": "The connection has timed out. Please check your internet connection and try again.",
     "unknown_error": "An unexpected error occurred. Please try again later.",
-    "image_not_available": "Image not available for download. Try again shortly."
+    "image_not_available": "Image not available for download. Try again shortly.",
+    "loading_assets": "Loading Assets",
+    "initializing_ai_models": "Initializing AI Models",
+    "uploading_image": "Uploading Image",
+    "removing_background": "Removing Background",
+    "background_remover": "Background Remover",
+    "remove_background_easily": "Remove the background from images easily.",
+    "image_upscale": "Image Upscale",
+    "upscale_images_to_higher_resolutions": "Upscale images to higher resolutions."
 }

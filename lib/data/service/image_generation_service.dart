@@ -10,11 +10,11 @@ import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/model/response/api_model.dart';
 import 'package:matrix_ai/data/repository/image_generation_repo_interface.dart';
 import 'package:matrix_ai/utils/images.dart';
+import 'package:matrix_ai/view/screens/loading_screen/loading_screen.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../view/base/common/snackbar.dart';
 import '../../controller/subscription_controller.dart';
 import '../../utils/app_constants.dart';
-import '../../view/base/loading/prompt_loading.dart';
 import '../model/body/aspect_ratio.dart';
 import '../model/response/models_lab_response.dart';
 import '../model/response/model.dart';
@@ -52,12 +52,8 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   }
 
   @override
-  Future<ApiKeyModel?> getTogetherApiKey(
-    Model? modelValue, {
-    bool upscale = false,
-    bool faceFix = false,
-  }) async {
-    showPromptLoading(facefix: faceFix, upscale: upscale);
+  Future<ApiKeyModel?> getTogetherApiKey(Model? modelValue) async {
+    showPromptLoading();
     Model model = ImageGenerationUtils.getModel(modelValue);
     bool isTogetherAi = ImageGenerationUtils.isTogetherAi(model);
     await Future.delayed(Duration(seconds: model.delay));
@@ -75,8 +71,6 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   Future<http.Response?> generateImages(
     String prompt, {
     int? seed,
-    bool upscale = false,
-    bool faceFix = false,
     Model? modelValue,
     bool showAds = true,
     String? apiKey,
@@ -99,8 +93,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     Map<String, dynamic> headers = ImageGenerationUtils.getHeaders(model, apiKey);
 
     // create request body (parameters to send to the api)
-    Map<String, dynamic> body =
-        ImageGenerationUtils.createRequestBody(prompt, size, model, seed, upscale, faceFix, apiKey);
+    Map<String, dynamic> body = ImageGenerationUtils.createRequestBody(prompt, size, model, seed, apiKey);
 
     // send request to api
     return await imageGenerationRepo.generateImages(url: apiUrl, body: body, headers: headers);
@@ -112,7 +105,6 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     http.Response? response,
     String prompt,
     Model? modelValue,
-    bool upscale,
     int? seed,
   ) async {
     if (response == null) return null;

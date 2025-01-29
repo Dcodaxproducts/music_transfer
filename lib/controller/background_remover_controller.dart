@@ -14,9 +14,10 @@ class BackgroundRemoverController extends GetxController implements GetxService 
   final List<UpscaleResponse> _backgroundRemovalHistory = [];
   List<UpscaleResponse> get backgroundRemovalHistory => _backgroundRemovalHistory;
 
-  Future<UpscaleResponse?> removeImageBackground({required File image, required ToolModel tool}) async {
+  Future<UpscaleResponse?> removeImageBackground(
+      {File? image, required ToolModel tool, String? urlImage}) async {
     final http.Response? response =
-        await backgroundRemoverService.removeImageBackground(image: image, tool: tool);
+        await backgroundRemoverService.removeImageBackground(image: image, tool: tool, urlImage: urlImage);
 
     return backgroundRemoverService.processResponse(response: response, tool: tool);
   }

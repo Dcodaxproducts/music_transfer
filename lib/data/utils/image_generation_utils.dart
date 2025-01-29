@@ -49,8 +49,6 @@ class ImageGenerationUtils {
     AspectRatioModel size,
     Model model,
     int? seed,
-    bool upscale,
-    bool faceFix,
     String? apiKey,
   ) {
     // get the model api parameters
@@ -78,14 +76,6 @@ class ImageGenerationUtils {
 
     // add the guidance scale to the body
     body[params.cfgScale] = config.guidanceScale.toString();
-
-    // if upscale is enabled and the model supports upscaling, add upscale to the body
-    if (upscale && body.containsKey('upscale')) {
-      body['upscale'] = 2;
-    }
-
-    // if face fix is enabled and the model supports face fix, add face fix to the body
-    if (faceFix && body.containsKey('highres_fix')) body['highres_fix'] = 'yes';
 
     // if seed is not null, add seed to the body
     if (seed != null) body['seed'] = ImageGenerationUtils.isTogetherAi(model) ? seed : seed.toString();

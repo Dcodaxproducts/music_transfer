@@ -146,5 +146,13 @@
   "timeout": "您的请求已超时。请检查您的互联网连接并重试。",
   "server_error": "发生内部服务器错误。请稍后再试。",
   "connection_timeout": "连接超时。请检查您的互联网连接并重试。",
-  "unknown_error": "发生意外错误。请稍后再试。"
+  "unknown_error": "发生意外错误。请稍后再试。",
+  "loading_assets": "加载资产",
+  "initializing_ai_models": "初始化人工智能模型",
+  "uploading_image": "正在上传图片",
+  "removing_background": "正在移除背景",
+  "background_remover": "背景移除器",
+  "remove_background_easily": "轻松移除图像背景。",
+  "image_upscale": "图像放大",
+  "upscale_images_to_higher_resolutions": "将图像放大到更高的分辨率。"
 }

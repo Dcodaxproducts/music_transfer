@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:get/get.dart' as st;
 import 'package:http/http.dart';
 import 'package:matrix_ai/controller/aws_controller.dart';
 import 'package:matrix_ai/data/model/response/upscale_response.dart';
+import 'package:matrix_ai/view/screens/loading_screen/loading_screen.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../view/base/common/snackbar.dart';
 import '../../controller/background_remover_controller.dart';
@@ -19,9 +21,9 @@ class BackgroundRemoverService implements BackgroundRemoverServiceInterface {
   BackgroundRemoverService({required this.backgroundRemoverRepo});
 
   @override
-  Future<Response?> removeImageBackground({required File image, required ToolModel tool}) async {
-    showLoading();
-    final String? imageUrl = await AwsController.find.uploadFile(image);
+  Future<Response?> removeImageBackground({ File? image, required ToolModel tool,String? urlImage}) async {
+    showPromptLoading(backgroundRemover: true);
+    final String? imageUrl =urlImage ?? await AwsController.find.uploadFile(image!);
     if (imageUrl == null) {
       showToast('image_upload_failed');
       dismiss();
@@ -72,6 +74,7 @@ class BackgroundRemoverService implements BackgroundRemoverServiceInterface {
       return value;
     } else if (value.status == "processing") {
       showToast('your_image_is_processing_in_the_queue', success: true);
+      st.Get.close(1);
     } else {
       showToast(data["message"]);
     }

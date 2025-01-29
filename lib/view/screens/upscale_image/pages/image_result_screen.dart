@@ -25,7 +25,11 @@ class _ImageResultScreenState extends State<ImageResultScreen> {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(color: context.theme.cardColor),
-              child: CustomNetworkImage(url: widget.response.output.first, fit: BoxFit.contain),
+              child: CustomNetworkImage(
+                url: widget.response.output.first,
+                errorLoading: true,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           SizedBox(height: spacingDefault),

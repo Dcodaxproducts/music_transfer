@@ -146,5 +146,13 @@
   "server_error": "حدث خطأ داخلي في الخادم. يرجى المحاولة مرة أخرى لاحقًا.",
   "connection_timeout": "انتهت مهلة الاتصال. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.",
   "unknown_error": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقًا.",
-  "image_not_available": "الصورة غير متاحة للتنزيل. حاول مرة أخرى بعد قليل."
+  "image_not_available": "الصورة غير متاحة للتنزيل. حاول مرة أخرى بعد قليل.",
+  "loading_assets": "جارٍ تحميل الأصول",
+  "initializing_ai_models": "جارٍ تهيئة نماذج الذكاء الاصطناعي",
+  "uploading_image": "تحميل الصورة",
+  "removing_background": "إزالة الخلفية",
+  "background_remover": "مزيل الخلفية",
+  "remove_background_easily": "قم بإزالة الخلفية من الصور بسهولة.",
+  "image_upscale": "ترقية الصورة",
+  "upscale_images_to_higher_resolutions": "قم بترقية الصور إلى دقة أعلى."
 }

@@ -1,50 +1,141 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import '../../../../imports.dart';
 import '../../../base/common/network_image.dart';
 import '../../../base/view_image.dart';
+import 'prompt_edit.dart';
 import 'prompt_report.dart';
 
-class PromptImageWidget extends StatelessWidget {
+GlobalKey<PromptImageWidgetState> promptImageWidgetKey = GlobalKey<PromptImageWidgetState>();
+
+class PromptImageWidget extends StatefulWidget {
   final PromptResponse response;
   const PromptImageWidget({super.key, required this.response});
 
   @override
+  State<PromptImageWidget> createState() => PromptImageWidgetState();
+}
+
+class PromptImageWidgetState extends State<PromptImageWidget> {
+  final ValueNotifier<int> _currentIndex = ValueNotifier<int>(0);
+
+  @override
+  void initState() {
+    _getInitialUrl();
+    super.initState();
+  }
+
+  _getInitialUrl() {
+    final result = widget.response;
+    if (result.output.isEmpty) {
+      ImageGenerationController.find.imageUrl =
+          (result.futureLinks.isNotEmpty) ? result.futureLinks.first : '';
+    } else {
+      ImageGenerationController.find.imageUrl = result.output.first;
+    }
+  }
+
+  _selectImage(int index) {
+    _currentIndex.value = index;
+    ImageGenerationController.find.imageUrl = widget.response.output[index];
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final result = response;
+    final result = widget.response;
     int width = result.meta.w;
     int height = result.meta.h;
-    String url = '';
-    if (result.output.isEmpty) {
-      url = (result.futureLinks.isNotEmpty) ? result.futureLinks.first : '';
-    } else {
-      url = result.output.first;
-    }
-    return GetBuilder<ImageGenerationController>(builder: (controller) {
-      return InkWell(
-        onTap: () => launchScreen(ViewImage(url)),
-        child: AspectRatio(
-          aspectRatio: width / height,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              // image
-              Hero(
-                tag: url,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(spacingDefault)),
-                  child: CustomNetworkImage(url: url, errorLoading: true),
+
+    return GetBuilder<ImageGenerationController>(
+      builder: (controller) {
+        String url = controller.imageUrl ?? '';
+        return Column(
+          children: [
+            InkWell(
+              onTap: () => launchScreen(ViewImage(url)),
+              child: AspectRatio(
+                aspectRatio: width / height,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // image
+                    Hero(
+                      tag: url,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.vertical(bottom: Radius.circular(spacingDefault)),
+                        child: CustomNetworkImage(url: url, errorLoading: true),
+                      ),
+                    ),
+
+                    const BackButton(),
+                    const PromptEditButton(),
+                    const PromptReportButton(),
+                  ],
                 ),
               ),
-
-              const BackButton(),
-              // const PromptEditButton(),
-              const PromptReportButton(),
-            ],
-          ),
-        ),
-      );
-    });
+            ),
+            if (result.output.length > 1)
+              Padding(
+                padding: paddingDefault,
+                child: SizedBox(
+                  height: 50.sp,
+                  child: ValueListenableBuilder(
+                      valueListenable: _currentIndex,
+                      builder: (context, value, child) {
+                        return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: result.output.length,
+                          separatorBuilder: (context, index) => SizedBox(width: spacingDefault),
+                          itemBuilder: (context, index) {
+                            bool isSelected = _currentIndex.value == index;
+                            return InkWell(
+                              onTap: () => _selectImage(index),
+                              borderRadius: borderRadiusSmall,
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      color: context.theme.cardColor,
+                                      borderRadius: borderRadiusSmall,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: borderRadiusSmall,
+                                      child: CachedNetworkImage(
+                                        imageUrl: result.output[index],
+                                        width: 50.sp,
+                                        height: 50.sp,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  if (isSelected)
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.3),
+                                        borderRadius: borderRadiusSmall,
+                                      ),
+                                      child: Icon(
+                                        Icons.check_circle_rounded,
+                                        size: 16.sp,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }),
+                ),
+              )
+          ],
+        );
+      },
+    );
   }
 }
 

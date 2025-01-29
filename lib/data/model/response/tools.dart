@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:matrix_ai/data/model/response/background_remover.dart';
 import 'package:matrix_ai/data/model/response/upscale_image.dart';
 
@@ -43,27 +44,26 @@ class ToolModel {
           json['background_remover'] != null ? BackgroundRemover.fromJson(json['background_remover']) : null,
     );
   }
+  static ToolModel backgroundRemoverTool = ToolModel(
+    image: 'https://i.imgur.com/uXQqEdA.png',
+    name: 'background_remover'.tr,
+    description: 'remove_background_easily'.tr,
+    apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',
+    apiUrl: 'https://modelslab.com/api/v6/image_editing/removebg_mask',
+    queueUrl: 'https://modelslab.com/api/v6/image_editing/fetch',
+    apiKeyLoation: 'body',
+    backgroundRemover: BackgroundRemover.initialValue,
+  );
+  static ToolModel upscaleImageTool = ToolModel(
+    image: 'https://i.imgur.com/xwnUhAb.png',
+    name: 'image_upscale'.tr,
+    description: 'upscale_images_to_higher_resolutions'.tr,
+    apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',
+    apiUrl: 'https://modelslab.com/api/v6/image_editing/super_resolution',
+    queueUrl: 'https://modelslab.com/api/v6/image_editing/fetch',
+    apiKeyLoation: 'body',
+    upscaleImage: UpscaleImage.initialValue,
+  );
 }
 
-List<ToolModel> get tools => [
-      ToolModel(
-        image: 'https://i.imgur.com/uXQqEdA.png',
-        name: 'Background Remover',
-        description: 'Remove the background from images easily.',
-        apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',
-        apiUrl: 'https://modelslab.com/api/v6/image_editing/removebg_mask',
-        queueUrl: 'https://modelslab.com/api/v6/image_editing/fetch',
-        apiKeyLoation: 'body',
-        backgroundRemover: BackgroundRemover.initialValue,
-      ),
-      ToolModel(
-        image: 'https://i.imgur.com/xwnUhAb.png',
-        name: 'Image Upscale',
-        description: 'Upscale images to higher resolutions.',
-        apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',
-        apiUrl: 'https://modelslab.com/api/v6/image_editing/super_resolution',
-        queueUrl: 'https://modelslab.com/api/v6/image_editing/fetch',
-        apiKeyLoation: 'body',
-        upscaleImage: UpscaleImage.initialValue,
-      ),
-    ];
+List<ToolModel> get tools => [ToolModel.upscaleImageTool, ToolModel.backgroundRemoverTool];

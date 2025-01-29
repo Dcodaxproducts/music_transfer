@@ -4,7 +4,7 @@ import 'package:matrix_ai/data/model/response/tools.dart';
 import '../model/response/upscale_response.dart';
 
 abstract class ImageUpscaleServiceInterface {
-  Future<Response?> upscaleImage({required File image, required ToolModel tool});
+  Future<Response?> upscaleImage({File? image, required ToolModel tool, String? urlImage});
 
   UpscaleResponse? processResponse({required Response? response, required ToolModel tool});
 

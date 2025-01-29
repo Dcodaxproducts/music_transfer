@@ -59,13 +59,24 @@ class AwsService implements AwsServiceInterface {
         AppConstants.AWS_BUCKET_NAME,
         'uploads/$fileName',
         Stream.value(bytes),
-        metadata: {'Content-Type': 'image/jpeg', 'prompt': prompt ?? ''},
+        metadata: {'Content-Type': 'image/jpeg', 'prompt': _sanitizePrompt(prompt)},
       );
       fileLink = _createFileLink(fileName);
     } catch (e) {
       debugPrint("Error uploading file: $e");
     }
     return fileLink;
+  }
+
+  String _sanitizePrompt(String? prompt) {
+    if (prompt == null) {
+      return '';
+    }
+    return prompt
+        .replaceAll('\n', ' ') // Replace newlines with spaces
+        .replaceAll('\r', '') // Remove carriage returns
+        .replaceAll('"', "'") // Replace double quotes with single quotes
+        .replaceAll(RegExp(r'[^\w\s\-.,]'), ''); // Remove other special characters
   }
 
   _createFileLink(String fileName) {

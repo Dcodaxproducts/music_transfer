@@ -23,58 +23,56 @@ class PromptSettingsWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Expanded(
-              child: InkWell(
-                borderRadius: borderRadiusDefault,
-                onTap: () => Get.bottomSheet(const AspectRatioScreen(), isScrollControlled: true),
-                child: Container(
-                  height: 55.sp,
-                  padding: EdgeInsets.symmetric(horizontal: spacingDefault),
-                  decoration: BoxDecoration(
-                    color: context.theme.cardColor,
-                    borderRadius: borderRadiusDefault,
-                  ),
-                  child: Row(
-                    children: [
-                      GetBuilder<SettingsController>(builder: (con) {
-                        final aspectRatio =
-                            aspectRatios.firstWhere((e) => e.id == con.configModel.aspectRatio);
-                        return Text(
-                          '${aspectRatio.width} x ${aspectRatio.height}',
-                          style: bodyMedium(context),
-                        );
-                      }),
-                      const Spacer(),
-                      Icon(Iconsax.image, size: 18.sp),
-                    ],
-                  ),
-                ),
-              ),
+              child: GetBuilder<SettingsController>(builder: (con) {
+                final aspectRatio = aspectRatios.firstWhere((e) => e.id == con.configModel.aspectRatio);
+                return PromptOptionButton(
+                  title: '${aspectRatio.width} x ${aspectRatio.height}',
+                  icon: Iconsax.image,
+                  onTap: () => Get.bottomSheet(const AspectRatioScreen(), isScrollControlled: true),
+                );
+              }),
             ),
             SizedBox(width: spacingDefault),
             Expanded(
-              child: InkWell(
-                borderRadius: borderRadiusDefault,
+              child: PromptOptionButton(
+                title: 'prompt_settings'.tr,
+                icon: Iconsax.setting_4,
                 onTap: () => Get.bottomSheet(const SettingScreen(), isScrollControlled: true),
-                child: Container(
-                  height: 55.sp,
-                  padding: EdgeInsets.symmetric(horizontal: spacingDefault),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: borderRadiusDefault,
-                  ),
-                  child: Row(
-                    children: [
-                      Text('prompt_settings'.tr, style: bodyMedium(context)),
-                      const Spacer(),
-                      Icon(Iconsax.setting_4, size: 18.sp),
-                    ],
-                  ),
-                ),
               ),
-            )
+            ),
           ],
         ),
       ],
+    );
+  }
+}
+
+class PromptOptionButton extends StatelessWidget {
+  final String title;
+  final IconData? icon;
+  final Function() onTap;
+  const PromptOptionButton({super.key, required this.title, this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: borderRadiusDefault,
+      onTap: onTap,
+      child: Container(
+        height: 55.sp,
+        padding: EdgeInsets.symmetric(horizontal: spacingDefault),
+        decoration: BoxDecoration(
+          color: context.theme.cardColor,
+          borderRadius: borderRadiusDefault,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: bodyMedium(context)),
+            if (icon != null) Icon(icon, size: 18.sp),
+          ],
+        ),
+      ),
     );
   }
 }

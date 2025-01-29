@@ -10,7 +10,8 @@ import 'image_result_screen.dart';
 class ImageUplodedScreen extends StatefulWidget {
   final XFile image;
   final ToolModel tool;
-  const ImageUplodedScreen({super.key, required this.image, required this.tool});
+  final ImageSource source;
+  const ImageUplodedScreen({super.key, required this.image, required this.tool, required this.source});
 
   @override
   State<ImageUplodedScreen> createState() => _ImageUplodedScreenState();
@@ -18,6 +19,23 @@ class ImageUplodedScreen extends StatefulWidget {
 
 class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
   bool get _bacgroundRemover => widget.tool.backgroundRemover != null;
+  late XFile image;
+
+  @override
+  void initState() {
+    image = widget.image;
+    super.initState();
+  }
+
+  Future<void> _pickImage() async {
+    final value = await ImagePicker().pickImage(source: widget.source);
+    if (value != null) {
+      setState(() {
+        image = value;
+      });
+    }
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +46,7 @@ class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(color: context.theme.cardColor),
-              child: Image.file(File(widget.image.path), fit: BoxFit.contain),
+              child: Image.file(File(image.path), fit: BoxFit.contain),
             ),
           ),
           SizedBox(height: spacingDefault),
@@ -45,9 +63,9 @@ class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
                   ),
                 ),
                 SizedBox(height: spacingDefault),
-                const SizedBox(
+                SizedBox(
                   width: double.infinity,
-                  child: PrimaryOutlineButton(text: 'Change Image', onPressed: pop),
+                  child: PrimaryOutlineButton(text: 'Change Image', onPressed: _pickImage),
                 ),
               ],
             ),
@@ -59,7 +77,7 @@ class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
 
   _handleApiCall() async {
     UpscaleResponse? response;
-    File file = File(widget.image.path);
+    File file = File(image.path);
     if (_bacgroundRemover) {
       response = await BackgroundRemoverController.find.removeImageBackground(image: file, tool: widget.tool);
     } else {
@@ -67,8 +85,6 @@ class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
     }
     if (response != null) {
       launchScreen(ImageResultScreen(response: response), replace: true);
-    } else {
-      Get.close(1);
     }
   }
 }

@@ -50,10 +50,7 @@ class PromptOptionWidget extends StatelessWidget {
               ),
               SizedBox(width: spacingDefault),
               if (result!.output.isNotEmpty) ...[
-                OptionButton(
-                  icon: Iconsax.import,
-                  onTap: () => _downloadImage(result.output.first),
-                ),
+                OptionButton(icon: Iconsax.import, onTap: _downloadImage),
                 SizedBox(width: spacingDefault),
               ],
               OptionButton(
@@ -74,7 +71,9 @@ class PromptOptionWidget extends StatelessWidget {
     });
   }
 
-  _downloadImage(String url) => DownloadImage.downloadImage(url);
+  _downloadImage() {
+    DownloadImage.downloadImage(ImageGenerationController.find.imageUrl ?? '');
+  }
 
   _deletePrompt(PromptResponse response) async {
     HistoryController.find.deletePrompt(response);

@@ -14,8 +14,16 @@ class ImageUpscaleController extends GetxController implements GetxService {
   final List<UpscaleResponse> _upscaleHistory = [];
   List<UpscaleResponse> get upscaleHistory => _upscaleHistory;
 
-  Future<UpscaleResponse?> upscaleImage({required File image, required ToolModel tool}) async {
-    final http.Response? response = await imageUpscaleService.upscaleImage(image: image, tool: tool);
+  Future<UpscaleResponse?> upscaleImage({
+    File? image,
+    required ToolModel tool,
+    String? urlImage,
+  }) async {
+    final http.Response? response = await imageUpscaleService.upscaleImage(
+      image: image,
+      tool: tool,
+      urlImage: urlImage,
+    );
 
     return imageUpscaleService.processResponse(response: response, tool: tool);
   }

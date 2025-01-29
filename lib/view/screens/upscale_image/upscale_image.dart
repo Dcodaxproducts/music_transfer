@@ -17,17 +17,16 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
   Future<void> _pickImage(ImageSource source) async {
     final value = await ImagePicker().pickImage(source: source);
     if (value != null) {
-      launchScreen(ImageUplodedScreen(image: value, tool: widget.tool));
+      launchScreen(ImageUplodedScreen(image: value, tool: widget.tool, source: source));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Upscale Image', style: titleSmall(context))),
+      appBar: AppBar(),
       body: ListView(
         children: [
-          SizedBox(height: spacingDefault),
           CachedNetworkImage(imageUrl: widget.tool.image),
           Padding(
             padding: paddingDefault,
@@ -66,5 +65,4 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
       ),
     );
   }
- 
 }

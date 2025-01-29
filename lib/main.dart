@@ -10,7 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:upgrader/upgrader.dart';
 import 'utils/scroll_behavior.dart';
 import 'view/base/common/loading.dart';
@@ -38,15 +37,14 @@ void main() async {
   FirebaseMessaging.instance.requestPermission();
   // initialize notification
   NotificationHelper.initialize();
-  // initialize google mobile ads
-  await MobileAds.instance.initialize();
+
   // Firebase Crashlytics
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
   // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
   PlatformDispatcher.instance.onError = (error, stack) {
-    if (error.toString().contains('HttpException: Invalid statusCode: 404')) {
+    if (error.toString().contains('HttpException')) {
       return false;
     } else {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);

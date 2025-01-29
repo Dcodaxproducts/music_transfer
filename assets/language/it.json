@@ -147,5 +147,13 @@
   "server_error": "Si è verificato un errore interno del server. Si prega di riprovare più tardi.",
   "connection_timeout": "La connessione è scaduta. Si prega di controllare la connessione a Internet e riprovare.",
   "unknown_error": "Si è verificato un errore imprevisto. Si prega di riprovare più tardi.",
-  "image_not_available": "Immagine non disponibile per il download. Riprova tra poco."
+  "image_not_available": "Immagine non disponibile per il download. Riprova tra poco.",
+  "loading_assets": "Caricamento delle risorse",
+  "initializing_ai_models": "Inizializzazione dei modelli AI",
+  "uploading_image": "Caricamento dell'immagine",
+  "removing_background": "Rimozione dello sfondo",
+  "background_remover": "Rimozione sfondo",
+  "remove_background_easily": "Rimuovi facilmente lo sfondo dalle immagini.",
+  "image_upscale": "Ingrandimento immagine",
+  "upscale_images_to_higher_resolutions": "Ingrandisci le immagini a risoluzioni più elevate."
 }

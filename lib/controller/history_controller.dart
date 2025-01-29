@@ -23,7 +23,9 @@ class HistoryController extends GetxController {
   void addPrompt(PromptResponse prompt, {int? seed}) {
     // if seed is not null and _promptHistory has any item with the same seed then remove it
     if (seed != null) {
-      _promptHistory.removeWhere((e) => e.meta.seed == seed);
+      PromptResponse? oldResponse = _promptHistory.firstWhereOrNull((e) => e.meta.seed == seed);
+      prompt.output.addAll(oldResponse?.output ?? []);
+      _promptHistory.remove(oldResponse);
     }
     // add prompt at the beginning of the list
     _promptHistory.insert(0, prompt);

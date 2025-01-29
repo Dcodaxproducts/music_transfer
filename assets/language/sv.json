@@ -146,5 +146,13 @@
   "server_error": "Ett internt serverfel inträffade. Försök igen senare.",
   "connection_timeout": "Anslutningen har tidsgränsen överskridits. Kontrollera din internetanslutning och försök igen.",
   "unknown_error": "Ett oväntat fel inträffade. Försök igen senare.",
-  "image_not_available": "Bild inte tillgänglig för nedladdning. Försök igen om en stund."
+  "image_not_available": "Bild inte tillgänglig för nedladdning. Försök igen om en stund.",
+  "loading_assets": "Laddar tillgångar",
+  "initializing_ai_models": "Initierar AI-modeller",
+  "uploading_image": "Laddar upp bild",
+  "removing_background": "Tar bort bakgrund",
+  "background_remover": "Bakgrundsborttagare",
+  "remove_background_easily": "Ta enkelt bort bakgrunden från bilder.",
+  "image_upscale": "Bildförstoring",
+  "upscale_images_to_higher_resolutions": "Förstora bilder till högre upplösningar."
 }
