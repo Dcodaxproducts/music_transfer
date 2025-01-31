@@ -49,7 +49,7 @@ class LoadingManager {
     showCloseButton.value = false;
     isCompleted.value = false; // Reset completion state
     isError.value = false; // Reset error state
-    isError.value = false;
+    isQueued.value = false;
 
     SmartDialog.show(
       maskColor: Get.theme.scaffoldBackgroundColor,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:matrix_ai/data/utils/firebase_events.dart';
 import '../../../controller/subscription_controller.dart';
 import 'ad_placeholder.dart';
 
@@ -38,20 +39,19 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
       ///This is a test adUnitId make sure to change it
       adUnitId: widget.adId,
       factoryId: 'listTile',
-      listener: NativeAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            isLoaded = true;
-            isLoading = false;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-          setState(() {
-            isLoading = false;
-          });
-        },
-      ),
+      listener: NativeAdListener(onAdLoaded: (ad) {
+        setState(() {
+          isLoaded = true;
+          isLoading = false;
+        });
+      }, onAdFailedToLoad: (ad, error) {
+        ad.dispose();
+        setState(() {
+          isLoading = false;
+        });
+      }, onAdImpression: (ad) {
+        EventsHelper.logGoogleBannerAdEvent();
+      }),
     );
 
     _ad.load();
@@ -111,20 +111,19 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
       size: widget.adSize,
       request: const AdRequest(),
       adUnitId: widget.adId,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            isLoaded = true;
-            isLoading = false;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-          setState(() {
-            isLoading = false;
-          });
-        },
-      ),
+      listener: BannerAdListener(onAdLoaded: (ad) {
+        setState(() {
+          isLoaded = true;
+          isLoading = false;
+        });
+      }, onAdFailedToLoad: (ad, error) {
+        ad.dispose();
+        setState(() {
+          isLoading = false;
+        });
+      }, onAdImpression: (ad) {
+        EventsHelper.logGoogleNativeAdEvent();
+      }),
     );
 
     _ad.load();

@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart' as st;
 import 'package:http/http.dart';
 import 'package:matrix_ai/data/model/response/tools.dart';
 import 'package:matrix_ai/data/repository/image_upscale_repo_interface.dart';
+import 'package:matrix_ai/data/utils/firebase_events.dart';
 import 'package:matrix_ai/view/screens/loading_screen/src/loading_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../view/base/common/snackbar.dart';
@@ -64,9 +64,9 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
 
     // Log the event
     PackageInfo? packageInfo = SettingsController.find.packageInfo;
-    FirebaseAnalytics.instance.logEvent(
-      name: 'upscale_image_impression',
-      parameters: {
+    EventsHelper.logEvent(
+      'upscale_image_impression',
+      {
         'tool_name': tool.name,
         'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
         'platform': Platform.isAndroid ? 'Android' : 'iOS',

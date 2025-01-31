@@ -86,7 +86,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           SizedBox(width: spacingSmall),
           Text(
             'Completed'.tr, // Localized string for completion
-            style: bodyMedium(context).copyWith(color: Colors.green, fontWeight: FontWeight.bold),
+            style: bodyMedium(context).copyWith(color: Colors.green),
           ),
         ],
       ),
@@ -103,7 +103,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           SizedBox(width: spacingSmall),
           Text(
             'Error'.tr, // Localized string for error
-            style: bodyMedium(context).copyWith(color: Colors.red, fontWeight: FontWeight.bold),
+            style: bodyMedium(context).copyWith(color: Colors.red),
           ),
         ],
       ),
@@ -120,7 +120,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           SizedBox(width: spacingSmall),
           Text(
             'In Queue'.tr, // Localized string for completion
-            style: bodyMedium(context).copyWith(color: Colors.orange, fontWeight: FontWeight.bold),
+            style: bodyMedium(context).copyWith(color: Colors.orange),
           ),
         ],
       ),

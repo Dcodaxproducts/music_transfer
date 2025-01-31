@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart' as st;
 import 'package:http/http.dart';
 import 'package:matrix_ai/controller/aws_controller.dart';
 import 'package:matrix_ai/data/model/response/upscale_response.dart';
+import 'package:matrix_ai/data/utils/firebase_events.dart';
 import 'package:matrix_ai/view/screens/loading_screen/src/loading_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../view/base/common/snackbar.dart';
@@ -65,9 +65,9 @@ class BackgroundRemoverService implements BackgroundRemoverServiceInterface {
 
     // Log the event
     PackageInfo? packageInfo = SettingsController.find.packageInfo;
-    FirebaseAnalytics.instance.logEvent(
-      name: 'background_remover_impression',
-      parameters: {
+    EventsHelper.logEvent(
+      'background_remover_impression',
+      {
         'tool_name': tool.name,
         'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
         'platform': Platform.isAndroid ? 'Android' : 'iOS',

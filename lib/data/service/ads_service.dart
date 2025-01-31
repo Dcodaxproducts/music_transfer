@@ -6,6 +6,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:matrix_ai/data/repository/ad_repo_interface.dart';
+import 'package:matrix_ai/data/utils/firebase_events.dart';
 import 'package:matrix_ai/imports.dart';
 import '../../controller/subscription_controller.dart';
 import '../../utils/ads.dart';
@@ -79,7 +80,7 @@ class AdsService implements AdsServiceInterface {
     RewardedAd? rewardedAd = await loadRewardVideoAd(adId);
     if (rewardedAd != null) {
       await rewardedAd.show(onUserEarnedReward: (ad, reward) {
-        FirebaseAnalytics.instance.logAdImpression();
+        EventsHelper.logGoogleRewardedAdEvent();
       });
     }
     // dismiss();
@@ -92,7 +93,7 @@ class AdsService implements AdsServiceInterface {
     RewardedInterstitialAd? rewardedAd = await loadRewardInterstitialAd(adId);
     if (rewardedAd != null) {
       await rewardedAd.show(onUserEarnedReward: (ad, reward) {
-        FirebaseAnalytics.instance.logAdImpression();
+        EventsHelper.logGoogleRewardedInterstitialAdEvent();
       });
     }
     // dismiss();
@@ -115,7 +116,7 @@ class AdsService implements AdsServiceInterface {
         onAdLoaded: (ad) {
           if (!completer.isCompleted) {
             completer.complete(ad);
-            FirebaseAnalytics.instance.logAdImpression();
+            EventsHelper.logGoogleInterstitialAdEvent();
           }
         },
         onAdFailedToLoad: (error) {
@@ -146,7 +147,7 @@ class AdsService implements AdsServiceInterface {
         onAdLoaded: (ad) {
           if (!completer.isCompleted) {
             completer.complete(ad);
-            FirebaseAnalytics.instance.logAdImpression();
+            EventsHelper.logGoogleAppOpenAdEvent();
           }
         },
         onAdFailedToLoad: (error) {
@@ -175,7 +176,7 @@ class AdsService implements AdsServiceInterface {
         onAdLoaded: (ad) {
           if (!completer.isCompleted) {
             completer.complete(ad);
-            FirebaseAnalytics.instance.logAdImpression();
+            EventsHelper.logGoogleRewardedAdEvent();
           }
         },
         onAdFailedToLoad: (error) {
@@ -204,7 +205,7 @@ class AdsService implements AdsServiceInterface {
         onAdLoaded: (ad) {
           if (!completer.isCompleted) {
             completer.complete(ad);
-            FirebaseAnalytics.instance.logAdImpression();
+            EventsHelper.logGoogleRewardedInterstitialAdEvent();
           }
         },
         onAdFailedToLoad: (error) {
@@ -279,7 +280,7 @@ class AdsService implements AdsServiceInterface {
       onLoaded: () {
         if (!completer.isCompleted) {
           completer.complete(interstitialAd); // Complete with the loaded ad
-          FirebaseAnalytics.instance.logAdImpression();
+          EventsHelper.logFacebookInterstitialAdEvent();
         }
       },
       onError: (code, error) {
@@ -384,9 +385,7 @@ class AdsService implements AdsServiceInterface {
         adWidget = meta.BannerAd(
           placementId: kDebugMode ? meta.BannerAd.testPlacementId : adId,
           bannerSize: meta.BannerSize.STANDARD,
-          listener: meta.BannerAdListener(
-            onLoggingImpression: FirebaseAnalytics.instance.logAdImpression,
-          ),
+          listener: meta.BannerAdListener(onLoggingImpression: EventsHelper.logFacebookBannerAdEvent),
         );
       } else if (ad.type == AdType.native) {
         adWidget = meta.NativeAd(
@@ -403,9 +402,7 @@ class AdsService implements AdsServiceInterface {
           keepAlive: true,
           keepExpandedWhileLoading: true,
           expandAnimationDuraion: 300,
-          listener: meta.NativeAdListener(
-            onLoggingImpression: FirebaseAnalytics.instance.logAdImpression,
-          ),
+          listener: meta.NativeAdListener(onLoggingImpression: EventsHelper.logFacebookNativeAdEvent),
         );
       }
     }
