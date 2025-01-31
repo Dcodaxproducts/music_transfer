@@ -18,7 +18,7 @@ class BackgroundRemoverRepo implements BackgroundRemoverRepoInterface {
     required Map<String, dynamic> body,
     required Map<String, dynamic> headers,
   }) async =>
-      await apiClient.post(url, body, headers: headers);
+      await apiClient.post(url, body, headers: headers, hideLoading: false);
 
   @override
   Future<Response?> getQueueImage({required String url, required Map<String, dynamic> body}) async =>

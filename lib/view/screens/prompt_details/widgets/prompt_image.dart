@@ -75,63 +75,62 @@ class PromptImageWidgetState extends State<PromptImageWidget> {
                 ),
               ),
             ),
-            if (result.output.length > 1)
-              Padding(
-                padding: paddingDefault,
-                child: SizedBox(
-                  height: 50.sp,
-                  child: ValueListenableBuilder(
-                      valueListenable: _currentIndex,
-                      builder: (context, value, child) {
-                        return ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: result.output.length,
-                          separatorBuilder: (context, index) => SizedBox(width: spacingDefault),
-                          itemBuilder: (context, index) {
-                            bool isSelected = _currentIndex.value == index;
-                            return InkWell(
-                              onTap: () => _selectImage(index),
-                              borderRadius: borderRadiusSmall,
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                      color: context.theme.cardColor,
-                                      borderRadius: borderRadiusSmall,
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: borderRadiusSmall,
-                                      child: CachedNetworkImage(
-                                        imageUrl: result.output[index],
-                                        width: 50.sp,
-                                        height: 50.sp,
-                                        fit: BoxFit.cover,
-                                      ),
+            Padding(
+              padding: paddingDefault,
+              child: SizedBox(
+                height: 50.sp,
+                child: ValueListenableBuilder(
+                    valueListenable: _currentIndex,
+                    builder: (context, value, child) {
+                      return ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: result.output.length,
+                        separatorBuilder: (context, index) => SizedBox(width: spacingDefault),
+                        itemBuilder: (context, index) {
+                          bool isSelected = _currentIndex.value == index;
+                          return InkWell(
+                            onTap: () => _selectImage(index),
+                            borderRadius: borderRadiusSmall,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    color: context.theme.cardColor,
+                                    borderRadius: borderRadiusSmall,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: borderRadiusSmall,
+                                    child: CachedNetworkImage(
+                                      imageUrl: result.output[index],
+                                      width: 50.sp,
+                                      height: 50.sp,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  if (isSelected)
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.3),
-                                        borderRadius: borderRadiusSmall,
-                                      ),
-                                      child: Icon(
-                                        Icons.check_circle_rounded,
-                                        size: 16.sp,
-                                        color: Colors.white,
-                                      ),
+                                ),
+                                if (isSelected)
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.3),
+                                      borderRadius: borderRadiusSmall,
                                     ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      }),
-                ),
-              )
+                                    child: Icon(
+                                      Icons.check_circle_rounded,
+                                      size: 16.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }),
+              ),
+            )
           ],
         );
       },

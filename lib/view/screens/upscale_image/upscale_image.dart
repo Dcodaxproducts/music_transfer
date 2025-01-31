@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/view/screens/upscale_image/pages/image_uploded.dart';
@@ -7,7 +7,8 @@ import 'widgets/upscale_history.dart';
 
 class UpscaleImageScreen extends StatefulWidget {
   final ToolModel tool;
-  const UpscaleImageScreen({super.key, required this.tool});
+  final String? imageUrl;
+  const UpscaleImageScreen({super.key, required this.tool, this.imageUrl});
 
   @override
   State<UpscaleImageScreen> createState() => _UpscaleImageScreenState();
@@ -22,12 +23,26 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
   }
 
   @override
+  void initState() {
+    if (widget.imageUrl != null) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        launchScreen(ImageUplodedScreen(
+          tool: widget.tool,
+          source: ImageSource.gallery,
+          imageUrl: widget.imageUrl,
+        ));
+      });
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
         children: [
-          CachedNetworkImage(imageUrl: widget.tool.image),
+          SizedBox(width: double.infinity, height: 280.sp, child: widget.tool.animation),
           Padding(
             padding: paddingDefault,
             child: Column(

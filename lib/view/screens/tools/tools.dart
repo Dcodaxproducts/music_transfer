@@ -39,7 +39,7 @@ class _ToolScreenState extends State<ToolScreen> {
               children: [
                 // Featured Tool Banner
                 InkWell(
-                  onTap: () => launchScreen(UpscaleImageScreen(tool: con.tools.first)),
+                  onTap: () => launchScreen(UpscaleImageScreen(tool: con.tools.last)),
                   child: Container(
                     height: 200.sp,
                     decoration: BoxDecoration(
@@ -47,7 +47,7 @@ class _ToolScreenState extends State<ToolScreen> {
                       borderRadius: borderRadiusDefault,
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(con.tools.first.image),
+                        image: CachedNetworkImageProvider(con.tools.last.image),
                       ),
                     ),
                     child: Stack(
@@ -117,7 +117,7 @@ class _ToolScreenState extends State<ToolScreen> {
                   ),
                 ),
                 SizedBox(height: spacingExtraLarge),
-                ToolsGridWidget(tools: con.tools)
+                ToolsGridWidget(tools: con.tools),
               ],
             );
     });

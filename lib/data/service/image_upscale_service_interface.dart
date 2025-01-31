@@ -6,7 +6,7 @@ import '../model/response/upscale_response.dart';
 abstract class ImageUpscaleServiceInterface {
   Future<Response?> upscaleImage({File? image, required ToolModel tool, String? urlImage});
 
-  UpscaleResponse? processResponse({required Response? response, required ToolModel tool});
+  Future<UpscaleResponse?> processResponse({required Response? response, required ToolModel tool});
 
   Future<bool> getQueuedImages(UpscaleResponse value);
 

@@ -1,12 +1,16 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/data/model/response/background_remover.dart';
 import 'package:matrix_ai/data/model/response/upscale_image.dart';
+import 'package:matrix_ai/view/screens/tools/widgets/background_remover_animation.dart';
+import 'package:matrix_ai/view/screens/tools/widgets/upscale_animation.dart';
 
 class ToolModel {
   final String name;
   final String description;
   final String image;
+  final Widget? animation;
   final String apiUrl;
   final String apiKey;
   final String queueUrl;
@@ -19,6 +23,7 @@ class ToolModel {
     required this.name,
     required this.description,
     required this.image,
+    this.animation,
     required this.apiKey,
     required this.apiUrl,
     required this.queueUrl,
@@ -34,6 +39,7 @@ class ToolModel {
       name: json['name'],
       description: json['description'],
       image: json['image'],
+      animation: json['animation'],
       apiUrl: json['api_url'],
       apiKey: json['api_key'],
       queueUrl: json['queue_url'] ?? '',
@@ -46,6 +52,7 @@ class ToolModel {
   }
   static ToolModel backgroundRemoverTool = ToolModel(
     image: 'https://i.imgur.com/uXQqEdA.png',
+    animation: const BackgroundRemoverAnimation(),
     name: 'background_remover'.tr,
     description: 'remove_background_easily'.tr,
     apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',
@@ -56,6 +63,7 @@ class ToolModel {
   );
   static ToolModel upscaleImageTool = ToolModel(
     image: 'https://i.imgur.com/xwnUhAb.png',
+    animation: const UpscaleAnimation(),
     name: 'image_upscale'.tr,
     description: 'upscale_images_to_higher_resolutions'.tr,
     apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',

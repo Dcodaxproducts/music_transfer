@@ -10,7 +10,7 @@ import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/model/response/api_model.dart';
 import 'package:matrix_ai/data/repository/image_generation_repo_interface.dart';
 import 'package:matrix_ai/utils/images.dart';
-import 'package:matrix_ai/view/screens/loading_screen/loading_screen.dart';
+import 'package:matrix_ai/view/screens/loading_screen/src/loading_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../view/base/common/snackbar.dart';
 import '../../controller/subscription_controller.dart';
@@ -53,7 +53,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
   @override
   Future<ApiKeyModel?> getTogetherApiKey(Model? modelValue) async {
-    showPromptLoading();
+    LoadingManager.show();
     Model model = ImageGenerationUtils.getModel(modelValue);
     bool isTogetherAi = ImageGenerationUtils.isTogetherAi(model);
     await Future.delayed(Duration(seconds: model.delay));
@@ -79,6 +79,9 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     if (showAds) {
       await _showAds();
     }
+
+    // update progress
+    LoadingManager.updateProgress(1);
 
     // get model (selected or from models list)
     Model model = ImageGenerationUtils.getModel(modelValue);
@@ -116,7 +119,11 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     Model model = ImageGenerationUtils.getModel(modelValue);
 
+    LoadingManager.updateProgress(2);
+
     PromptResponse value = await ImageGenerationUtils.getPromptResponse(data, prompt);
+
+    LoadingManager.updateProgress(3);
 
     // replace prompt with original prompt
     value = value.copyWith(
@@ -138,21 +145,23 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
         'platform': Platform.isAndroid ? 'Android' : 'iOS',
       },
     );
-    dismiss();
+
     if (value.status == "success") {
       return value;
     } else if (value.status == "processing") {
+      await LoadingManager.queue();
       showToast('your_prompt_is_processing_in_the_queue', success: true);
     } else if (value.status == "queued") {
+      await LoadingManager.error();
       // if genration failed then add link to output
       value = value.copyWith(
         output: [...value.output, Images.generationFailed],
         futureLinks: [value.futureLinks.first],
       );
     } else {
+      await LoadingManager.error();
       showToast(data["message"]);
     }
-    dismiss();
     return null;
   }
 

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../data/model/response/tools.dart';
@@ -47,16 +46,11 @@ class ToolCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // image placeholder,
+            // image placeholder
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: borderRadiusDefault.topLeft),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(tool.image),
-                  ),
-                ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: borderRadiusDefault.topLeft),
+                child: tool.animation,
               ),
             ),
             const Divider(),

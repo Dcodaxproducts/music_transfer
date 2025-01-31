@@ -59,7 +59,7 @@ class AwsService implements AwsServiceInterface {
         AppConstants.AWS_BUCKET_NAME,
         'uploads/$fileName',
         Stream.value(bytes),
-        metadata: {'Content-Type': 'image/jpeg', 'prompt': _sanitizePrompt(prompt)},
+        metadata: {'Content-Type': 'image/jpeg'},
       );
       fileLink = _createFileLink(fileName);
     } catch (e) {
@@ -68,16 +68,17 @@ class AwsService implements AwsServiceInterface {
     return fileLink;
   }
 
-  String _sanitizePrompt(String? prompt) {
-    if (prompt == null) {
-      return '';
-    }
-    return prompt
-        .replaceAll('\n', ' ') // Replace newlines with spaces
-        .replaceAll('\r', '') // Remove carriage returns
-        .replaceAll('"', "'") // Replace double quotes with single quotes
-        .replaceAll(RegExp(r'[^\w\s\-.,]'), ''); // Remove other special characters
-  }
+  // String _sanitizePrompt(String? prompt) {
+  //   if (prompt == null) {
+  //     return '';
+  //   }
+  //   String data = prompt
+  //       .replaceAll('\n', ' ') // Replace newlines with spaces
+  //       .replaceAll('\r', '') // Remove carriage returns
+  //       .replaceAll('"', "'") // Replace double quotes with single quotes
+  //       .replaceAll(RegExp(r'[^\w\s\-.,]'), ''); // Remove other special characters
+  //   return jsonEncode(data);
+  // }
 
   _createFileLink(String fileName) {
     return 'https://${AppConstants.AWS_BUCKET_NAME}.s3.${AppConstants.AWS_REGION}.amazonaws.com/uploads/$fileName';

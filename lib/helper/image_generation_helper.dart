@@ -6,6 +6,7 @@ import 'package:matrix_ai/controller/subscription_controller.dart';
 import 'package:matrix_ai/data/api/together_ai_error.dart';
 import 'package:matrix_ai/view/base/ads/ads_dialog.dart';
 import 'package:matrix_ai/view/base/common/together_ai_error_dialog.dart';
+import 'package:matrix_ai/view/screens/loading_screen/src/loading_manager.dart';
 import 'package:matrix_ai/view/screens/prompt_details/prompt_details.dart';
 import 'package:matrix_ai/helper/navigation.dart';
 import 'package:matrix_ai/view/base/common/snackbar.dart';
@@ -92,12 +93,13 @@ class ImageGenerationHelper {
 
   static void generateImage(String text, {bool showAds = true, int? seed}) {
     ImageGenerationController.find.generateImages(text, seed: seed, showAds: showAds).then(
-      (response) {
+      (response) async {
         if (response != null) {
           bool fromRegenerate = seed != null;
           if (fromRegenerate) {
             pop();
           }
+          await LoadingManager.complete();
           launchScreen(PromptDetailScreen(response: response), replace: fromRegenerate);
           Future.delayed(const Duration(seconds: 2), () {
             showConditionalRateUsDialog();

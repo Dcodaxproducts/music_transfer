@@ -5,7 +5,7 @@ import 'package:get/get.dart' as st;
 import 'package:http/http.dart';
 import 'package:matrix_ai/data/model/response/tools.dart';
 import 'package:matrix_ai/data/repository/image_upscale_repo_interface.dart';
-import 'package:matrix_ai/view/screens/loading_screen/loading_screen.dart';
+import 'package:matrix_ai/view/screens/loading_screen/src/loading_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../view/base/common/snackbar.dart';
 import '../../controller/aws_controller.dart';
@@ -22,13 +22,15 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
 
   @override
   Future<Response?> upscaleImage({File? image, required ToolModel tool, String? urlImage}) async {
-    showPromptLoading(upscale: true);
+    LoadingManager.show(upscale: true);
+    LoadingManager.updateProgress(1);
     final String? imageUrl = urlImage ?? await AwsController.find.uploadFile(image!);
     if (imageUrl == null) {
       showToast('image_upload_failed');
       dismiss();
       return null;
     }
+    LoadingManager.updateProgress(2);
     final Map<String, dynamic> body = ImageUpscaleUtils.createRequestBody(imageUrl, tool);
     final Map<String, dynamic> headers = ImageUpscaleUtils.getHeaders(tool);
     final String url = tool.apiUrl;
@@ -36,7 +38,7 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
   }
 
   @override
-  UpscaleResponse? processResponse({required Response? response, required ToolModel tool}) {
+  Future<UpscaleResponse?> processResponse({required Response? response, required ToolModel tool}) async {
     if (response == null) return null;
 
     // Decode the response
@@ -56,6 +58,7 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
       isBackgroundRemover: false,
     );
 
+    LoadingManager.updateProgress(3);
     // addd the response to the history
     ImageUpscaleController.find.addUpscaleHistory(value);
 
@@ -74,12 +77,13 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
     if (value.status == "success") {
       return value;
     } else if (value.status == "processing") {
+      await LoadingManager.queue();
       showToast('your_image_is_processing_in_the_queue', success: true);
       st.Get.close(1);
     } else {
+      await LoadingManager.error();
       showToast(data["message"]);
     }
-    dismiss();
     return null;
   }
 

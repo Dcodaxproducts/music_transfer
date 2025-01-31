@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/controller/background_remover_controller.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
-import 'package:matrix_ai/controller/image_upscale_controller.dart';
 import 'package:matrix_ai/data/model/response/tools.dart';
-import 'package:matrix_ai/data/model/response/upscale_response.dart';
 import 'package:matrix_ai/helper/navigation.dart';
-import 'package:matrix_ai/view/screens/upscale_image/pages/image_result_screen.dart';
+import 'package:matrix_ai/view/screens/upscale_image/upscale_image.dart';
 import '../../../../utils/style.dart';
 import '../../menu/widgets/menu_item.dart';
 
@@ -57,13 +54,10 @@ class _ActionSheetState extends State<ActionSheet> {
       icon: Iconsax.magicpen,
       onTap: () async {
         pop();
-        UpscaleResponse? response = await ImageUpscaleController.find.upscaleImage(
+        launchScreen(UpscaleImageScreen(
           tool: ToolModel.upscaleImageTool,
-          urlImage: ImageGenerationController.find.imageUrl,
-        );
-        if (response != null) {
-          launchScreen(ImageResultScreen(response: response));
-        }
+          imageUrl: ImageGenerationController.find.imageUrl,
+        ));
       },
     ),
     MenuItem(
@@ -72,13 +66,10 @@ class _ActionSheetState extends State<ActionSheet> {
       icon: Iconsax.eraser_1,
       onTap: () async {
         pop();
-        UpscaleResponse? response = await BackgroundRemoverController.find.removeImageBackground(
+        launchScreen(UpscaleImageScreen(
           tool: ToolModel.backgroundRemoverTool,
-          urlImage: ImageGenerationController.find.imageUrl,
-        );
-        if (response != null) {
-          launchScreen(ImageResultScreen(response: response));
-        }
+          imageUrl: ImageGenerationController.find.imageUrl,
+        ));
       },
     ),
   ];

@@ -1,6 +1,31 @@
 # Changelog
 
-## iOS [2.7], android [1.8(11)] - 24-01-2025
+## iOS [2.7], android [2.0(11)] - 29-01-2025
+
+### Added
+
+- Image Upscale
+- Bckground Remover
+- Multiple outputs on recreating image
+- Edit Image on image generation
+- Animation for tools
+
+### Changed
+
+- Loading Screen
+- Splash Screen
+- Native Splash Screen
+- Make loading screen realtime
+
+### Removed
+
+- N/A
+
+### Fixed
+
+- Image download issue
+
+## android [1.91(11)] - 24-01-2025
 
 ### Added
 

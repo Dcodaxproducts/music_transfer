@@ -104,6 +104,8 @@ PODS:
     - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
+  - flutter_native_splash (2.4.3):
+    - Flutter
   - gallery_saver_plus (0.0.1):
     - Flutter
   - Google-Mobile-Ads-SDK (11.2.0):
@@ -205,6 +207,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_inapp_purchase (from `.symlinks/plugins/flutter_inapp_purchase/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - gallery_saver_plus (from `.symlinks/plugins/gallery_saver_plus/ios`)
   - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -263,6 +266,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_inapp_purchase/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  flutter_native_splash:
+    :path: ".symlinks/plugins/flutter_native_splash/ios"
   gallery_saver_plus:
     :path: ".symlinks/plugins/gallery_saver_plus/ios"
   google_mobile_ads:
@@ -308,6 +313,7 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_inapp_purchase: 5c6a1ac3f11b11d0c8c0321c0c41c1f05805e4c8
   flutter_local_notifications: df98d66e515e1ca797af436137b4459b160ad8c9
+  flutter_native_splash: f71420956eb811e6d310720fee915f1d42852e7a
   gallery_saver_plus: c4b59c605df1049a02d036ef81d82972b6dfd606
   Google-Mobile-Ads-SDK: 5a6d005a6cb5b5e8f4c7b69ca05cdea79c181139
   google_mobile_ads: 9379c80fdfa9988fb0e105a407890ff8deb3cf86

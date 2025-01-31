@@ -116,7 +116,6 @@ class ApiClient extends GetxService implements ApiClientInterface {
   Future<http.Response?> _handleResponse(http.Response response, {bool hideLoading = true}) async {
     if (response.statusCode != 200) {
       dismiss();
-
       try {
         return _handleError(jsonDecode(response.body));
       } catch (e) {
@@ -137,13 +136,12 @@ class ApiClient extends GetxService implements ApiClientInterface {
       return null;
     }
     ErrorResponse response = ErrorResponse.fromJson(body);
-    // {id: 904eb9308d7c8986-SIN, error: {message: You have reached the rate limit specific to this model black-forest-labs/FLUX.1-schnell-Free. The maximum rate limit for this model is 10.000020000000001 queries per minute. This limit differs from the general rate limits published at Together AI rate limits documentation (https://docs.together.ai/docs/rate-limits). For inquiries about increasing your model-specific rate limit, please contact our sales team (https://www.together.ai/forms/contact-sales), type: model_rate_limit, param: null, code: null}}
     // Handle TogetherAIError
     if (body.containsKey('id')) {
       TogetherAIError error = getTogetherAIError(body['error']['type'], body['error']['message']);
+      dismiss();
       _showCustomErrorDialog(error);
     } else {
-      dismiss();
       showToast(response.errors.first.message);
     }
 

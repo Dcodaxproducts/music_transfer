@@ -3,6 +3,7 @@ import 'package:matrix_ai/controller/models_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/controller/subscription_controller.dart';
 import 'package:matrix_ai/view/screens/home/widgets/models_view.dart';
+import 'package:matrix_ai/view/screens/loading_screen/src/loading_manager.dart';
 import '../../../controller/generation_controller.dart';
 import '../../../helper/image_generation_helper.dart';
 import 'widgets/history_view.dart';
@@ -53,6 +54,54 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
+  }
+
+  void testNormalCase() {
+    LoadingManager.show();
+    Future.delayed(const Duration(seconds: 2), () {
+      LoadingManager.updateProgress(1);
+      Future.delayed(const Duration(seconds: 2), () {
+        LoadingManager.updateProgress(2);
+        Future.delayed(const Duration(seconds: 2), () {
+          LoadingManager.updateProgress(3);
+          Future.delayed(const Duration(seconds: 2), () {
+            LoadingManager.dismiss(); // Simulate completion of the process
+          });
+        });
+      });
+    });
+  }
+
+  void testCompleteCase() {
+    LoadingManager.show();
+    Future.delayed(const Duration(seconds: 2), () {
+      LoadingManager.updateProgress(1);
+      Future.delayed(const Duration(seconds: 2), () {
+        LoadingManager.updateProgress(2);
+        Future.delayed(const Duration(seconds: 2), () {
+          LoadingManager.updateProgress(3);
+          Future.delayed(const Duration(seconds: 1), () {
+            LoadingManager.complete(); // Trigger complete method
+          });
+        });
+      });
+    });
+  }
+
+  void testErrorCase() {
+    LoadingManager.show();
+    Future.delayed(const Duration(seconds: 2), () {
+      LoadingManager.updateProgress(1);
+      Future.delayed(const Duration(seconds: 2), () {
+        LoadingManager.updateProgress(2);
+        Future.delayed(const Duration(seconds: 2), () {
+          LoadingManager.updateProgress(3);
+          Future.delayed(const Duration(seconds: 1), () {
+            LoadingManager.error(); // Trigger error method
+          });
+        });
+      });
+    });
   }
 
   Future<void> _handleImageGeneration(String text) async {

@@ -1,84 +1,24 @@
 import 'dart:async';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:matrix_ai/controller/image_generation_controller.dart';
 import 'package:matrix_ai/imports.dart';
 import 'package:particles_fly/particles_fly.dart';
 import 'package:shimmer/shimmer.dart';
-
-showPromptLoading({bool upscale = false, bool backgroundRemover = false}) => SmartDialog.show(
-      maskColor: backgroundColorDark,
-      backType: SmartBackType.block,
-      builder: (context) => LoadingScreen(upscale: upscale, backgroundRemover: backgroundRemover),
-    );
+import 'src/loading_manager.dart';
 
 class LoadingScreen extends StatefulWidget {
-  final bool upscale, backgroundRemover;
-  const LoadingScreen({super.key, this.upscale = false, this.backgroundRemover = false});
+  const LoadingScreen({super.key});
 
   @override
   State<LoadingScreen> createState() => _LoadingScreenState();
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  final List<String> _imageGeneration = [
-    "analyzing_prompt",
-    "creating_your_idea",
-    "generating_image",
-  ];
-  final List<String> _backgroundRemover = [
-    "uploading_image",
-    "analyzing_image",
-    "removing_background",
-  ];
-  final List<String> _imageUpscale = [
-    "uploading_image",
-    "analyzing_image",
-    "upscaling_image",
-  ];
-  List<String> get _loadingTexts => widget.upscale
-      ? _imageUpscale
-      : widget.backgroundRemover
-          ? _backgroundRemover
-          : _imageGeneration;
-
-  static const stepDuration = Duration(seconds: 2); // Duration for each step
-
-  int _currentStep = 0;
-  double _progress = 0.0;
   bool _showCloseButton = false;
-
-  Timer? _timer;
-  Timer? _stepTimer;
   Timer? _closeButtonTimer;
 
   @override
   void initState() {
     super.initState();
-    _startLoading();
-  }
-
-  void _startLoading() {
-    // Timer for smooth progress animation
-    _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
-      setState(() {
-        if (_progress < (_currentStep + 1) * (100 / _loadingTexts.length)) {
-          _progress += 0.75;
-        }
-      });
-    });
-
-    // Timer for step changes
-    _stepTimer = Timer.periodic(stepDuration, (timer) {
-      setState(() {
-        if (_currentStep < _loadingTexts.length - 1) {
-          _currentStep++;
-        } else {
-          _timer?.cancel();
-          _stepTimer?.cancel();
-        }
-      });
-    });
-
     // Timer for showing the close button after 15 seconds
     _closeButtonTimer = Timer(const Duration(seconds: 15), () {
       setState(() {
@@ -87,48 +27,100 @@ class _LoadingScreenState extends State<LoadingScreen> {
     });
   }
 
-  void _cancelApiCall() {
-    ImageGenerationController.find.cancelRequest();
-    SmartDialog.dismiss();
-  }
-
   @override
   void dispose() {
-    _timer?.cancel();
-    _stepTimer?.cancel();
     _closeButtonTimer?.cancel();
     super.dispose();
   }
 
-  Widget _buildStepIndicator(int index) {
-    final bool isCompleted = index < _currentStep;
-    final bool isCurrent = index == _currentStep;
+  void _cancelApiCall() {
+    ImageGenerationController.find.cancelRequest();
+    LoadingManager.dismiss();
+  }
 
+  Widget _buildStepIndicator(int index) {
+    return Obx(() {
+      final bool isCompleted = index < LoadingManager().currentStep.value;
+      final bool isCurrent =
+          index == LoadingManager().currentStep.value && index < LoadingManager().loadingTexts.length;
+
+      return Padding(
+        padding: EdgeInsets.only(top: spacingDefault),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (isCompleted) ...[
+              Icon(Iconsax.tick_circle, color: bodyLarge(context).color, size: 18.sp),
+            ] else if (isCurrent) ...[
+              SizedBox(
+                width: 18.sp,
+                height: 18.sp,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(bodyLarge(context).color!),
+                ),
+              ),
+            ],
+            SizedBox(width: spacingSmall),
+            Text(
+              LoadingManager().loadingTexts[index].tr,
+              style: bodyMedium(context).copyWith(
+                color: isCurrent || isCompleted
+                    ? bodyLarge(context).color
+                    : bodyLarge(context).color?.withOpacity(0.5),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buildCompletedStep() {
     return Padding(
       padding: EdgeInsets.only(top: spacingDefault),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (isCompleted) ...[
-            Icon(Iconsax.tick_circle, color: bodyLarge(context).color, size: 18.sp),
-          ] else if (isCurrent) ...[
-            SizedBox(
-              width: 18.sp,
-              height: 18.sp,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(bodyLarge(context).color!),
-              ),
-            ),
-          ],
+          Icon(Iconsax.tick_circle, color: Colors.green, size: 18.sp),
           SizedBox(width: spacingSmall),
           Text(
-            _loadingTexts[index].tr,
-            style: bodyMedium(context).copyWith(
-              color: isCurrent || isCompleted
-                  ? bodyLarge(context).color
-                  : bodyLarge(context).color?.withOpacity(0.5),
-            ),
+            'Completed'.tr, // Localized string for completion
+            style: bodyMedium(context).copyWith(color: Colors.green, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorStep() {
+    return Padding(
+      padding: EdgeInsets.only(top: spacingDefault),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Iconsax.warning_2, color: Colors.red, size: 18.sp),
+          SizedBox(width: spacingSmall),
+          Text(
+            'Error'.tr, // Localized string for error
+            style: bodyMedium(context).copyWith(color: Colors.red, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQueuedStep() {
+    return Padding(
+      padding: EdgeInsets.only(top: spacingDefault),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Iconsax.tick_circle, color: Colors.orange, size: 18.sp),
+          SizedBox(width: spacingSmall),
+          Text(
+            'In Queue'.tr, // Localized string for completion
+            style: bodyMedium(context).copyWith(color: Colors.orange, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -188,29 +180,46 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 ),
               ),
               SizedBox(height: 100.sp),
-              TweenAnimationBuilder(
-                tween: Tween(begin: 0.0, end: _progress / 100),
-                duration: const Duration(milliseconds: 300),
-                builder: (_, double value, __) {
-                  return SizedBox(
-                    width: 65.sp,
-                    height: 65.sp,
-                    child: CircularProgressIndicator(
-                      value: value,
-                      strokeWidth: 8,
-                      valueColor: AlwaysStoppedAnimation<Color>(bodyLarge(context).color!),
-                      backgroundColor: Colors.grey.withOpacity(0.3),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: spacingDefault),
-              Text(
-                '${_progress.toInt()}%',
-                style: titleSmall(context).copyWith(fontWeight: FontWeight.bold),
-              ),
+              Obx(() {
+                return TweenAnimationBuilder(
+                  tween: Tween(begin: 0.0, end: LoadingManager().progress.value / 100),
+                  duration: const Duration(milliseconds: 500), // Duration for smooth animation
+                  builder: (_, double value, __) {
+                    return Column(
+                      children: [
+                        SizedBox(
+                          width: 65.sp,
+                          height: 65.sp,
+                          child: CircularProgressIndicator(
+                            value: value,
+                            strokeWidth: 8,
+                            valueColor: AlwaysStoppedAnimation<Color>(bodyLarge(context).color!),
+                            backgroundColor: Colors.grey.withOpacity(0.3),
+                          ),
+                        ),
+                        SizedBox(height: spacingDefault),
+                        Text(
+                          '${(value * 100).toInt()}%', // Show the percentage as it animates
+                          style: titleSmall(context).copyWith(fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    );
+                  },
+                );
+              }),
               SizedBox(height: 100.sp),
-              for (var i = 0; i < _loadingTexts.length; i++) _buildStepIndicator(i),
+              // Display the steps with the completion/error state
+              for (var i = 0; i < LoadingManager().loadingTexts.length; i++) _buildStepIndicator(i),
+              Obx(() {
+                if (LoadingManager().isCompleted.value) {
+                  return _buildCompletedStep();
+                } else if (LoadingManager().isError.value) {
+                  return _buildErrorStep();
+                } else if (LoadingManager().isQueued.value) {
+                  return _buildQueuedStep();
+                }
+                return const SizedBox.shrink(); // No extra UI if still loading
+              }),
             ],
           ),
         ],

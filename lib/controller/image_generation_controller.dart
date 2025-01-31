@@ -3,8 +3,9 @@ import 'package:matrix_ai/data/model/response/api_model.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
 import 'package:matrix_ai/data/model/response/model.dart';
 import 'package:matrix_ai/data/service/image_generation_service_interface.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:matrix_ai/imports.dart';
+import 'package:matrix_ai/view/screens/loading_screen/src/loading_manager.dart';
 import 'generation_controller.dart';
 
 class ImageGenerationController extends GetxController implements GetxService {
@@ -40,6 +41,10 @@ class ImageGenerationController extends GetxController implements GetxService {
     seed = imageGenerationServiceInterface.getSeed(seed, model);
 
     ApiKeyModel? apiKeyModel = await imageGenerationServiceInterface.getTogetherApiKey(model);
+    if (apiKeyModel == null) {
+      LoadingManager.error();
+      return null;
+    }
 
     //
     http.Response? response = await imageGenerationServiceInterface.generateImages(
@@ -47,7 +52,7 @@ class ImageGenerationController extends GetxController implements GetxService {
       seed: seed,
       modelValue: model,
       showAds: showAds,
-      apiKey: apiKeyModel?.apiKey,
+      apiKey: apiKeyModel.apiKey,
     );
 
     //

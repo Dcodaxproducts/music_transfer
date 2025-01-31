@@ -15,8 +15,7 @@ String signV4(
 ) {
   final signedHeaders = getSignedHeaders(request.headers.keys);
   final hashedPayload = request.headers['x-amz-content-sha256'];
-  final canonicalRequest =
-      getCanonicalRequest(request, signedHeaders, hashedPayload!);
+  final canonicalRequest = getCanonicalRequest(request, signedHeaders, hashedPayload!);
   final stringToSign = getStringToSign(canonicalRequest, requestDate, region);
   final signingKey = getSigningKey(requestDate, region, minio.secretKey);
   final credential = getCredential(minio.accessKey, region, requestDate);
@@ -135,8 +134,7 @@ String presignSignatureV4(
     },
   );
 
-  final canonicalRequest =
-      getCanonicalRequest(request, signedHeaders, 'UNSIGNED-PAYLOAD');
+  final canonicalRequest = getCanonicalRequest(request, signedHeaders, 'UNSIGNED-PAYLOAD');
 
   final stringToSign = getStringToSign(canonicalRequest, requestDate, region);
   final signingKey = getSigningKey(requestDate, region, minio.secretKey);

@@ -2,8 +2,8 @@ import 'package:matrix_ai/controller/background_remover_controller.dart';
 import 'package:matrix_ai/controller/image_upscale_controller.dart';
 import 'package:matrix_ai/helper/image_download.dart';
 import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/view/base/common/network_image.dart';
 import 'package:matrix_ai/view/base/confirmation_dialog.dart';
+import 'package:matrix_ai/view/base/view_image.dart';
 import '../../../../data/model/response/upscale_response.dart';
 
 class ImageResultScreen extends StatefulWidget {
@@ -22,14 +22,9 @@ class _ImageResultScreenState extends State<ImageResultScreen> {
       body: Column(
         children: [
           Expanded(
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
-              decoration: BoxDecoration(color: context.theme.cardColor),
-              child: CustomNetworkImage(
-                url: widget.response.output.first,
-                errorLoading: true,
-                fit: BoxFit.contain,
-              ),
+              child: ImageViewWithErrorHandling(url: widget.response.output.first),
             ),
           ),
           SizedBox(height: spacingDefault),

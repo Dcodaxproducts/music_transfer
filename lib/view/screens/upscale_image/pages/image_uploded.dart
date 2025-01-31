@@ -4,14 +4,17 @@ import 'package:matrix_ai/controller/background_remover_controller.dart';
 import 'package:matrix_ai/controller/image_upscale_controller.dart';
 import 'package:matrix_ai/data/model/response/upscale_response.dart';
 import 'package:matrix_ai/imports.dart';
+import 'package:matrix_ai/view/base/common/network_image.dart';
+import 'package:matrix_ai/view/screens/loading_screen/src/loading_manager.dart';
 import '../../../../data/model/response/tools.dart';
 import 'image_result_screen.dart';
 
 class ImageUplodedScreen extends StatefulWidget {
-  final XFile image;
+  final XFile? image;
   final ToolModel tool;
   final ImageSource source;
-  const ImageUplodedScreen({super.key, required this.image, required this.tool, required this.source});
+  final String? imageUrl;
+  const ImageUplodedScreen({super.key, this.image, required this.tool, required this.source, this.imageUrl});
 
   @override
   State<ImageUplodedScreen> createState() => _ImageUplodedScreenState();
@@ -19,7 +22,7 @@ class ImageUplodedScreen extends StatefulWidget {
 
 class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
   bool get _bacgroundRemover => widget.tool.backgroundRemover != null;
-  late XFile image;
+  XFile? image;
 
   @override
   void initState() {
@@ -35,7 +38,7 @@ class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
       });
     }
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +49,9 @@ class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(color: context.theme.cardColor),
-              child: Image.file(File(image.path), fit: BoxFit.contain),
+              child: widget.imageUrl != null && image == null
+                  ? CustomNetworkImage(url: widget.imageUrl)
+                  : Image.file(File(image!.path), fit: BoxFit.contain),
             ),
           ),
           SizedBox(height: spacingDefault),
@@ -77,13 +82,20 @@ class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
 
   _handleApiCall() async {
     UpscaleResponse? response;
-    File file = File(image.path);
+
+    File? file;
+    if (image != null) {
+      file = File(image!.path);
+    }
     if (_bacgroundRemover) {
-      response = await BackgroundRemoverController.find.removeImageBackground(image: file, tool: widget.tool);
+      response = await BackgroundRemoverController.find
+          .removeImageBackground(image: file, tool: widget.tool, urlImage: widget.imageUrl);
     } else {
-      response = await ImageUpscaleController.find.upscaleImage(image: file, tool: widget.tool);
+      response = await ImageUpscaleController.find
+          .upscaleImage(image: file, tool: widget.tool, urlImage: widget.imageUrl);
     }
     if (response != null) {
+      await LoadingManager.complete();
       launchScreen(ImageResultScreen(response: response), replace: true);
     }
   }
