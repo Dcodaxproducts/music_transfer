@@ -1,8 +1,7 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:matrix_ai/data/model/response/background_remover.dart';
 import 'package:matrix_ai/data/model/response/upscale_image.dart';
+import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/view/screens/tools/widgets/background_remover_animation.dart';
 import 'package:matrix_ai/view/screens/tools/widgets/upscale_animation.dart';
 
@@ -51,7 +50,7 @@ class ToolModel {
     );
   }
   static ToolModel backgroundRemoverTool = ToolModel(
-    image: 'https://i.imgur.com/uXQqEdA.png',
+    image: Images.bg_remover,
     animation: const BackgroundRemoverAnimation(),
     name: 'background_remover'.tr,
     description: 'remove_background_easily'.tr,
@@ -62,7 +61,7 @@ class ToolModel {
     backgroundRemover: BackgroundRemover.initialValue,
   );
   static ToolModel upscaleImageTool = ToolModel(
-    image: 'https://i.imgur.com/xwnUhAb.png',
+    image: Images.toolsImage,
     animation: const UpscaleAnimation(),
     name: 'image_upscale'.tr,
     description: 'upscale_images_to_higher_resolutions'.tr,

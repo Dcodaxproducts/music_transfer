@@ -108,6 +108,9 @@ class MyApp extends StatelessWidget {
                 ),
                 home: UpgradeAlert(
                   dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
+                  showIgnore: false,
+                  showLater: false,
+                  barrierDismissible: false,
                   child: const Root(),
                 ),
               ),

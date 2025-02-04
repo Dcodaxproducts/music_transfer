@@ -10,6 +10,7 @@ class PromptResponse {
   DateTime? createdAt;
   bool bookmarked;
   Model? model;
+  List<int>? linkedResponses;
 
   PromptResponse({
     required this.status,
@@ -21,6 +22,7 @@ class PromptResponse {
     this.createdAt,
     this.bookmarked = false,
     this.model,
+    this.linkedResponses,
   });
 
   factory PromptResponse.fromJson(Map<String, dynamic> json) => PromptResponse(
@@ -37,6 +39,8 @@ class PromptResponse {
         createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
         bookmarked: json["bookmarked"] ?? false,
         model: json["model"] != null ? Model.fromJson(json["model"]) : null,
+        linkedResponses:
+            json["linked_responses"] != null ? List<int>.from(json["linked_responses"].map((x) => x)) : [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,6 +53,7 @@ class PromptResponse {
         "created_at": createdAt?.toIso8601String() ?? DateTime.now().toIso8601String(),
         "bookmarked": bookmarked,
         'model': model?.toJson(),
+        'linked_responses': List<int>.from((linkedResponses ?? []).map((x) => x)),
       };
 
   // copy with
@@ -62,6 +67,7 @@ class PromptResponse {
     DateTime? createdAt,
     bool? bookmarked,
     Model? model,
+    List<int>? linkedResponses,
   }) {
     return PromptResponse(
       status: status ?? this.status,
@@ -73,6 +79,7 @@ class PromptResponse {
       createdAt: createdAt ?? this.createdAt,
       bookmarked: bookmarked ?? this.bookmarked,
       model: model ?? this.model,
+      linkedResponses: linkedResponses ?? this.linkedResponses,
     );
   }
 }

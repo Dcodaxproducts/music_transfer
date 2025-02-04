@@ -36,6 +36,9 @@ class PromptDetailScreen extends StatelessWidget {
           return GetBuilder<ImageGenerationController>(
             builder: (controller) {
               final result = controller.promptResponse;
+              final infoResponse = controller.imageUrl == null
+                  ? currentResponse
+                  : controller.getResponseByImageUrl(controller.imageUrl!) ?? currentResponse;
               return Visibility(
                 visible: result != null,
                 child: Column(
@@ -49,7 +52,7 @@ class PromptDetailScreen extends StatelessWidget {
                             padding: paddingDefault,
                             child: Column(
                               children: [
-                                ModelInfoWidget(response: currentResponse),
+                                ModelInfoWidget(response: infoResponse),
                                 const PromptOptionWidget(),
                                 RegenerateButton(response: currentResponse),
                               ],

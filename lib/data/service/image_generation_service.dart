@@ -133,7 +133,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     );
 
     // add prompt history
-    HistoryController.find.addPrompt(value, seed: seed);
+    value = HistoryController.find.addPrompt(value, seed: seed);
 
     //  log impression for model to track usage to firebase
     PackageInfo? packageInfo = SettingsController.find.packageInfo;

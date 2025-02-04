@@ -1,3 +1,4 @@
+import 'package:matrix_ai/controller/history_controller.dart';
 import 'package:matrix_ai/controller/settings_controller.dart';
 import 'package:matrix_ai/data/model/response/api_model.dart';
 import 'package:matrix_ai/data/model/response/models_lab_response.dart';
@@ -76,5 +77,13 @@ class ImageGenerationController extends GetxController implements GetxService {
       SettingsController.find.settingModel.freeGenerations,
       GenerationController.find.dailyGenerationCount,
     );
+  }
+
+  PromptResponse? getResponseById(int id) {
+    return HistoryController.find.getResponseById(id);
+  }
+
+  PromptResponse? getResponseByImageUrl(String imageUrl) {
+    return HistoryController.find.getResponseByImageUrl(imageUrl);
   }
 }

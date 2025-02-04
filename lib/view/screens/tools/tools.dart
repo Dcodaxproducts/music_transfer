@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -39,7 +38,7 @@ class _ToolScreenState extends State<ToolScreen> {
               children: [
                 // Featured Tool Banner
                 InkWell(
-                  onTap: () => launchScreen(UpscaleImageScreen(tool: con.tools.last)),
+                  onTap: () => launchScreen(UpscaleImageScreen(tool: con.tools.first)),
                   child: Container(
                     height: 200.sp,
                     decoration: BoxDecoration(
@@ -47,7 +46,7 @@ class _ToolScreenState extends State<ToolScreen> {
                       borderRadius: borderRadiusDefault,
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(con.tools.last.image),
+                        image: AssetImage(con.tools.first.image),
                       ),
                     ),
                     child: Stack(

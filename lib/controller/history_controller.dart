@@ -20,17 +20,20 @@ class HistoryController extends GetxController {
     update();
   }
 
-  void addPrompt(PromptResponse prompt, {int? seed}) {
+  PromptResponse addPrompt(PromptResponse prompt, {int? seed}) {
     // if seed is not null and _promptHistory has any item with the same seed then remove it
     if (seed != null) {
       PromptResponse? oldResponse = _promptHistory.firstWhereOrNull((e) => e.meta.seed == seed);
-      prompt.output.addAll(oldResponse?.output ?? []);
-      _promptHistory.remove(oldResponse);
+      if (oldResponse != null) {
+        prompt = prompt.copyWith(linkedResponses: [oldResponse.id, ...oldResponse.linkedResponses ?? []]);
+      }
     }
+
     // add prompt at the beginning of the list
     _promptHistory.insert(0, prompt);
     update();
     historyService.addPrompt(_promptHistory);
+    return prompt;
   }
 
   void removePrompt(PromptResponse prompt) {
@@ -76,5 +79,13 @@ class HistoryController extends GetxController {
       return _promptHistory.where((e) => e.bookmarked).toList();
     }
     return _promptHistory;
+  }
+
+  PromptResponse? getResponseById(int id) {
+    return _promptHistory.firstWhereOrNull((response) => response.id == id);
+  }
+
+  PromptResponse? getResponseByImageUrl(String imageUrl) {
+    return _promptHistory.firstWhereOrNull((response) => response.output.contains(imageUrl));
   }
 }

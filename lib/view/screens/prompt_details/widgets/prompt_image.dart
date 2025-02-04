@@ -7,8 +7,6 @@ import '../../../base/view_image.dart';
 import 'prompt_edit.dart';
 import 'prompt_report.dart';
 
-GlobalKey<PromptImageWidgetState> promptImageWidgetKey = GlobalKey<PromptImageWidgetState>();
-
 class PromptImageWidget extends StatefulWidget {
   final PromptResponse response;
   const PromptImageWidget({super.key, required this.response});
@@ -18,12 +16,29 @@ class PromptImageWidget extends StatefulWidget {
 }
 
 class PromptImageWidgetState extends State<PromptImageWidget> {
+  List<String> allOutputs = [];
   final ValueNotifier<int> _currentIndex = ValueNotifier<int>(0);
+  final double outputSize = 100.sp;
 
   @override
   void initState() {
-    _getInitialUrl();
+    _getLinkedResponses();
+
     super.initState();
+  }
+
+  _getLinkedResponses() {
+    allOutputs.clear();
+    allOutputs.addAll(widget.response.output);
+    if (widget.response.linkedResponses?.isNotEmpty ?? false) {
+      for (int linkedId in widget.response.linkedResponses ?? []) {
+        PromptResponse? linkedResponse = ImageGenerationController.find.getResponseById(linkedId);
+        if (linkedResponse?.output.isNotEmpty ?? false) {
+          allOutputs.addAll(linkedResponse?.output ?? []);
+        }
+      }
+    }
+    _getInitialUrl();
   }
 
   _getInitialUrl() {
@@ -38,15 +53,11 @@ class PromptImageWidgetState extends State<PromptImageWidget> {
 
   _selectImage(int index) {
     _currentIndex.value = index;
-    ImageGenerationController.find.imageUrl = widget.response.output[index];
+    ImageGenerationController.find.imageUrl = allOutputs[index];
   }
 
   @override
   Widget build(BuildContext context) {
-    final result = widget.response;
-    int width = result.meta.w;
-    int height = result.meta.h;
-
     return GetBuilder<ImageGenerationController>(
       builder: (controller) {
         String url = controller.imageUrl ?? '';
@@ -55,7 +66,7 @@ class PromptImageWidgetState extends State<PromptImageWidget> {
             InkWell(
               onTap: () => launchScreen(ViewImage(url)),
               child: AspectRatio(
-                aspectRatio: width / height,
+                aspectRatio: widget.response.meta.w / widget.response.meta.h,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
@@ -78,13 +89,13 @@ class PromptImageWidgetState extends State<PromptImageWidget> {
             Padding(
               padding: paddingDefault,
               child: SizedBox(
-                height: 50.sp,
+                height: outputSize,
                 child: ValueListenableBuilder(
                     valueListenable: _currentIndex,
                     builder: (context, value, child) {
                       return ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        itemCount: result.output.length,
+                        itemCount: allOutputs.length,
                         separatorBuilder: (context, index) => SizedBox(width: spacingDefault),
                         itemBuilder: (context, index) {
                           bool isSelected = _currentIndex.value == index;
@@ -94,7 +105,7 @@ class PromptImageWidgetState extends State<PromptImageWidget> {
                             child: Stack(
                               children: [
                                 Container(
-                                  width: 50,
+                                  width: (outputSize + 10).sp,
                                   decoration: BoxDecoration(
                                     color: context.theme.cardColor,
                                     borderRadius: borderRadiusSmall,
@@ -102,17 +113,17 @@ class PromptImageWidgetState extends State<PromptImageWidget> {
                                   child: ClipRRect(
                                     borderRadius: borderRadiusSmall,
                                     child: CachedNetworkImage(
-                                      imageUrl: result.output[index],
-                                      width: 50.sp,
-                                      height: 50.sp,
+                                      imageUrl: allOutputs[index],
+                                      width: (outputSize + 10).sp,
+                                      height: outputSize,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
                                 if (isSelected)
                                   Container(
-                                    width: 50,
-                                    height: 50,
+                                    width: outputSize + 10.sp,
+                                    height: outputSize,
                                     decoration: BoxDecoration(
                                       color: Colors.black.withOpacity(0.3),
                                       borderRadius: borderRadiusSmall,

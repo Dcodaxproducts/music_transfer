@@ -46,40 +46,34 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     LanguageModel language = con.languages[index];
                     bool selected = con.selectedIndex == index;
 
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            con.setSelectIndex(index);
-                            LocalizationController.to
-                                .setLanguage(Locale(language.languageCode, language.countryCode));
-                          },
-                          overlayColor: WidgetStateProperty.all(Colors.transparent),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: spacingMedium),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 18.sp,
-                                  backgroundImage: AssetImage(
-                                    'assets/images/${language.countryCode.toLowerCase()}.png',
-                                  ),
-                                ),
-                                SizedBox(width: spacingMedium),
-                                Expanded(child: Text(language.languageName)),
-                                LanguageRadioButton(selected: selected),
-                              ],
+                    return InkWell(
+                      onTap: () {
+                        con.setSelectIndex(index);
+                        LocalizationController.to
+                            .setLanguage(Locale(language.languageCode, language.countryCode));
+                      },
+                      overlayColor: WidgetStateProperty.all(Colors.transparent),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: spacingMedium),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 18.sp,
+                              backgroundImage: AssetImage(
+                                'assets/images/${language.countryCode.toLowerCase()}.png',
+                              ),
                             ),
-                          ),
+                            SizedBox(width: spacingMedium),
+                            Expanded(child: Text(language.languageName)),
+                            LanguageRadioButton(selected: selected),
+                          ],
                         ),
-                        // show ad after every 5th item,
-                        if (index % 5 == 0) AdsController.find.showLanguageScreenAd(),
-                      ],
+                      ),
                     );
                   },
                 ),
               ),
+              AdsController.find.showLanguageScreenAd()
             ],
           ),
         );

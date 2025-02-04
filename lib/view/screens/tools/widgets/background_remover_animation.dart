@@ -79,7 +79,7 @@ class BackgroundRemoverAnimationState extends State<BackgroundRemoverAnimation>
 
                   return ClipRect(
                     clipper: RightSideClipper(linePosition),
-                    child: Image.asset(Images.toolsImage, fit: BoxFit.cover),
+                    child: Image.asset(Images.bg_remover, fit: BoxFit.cover),
                   );
                 },
               ),
@@ -92,7 +92,7 @@ class BackgroundRemoverAnimationState extends State<BackgroundRemoverAnimation>
 
                   return ClipRect(
                     clipper: LeftSideClipper(linePosition),
-                    child: Image.asset(Images.toolsImageBg, fit: BoxFit.cover),
+                    child: Image.asset(Images.bg_remover_removed, fit: BoxFit.cover),
                   );
                 },
               ),
