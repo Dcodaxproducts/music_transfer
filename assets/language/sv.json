@@ -151,8 +151,14 @@
   "initializing_ai_models": "Initierar AI-modeller",
   "uploading_image": "Laddar upp bild",
   "removing_background": "Tar bort bakgrund",
-  "background_remover": "Bakgrundsborttagare",
+  "ai_bg_remover": "AI BG Removal",
   "remove_background_easily": "Ta enkelt bort bakgrunden från bilder.",
-  "image_upscale": "Bildförstoring",
-  "upscale_images_to_higher_resolutions": "Förstora bilder till högre upplösningar."
+  "ai_upscale": "AI Upscale",
+  "upscale_images_to_higher_resolutions": "Förstora bilder till högre upplösningar.",
+  "upload_from_gallery": "Ladda upp från galleriet",
+  "take_photo": "Ta foto",
+  "recent": "Nyligen",
+  "completed": "Slutförd",
+  "in_queue": "I kö",
+  "loading": "Laddar"
 }

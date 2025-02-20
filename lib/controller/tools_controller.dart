@@ -28,7 +28,7 @@ class ToolsController extends GetxController implements GetxService {
     if (_tools.isNotEmpty) return _tools;
     loading = true;
     tools = await toolsService.getTools();
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       loading = false;
     });
     return _tools;

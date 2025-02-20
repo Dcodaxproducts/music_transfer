@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:matrix_ai/data/utils/firebase_events.dart';
 import '../../../controller/subscription_controller.dart';
 import 'ad_placeholder.dart';
 
 class NativeAdWidget extends StatefulWidget {
   final String adId;
-  const NativeAdWidget({super.key, required this.adId});
-
+  final TemplateType? templateType;
+  const NativeAdWidget({super.key, required this.adId, this.templateType});
   @override
   State<NativeAdWidget> createState() => _NativeAdWidgetState();
 }
@@ -39,40 +38,35 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
       ///This is a test adUnitId make sure to change it
       adUnitId: widget.adId,
       factoryId: 'listTile',
-      listener: NativeAdListener(onAdLoaded: (ad) {
-        setState(() {
-          isLoaded = true;
-          isLoading = false;
-        });
-      }, onAdFailedToLoad: (ad, error) {
-        ad.dispose();
-        setState(() {
-          isLoading = false;
-        });
-      }, onAdImpression: (ad) {
-        EventsHelper.logGoogleBannerAdEvent();
-      }),
+      listener: NativeAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            isLoaded = true;
+            isLoading = false;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          setState(() {
+            isLoading = false;
+          });
+        },
+      ),
+      nativeTemplateStyle: NativeTemplateStyle(templateType: widget.templateType ?? TemplateType.small),
     );
-
     _ad.load();
   }
 
   @override
   Widget build(BuildContext context) {
+    final double height = widget.templateType == TemplateType.medium ? 250 : 120;
     return GetBuilder<SubscriptionController>(builder: (con) {
       return con.isPro
           ? const SizedBox.shrink()
           : isLoaded
-              ? Container(
-                  alignment: Alignment.center,
-                  height: 170,
-                  color: Colors.white,
-                  child: AdWidget(
-                    ad: _ad,
-                  ),
-                )
+              ? SizedBox(height: height, width: double.infinity, child: AdWidget(ad: _ad))
               : isLoading
-                  ? const NativeAdPlaceholder()
+                  ? NativeAdPlaceholder(height: height)
                   : const SizedBox.shrink();
     });
   }
@@ -82,7 +76,6 @@ class BannerAdWidget extends StatefulWidget {
   final String adId;
   final AdSize adSize;
   const BannerAdWidget({super.key, required this.adId, required this.adSize});
-
   @override
   State<BannerAdWidget> createState() => _BannerAdWidgetState();
 }
@@ -91,7 +84,6 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   late BannerAd _ad;
   bool isLoaded = false;
   bool isLoading = true;
-
   @override
   void initState() {
     super.initState();
@@ -111,42 +103,35 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
       size: widget.adSize,
       request: const AdRequest(),
       adUnitId: widget.adId,
-      listener: BannerAdListener(onAdLoaded: (ad) {
-        setState(() {
-          isLoaded = true;
-          isLoading = false;
-        });
-      }, onAdFailedToLoad: (ad, error) {
-        ad.dispose();
-        setState(() {
-          isLoading = false;
-        });
-      }, onAdImpression: (ad) {
-        EventsHelper.logGoogleNativeAdEvent();
-      }),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            isLoaded = true;
+            isLoading = false;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          setState(() {
+            isLoading = false;
+          });
+        },
+      ),
     );
-
     _ad.load();
   }
 
   @override
   Widget build(BuildContext context) {
+    final double height = widget.adSize.height.truncateToDouble();
+    final double width = widget.adSize.width.truncateToDouble();
     return GetBuilder<SubscriptionController>(builder: (con) {
       return con.isPro
           ? const SizedBox.shrink()
           : isLoaded
-              ? Container(
-                  alignment: Alignment.center,
-                  height: widget.adSize.height.truncateToDouble(),
-                  width: widget.adSize.width.truncateToDouble(),
-                  color: Colors.white,
-                  child: AdWidget(ad: _ad),
-                )
+              ? SizedBox(height: height, width: width, child: AdWidget(ad: _ad))
               : isLoading
-                  ? BannerAdPlaceholder(
-                      width: widget.adSize.width.truncateToDouble(),
-                      height: widget.adSize.height.truncateToDouble(),
-                    )
+                  ? BannerAdPlaceholder(width: width, height: height)
                   : const SizedBox.shrink();
     });
   }

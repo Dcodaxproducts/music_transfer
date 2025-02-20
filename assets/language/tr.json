@@ -151,8 +151,14 @@
   "initializing_ai_models": "AI Modelleri Başlatılıyor",
   "uploading_image": "Resim Yükleniyor",
   "removing_background": "Arka Plan Kaldırılıyor",
-  "background_remover": "Arka Plan Kaldırıcı",
+  "ai_bg_remover": "AI BG Removal",
   "remove_background_easily": "Görüntülerden arka planı kolayca kaldırın.",
-  "image_upscale": "Görüntü Yükseltme",
-  "upscale_images_to_higher_resolutions": "Görüntüleri daha yüksek çözünürlüklere yükseltin."
+  "ai_upscale": "AI Upscale",
+  "upscale_images_to_higher_resolutions": "Görüntüleri daha yüksek çözünürlüklere yükseltin.",
+  "upload_from_gallery": "Galeriden yükle",
+  "take_photo": "Fotoğraf çek",
+  "recent": "Son",
+  "completed": "Tamamlandı",
+  "in_queue": "Kuyrukta",
+  "loading": "Yükleniyor"
 }

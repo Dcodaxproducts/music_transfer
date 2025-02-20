@@ -30,7 +30,7 @@ class UpscaleHistoryList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: spacingLarge),
-              Text('Recent'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600)),
+              Text('recent'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600)),
               SizedBox(height: spacingMedium),
               GridView.builder(
                 shrinkWrap: true,

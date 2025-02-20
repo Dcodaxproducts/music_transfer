@@ -152,8 +152,14 @@
   "initializing_ai_models": "Đang khởi tạo mô hình AI",
   "uploading_image": "Đang tải lên hình ảnh",
   "removing_background": "Đang xóa nền",
-  "background_remover": "Trình xóa nền",
+  "ai_bg_remover": "AI BG Removal",
   "remove_background_easily": "Dễ dàng xóa nền khỏi hình ảnh.",
-  "image_upscale": "Nâng cấp hình ảnh",
-  "upscale_images_to_higher_resolutions": "Nâng cấp hình ảnh lên độ phân giải cao hơn."
+  "ai_upscale": "AI Upscale",
+  "upscale_images_to_higher_resolutions": "Nâng cấp hình ảnh lên độ phân giải cao hơn.",
+  "upload_from_gallery": "Tải lên từ thư viện",
+  "take_photo": "Chụp ảnh",
+  "recent": "Gần đây",
+  "completed": "Hoàn thành",
+  "in_queue": "Trong hàng đợi",
+  "loading": "Đang tải"
 }

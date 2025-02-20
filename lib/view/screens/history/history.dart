@@ -108,7 +108,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 ],
               ),
             ),
-            if (canShowAd) ...[SizedBox(height: spacingDefault), AdsController.find.showHistoryScreenAd()],
+            if (canShowAd) ...[SizedBox(height: spacingDefault), AdsController.find.buildHistoryScreenAd()],
           ],
         ),
       );

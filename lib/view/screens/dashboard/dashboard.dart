@@ -27,18 +27,17 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final List<NavigationItem> _screens = [
     NavigationItem(icon: Iconsax.home, child: const HomeScreen()),
-    NavigationItem(icon: Iconsax.activity, child: const InspirationScreen()),
     NavigationItem(icon: Iconsax.category, child: const ToolScreen()),
+    NavigationItem(icon: Iconsax.activity, child: const InspirationScreen()),
     NavigationItem(icon: Iconsax.setting, child: const MenuScreen()),
   ];
 
-  final List<String> _titles = [AppConstants.APP_NAME, 'inspirations'.tr, 'tools'.tr, 'settings'.tr];
-  // final List<String> _titles = [AppConstants.APP_NAME, 'inspirations', 'settings'];
+  final List<String> _titles = [AppConstants.APP_NAME, 'tools', 'inspirations', 'settings'];
 
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      if (SubscriptionController.find.products.isNotEmpty) {
+      if (SubscriptionController.find.products.isNotEmpty && !SubscriptionController.find.isPro) {
         Future.delayed(const Duration(seconds: 2), () => showPremiumSheet());
       }
       SettingsController.find.saveShowAppOpen();

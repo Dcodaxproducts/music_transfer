@@ -49,7 +49,7 @@ class ActionSheet extends StatefulWidget {
 class _ActionSheetState extends State<ActionSheet> {
   List<MenuItem> items = [
     MenuItem(
-      text: 'upscale_image'.tr,
+      text: 'ai_upscale'.tr,
       subtile: 'upscale_images_to_higher_resolutions'.tr,
       icon: Iconsax.magicpen,
       onTap: () async {
@@ -61,7 +61,7 @@ class _ActionSheetState extends State<ActionSheet> {
       },
     ),
     MenuItem(
-      text: 'background_remover'.tr,
+      text: 'ai_bg_remover'.tr,
       subtile: 'remove_background_easily'.tr,
       icon: Iconsax.eraser_1,
       onTap: () async {

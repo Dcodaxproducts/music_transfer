@@ -73,7 +73,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   },
                 ),
               ),
-              AdsController.find.showLanguageScreenAd()
+              AdsController.find.buildLanguageScreenAd()
             ],
           ),
         );

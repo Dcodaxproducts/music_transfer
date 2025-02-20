@@ -124,7 +124,6 @@
     "upscale_image": "Upscale Image",
     "too_many_requests": "Oops! Too many requests. Please try again in a moment.",
     "success": "Success",
-    "error": "Error",
     "subscription_agreement": "By continuing, you agree to our Privacy Policy. Only @price/@period will be billed via your @provider account. You can cancel anytime, but ensure it's at least 24 hours before the subscription ends to avoid next year's charges. Deleting the app will not cancel your subscription. For help, visit @provider Subscriptions. Consider setting a reminder.",
     "free_limit_reached": "Free Limit Reached",
     "free_limit_reached_message1": "You have reached your free limit for today. Watch an ad to generate more images or go pro to remove the limit.",
@@ -148,8 +147,15 @@
     "initializing_ai_models": "Initializing AI Models",
     "uploading_image": "Uploading Image",
     "removing_background": "Removing Background",
-    "background_remover": "Background Remover",
+    "ai_bg_remover": "AI BG Removal",
     "remove_background_easily": "Remove the background from images easily.",
-    "image_upscale": "Image Upscale",
-    "upscale_images_to_higher_resolutions": "Upscale images to higher resolutions."
+    "ai_upscale": "AI Upscale",
+    "upscale_images_to_higher_resolutions": "Upscale images to higher resolutions.",
+    "upload_from_gallery": "Upload from Gallery",
+    "take_photo": "Take Photo",
+    "recent": "Recent",
+    "completed": "Completed",
+    "error": "Error",
+    "in_queue": "In Queue",
+    "loading": "Loading"
 }

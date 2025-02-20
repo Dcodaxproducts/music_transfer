@@ -125,7 +125,6 @@
   "image_upload_failed": "画像のアップロードに失敗しました",
   "upload_image": "画像をアップロード",
   "remove_background": "背景を削除",
-  "upscale_image": "画像をアップスケール",
   "too_many_requests": "おっと！リクエストが多すぎます。しばらくしてからもう一度お試しください。",
   "success": "成功",
   "error": "エラー",
@@ -152,8 +151,14 @@
   "initializing_ai_models": "AIモデルの初期化中",
   "uploading_image": "画像をアップロード中",
   "removing_background": "背景を削除中",
-  "background_remover": "背景リムーバー",
+  "ai_bg_remover": "AI背景リムーバー",
   "remove_background_easily": "画像から簡単に背景を削除します。",
-  "image_upscale": "画像アップスケール",
-  "upscale_images_to_higher_resolutions": "画像を高解像度にアップスケールします。"
+  "ai_upscale": "AIアップスケール",
+  "upscale_images_to_higher_resolutions": "画像を高解像度にアップスケールします。",
+  "upload_from_gallery": "ギャラリーからアップロード",
+  "take_photo": "写真を撮る",
+  "recent": "最近",
+  "completed": "完了",
+  "in_queue": "キューに入っています",
+  "loading": "読み込み中"
 }

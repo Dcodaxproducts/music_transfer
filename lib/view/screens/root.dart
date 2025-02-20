@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_audience_network/easy_audience_network.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:matrix_ai/controller/aws_controller.dart';
@@ -18,9 +17,7 @@ import '../../controller/inspiration_controller.dart';
 import '../../controller/models_controller.dart';
 import '../../controller/subscription_controller.dart';
 import '../base/no_internet_dialog.dart';
-import '../../helper/ad.dart';
 import 'splash/splash.dart';
-import 'package:easy_audience_network/easy_audience_network.dart' as meta;
 
 class Root extends StatefulWidget {
   const Root({super.key});
@@ -31,9 +28,6 @@ class Root extends StatefulWidget {
 
 class _RootState extends State<Root> with WidgetsBindingObserver {
   bool _ready = false;
-  AppOpenAd? _appOpenAd;
-  meta.InterstitialAd? _appOpenFacebook;
-  Timer? openAdTimeout;
 
   bool _disconnected = false;
   bool get disconnected => _disconnected;
@@ -42,7 +36,6 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     if (mounted) setState(() {});
   }
 
-  DateTime _lastShownTime = DateTime.now();
   StreamSubscription<List<ConnectivityResult>>? _onConnectivityChanged;
 
   @override
@@ -79,7 +72,7 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
       await SubscriptionController.find.initialize().catchError((_) {});
 
       // show add
-      await _showAds();
+      await _loadAppOpenAd();
 
       //
       _ready = true;
@@ -99,7 +92,7 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
 
   Future<void> _loadAdNetwork() async {
     if (GetPlatform.isAndroid) {
-      await EasyAudienceNetwork.init(testingId: '4fbcc06a-ce20-488e-a177-548ef22109c3');
+      await EasyAudienceNetwork.init(testingId: '5cfcb5cc-93c0-4edf-9e36-a09fda9c6495');
     } else {
       await MobileAds.instance.initialize();
     }
@@ -121,95 +114,15 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     ]);
   }
 
-  Future<void> _showAds() async {
-    if (GetPlatform.isIOS) {
-      await _loadAppOpenAd().then((value) async {
-        await _appOpenAd?.showIfNotPro();
-      }).catchError((e) {
-        FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
-      });
-    } else {
-      await _loadAppOpenAdFacebook().then((value) async {
-        await _appOpenFacebook?.show();
-      }).catchError((e) {
-        FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
-      });
-    }
-  }
-
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    openAdTimeout?.cancel();
     _onConnectivityChanged?.cancel();
     super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    _showAdOnAppResume(state);
-    super.didChangeAppLifecycleState(state);
-  }
-
-  _showAdOnAppResume(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      if (_lastShownTime.difference(DateTime.now()).inMinutes > 5) {
-        if (GetPlatform.isIOS) {
-          _appOpenAd?.showIfNotPro().catchError((e) {});
-        } else {
-          _appOpenFacebook?.show().catchError((e) {});
-        }
-        _lastShownTime = DateTime.now();
-      }
-    } else if (state == AppLifecycleState.paused) {
-      if (GetPlatform.isIOS) {
-        _loadAppOpenAd();
-      } else {
-        _loadAppOpenAdFacebook();
-      }
-    }
-  }
-
-  Future<AppOpenAd?> _loadAppOpenAd() async {
-    if (!SettingsController.find.showAppOpen || SubscriptionController.find.isPro) return null;
-    openAdTimeout?.cancel();
-
-    return AdsController.find.showAppOpenAd().then((value) {
-      if (value != null) {
-        _appOpenAd = value;
-        _appOpenAd?.fullScreenContentCallback = FullScreenContentCallback(
-          onAdDismissedFullScreenContent: (ad) {
-            _appOpenAd?.dispose();
-            _appOpenAd = null;
-            _loadAppOpenAd();
-          },
-        );
-      } else {
-        openAdTimeout = Timer(const Duration(minutes: 1), _loadAppOpenAd);
-      }
-      return value;
-    });
-  }
-
-  Future<meta.InterstitialAd?> _loadAppOpenAdFacebook() async {
-    if (!SettingsController.find.showAppOpen || SubscriptionController.find.isPro) return null;
-    openAdTimeout?.cancel();
-
-    return AdsController.find.showAppOpenAdFacebook().then((value) {
-      if (value != null) {
-        _appOpenFacebook = value;
-        _appOpenFacebook?.listener = meta.InterstitialAdListener(
-          onDismissed: () {
-            _appOpenFacebook?.destroy();
-            _appOpenFacebook = null;
-            _loadAppOpenAdFacebook();
-          },
-        );
-      } else {
-        openAdTimeout = Timer(const Duration(minutes: 1), _loadAppOpenAd);
-      }
-      return value;
-    });
+  Future<bool> _loadAppOpenAd() async {
+    if (!SettingsController.find.showAppOpen) return false;
+    return AdsController.find.showAppOpenAd();
   }
 
   @override

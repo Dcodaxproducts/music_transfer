@@ -125,7 +125,6 @@
   "image_upload_failed": "Error al subir la imagen",
   "upload_image": "Subir imagen",
   "remove_background": "Eliminar fondo",
-  "upscale_image": "Aumentar imagen",
   "too_many_requests": "¡Ups! Demasiadas solicitudes. Por favor, inténtelo de nuevo en un momento.",
   "success": "éxito",
   "error": "error",
@@ -152,8 +151,14 @@
   "initializing_ai_models": "Inicializando modelos de IA",
   "uploading_image": "Subiendo imagen",
   "removing_background": "Eliminando fondo",
-  "background_remover": "Removedor de fondo",
+  "ai_bg_remover": "Removedor de fondo AI",
   "remove_background_easily": "Elimina el fondo de las imágenes fácilmente.",
-  "image_upscale": "Ampliación de imagen",
-  "upscale_images_to_higher_resolutions": "Aumenta la resolución de las imágenes."
+  "ai_upscale": "Ampliación de imagen AI",
+  "upscale_images_to_higher_resolutions": "Aumenta la resolución de las imágenes.",
+  "upload_from_gallery": "Subir desde la galería",
+  "take_photo": "Tomar foto",
+  "recent": "Reciente",
+  "completed": "Completado",
+  "in_queue": "En cola",
+  "loading": "Cargando"
 }

@@ -25,7 +25,6 @@ class AppConstants {
   static const String FEEDBACK_URL = 'feedback-save';
   static const String CONFIG_URL = 'config';
   static const String GET_ADS = 'ad-list';
-  static const String REVIEW = 'review/store';
   static const String TOGETHER_API_KEY = "api-key?token=w3lc0m3";
 
   // Shared Key

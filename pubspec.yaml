@@ -36,6 +36,7 @@ dependencies:
   dotted_border: ^2.1.0
   particles_fly: ^0.0.9
   flutter_native_splash: any
+  permission_handler: ^11.3.1
 
   # Together AI
   together_ai_sdk: ^2.0.2

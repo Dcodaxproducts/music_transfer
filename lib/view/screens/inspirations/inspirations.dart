@@ -19,7 +19,7 @@ class InspirationScreen extends StatelessWidget {
       final List<Inspiration> inspirations = inspirationController.inspirations;
       return Column(
         children: [
-          if (inspirationController.inspirations.isNotEmpty) AdsController.find.showInspirationScreenAd(),
+          if (inspirationController.inspirations.isNotEmpty) AdsController.find.buildInspirationScreenAd(),
           Expanded(
             child: MasonryGridView.builder(
               itemCount: inspirations.length,

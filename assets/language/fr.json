@@ -125,10 +125,10 @@
   "image_upload_failed": "Échec du téléchargement de l'image",
   "upload_image": "Télécharger l'image",
   "remove_background": "Supprimer l'arrière-plan",
-  "upscale_image": "Agrandir l'image",
+  "ai_bg_remover": "Suppresseur de fond AI",
+  "ai_upscale": "Agrandissement d'image AI",
   "too_many_requests": "Oups ! Trop de demandes. Veuillez réessayer dans un instant.",
   "success": "succès",
-  "error": "erreur",
   "subscription_agreement": "En continuant, vous acceptez notre politique de confidentialité. Seuls @price/@period seront facturés via votre compte @provider. Vous pouvez annuler à tout moment, mais assurez-vous de le faire au moins 24 heures avant la fin de l'abonnement pour éviter les frais de l'année suivante. La suppression de l'application ne résiliera pas votre abonnement. Pour obtenir de l'aide, visitez @provider Subscriptions. Envisagez de définir un rappel.",
   "free_limit_reached": "Limite gratuite atteinte",
   "free_limit_reached_message1": "Vous avez atteint votre limite gratuite pour aujourd'hui. Regardez une annonce pour générer plus d'images ou passez à la version pro pour supprimer la limite.",
@@ -155,5 +155,12 @@
   "background_remover": "Suppresseur de fond",
   "remove_background_easily": "Supprimez facilement l'arrière-plan des images.",
   "image_upscale": "Agrandissement d'image",
-  "upscale_images_to_higher_resolutions": "Agrandissez les images à des résolutions plus élevées."
+  "upscale_images_to_higher_resolutions": "Agrandissez les images à des résolutions plus élevées.",
+  "upload_from_gallery": "Télécharger depuis la galerie",
+  "take_photo": "Prendre une photo",
+  "recent": "Récent",
+  "completed": "Terminé",
+  "error": "Erreur",
+  "in_queue": "En file d'attente",
+  "loading": "Chargement"
 }

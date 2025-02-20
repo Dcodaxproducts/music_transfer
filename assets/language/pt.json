@@ -151,8 +151,14 @@
   "image_not_available": "Imagem não disponível para download. Tente novamente em breve.",
   "loading_assets": "Carregando ativos",
   "initializing_ai_models": "Inicializando modelos de IA",
-  "background_remover": "Removedor de fundo",
+  "ai_bg_remover": "AI BG Removal",
   "remove_background_easily": "Remova facilmente o fundo das imagens.",
-  "image_upscale": "Aprimoramento de imagem",
-  "upscale_images_to_higher_resolutions": "Aprimore as imagens para resoluções mais altas."
+  "ai_upscale": "AI Upscale",
+  "upscale_images_to_higher_resolutions": "Aprimore as imagens para resoluções mais altas.",
+  "upload_from_gallery": "Carregar da galeria",
+  "take_photo": "Tirar foto",
+  "recent": "Recente",
+  "completed": "Concluído",
+  "in_queue": "Na fila",
+  "loading": "Carregando"
 }

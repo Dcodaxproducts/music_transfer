@@ -52,8 +52,8 @@ class ToolModel {
   static ToolModel backgroundRemoverTool = ToolModel(
     image: Images.bg_remover,
     animation: const BackgroundRemoverAnimation(),
-    name: 'background_remover'.tr,
-    description: 'remove_background_easily'.tr,
+    name: 'ai_bg_remover',
+    description: 'remove_background_easily',
     apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',
     apiUrl: 'https://modelslab.com/api/v6/image_editing/removebg_mask',
     queueUrl: 'https://modelslab.com/api/v6/image_editing/fetch',
@@ -63,8 +63,8 @@ class ToolModel {
   static ToolModel upscaleImageTool = ToolModel(
     image: Images.toolsImage,
     animation: const UpscaleAnimation(),
-    name: 'image_upscale'.tr,
-    description: 'upscale_images_to_higher_resolutions'.tr,
+    name: 'ai_upscale',
+    description: 'upscale_images_to_higher_resolutions',
     apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',
     apiUrl: 'https://modelslab.com/api/v6/image_editing/super_resolution',
     queueUrl: 'https://modelslab.com/api/v6/image_editing/fetch',

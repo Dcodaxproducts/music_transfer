@@ -121,7 +121,7 @@ class _SetThemeScreenState extends State<SetThemeScreen> {
                   ),
                 ),
               ),
-              if (canShowAd) AdsController.find.showModelScreenAd(),
+              if (canShowAd) AdsController.find.buildModelScreenAd(),
             ],
           ),
         );

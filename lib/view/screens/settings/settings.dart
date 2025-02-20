@@ -78,7 +78,7 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
           ),
-          AdsController.find.showPromptSettingAd()
+          AdsController.find.buildPromptSettingAd()
         ],
       ),
     );

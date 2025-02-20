@@ -152,8 +152,14 @@
   "initializing_ai_models": "Инициализация моделей ИИ",
   "uploading_image": "Загрузка изображения",
   "removing_background": "Удаление фона",
-  "background_remover": "Удаление фона",
+  "ai_bg_remover": "AI BG Removal",
   "remove_background_easily": "Легко удаляйте фон с изображений.",
-  "image_upscale": "Увеличение изображения",
-  "upscale_images_to_higher_resolutions": "Увеличивайте изображения до более высокого разрешения."
+  "ai_upscale": "AI Upscale",
+  "upscale_images_to_higher_resolutions": "Увеличивайте изображения до более высокого разрешения.",
+  "upload_from_gallery": "Загрузить из галереи",
+  "take_photo": "Сделать фото",
+  "recent": "Недавний",
+  "completed": "Завершено",
+  "in_queue": "В очереди",
+  "loading": "Загрузка"
 }

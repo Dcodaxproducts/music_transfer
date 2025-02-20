@@ -152,8 +152,14 @@
   "initializing_ai_models": "กำลังเริ่มต้นโมเดล AI",
   "uploading_image": "กำลังอัปโหลดรูปภาพ",
   "removing_background": "กำลังลบพื้นหลัง",
-  "background_remover": "ตัวลบพื้นหลัง",
+  "ai_bg_remover": "AI BG Removal",
   "remove_background_easily": "ลบพื้นหลังออกจากภาพได้อย่างง่ายดาย",
-  "image_upscale": "การเพิ่มขนาดภาพ",
-  "upscale_images_to_higher_resolutions": "เพิ่มขนาดภาพให้มีความละเอียดสูงขึ้น"
+  "ai_upscale": "AI Upscale",
+  "upscale_images_to_higher_resolutions": "เพิ่มขนาดภาพให้มีความละเอียดสูงขึ้น",
+  "upload_from_gallery": "อัปโหลดจากแกลเลอรี",
+  "take_photo": "ถ่ายภาพ",
+  "recent": "ล่าสุด",
+  "completed": "เสร็จสิ้น",
+  "in_queue": "ในคิว",
+  "loading": "กำลังโหลด"
 }

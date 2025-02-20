@@ -128,7 +128,6 @@
   "upscale_image": "Ingrandisci immagine",
   "too_many_requests": "Ops! Troppe richieste. Per favore riprova tra un momento.",
   "success": "successo",
-  "error": "errore",
   "subscription_agreement": "Continuando, accetti la nostra Informativa sulla privacy. Solo @price/@period verranno addebitati tramite il tuo account @provider. Puoi annullare in qualsiasi momento, ma assicurati che sia almeno 24 ore prima della fine dell'abbonamento per evitare addebiti per l'anno successivo. Eliminare l'app non annullerà l'abbonamento. Per assistenza, visita @provider Subscriptions. Considera di impostare un promemoria.",
   "free_limit_reached": "Limite gratuito raggiunto",
   "free_limit_reached_message1": "Hai raggiunto il limite gratuito per oggi. Guarda un annuncio per generare altre immagini o passa a pro per rimuovere il limite.",
@@ -152,8 +151,15 @@
   "initializing_ai_models": "Inizializzazione dei modelli AI",
   "uploading_image": "Caricamento dell'immagine",
   "removing_background": "Rimozione dello sfondo",
-  "background_remover": "Rimozione sfondo",
+  "ai_bg_remover": "Rimozione sfondo AI",
   "remove_background_easily": "Rimuovi facilmente lo sfondo dalle immagini.",
-  "image_upscale": "Ingrandimento immagine",
-  "upscale_images_to_higher_resolutions": "Ingrandisci le immagini a risoluzioni più elevate."
+  "ai_upscale": "Ingrandimento immagine AI",
+  "upscale_images_to_higher_resolutions": "Ingrandisci le immagini a risoluzioni più elevate.",
+  "upload_from_gallery": "Carica dalla galleria",
+  "take_photo": "Scatta una foto",
+  "recent": "Recente",
+  "completed": "Completato",
+  "error": "Errore",
+  "in_queue": "In coda",
+  "loading": "Caricamento"
 }

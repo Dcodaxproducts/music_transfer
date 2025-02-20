@@ -2,12 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:matrix_ai/data/service/ads_service_interface.dart';
 import '../data/model/response/ad_model.dart';
-import '../data/model/response/model.dart';
 import 'subscription_controller.dart';
-import 'package:easy_audience_network/easy_audience_network.dart' as meta;
 
 class AdsController extends GetxController {
   final AdsServiceInterface adsService;
@@ -16,9 +13,18 @@ class AdsController extends GetxController {
   static AdsController get find => Get.find<AdsController>();
 
   List<AdModel> _ads = [];
+  bool _adShowing = false;
+
   List<AdModel> get ads => _ads;
+  bool get adShowing => _adShowing;
+
   set ads(List<AdModel> value) {
     _ads = value;
+    update();
+  }
+
+  set adShowing(bool value) {
+    _adShowing = value;
     update();
   }
 
@@ -31,116 +37,66 @@ class AdsController extends GetxController {
     }
   }
 
-  Future<AppOpenAd?> showAppOpenAd() async {
-    AppOpenAd? appOpenAd;
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.appOpen);
-
-    // if ad is not null and active and type is appOpen
-    if (ad != null && ad.type == AdType.appOpen && ad.active) {
-      String adId = _getAdId(ad);
-      if (Platform.isIOS) {
-        appOpenAd = await adsService.showAppOpen(adId);
-      }
-    }
-    return appOpenAd;
+  Future<bool> showAppOpenAd() async {
+    return await _showAd(AdPosition.appOpen);
   }
 
-  Future<meta.InterstitialAd?> showAppOpenAdFacebook() async {
-    meta.InterstitialAd? appOpenAd;
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.appOpen);
-
-    // if ad is not null and active and type is appOpen
-    if (ad != null && ad.type == AdType.appOpen && ad.active) {
-      String adId = _getAdId(ad);
-      appOpenAd = await adsService.showAppOpenFacebook(adId);
-    }
-    return appOpenAd;
+  Future<bool> showOnGenerateVideo() async {
+    return await _showAd(AdPosition.onGenerateVideo);
   }
 
-  Future<void> showOnGenerateVideo() async {
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.onGenerateVideo);
+  Future<bool> showOnGenerateInterstitial() async {
+    return await _showAd(AdPosition.onGenerateInterstitial);
+  }
 
-    // if ad is not null and active and type is reward
+  Widget buildModelScreenAd() {
+    return _buildAdWidget(AdPosition.modelScreen);
+  }
+
+  Widget buildPromptSettingAd() {
+    return _buildAdWidget(AdPosition.promptSettingScreen);
+  }
+
+  Widget buildHistoryScreenAd() {
+    return _buildAdWidget(AdPosition.historyScreen);
+  }
+
+  Widget buildResultScreenAd() {
+    return _buildAdWidget(AdPosition.resultScreen);
+  }
+
+  Widget buildLanguageScreenAd() {
+    return _buildAdWidget(AdPosition.languageScreen);
+  }
+
+  Widget buildInspirationScreenAd() {
+    return _buildAdWidget(AdPosition.inspirationScreen);
+  }
+
+  _buildAdWidget(AdPosition position) {
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == position);
+    return adsService.getBannerWidget(ad);
+  }
+
+  Future<bool> _showAd(AdPosition position, {Function()? onUserEarnedReward}) async {
+    AdModel? ad = ads.firstWhereOrNull((element) => element.position == position);
     if (ad != null && ad.active) {
-      String adId = _getAdId(ad);
-      if (ad.type == AdType.reward) {
-        if (Platform.isIOS) {
-          await adsService.showRewardVideo(adId);
-        } else {
-          await adsService.showFacebookInterstitial(adId);
-        }
-      }
-      if (ad.type == AdType.rewardedInterstitial) {
-        if (Platform.isIOS) {
-          await adsService.showRewardInterstitial(adId);
-        } else {
-          await adsService.showFacebookInterstitial(adId);
-        }
-      }
+      String adId = ad.getAdId();
+      return await _showAdAccordingToType(ad.type, adId, onUserEarnedReward: onUserEarnedReward);
     }
+    return false;
   }
 
-  Future<void> showOnGenerateInterstitial() async {
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.onGenerateInterstitial);
-
-    // if ad is not null and active and type is interstitial
-    if (ad != null && ad.type == AdType.interstital && ad.active) {
-      String adId = _getAdId(ad);
-      if (Platform.isIOS) {
-        await adsService.showInterstitial(adId);
-      } else {
-        await adsService.showFacebookInterstitial(adId);
-      }
+  Future<bool> _showAdAccordingToType(AdType? type, String adId, {Function()? onUserEarnedReward}) async {
+    if (type == AdType.interstitial) {
+      return await adsService.showInterstitial(adId);
+    } else if (type == AdType.rewardedInterstitial) {
+      return await adsService.showRewardInterstitial(adId, onUserEarnedReward: onUserEarnedReward);
+    } else if (type == AdType.reward) {
+      return await adsService.showRewardVideo(adId, onUserEarnedReward: onUserEarnedReward);
+    } else if (type == AdType.appOpen) {
+      return await adsService.showAppOpen(adId);
     }
-  }
-
-  Widget showModelScreenAd() {
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.modelScreen);
-
-    return adsService.getBannerWidget(ad);
-  }
-
-  Widget showPromptSettingAd() {
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.promptSettingScreen);
-
-    return adsService.getBannerWidget(ad);
-  }
-
-  Widget showHistoryScreenAd() {
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.historyScreen);
-
-    return adsService.getBannerWidget(ad);
-  }
-
-  Widget showResultScreenAd() {
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.resultScreen);
-
-    return adsService.getBannerWidget(ad);
-  }
-
-  Widget showLanguageScreenAd() {
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.languageScreen);
-
-    return adsService.getBannerWidget(ad);
-  }
-
-  Widget showInspirationScreenAd() {
-    // get ad
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == AdPosition.inspirationScreen);
-
-    return adsService.getBannerWidget(ad);
-  }
-
-  _getAdId(AdModel ad) {
-    return Platform.isAndroid ? ad.androidAdId : ad.iosAdId;
+    return false;
   }
 }

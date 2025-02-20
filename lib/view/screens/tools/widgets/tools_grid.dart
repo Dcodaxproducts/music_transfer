@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:matrix_ai/imports.dart';
 import '../../../../data/model/response/tools.dart';
-import '../../../../helper/navigation.dart';
-import '../../../../utils/style.dart';
 import '../../upscale_image/upscale_image.dart';
 
 class ToolsGridWidget extends StatelessWidget {
@@ -60,11 +57,11 @@ class ToolCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    tool.name,
+                    tool.name.tr,
                     style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
                   ),
                   SizedBox(height: spacingSmall),
-                  Text(tool.description, style: bodySmall(context)),
+                  Text(tool.description.tr, style: bodySmall(context)),
                 ],
               ),
             ),

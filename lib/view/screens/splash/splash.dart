@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   late Timer _timer;
 
   final List<String> _loadingTexts = [
-    'getting_started'.tr,
+    'getting_started',
     "loading_assets",
     "initializing_ai_models",
     "almost_there"

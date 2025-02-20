@@ -151,8 +151,14 @@
   "initializing_ai_models": "جارٍ تهيئة نماذج الذكاء الاصطناعي",
   "uploading_image": "تحميل الصورة",
   "removing_background": "إزالة الخلفية",
-  "background_remover": "مزيل الخلفية",
+  "ai_bg_remover": "مزيل الخلفية AI",
   "remove_background_easily": "قم بإزالة الخلفية من الصور بسهولة.",
-  "image_upscale": "ترقية الصورة",
-  "upscale_images_to_higher_resolutions": "قم بترقية الصور إلى دقة أعلى."
+  "ai_upscale": "ترقية الصورة AI",
+  "upscale_images_to_higher_resolutions": "قم بترقية الصور إلى دقة أعلى.",
+  "upload_from_gallery": "تحميل من المعرض",
+  "take_photo": "التقاط صورة",
+  "recent": "الأخيرة",
+  "completed": "مكتمل",
+  "in_queue": "في قائمة الانتظار",
+  "loading": "جار التحميل"
 }

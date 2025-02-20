@@ -151,8 +151,14 @@
   "initializing_ai_models": "Se inițializează modelele AI",
   "uploading_image": "Încărcarea imaginii",
   "removing_background": "Eliminarea fundalului",
-  "background_remover": "Eliminator de fundal",
+  "ai_bg_remover": "AI BG Removal",
   "remove_background_easily": "Eliminați cu ușurință fundalul din imagini.",
-  "image_upscale": "Îmbunătățirea imaginii",
-  "upscale_images_to_higher_resolutions": "Îmbunătățiți imaginile la rezoluții mai mari."
+  "ai_upscale": "AI Upscale",
+  "upscale_images_to_higher_resolutions": "Îmbunătățiți imaginile la rezoluții mai mari.",
+  "upload_from_gallery": "Încărcați din galerie",
+  "take_photo": "Fă o poză",
+  "recent": "Recent",
+  "completed": "Finalizat",
+  "in_queue": "În coadă",
+  "loading": "Se încarcă"
 }

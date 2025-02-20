@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'ad_model.dart';
+
 class Model {
   final int id;
   final String modelId;
@@ -129,47 +131,5 @@ class ParameterMapping {
       'height': height,
       'model_id': modelId,
     };
-  }
-}
-
-enum AdType { reward, interstital, banner, appOpen, native, rewardedInterstitial }
-
-extension AdTypeExtension on AdType {
-  String get name {
-    switch (this) {
-      case AdType.appOpen:
-        return 'app_open';
-      case AdType.reward:
-        return 'reward';
-      case AdType.rewardedInterstitial:
-        return 'rewarded_interstitial';
-      case AdType.interstital:
-        return 'interstitial';
-      case AdType.banner:
-        return 'banner';
-      case AdType.native:
-        return 'native';
-      default:
-        return 'reward';
-    }
-  }
-
-  static AdType? fromString(String? value) {
-    switch (value) {
-      case 'reward':
-        return AdType.reward;
-      case 'rewarded_interstitial':
-        return AdType.rewardedInterstitial;
-      case 'interstitial':
-        return AdType.interstital;
-      case 'banner':
-        return AdType.banner;
-      case 'app_open':
-        return AdType.appOpen;
-      case 'native':
-        return AdType.native;
-      default:
-        return null;
-    }
   }
 }

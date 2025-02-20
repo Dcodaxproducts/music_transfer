@@ -151,8 +151,14 @@
   "initializing_ai_models": "初始化人工智能模型",
   "uploading_image": "正在上传图片",
   "removing_background": "正在移除背景",
-  "background_remover": "背景移除器",
+  "ai_bg_remover": "AI BG Removal",
   "remove_background_easily": "轻松移除图像背景。",
-  "image_upscale": "图像放大",
-  "upscale_images_to_higher_resolutions": "将图像放大到更高的分辨率。"
+  "ai_upscale": "AI Upscale",
+  "upscale_images_to_higher_resolutions": "将图像放大到更高的分辨率。",
+  "upload_from_gallery": "从图库上传",
+  "take_photo": "拍照",
+  "recent": "最近",
+  "completed": "已完成",
+  "in_queue": "在队列中",
+  "loading": "加载中"
 }

@@ -77,18 +77,14 @@ class _ToolScreenState extends State<ToolScreen> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      con.tools.first.name,
-                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: textColorDark,
-                                          ),
+                                      con.tools.first.name.tr,
+                                      style: bodyLarge(context)
+                                          .copyWith(fontWeight: FontWeight.w600, color: textColorDark),
                                     ),
                                     SizedBox(height: spacingSmall),
                                     Text(
-                                      con.tools.first.description,
-                                      style: bodyMedium(context).copyWith(
-                                        color: textColorDark,
-                                      ),
+                                      con.tools.first.description.tr,
+                                      style: bodyMedium(context).copyWith(color: textColorDark),
                                     ),
                                   ],
                                 ),

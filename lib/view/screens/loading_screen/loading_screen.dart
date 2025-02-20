@@ -85,7 +85,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           Icon(Iconsax.tick_circle, color: Colors.green, size: 18.sp),
           SizedBox(width: spacingSmall),
           Text(
-            'Completed'.tr, // Localized string for completion
+            'completed'.tr, // Localized string for completion
             style: bodyMedium(context).copyWith(color: Colors.green),
           ),
         ],
@@ -102,7 +102,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           Icon(Iconsax.warning_2, color: Colors.red, size: 18.sp),
           SizedBox(width: spacingSmall),
           Text(
-            'Error'.tr, // Localized string for error
+            'error'.tr, // Localized string for error
             style: bodyMedium(context).copyWith(color: Colors.red),
           ),
         ],
@@ -119,7 +119,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           Icon(Iconsax.tick_circle, color: Colors.orange, size: 18.sp),
           SizedBox(width: spacingSmall),
           Text(
-            'In Queue'.tr, // Localized string for completion
+            'in_queue'.tr, // Localized string for completion
             style: bodyMedium(context).copyWith(color: Colors.orange),
           ),
         ],
@@ -175,7 +175,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 highlightColor: secondaryColor,
                 period: const Duration(seconds: 4),
                 child: Text(
-                  'Loading',
+                  'loading'.tr,
                   style: displaySmall(context).copyWith(fontWeight: FontWeight.w600),
                 ),
               ),

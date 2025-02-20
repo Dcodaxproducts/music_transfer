@@ -125,7 +125,6 @@
   "image_upload_failed": "بارگذاری تصویر ناموفق بود",
   "upload_image": "بارگذاری تصویر",
   "remove_background": "حذف پس زمینه",
-  "upscale_image": "بزرگنمایی تصویر",
   "too_many_requests": "اوه! درخواست های زیادی وجود دارد. لطفا لحظاتی بعد دوباره امتحان کنید.",
   "success": "موفقیت",
   "error": "خطا",
@@ -152,8 +151,14 @@
   "initializing_ai_models": "در حال راه‌اندازی مدل‌های AI",
   "uploading_image": "در حال بارگذاری تصویر",
   "removing_background": "در حال حذف پس زمینه",
-  "background_remover": "حذف کننده پس زمینه",
+  "ai_bg_remover": "حذف کننده پس زمینه AI",
   "remove_background_easily": "پس زمینه را به راحتی از تصاویر حذف کنید.",
-  "image_upscale": "بزرگنمایی تصویر",
-  "upscale_images_to_higher_resolutions": "تصاویر را به وضوح بالاتر بزرگنمایی کنید."
+  "ai_upscale": "بزرگنمایی تصویر AI",
+  "upscale_images_to_higher_resolutions": "تصاویر را به وضوح بالاتر بزرگنمایی کنید.",
+  "upload_from_gallery": "بارگذاری از گالری",
+  "take_photo": "عکس گرفتن",
+  "recent": "اخیر",
+  "completed": "تکمیل شده",
+  "in_queue": "در صف",
+  "loading": "در حال بارگذاری"
 }

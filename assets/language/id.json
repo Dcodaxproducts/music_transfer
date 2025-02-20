@@ -152,8 +152,14 @@
   "initializing_ai_models": "Menginisialisasi model AI",
   "uploading_image": "Mengunggah gambar",
   "removing_background": "Menghapus latar belakang",
-  "background_remover": "Penghapus Latar Belakang",
+  "ai_bg_remover": "Penghapus Latar Belakang AI",
   "remove_background_easily": "Hapus latar belakang dari gambar dengan mudah.",
-  "image_upscale": "Peningkatan Gambar",
-  "upscale_images_to_higher_resolutions": "Perbesar gambar ke resolusi yang lebih tinggi."
+  "ai_upscale": "Peningkatan Gambar AI",
+  "upscale_images_to_higher_resolutions": "Perbesar gambar ke resolusi yang lebih tinggi.",
+  "upload_from_gallery": "Unggah dari galeri",
+  "take_photo": "Ambil foto",
+  "recent": "Baru-baru ini",
+  "completed": "Selesai",
+  "in_queue": "Dalam antrian",
+  "loading": "Memuat"
 }

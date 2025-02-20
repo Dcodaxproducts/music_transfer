@@ -18,10 +18,7 @@ class ImageGenerationUtils {
       return;
     }
 
-    //  show video or interstitial ad based on even or odd
-    if (dailyGenerationCount.isOdd) {
-      await AdsController.find.showOnGenerateVideo();
-    } else {
+    if (dailyGenerationCount % 3 == 0) {
       await AdsController.find.showOnGenerateInterstitial();
     }
     return;

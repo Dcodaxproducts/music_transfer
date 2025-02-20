@@ -125,7 +125,6 @@
   "image_upload_failed": "Bild-Upload fehlgeschlagen",
   "upload_image": "Bild hochladen",
   "remove_background": "Hintergrund entfernen",
-  "upscale_image": "Bild vergrößern",
   "too_many_requests": "Ups! Zu viele Anfragen. Bitte versuchen Sie es in einem Moment erneut.",
   "success": "Erfolg",
   "error": "Fehler",
@@ -152,8 +151,14 @@
   "initializing_ai_models": "Initialisierung der KI-Modelle",
   "uploading_image": "Bild hochladen",
   "removing_background": "Hintergrund entfernen",
-  "background_remover": "Hintergrundentferner",
+  "ai_bg_remover": "Hintergrundentferner AI",
   "remove_background_easily": "Entfernen Sie den Hintergrund einfach aus Bildern.",
-  "image_upscale": "Bildvergrößerung",
-  "upscale_images_to_higher_resolutions": "Skalieren Sie Bilder auf höhere Auflösungen."
+  "ai_upscale": "Bildvergrößerung AI",
+  "upscale_images_to_higher_resolutions": "Skalieren Sie Bilder auf höhere Auflösungen.",
+  "upload_from_gallery": "Aus der Galerie hochladen",
+  "take_photo": "Foto machen",
+  "recent": "Kürzlich",
+  "completed": "Abgeschlossen",
+  "in_queue": "In der Warteschlange",
+  "loading": "Wird geladen"
 }

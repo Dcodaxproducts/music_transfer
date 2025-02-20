@@ -25,7 +25,6 @@ class ApiClient extends GetxService implements ApiClientInterface {
     if (_client != null) {
       _client!.close(); // Cancel the ongoing request
       _client = null; // Reset the client
-      debugPrint('====> API request canceled');
     }
   }
 
@@ -37,7 +36,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
   }) async {
     try {
       // print the api call
-      debugPrint('====> API Call: ${AppConstants.BASE_URL + uri}, ====> Header: $_mainHeaders');
+      _debugPrint('====> API Call: ${AppConstants.BASE_URL + uri}, ====> Header: $_mainHeaders');
 
       // Initialize a new client
       _client = http.Client();
@@ -68,8 +67,8 @@ class ApiClient extends GetxService implements ApiClientInterface {
   }) async {
     try {
       // print the api call
-      debugPrint('====> API Call: $url, ====> Header: $_mainHeaders');
-      debugPrint('====> Body: $body');
+      _debugPrint('====> API Call: $url, ====> Header: $_mainHeaders');
+      _debugPrint('====> Body: $body');
 
       // Initialize a new client
       _client = http.Client();
@@ -96,7 +95,7 @@ class ApiClient extends GetxService implements ApiClientInterface {
   Future<Uint8List?> downloadImage(String uri, {bool hideLoading = true}) async {
     try {
       // print the api call
-      debugPrint('====> API Call: $uri, ====> Header: $_mainHeaders');
+      _debugPrint('====> API Call: $uri, ====> Header: $_mainHeaders');
 
       http.Response response =
           await http.get(Uri.parse(uri), headers: _mainHeaders).timeout(Duration(seconds: timeoutInSeconds));
@@ -159,6 +158,12 @@ class ApiClient extends GetxService implements ApiClientInterface {
       } else {
         showToast('Something went wrong');
       }
+    }
+  }
+
+  _debugPrint(String message) {
+    if (kDebugMode) {
+      debugPrint(message);
     }
   }
 }

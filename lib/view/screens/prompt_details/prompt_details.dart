@@ -61,7 +61,7 @@ class PromptDetailScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    AdsController.find.showModelScreenAd(),
+                    AdsController.find.buildModelScreenAd(),
                   ],
                 ),
               );
