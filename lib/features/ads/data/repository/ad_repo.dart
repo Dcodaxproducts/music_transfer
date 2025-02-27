@@ -6,7 +6,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart';
 import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
 import 'package:matrix_ai/core/api/api_client_interface.dart';
-import 'package:matrix_ai/core/utils/ads.dart';
+import 'package:matrix_ai/features/ads/data/utils/ads.dart';
 import '../../presentation/controller/ads_controller.dart';
 import '../../../../core/utils/app_constants.dart';
 import 'ad_repo_interface.dart';
