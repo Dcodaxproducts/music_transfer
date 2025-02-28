@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:matrix_ai/features/home/presentation/controller/image_generation_controller.dart';
 import 'package:matrix_ai/features/home/data/model/models_lab_response.dart';
-import '../../../imports.dart';
-import '../../../core/widgets/network_image.dart';
-import '../../../core/widgets/view_image.dart';
+import '../../../../../imports.dart';
+import '../../../../../core/widgets/network_image.dart';
+import '../../../../../core/widgets/view_image.dart';
 import 'prompt_edit.dart';
 import 'prompt_report.dart';
 

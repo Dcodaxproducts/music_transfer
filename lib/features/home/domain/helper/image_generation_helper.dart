@@ -6,8 +6,8 @@ import 'package:matrix_ai/features/subscription/presentation/controller/subscrip
 import 'package:matrix_ai/core/error/together_ai_error.dart';
 import 'package:matrix_ai/features/ads/presentation/view/ads_dialog.dart';
 import 'package:matrix_ai/core/widgets/together_ai_error_dialog.dart';
-import 'package:matrix_ai/features/loading_screen/src/loading_manager.dart';
-import 'package:matrix_ai/features/prompt_details/prompt_details.dart';
+import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
+import 'package:matrix_ai/features/prompt_details/presentation/view/prompt_details.dart';
 import 'package:matrix_ai/core/helper/navigation.dart';
 import 'package:matrix_ai/core/widgets/snackbar.dart';
 import 'package:matrix_ai/features/review/presentation/view/rate_us_sheet.dart';

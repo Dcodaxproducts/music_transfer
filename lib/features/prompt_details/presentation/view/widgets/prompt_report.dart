@@ -8,7 +8,7 @@ import 'package:matrix_ai/core/widgets/snackbar.dart';
 import 'package:matrix_ai/core/helper/navigation.dart';
 import 'package:matrix_ai/core/utils/colors.dart';
 import 'package:matrix_ai/core/utils/style.dart';
-import '../../home/presentation/controller/image_generation_controller.dart';
+import '../../../../home/presentation/controller/image_generation_controller.dart';
 
 class PromptReportButton extends StatelessWidget {
   const PromptReportButton({super.key});

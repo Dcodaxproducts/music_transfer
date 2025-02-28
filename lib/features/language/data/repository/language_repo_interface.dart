@@ -1,5 +1,7 @@
-import 'package:matrix_ai/features/language/data/model/language.dart';
+import 'package:flutter/material.dart';
 
-abstract class LanguageRepoInterface {
-  List<LanguageModel> getAllLanguages();
+abstract class LocalizationRepoInterface {
+  Locale loadCurrentLanguage();
+  Future<void> saveLanguage(Locale locale);
+  List<Locale> get availableLanguages;
 }

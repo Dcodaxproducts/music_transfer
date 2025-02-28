@@ -1,8 +1,8 @@
-import '../../settings/presentation/controller/settings_controller.dart';
-import '../../home/data/model/models_lab_response.dart';
-import '../../home/domain/helper/image_generation_helper.dart';
-import '../../../imports.dart';
-import '../../home/presentation/view/home.dart';
+import '../../../../settings/presentation/controller/settings_controller.dart';
+import '../../../../home/data/model/models_lab_response.dart';
+import '../../../../home/domain/helper/image_generation_helper.dart';
+import '../../../../../imports.dart';
+import '../../../../home/presentation/view/home.dart';
 
 class RegenerateButton extends StatelessWidget {
   final PromptResponse response;

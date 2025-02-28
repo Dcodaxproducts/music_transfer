@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../core/utils/app_constants.dart';
+import 'package:matrix_ai/features/theme/data/repository/theme_repo_interface.dart';
 import 'theme_service_interface.dart';
 
 class ThemeService implements ThemeServiceInterface {
-  final SharedPreferences sharedPreferences;
-  ThemeService({required this.sharedPreferences});
+  final ThemeRepoInterface themeRepo;
+  ThemeService({required this.themeRepo});
 
   @override
   Future<ThemeMode> loadCurrentTheme() async {
     String? data;
     try {
-      data = sharedPreferences.getString(AppConstants.THEME);
+      data = themeRepo.loadCurrentTheme();
     } catch (e) {
       data = 'system';
     }
@@ -37,6 +36,6 @@ class ThemeService implements ThemeServiceInterface {
       default:
         mode = 'system';
     }
-    await sharedPreferences.setString(AppConstants.THEME, mode);
+    await themeRepo.setTheme(mode);
   }
 }

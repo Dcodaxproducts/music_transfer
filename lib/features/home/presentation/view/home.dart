@@ -3,7 +3,7 @@ import 'package:matrix_ai/features/models/presentation/controller/models_control
 import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
 import 'package:matrix_ai/features/home/presentation/view/widgets/models_view.dart';
-import 'package:matrix_ai/features/loading_screen/src/loading_manager.dart';
+import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
 import '../controller/generation_controller.dart';
 import '../../domain/helper/image_generation_helper.dart';
 import 'widgets/history_view.dart';

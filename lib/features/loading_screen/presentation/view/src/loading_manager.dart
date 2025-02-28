@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:matrix_ai/features/loading_screen/loading_screen.dart';
+import 'package:matrix_ai/features/loading_screen/presentation/view/loading_screen.dart';
 
 class LoadingManager {
   static final LoadingManager _instance = LoadingManager._internal();

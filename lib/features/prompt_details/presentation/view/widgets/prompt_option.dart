@@ -2,10 +2,10 @@ import 'package:flutter/services.dart';
 import 'package:matrix_ai/features/home/presentation/controller/image_generation_controller.dart';
 import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/features/home/data/model/models_lab_response.dart';
-import '../../history/presentation/controller/history_controller.dart';
-import '../../../core/helper/image_download.dart';
-import '../../../imports.dart';
-import '../../../core/widgets/confirmation_dialog.dart';
+import '../../../../history/presentation/controller/history_controller.dart';
+import '../../../../../core/helper/image_download.dart';
+import '../../../../../imports.dart';
+import '../../../../../core/widgets/confirmation_dialog.dart';
 
 class PromptOptionWidget extends StatelessWidget {
   const PromptOptionWidget({super.key});

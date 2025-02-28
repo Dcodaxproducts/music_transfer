@@ -6,7 +6,7 @@ import 'package:matrix_ai/features/models/data/model/model.dart';
 import 'package:matrix_ai/features/home/domain/service/image_generation_service_interface.dart';
 import 'package:http/http.dart' as http;
 import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/features/loading_screen/src/loading_manager.dart';
+import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
 import 'generation_controller.dart';
 
 class ImageGenerationController extends GetxController implements GetxService {

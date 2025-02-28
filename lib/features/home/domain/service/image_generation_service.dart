@@ -10,7 +10,7 @@ import 'package:matrix_ai/features/home/data/model/api_model.dart';
 import 'package:matrix_ai/features/home/data/repository/image_generation_repo_interface.dart';
 import 'package:matrix_ai/features/ads/data/utils/firebase_events.dart';
 import 'package:matrix_ai/core/utils/images.dart';
-import 'package:matrix_ai/features/loading_screen/src/loading_manager.dart';
+import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/widgets/snackbar.dart';
 import '../../../subscription/presentation/controller/subscription_controller.dart';

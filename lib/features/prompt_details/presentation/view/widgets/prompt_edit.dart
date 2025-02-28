@@ -6,8 +6,8 @@ import 'package:matrix_ai/features/home/presentation/controller/image_generation
 import 'package:matrix_ai/features/tools/data/model/tools.dart';
 import 'package:matrix_ai/core/helper/navigation.dart';
 import 'package:matrix_ai/features/upscale_image/presentation/view/upscale_image.dart';
-import '../../../core/utils/style.dart';
-import '../../menu/presentation/view/widgets/menu_item.dart';
+import '../../../../../core/utils/style.dart';
+import '../../../../menu/presentation/view/widgets/menu_item.dart';
 
 class PromptEditButton extends StatelessWidget {
   const PromptEditButton({super.key});

@@ -9,7 +9,7 @@ import 'package:matrix_ai/core/utils/colors.dart';
 import 'package:matrix_ai/core/utils/style.dart';
 import '../../../../../core/helper/navigation.dart';
 import '../../../../../core/widgets/queue_countdown.dart';
-import '../../../../prompt_details/prompt_details.dart';
+import '../../../../prompt_details/presentation/view/prompt_details.dart';
 import '../../../../models/presentation/view/widgets/model_grid.dart';
 import 'favorite_widget.dart';
 import 'history_countdown_widget.dart';

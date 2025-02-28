@@ -1,9 +1,9 @@
 import 'package:matrix_ai/features/home/presentation/controller/image_generation_controller.dart';
 import 'package:matrix_ai/features/home/data/model/models_lab_response.dart';
 import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/features/prompt_details/widgets/regenerate.dart';
-import '../ads/presentation/controller/ads_controller.dart';
-import '../history/presentation/controller/history_controller.dart';
+import 'package:matrix_ai/features/prompt_details/presentation/view/widgets/regenerate.dart';
+import '../../../ads/presentation/controller/ads_controller.dart';
+import '../../../history/presentation/controller/history_controller.dart';
 import 'widgets/model_info_widget.dart';
 import 'widgets/prompt_image.dart';
 import 'widgets/prompt_option.dart';

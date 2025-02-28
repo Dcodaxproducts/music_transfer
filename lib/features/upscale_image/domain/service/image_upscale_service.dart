@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 import 'package:matrix_ai/features/tools/data/model/tools.dart';
 import 'package:matrix_ai/features/upscale_image/data/repository/image_upscale_repo_interface.dart';
 import 'package:matrix_ai/features/ads/data/utils/firebase_events.dart';
-import 'package:matrix_ai/features/loading_screen/src/loading_manager.dart';
+import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/widgets/snackbar.dart';
 import '../../../aws/presentation/controller/aws_controller.dart';

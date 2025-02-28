@@ -4,7 +4,7 @@ import 'package:matrix_ai/features/upscale_image/presentation/controller/image_u
 import 'package:matrix_ai/features/upscale_image/data/model/upscale_response.dart';
 import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/core/widgets/network_image.dart';
-import 'package:matrix_ai/features/loading_screen/src/loading_manager.dart';
+import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
 import '../../../tools/data/model/tools.dart';
 import '../../../background_remover/presentation/controller/background_remover_controller.dart';
 import 'image_result_screen.dart';

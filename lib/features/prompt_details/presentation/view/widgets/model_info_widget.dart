@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:matrix_ai/imports.dart';
 import 'package:view_more/view_more.dart';
-import '../../home/data/model/models_lab_response.dart';
-import '../../models/data/model/model.dart';
-import '../../../core/helper/date_converter.dart';
+import '../../../../home/data/model/models_lab_response.dart';
+import '../../../../models/data/model/model.dart';
+import '../../../../../core/helper/date_converter.dart';
 
 class ModelInfoWidget extends StatelessWidget {
   final PromptResponse response;
