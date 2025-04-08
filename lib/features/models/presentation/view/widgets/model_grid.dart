@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:matrix_ai/features/models/presentation/controller/models_controller.dart';
-import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/features/history/presentation/view/widgets/animated_heart.dart';
 import '../../../data/model/model.dart';
 import '../../../../../imports.dart';

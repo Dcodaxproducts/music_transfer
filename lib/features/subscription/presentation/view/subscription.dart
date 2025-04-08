@@ -5,7 +5,7 @@ import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../core/widgets/primary_button.dart';
-import '../../../settings/presentation/controller/settings_controller.dart';
+import '../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../controller/subscription_controller.dart';
 import '../../data/model/subscription_item.dart';
 import '../../../../core/helper/navigation.dart';

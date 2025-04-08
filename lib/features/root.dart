@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:matrix_ai/features/aws/presentation/controller/aws_controller.dart';
 import 'package:matrix_ai/features/review/presentation/controller/review_controller.dart';
-import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/features/dashboard/presentation/view/dashboard.dart';
 import 'package:matrix_ai/features/welcome/presentation/view/welcome.dart';

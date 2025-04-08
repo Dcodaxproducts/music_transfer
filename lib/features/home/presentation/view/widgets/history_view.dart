@@ -10,7 +10,7 @@ class HistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HistoryController>(builder: (historyController) {
-      final List<PromptResponse> promptHistory = historyController.promptHistory;
+      final List<ImageGenerationResult> promptHistory = historyController.promptHistory;
       return Visibility(
         visible: promptHistory.isNotEmpty,
         child: Column(

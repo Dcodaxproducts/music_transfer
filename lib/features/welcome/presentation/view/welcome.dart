@@ -1,5 +1,5 @@
 import 'package:flutter/gestures.dart';
-import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
 import 'widgets/bottom_button.dart';

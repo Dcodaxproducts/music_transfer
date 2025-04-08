@@ -3,19 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/core/widgets/network_image.dart';
-import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/features/home/data/model/models_lab_response.dart';
 import 'package:matrix_ai/core/utils/colors.dart';
 import 'package:matrix_ai/core/utils/style.dart';
 import '../../../../../core/helper/navigation.dart';
 import '../../../../../core/widgets/queue_countdown.dart';
-import '../../../../prompt_details/presentation/view/prompt_details.dart';
+import '../../../../image_generation_result/presentation/view/image_generation_result.dart';
 import '../../../../models/presentation/view/widgets/model_grid.dart';
 import 'favorite_widget.dart';
 import 'history_countdown_widget.dart';
 
 class HistoryList extends StatelessWidget {
-  final List<PromptResponse> promptHistory;
+  final List<ImageGenerationResult> promptHistory;
   final bool isFavorite;
   const HistoryList({super.key, required this.promptHistory, this.isFavorite = false});
 
@@ -40,7 +40,7 @@ class HistoryList extends StatelessWidget {
 }
 
 class HistoryCard extends StatelessWidget {
-  final PromptResponse response;
+  final ImageGenerationResult response;
   final bool isFavorite;
   const HistoryCard({super.key, required this.response, this.isFavorite = false});
 
@@ -53,7 +53,7 @@ class HistoryCard extends StatelessWidget {
         return InkWell(
           onTap: () {
             // Navigate to prompt details screen
-            launchScreen(PromptDetailScreen(response: response, favorites: isFavorite));
+            launchScreen(ImageGenerationResultScreen(result: response, favorites: isFavorite));
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),

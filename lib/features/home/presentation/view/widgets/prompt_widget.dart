@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/imports.dart';
 import '../../../../inspirations/presentation/controller/inspiration_controller.dart';
 import '../../../../inspirations/data/model/inspiration.dart';

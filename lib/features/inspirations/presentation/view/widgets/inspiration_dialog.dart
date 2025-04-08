@@ -6,7 +6,7 @@ import 'package:matrix_ai/core/utils/style.dart';
 import 'package:matrix_ai/core/widgets/loading.dart';
 import '../../../../../core/widgets/primary_button.dart';
 import '../../../../dashboard/presentation/controller/dashboard_controller.dart';
-import '../../../../settings/presentation/controller/settings_controller.dart';
+import '../../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../data/model/inspiration.dart';
 import '../../../../../core/helper/navigation.dart';
 

@@ -42,6 +42,26 @@
             "flutterMode": "release"
         },
         {
+            "name": "gallery_saver_plus",
+            "cwd": "packages/gallery_saver_plus",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "gallery_saver_plus (profile mode)",
+            "cwd": "packages/gallery_saver_plus",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "gallery_saver_plus (release mode)",
+            "cwd": "packages/gallery_saver_plus",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
             "name": "minio_flutter",
             "cwd": "packages/minio_flutter",
             "request": "launch",
@@ -54,18 +74,10 @@
             "type": "dart"
         },
         {
-            "name": "example (profile mode)",
-            "cwd": "packages/audience_network_flutter/example",
+            "name": "example",
+            "cwd": "packages/gallery_saver_plus/example",
             "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "example (release mode)",
-            "cwd": "packages/audience_network_flutter/example",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
+            "type": "dart"
         }
     ]
 }

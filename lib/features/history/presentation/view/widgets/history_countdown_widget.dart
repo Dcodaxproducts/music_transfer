@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../controller/queue_controller.dart';
 
 class HistoryCountdownWidget extends StatelessWidget {
-  final PromptResponse response;
+  final ImageGenerationResult response;
   final Widget Function(
     BuildContext context,
     bool isCompleted,

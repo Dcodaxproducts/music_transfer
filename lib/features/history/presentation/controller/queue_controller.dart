@@ -4,20 +4,17 @@ import '../../../home/data/model/models_lab_response.dart';
 import '../../../home/presentation/controller/image_generation_controller.dart';
 
 class QueueController extends GetxController {
-  var responseList = <PromptResponse>[].obs;
-  var remainingTimes =
-      <String, Rx<Duration>>{}.obs; // Map of IDs to remaining times
+  var responseList = <ImageGenerationResult>[].obs;
+  var remainingTimes = <String, Rx<Duration>>{}.obs; // Map of IDs to remaining times
   var retryingStatus = <String, RxBool>{}.obs; // Map of IDs to retrying state
   Map<String, Timer?> timers = {}; // Map of timers
 
-  void initializeResponse(PromptResponse response) {
+  void initializeResponse(ImageGenerationResult response) {
     final id = response.id.toString();
     if (!remainingTimes.containsKey(id)) {
       int initialSeconds = (((response.eta ?? 0) + 5) * 2).ceil();
-      DateTime etaWithBuffer =
-          response.createdAt!.add(Duration(seconds: initialSeconds));
-      remainingTimes[id] =
-          Rx<Duration>(etaWithBuffer.difference(DateTime.now()));
+      DateTime etaWithBuffer = response.createdAt!.add(Duration(seconds: initialSeconds));
+      remainingTimes[id] = Rx<Duration>(etaWithBuffer.difference(DateTime.now()));
       retryingStatus[id] = RxBool(false); // Initialize retrying status
 
       if (response.status != 'success') {
@@ -26,14 +23,13 @@ class QueueController extends GetxController {
     }
   }
 
-  void startCountdown(PromptResponse response) {
+  void startCountdown(ImageGenerationResult response) {
     final id = response.id.toString();
     timers[id] = Timer.periodic(const Duration(seconds: 1), (timer) async {
       if (remainingTimes.containsKey(id)) {
         remainingTimes[id]!.value -= const Duration(seconds: 1);
 
-        if (remainingTimes[id]!.value.isNegative ||
-            remainingTimes[id]!.value == Duration.zero) {
+        if (remainingTimes[id]!.value.isNegative || remainingTimes[id]!.value == Duration.zero) {
           timers[id]?.cancel();
           retryingStatus[id]?.value = true; // Mark as retrying
           await _checkImageStatus(response);
@@ -42,9 +38,8 @@ class QueueController extends GetxController {
     });
   }
 
-  Future<void> _checkImageStatus(PromptResponse response) async {
-    bool success =
-        await ImageGenerationController.find.getQueuedImages(response);
+  Future<void> _checkImageStatus(ImageGenerationResult response) async {
+    bool success = await ImageGenerationController.find.getQueuedImages(response);
     final id = response.id.toString();
 
     if (success) {
@@ -62,7 +57,7 @@ class QueueController extends GetxController {
     }
   }
 
-  void addResponse(PromptResponse response) {
+  void addResponse(ImageGenerationResult response) {
     if (responseList.contains(response)) {
       return;
     }

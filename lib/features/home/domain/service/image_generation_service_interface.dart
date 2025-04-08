@@ -14,14 +14,14 @@ abstract class ImageGenerationServiceInterface<T> {
     String? apiKey,
   });
 
-  Future<PromptResponse?> processGenerationResponse(
+  Future<ImageGenerationResult?> processGenerationResponse(
     Response? response,
     String prompt,
     Model? model,
     int? seed,
   );
 
-  Future<bool> getQueuedImages(PromptResponse response);
+  Future<bool> getQueuedImages(ImageGenerationResult response);
 
   Future<void> cancelRequest();
 

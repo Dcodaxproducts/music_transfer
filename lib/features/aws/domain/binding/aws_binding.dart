@@ -1,16 +1,16 @@
 import 'package:get/get.dart';
-import '../../../ads/domain/service/ads_service.dart';
-import '../../../ads/domain/service/ads_service_interface.dart';
-import '../../../ads/presentation/controller/ads_controller.dart';
+import 'package:matrix_ai/features/aws/presentation/controller/aws_controller.dart';
+import '../service/aws_service.dart';
+import '../service/aws_service_intereface.dart';
 
 class AwsBinding extends Bindings {
   @override
   void dependencies() {
     // service
-    AdsServiceInterface adsServiceInterface = AdsService(adRepo: Get.find());
+    AwsServiceInterface adsServiceInterface = AwsService(apiClient: Get.find());
     Get.lazyPut(() => adsServiceInterface, fenix: true);
 
     // controller
-    Get.lazyPut(() => AdsController(adsService: Get.find()));
+    Get.lazyPut(() => AwsController(awsService: Get.find()));
   }
 }

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../../../settings/presentation/controller/settings_controller.dart';
+import '../../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../../aspect_ratio/data/model/aspect_ratio.dart';
 import '../../../../../core/utils/style.dart';
 import '../../../../aspect_ratio/presentation/view/aspect_ratio.dart';
-import '../../../../settings/presentation/view/settings.dart';
+import '../../../../prompt_setting/presentation/view/prompt_setting.dart';
 
 class PromptSettingsWidget extends StatelessWidget {
   const PromptSettingsWidget({super.key});
@@ -37,7 +37,7 @@ class PromptSettingsWidget extends StatelessWidget {
               child: PromptOptionButton(
                 title: 'prompt_settings'.tr,
                 icon: Iconsax.setting_4,
-                onTap: () => Get.bottomSheet(const SettingScreen(), isScrollControlled: true),
+                onTap: () => Get.bottomSheet(const PromptSettingScreen(), isScrollControlled: true),
               ),
             ),
           ],

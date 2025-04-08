@@ -32,4 +32,13 @@ class SettingModel {
         "cancel_anytime": {"value": cancelAnytime},
         "free_generations": freeGenerations,
       };
+
+  // default
+ static SettingModel get settings => SettingModel(
+        termsAndConditions: "",
+        privacyPolicy: "",
+        userAgreement: "",
+        cancelAnytime: "",
+        freeGenerations: 0,
+      );
 }

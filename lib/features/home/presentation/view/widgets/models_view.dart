@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:matrix_ai/features/models/presentation/controller/models_controller.dart';
-import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../../models/data/model/model.dart';
 import '../../../../../imports.dart';
 import '../../../../../core/widgets/shimmer.dart';
-import '../../../../models/presentation/view/set_theme.dart';
+import '../../../../models/presentation/view/models.dart';
 import '../../../../models/presentation/view/widgets/model_grid.dart';
 
 class ModelsView extends StatelessWidget {
@@ -49,7 +49,7 @@ class ModelsView extends StatelessWidget {
                     ),
                     const Spacer(),
                     TextButton(
-                      onPressed: () => Get.bottomSheet(const SetThemeScreen(), isScrollControlled: true),
+                      onPressed: () => Get.bottomSheet(const ModelsScreen(), isScrollControlled: true),
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
                       child: Text('see_all'.tr, style: bodySmall(context)),
                     ),

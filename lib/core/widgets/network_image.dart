@@ -44,14 +44,13 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
   }
 
   Future<void> _checkImageAvailability() async {
+    if (widget.url == null) return;
     while (_retryCount < maxRetries) {
       final isAvailable = await isImageAvailable(widget.url!);
       if (isAvailable && mounted) {
         await Future.delayed(const Duration(seconds: 2)).then((value) {
           SchedulerBinding.instance.addPostFrameCallback((_) {
-            setState(() {
-              _isImageAvailable = true;
-            });
+            if (mounted) setState(() => _isImageAvailable = true);
           });
         });
         break;

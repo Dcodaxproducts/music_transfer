@@ -1,14 +1,13 @@
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:matrix_ai/features/models/presentation/controller/models_controller.dart';
-import '../../../aws/presentation/controller/aws_controller.dart';
 import '../../../../core/widgets/snackbar.dart';
 import '../../../ads/presentation/controller/ads_controller.dart';
 import '../../../aspect_ratio/data/model/aspect_ratio.dart';
-import '../../../settings/data/model/config_model.dart';
+import '../../../prompt_setting/data/model/config_model.dart';
 import '../model/models_lab_response.dart';
 import '../../../models/data/model/model.dart';
-import '../../../settings/presentation/controller/settings_controller.dart';
+import '../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../model/together_ai_response.dart';
 
 class ImageGenerationUtils {
@@ -117,20 +116,20 @@ class ImageGenerationUtils {
     return true;
   }
 
-  static Future<PromptResponse> getPromptResponse(Map<String, dynamic> data, String prompt) async {
+  static Future<ImageGenerationResult> getPromptResponse(Map<String, dynamic> data, String prompt) async {
     if (data['status'] != null) {
-      return PromptResponse.fromJson(data);
+      return ImageGenerationResult.fromJson(data);
     } else {
       TogetherAiRespsonse response = TogetherAiRespsonse.fromJson(data);
       final List<String> urls = response.data.map((e) => e.url).toList();
-      String? imageUrl = await AwsController.find.downloadImageAndUploadToAWS(urls.first, prompt);
+      String imageUrl = urls.first;
       int randomSeed = math.Random(30).nextInt(10000);
-      final promptResponse = PromptResponse(
+      final promptResponse = ImageGenerationResult(
         status: 'success',
         id: DateTime.now().millisecondsSinceEpoch,
         meta: Meta(h: 1, w: 1, prompt: '', seed: randomSeed),
         eta: null,
-        output: imageUrl != null ? [imageUrl] : urls,
+        output: [imageUrl],
         futureLinks: [],
       );
       // if success and fast ai model then add delay of 4 seconds

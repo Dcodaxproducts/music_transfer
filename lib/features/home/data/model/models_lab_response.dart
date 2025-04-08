@@ -1,6 +1,6 @@
 import 'package:matrix_ai/features/models/data/model/model.dart';
 
-class PromptResponse {
+class ImageGenerationResult {
   String status;
   double? eta;
   int id;
@@ -12,7 +12,7 @@ class PromptResponse {
   Model? model;
   List<int>? linkedResponses;
 
-  PromptResponse({
+  ImageGenerationResult({
     required this.status,
     required this.id,
     required this.meta,
@@ -25,7 +25,7 @@ class PromptResponse {
     this.linkedResponses,
   });
 
-  factory PromptResponse.fromJson(Map<String, dynamic> json) => PromptResponse(
+  factory ImageGenerationResult.fromJson(Map<String, dynamic> json) => ImageGenerationResult(
         status: json["status"],
         id: json["id"] ?? DateTime.now().millisecondsSinceEpoch,
         meta: Meta.fromJson(json["meta"]),
@@ -57,7 +57,7 @@ class PromptResponse {
       };
 
   // copy with
-  PromptResponse copyWith({
+  ImageGenerationResult copyWith({
     String? status,
     int? id,
     Meta? meta,
@@ -69,7 +69,7 @@ class PromptResponse {
     Model? model,
     List<int>? linkedResponses,
   }) {
-    return PromptResponse(
+    return ImageGenerationResult(
       status: status ?? this.status,
       id: id ?? this.id,
       meta: meta ?? this.meta,

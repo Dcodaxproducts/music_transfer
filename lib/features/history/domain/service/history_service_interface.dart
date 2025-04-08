@@ -2,11 +2,11 @@ import 'dart:typed_data';
 import 'package:matrix_ai/features/home/data/model/models_lab_response.dart';
 
 abstract class HistoryServiceInterface {
-  Future<void> savePromptHistory(List<PromptResponse> promptHistory);
-  Future<void> addPrompt(List<PromptResponse> currentHistory);
-  Future<void> removePrompt(PromptResponse prompt, List<PromptResponse> currentHistory);
+  Future<void> savePromptHistory(List<ImageGenerationResult> promptHistory);
+  Future<void> addPrompt(List<ImageGenerationResult> currentHistory);
+  Future<void> removePrompt(ImageGenerationResult prompt, List<ImageGenerationResult> currentHistory);
   Future<Uint8List?> downloadImage(String url);
-  List<PromptResponse> getPromptHistoryFromRepo();
-  Future<void> deletePrompt(List<PromptResponse> currentHistory);
-  Future<void> toggleFavorite(List<PromptResponse> currentHistory);
+  List<ImageGenerationResult> getPromptHistoryFromRepo();
+  Future<void> deletePrompt(List<ImageGenerationResult> currentHistory);
+  Future<void> toggleFavorite(List<ImageGenerationResult> currentHistory);
 }

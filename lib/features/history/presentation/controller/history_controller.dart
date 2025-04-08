@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:matrix_ai/features/home/data/model/models_lab_response.dart';
 import 'package:matrix_ai/features/history/domain/service/history_service_interface.dart';
-import '../../../settings/presentation/controller/settings_controller.dart';
+import '../../../prompt_setting/presentation/controller/settings_controller.dart';
 
 class HistoryController extends GetxController {
   final HistoryServiceInterface historyService;
@@ -11,19 +11,19 @@ class HistoryController extends GetxController {
 
   static HistoryController get find => Get.find<HistoryController>();
 
-  List<PromptResponse> _promptHistory = [];
-  List<PromptResponse> get promptHistory => _promptHistory;
+  List<ImageGenerationResult> _promptHistory = [];
+  List<ImageGenerationResult> get promptHistory => _promptHistory;
 
-  set promptHistory(List<PromptResponse> value) {
+  set promptHistory(List<ImageGenerationResult> value) {
     _promptHistory = value;
     historyService.savePromptHistory(value);
     update();
   }
 
-  PromptResponse addPrompt(PromptResponse prompt, {int? seed}) {
+  ImageGenerationResult addPrompt(ImageGenerationResult prompt, {int? seed}) {
     // if seed is not null and _promptHistory has any item with the same seed then remove it
     if (seed != null) {
-      PromptResponse? oldResponse = _promptHistory.firstWhereOrNull((e) => e.meta.seed == seed);
+      ImageGenerationResult? oldResponse = _promptHistory.firstWhereOrNull((e) => e.meta.seed == seed);
       if (oldResponse != null) {
         prompt = prompt.copyWith(linkedResponses: [oldResponse.id, ...oldResponse.linkedResponses ?? []]);
       }
@@ -36,7 +36,7 @@ class HistoryController extends GetxController {
     return prompt;
   }
 
-  void removePrompt(PromptResponse prompt) {
+  void removePrompt(ImageGenerationResult prompt) {
     historyService.removePrompt(prompt, _promptHistory);
     update();
   }
@@ -55,13 +55,13 @@ class HistoryController extends GetxController {
     update();
   }
 
-  void deletePrompt(PromptResponse response) {
+  void deletePrompt(ImageGenerationResult response) {
     _promptHistory.removeWhere((e) => e.id == response.id);
     update();
     historyService.deletePrompt(_promptHistory);
   }
 
-  void toggleFavorite(PromptResponse response) {
+  void toggleFavorite(ImageGenerationResult response) {
     response = response.copyWith(bookmarked: !response.bookmarked);
     int index = _promptHistory.indexWhere((e) => e.id == response.id);
     _promptHistory[index] = response;
@@ -69,23 +69,23 @@ class HistoryController extends GetxController {
     historyService.toggleFavorite(_promptHistory);
   }
 
-  int getInitialIndex(PromptResponse response, {bool favorites = false}) {
+  int getInitialIndex(ImageGenerationResult response, {bool favorites = false}) {
     final history = getFilteredHistory(favorites: favorites);
     return history.indexWhere((item) => item.id == response.id);
   }
 
-  List<PromptResponse> getFilteredHistory({bool favorites = false}) {
+  List<ImageGenerationResult> getFilteredHistory({bool favorites = false}) {
     if (favorites) {
       return _promptHistory.where((e) => e.bookmarked).toList();
     }
     return _promptHistory;
   }
 
-  PromptResponse? getResponseById(int id) {
+  ImageGenerationResult? getResponseById(int id) {
     return _promptHistory.firstWhereOrNull((response) => response.id == id);
   }
 
-  PromptResponse? getResponseByImageUrl(String imageUrl) {
+  ImageGenerationResult? getResponseByImageUrl(String imageUrl) {
     return _promptHistory.firstWhereOrNull((response) => response.output.contains(imageUrl));
   }
 }

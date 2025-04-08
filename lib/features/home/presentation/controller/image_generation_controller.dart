@@ -1,5 +1,5 @@
 import 'package:matrix_ai/features/history/presentation/controller/history_controller.dart';
-import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/features/home/data/model/api_model.dart';
 import 'package:matrix_ai/features/home/data/model/models_lab_response.dart';
 import 'package:matrix_ai/features/models/data/model/model.dart';
@@ -15,14 +15,14 @@ class ImageGenerationController extends GetxController implements GetxService {
 
   static ImageGenerationController get find => Get.find<ImageGenerationController>();
 
-  PromptResponse? _promptResponse;
+  ImageGenerationResult? _imageGenerationResult;
   String? _imageUrl;
 
-  PromptResponse? get promptResponse => _promptResponse;
+  ImageGenerationResult? get imageGenerationResult => _imageGenerationResult;
   String? get imageUrl => _imageUrl;
 
-  set promptResponse(PromptResponse? value) {
-    _promptResponse = value;
+  set imageGenerationResult(ImageGenerationResult? value) {
+    _imageGenerationResult = value;
     Future.delayed(const Duration(milliseconds: 10), () => update());
   }
 
@@ -31,7 +31,7 @@ class ImageGenerationController extends GetxController implements GetxService {
     Future.delayed(const Duration(milliseconds: 10), () => update());
   }
 
-  Future<PromptResponse?> generateImages(
+  Future<ImageGenerationResult?> generateImages(
     String prompt, {
     int? seed,
     bool upscale = false,
@@ -57,14 +57,18 @@ class ImageGenerationController extends GetxController implements GetxService {
     );
 
     //
-    PromptResponse? value =
-        await imageGenerationServiceInterface.processGenerationResponse(response, prompt, model, seed);
+    ImageGenerationResult? value = await imageGenerationServiceInterface.processGenerationResponse(
+      response,
+      prompt,
+      model,
+      seed,
+    );
 
     return value;
   }
 
   // get queque images
-  Future<bool> getQueuedImages(PromptResponse response) async {
+  Future<bool> getQueuedImages(ImageGenerationResult response) async {
     return await imageGenerationServiceInterface.getQueuedImages(response);
   }
 
@@ -79,11 +83,11 @@ class ImageGenerationController extends GetxController implements GetxService {
     );
   }
 
-  PromptResponse? getResponseById(int id) {
+  ImageGenerationResult? getResponseById(int id) {
     return HistoryController.find.getResponseById(id);
   }
 
-  PromptResponse? getResponseByImageUrl(String imageUrl) {
+  ImageGenerationResult? getResponseByImageUrl(String imageUrl) {
     return HistoryController.find.getResponseByImageUrl(imageUrl);
   }
 }

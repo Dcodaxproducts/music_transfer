@@ -5,7 +5,7 @@ import 'package:matrix_ai/features/history/presentation/controller/history_contr
 import 'package:matrix_ai/features/home/data/model/models_lab_response.dart';
 
 class FavoriteHistoryIcon extends StatelessWidget {
-  final PromptResponse response;
+  final ImageGenerationResult response;
   final double positioned;
   const FavoriteHistoryIcon({super.key, required this.response, this.positioned = 8});
 

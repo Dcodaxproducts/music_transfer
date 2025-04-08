@@ -5,7 +5,7 @@ import 'package:matrix_ai/features/language/presentation/controller/localization
 import 'package:matrix_ai/core/utils/colors.dart';
 import 'package:matrix_ai/features/dashboard/presentation/view/widgets/glassbox_curve.dart';
 import '../../../../../core/utils/style.dart';
-import '../dashboard.dart';
+import '../../../data/model/navigation_item.dart';
 
 class GlasmorphicNavigationBar extends StatelessWidget {
   final int currentIndex;

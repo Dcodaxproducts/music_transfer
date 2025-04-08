@@ -8,7 +8,7 @@ import 'package:matrix_ai/features/home/domain/binding/image_generation_bindings
 import 'package:matrix_ai/features/inspirations/domain/binding/inspiration_binding.dart';
 import 'package:matrix_ai/features/language/domain/binding/language_binding.dart';
 import 'package:matrix_ai/features/review/domain/binding/review_binding.dart';
-import 'package:matrix_ai/features/settings/domain/binding/setting_binding.dart';
+import 'package:matrix_ai/features/prompt_setting/domain/binding/setting_binding.dart';
 import 'package:matrix_ai/features/subscription/domain/binding/subscription_binding.dart';
 import 'package:matrix_ai/features/tools/domain/binding/tools_binding.dart';
 import 'package:matrix_ai/core/api/api_client.dart';
@@ -19,6 +19,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import '../../features/home/domain/binding/generation_binding.dart';
+import '../../features/image_generation_result/domain/binding/binding.dart';
 import '../../features/models/domain/binding/models_binding.dart';
 import '../../features/theme/domain/binding/theme_binding.dart';
 import '../../features/upscale_image/domain/binding/upscale_binding.dart';
@@ -48,6 +49,7 @@ Future<Map<String, Map<String, String>>> init() async {
     BackgroundRemoverBindings(),
     ToolsBinding(),
     SubscriptionBinding(),
+    ImageGenerationResultBinding(),
   ];
 
   for (Bindings binding in bindings) {

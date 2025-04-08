@@ -15,16 +15,16 @@ class HistoryRepo implements HistoryRepoInteraface {
   Future<Uint8List?> downloadImage(String url) async => await apiClient.downloadImage(url);
 
   @override
-  Future<void> savePromptResponsesInPref(List<PromptResponse> prompts) async {
+  Future<void> savePromptResponsesInPref(List<ImageGenerationResult> prompts) async {
     List<String> promptList = prompts.map((e) => jsonEncode(e.toJson())).toList();
     await prefs.setStringList(AppConstants.PROMPT_HISTORY, promptList);
   }
 
   @override
-  List<PromptResponse> getPromptResponsesFromPref() {
+  List<ImageGenerationResult> getPromptResponsesFromPref() {
     List<String>? promptList = prefs.getStringList(AppConstants.PROMPT_HISTORY);
     if (promptList != null) {
-      return promptList.map((e) => PromptResponse.fromJson(jsonDecode(e))).toList();
+      return promptList.map((e) => ImageGenerationResult.fromJson(jsonDecode(e))).toList();
     }
     return [];
   }

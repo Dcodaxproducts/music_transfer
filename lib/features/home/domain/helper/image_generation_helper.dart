@@ -1,18 +1,18 @@
 import 'package:get/get.dart';
 import 'package:matrix_ai/features/home/presentation/controller/generation_controller.dart';
 import 'package:matrix_ai/features/home/presentation/controller/image_generation_controller.dart';
-import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
 import 'package:matrix_ai/core/error/together_ai_error.dart';
 import 'package:matrix_ai/features/ads/presentation/view/ads_dialog.dart';
 import 'package:matrix_ai/core/widgets/together_ai_error_dialog.dart';
 import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
-import 'package:matrix_ai/features/prompt_details/presentation/view/prompt_details.dart';
+import 'package:matrix_ai/features/image_generation_result/presentation/view/image_generation_result.dart';
 import 'package:matrix_ai/core/helper/navigation.dart';
 import 'package:matrix_ai/core/widgets/snackbar.dart';
 import 'package:matrix_ai/features/review/presentation/view/rate_us_sheet.dart';
 import 'package:matrix_ai/features/subscription/presentation/view/subscription.dart';
-import '../../presentation/view/widgets/free_limit_dialog.dart';
+import '../../presentation/view/widgets/free_generations.dart';
 
 class ImageGenerationHelper {
   static Future<void> handleTap(Function(String) handleImageGeneration) async {
@@ -100,7 +100,7 @@ class ImageGenerationHelper {
             pop();
           }
           await LoadingManager.complete();
-          launchScreen(PromptDetailScreen(response: response), replace: fromRegenerate);
+          launchScreen(ImageGenerationResultScreen(result: response), replace: fromRegenerate);
           Future.delayed(const Duration(seconds: 2), () {
             showConditionalRateUsDialog();
           });

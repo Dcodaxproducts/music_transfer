@@ -10,7 +10,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/widgets/snackbar.dart';
 import '../../../aws/presentation/controller/aws_controller.dart';
 import '../../presentation/controller/image_upscale_controller.dart';
-import '../../../settings/presentation/controller/settings_controller.dart';
+import '../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../../data/model/upscale_response.dart';
 import '../../../home/data/utils/image_generation_utils.dart';
 import '../../data/utils/upscale_image_utils.dart';

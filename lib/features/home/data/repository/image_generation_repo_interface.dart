@@ -13,9 +13,9 @@ abstract class ImageGenerationRepoInterface {
 
   Future<Uint8List?> downloadImage(String url);
 
-  Future<void> savePromptResponsesInPref(List<PromptResponse> prompts);
+  Future<void> savePromptResponsesInPref(List<ImageGenerationResult> prompts);
 
-  List<PromptResponse> getPromptResponsesFromPref();
+  List<ImageGenerationResult> getPromptResponsesFromPref();
 
   Future<void> cancelRequest();
 

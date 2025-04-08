@@ -9,7 +9,7 @@ import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/widgets/snackbar.dart';
 import '../../presentation/controller/background_remover_controller.dart';
-import '../../../settings/presentation/controller/settings_controller.dart';
+import '../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../tools/data/model/tools.dart';
 import '../../data/repository/background_remover_repo_interface.dart';
 import '../../data/utils/background_remover_utils.dart';

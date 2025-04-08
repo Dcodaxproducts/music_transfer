@@ -9,17 +9,17 @@ class HistoryService implements HistoryServiceInterface {
   HistoryService({required this.historyRepo});
 
   @override
-  Future<void> savePromptHistory(List<PromptResponse> promptHistory) async {
+  Future<void> savePromptHistory(List<ImageGenerationResult> promptHistory) async {
     await historyRepo.savePromptResponsesInPref(promptHistory);
   }
 
   @override
-  Future<void> addPrompt(List<PromptResponse> currentHistory) async {
+  Future<void> addPrompt(List<ImageGenerationResult> currentHistory) async {
     await historyRepo.savePromptResponsesInPref(currentHistory);
   }
 
   @override
-  Future<void> removePrompt(PromptResponse prompt, List<PromptResponse> currentHistory) async {
+  Future<void> removePrompt(ImageGenerationResult prompt, List<ImageGenerationResult> currentHistory) async {
     currentHistory.remove(prompt);
     await historyRepo.savePromptResponsesInPref(currentHistory);
   }
@@ -31,8 +31,8 @@ class HistoryService implements HistoryServiceInterface {
   }
 
   @override
-  List<PromptResponse> getPromptHistoryFromRepo() {
-    List<PromptResponse> list = historyRepo.getPromptResponsesFromPref();
+  List<ImageGenerationResult> getPromptHistoryFromRepo() {
+    List<ImageGenerationResult> list = historyRepo.getPromptResponsesFromPref();
     list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
     if (list.isNotEmpty) {
       list.removeWhere((e) => e.createdAt!.isBefore(DateTime.now().subtract(const Duration(days: 30))));
@@ -41,12 +41,12 @@ class HistoryService implements HistoryServiceInterface {
   }
 
   @override
-  Future<void> deletePrompt(List<PromptResponse> currentHistory) async {
+  Future<void> deletePrompt(List<ImageGenerationResult> currentHistory) async {
     await historyRepo.savePromptResponsesInPref(currentHistory);
   }
 
   @override
-  Future<void> toggleFavorite(List<PromptResponse> currentHistory) async {
+  Future<void> toggleFavorite(List<ImageGenerationResult> currentHistory) async {
     await historyRepo.savePromptResponsesInPref(currentHistory);
   }
 }

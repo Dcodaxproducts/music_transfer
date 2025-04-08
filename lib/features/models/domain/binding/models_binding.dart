@@ -1,24 +1,22 @@
+import 'package:matrix_ai/features/models/data/repository/models_repo.dart';
+import 'package:matrix_ai/features/models/domain/service/model_service_interface.dart';
+import 'package:matrix_ai/features/models/presentation/controller/models_controller.dart';
 import 'package:matrix_ai/imports.dart';
-import '../../../home/data/repository/image_generation_repo.dart';
-import '../../../home/data/repository/image_generation_repo_interface.dart';
-import '../../../home/domain/service/image_generation_service.dart';
-import '../../../home/domain/service/image_generation_service_interface.dart';
-import '../../../home/presentation/controller/image_generation_controller.dart';
+import '../../data/repository/models_repo_interface.dart';
+import '../service/model_service.dart';
 
 class ModelsBinding extends Bindings {
   @override
   void dependencies() {
     // repo
-    ImageGenerationRepoInterface imageGenerationRepoInterface =
-        ImageGenerationRepo(apiClient: Get.find(), prefs: Get.find());
-    Get.lazyPut(() => imageGenerationRepoInterface, fenix: true);
+    ModelsRepoInterface modelsRepoInterface = ModelsRepo(apiClient: Get.find(), prefs: Get.find());
+    Get.lazyPut(() => modelsRepoInterface, fenix: true);
 
     // service
-    ImageGenerationServiceInterface imageGenerationServiceInterface =
-        ImageGenerationService(imageGenerationRepo: Get.find());
-    Get.lazyPut(() => imageGenerationServiceInterface, fenix: true);
+    ModelsServiceInterface modelsServiceInterface = ModelsService(modelsRepo: Get.find());
+    Get.lazyPut(() => modelsServiceInterface, fenix: true);
 
     // controller
-    Get.lazyPut(() => ImageGenerationController(imageGenerationServiceInterface: Get.find()));
+    Get.lazyPut(() => ModelsController(modelsService: Get.find()));
   }
 }

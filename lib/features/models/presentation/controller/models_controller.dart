@@ -3,7 +3,7 @@ import 'package:matrix_ai/features/models/data/model/model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../../domain/service/model_service_interface.dart';
-import '../../../settings/presentation/controller/settings_controller.dart';
+import '../../../prompt_setting/presentation/controller/settings_controller.dart';
 
 class ModelsController extends GetxController {
   final ModelsServiceInterface modelsService;

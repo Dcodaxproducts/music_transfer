@@ -5,7 +5,7 @@ import 'package:matrix_ai/features/aws/presentation/controller/aws_controller.da
 import 'package:matrix_ai/features/home/presentation/controller/generation_controller.dart';
 import 'package:matrix_ai/features/history/presentation/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
-import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/features/home/data/model/api_model.dart';
 import 'package:matrix_ai/features/home/data/repository/image_generation_repo_interface.dart';
 import 'package:matrix_ai/features/ads/data/utils/firebase_events.dart';
@@ -104,7 +104,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
   // process generation response
   @override
-  Future<PromptResponse?> processGenerationResponse(
+  Future<ImageGenerationResult?> processGenerationResponse(
     http.Response? response,
     String prompt,
     Model? modelValue,
@@ -121,7 +121,7 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     LoadingManager.updateProgress(2);
 
-    PromptResponse value = await ImageGenerationUtils.getPromptResponse(data, prompt);
+    ImageGenerationResult value = await ImageGenerationUtils.getPromptResponse(data, prompt);
 
     LoadingManager.updateProgress(3);
 
@@ -166,9 +166,9 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   }
 
   @override
-  Future<bool> getQueuedImages(PromptResponse value) async {
+  Future<bool> getQueuedImages(ImageGenerationResult value) async {
     // Save the original value in case of rollback
-    PromptResponse oldResponse = value;
+    ImageGenerationResult oldResponse = value;
 
     // prepare body
     Map<String, dynamic> body = {"key": value.model!.apiKey, "request_id": value.id};

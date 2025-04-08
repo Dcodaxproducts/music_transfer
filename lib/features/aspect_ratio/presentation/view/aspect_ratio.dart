@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/features/aspect_ratio/presentation/view/widgets/ratio_widget.dart';
-import '../../../settings/presentation/controller/settings_controller.dart';
+import '../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../../data/model/aspect_ratio.dart';
 import '../../../../core/helper/navigation.dart';
 import '../../../../core/utils/colors.dart';

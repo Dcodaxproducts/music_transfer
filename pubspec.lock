@@ -498,11 +498,10 @@ packages:
   gallery_saver_plus:
     dependency: "direct main"
     description:
-      name: gallery_saver_plus
-      sha256: "79a3615a56fd5db42db77d6fe8315a0087d3e8f1ec01e6426810d4ed4c02dcbc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.1"
+      path: "packages/gallery_saver_plus"
+      relative: true
+    source: path
+    version: "3.2.4"
   get:
     dependency: "direct main"
     description:

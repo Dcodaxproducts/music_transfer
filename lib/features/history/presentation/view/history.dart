@@ -32,8 +32,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HistoryController>(builder: (historyController) {
-      final List<PromptResponse> promptHistory = historyController.promptHistory;
-      final List<PromptResponse> bookmarkedHistory =
+      final List<ImageGenerationResult> promptHistory = historyController.promptHistory;
+      final List<ImageGenerationResult> bookmarkedHistory =
           historyController.promptHistory.where((e) => e.bookmarked).toList();
       bool canShowAd = false;
       if (currentIndex == 0 && promptHistory.isNotEmpty) {

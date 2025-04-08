@@ -1,86 +1,111 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:matrix_ai/features/aspect_ratio/data/model/aspect_ratio.dart';
-import 'package:matrix_ai/core/helper/navigation.dart';
-import 'package:matrix_ai/core/utils/style.dart';
-import 'package:matrix_ai/features/settings/presentation/view/widgets/aspect_ratio_widget.dart';
-import '../../../ads/presentation/controller/ads_controller.dart';
-import '../controller/settings_controller.dart';
-import '../../../../core/utils/colors.dart';
-import 'widgets/cfg_widget.dart';
-import 'widgets/negative_prompt_widget.dart';
-import 'widgets/seed_widget.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
+import 'package:matrix_ai/features/settings/presentation/view/widgets/app_version_widget.dart';
+import 'package:matrix_ai/features/review/presentation/view/rate_us_sheet.dart';
+import 'package:matrix_ai/features/html/html_screen.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import '../../../../imports.dart';
+import '../../../language/presentation/view/language.dart';
+import 'widgets/menu_item.dart';
+import 'widgets/theme.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(top: spacingExtraLarge),
-              padding: paddingDefault,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // cancel button,
-                      const IconButton(
-                        onPressed: pop,
-                        icon: Icon(Icons.close),
-                        padding: EdgeInsets.zero,
-                        visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                      ),
-                      Text(
-                        'settings'.tr,
-                        style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          SettingsController con = SettingsController.find;
-                          con.configModel = con.configModel
-                              .copyWith(negativePrompt: con.negativePromptController.text.trim());
-                          pop();
-                        },
-                        style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                        child: Text(
-                          'done'.tr,
-                          style: bodyMedium(context).copyWith(color: primaryColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: GetBuilder<SettingsController>(
-                      builder: (con) {
-                        final selectedAspectRatio =
-                            aspectRatios.firstWhere((e) => e.id == con.configModel.aspectRatio).aspectRatio;
-                        return ListView(
-                          children: [
-                            AspectRatioSelectionWidget(
-                              con: con,
-                              selectedAspectRatio: selectedAspectRatio,
-                            ),
-                            NegativePromptWidget(con: con),
-                            CFGWidget(con: con),
-                            SeedWidget(con: con),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          AdsController.find.buildPromptSettingAd()
-        ],
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  final List<Widget> _appMenuItems = [
+    MenuItem(
+      text: 'language',
+      icon: Iconsax.language_circle,
+      onTap: () => launchScreen(const LanguageScreen()),
+    ),
+    const ThemeTile(),
+    const NotificationTile(
+      text: 'notifications',
+      icon: Iconsax.notification,
+    ),
+  ];
+
+  final List<Widget> _moreMenuItems = [
+    if (SubscriptionController.find.products.isNotEmpty)
+      MenuItem(
+        text: 'manage_subscription',
+        icon: Iconsax.crown_1,
+        onTap: () => launchUrlString(AppConstants.MANAGE_SUBSCRIPTIONS_URL),
       ),
+    MenuItem(
+      text: 'privacy_policy',
+      icon: Iconsax.lock,
+      onTap: () => launchScreen(
+        HtmlScreen(html: SettingsController.find.settingModel.privacyPolicy),
+      ),
+    ),
+    MenuItem(
+      text: 'terms_of_service',
+      icon: Iconsax.info_circle,
+      onTap: () => launchScreen(
+        HtmlScreen(html: SettingsController.find.settingModel.termsAndConditions),
+      ),
+    ),
+    const MenuItem(
+      text: 'rate_us',
+      icon: Iconsax.star,
+      onTap: showRateUsDialog,
+    ),
+    MenuItem(
+      text: 'share_app',
+      icon: Iconsax.share,
+      onTap: () {
+        String shareText =
+            'Check out this amazing AI app\n\nAndroid:${AppConstants.ANDROID_APP_URL}\n\niOS:${AppConstants.IOS_APP_URL}';
+        Share.share(shareText);
+      },
+    ),
+  ];
+
+  //
+  Widget get divider => Divider(color: context.theme.scaffoldBackgroundColor);
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: paddingDefault,
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: context.theme.cardColor,
+            borderRadius: borderRadiusDefault,
+          ),
+          child: ListView.separated(
+            itemCount: _appMenuItems.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            separatorBuilder: (context, index) => divider,
+            itemBuilder: (context, index) => _appMenuItems[index],
+          ),
+        ),
+        SizedBox(height: spacingDefault),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: context.theme.cardColor,
+            borderRadius: borderRadiusDefault,
+          ),
+          child: ListView.separated(
+            itemCount: _moreMenuItems.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            separatorBuilder: (context, index) => divider,
+            itemBuilder: (context, index) => _moreMenuItems[index],
+          ),
+        ),
+        const AppVersionWidget(),
+      ],
     );
   }
 }

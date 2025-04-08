@@ -5,16 +5,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/features/dashboard/presentation/controller/dashboard_controller.dart';
-import 'package:matrix_ai/features/settings/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
 import 'package:matrix_ai/core/widgets/confirmation_dialog.dart';
 import 'package:matrix_ai/features/subscription/presentation/view/widgets/subscription_button.dart';
 import '../../../../core/utils/app_constants.dart';
 import '../../../home/presentation/view/home.dart';
 import '../../../inspirations/presentation/view/inspirations.dart';
-import '../../../menu/presentation/view/menu.dart';
+import '../../../settings/presentation/view/settings.dart';
 import '../../../subscription/presentation/view/subscription.dart';
 import '../../../tools/presentation/view/tools.dart';
+import '../../data/model/navigation_item.dart';
 import 'widgets/navigation_bar.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     NavigationItem(icon: Iconsax.home, child: const HomeScreen()),
     NavigationItem(icon: Iconsax.category, child: const ToolScreen()),
     NavigationItem(icon: Iconsax.activity, child: const InspirationScreen()),
-    NavigationItem(icon: Iconsax.setting, child: const MenuScreen()),
+    NavigationItem(icon: Iconsax.setting, child: const SettingScreen()),
   ];
 
   final List<String> _titles = [AppConstants.APP_NAME, 'tools', 'inspirations', 'settings'];
@@ -98,10 +99,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     });
   }
-}
-
-class NavigationItem {
-  final IconData icon;
-  final Widget child;
-  NavigationItem({required this.icon, required this.child});
 }
