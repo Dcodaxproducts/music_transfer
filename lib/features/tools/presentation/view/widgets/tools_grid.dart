@@ -1,6 +1,6 @@
 import 'package:matrix_ai/imports.dart';
 import '../../../data/model/tools.dart';
-import '../../../../upscale_image/presentation/view/upscale_image.dart';
+import '../../../../../modules/upscale/image_upscale/presentation/view/upscale_image.dart';
 
 class ToolsGridWidget extends StatelessWidget {
   final List<ToolModel> tools;

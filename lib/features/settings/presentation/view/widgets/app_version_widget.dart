@@ -1,4 +1,4 @@
-import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/imports.dart';
 
 class AppVersionWidget extends StatelessWidget {

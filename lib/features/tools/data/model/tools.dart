@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:matrix_ai/features/upscale_image/data/model/upscale_image.dart';
+import 'package:matrix_ai/modules/upscale/image_upscale/data/model/upscale_image.dart';
 import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/features/tools/presentation/view/widgets/background_remover_animation.dart';
 import 'package:matrix_ai/features/tools/presentation/view/widgets/upscale_animation.dart';
 
-import '../../../background_remover/data/model/background_remover.dart';
+import '../../../../modules/bg_removal/background_remover/data/model/background_remover.dart';
 
 class ToolModel {
   final String name;

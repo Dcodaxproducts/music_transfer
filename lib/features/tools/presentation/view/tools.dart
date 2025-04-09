@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:matrix_ai/features/upscale_image/presentation/controller/image_upscale_controller.dart';
+import 'package:matrix_ai/modules/upscale/image_upscale/presentation/controller/image_upscale_controller.dart';
 import 'package:matrix_ai/core/utils/colors.dart';
 import 'package:matrix_ai/core/utils/style.dart';
-import '../../../background_remover/presentation/controller/background_remover_controller.dart';
+import '../../../../modules/bg_removal/background_remover/presentation/controller/background_remover_controller.dart';
 import '../controller/tools_controller.dart';
 import '../../../../core/helper/navigation.dart';
-import '../../../upscale_image/presentation/view/upscale_image.dart';
+import '../../../../modules/upscale/image_upscale/presentation/view/upscale_image.dart';
 import 'widgets/tools_grid.dart';
 
 class ToolScreen extends StatefulWidget {

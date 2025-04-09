@@ -3,7 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
 import 'package:matrix_ai/core/widgets/primary_button.dart';
-import 'package:matrix_ai/features/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/core/utils/colors.dart';
 import 'package:matrix_ai/features/subscription/presentation/view/subscription.dart';
 import '../../../../core/utils/style.dart';

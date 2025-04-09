@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:matrix_ai/core/widgets/primary_button.dart';
-import 'package:matrix_ai/features/home/presentation/controller/generation_controller.dart';
+import 'package:matrix_ai/modules/image_generation/home/presentation/controller/generation_controller.dart';
 import 'package:matrix_ai/core/utils/app_constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../core/widgets/snackbar.dart';

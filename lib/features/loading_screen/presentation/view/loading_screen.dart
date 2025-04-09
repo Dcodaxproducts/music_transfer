@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:matrix_ai/features/home/presentation/controller/image_generation_controller.dart';
+import 'package:matrix_ai/modules/image_generation/home/presentation/controller/image_generation_controller.dart';
 import 'package:matrix_ai/imports.dart';
 import 'package:particles_fly/particles_fly.dart';
 import 'package:shimmer/shimmer.dart';

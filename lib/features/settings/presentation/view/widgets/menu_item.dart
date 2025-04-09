@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../../../prompt_setting/presentation/controller/settings_controller.dart';
+import '../../../../../modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../../../core/utils/style.dart';
 
 class MenuItem extends StatelessWidget {
