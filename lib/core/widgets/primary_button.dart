@@ -1,3 +1,4 @@
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/imports.dart';
 
 class PrimaryButton extends StatelessWidget {
@@ -6,40 +7,38 @@ class PrimaryButton extends StatelessWidget {
   final Widget? icon;
   final Color? color;
   final Color? textColor;
-  final bool gradient;
-  const PrimaryButton(
-      {required this.text,
-      this.onPressed,
-      this.icon,
-      this.color,
-      this.textColor,
-      this.gradient = false,
-      super.key});
+  final BorderRadius? borderRadius;
+  const PrimaryButton({
+    required this.text,
+    this.onPressed,
+    this.icon,
+    this.color,
+    this.textColor,
+    this.borderRadius,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final Color backgroundColor = color ?? primaryColor;
     final Color textColor = this.textColor ?? Colors.white;
-    return DecoratedBox(
-      decoration:
-          BoxDecoration(gradient: gradient ? secondaryGradient : null, borderRadius: borderRadiusDefault),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: gradient ? Colors.transparent : backgroundColor,
-          minimumSize: Size(100.sp, 50.sp),
-          disabledBackgroundColor: backgroundColor,
-        ),
-        onPressed: onPressed,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon != null) ...[icon!, SizedBox(width: spacingSmall)],
-            Text(
-              text.tr,
-              style: bodySmall(context).copyWith(fontWeight: FontWeight.w600, color: textColor),
-            ),
-          ],
-        ),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        minimumSize: Size(100.sp, 50.sp),
+        disabledBackgroundColor: backgroundColor,
+        shape: RoundedRectangleBorder(borderRadius: borderRadius ?? borderRadiusCircular),
+      ),
+      onPressed: onPressed,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[icon!, SizedBox(width: spacingSmall)],
+          Text(
+            text.tr,
+            style: bodySmall(context).copyWith(fontWeight: FontWeight.w600, color: textColor),
+          ),
+        ],
       ),
     );
   }
@@ -76,6 +75,40 @@ class PrimaryOutlineButton extends StatelessWidget {
               style: bodySmall(context).copyWith(fontWeight: FontWeight.w600, color: textColor),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class GradientButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final String text;
+  final Widget? icon;
+
+  const GradientButton({required this.text, this.onPressed, this.icon, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GradientBorderContainer(
+      padding: EdgeInsets.zero,
+      borderRadius: borderRadiusCircular,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: context.theme.cardColor.withOpacity(0.1),
+          shadowColor: context.theme.cardColor,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null) ...[icon!, SizedBox(width: 8.sp)],
+            Text(
+              text,
+              style: bodySmall(context).copyWith(fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
 import 'package:matrix_ai/features/settings/presentation/view/widgets/app_version_widget.dart';
@@ -8,7 +9,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
 import '../../../language/presentation/view/language.dart';
 import 'widgets/menu_item.dart';
-import 'widgets/theme.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -24,7 +24,7 @@ class _SettingScreenState extends State<SettingScreen> {
       icon: Iconsax.language_circle,
       onTap: () => launchScreen(const LanguageScreen()),
     ),
-    const ThemeTile(),
+    // const ThemeTile(),
     const NotificationTile(
       text: 'notifications',
       icon: Iconsax.notification,
@@ -75,11 +75,9 @@ class _SettingScreenState extends State<SettingScreen> {
     return ListView(
       padding: paddingDefault,
       children: [
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.theme.cardColor,
-            borderRadius: borderRadiusDefault,
-          ),
+        GlassmorphicWidget(
+          glassOpacity: 0.1,
+          borderRadius: borderRadiusDefault,
           child: ListView.separated(
             itemCount: _appMenuItems.length,
             shrinkWrap: true,
@@ -90,11 +88,9 @@ class _SettingScreenState extends State<SettingScreen> {
           ),
         ),
         SizedBox(height: spacingDefault),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.theme.cardColor,
-            borderRadius: borderRadiusDefault,
-          ),
+        GlassmorphicWidget(
+          glassOpacity: 0.1,
+          borderRadius: borderRadiusDefault,
           child: ListView.separated(
             itemCount: _moreMenuItems.length,
             shrinkWrap: true,

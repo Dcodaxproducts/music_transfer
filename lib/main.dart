@@ -18,7 +18,6 @@ import 'features/theme/presentation/controller/theme_controller.dart';
 import 'firebase_options.dart';
 import 'core/helper/notification_helper.dart';
 import 'core/theme/dark_theme.dart';
-import 'core/theme/light_theme.dart';
 import 'core/utils/app_constants.dart';
 import 'core/utils/messages.dart';
 import 'core/helper/get_di.dart' as di;
@@ -88,7 +87,7 @@ class MyApp extends StatelessWidget {
                 title: AppConstants.APP_NAME,
                 debugShowCheckedModeBanner: false,
                 themeMode: themeController.themeMode,
-                theme: light(context),
+                // theme: light(context),
                 darkTheme: dark(context),
                 locale: localizeController.locale,
                 translations: Messages(languages: languages),

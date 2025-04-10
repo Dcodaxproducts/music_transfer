@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../../../../modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../../../core/utils/style.dart';
 
 class MenuItem extends StatelessWidget {
@@ -12,20 +11,12 @@ class MenuItem extends StatelessWidget {
   final String? subtile;
   final IconData icon;
   final Function()? onTap;
-  final bool notification;
-  const MenuItem(
-      {required this.text,
-      this.subtile,
-      required this.icon,
-      required this.onTap,
-      this.notification = false,
-      super.key});
+  const MenuItem({required this.text, this.subtile, required this.icon, required this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: onTap,
-      tileColor: Theme.of(context).cardColor,
       shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
       leading: Icon(icon, size: 18.sp, color: bodyMedium(context).color),
       title: Text(text.tr, style: bodyMedium(context)),
@@ -38,22 +29,11 @@ class MenuItem extends StatelessWidget {
               ),
             )
           : null,
-      trailing: notification
-          ? GetBuilder<SettingsController>(builder: (setting) {
-              bool notification = setting.configModel.notificationsEnabled;
-              return Switch(
-                value: notification,
-                onChanged: (value) {
-                  setting.configModel = setting.configModel.copyWith(notificationsEnabled: value);
-                },
-                activeColor: Theme.of(context).primaryColor,
-              );
-            })
-          : Icon(
-              Iconsax.arrow_right_3,
-              size: spacingDefault,
-              color: Theme.of(context).hintColor,
-            ),
+      trailing: Icon(
+        Iconsax.arrow_right_3,
+        size: spacingDefault,
+        color: Theme.of(context).hintColor,
+      ),
       contentPadding: EdgeInsets.symmetric(horizontal: spacingDefault),
     );
   }
@@ -105,7 +85,6 @@ class _NotificationTileState extends State<NotificationTile> with WidgetsBinding
           }
           return ListTile(
             onTap: () => _onTap(authorized),
-            tileColor: Theme.of(context).cardColor,
             shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
             leading: Icon(widget.icon, size: 18.sp, color: bodyMedium(context).color),
             title: Text(widget.text.tr, style: bodyMedium(context)),

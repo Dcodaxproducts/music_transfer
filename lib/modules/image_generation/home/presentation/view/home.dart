@@ -1,3 +1,4 @@
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/modules/image_generation/models/presentation/controller/models_controller.dart';
 import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
@@ -25,12 +26,10 @@ class HomeScreen extends StatelessWidget {
               const ModelsView(),
               const PromptSettingsWidget(),
               Padding(
-                padding: EdgeInsets.only(top: spacingExtraLarge),
-                child: PrimaryButton(
+                padding: EdgeInsets.only(top: spacingLarge),
+                child: GradientButton(
                   text: (onRegenerate != null ? 'recreate' : 'create').tr,
-                  icon: Icon(Iconsax.magicpen, size: 18.sp, color: context.theme.scaffoldBackgroundColor),
-                  color: bodyLarge(context).color,
-                  textColor: context.theme.scaffoldBackgroundColor,
+                  icon: GradientWidget(child: Icon(Iconsax.magicpen, size: 18.sp, color: Colors.white)),
                   onPressed: onRegenerate ?? () => ImageGenerationHelper.handleTap(_handleImageGeneration),
                 ),
               ),
@@ -38,7 +37,7 @@ class HomeScreen extends StatelessWidget {
               if (onRegenerate == null) ...[
                 const HistoryView(),
                 SizedBox(height: 80.sp),
-              ]
+              ],
             ],
           ),
         );

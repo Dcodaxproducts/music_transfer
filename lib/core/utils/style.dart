@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 EdgeInsets paddingSmall = EdgeInsets.all(8.sp);
 EdgeInsets paddingMedium = EdgeInsets.all(12.sp);
 EdgeInsets paddingDefault = EdgeInsets.all(16.sp);
+EdgeInsets paddingLarge = EdgeInsets.all(24.sp);
 
 // Spacing
 double spacingExtraSmall = 4.sp;
@@ -18,9 +19,11 @@ double spacingExtraLarge = 32.sp;
 
 double get radiusSmall => 8.sp;
 double get radiusDefault => 16.sp;
+double get radiusCircular => 32.sp;
 
 BorderRadius get borderRadiusSmall => BorderRadius.circular(radiusSmall);
 BorderRadius get borderRadiusDefault => BorderRadius.circular(radiusDefault);
+BorderRadius get borderRadiusCircular => BorderRadius.circular(radiusCircular);
 
 // Text Styles (using Theme.of(context).textTheme)
 TextStyle displayLarge(BuildContext context) => Theme.of(context).textTheme.displayLarge!;

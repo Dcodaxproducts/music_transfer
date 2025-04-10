@@ -27,8 +27,8 @@ class InspirationScreen extends StatelessWidget {
               gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: context.width < 600 ? 2 : 3,
               ),
-              mainAxisSpacing: spacingSmall,
-              crossAxisSpacing: spacingSmall,
+              mainAxisSpacing: spacingExtraSmall,
+              crossAxisSpacing: spacingExtraSmall,
               itemBuilder: (context, index) => InkWell(
                 onTap: () => showDialog(
                   context: context,
@@ -36,12 +36,9 @@ class InspirationScreen extends StatelessWidget {
                 ),
                 child: Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: borderRadiusDefault,
-                      child: CustomNetworkImage(
-                        url: inspirations[index].image,
-                        color: Colors.black.withOpacity(0.15),
-                      ),
+                    CustomNetworkImage(
+                      url: inspirations[index].image,
+                      color: Colors.black.withOpacity(0.15),
                     ),
                     Positioned(
                       bottom: spacingSmall,

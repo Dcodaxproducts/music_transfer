@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/core/widgets/gradient_scaffold.dart';
 import 'package:matrix_ai/features/ads/presentation/controller/ads_controller.dart';
 import 'package:matrix_ai/modules/image_generation/models/presentation/controller/models_controller.dart';
 import 'package:matrix_ai/core/utils/colors.dart';
 import 'package:matrix_ai/core/utils/style.dart';
 import 'package:matrix_ai/modules/image_generation/models/presentation/view/widgets/model_grid.dart';
+import '../../../../../core/widgets/gradient_widget.dart';
 import '../../data/model/model.dart';
 import '../../../../../core/helper/navigation.dart';
 import '../../../../../core/widgets/tab_button.dart';
-import '../../../../../features/dashboard/presentation/view/widgets/glassbox_curve.dart';
 
 class ModelsScreen extends StatefulWidget {
   const ModelsScreen({super.key});
@@ -45,15 +46,13 @@ class _ModelsScreenState extends State<ModelsScreen> {
               } else if (index == 1 && favoriteModels.isNotEmpty) {
                 canShowAd = true;
               }
-              return DecoratedBox(
-                decoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
-                child: Column(
+              return GradientScaffold(
+                body: Column(
                   children: [
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.only(top: spacingExtraLarge),
                         padding: paddingDefault,
-                        decoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
                         child: Column(
                           children: [
                             Row(
@@ -80,7 +79,8 @@ class _ModelsScreenState extends State<ModelsScreen> {
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: spacingDefault),
-                              child: GlassBoxCurve(
+                              child: GlassmorphicWidget(
+                                glassOpacity: 0.1,
                                 child: Row(
                                   children: [
                                     Expanded(

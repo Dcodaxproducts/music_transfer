@@ -13,7 +13,7 @@ class NegativePromptWidget extends StatelessWidget {
       title: 'negative_prompt',
       value: 'add',
       children: [
-        GradientBorder(
+        GradientBorderContainer(
           padding: EdgeInsets.symmetric(
             horizontal: 12.sp,
             vertical: 5.sp,

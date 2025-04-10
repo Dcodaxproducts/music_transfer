@@ -19,7 +19,8 @@ class PromptWidget extends StatelessWidget {
           style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
         ),
         SizedBox(height: spacingSmall),
-        GradientBorder(
+        GradientBorderContainer(
+          borderWidth: 1,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

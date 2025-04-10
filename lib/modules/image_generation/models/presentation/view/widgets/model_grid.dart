@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/modules/image_generation/models/presentation/controller/models_controller.dart';
 import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/modules/image_generation/history/presentation/view/widgets/animated_heart.dart';
@@ -65,77 +66,81 @@ class AIModelCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        SettingsController setting = SettingsController.find;
-        setting.configModel = setting.configModel.copyWith(selectedModel: model);
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        decoration: BoxDecoration(
-          color: context.theme.cardColor,
-          borderRadius: borderRadiusSmall,
-          border: Border.all(color: selected ? primaryColor : Colors.transparent, width: 1.5),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Container(
-                    height: 120.sp,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(radiusSmall)),
-                      image: DecorationImage(
-                        image: CachedNetworkImageProvider(model.image),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  FavoritePremiumIcon(model: model),
-                  // popular text,
-                  if (model.popular)
-                    Positioned(
-                      top: 8.sp,
-                      left: 8.sp,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.6),
-                          borderRadius: BorderRadius.circular(spacingExtraLarge),
-                          border: Border.all(color: secondaryColor, width: 1.sp),
-                        ),
-                        child: Text(
-                          'hot'.tr.toUpperCase(),
-                          style: labelLarge(context).copyWith(color: Colors.white),
+    return GlassmorphicWidget(
+      borderRadius: borderRadiusSmall,
+      child: InkWell(
+        onTap: () {
+          SettingsController setting = SettingsController.find;
+          setting.configModel = setting.configModel.copyWith(selectedModel: model);
+        },
+        borderRadius: borderRadiusSmall,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          decoration: BoxDecoration(
+            color: context.theme.cardColor.withOpacity(0.4),
+            borderRadius: borderRadiusSmall,
+            border: Border.all(color: selected ? primaryColor : Colors.transparent, width: 1.5),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Container(
+                      height: 120.sp,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusSmall)),
+                        image: DecorationImage(
+                          image: CachedNetworkImageProvider(model.image),
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                ],
+                    FavoritePremiumIcon(model: model),
+                    // popular text,
+                    if (model.popular)
+                      Positioned(
+                        top: 8.sp,
+                        left: 8.sp,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(spacingExtraLarge),
+                            border: Border.all(color: secondaryColor, width: 1.sp),
+                          ),
+                          child: Text(
+                            'hot'.tr.toUpperCase(),
+                            style: labelLarge(context).copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: paddingSmall,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    model.name,
-                    style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(height: spacingSmall),
-                  Text(
-                    model.shortDescription,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: bodySmall(context),
-                  ),
-                ],
-              ),
-            )
-          ],
+              Padding(
+                padding: paddingSmall,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      model.name,
+                      style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(height: spacingSmall),
+                    Text(
+                      model.shortDescription,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: bodySmall(context),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

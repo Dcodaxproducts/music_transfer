@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/core/widgets/gradient_scaffold.dart';
 import 'package:matrix_ai/modules/image_generation/aspect_ratio/data/model/aspect_ratio.dart';
 import 'package:matrix_ai/core/helper/navigation.dart';
 import 'package:matrix_ai/core/utils/style.dart';
@@ -16,9 +17,8 @@ class PromptSettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
-      child: Column(
+    return GradientScaffold(
+      body: Column(
         children: [
           Expanded(
             child: Container(

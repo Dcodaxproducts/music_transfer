@@ -38,10 +38,10 @@ class UpscaleHistoryList extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: spacingDefault),
                 itemCount: history.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount: 3,
                   mainAxisSpacing: spacingDefault,
                   crossAxisSpacing: spacingDefault,
-                  childAspectRatio: 0.85,
+                  childAspectRatio: 0.8,
                 ),
                 itemBuilder: (context, index) {
                   return HistoryItem(response: history[index]);
@@ -67,14 +67,14 @@ class HistoryItem extends StatelessWidget {
           launchScreen(ImageResultScreen(response: response));
         }
       },
-      borderRadius: borderRadiusDefault,
+      borderRadius: borderRadiusSmall,
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: borderRadiusDefault,
+          borderRadius: borderRadiusSmall,
         ),
         child: ClipRRect(
-          borderRadius: borderRadiusDefault,
+          borderRadius: borderRadiusSmall,
           child: UpscaleImageCountdownWidget(
             response: response,
             builder: (context, isCompleted, imageUrl, remainingTime, isRetrying) {

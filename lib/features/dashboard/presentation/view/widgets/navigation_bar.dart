@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/features/language/presentation/controller/localization_controller.dart';
 import 'package:matrix_ai/core/utils/colors.dart';
-import 'package:matrix_ai/features/dashboard/presentation/view/widgets/glassbox_curve.dart';
 import '../../../../../core/utils/style.dart';
 import '../../../data/model/navigation_item.dart';
 
@@ -23,7 +23,8 @@ class GlasmorphicNavigationBar extends StatelessWidget {
     return Padding(
       padding: paddingDefault,
       child: Center(
-        child: GlassBoxCurve(
+        child: GlassmorphicWidget(
+          glassOpacity: 0.1,
           child: Stack(
             alignment: Alignment.center,
             children: [

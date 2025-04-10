@@ -22,7 +22,7 @@ class HistoryView extends StatelessWidget {
                 Text('history'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600)),
                 // prompt settings
                 TextButton(
-                  onPressed: () => Get.bottomSheet(const HistoryScreen(), isScrollControlled: true),
+                  onPressed: () => launchScreen(const HistoryScreen()),
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   child: Text('see_all'.tr, style: bodySmall(context)),
                 ),

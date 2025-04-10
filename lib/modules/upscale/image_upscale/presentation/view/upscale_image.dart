@@ -1,5 +1,7 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:matrix_ai/core/widgets/gradient_scaffold.dart';
 import 'package:matrix_ai/imports.dart';
 import 'package:matrix_ai/modules/upscale/image_upscale/presentation/view/image_uploded.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -17,6 +19,7 @@ class UpscaleImageScreen extends StatefulWidget {
 
 class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
   Future<void> _pickImage(ImageSource source) async {
+    pop();
     if (source == ImageSource.camera) {
       await _handleCameraPermission();
     }
@@ -51,45 +54,146 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
+    return GradientScaffold(
+      appBar: AppBar(title: Text(widget.tool.name.tr), backgroundColor: Colors.transparent),
       body: ListView(
+        padding: paddingDefault,
         children: [
-          SizedBox(width: double.infinity, height: 280.sp, child: widget.tool.animation),
-          Padding(
-            padding: paddingDefault,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.tool.name.tr,
-                  style: bodyLarge(context).copyWith(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: spacingSmall),
-                Text(widget.tool.description.tr, style: bodyMedium(context)),
-                SizedBox(height: spacingExtraLarge),
-                SizedBox(
-                  width: double.infinity,
-                  child: PrimaryButton(
-                    text: 'upload_from_gallery'.tr,
-                    icon: Icon(Iconsax.gallery, color: Colors.white, size: 20.sp),
-                    onPressed: () => _pickImage(ImageSource.gallery),
+          DottedBorder(
+              color: context.theme.disabledColor,
+              strokeCap: StrokeCap.round,
+              dashPattern: const [8, 4],
+              borderType: BorderType.RRect,
+              radius: Radius.circular(radiusDefault),
+              padding: paddingLarge,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    widget.tool.description.tr,
+                    style: bodyMedium(context).copyWith(fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                SizedBox(height: spacingDefault),
-                SizedBox(
-                  width: double.infinity,
-                  child: PrimaryOutlineButton(
-                    text: 'take_photo'.tr,
-                    icon: Icon(Iconsax.camera, color: primaryColor, size: 20.sp),
-                    onPressed: () => _pickImage(ImageSource.camera),
+                  SizedBox(height: spacingLarge),
+                  PrimaryButton(
+                    text: 'upload_image',
+                    icon: Icon(Iconsax.gallery, size: 20.sp),
+                    color: bodyLarge(context).color,
+                    textColor: context.theme.scaffoldBackgroundColor,
+                    borderRadius: borderRadiusDefault,
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) => ImageSourceSheet(onSourceSelected: _pickImage),
+                      );
+                    },
                   ),
-                ),
-                UpscaleHistoryList(tool: widget.tool),
-              ],
-            ),
-          )
+                  SizedBox(height: spacingLarge),
+                  Text(
+                    widget.tool.backgroundRemover != null
+                        ? 'To get started, upload your image. AI will remove the background for you.'
+                        : 'To get started, upload your image. AI will upscale it for you.',
+                    style: bodyMedium(context).copyWith(color: context.theme.hintColor),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              )),
+          UpscaleHistoryList(tool: widget.tool),
         ],
+      ),
+    );
+  }
+}
+
+class ImageSourceSheet extends StatelessWidget {
+  final Function(ImageSource source) onSourceSelected;
+
+  const ImageSourceSheet({
+    required this.onSourceSelected,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: context.theme.cardColor,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(spacingDefault)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: spacingSmall),
+          Container(
+            width: 36.sp,
+            height: 4.sp,
+            decoration: BoxDecoration(
+              color: context.theme.dividerColor,
+              borderRadius: BorderRadius.circular(2.sp),
+            ),
+          ),
+          SizedBox(height: spacingMedium),
+          _buildOption(
+            context,
+            icon: Iconsax.gallery,
+            label: 'Photo Library',
+            onTap: () => onSourceSelected(ImageSource.gallery),
+          ),
+          Divider(height: 1.sp),
+          _buildOption(
+            context,
+            icon: Iconsax.camera,
+            label: 'Take Photo',
+            onTap: () => onSourceSelected(ImageSource.camera),
+          ),
+          Divider(height: spacingDefault),
+          _buildCancelButton(context),
+          SizedBox(height: context.mediaQueryPadding.bottom + 8.sp),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOption(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 16.sp),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 20.sp),
+            SizedBox(width: spacingMedium),
+            Text(
+              label,
+              style: bodyMedium(context).copyWith(fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCancelButton(BuildContext context) {
+    return InkWell(
+      onTap: () => Navigator.pop(context),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: spacingLarge),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(radiusDefault)),
+        child: Text(
+          'Cancel',
+          style: bodyMedium(context).copyWith(
+            color: primaryColor,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/core/widgets/gradient_scaffold.dart';
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/modules/image_generation/history/presentation/controller/history_controller.dart';
 import 'package:matrix_ai/core/utils/style.dart';
 import '../../../../../features/ads/presentation/controller/ads_controller.dart';
 import '../../../home/data/model/models_lab_response.dart';
 import '../../../../../core/helper/navigation.dart';
 import '../../../../../core/widgets/tab_button.dart';
-import '../../../../../features/dashboard/presentation/view/widgets/glassbox_curve.dart';
 import 'widgets/hisory_list.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -41,13 +42,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
       } else if (currentIndex == 1 && bookmarkedHistory.isNotEmpty) {
         canShowAd = true;
       }
-      return Container(
-        margin: EdgeInsets.only(top: spacingExtraLarge),
-        decoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
-        child: Column(
+      return GradientScaffold(
+        body: Column(
           children: [
             Padding(
-              padding: paddingDefault,
+              padding: paddingDefault.copyWith(top: 48.sp),
               child: Column(
                 children: [
                   Row(
@@ -67,7 +66,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     ],
                   ),
                   SizedBox(height: spacingDefault),
-                  GlassBoxCurve(
+                  GlassmorphicWidget(
+                    glassOpacity: 0.1,
                     child: Row(
                       children: [
                         Expanded(

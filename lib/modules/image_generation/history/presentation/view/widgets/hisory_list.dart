@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/core/widgets/network_image.dart';
 import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
@@ -47,17 +48,17 @@ class HistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.vertical(top: Radius.circular(radiusSmall));
-    return HistoryCountdownWidget(
-      response: response,
-      builder: (context, isCompleted, imageUrl, remainingTime, isRetrying) {
-        return InkWell(
-          onTap: () {
-            // Navigate to prompt details screen
-            launchScreen(ImageGenerationResultScreen(result: response, favorites: isFavorite));
-          },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            decoration: BoxDecoration(color: context.theme.cardColor, borderRadius: borderRadiusSmall),
+    return GlassmorphicWidget(
+      borderRadius: borderRadiusSmall,
+      child: HistoryCountdownWidget(
+        response: response,
+        builder: (context, isCompleted, imageUrl, remainingTime, isRetrying) {
+          return InkWell(
+            onTap: () {
+              // Navigate to prompt details screen
+              launchScreen(ImageGenerationResultScreen(result: response, favorites: isFavorite));
+            },
+            borderRadius: borderRadiusSmall,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -129,9 +130,9 @@ class HistoryCard extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

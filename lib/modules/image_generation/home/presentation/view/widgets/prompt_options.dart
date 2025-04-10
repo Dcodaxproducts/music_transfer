@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import '../../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../../aspect_ratio/data/model/aspect_ratio.dart';
 import '../../../../../../core/utils/style.dart';
@@ -58,19 +59,19 @@ class PromptOptionButton extends StatelessWidget {
     return InkWell(
       borderRadius: borderRadiusDefault,
       onTap: onTap,
-      child: Container(
-        height: 55.sp,
-        padding: EdgeInsets.symmetric(horizontal: spacingDefault),
-        decoration: BoxDecoration(
-          color: context.theme.cardColor,
-          borderRadius: borderRadiusDefault,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(title, style: bodyMedium(context)),
-            if (icon != null) Icon(icon, size: 18.sp),
-          ],
+      child: GlassmorphicWidget(
+        glassOpacity: 0.1,
+        borderRadius: borderRadiusDefault,
+        child: Container(
+          height: 55.sp,
+          padding: EdgeInsets.symmetric(horizontal: spacingDefault),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(title, style: bodyMedium(context)),
+              if (icon != null) Icon(icon, size: 18.sp),
+            ],
+          ),
         ),
       ),
     );

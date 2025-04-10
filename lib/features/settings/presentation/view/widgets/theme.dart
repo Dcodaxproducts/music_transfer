@@ -23,8 +23,6 @@ class _ThemeTileState extends State<ThemeTile> {
             _isExpanded = value;
           });
         },
-        backgroundColor: Theme.of(context).cardColor,
-        collapsedBackgroundColor: Theme.of(context).cardColor,
         tilePadding: EdgeInsets.symmetric(horizontal: spacingDefault),
         childrenPadding: paddingDefault,
         leading: Icon(Iconsax.moon, size: 18.sp, color: bodyMedium(context).color),

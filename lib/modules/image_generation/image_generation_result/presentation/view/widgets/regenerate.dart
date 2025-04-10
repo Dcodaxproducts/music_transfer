@@ -16,7 +16,6 @@ class RegenerateButton extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           child: PrimaryButton(
-            gradient: true,
             text: 'recreate'.tr,
             icon: Icon(Iconsax.magicpen, size: 18.sp, color: Colors.white),
             textColor: Colors.white,

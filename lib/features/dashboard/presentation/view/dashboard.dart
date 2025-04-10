@@ -10,6 +10,7 @@ import 'package:matrix_ai/features/subscription/presentation/controller/subscrip
 import 'package:matrix_ai/core/widgets/confirmation_dialog.dart';
 import 'package:matrix_ai/features/subscription/presentation/view/widgets/subscription_button.dart';
 import '../../../../core/utils/app_constants.dart';
+import '../../../../core/widgets/gradient_scaffold.dart';
 import '../../../../modules/image_generation/home/presentation/view/home.dart';
 import '../../../../modules/image_generation/inspirations/presentation/view/inspirations.dart';
 import '../../../settings/presentation/view/settings.dart';
@@ -64,9 +65,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             );
           }
         },
-        child: Scaffold(
+        child: GradientScaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
+            backgroundColor: Colors.transparent,
             title: Text(_titles[currentIndex].tr),
             actions: [
               if (SubscriptionController.find.products.isNotEmpty) ...[

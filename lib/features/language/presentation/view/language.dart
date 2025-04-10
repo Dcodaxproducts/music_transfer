@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:matrix_ai/core/widgets/gradient_scaffold.dart';
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/core/widgets/textfield.dart';
 import 'package:matrix_ai/features/ads/presentation/controller/ads_controller.dart';
 import 'package:matrix_ai/core/helper/navigation.dart';
@@ -21,21 +23,23 @@ class LanguageScreen extends StatefulWidget {
 class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('language'.tr),
-      ),
+    return GradientScaffold(
+      appBar: AppBar(title: Text('language'.tr), backgroundColor: Colors.transparent),
       body: GetBuilder<LocalizationController>(builder: (con) {
         return Padding(
           padding: paddingDefault,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomTextField(
-                hintText: 'search_langauge'.tr,
-                suffixIcon: Iconsax.search_normal,
-                onChanged: con.searchLanguage,
-                filled: true,
+              GlassmorphicWidget(
+                borderRadius: borderRadiusDefault,
+                glassOpacity: 0.05,
+                child: CustomTextField(
+                  hintText: 'search_langauge'.tr,
+                  suffixIcon: Iconsax.search_normal,
+                  onChanged: con.searchLanguage,
+                  filled: false,
+                ),
               ),
               SizedBox(height: spacingDefault),
               Expanded(
