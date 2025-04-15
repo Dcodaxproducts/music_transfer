@@ -32,7 +32,7 @@ class GallerySaver {
       throw ArgumentError(fileIsNotVideo);
     }
     if (!isLocalFilePath(path)) {
-      tempFile = await _downloadFile(path, headers: headers);
+      tempFile = await downloadFile(path, headers: headers);
       path = tempFile.path;
     }
     bool? result = await _channel.invokeMethod(
@@ -60,7 +60,7 @@ class GallerySaver {
       throw ArgumentError(fileIsNotImage);
     }
     if (!isLocalFilePath(path)) {
-      tempFile = await _downloadFile(path, headers: headers);
+      tempFile = await downloadFile(path, headers: headers);
       path = tempFile.path;
     }
 
@@ -75,7 +75,7 @@ class GallerySaver {
     return result;
   }
 
-  static Future<File> _downloadFile(String url, {Map<String, String>? headers}) async {
+  static Future<File> downloadFile(String url, {Map<String, String>? headers}) async {
     debugPrint(url);
     debugPrint(headers?.toString());
     http.Client client = http.Client();

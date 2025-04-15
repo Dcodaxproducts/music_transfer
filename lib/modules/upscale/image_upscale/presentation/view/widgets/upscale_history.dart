@@ -38,10 +38,10 @@ class UpscaleHistoryList extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: spacingDefault),
                 itemCount: history.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                  crossAxisCount: 2,
                   mainAxisSpacing: spacingDefault,
                   crossAxisSpacing: spacingDefault,
-                  childAspectRatio: 0.8,
+                  childAspectRatio: 0.9,
                 ),
                 itemBuilder: (context, index) {
                   return HistoryItem(response: history[index]);

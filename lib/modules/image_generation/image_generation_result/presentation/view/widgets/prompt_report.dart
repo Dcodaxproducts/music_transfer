@@ -8,7 +8,7 @@ import 'package:matrix_ai/core/widgets/snackbar.dart';
 import 'package:matrix_ai/core/helper/navigation.dart';
 import 'package:matrix_ai/core/utils/colors.dart';
 import 'package:matrix_ai/core/utils/style.dart';
-import '../../../../home/presentation/controller/image_generation_controller.dart';
+import '../../controller/image_generation_result_controller.dart';
 
 class PromptReportButton extends StatelessWidget {
   const PromptReportButton({super.key});
@@ -180,7 +180,7 @@ class _ReportingDialogState extends State<ReportingDialog> {
   }
 
   _deleteResult() {
-    final response = ImageGenerationController.find.imageGenerationResult;
+    final response = ImageGenerationResultController.find.imageGenerationResult;
     HistoryController.find.deletePrompt(response!);
     pop();
   }

@@ -24,6 +24,7 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
   Future<Response?> upscaleImage({File? image, required ToolModel tool, String? urlImage}) async {
     LoadingManager.show(upscale: true);
     LoadingManager.updateProgress(1);
+
     final String? imageUrl = urlImage ?? await AwsController.find.uploadFile(image!);
     if (imageUrl == null) {
       showToast('image_upload_failed');

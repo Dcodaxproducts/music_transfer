@@ -15,22 +15,6 @@ class ImageGenerationController extends GetxController implements GetxService {
 
   static ImageGenerationController get find => Get.find<ImageGenerationController>();
 
-  ImageGenerationResult? _imageGenerationResult;
-  String? _imageUrl;
-
-  ImageGenerationResult? get imageGenerationResult => _imageGenerationResult;
-  String? get imageUrl => _imageUrl;
-
-  set imageGenerationResult(ImageGenerationResult? value) {
-    _imageGenerationResult = value;
-    Future.delayed(const Duration(milliseconds: 10), () => update());
-  }
-
-  set imageUrl(String? value) {
-    _imageUrl = value;
-    Future.delayed(const Duration(milliseconds: 10), () => update());
-  }
-
   Future<ImageGenerationResult?> generateImages(
     String prompt, {
     int? seed,

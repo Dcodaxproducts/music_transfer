@@ -1,4 +1,3 @@
-import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/imports.dart';
 import 'dart:ui';
 
@@ -22,30 +21,38 @@ class GradientScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Background color
-        Container(
-          decoration: BoxDecoration(color: context.theme.cardColor.withOpacity(0.1)),
-        ),
+    bool isDarkMode = context.theme.brightness == Brightness.dark;
+    return Builder(builder: (context) {
+      return Stack(
+        children: [
+          // Base dark gradient
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: isDarkMode
+                    ? [const Color(0xFF1A1A2E), const Color(0xFF0F0F1A)]
+                    : [const Color(0xFFFAFAFA), const Color(0xFFEFEFEF)],
+              ),
+            ),
+          ),
 
-        // Blurred shapes
-        Positioned(
-          top: -100,
-          left: -100,
-          child: _buildBlurredShape(primaryColor.withOpacity(0.5), context.width, 300),
-        ),
+          // Blurred neon shapes
+          Positioned(
+            top: -100,
+            right: -50,
+            child: _buildBlurredShape(primaryColor.withOpacity(0.7), 200, 300),
+          ),
 
-        Positioned(
-          bottom: -100,
-          right: -100,
-          child: _buildBlurredShape(primaryColor.withOpacity(0.3), 250, 250),
-        ),
+          Positioned(
+            bottom: -80,
+            left: -30,
+            child: _buildBlurredShape(secondaryColor.withOpacity(0.3), 250, 250),
+          ),
 
-        // Main content
-        GlassmorphicWidget(
-          borderRadius: BorderRadius.circular(0),
-          child: Scaffold(
+          // Main content
+          Scaffold(
             backgroundColor: Colors.transparent,
             extendBody: extendBody,
             resizeToAvoidBottomInset: resizeToAvoidBottomInset,
@@ -58,23 +65,20 @@ class GradientScaffold extends StatelessWidget {
                   )
                 : null,
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   Widget _buildBlurredShape(Color color, double width, double height) {
     return Container(
-      width: width,
-      height: height,
+      width: width.sp,
+      height: height.sp,
       decoration: BoxDecoration(
-        gradient: RadialGradient(
-          colors: [color, color.withOpacity(0.0)],
-          stops: const [0.2, 1.0],
-        ),
+        gradient: RadialGradient(colors: [color, color.withOpacity(0.0)], stops: const [0.2, 1.0]),
       ),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+        filter: ImageFilter.blur(sigmaX: 70.sp, sigmaY: 70.sp),
         child: Container(
           decoration: const BoxDecoration(color: Colors.transparent),
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:matrix_ai/modules/image_generation/home/presentation/controller/image_generation_controller.dart';
 import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
 import '../../../../history/presentation/controller/history_controller.dart';
@@ -72,7 +71,7 @@ class PromptOptionWidget extends StatelessWidget {
   }
 
   _downloadImage() {
-    DownloadImage.downloadImage(ImageGenerationController.find.imageUrl ?? '');
+    DownloadImage.downloadImage(ImageGenerationResultController.find.imageUrl ?? '');
   }
 
   _deletePrompt(ImageGenerationResult response) async {

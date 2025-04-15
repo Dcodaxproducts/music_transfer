@@ -1,11 +1,17 @@
+import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:matrix_ai/core/widgets/gradient_scaffold.dart';
 import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/modules/upscale/image_upscale/presentation/view/image_uploded.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../../../../core/widgets/gradient_widget.dart';
+import '../../../../../core/widgets/network_image.dart';
+import '../../../../../features/loading_screen/presentation/view/src/loading_manager.dart';
 import '../../../../../features/tools/data/model/tools.dart';
+import '../../../../bg_removal/background_remover/presentation/controller/background_remover_controller.dart';
+import '../../data/model/upscale_response.dart';
+import '../controller/image_upscale_controller.dart';
+import 'image_result_screen.dart';
 import 'widgets/upscale_history.dart';
 
 class UpscaleImageScreen extends StatefulWidget {
@@ -18,14 +24,18 @@ class UpscaleImageScreen extends StatefulWidget {
 }
 
 class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
+  XFile? selectedImage;
+  bool isProcessing = false;
+
   Future<void> _pickImage(ImageSource source) async {
-    pop();
     if (source == ImageSource.camera) {
       await _handleCameraPermission();
     }
     final value = await ImagePicker().pickImage(source: source);
     if (value != null) {
-      launchScreen(ImageUplodedScreen(image: value, tool: widget.tool, source: source));
+      setState(() {
+        selectedImage = value;
+      });
     }
   }
 
@@ -38,69 +48,180 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
     }
   }
 
-  @override
-  void initState() {
-    if (widget.imageUrl != null) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        launchScreen(ImageUplodedScreen(
-          tool: widget.tool,
-          source: ImageSource.gallery,
-          imageUrl: widget.imageUrl,
-        ));
-      });
+  Future<void> _handleApiCall() async {
+    UpscaleResponse? response;
+
+    File? file;
+    if (selectedImage != null) {
+      file = File(selectedImage!.path);
     }
-    super.initState();
+    if (widget.tool.backgroundRemover != null) {
+      response = await BackgroundRemoverController.find
+          .removeImageBackground(image: file, tool: widget.tool, urlImage: widget.imageUrl);
+    } else {
+      response = await ImageUpscaleController.find
+          .upscaleImage(image: file, tool: widget.tool, urlImage: widget.imageUrl);
+    }
+    if (response != null) {
+      await LoadingManager.complete();
+      launchScreen(ImageResultScreen(response: response), replace: true);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return GradientScaffold(
-      appBar: AppBar(title: Text(widget.tool.name.tr), backgroundColor: Colors.transparent),
+      appBar: AppBar(
+        title: Text(widget.tool.name.tr),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: ListView(
         padding: paddingDefault,
         children: [
-          DottedBorder(
-              color: context.theme.disabledColor,
-              strokeCap: StrokeCap.round,
-              dashPattern: const [8, 4],
-              borderType: BorderType.RRect,
-              radius: Radius.circular(radiusDefault),
-              padding: paddingLarge,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    widget.tool.description.tr,
-                    style: bodyMedium(context).copyWith(fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: spacingLarge),
-                  PrimaryButton(
-                    text: 'upload_image',
-                    icon: Icon(Iconsax.gallery, size: 20.sp),
-                    color: bodyLarge(context).color,
-                    textColor: context.theme.scaffoldBackgroundColor,
-                    borderRadius: borderRadiusDefault,
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) => ImageSourceSheet(onSourceSelected: _pickImage),
-                      );
-                    },
-                  ),
-                  SizedBox(height: spacingLarge),
-                  Text(
-                    widget.tool.backgroundRemover != null
-                        ? 'To get started, upload your image. AI will remove the background for you.'
-                        : 'To get started, upload your image. AI will upscale it for you.',
-                    style: bodyMedium(context).copyWith(color: context.theme.hintColor),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              )),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 350),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: ScaleTransition(scale: animation, child: child),
+              );
+            },
+            child: selectedImage == null && widget.imageUrl == null
+                ? _buildUploadSection()
+                : _buildSelectedImagePreview(),
+          ),
+          SizedBox(height: spacingLarge),
           UpscaleHistoryList(tool: widget.tool),
         ],
       ),
+    );
+  }
+
+  Widget _buildUploadSection() {
+    return DottedBorder(
+      color: context.theme.disabledColor,
+      strokeCap: StrokeCap.round,
+      dashPattern: const [8, 4],
+      borderType: BorderType.RRect,
+      radius: Radius.circular(radiusDefault),
+      padding: paddingLarge,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // tool description
+          Text(
+            widget.tool.description.tr,
+            style: bodyMedium(context).copyWith(fontWeight: FontWeight.w500),
+            textAlign: TextAlign.center,
+          ),
+          // upload image button
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: spacingLarge),
+            child: PrimaryButton(
+              text: 'upload_image',
+              icon: Icon(Iconsax.gallery, size: 20.sp),
+              color: bodyLarge(context).color,
+              textColor: context.theme.scaffoldBackgroundColor,
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => ImageSourceSheet(
+                    onSourceSelected: (source) {
+                      Navigator.pop(context);
+                      _pickImage(source);
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          // upload image description
+          Text(
+            widget.tool.backgroundRemover != null
+                ? 'To get started, upload your image. AI will remove the background for you.'
+                : 'To get started, upload your image. AI will upscale it for you.',
+            style: bodyMedium(context).copyWith(color: context.theme.hintColor),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSelectedImagePreview() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 350.sp,
+          child: DottedBorder(
+            color: context.theme.disabledColor,
+            strokeCap: StrokeCap.round,
+            dashPattern: const [8, 4],
+            borderType: BorderType.RRect,
+            radius: Radius.circular(radiusDefault),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                ClipRRect(
+                  borderRadius: borderRadiusDefault,
+                  child: widget.imageUrl != null && selectedImage == null
+                      ? CustomNetworkImage(url: widget.imageUrl)
+                      : Image.file(File(selectedImage!.path), fit: BoxFit.cover),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) => ImageSourceSheet(
+                          onSourceSelected: (source) {
+                            Navigator.pop(context);
+                            _pickImage(source);
+                          },
+                        ),
+                      );
+                    },
+                    borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
+                    child: GlassmorphicWidget(
+                      borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
+                      child: Container(
+                        height: 60.sp,
+                        padding: EdgeInsets.all(spacingMedium),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor.withOpacity(0.6),
+                          borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Change Image',
+                                style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            SizedBox(width: spacingSmall),
+                            Icon(Icons.arrow_forward, color: Colors.white, size: 20.sp),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: spacingLarge),
+        GradientButton(
+          text: widget.tool.name.tr,
+          icon: GradientWidget(child: Icon(Iconsax.magicpen, color: Colors.white, size: 18.sp)),
+          onPressed: _handleApiCall,
+        ),
+      ],
     );
   }
 }
@@ -108,10 +229,7 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
 class ImageSourceSheet extends StatelessWidget {
   final Function(ImageSource source) onSourceSelected;
 
-  const ImageSourceSheet({
-    required this.onSourceSelected,
-    super.key,
-  });
+  const ImageSourceSheet({required this.onSourceSelected, super.key});
 
   @override
   Widget build(BuildContext context) {

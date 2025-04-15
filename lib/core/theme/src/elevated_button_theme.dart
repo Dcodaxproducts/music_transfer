@@ -5,7 +5,7 @@ ElevatedButtonThemeData elevatedButtonThemeData(BuildContext context) => Elevate
         elevation: WidgetStateProperty.all(0), // No shadow
         minimumSize: WidgetStateProperty.all(Size(double.infinity, 50.sp)), // Full width
         shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.sp)),
+          RoundedRectangleBorder(borderRadius: borderRadiusDefault),
         ), // Rounded corners
         backgroundColor: WidgetStatePropertyAll(context.theme.primaryColor),
         textStyle: WidgetStatePropertyAll(bodyMedium(context).copyWith(color: Colors.white)),

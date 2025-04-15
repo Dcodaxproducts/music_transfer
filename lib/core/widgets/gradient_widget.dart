@@ -32,12 +32,13 @@ class GlassmorphicWidget extends StatelessWidget {
     super.key,
     required this.child,
     this.blurIntensity = 10.0,
-    this.glassOpacity = 0.01,
+    this.glassOpacity = 0.03,
     this.borderRadius,
   });
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = context.theme.brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: borderRadius ?? borderRadiusCircular,
       child: BackdropFilter(
@@ -47,7 +48,8 @@ class GlassmorphicWidget extends StatelessWidget {
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(glassOpacity),
+            color:
+                isDarkMode ? Colors.white.withOpacity(glassOpacity) : Colors.black.withOpacity(glassOpacity),
             borderRadius: borderRadius ?? borderRadiusCircular,
           ),
           child: child,

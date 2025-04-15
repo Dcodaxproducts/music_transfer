@@ -7,14 +7,12 @@ class PrimaryButton extends StatelessWidget {
   final Widget? icon;
   final Color? color;
   final Color? textColor;
-  final BorderRadius? borderRadius;
   const PrimaryButton({
     required this.text,
     this.onPressed,
     this.icon,
     this.color,
     this.textColor,
-    this.borderRadius,
     super.key,
   });
 
@@ -27,7 +25,6 @@ class PrimaryButton extends StatelessWidget {
         backgroundColor: backgroundColor,
         minimumSize: Size(100.sp, 50.sp),
         disabledBackgroundColor: backgroundColor,
-        shape: RoundedRectangleBorder(borderRadius: borderRadius ?? borderRadiusCircular),
       ),
       onPressed: onPressed,
       child: Row(
@@ -97,6 +94,7 @@ class GradientButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: context.theme.cardColor.withOpacity(0.1),
           shadowColor: context.theme.cardColor,
+          shape: RoundedRectangleBorder(borderRadius: borderRadiusCircular),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
