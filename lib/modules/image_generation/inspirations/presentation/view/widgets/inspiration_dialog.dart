@@ -1,14 +1,10 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:matrix_ai/core/utils/style.dart';
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/core/widgets/loading.dart';
-import '../../../../../../core/widgets/primary_button.dart';
+import 'package:matrix_ai/imports.dart';
 import '../../../../../../features/dashboard/presentation/controller/dashboard_controller.dart';
 import '../../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../data/model/inspiration.dart';
-import '../../../../../../core/helper/navigation.dart';
 
 class InspirationDialog extends StatefulWidget {
   final Inspiration inspiration;
@@ -65,25 +61,9 @@ class InspirationDialogState extends State<InspirationDialog> with SingleTickerP
                     children: [
                       ClipRRect(
                         borderRadius: borderRadiusDefault,
-                        child: Image.network(
-                          widget.inspiration.image,
-                          fit: BoxFit.cover,
-                        ),
+                        child: Image.network(widget.inspiration.image, fit: BoxFit.cover),
                       ),
-                      // shadow,
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: borderRadiusDefault,
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              Colors.black.withOpacity(1),
-                            ],
-                          ),
-                        ),
-                      ),
+
                       // close button
                       Positioned(
                         top: 10.sp,
@@ -100,41 +80,44 @@ class InspirationDialogState extends State<InspirationDialog> with SingleTickerP
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: spacingMedium),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            SingleChildScrollView(
-                              child: Text(
-                                widget.inspiration.prompt,
-                                textAlign: TextAlign.center,
-                                maxLines: 5,
-                                style: bodySmall(context).copyWith(color: Colors.white),
-                              ),
-                            ),
-                            SizedBox(height: spacingDefault),
-                            SizedBox(
-                              height: 50.sp,
-                              width: 120.sp,
-                              child: PrimaryButton(
-                                text: 'try_now'.tr,
-                                onPressed: () {
-                                  final settings = SettingsController.find;
-                                  pop();
-                                  DashboardController.find.selectedIndex = 0;
-                                  settings.configModel =
-                                      settings.configModel.copyWith(seed: widget.inspiration.seed);
-                                  settings.promptController.text = widget.inspiration.prompt;
-                                  settings.seedController.text = widget.inspiration.seed.toString();
-                                },
-                              ),
-                            ),
-                            SizedBox(height: spacingDefault),
-                          ],
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: GlassmorphicWidget(
+                          borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
+                          child: InkWell(
+                            onTap: () {
+                              final settings = SettingsController.find;
+                              pop();
+                              DashboardController.find.selectedIndex = 0;
+                              settings.configModel =
+                                  settings.configModel.copyWith(seed: widget.inspiration.seed);
+                              settings.promptController.text = widget.inspiration.prompt;
+                              settings.seedController.text = widget.inspiration.seed.toString();
+                            },
+                            borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
+                            child: Container(
+                                padding: paddingDefault,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).cardColor.withOpacity(0.6),
+                                  borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'try_now'.tr,
+                                        style: bodyMedium(context).copyWith(fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    SizedBox(width: spacingSmall),
+                                    Icon(Iconsax.arrow_right_3, color: Colors.white, size: 20.sp),
+                                  ],
+                                )),
+                          ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 );

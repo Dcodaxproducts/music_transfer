@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:matrix_ai/core/widgets/gradient_widget.dart';
 import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
 import '../../../../../../imports.dart';
 import '../../../../../../core/widgets/network_image.dart';
@@ -70,14 +71,8 @@ class PromptImageWidgetState extends State<PromptImageWidget> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    // image
-                    Hero(
-                      tag: url,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.vertical(bottom: Radius.circular(spacingDefault)),
-                        child: CustomNetworkImage(url: url, errorLoading: true),
-                      ),
-                    ),
+                    // Display the image
+                    CustomNetworkImage(url: url, errorLoading: true),
 
                     const BackButton(),
                     const PromptEditButton(),
@@ -86,60 +81,63 @@ class PromptImageWidgetState extends State<PromptImageWidget> {
                 ),
               ),
             ),
-            Padding(
-              padding: paddingDefault,
-              child: SizedBox(
-                height: outputSize,
-                child: ValueListenableBuilder(
-                    valueListenable: _currentIndex,
-                    builder: (context, value, child) {
-                      return ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: allOutputs.length,
-                        separatorBuilder: (context, index) => SizedBox(width: spacingDefault),
-                        itemBuilder: (context, index) {
-                          bool isSelected = _currentIndex.value == index;
-                          return InkWell(
-                            onTap: () => _selectImage(index),
-                            borderRadius: borderRadiusSmall,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  width: (outputSize + 10).sp,
-                                  decoration: BoxDecoration(
-                                    color: context.theme.cardColor,
-                                    borderRadius: borderRadiusSmall,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: borderRadiusSmall,
-                                    child: CachedNetworkImage(
-                                      imageUrl: allOutputs[index],
-                                      width: (outputSize + 10).sp,
-                                      height: outputSize,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                if (isSelected)
+            GlassmorphicWidget(
+              borderRadius: BorderRadius.zero,
+              child: Container(
+                padding: paddingMedium,
+                child: SizedBox(
+                  height: outputSize,
+                  child: ValueListenableBuilder(
+                      valueListenable: _currentIndex,
+                      builder: (context, value, child) {
+                        return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: allOutputs.length,
+                          separatorBuilder: (context, index) => SizedBox(width: spacingDefault),
+                          itemBuilder: (context, index) {
+                            bool isSelected = _currentIndex.value == index;
+                            return InkWell(
+                              onTap: () => _selectImage(index),
+                              borderRadius: borderRadiusSmall,
+                              child: Stack(
+                                children: [
                                   Container(
-                                    width: outputSize + 10.sp,
-                                    height: outputSize,
+                                    width: (outputSize + 10).sp,
                                     decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.3),
+                                      color: context.theme.cardColor,
                                       borderRadius: borderRadiusSmall,
                                     ),
-                                    child: Icon(
-                                      Icons.check_circle_rounded,
-                                      size: 16.sp,
-                                      color: Colors.white,
+                                    child: ClipRRect(
+                                      borderRadius: borderRadiusSmall,
+                                      child: CachedNetworkImage(
+                                        imageUrl: allOutputs[index],
+                                        width: (outputSize + 10).sp,
+                                        height: outputSize,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    }),
+                                  if (isSelected)
+                                    Container(
+                                      width: outputSize + 10.sp,
+                                      height: outputSize,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.3),
+                                        borderRadius: borderRadiusSmall,
+                                      ),
+                                      child: Icon(
+                                        Icons.check_circle_rounded,
+                                        size: 16.sp,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }),
+                ),
               ),
             )
           ],

@@ -1,14 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:get/get.dart';
 import 'package:matrix_ai/core/widgets/network_image.dart';
 import 'package:matrix_ai/features/ads/presentation/controller/ads_controller.dart';
 import 'package:matrix_ai/modules/image_generation/inspirations/presentation/controller/inspiration_controller.dart';
 import 'package:matrix_ai/modules/image_generation/inspirations/data/model/inspiration.dart';
-import 'package:matrix_ai/core/utils/colors.dart';
-import 'package:matrix_ai/core/utils/style.dart';
-import 'widgets/inspiration_dialog.dart';
+import '../../../../../imports.dart';
+import 'inspiration_detail.dart';
 
 class InspirationScreen extends StatelessWidget {
   const InspirationScreen({super.key});
@@ -30,10 +26,11 @@ class InspirationScreen extends StatelessWidget {
               mainAxisSpacing: spacingExtraSmall,
               crossAxisSpacing: spacingExtraSmall,
               itemBuilder: (context, index) => InkWell(
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (_) => InspirationDialog(inspiration: inspirations[index]),
-                ),
+                onTap: () => launchScreen(InspirationDetailScreen(inspiration: inspirations[index])),
+                // showDialog(
+                //   context: context,
+                //   builder: (_) => InspirationDialog(inspiration: inspirations[index]),
+                // ),
                 child: Stack(
                   children: [
                     CustomNetworkImage(

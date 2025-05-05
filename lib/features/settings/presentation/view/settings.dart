@@ -25,10 +25,7 @@ class _SettingScreenState extends State<SettingScreen> {
       onTap: () => launchScreen(const LanguageScreen()),
     ),
     // const ThemeTile(),
-    const NotificationTile(
-      text: 'notifications',
-      icon: Iconsax.notification,
-    ),
+    const NotificationTile(text: 'notifications', icon: Iconsax.notification),
   ];
 
   final List<Widget> _moreMenuItems = [
@@ -52,11 +49,7 @@ class _SettingScreenState extends State<SettingScreen> {
         HtmlScreen(html: SettingsController.find.settingModel.termsAndConditions),
       ),
     ),
-    const MenuItem(
-      text: 'rate_us',
-      icon: Iconsax.star,
-      onTap: showRateUsDialog,
-    ),
+    const MenuItem(text: 'rate_us', icon: Iconsax.star, onTap: showRateUsDialog),
     MenuItem(
       text: 'share_app',
       icon: Iconsax.share,
