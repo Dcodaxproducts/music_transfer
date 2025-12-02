@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'package:matrix_ai/core/widgets/gradient_widget.dart';
-import 'package:matrix_ai/core/widgets/loading.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/core/widgets/loading.dart';
+import 'package:pixart_app/imports.dart';
 import '../../../../../../features/dashboard/presentation/controller/dashboard_controller.dart';
 import '../../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../data/model/inspiration.dart';
@@ -54,13 +53,13 @@ class InspirationDialogState extends State<InspirationDialog> with SingleTickerP
                   height: _heightAnimation.value,
                   decoration: BoxDecoration(
                     color: context.theme.scaffoldBackgroundColor,
-                    borderRadius: borderRadiusDefault,
+                    borderRadius: AppRadius.circular16,
                   ),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
                       ClipRRect(
-                        borderRadius: borderRadiusDefault,
+                        borderRadius: AppRadius.circular16,
                         child: Image.network(widget.inspiration.image, fit: BoxFit.cover),
                       ),
 
@@ -72,10 +71,7 @@ class InspirationDialogState extends State<InspirationDialog> with SingleTickerP
                           onTap: pop,
                           child: Container(
                             padding: EdgeInsets.all(5.sp),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
+                            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
                             child: Icon(Icons.close, size: 20.sp, color: Colors.black),
                           ),
                         ),
@@ -84,40 +80,44 @@ class InspirationDialogState extends State<InspirationDialog> with SingleTickerP
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        child: GlassmorphicWidget(
-                          borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.vertical(bottom: AppRadius.circular16.bottomLeft),
+                          ),
                           child: InkWell(
                             onTap: () {
                               final settings = SettingsController.find;
                               pop();
                               DashboardController.find.selectedIndex = 0;
-                              settings.configModel =
-                                  settings.configModel.copyWith(seed: widget.inspiration.seed);
+                              settings.configModel = settings.configModel.copyWith(
+                                seed: widget.inspiration.seed,
+                              );
                               settings.promptController.text = widget.inspiration.prompt;
                               settings.seedController.text = widget.inspiration.seed.toString();
                             },
-                            borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
+                            borderRadius: BorderRadius.vertical(bottom: AppRadius.circular16.bottomLeft),
                             child: Container(
-                                padding: paddingDefault,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor.withOpacity(0.6),
-                                  borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        'try_now'.tr,
-                                        style: bodyMedium(context).copyWith(fontWeight: FontWeight.w500),
-                                      ),
+                              padding: AppPadding.padding16,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).cardColor.withOpacity(0.6),
+                                borderRadius: BorderRadius.vertical(bottom: AppRadius.circular16.bottomLeft),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'try_now'.tr,
+                                      style: context.font14.copyWith(fontWeight: FontWeight.w500),
                                     ),
-                                    SizedBox(width: spacingSmall),
-                                    Icon(Iconsax.arrow_right_3, color: Colors.white, size: 20.sp),
-                                  ],
-                                )),
+                                  ),
+                                  SizedBox(width: 8.sp),
+                                  Icon(Iconsax.arrow_right_3, color: Colors.white, size: 20.sp),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 );
@@ -126,10 +126,7 @@ class InspirationDialogState extends State<InspirationDialog> with SingleTickerP
           } else {
             return Container(
               height: context.height * _initialHeight,
-              decoration: BoxDecoration(
-                color: context.theme.cardColor,
-                borderRadius: borderRadiusDefault,
-              ),
+              decoration: BoxDecoration(color: context.theme.cardColor, borderRadius: AppRadius.circular16),
               child: const Center(child: Loading()),
             );
           }
@@ -141,11 +138,13 @@ class InspirationDialogState extends State<InspirationDialog> with SingleTickerP
   Future<Size> _getImageSize(String imageUrl) async {
     final Completer<Size> completer = Completer();
     final Image image = Image.network(imageUrl);
-    image.image.resolve(const ImageConfiguration()).addListener(
-      ImageStreamListener((ImageInfo info, bool _) {
-        completer.complete(Size(info.image.width.toDouble(), info.image.height.toDouble()));
-      }),
-    );
+    image.image
+        .resolve(const ImageConfiguration())
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool _) {
+            completer.complete(Size(info.image.width.toDouble(), info.image.height.toDouble()));
+          }),
+        );
     return completer.future;
   }
 }

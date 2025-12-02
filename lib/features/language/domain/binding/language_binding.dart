@@ -1,4 +1,4 @@
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 import '../../data/repository/language_repo.dart';
 import '../../data/repository/language_repo_interface.dart';
 import '../service/localization_service.dart';
@@ -11,8 +11,9 @@ class LanguageBinding extends Bindings {
     LocalizationRepoInterface localizationRepoInterface = LocalizationRepo(prefs: Get.find());
     Get.lazyPut(() => localizationRepoInterface, fenix: true);
     // service
-    LocalizationServiceInterface localizationServiceInterface =
-        LocalizationService(localizationRepo: Get.find());
+    LocalizationServiceInterface localizationServiceInterface = LocalizationService(
+      localizationRepo: Get.find(),
+    );
     Get.lazyPut(() => localizationServiceInterface, fenix: true);
     // controller
     Get.lazyPut(() => LocalizationController(localizationService: Get.find()));

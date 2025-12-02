@@ -1,4 +1,4 @@
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 
 class CustomSlider extends StatelessWidget {
   final double value;
@@ -26,15 +26,14 @@ class CustomSlider extends StatelessWidget {
             trackHeight: 2,
             thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8.sp),
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 0),
-            valueIndicatorTextStyle:
-                bodySmall(context).copyWith(color: context.theme.scaffoldBackgroundColor),
+            valueIndicatorTextStyle: context.font12.copyWith(color: context.theme.scaffoldBackgroundColor),
           ),
           child: Slider(
             value: value,
             min: min,
             max: max,
             divisions: divisions,
-            activeColor: bodySmall(context).color,
+            activeColor: context.font12.color,
             inactiveColor: context.theme.dividerColor,
             onChanged: onChanged,
             label: value.toStringAsFixed(1),
@@ -42,13 +41,11 @@ class CustomSlider extends StatelessWidget {
         ),
         SizedBox(height: 5.sp),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: spacingSmall),
+          padding: EdgeInsets.symmetric(horizontal: 8.sp),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: labels
-                .map(
-                  (e) => Text(e.tr, style: bodySmall(context).copyWith(color: context.theme.hintColor)),
-                )
+                .map((e) => Text(e.tr, style: context.font12.copyWith(color: context.theme.hintColor)))
                 .toList(),
           ),
         ),

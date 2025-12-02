@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     'getting_started',
     "loading_assets",
     "initializing_ai_models",
-    "almost_there"
+    "almost_there",
   ];
 
   @override
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: paddingDefault,
+        padding: AppPadding.padding16,
         child: Column(
           children: [
             Expanded(
@@ -63,22 +63,22 @@ class _SplashScreenState extends State<SplashScreen> {
                   height: 18.sp,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(bodyLarge(context).color!),
+                    valueColor: AlwaysStoppedAnimation<Color>(context.font16.color!),
                   ),
                 ),
-                SizedBox(width: spacingMedium),
+                SizedBox(width: 12.sp),
                 ValueListenableBuilder(
                   valueListenable: _currentTextIndex,
                   builder: (BuildContext context, int value, Widget? child) {
                     return Text(
                       _loadingTexts[_currentTextIndex.value].tr,
-                      style: bodyMedium(context).copyWith(color: hintColorDark),
+                      style: context.font14.copyWith(color: hintColorDark),
                     );
                   },
                 ),
               ],
             ),
-            SizedBox(height: spacingExtraLarge),
+            SizedBox(height: 32.sp),
           ],
         ),
       ),

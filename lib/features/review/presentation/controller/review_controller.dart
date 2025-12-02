@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:matrix_ai/core/widgets/snackbar.dart';
-import 'package:matrix_ai/features/review/domain/service/review_service_interface.dart';
+import 'package:pixart_app/core/widgets/snackbar.dart';
+import 'package:pixart_app/features/review/domain/service/review_service_interface.dart';
 
 class ReviewController extends GetxController implements GetxService {
   final ReviewServiceInterface reviewService;

@@ -1,4 +1,4 @@
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 
 class BottomButton extends StatelessWidget {
   final String text;
@@ -7,7 +7,7 @@ class BottomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final radius = BorderRadius.vertical(top: Radius.circular(spacingDefault));
+    final radius = BorderRadius.vertical(top: Radius.circular(16.sp));
     return Hero(
       tag: 'button',
       child: InkWell(
@@ -23,7 +23,7 @@ class BottomButton extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: bodyMedium(context).copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+              style: context.font14.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
             ),
           ),
         ),

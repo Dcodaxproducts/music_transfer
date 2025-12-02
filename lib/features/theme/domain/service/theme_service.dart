@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:matrix_ai/features/theme/data/repository/theme_repo_interface.dart';
+import 'package:pixart_app/features/theme/data/repository/theme_repo_interface.dart';
 import 'theme_service_interface.dart';
 
 class ThemeService implements ThemeServiceInterface {

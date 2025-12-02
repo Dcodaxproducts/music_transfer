@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:matrix_ai/features/tools/domain/service/tools_service_interface.dart';
+import 'package:pixart_app/features/tools/domain/service/tools_service_interface.dart';
 import '../../data/model/tools.dart';
 
 class ToolsController extends GetxController implements GetxService {

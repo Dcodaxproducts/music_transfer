@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
-import 'package:matrix_ai/modules/image_generation/models/presentation/controller/models_controller.dart';
+import 'package:pixart_app/modules/image_generation/models/presentation/controller/models_controller.dart';
 import '../../../../../core/widgets/snackbar.dart';
 import '../../../../../features/ads/presentation/controller/ads_controller.dart';
 import '../../../aspect_ratio/data/model/aspect_ratio.dart';
@@ -24,9 +24,7 @@ class ImageGenerationUtils {
   }
 
   static AspectRatioModel getAspectRatio() {
-    return aspectRatios.firstWhere(
-      (e) => e.id == SettingsController.find.configModel.aspectRatio,
-    );
+    return aspectRatios.firstWhere((e) => e.id == SettingsController.find.configModel.aspectRatio);
   }
 
   static Model getModel(Model? model) {

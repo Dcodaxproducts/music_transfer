@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:matrix_ai/features/ads/domain/service/ads_service_interface.dart';
+import 'package:pixart_app/features/ads/domain/service/ads_service_interface.dart';
 import '../../data/enum/ad_position.dart';
 import '../../data/enum/ad_type.dart';
 import '../../data/model/ad_model.dart';
@@ -75,7 +75,7 @@ class AdsController extends GetxController {
     return _buildAdWidget(AdPosition.inspirationScreen);
   }
 
-  _buildAdWidget(AdPosition position) {
+  Widget _buildAdWidget(AdPosition position) {
     AdModel? ad = ads.firstWhereOrNull((element) => element.position == position);
     return adsService.getBannerWidget(ad);
   }

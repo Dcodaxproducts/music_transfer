@@ -1,7 +1,7 @@
-import 'package:matrix_ai/core/error/together_ai_error.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/core/error/together_ai_error.dart';
+import 'package:pixart_app/imports.dart';
 
-showTogetherAiErrorDialog(TogetherAIError error) {
+Future<dynamic> showTogetherAiErrorDialog(TogetherAIError error) {
   return showDialog(
     context: Get.context!,
     builder: (context) {
@@ -23,10 +23,10 @@ class TogetherAiErrorDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Iconsax.warning_2, color: Colors.red, size: 80.sp),
-            SizedBox(height: spacingDefault),
-            Text("Oops!", style: titleLarge(context)),
-            SizedBox(height: spacingDefault),
-            Text(error.message.tr, style: bodyMedium(context), textAlign: TextAlign.center),
+            SizedBox(height: 16.sp),
+            Text("Oops!", style: context.font22),
+            SizedBox(height: 16.sp),
+            Text(error.message.tr, style: context.font14, textAlign: TextAlign.center),
             const SizedBox(height: 16),
             SizedBox(
               width: 120.sp,

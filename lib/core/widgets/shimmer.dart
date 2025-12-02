@@ -1,5 +1,5 @@
 import 'package:shimmer/shimmer.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 
 class CustomShimmer extends StatelessWidget {
   final Widget child;
@@ -9,7 +9,7 @@ class CustomShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: context.theme.cardColor,
-      highlightColor: bodyLarge(context).color!.withOpacity(0.05),
+      highlightColor: context.font16.color!.withOpacity(0.05),
       child: child,
     );
   }

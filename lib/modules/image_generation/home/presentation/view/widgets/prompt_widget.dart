@@ -1,6 +1,6 @@
 import 'dart:math';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/imports.dart';
 import '../../../../inspirations/presentation/controller/inspiration_controller.dart';
 import '../../../../inspirations/data/model/inspiration.dart';
 import '../../../../../../core/widgets/gradient_widget.dart';
@@ -14,11 +14,8 @@ class PromptWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'type_your_idea'.tr,
-          style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
-        ),
-        SizedBox(height: spacingSmall),
+        Text('type_your_idea'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
+        SizedBox(height: 8.sp),
         GradientBorderContainer(
           borderWidth: 1,
           child: Column(
@@ -38,12 +35,12 @@ class PromptWidget extends StatelessWidget {
                   focusedBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
                 ),
-                style: bodyMedium(context),
+                style: context.font14,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 controller: con.promptController,
                 onChanged: (value) => con.update(),
               ),
-              SizedBox(height: spacingExtraSmall),
+              SizedBox(height: 4.sp),
               // prompt options
               Row(
                 children: [
@@ -72,7 +69,7 @@ class PromptWidget extends StatelessWidget {
                       },
                       icon: Icon(Icons.close, size: 18.sp),
                     ),
-                  ]
+                  ],
                 ],
               ),
             ],

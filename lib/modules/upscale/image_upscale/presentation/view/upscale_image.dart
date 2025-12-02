@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:matrix_ai/core/widgets/gradient_scaffold.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../../core/widgets/gradient_widget.dart';
 import '../../../../../core/widgets/network_image.dart';
@@ -56,11 +55,17 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
       file = File(selectedImage!.path);
     }
     if (widget.tool.backgroundRemover != null) {
-      response = await BackgroundRemoverController.find
-          .removeImageBackground(image: file, tool: widget.tool, urlImage: widget.imageUrl);
+      response = await BackgroundRemoverController.find.removeImageBackground(
+        image: file,
+        tool: widget.tool,
+        urlImage: widget.imageUrl,
+      );
     } else {
-      response = await ImageUpscaleController.find
-          .upscaleImage(image: file, tool: widget.tool, urlImage: widget.imageUrl);
+      response = await ImageUpscaleController.find.upscaleImage(
+        image: file,
+        tool: widget.tool,
+        urlImage: widget.imageUrl,
+      );
     }
     if (response != null) {
       await LoadingManager.complete();
@@ -70,14 +75,10 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GradientScaffold(
-      appBar: AppBar(
-        title: Text(widget.tool.name.tr),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.tool.name.tr), backgroundColor: Colors.transparent, elevation: 0),
       body: ListView(
-        padding: paddingDefault,
+        padding: AppPadding.padding16,
         children: [
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 350),
@@ -91,7 +92,7 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
                 ? _buildUploadSection()
                 : _buildSelectedImagePreview(),
           ),
-          SizedBox(height: spacingLarge),
+          SizedBox(height: 24.sp),
           UpscaleHistoryList(tool: widget.tool),
         ],
       ),
@@ -104,24 +105,24 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
       strokeCap: StrokeCap.round,
       dashPattern: const [8, 4],
       borderType: BorderType.RRect,
-      radius: Radius.circular(radiusDefault),
-      padding: paddingLarge,
+      radius: Radius.circular(16.sp),
+      padding: AppPadding.padding24,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // tool description
           Text(
             widget.tool.description.tr,
-            style: bodyMedium(context).copyWith(fontWeight: FontWeight.w500),
+            style: context.font14.copyWith(fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
           ),
           // upload image button
           Padding(
-            padding: EdgeInsets.symmetric(vertical: spacingLarge),
+            padding: EdgeInsets.symmetric(vertical: 24.sp),
             child: PrimaryButton(
               text: 'upload_image',
               icon: Icon(Iconsax.gallery, size: 20.sp),
-              color: bodyLarge(context).color,
+              color: context.font16.color,
               textColor: context.theme.scaffoldBackgroundColor,
               onPressed: () {
                 showModalBottomSheet(
@@ -142,7 +143,7 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
             widget.tool.backgroundRemover != null
                 ? 'To get started, upload your image. AI will remove the background for you.'
                 : 'To get started, upload your image. AI will upscale it for you.',
-            style: bodyMedium(context).copyWith(color: context.theme.hintColor),
+            style: context.font14.copyWith(color: context.theme.hintColor),
             textAlign: TextAlign.center,
           ),
         ],
@@ -160,12 +161,12 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
             strokeCap: StrokeCap.round,
             dashPattern: const [8, 4],
             borderType: BorderType.RRect,
-            radius: Radius.circular(radiusDefault),
+            radius: Radius.circular(16.sp),
             child: Stack(
               fit: StackFit.expand,
               children: [
                 ClipRRect(
-                  borderRadius: borderRadiusDefault,
+                  borderRadius: AppRadius.circular16,
                   child: widget.imageUrl != null && selectedImage == null
                       ? CustomNetworkImage(url: widget.imageUrl)
                       : Image.file(File(selectedImage!.path), fit: BoxFit.cover),
@@ -185,40 +186,42 @@ class _UpscaleImageScreenState extends State<UpscaleImageScreen> {
                         ),
                       );
                     },
-                    borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
-                    child: GlassmorphicWidget(
-                      borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
+                    borderRadius: AppRadius.bottom(16),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(borderRadius: AppRadius.bottom(16)),
                       child: Container(
                         height: 60.sp,
-                        padding: EdgeInsets.all(spacingMedium),
+                        padding: EdgeInsets.all(12.sp),
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor.withOpacity(0.6),
-                          borderRadius: BorderRadius.vertical(bottom: borderRadiusDefault.bottomLeft),
+                          borderRadius: AppRadius.bottom(16),
                         ),
                         child: Row(
                           children: [
                             Expanded(
                               child: Text(
                                 'Change Image',
-                                style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
+                                style: context.font14.copyWith(fontWeight: FontWeight.w600),
                               ),
                             ),
-                            SizedBox(width: spacingSmall),
+                            SizedBox(width: 8.sp),
                             Icon(Icons.arrow_forward, color: Colors.white, size: 20.sp),
                           ],
                         ),
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
         ),
-        SizedBox(height: spacingLarge),
+        SizedBox(height: 24.sp),
         GradientButton(
           text: widget.tool.name.tr,
-          icon: GradientWidget(child: Icon(Iconsax.magicpen, color: Colors.white, size: 18.sp)),
+          icon: GradientWidget(
+            child: Icon(Iconsax.magicpen, color: Colors.white, size: 18.sp),
+          ),
           onPressed: _handleApiCall,
         ),
       ],
@@ -236,12 +239,12 @@ class ImageSourceSheet extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: context.theme.cardColor,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(spacingDefault)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.sp)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: spacingSmall),
+          SizedBox(height: 8.sp),
           Container(
             width: 36.sp,
             height: 4.sp,
@@ -250,7 +253,7 @@ class ImageSourceSheet extends StatelessWidget {
               borderRadius: BorderRadius.circular(2.sp),
             ),
           ),
-          SizedBox(height: spacingMedium),
+          SizedBox(height: 12.sp),
           _buildOption(
             context,
             icon: Iconsax.gallery,
@@ -264,7 +267,7 @@ class ImageSourceSheet extends StatelessWidget {
             label: 'Take Photo',
             onTap: () => onSourceSelected(ImageSource.camera),
           ),
-          Divider(height: spacingDefault),
+          Divider(height: 16.sp),
           _buildCancelButton(context),
           SizedBox(height: context.mediaQueryPadding.bottom + 8.sp),
         ],
@@ -286,11 +289,8 @@ class ImageSourceSheet extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 20.sp),
-            SizedBox(width: spacingMedium),
-            Text(
-              label,
-              style: bodyMedium(context).copyWith(fontWeight: FontWeight.w500),
-            ),
+            SizedBox(width: 12.sp),
+            Text(label, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
           ],
         ),
       ),
@@ -302,14 +302,11 @@ class ImageSourceSheet extends StatelessWidget {
       onTap: () => Navigator.pop(context),
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: spacingLarge),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(radiusDefault)),
+        padding: EdgeInsets.symmetric(vertical: 24.sp),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.sp)),
         child: Text(
           'Cancel',
-          style: bodyMedium(context).copyWith(
-            color: primaryColor,
-            fontWeight: FontWeight.w600,
-          ),
+          style: context.font14.copyWith(color: primaryColor, fontWeight: FontWeight.w600),
           textAlign: TextAlign.center,
         ),
       ),

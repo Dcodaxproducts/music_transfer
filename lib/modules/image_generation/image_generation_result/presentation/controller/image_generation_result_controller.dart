@@ -1,6 +1,6 @@
-import 'package:matrix_ai/modules/image_generation/history/presentation/controller/history_controller.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/modules/image_generation/history/presentation/controller/history_controller.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
+import 'package:pixart_app/imports.dart';
 
 class ImageGenerationResultController extends GetxController implements GetxService {
   static ImageGenerationResultController get find => Get.find<ImageGenerationResultController>();

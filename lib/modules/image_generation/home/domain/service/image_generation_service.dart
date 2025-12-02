@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:matrix_ai/features/aws/presentation/controller/aws_controller.dart';
-import 'package:matrix_ai/modules/image_generation/home/presentation/controller/generation_controller.dart';
-import 'package:matrix_ai/modules/image_generation/history/presentation/controller/history_controller.dart';
+import 'package:pixart_app/features/aws/presentation/controller/aws_controller.dart';
+import 'package:pixart_app/modules/image_generation/home/presentation/controller/generation_controller.dart';
+import 'package:pixart_app/modules/image_generation/history/presentation/controller/history_controller.dart';
 import 'package:http/http.dart' as http;
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/model/api_model.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/repository/image_generation_repo_interface.dart';
-import 'package:matrix_ai/features/ads/data/utils/firebase_events.dart';
-import 'package:matrix_ai/core/utils/images.dart';
-import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/api_model.dart';
+import 'package:pixart_app/modules/image_generation/home/data/repository/image_generation_repo_interface.dart';
+import 'package:pixart_app/features/ads/data/utils/firebase_events.dart';
+import 'package:pixart_app/core/utils/images.dart';
+import 'package:pixart_app/features/loading_screen/presentation/view/src/loading_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../../core/widgets/snackbar.dart';
 import '../../../../../features/subscription/presentation/controller/subscription_controller.dart';
@@ -137,14 +137,11 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
 
     //  log impression for model to track usage to firebase
     PackageInfo? packageInfo = SettingsController.find.packageInfo;
-    EventsHelper.logEvent(
-      'model_impression',
-      {
-        'model': model.name,
-        'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
-        'platform': Platform.isAndroid ? 'Android' : 'iOS',
-      },
-    );
+    EventsHelper.logEvent('model_impression', {
+      'model': model.name,
+      'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
+      'platform': Platform.isAndroid ? 'Android' : 'iOS',
+    });
 
     if (value.status == "success") {
       return value;

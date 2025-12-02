@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
 import 'package:get/get.dart';
 import '../../controller/queue_controller.dart';
 
@@ -12,7 +12,8 @@ class HistoryCountdownWidget extends StatelessWidget {
     String imageUrl,
     String remainingTime,
     bool isRetrying,
-  ) builder;
+  )
+  builder;
 
   HistoryCountdownWidget({super.key, required this.response, required this.builder}) {
     SchedulerBinding.instance.addPostFrameCallback((_) {

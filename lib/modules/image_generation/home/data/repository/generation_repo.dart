@@ -1,4 +1,4 @@
-import 'package:matrix_ai/modules/image_generation/home/data/repository/generation_repo_interface.dart';
+import 'package:pixart_app/modules/image_generation/home/data/repository/generation_repo_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GenerationRepo implements GenerationRepoInterface {

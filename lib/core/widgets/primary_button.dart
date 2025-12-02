@@ -1,5 +1,5 @@
-import 'package:matrix_ai/core/widgets/gradient_widget.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/core/widgets/gradient_widget.dart';
+import 'package:pixart_app/imports.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
@@ -7,14 +7,7 @@ class PrimaryButton extends StatelessWidget {
   final Widget? icon;
   final Color? color;
   final Color? textColor;
-  const PrimaryButton({
-    required this.text,
-    this.onPressed,
-    this.icon,
-    this.color,
-    this.textColor,
-    super.key,
-  });
+  const PrimaryButton({required this.text, this.onPressed, this.icon, this.color, this.textColor, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +23,10 @@ class PrimaryButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (icon != null) ...[icon!, SizedBox(width: spacingSmall)],
+          if (icon != null) ...[icon!, SizedBox(width: 8.sp)],
           Text(
             text.tr,
-            style: bodySmall(context).copyWith(fontWeight: FontWeight.w600, color: textColor),
+            style: context.font12.copyWith(fontWeight: FontWeight.w600, color: textColor),
           ),
         ],
       ),
@@ -49,8 +42,15 @@ class PrimaryOutlineButton extends StatelessWidget {
   final double? radius;
   final Color? textColor;
   final double? width;
-  const PrimaryOutlineButton(
-      {required this.onPressed, this.text, this.icon, this.radius, this.textColor, this.width, super.key});
+  const PrimaryOutlineButton({
+    required this.onPressed,
+    this.text,
+    this.icon,
+    this.radius,
+    this.textColor,
+    this.width,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class PrimaryOutlineButton extends StatelessWidget {
           if (text != null)
             Text(
               text!,
-              style: bodySmall(context).copyWith(fontWeight: FontWeight.w600, color: textColor),
+              style: context.font12.copyWith(fontWeight: FontWeight.w600, color: textColor),
             ),
         ],
       ),
@@ -88,23 +88,20 @@ class GradientButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GradientBorderContainer(
       padding: EdgeInsets.zero,
-      borderRadius: borderRadiusCircular,
+      borderRadius: AppRadius.circular32,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: context.theme.cardColor.withOpacity(0.1),
           shadowColor: context.theme.cardColor,
-          shape: RoundedRectangleBorder(borderRadius: borderRadiusCircular),
+          shape: RoundedRectangleBorder(borderRadius: AppRadius.circular32),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (icon != null) ...[icon!, SizedBox(width: 8.sp)],
-            Text(
-              text,
-              style: bodySmall(context).copyWith(fontWeight: FontWeight.w600),
-            ),
+            Text(text, style: context.font12.copyWith(fontWeight: FontWeight.w600)),
           ],
         ),
       ),

@@ -1,5 +1,4 @@
-import 'package:matrix_ai/imports.dart';
-import 'dart:ui';
+import 'package:pixart_app/imports.dart';
 
 class GradientWidget extends StatelessWidget {
   final Widget child;
@@ -9,52 +8,9 @@ class GradientWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
-      shaderCallback: (bounds) => (gradient ?? primaryGradient).createShader(
-        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-      ),
+      shaderCallback: (bounds) =>
+          (gradient ?? primaryGradient).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
       child: child,
-    );
-  }
-}
-
-class GlassmorphicWidget extends StatelessWidget {
-  final Widget child;
-
-  /// Glass blur intensity
-  final double blurIntensity;
-
-  /// Glass opacity
-  final double glassOpacity;
-
-  final BorderRadius? borderRadius;
-
-  const GlassmorphicWidget({
-    super.key,
-    required this.child,
-    this.blurIntensity = 10.0,
-    this.glassOpacity = 0.03,
-    this.borderRadius,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    bool isDarkMode = context.theme.brightness == Brightness.dark;
-    return ClipRRect(
-      borderRadius: borderRadius ?? borderRadiusCircular,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: blurIntensity,
-          sigmaY: blurIntensity,
-        ),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color:
-                isDarkMode ? Colors.white.withOpacity(glassOpacity) : Colors.black.withOpacity(glassOpacity),
-            borderRadius: borderRadius ?? borderRadiusCircular,
-          ),
-          child: child,
-        ),
-      ),
     );
   }
 }
@@ -90,7 +46,7 @@ class GradientBorderContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final radius = borderRadius ?? borderRadiusDefault;
+    final BorderRadius radius = borderRadius ?? AppRadius.circular16;
     return CustomPaint(
       painter: GradientBorderPainter(
         gradient: primaryGradient,
@@ -101,12 +57,7 @@ class GradientBorderContainer extends StatelessWidget {
         padding: EdgeInsets.all(borderWidth),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius.topLeft.x - borderWidth),
-          child: GlassmorphicWidget(
-            blurIntensity: blurIntensity,
-            glassOpacity: glassOpacity,
-            borderRadius: BorderRadius.circular(radius.topLeft.x - borderWidth),
-            child: Padding(padding: padding ?? paddingDefault, child: child),
-          ),
+          child: Padding(padding: padding ?? AppPadding.padding16, child: child),
         ),
       ),
     );
@@ -119,11 +70,7 @@ class GradientBorderPainter extends CustomPainter {
   final double strokeWidth;
   final double borderRadius;
 
-  GradientBorderPainter({
-    required this.gradient,
-    required this.strokeWidth,
-    required this.borderRadius,
-  });
+  GradientBorderPainter({required this.gradient, required this.strokeWidth, required this.borderRadius});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -131,10 +78,7 @@ class GradientBorderPainter extends CustomPainter {
     final Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
 
     // Create rounded rectangle
-    final RRect rrect = RRect.fromRectAndRadius(
-      rect,
-      Radius.circular(borderRadius),
-    );
+    final RRect rrect = RRect.fromRectAndRadius(rect, Radius.circular(borderRadius));
 
     // Create smaller rounded rectangle for the "hole"
     final RRect innerRRect = RRect.fromRectAndRadius(

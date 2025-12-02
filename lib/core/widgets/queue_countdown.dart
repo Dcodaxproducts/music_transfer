@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import '../utils/colors.dart';
-import '../utils/style.dart';
+import '../../imports.dart';
 
 class QueueCountdown extends StatelessWidget {
   final String remainingTime;
@@ -28,15 +24,15 @@ class QueueCountdown extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (padding) SizedBox(height: spacingDefault),
+            if (padding) SizedBox(height: 16.sp),
             Text(
               remainingTime,
-              style: headlineLarge(context).copyWith(color: primaryColor),
+              style: context.font28.copyWith(color: primaryColor),
             ),
-            SizedBox(height: spacingSmall),
+            SizedBox(height: 8.sp),
             Text(
               isRetrying ? "${'retrying'.tr}. ${'almost_there'.tr}!" : 'creating_your_image'.tr,
-              style: bodySmall(context).copyWith(color: primaryColor),
+              style: context.font12.copyWith(color: primaryColor),
             ),
           ],
         ),

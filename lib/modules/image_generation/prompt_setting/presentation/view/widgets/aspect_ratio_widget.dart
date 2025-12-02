@@ -5,11 +5,7 @@ import 'expansion_tile.dart';
 
 class AspectRatioSelectionWidget extends StatelessWidget {
   final SettingsController con;
-  const AspectRatioSelectionWidget({
-    required this.con,
-    required this.selectedAspectRatio,
-    super.key,
-  });
+  const AspectRatioSelectionWidget({required this.con, required this.selectedAspectRatio, super.key});
 
   final String selectedAspectRatio;
 
@@ -23,43 +19,47 @@ class AspectRatioSelectionWidget extends StatelessWidget {
           height: 35.sp,
           child: ListView.separated(
             itemCount: aspectRatios.length,
-            separatorBuilder: (_, __) => SizedBox(width: 10.sp),
+            separatorBuilder: (_, _) => SizedBox(width: 10.sp),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               final aspectRatio = aspectRatios[index];
               bool selected = con.configModel.aspectRatio == aspectRatio.id;
               return GestureDetector(
-                  onTap: () {
-                    con.configModel = con.configModel.copyWith(aspectRatio: aspectRatio.id);
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(spacingExtraLarge),
-                      color: selected ? bodySmall(context).color : context.theme.scaffoldBackgroundColor,
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(width: spacingDefault),
-                        SizedBox(
-                          width: 14.sp,
-                          height: 14.sp,
-                          child: FittedBox(child: AspectRatioBox(ratio: aspectRatio, selected: selected)),
+                onTap: () {
+                  con.configModel = con.configModel.copyWith(aspectRatio: aspectRatio.id);
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(32.sp),
+                    color: selected ? context.font12.color : context.theme.scaffoldBackgroundColor,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: 16.sp),
+                      SizedBox(
+                        width: 14.sp,
+                        height: 14.sp,
+                        child: FittedBox(
+                          child: AspectRatioBox(ratio: aspectRatio, selected: selected),
                         ),
-                        SizedBox(width: spacingSmall),
-                        Text(
-                          aspectRatio.aspectRatio,
-                          style: bodySmall(context)
-                              .copyWith(color: selected ? context.theme.scaffoldBackgroundColor : null),
+                      ),
+                      SizedBox(width: 8.sp),
+                      Text(
+                        aspectRatio.aspectRatio,
+                        style: context.font12.copyWith(
+                          color: selected ? context.theme.scaffoldBackgroundColor : null,
                         ),
-                        SizedBox(width: spacingDefault),
-                      ],
-                    ),
-                  ));
+                      ),
+                      SizedBox(width: 16.sp),
+                    ],
+                  ),
+                ),
+              );
             },
           ),
-        )
+        ),
       ],
     );
   }
@@ -68,11 +68,7 @@ class AspectRatioSelectionWidget extends StatelessWidget {
 class AspectRatioBox extends StatelessWidget {
   final AspectRatioModel ratio;
   final bool selected;
-  const AspectRatioBox({
-    super.key,
-    required this.ratio,
-    this.selected = false,
-  });
+  const AspectRatioBox({super.key, required this.ratio, this.selected = false});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +77,7 @@ class AspectRatioBox extends StatelessWidget {
       child: Container(
         width: ratio.width.toDouble(),
         height: ratio.height.toDouble(),
-        color: selected ? Theme.of(context).scaffoldBackgroundColor : bodyMedium(context).color,
+        color: selected ? Theme.of(context).scaffoldBackgroundColor : context.font14.color,
       ),
     );
   }

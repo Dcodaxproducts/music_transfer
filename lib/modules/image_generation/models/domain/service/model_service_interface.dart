@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:matrix_ai/modules/image_generation/models/data/model/model.dart';
+import 'package:pixart_app/modules/image_generation/models/data/model/model.dart';
 
 abstract class ModelsServiceInterface {
   Future<http.Response?> fetchModels();
@@ -9,8 +9,7 @@ abstract class ModelsServiceInterface {
 
   Future<void> saveFavoriteModels(List<int> favoriteModels);
 
-  List<Model> filterModels(
-      List<Model> models, List<int> favoriteModels, int type);
+  List<Model> filterModels(List<Model> models, List<int> favoriteModels, int type);
 
   List<Model> parseModels(String responseBody);
 

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:matrix_ai/modules/image_generation/models/data/repository/models_repo_interface.dart';
+import 'package:pixart_app/modules/image_generation/models/data/repository/models_repo_interface.dart';
 import '../../data/model/model.dart';
 import 'model_service_interface.dart';
 
@@ -25,8 +25,7 @@ class ModelsService implements ModelsServiceInterface {
   }
 
   @override
-  List<Model> filterModels(
-      List<Model> models, List<int> favoriteModels, int type) {
+  List<Model> filterModels(List<Model> models, List<int> favoriteModels, int type) {
     if (type == 0) {
       return models;
     } else if (type == 1) {

@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-import 'package:matrix_ai/core/widgets/snackbar.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
-import 'package:matrix_ai/modules/image_generation/history/data/repository/history_repo_interface.dart';
+import 'package:pixart_app/core/widgets/snackbar.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
+import 'package:pixart_app/modules/image_generation/history/data/repository/history_repo_interface.dart';
 import 'history_service_interface.dart';
 
 class HistoryService implements HistoryServiceInterface {

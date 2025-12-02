@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-pop([int times = 1]) {
+void pop([int times = 1]) {
   for (int i = 0; i < times; i++) {
     Get.back();
   }

@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/core/utils/colors.dart';
-import 'package:matrix_ai/core/widgets/gradient_widget.dart';
+import 'package:pixart_app/core/widgets/gradient_widget.dart';
+import '../../../../../../imports.dart';
 
 class AnimatedHeart extends StatefulWidget {
   final double size;
@@ -12,8 +9,7 @@ class AnimatedHeart extends StatefulWidget {
   AnimatedHeartState createState() => AnimatedHeartState();
 }
 
-class AnimatedHeartState extends State<AnimatedHeart>
-    with SingleTickerProviderStateMixin {
+class AnimatedHeartState extends State<AnimatedHeart> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -27,9 +23,10 @@ class AnimatedHeartState extends State<AnimatedHeart>
     )..repeat(reverse: true); // Repeat with reverse animation
 
     // Define the animation (scaling effect)
-    _animation = Tween<double>(begin: 1.0, end: 1.5).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 1.0,
+      end: 1.5,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -44,11 +41,7 @@ class AnimatedHeartState extends State<AnimatedHeart>
       },
       child: GradientWidget(
         gradient: secondaryGradient,
-        child: Icon(
-          Iconsax.heart5,
-          color: Colors.white,
-          size: widget.size.sp,
-        ),
+        child: Icon(Iconsax.heart5, color: Colors.white, size: widget.size.sp),
       ),
     );
   }

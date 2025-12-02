@@ -1,4 +1,4 @@
-import 'package:matrix_ai/modules/image_generation/prompt_setting/data/model/config_model.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/data/model/config_model.dart';
 import 'package:http/http.dart';
 
 abstract class SettingsRepoInterface {

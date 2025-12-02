@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
-import 'package:matrix_ai/modules/image_generation/home/presentation/controller/generation_controller.dart';
-import 'package:matrix_ai/modules/image_generation/home/presentation/controller/image_generation_controller.dart';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
-import 'package:matrix_ai/core/error/together_ai_error.dart';
-import 'package:matrix_ai/features/ads/presentation/view/ads_dialog.dart';
-import 'package:matrix_ai/core/widgets/together_ai_error_dialog.dart';
-import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
-import 'package:matrix_ai/modules/image_generation/image_generation_result/presentation/view/image_generation_result.dart';
-import 'package:matrix_ai/core/helper/navigation.dart';
-import 'package:matrix_ai/core/widgets/snackbar.dart';
-import 'package:matrix_ai/features/review/presentation/view/rate_us_sheet.dart';
-import 'package:matrix_ai/features/subscription/presentation/view/subscription.dart';
+import 'package:pixart_app/modules/image_generation/home/presentation/controller/generation_controller.dart';
+import 'package:pixart_app/modules/image_generation/home/presentation/controller/image_generation_controller.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/features/subscription/presentation/controller/subscription_controller.dart';
+import 'package:pixart_app/core/error/together_ai_error.dart';
+import 'package:pixart_app/features/ads/presentation/view/ads_dialog.dart';
+import 'package:pixart_app/core/widgets/together_ai_error_dialog.dart';
+import 'package:pixart_app/features/loading_screen/presentation/view/src/loading_manager.dart';
+import 'package:pixart_app/modules/image_generation/image_generation_result/presentation/view/image_generation_result.dart';
+import 'package:pixart_app/core/helper/navigation.dart';
+import 'package:pixart_app/core/widgets/snackbar.dart';
+import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart';
+import 'package:pixart_app/features/subscription/presentation/view/subscription.dart';
 import '../../presentation/view/widgets/free_generations.dart';
 
 class ImageGenerationHelper {
@@ -43,8 +43,10 @@ class ImageGenerationHelper {
     }
   }
 
-  static Future<void> _handleProUser(String text,
-      {required Function(String, {bool showAds}) generateImage}) async {
+  static Future<void> _handleProUser(
+    String text, {
+    required Function(String, {bool showAds}) generateImage,
+  }) async {
     if (GenerationController.find.proUserLimitExceeded) {
       bool hasShowedFreeLimitDialog = await ImageGenerationController.find.hasShowedFreeLimitDialog();
       if (hasShowedFreeLimitDialog) {
@@ -64,8 +66,10 @@ class ImageGenerationHelper {
     }
   }
 
-  static Future<void> _handleFreeUserGeneration(String text,
-      {required Function(String, {bool showAds}) generateImage}) async {
+  static Future<void> _handleFreeUserGeneration(
+    String text, {
+    required Function(String, {bool showAds}) generateImage,
+  }) async {
     bool hasShowedFreeLimitDialog = await ImageGenerationController.find.hasShowedFreeLimitDialog();
     if (hasShowedFreeLimitDialog) {
       await showFreeLimitDialog();
@@ -92,20 +96,18 @@ class ImageGenerationHelper {
   static bool _isProModel() => SettingsController.find.configModel.selectedModel?.premium ?? false;
 
   static void generateImage(String text, {bool showAds = true, int? seed}) {
-    ImageGenerationController.find.generateImages(text, seed: seed, showAds: showAds).then(
-      (response) async {
-        if (response != null) {
-          bool fromRegenerate = seed != null;
-          if (fromRegenerate) {
-            pop();
-          }
-          await LoadingManager.complete();
-          launchScreen(ImageGenerationResultScreen(result: response), replace: fromRegenerate);
-          Future.delayed(const Duration(seconds: 2), () {
-            showConditionalRateUsDialog();
-          });
+    ImageGenerationController.find.generateImages(text, seed: seed, showAds: showAds).then((response) async {
+      if (response != null) {
+        bool fromRegenerate = seed != null;
+        if (fromRegenerate) {
+          pop();
         }
-      },
-    );
+        await LoadingManager.complete();
+        launchScreen(ImageGenerationResultScreen(result: response), replace: fromRegenerate);
+        Future.delayed(const Duration(seconds: 2), () {
+          showConditionalRateUsDialog();
+        });
+      }
+    });
   }
 }

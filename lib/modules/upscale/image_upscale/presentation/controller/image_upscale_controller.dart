@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:matrix_ai/features/tools/data/model/tools.dart';
+import 'package:pixart_app/features/tools/data/model/tools.dart';
 import '../../data/model/upscale_response.dart';
 import '../../domain/service/image_upscale_service_interface.dart';
 
@@ -14,11 +14,7 @@ class ImageUpscaleController extends GetxController implements GetxService {
   final List<UpscaleResponse> _upscaleHistory = [];
   List<UpscaleResponse> get upscaleHistory => _upscaleHistory;
 
-  Future<UpscaleResponse?> upscaleImage({
-    File? image,
-    required ToolModel tool,
-    String? urlImage,
-  }) async {
+  Future<UpscaleResponse?> upscaleImage({File? image, required ToolModel tool, String? urlImage}) async {
     final http.Response? response = await imageUpscaleService.upscaleImage(
       image: image,
       tool: tool,

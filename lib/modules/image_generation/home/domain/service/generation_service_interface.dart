@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/repository/generation_repo_interface.dart';
-import 'package:matrix_ai/modules/image_generation/home/domain/service/generation_service.dart';
+import 'package:pixart_app/modules/image_generation/home/data/repository/generation_repo_interface.dart';
+import 'package:pixart_app/modules/image_generation/home/domain/service/generation_service.dart';
 
 class GenerationService implements GenerationServiceInterface {
   final GenerationRepoInterface generationRepoInterface;
@@ -21,10 +21,8 @@ class GenerationService implements GenerationServiceInterface {
   @override
   Future<void> incrementDailyGenerationCount() async {
     final key = _generateKey();
-    final currentCount =
-        await generationRepoInterface.getDailyGenerationCount(key);
-    await generationRepoInterface.setDailyGenerationCount(
-        key, currentCount + 1);
+    final currentCount = await generationRepoInterface.getDailyGenerationCount(key);
+    await generationRepoInterface.setDailyGenerationCount(key, currentCount + 1);
   }
 
   @override

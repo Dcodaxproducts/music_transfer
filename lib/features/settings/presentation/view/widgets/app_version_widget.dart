@@ -1,26 +1,26 @@
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/imports.dart';
 
 class AppVersionWidget extends StatelessWidget {
-  const AppVersionWidget({
-    super.key,
-  });
+  const AppVersionWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SettingsController>(builder: (con) {
-      return Visibility(
-        visible: con.packageInfo != null,
-        child: Padding(
-          padding: EdgeInsets.only(top: spacingDefault),
-          child: Center(
-            child: Text(
-              '${'version'.tr} ${con.packageInfo?.version} (${con.packageInfo?.buildNumber})',
-              style: bodyMedium(context).copyWith(color: Theme.of(context).hintColor),
+    return GetBuilder<SettingsController>(
+      builder: (con) {
+        return Visibility(
+          visible: con.packageInfo != null,
+          child: Padding(
+            padding: EdgeInsets.only(top: 16.sp),
+            child: Center(
+              child: Text(
+                '${'version'.tr} ${con.packageInfo?.version} (${con.packageInfo?.buildNumber})',
+                style: context.font14.copyWith(color: Theme.of(context).hintColor),
+              ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

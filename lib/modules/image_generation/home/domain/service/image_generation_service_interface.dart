@@ -1,6 +1,6 @@
 import 'package:http/http.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
-import 'package:matrix_ai/modules/image_generation/models/data/model/model.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
+import 'package:pixart_app/modules/image_generation/models/data/model/model.dart';
 import '../../data/model/api_model.dart';
 
 abstract class ImageGenerationServiceInterface<T> {

@@ -1,5 +1,5 @@
 import '../../../imports.dart';
 
-IconThemeData iconThemeLight(BuildContext context) => IconThemeData(color: iconColorLight, size: 22.sp);
+IconThemeData get iconThemeLight => IconThemeData(color: iconColorLight, size: 22.sp);
 
-IconThemeData iconThemeDark(BuildContext context) => iconThemeLight(context).copyWith(color: iconColorDark);
+IconThemeData get iconThemeDark => iconThemeLight.copyWith(color: iconColorDark);

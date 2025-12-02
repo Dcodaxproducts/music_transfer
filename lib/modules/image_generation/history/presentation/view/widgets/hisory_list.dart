@@ -1,15 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:matrix_ai/core/widgets/gradient_widget.dart';
-import 'package:matrix_ai/core/widgets/network_image.dart';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
-import 'package:matrix_ai/core/utils/colors.dart';
-import 'package:matrix_ai/core/utils/style.dart';
-import '../../../../../../core/helper/navigation.dart';
+import 'package:pixart_app/core/widgets/network_image.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
 import '../../../../../../core/widgets/queue_countdown.dart';
+import '../../../../../../imports.dart';
 import '../../../../image_generation_result/presentation/view/image_generation_result.dart';
 import '../../../../models/presentation/view/widgets/model_grid.dart';
 import 'favorite_widget.dart';
@@ -25,11 +19,11 @@ class HistoryList extends StatelessWidget {
     return promptHistory.isEmpty
         ? const NoFavoritesWidget()
         : GridView.builder(
-            padding: paddingDefault.copyWith(top: 0),
+            padding: AppPadding.padding16.copyWith(top: 0),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: spacingDefault,
-              crossAxisSpacing: spacingDefault,
+              mainAxisSpacing: 16.sp,
+              crossAxisSpacing: 16.sp,
               childAspectRatio: 0.75,
             ),
             itemCount: promptHistory.length,
@@ -47,9 +41,9 @@ class HistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.vertical(top: Radius.circular(radiusSmall));
-    return GlassmorphicWidget(
-      borderRadius: borderRadiusSmall,
+    final borderRadius = AppRadius.top(8);
+    return DecoratedBox(
+      decoration: BoxDecoration(borderRadius: AppRadius.circular8),
       child: HistoryCountdownWidget(
         response: response,
         builder: (context, isCompleted, imageUrl, remainingTime, isRetrying) {
@@ -58,7 +52,7 @@ class HistoryCard extends StatelessWidget {
               // Navigate to prompt details screen
               launchScreen(ImageGenerationResultScreen(result: response, favorites: isFavorite));
             },
-            borderRadius: borderRadiusSmall,
+            borderRadius: AppRadius.circular8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -90,9 +84,7 @@ class HistoryCard extends StatelessWidget {
                         child: InkWell(
                           onTap: () {
                             final setting = SettingsController.find;
-                            Clipboard.setData(
-                              ClipboardData(text: response.meta.prompt),
-                            );
+                            Clipboard.setData(ClipboardData(text: response.meta.prompt));
                             setting.setPromptText(response.meta.prompt);
                             setting.configModel = setting.configModel.copyWith(seed: response.meta.seed);
                             setting.seedController.text = response.meta.seed.toString();
@@ -101,12 +93,12 @@ class HistoryCard extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
                             decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.6),
-                              borderRadius: BorderRadius.circular(spacingExtraLarge),
+                              borderRadius: BorderRadius.circular(32.sp),
                               border: Border.all(color: secondaryColor, width: 1.sp),
                             ),
                             child: Text(
                               'copy'.tr.toUpperCase(),
-                              style: labelLarge(context).copyWith(color: Colors.white),
+                              style: context.font10.copyWith(color: Colors.white),
                             ),
                           ),
                         ),
@@ -115,16 +107,16 @@ class HistoryCard extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: paddingSmall,
+                  padding: AppPadding.padding8,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         response.model?.name ?? '',
-                        style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
+                        style: context.font14.copyWith(fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: spacingSmall),
-                      Text(response.meta.prompt, maxLines: 2, style: bodySmall(context)),
+                      SizedBox(height: 8.sp),
+                      Text(response.meta.prompt, maxLines: 2, style: context.font12),
                     ],
                   ),
                 ),

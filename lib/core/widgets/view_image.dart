@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:shimmer/shimmer.dart';
@@ -102,9 +102,7 @@ class _ImageViewWithErrorHandlingState extends State<ImageViewWithErrorHandling>
     return Shimmer.fromColors(
       baseColor: Theme.of(context).cardColor,
       highlightColor: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.05),
-      child: Container(
-        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.3),
-      ),
+      child: Container(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.3)),
     );
   }
 }

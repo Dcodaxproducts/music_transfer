@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:http/http.dart';
-import 'package:matrix_ai/core/api/api_client_interface.dart';
+import 'package:pixart_app/core/api/api_client.dart';
+import 'package:pixart_app/imports.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../../core/utils/app_constants.dart';
 import '../model/upscale_response.dart';
 import 'image_upscale_repo_interface.dart';
 
 class ImageUpscaleRepo implements ImageUpscaleRepoInterface {
-  final ApiClientInterface apiClient;
+  final ApiClient apiClient;
   final SharedPreferences prefs;
   ImageUpscaleRepo({required this.apiClient, required this.prefs});
 
@@ -17,8 +16,7 @@ class ImageUpscaleRepo implements ImageUpscaleRepoInterface {
     required String url,
     required Map<String, dynamic> body,
     required Map<String, dynamic> headers,
-  }) async =>
-      await apiClient.post(url, body, headers: headers, hideLoading: false);
+  }) async => await apiClient.post(url, body, headers: headers, hideLoading: false);
 
   @override
   Future<Response?> getQueueImage({required String url, required Map<String, dynamic> body}) async =>
@@ -30,13 +28,13 @@ class ImageUpscaleRepo implements ImageUpscaleRepoInterface {
   @override
   Future<bool> saveHistoryInPrefs(List<UpscaleResponse> upscaleHistory) async {
     return await prefs.setStringList(
-      AppConstants.UPSCALE_IMAGE_HISTORY,
+      SharedKeys.UPSCALE_IMAGE_HISTORY,
       upscaleHistory.map((e) => jsonEncode(e.toJson())).toList(),
     );
   }
 
   @override
   List<String>? getHistoryFromPrefs() {
-    return prefs.getStringList(AppConstants.UPSCALE_IMAGE_HISTORY);
+    return prefs.getStringList(SharedKeys.UPSCALE_IMAGE_HISTORY);
   }
 }

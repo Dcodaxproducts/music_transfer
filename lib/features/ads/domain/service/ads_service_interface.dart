@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:matrix_ai/features/ads/data/model/ad_model.dart';
+import 'package:pixart_app/features/ads/data/model/ad_model.dart';
 
 abstract class AdsServiceInterface {
   Future<List<AdModel>> getAdIds();

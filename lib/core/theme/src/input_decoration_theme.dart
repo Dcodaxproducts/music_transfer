@@ -1,31 +1,26 @@
 import '../../../imports.dart';
 
-InputDecorationTheme inputDecorationThemeLight(BuildContext context) => InputDecorationTheme(
-      floatingLabelBehavior: FloatingLabelBehavior.never,
-      filled: false,
-      fillColor: cardColorLight,
-      contentPadding: paddingDefault,
-      // borders
-      // enabledBorder: border(color: dividerColorLight),
-      disabledBorder: border(),
-      focusedBorder: border(),
-      errorBorder: border(color: context.theme.colorScheme.error),
-      focusedErrorBorder: border(color: context.theme.colorScheme.error),
-      // styles
-      errorStyle: bodySmall(context).copyWith(color: context.theme.colorScheme.error),
-      hintStyle: bodySmall(context).copyWith(color: hintColorLight),
-      labelStyle: bodyMedium(context).copyWith(color: hintColorLight),
-    );
+InputDecorationTheme get inputDecorationThemeLight => InputDecorationTheme(
+  floatingLabelBehavior: FloatingLabelBehavior.never,
+  filled: false,
+  contentPadding: AppPadding.padding16,
+  // borders
+  disabledBorder: border(),
+  focusedBorder: border(),
+  errorBorder: border(color: Colors.red),
+  focusedErrorBorder: border(color: Colors.red),
+  // styles
+  errorStyle: TextStyle(fontSize: 12.sp, color: Colors.red),
+  hintStyle: TextStyle(fontSize: 14.sp, color: hintColorLight),
+  labelStyle: TextStyle(fontSize: 14.sp, color: hintColorLight),
+);
 
-InputDecorationTheme inputDecorationThemeDark(BuildContext context) =>
-    inputDecorationThemeLight(context).copyWith(
-      fillColor: cardColorDark,
-      hintStyle: bodyMedium(context).copyWith(color: hintColorDark),
-      labelStyle: bodyMedium(context).copyWith(color: hintColorDark),
-      // enabledBorder: border(color: dividerColorDark),
-    );
+InputDecorationTheme get inputDecorationThemeDark => inputDecorationThemeLight.copyWith(
+  hintStyle: TextStyle(fontSize: 14.sp, color: hintColorDark),
+  labelStyle: TextStyle(fontSize: 14.sp, color: hintColorDark),
+);
 
 InputBorder border({Color? color}) => OutlineInputBorder(
-      borderSide: BorderSide(color: color ?? primaryColor, width: 1.sp),
-      borderRadius: borderRadiusDefault,
-    );
+  borderSide: BorderSide(color: color ?? primaryColor, width: 1.sp),
+  borderRadius: AppRadius.circular16,
+);

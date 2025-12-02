@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/data/repository/settings_repo_interface.dart';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/domain/service/setting_service_interface.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/data/repository/settings_repo_interface.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/domain/service/setting_service_interface.dart';
 import '../../data/repository/settings_repo.dart';
 import '../../presentation/controller/settings_controller.dart';
 import '../service/setting_service.dart';

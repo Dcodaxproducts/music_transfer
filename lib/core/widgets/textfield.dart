@@ -1,4 +1,4 @@
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 import '../theme/src/input_decoration_theme.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -15,21 +15,22 @@ class CustomTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final void Function()? onTap;
 
-  const CustomTextField(
-      {this.controller,
-      this.hintText,
-      this.labelText,
-      this.suffixIcon,
-      this.prefixIcon,
-      this.filled = false,
-      this.validator,
-      this.onChanged,
-      this.onSaved,
-      this.onSubmitted,
-      this.keyboardType,
-      this.textInputAction,
-      this.onTap,
-      super.key});
+  const CustomTextField({
+    this.controller,
+    this.hintText,
+    this.labelText,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.filled = false,
+    this.validator,
+    this.onChanged,
+    this.onSaved,
+    this.onSubmitted,
+    this.keyboardType,
+    this.textInputAction,
+    this.onTap,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class CustomTextField extends StatelessWidget {
         enabledBorder: border(color: context.theme.dividerColor),
         suffixIcon: suffixIcon != null ? Icon(suffixIcon, size: 20.sp, color: context.theme.hintColor) : null,
       ),
-      style: bodyMedium(context),
+      style: context.font14,
     );
   }
 }

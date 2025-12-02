@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
-import 'package:http/http.dart';
-import 'package:matrix_ai/core/utils/app_constants.dart';
+import 'package:pixart_app/imports.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../../core/api/api_client_interface.dart';
+import '../../../../../core/api/api_client.dart';
 import 'image_generation_repo_interface.dart';
 
 class ImageGenerationRepo implements ImageGenerationRepoInterface {
-  final ApiClientInterface apiClient;
+  final ApiClient apiClient;
   final SharedPreferences prefs;
 
   ImageGenerationRepo({required this.apiClient, required this.prefs});
@@ -18,8 +17,7 @@ class ImageGenerationRepo implements ImageGenerationRepoInterface {
     required String url,
     required Map<String, dynamic> body,
     required Map<String, dynamic> headers,
-  }) async =>
-      await apiClient.post(url, body, headers: headers, hideLoading: false);
+  }) async => await apiClient.post(url, body, headers: headers, hideLoading: false);
 
   @override
   Future<Response?> getQueueImage({required String url, required Map<String, dynamic> body}) async =>
@@ -50,6 +48,6 @@ class ImageGenerationRepo implements ImageGenerationRepoInterface {
 
   @override
   Future<Response?> getTogetherApiKey() async {
-    return await apiClient.get(AppConstants.TOGETHER_API_KEY, hideLoading: false);
+    return await apiClient.get(Endpoints.TOGETHER_API_KEY, hideLoading: false);
   }
 }

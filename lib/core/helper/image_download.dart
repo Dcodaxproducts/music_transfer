@@ -1,8 +1,8 @@
 import 'package:gallery_saver_plus/gallery_saver.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 
 class DownloadImage {
-  static downloadImage(String url) async {
+  static Future<void> downloadImage(String url) async {
     showLoading();
     try {
       bool success = (await GallerySaver.saveImage(url, albumName: AppConstants.APP_NAME)) ?? false;

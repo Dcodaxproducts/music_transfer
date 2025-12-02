@@ -4,12 +4,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_audience_network/easy_audience_network.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:matrix_ai/features/aws/presentation/controller/aws_controller.dart';
-import 'package:matrix_ai/features/review/presentation/controller/review_controller.dart';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/features/dashboard/presentation/view/dashboard.dart';
-import 'package:matrix_ai/features/welcome/presentation/view/welcome.dart';
+import 'package:pixart_app/features/aws/presentation/controller/aws_controller.dart';
+import 'package:pixart_app/features/review/presentation/controller/review_controller.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/imports.dart';
+import 'package:pixart_app/features/dashboard/presentation/view/dashboard.dart';
+import 'package:pixart_app/features/welcome/presentation/view/welcome.dart';
 import 'ads/presentation/controller/ads_controller.dart';
 import '../modules/image_generation/home/presentation/controller/generation_controller.dart';
 import '../modules/image_generation/history/presentation/controller/history_controller.dart';
@@ -80,7 +80,7 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     });
   }
 
-  _checkInternetConnection() {
+  void _checkInternetConnection() {
     _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
       if (result.contains(ConnectivityResult.none)) {
         disconnected = true;
@@ -98,7 +98,7 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     }
   }
 
-  _getHistoryFromPrefs() {
+  void _getHistoryFromPrefs() {
     HistoryController.find.initPromptHistory();
     ReviewController.find.checkReviewed();
     SettingsController.find.initSharedData();
@@ -130,9 +130,11 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     if (disconnected) {
       return const NoInternetDialog();
     } else if (_ready) {
-      return GetBuilder<SettingsController>(builder: (settingController) {
-        return settingController.isFirstTime ? const WelcomeScreen() : const DashboardScreen();
-      });
+      return GetBuilder<SettingsController>(
+        builder: (settingController) {
+          return settingController.isFirstTime ? const WelcomeScreen() : const DashboardScreen();
+        },
+      );
     } else {
       return const SplashScreen();
     }

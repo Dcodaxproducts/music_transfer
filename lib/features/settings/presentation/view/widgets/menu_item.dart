@@ -1,10 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import '../../../../../core/utils/style.dart';
+import '../../../../../imports.dart';
 
 class MenuItem extends StatelessWidget {
   final String text;
@@ -17,24 +13,17 @@ class MenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: onTap,
-      shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
-      leading: Icon(icon, size: 18.sp, color: bodyMedium(context).color),
-      title: Text(text.tr, style: bodyMedium(context)),
+      shape: AppRadius.circular16Shape,
+      leading: Icon(icon, size: 18.sp, color: context.font14.color),
+      title: Text(text.tr, style: context.font14),
       subtitle: subtile != null
           ? Padding(
               padding: EdgeInsets.only(top: 5.sp),
-              child: Text(
-                subtile!.tr,
-                style: bodySmall(context).copyWith(color: Theme.of(context).hintColor),
-              ),
+              child: Text(subtile!.tr, style: context.font12.copyWith(color: Theme.of(context).hintColor)),
             )
           : null,
-      trailing: Icon(
-        Iconsax.arrow_right_3,
-        size: spacingDefault,
-        color: Theme.of(context).hintColor,
-      ),
-      contentPadding: EdgeInsets.symmetric(horizontal: spacingDefault),
+      trailing: Icon(Iconsax.arrow_right_3, size: 16.sp, color: Theme.of(context).hintColor),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.sp),
     );
   }
 }
@@ -77,37 +66,38 @@ class _NotificationTileState extends State<NotificationTile> with WidgetsBinding
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: FirebaseMessaging.instance.getNotificationSettings(),
-        builder: (context, snapshot) {
-          bool authorized = false;
-          if (snapshot.data != null) {
-            authorized = snapshot.data?.authorizationStatus == AuthorizationStatus.authorized;
-          }
-          return ListTile(
-            onTap: () => _onTap(authorized),
-            shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
-            leading: Icon(widget.icon, size: 18.sp, color: bodyMedium(context).color),
-            title: Text(widget.text.tr, style: bodyMedium(context)),
-            subtitle: widget.subtile != null
-                ? Padding(
-                    padding: EdgeInsets.only(top: 5.sp),
-                    child: Text(
-                      widget.subtile!.tr,
-                      style: bodySmall(context).copyWith(color: Theme.of(context).hintColor),
-                    ),
-                  )
-                : null,
-            trailing: Switch(
-              value: authorized,
-              onChanged: (value) => _onTap(authorized),
-              activeColor: Theme.of(context).primaryColor,
-            ),
-            contentPadding: EdgeInsets.symmetric(horizontal: spacingDefault),
-          );
-        });
+      future: FirebaseMessaging.instance.getNotificationSettings(),
+      builder: (context, snapshot) {
+        bool authorized = false;
+        if (snapshot.data != null) {
+          authorized = snapshot.data?.authorizationStatus == AuthorizationStatus.authorized;
+        }
+        return ListTile(
+          onTap: () => _onTap(authorized),
+          shape: AppRadius.circular16Shape,
+          leading: Icon(widget.icon, size: 18.sp, color: context.font14.color),
+          title: Text(widget.text.tr, style: context.font14),
+          subtitle: widget.subtile != null
+              ? Padding(
+                  padding: EdgeInsets.only(top: 5.sp),
+                  child: Text(
+                    widget.subtile!.tr,
+                    style: context.font12.copyWith(color: Theme.of(context).hintColor),
+                  ),
+                )
+              : null,
+          trailing: Switch(
+            value: authorized,
+            onChanged: (value) => _onTap(authorized),
+            activeColor: Theme.of(context).primaryColor,
+          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.sp),
+        );
+      },
+    );
   }
 
-  _onTap(bool authorized) {
+  void _onTap(bool authorized) {
     AppSettings.openAppSettings(type: AppSettingsType.notification, asAnotherTask: true);
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:http/http.dart';
-import 'package:matrix_ai/features/tools/data/model/tools.dart';
+import 'package:pixart_app/features/tools/data/model/tools.dart';
 import '../../data/model/upscale_response.dart';
 
 abstract class ImageUpscaleServiceInterface {

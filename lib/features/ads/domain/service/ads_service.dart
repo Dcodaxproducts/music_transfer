@@ -5,9 +5,9 @@ import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:matrix_ai/features/ads/data/repository/ad_repo_interface.dart';
-import 'package:matrix_ai/features/ads/data/utils/firebase_events.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/features/ads/data/repository/ad_repo_interface.dart';
+import 'package:pixart_app/features/ads/data/utils/firebase_events.dart';
+import 'package:pixart_app/imports.dart';
 import '../../../subscription/presentation/controller/subscription_controller.dart';
 import '../../data/enum/ad_type.dart';
 import '../../presentation/view/native_ad.dart';
@@ -74,12 +74,14 @@ class AdsService implements AdsServiceInterface {
 
     RewardedInterstitialAd? rewardedInterstitialAd = await adRepo.loadAd<RewardedInterstitialAd>(adId);
     if (rewardedInterstitialAd != null) {
-      rewardedInterstitialAd.fullScreenContentCallback =
-          adRepo.getFullScreenContentCallback<RewardedInterstitialAd>();
-      await rewardedInterstitialAd.show(onUserEarnedReward: (ad, reward) {
-        onUserEarnedReward?.call();
-        FirebaseAnalytics.instance.logAdImpression();
-      });
+      rewardedInterstitialAd.fullScreenContentCallback = adRepo
+          .getFullScreenContentCallback<RewardedInterstitialAd>();
+      await rewardedInterstitialAd.show(
+        onUserEarnedReward: (ad, reward) {
+          onUserEarnedReward?.call();
+          FirebaseAnalytics.instance.logAdImpression();
+        },
+      );
       return true;
     }
     return false;
@@ -96,10 +98,12 @@ class AdsService implements AdsServiceInterface {
     RewardedAd? rewardedAd = await adRepo.loadAd<RewardedAd>(adId);
     if (rewardedAd != null) {
       rewardedAd.fullScreenContentCallback = adRepo.getFullScreenContentCallback<RewardedAd>();
-      await rewardedAd.show(onUserEarnedReward: (ad, reward) {
-        onUserEarnedReward?.call();
-        FirebaseAnalytics.instance.logAdImpression();
-      });
+      await rewardedAd.show(
+        onUserEarnedReward: (ad, reward) {
+          onUserEarnedReward?.call();
+          FirebaseAnalytics.instance.logAdImpression();
+        },
+      );
       return true;
     }
     return false;

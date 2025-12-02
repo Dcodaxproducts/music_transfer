@@ -12,7 +12,7 @@ class AspectRatioBox extends StatelessWidget {
       width: ratio.width.toDouble(),
       height: ratio.height.toDouble(),
       child: ClipRRect(
-        borderRadius: borderRadiusDefault,
+        borderRadius: AppRadius.circular16,
         child: const CustomNetworkImage(url: 'https://picsum.photos/seed/4:3/200/300'),
       ),
     );

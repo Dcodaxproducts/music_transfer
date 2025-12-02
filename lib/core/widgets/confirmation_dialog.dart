@@ -32,17 +32,17 @@ class ConfirmationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       child: Padding(
-        padding: paddingDefault,
+        padding: AppPadding.padding16,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               title.tr,
-              style: bodyLarge(context).copyWith(fontWeight: FontWeight.w700),
+              style: context.font16.copyWith(fontWeight: FontWeight.w700),
             ),
-            Divider(height: spacingLarge),
-            Text(subtitle.tr, textAlign: TextAlign.center, style: bodyMedium(context)),
-            SizedBox(height: spacingLarge),
+            Divider(height: 24.sp),
+            Text(subtitle.tr, textAlign: TextAlign.center, style: context.font14),
+            SizedBox(height: 24.sp),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -53,7 +53,7 @@ class ConfirmationDialog extends StatelessWidget {
                     textColor: context.textTheme.bodyLarge!.color,
                   ),
                 ),
-                SizedBox(width: spacingDefault),
+                SizedBox(width: 16.sp),
                 Expanded(child: PrimaryButton(text: actionText, onPressed: onAccept)),
               ],
             ),

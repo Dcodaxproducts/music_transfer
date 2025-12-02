@@ -4,13 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/features/dashboard/presentation/controller/dashboard_controller.dart';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
-import 'package:matrix_ai/core/widgets/confirmation_dialog.dart';
-import 'package:matrix_ai/features/subscription/presentation/view/widgets/subscription_button.dart';
+import 'package:pixart_app/features/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/features/subscription/presentation/controller/subscription_controller.dart';
+import 'package:pixart_app/core/widgets/confirmation_dialog.dart';
+import 'package:pixart_app/features/subscription/presentation/view/widgets/subscription_button.dart';
 import '../../../../core/utils/app_constants.dart';
-import '../../../../core/widgets/gradient_scaffold.dart';
 import '../../../../modules/image_generation/home/presentation/view/home.dart';
 import '../../../../modules/image_generation/inspirations/presentation/view/inspirations.dart';
 import '../../../settings/presentation/view/settings.dart';
@@ -49,56 +48,58 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DashboardController>(builder: (dashboardController) {
-      int currentIndex = dashboardController.selectedIndex;
-      return PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (value, result) {
-          if (currentIndex != 0) {
-            dashboardController.selectedIndex = 0;
-          } else {
-            showConfirmationDialog(
-              title: 'exit_app'.tr,
-              subtitle: 'exit_app_message'.tr,
-              actionText: 'yes'.tr,
-              onAccept: SystemNavigator.pop,
-            );
-          }
-        },
-        child: GradientScaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            title: Text(_titles[currentIndex].tr),
-            actions: [
-              if (SubscriptionController.find.products.isNotEmpty) ...[
-                const SubsriptionButton(),
-                SizedBox(width: 10.sp),
+    return GetBuilder<DashboardController>(
+      builder: (dashboardController) {
+        int currentIndex = dashboardController.selectedIndex;
+        return PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (value, result) {
+            if (currentIndex != 0) {
+              dashboardController.selectedIndex = 0;
+            } else {
+              showConfirmationDialog(
+                title: 'exit_app'.tr,
+                subtitle: 'exit_app_message'.tr,
+                actionText: 'yes'.tr,
+                onAccept: SystemNavigator.pop,
+              );
+            }
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              title: Text(_titles[currentIndex].tr),
+              actions: [
+                if (SubscriptionController.find.products.isNotEmpty) ...[
+                  const SubsriptionButton(),
+                  SizedBox(width: 10.sp),
+                ],
               ],
-            ],
-          ),
-          body: Stack(
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: _screens[currentIndex].child,
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: GlasmorphicNavigationBar(
-                  currentIndex: currentIndex,
-                  navigationItems: _screens,
-                  onTap: (index) {
-                    dashboardController.selectedIndex = index;
-                  },
+            ),
+            body: Stack(
+              children: [
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: _screens[currentIndex].child,
                 ),
-              ),
-            ],
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: GlasmorphicNavigationBar(
+                    currentIndex: currentIndex,
+                    navigationItems: _screens,
+                    onTap: (index) {
+                      dashboardController.selectedIndex = index;
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

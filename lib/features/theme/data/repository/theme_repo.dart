@@ -1,5 +1,5 @@
+import 'package:pixart_app/imports.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../core/utils/app_constants.dart';
 import 'theme_repo_interface.dart';
 
 class ThemeRepo implements ThemeRepoInterface {
@@ -8,11 +8,11 @@ class ThemeRepo implements ThemeRepoInterface {
 
   @override
   String? loadCurrentTheme() {
-    return prefs.getString(AppConstants.THEME);
+    return prefs.getString(SharedKeys.THEME);
   }
 
   @override
   Future<bool> setTheme(String themeMode) async {
-    return await prefs.setString(AppConstants.THEME, themeMode);
+    return await prefs.setString(SharedKeys.THEME, themeMode);
   }
 }

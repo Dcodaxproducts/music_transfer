@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 
 class UpscaleAnimation extends StatefulWidget {
   const UpscaleAnimation({super.key});
@@ -17,10 +17,7 @@ class UpscaleAnimationState extends State<UpscaleAnimation> with SingleTickerPro
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    );
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 3));
 
     _animation = TweenSequence<double>([
       TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.0), weight: 1), // Move right
@@ -43,56 +40,54 @@ class UpscaleAnimationState extends State<UpscaleAnimation> with SingleTickerPro
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      double imageWidth = constraints.maxWidth;
-      double imageHeight = constraints.maxHeight;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double imageWidth = constraints.maxWidth;
+        double imageHeight = constraints.maxHeight;
 
-      return SizedBox(
-        width: imageWidth,
-        height: imageHeight,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            // Original Image
-            Image.asset(Images.toolsImage, fit: BoxFit.cover),
+        return SizedBox(
+          width: imageWidth,
+          height: imageHeight,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Original Image
+              Image.asset(Images.toolsImage, fit: BoxFit.cover),
 
-            // Blur Effect with Moving Line
-            AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                double linePosition = (imageWidth / 2) + (_animation.value * imageWidth / 2);
+              // Blur Effect with Moving Line
+              AnimatedBuilder(
+                animation: _animation,
+                builder: (context, child) {
+                  double linePosition = (imageWidth / 2) + (_animation.value * imageWidth / 2);
 
-                return Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    // Blurred Image (Masked to Left Side)
-                    Positioned.fill(
-                      child: ClipRect(
-                        clipper: LeftSideClipper(linePosition),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-                          child: Container(color: Colors.transparent),
+                  return Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      // Blurred Image (Masked to Left Side)
+                      Positioned.fill(
+                        child: ClipRect(
+                          clipper: LeftSideClipper(linePosition),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                            child: Container(color: Colors.transparent),
+                          ),
                         ),
                       ),
-                    ),
 
-                    // Moving Line Effect
-                    Positioned(
-                      left: linePosition,
-                      child: Container(
-                        width: 5,
-                        height: imageHeight,
-                        color: Colors.white.withOpacity(0.8),
+                      // Moving Line Effect
+                      Positioned(
+                        left: linePosition,
+                        child: Container(width: 5, height: imageHeight, color: Colors.white.withOpacity(0.8)),
                       ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
-      );
-    });
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override

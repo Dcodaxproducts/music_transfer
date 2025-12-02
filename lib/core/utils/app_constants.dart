@@ -1,7 +1,6 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 import 'dart:io';
-import 'package:matrix_ai/features/language/data/model/language.dart';
 
 class AppConstants {
   // app name and package name
@@ -14,38 +13,6 @@ class AppConstants {
   static const String AWS_SECRET_KEY = 'yVYOOZxgXWq4wzdL7oh50L3M4t7q/aY4aW/kDm8q';
   static const String AWS_REGION = 'eu-west-2';
   static const String AWS_BUCKET_NAME = 'matrixart';
-
-  // Base URL
-  static const String DOMAIN = 'https://pixartai.dcodax.net';
-  static const String BASE_URL = '$DOMAIN/api/';
-
-  // API Endpoints
-  static const String MODELS_URL = 'ai-models';
-  static const String INSIPIRATIONS_URL = 'inspirations';
-  static const String FEEDBACK_URL = 'feedback-save';
-  static const String CONFIG_URL = 'config';
-  static const String GET_ADS = 'ad-list';
-  static const String TOGETHER_API_KEY = "api-key?token=w3lc0m3";
-
-  // Shared Key
-  static const String THEME = 'theme_1';
-  static const String COUNTRY_CODE = 'country_code_1';
-  static const String LANGUAGE_CODE = 'language_code_1';
-  static const String ON_BOARDING_SKIP = 'on_boarding_skip_1';
-  static const String NEGATIVE_PROMPT = 'negative_prompt_1';
-  static const String GUIDANCE_SCALE = 'guidance_scale_1';
-  static const String ASPECT_RATIO = 'aspect_ratio_1';
-  static const String SELECTED_MODEL = 'selected_model_1';
-  static const String FAVORITE_MODELS = 'favorite_models_1';
-  static const String OPEN_COUNT = 'open_count_1';
-  static const String PROMPT_HISTORY = 'promptList_1';
-  static const String NOTIFICATION = 'notification_1';
-  static const String REVIEWED = 'reviewed';
-  static const String HAS_VIEWED_ADS_DIALOG = 'has_viewed_ads_dialog_1';
-  static const String LAST_DIALOG_SHOWED = 'last_dialog_showed_1';
-  static const String SHOW_APP_OPEN = 'show_app_open_1';
-  static const String BACKGROUND_REMOVER_HISTORY = 'background_remover_history_1';
-  static const String UPSCALE_IMAGE_HISTORY = 'upscale_image_history_1';
 
   //
   static const int PRO_USER_DAILY_LIMIT = 100;
@@ -64,8 +31,8 @@ class AppConstants {
   static const String MANAGE_SUBSCRIPTIONS_URL_IOS = 'https://apps.apple.com/account/subscriptions';
 
   /* Privacy and terms Url's */
-  static const String PRIVACY_POLICY = '$DOMAIN/privacy-policy';
-  static const String TERMS_AND_CONDITIONS = '$DOMAIN/terms-condition';
+  static const String PRIVACY_POLICY = 'https://pixartai.dcodax.net/privacy-policy';
+  static const String TERMS_AND_CONDITIONS = 'https://pixartai.dcodax.net/terms-condition';
 
   static const List<String> ADULT_WORDS = [
     'sex',
@@ -118,104 +85,5 @@ class AppConstants {
     'threesome',
     'voyeur',
     'swinger',
-  ];
-
-  // Language
-  static List<LanguageModel> languages = [
-    LanguageModel(
-      languageName: 'English',
-      countryCode: 'US',
-      languageCode: 'en',
-    ),
-    LanguageModel(
-      languageName: 'Arabic',
-      countryCode: 'SA',
-      languageCode: 'ar',
-    ),
-    LanguageModel(
-      languageName: 'Chinese',
-      countryCode: 'CN',
-      languageCode: 'zh',
-    ),
-    LanguageModel(
-      languageName: 'French',
-      countryCode: 'FR',
-      languageCode: 'fr',
-    ),
-    LanguageModel(
-      languageName: 'German',
-      countryCode: 'DE',
-      languageCode: 'de',
-    ),
-    LanguageModel(
-      languageName: 'Indonesian',
-      countryCode: 'ID',
-      languageCode: 'id',
-    ),
-    LanguageModel(
-      languageName: 'Italian',
-      countryCode: 'IT',
-      languageCode: 'it',
-    ),
-    LanguageModel(
-      languageName: 'Japanese',
-      countryCode: 'JP',
-      languageCode: 'ja',
-    ),
-    LanguageModel(
-      languageName: 'Korean',
-      countryCode: 'KR',
-      languageCode: 'ko',
-    ),
-    LanguageModel(
-      languageName: 'Malay',
-      countryCode: 'MY',
-      languageCode: 'ms',
-    ),
-    LanguageModel(
-      languageName: 'Portaguese',
-      countryCode: 'PT',
-      languageCode: 'pt',
-    ),
-    LanguageModel(
-      languageName: 'Russian',
-      countryCode: 'RU',
-      languageCode: 'ru',
-    ),
-    LanguageModel(
-      languageName: 'Spanish',
-      countryCode: 'ES',
-      languageCode: 'es',
-    ),
-    LanguageModel(
-      languageName: 'Swedish',
-      countryCode: 'SE',
-      languageCode: 'sv',
-    ),
-    LanguageModel(
-      languageName: 'Thai',
-      countryCode: 'TH',
-      languageCode: 'th',
-    ),
-    LanguageModel(
-      languageName: 'Turkish',
-      countryCode: 'TR',
-      languageCode: 'tr',
-    ),
-    LanguageModel(
-      languageName: 'Romanian',
-      countryCode: 'RO',
-      languageCode: 'ro',
-    ),
-    LanguageModel(
-      languageName: 'Persian',
-      countryCode: 'IR',
-      languageCode: 'fa',
-    ),
-    LanguageModel(
-      languageName: 'Vietnamese',
-      countryCode: 'VN',
-      languageCode: 'vi',
-    ),
   ];
 }

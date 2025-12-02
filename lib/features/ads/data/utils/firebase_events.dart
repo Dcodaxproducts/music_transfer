@@ -1,5 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 
 class EventsHelper {
   static final EventsHelper _instance = EventsHelper._internal();
@@ -19,7 +19,7 @@ class EventsHelper {
   final String _facebookBannerAdEvent = 'facebook_banner_ad';
   final String _facebookNativeAdEvent = 'facebook_native_ad';
 
-  _logGoogleInterstitialAdEvent() {
+  void _logGoogleInterstitialAdEvent() {
     FirebaseAnalytics.instance.logAdImpression(
       adPlatform: GetPlatform.isAndroid ? 'android' : 'iOS',
       adSource: 'google',
@@ -27,7 +27,7 @@ class EventsHelper {
     );
   }
 
-  _logGoogleRewardedInterstitialAdEvent() {
+  void _logGoogleRewardedInterstitialAdEvent() {
     FirebaseAnalytics.instance.logAdImpression(
       adPlatform: GetPlatform.isAndroid ? 'android' : 'iOS',
       adSource: 'google',
@@ -35,7 +35,7 @@ class EventsHelper {
     );
   }
 
-  _logGoogleBannerAdEvent() {
+  void _logGoogleBannerAdEvent() {
     FirebaseAnalytics.instance.logAdImpression(
       adPlatform: GetPlatform.isAndroid ? 'android' : 'iOS',
       adSource: 'google',
@@ -43,7 +43,7 @@ class EventsHelper {
     );
   }
 
-  _logGoogleNativeAdEvent() {
+  void _logGoogleNativeAdEvent() {
     FirebaseAnalytics.instance.logAdImpression(
       adPlatform: GetPlatform.isAndroid ? 'android' : 'iOS',
       adSource: 'google',
@@ -51,7 +51,7 @@ class EventsHelper {
     );
   }
 
-  _logGoogleRewardedAdEvent() {
+  void _logGoogleRewardedAdEvent() {
     FirebaseAnalytics.instance.logAdImpression(
       adPlatform: GetPlatform.isAndroid ? 'android' : 'iOS',
       adSource: 'google',
@@ -59,7 +59,7 @@ class EventsHelper {
     );
   }
 
-  _logGoogleAppOpenAdEvent() {
+  void _logGoogleAppOpenAdEvent() {
     FirebaseAnalytics.instance.logAdImpression(
       adPlatform: GetPlatform.isAndroid ? 'android' : 'iOS',
       adSource: 'google',
@@ -67,7 +67,7 @@ class EventsHelper {
     );
   }
 
-  _logFacebookInterstitialAdEvent() {
+  void _logFacebookInterstitialAdEvent() {
     FirebaseAnalytics.instance.logAdImpression(
       adPlatform: GetPlatform.isAndroid ? 'android' : 'iOS',
       adSource: 'facebook',
@@ -75,7 +75,7 @@ class EventsHelper {
     );
   }
 
-  _logFacebookBannerAdEvent() {
+  void _logFacebookBannerAdEvent() {
     FirebaseAnalytics.instance.logAdImpression(
       adPlatform: GetPlatform.isAndroid ? 'android' : 'iOS',
       adSource: 'facebook',
@@ -83,7 +83,7 @@ class EventsHelper {
     );
   }
 
-  _logFacebookNativeAdEvent() {
+  void _logFacebookNativeAdEvent() {
     FirebaseAnalytics.instance.logAdImpression(
       adPlatform: GetPlatform.isAndroid ? 'android' : 'iOS',
       adSource: 'facebook',

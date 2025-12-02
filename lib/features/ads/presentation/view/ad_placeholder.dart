@@ -1,5 +1,5 @@
 import 'package:shimmer/shimmer.dart';
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 
 class NativeAdPlaceholder extends StatelessWidget {
   final double height;
@@ -10,7 +10,7 @@ class NativeAdPlaceholder extends StatelessWidget {
       baseColor: context.theme.scaffoldBackgroundColor,
       highlightColor: context.theme.cardColor,
       child: Container(
-        padding: paddingDefault,
+        padding: AppPadding.padding16,
         alignment: Alignment.center,
         height: height.sp,
         width: double.infinity,
@@ -32,7 +32,7 @@ class BannerAdPlaceholder extends StatelessWidget {
       child: Container(
         height: height.sp,
         width: width.sp,
-        padding: paddingDefault,
+        padding: AppPadding.padding16,
         alignment: Alignment.center,
         color: Theme.of(context).cardColor,
       ),

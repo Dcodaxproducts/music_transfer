@@ -1,11 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:get/get.dart';
 import '../../../../core/widgets/loading.dart';
-import '../../../../core/utils/style.dart';
+import '../../../../imports.dart';
 
-showAdLoadingDialog() {
+void showAdLoadingDialog() {
   SmartDialog.show(
     builder: (_) => const AdLoadingDialog(),
     backType: SmartBackType.block,
@@ -27,15 +24,12 @@ class _AdLoadingDialogState extends State<AdLoadingDialog> {
       insetPadding: EdgeInsets.symmetric(horizontal: 100.sp),
       child: Container(
         width: 150.sp,
-        padding: paddingDefault,
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: borderRadiusDefault,
-        ),
+        padding: AppPadding.padding16,
+        decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: AppRadius.circular16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('loading_ad'.tr, textAlign: TextAlign.center, style: bodyLarge(context)),
+            Text('loading_ad'.tr, textAlign: TextAlign.center, style: context.font16),
             Padding(
               padding: EdgeInsets.only(top: 24.sp, bottom: 8.sp),
               child: const Loading(),

@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:matrix_ai/features/subscription/data/model/subscription_item.dart';
-import 'package:matrix_ai/core/utils/style.dart';
-import 'package:matrix_ai/features/language/presentation/view/language.dart';
-import '../../../../../core/utils/colors.dart';
+import 'package:pixart_app/features/subscription/data/model/subscription_item.dart';
+import 'package:pixart_app/features/language/presentation/view/language.dart';
+import '../../../../../imports.dart';
 
 class SubscriptionPackageWidget extends StatelessWidget {
   final SubscriptionItem item;
   final bool selected;
   final Function() onTap;
-  const SubscriptionPackageWidget(
-      {required this.item, required this.selected, required this.onTap, super.key});
+  const SubscriptionPackageWidget({
+    required this.item,
+    required this.selected,
+    required this.onTap,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,37 +22,28 @@ class SubscriptionPackageWidget extends StatelessWidget {
           child: TextButton(
             onPressed: onTap,
             child: Container(
-              padding: paddingMedium,
+              padding: AppPadding.padding12,
               decoration: BoxDecoration(
-                borderRadius: borderRadiusDefault,
+                borderRadius: AppRadius.circular16,
                 color: cardColorDark.withOpacity(0.7),
                 border: Border.all(color: selected ? primaryColor : dividerColorDark),
               ),
               child: Row(
                 children: [
                   LanguageRadioButton(selected: selected),
-                  SizedBox(width: spacingSmall),
+                  SizedBox(width: 8.sp),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          item.title.tr,
-                          style: bodyMedium(context).copyWith(color: Colors.white),
-                        ),
-                        SizedBox(height: spacingExtraSmall),
-                        Text(
-                          item.subtitle.tr,
-                          style: bodySmall(context).copyWith(color: Colors.grey[400]),
-                        ),
+                        Text(item.title.tr, style: context.font14.copyWith(color: Colors.white)),
+                        SizedBox(height: 4.sp),
+                        Text(item.subtitle.tr, style: context.font12.copyWith(color: Colors.grey[400])),
                       ],
                     ),
                   ),
-                  SizedBox(width: spacingSmall),
-                  Text(
-                    item.price,
-                    style: bodyMedium(context).copyWith(color: Colors.white),
-                  ),
+                  SizedBox(width: 8.sp),
+                  Text(item.price, style: context.font14.copyWith(color: Colors.white)),
                 ],
               ),
             ),
@@ -61,20 +52,20 @@ class SubscriptionPackageWidget extends StatelessWidget {
         if (item.promotionText.isNotEmpty)
           Positioned(
             top: 0.sp,
-            right: spacingExtraLarge,
+            right: 32.sp,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              padding: EdgeInsets.symmetric(horizontal: spacingSmall, vertical: spacingExtraSmall),
+              padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.sp),
                 color: selected ? primaryColor : dividerColorDark,
               ),
               child: Text(
                 item.promotionText.toUpperCase(),
-                style: labelLarge(context).copyWith(color: Colors.white),
+                style: context.font10.copyWith(color: Colors.white),
               ),
             ),
-          )
+          ),
       ],
     );
   }

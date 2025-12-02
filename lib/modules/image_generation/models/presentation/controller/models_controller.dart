@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:matrix_ai/modules/image_generation/models/data/model/model.dart';
+import 'package:pixart_app/modules/image_generation/models/data/model/model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../../domain/service/model_service_interface.dart';

@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:matrix_ai/modules/upscale/image_upscale/data/model/upscale_image.dart';
-import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/features/tools/presentation/view/widgets/background_remover_animation.dart';
-import 'package:matrix_ai/features/tools/presentation/view/widgets/upscale_animation.dart';
+import 'package:pixart_app/modules/upscale/image_upscale/data/model/upscale_image.dart';
+import 'package:pixart_app/imports.dart';
+import 'package:pixart_app/features/tools/presentation/view/widgets/background_remover_animation.dart';
+import 'package:pixart_app/features/tools/presentation/view/widgets/upscale_animation.dart';
 
 import '../../../../modules/bg_removal/background_remover/data/model/background_remover.dart';
 
@@ -46,8 +46,9 @@ class ToolModel {
       apiKeyLoation: json['api_key_location'],
       premium: Platform.isAndroid ? json['premium'] : json['ios_premium'] ?? false,
       upscaleImage: json['upscale_image'] != null ? UpscaleImage.fromJson(json['upscale_image']) : null,
-      backgroundRemover:
-          json['background_remover'] != null ? BackgroundRemover.fromJson(json['background_remover']) : null,
+      backgroundRemover: json['background_remover'] != null
+          ? BackgroundRemover.fromJson(json['background_remover'])
+          : null,
     );
   }
   static ToolModel backgroundRemoverTool = ToolModel(

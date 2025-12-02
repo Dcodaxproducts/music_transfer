@@ -1,21 +1,16 @@
 import 'dart:typed_data';
-import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/core/api/api_client_interface.dart';
-import 'package:minio_flutter/minio.dart';
+import 'package:pixart_app/imports.dart';
+import 'package:pixart_app/core/api/api_client.dart';
+import 'package:minio/minio.dart';
 import 'aws_service_intereface.dart';
 
 class AwsService implements AwsServiceInterface {
-  final ApiClientInterface apiClient;
-  AwsService({required this.apiClient});
+  final ApiClient apiClient;
+  final Minio minio;
+  AwsService({required this.apiClient, required this.minio});
   @override
   void init() async {
     try {
-      Minio.init(
-        endPoint: AppConstants.AWS_ENDPOINT,
-        accessKey: AppConstants.AWS_ACCESS_KEY,
-        secretKey: AppConstants.AWS_SECRET_KEY,
-        region: AppConstants.AWS_REGION,
-      );
       await checkAndCreateBucket(AppConstants.AWS_BUCKET_NAME);
     } catch (e) {
       // throw error
@@ -27,9 +22,9 @@ class AwsService implements AwsServiceInterface {
   @override
   Future<void> checkAndCreateBucket(String bucketName) async {
     try {
-      final bool isExist = await Minio.shared.bucketExists(bucketName);
+      final bool isExist = await minio.bucketExists(bucketName);
       if (!isExist) {
-        await Minio.shared.makeBucket(bucketName, AppConstants.AWS_REGION);
+        await minio.makeBucket(bucketName, AppConstants.AWS_REGION);
       }
     } catch (e) {
       // Throw bucket creation error
@@ -55,7 +50,7 @@ class AwsService implements AwsServiceInterface {
     final String fileName = "${DateTime.now().millisecondsSinceEpoch}.jpeg";
     String? fileLink;
     try {
-      await Minio.shared.putObject(
+      await minio.putObject(
         AppConstants.AWS_BUCKET_NAME,
         'uploads/$fileName',
         Stream.value(bytes),
@@ -80,7 +75,7 @@ class AwsService implements AwsServiceInterface {
   //   return jsonEncode(data);
   // }
 
-  _createFileLink(String fileName) {
+  String _createFileLink(String fileName) {
     return 'https://${AppConstants.AWS_BUCKET_NAME}.s3.${AppConstants.AWS_REGION}.amazonaws.com/uploads/$fileName';
   }
 }

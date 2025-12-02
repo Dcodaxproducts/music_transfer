@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 
-showLoading() => SmartDialog.showLoading();
+Future<dynamic> showLoading() => SmartDialog.showLoading();
 
-dismiss() => SmartDialog.dismiss();
+Future<void> dismiss() => SmartDialog.dismiss();
 
-showToast(String text, {bool success = false}) {
+void showToast(String text, {bool success = false}) {
   Get.snackbar(
     success ? 'success'.tr : 'error'.tr,
     text.tr,

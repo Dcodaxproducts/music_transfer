@@ -1,11 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:matrix_ai/core/widgets/gradient_widget.dart';
-import 'package:matrix_ai/features/language/presentation/controller/localization_controller.dart';
-import 'package:matrix_ai/core/utils/colors.dart';
-import '../../../../../core/utils/style.dart';
+import '../../../../../imports.dart';
 import '../../../data/model/navigation_item.dart';
+import 'glassbox_curve.dart';
 
 class GlasmorphicNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -21,33 +16,34 @@ class GlasmorphicNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: paddingDefault,
+      padding: AppPadding.padding16,
       child: Center(
-        child: GlassmorphicWidget(
-          glassOpacity: 0.1,
+        child: GlassBoxCurve(
           child: Stack(
             alignment: Alignment.center,
             children: [
               // Sliding Indicator for the selected button
-              GetBuilder<LocalizationController>(builder: (con) {
-                bool isLtr = con.isLtr;
-                double alignment = -1 + (2 / (navigationItems.length - 1)) * currentIndex;
-                if (!isLtr) alignment *= -1;
-                return AnimatedAlign(
-                  alignment: Alignment(alignment, 0),
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  child: Container(
-                    width: context.width / navigationItems.length - 10.sp,
-                    height: 53.sp,
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(40.sp),
-                      gradient: secondaryGradient,
+              GetBuilder<LocalizationController>(
+                builder: (con) {
+                  bool isLtr = con.isLtr;
+                  double alignment = -1 + (2 / (navigationItems.length - 1)) * currentIndex;
+                  if (!isLtr) alignment *= -1;
+                  return AnimatedAlign(
+                    alignment: Alignment(alignment, 0),
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    child: Container(
+                      width: context.width / navigationItems.length - 10.sp,
+                      height: 53.sp,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(40.sp),
+                        gradient: secondaryGradient,
+                      ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                },
+              ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -74,12 +70,7 @@ class NavigationButton extends StatelessWidget {
   final bool selected;
   final void Function() onPressed;
 
-  const NavigationButton({
-    required this.icon,
-    required this.selected,
-    required this.onPressed,
-    super.key,
-  });
+  const NavigationButton({required this.icon, required this.selected, required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -87,9 +78,7 @@ class NavigationButton extends StatelessWidget {
       onPressed: onPressed,
       style: TextButton.styleFrom(
         padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40.sp),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.sp)),
         minimumSize: Size(0, 55.sp),
       ),
       child: AnimatedSwitcher(
@@ -97,7 +86,7 @@ class NavigationButton extends StatelessWidget {
         child: Icon(
           icon,
           key: ValueKey(selected),
-          color: selected ? Colors.white : bodyMedium(context).color,
+          color: selected ? Colors.white : context.font14.color,
           size: selected ? 24.sp : 20.sp,
         ),
       ),

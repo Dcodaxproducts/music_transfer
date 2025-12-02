@@ -1,4 +1,4 @@
-import 'package:matrix_ai/features/tools/data/model/tools.dart';
+import 'package:pixart_app/features/tools/data/model/tools.dart';
 
 class ImageUpscaleUtils {
   static Map<String, dynamic> createRequestBody(String initImage, ToolModel tool) {

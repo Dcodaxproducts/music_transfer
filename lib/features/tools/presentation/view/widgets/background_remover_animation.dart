@@ -1,4 +1,4 @@
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 
 class BackgroundRemoverAnimation extends StatefulWidget {
   const BackgroundRemoverAnimation({super.key});
@@ -17,29 +17,14 @@ class BackgroundRemoverAnimationState extends State<BackgroundRemoverAnimation>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    );
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 3));
 
     // Using TweenSequence for starting from center and ending at center
     _animation = TweenSequence<double>([
-      TweenSequenceItem<double>(
-        tween: Tween<double>(begin: 0.0, end: -0.5),
-        weight: 1.0,
-      ),
-      TweenSequenceItem<double>(
-        tween: Tween<double>(begin: -0.5, end: 0.5),
-        weight: 1.0,
-      ),
-      TweenSequenceItem<double>(
-        tween: Tween<double>(begin: 0.5, end: 0.0),
-        weight: 1.0,
-      ),
-    ]).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+      TweenSequenceItem<double>(tween: Tween<double>(begin: 0.0, end: -0.5), weight: 1.0),
+      TweenSequenceItem<double>(tween: Tween<double>(begin: -0.5, end: 0.5), weight: 1.0),
+      TweenSequenceItem<double>(tween: Tween<double>(begin: 0.5, end: 0.0), weight: 1.0),
+    ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _controller.forward();
     _controller.addStatusListener((status) {
@@ -59,65 +44,63 @@ class BackgroundRemoverAnimationState extends State<BackgroundRemoverAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      double imageWidth = constraints.maxWidth;
-      double imageHeight = constraints.maxHeight;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double imageWidth = constraints.maxWidth;
+        double imageHeight = constraints.maxHeight;
 
-      return SizedBox(
-        width: imageWidth,
-        height: imageHeight,
-        child: ColoredBox(
-          color: context.theme.cardColor,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              // Clipped Image with Background (Hidden from Left)
-              AnimatedBuilder(
-                animation: _animation,
-                builder: (context, child) {
-                  double linePosition = (imageWidth / 2) + (_animation.value * imageWidth);
+        return SizedBox(
+          width: imageWidth,
+          height: imageHeight,
+          child: ColoredBox(
+            color: context.theme.cardColor,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Clipped Image with Background (Hidden from Left)
+                AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    double linePosition = (imageWidth / 2) + (_animation.value * imageWidth);
 
-                  return ClipRect(
-                    clipper: RightSideClipper(linePosition),
-                    child: Image.asset(Images.bg_remover, fit: BoxFit.cover),
-                  );
-                },
-              ),
+                    return ClipRect(
+                      clipper: RightSideClipper(linePosition),
+                      child: Image.asset(Images.bg_remover, fit: BoxFit.cover),
+                    );
+                  },
+                ),
 
-              // Clipped Image without Background (Revealed from Left)
-              AnimatedBuilder(
-                animation: _animation,
-                builder: (context, child) {
-                  double linePosition = (imageWidth / 2) + (_animation.value * imageWidth);
+                // Clipped Image without Background (Revealed from Left)
+                AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    double linePosition = (imageWidth / 2) + (_animation.value * imageWidth);
 
-                  return ClipRect(
-                    clipper: LeftSideClipper(linePosition),
-                    child: Image.asset(Images.bg_remover_removed, fit: BoxFit.cover),
-                  );
-                },
-              ),
+                    return ClipRect(
+                      clipper: LeftSideClipper(linePosition),
+                      child: Image.asset(Images.bg_remover_removed, fit: BoxFit.cover),
+                    );
+                  },
+                ),
 
-              // Moving Line Effect
-              AnimatedBuilder(
-                animation: _animation,
-                builder: (context, child) {
-                  double linePosition = (imageWidth / 2) + (_animation.value * imageWidth);
+                // Moving Line Effect
+                AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    double linePosition = (imageWidth / 2) + (_animation.value * imageWidth);
 
-                  return Positioned(
-                    left: linePosition,
-                    child: Container(
-                      width: 5,
-                      height: imageHeight,
-                      color: Colors.white.withOpacity(0.8),
-                    ),
-                  );
-                },
-              ),
-            ],
+                    return Positioned(
+                      left: linePosition,
+                      child: Container(width: 5, height: imageHeight, color: Colors.white.withOpacity(0.8)),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   @override

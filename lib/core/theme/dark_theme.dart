@@ -1,5 +1,6 @@
-import '../../imports.dart';
+import '../../../imports.dart';
 import 'src/appbar_theme.dart';
+import 'src/bottom_navigation_theme.dart';
 import 'src/bottom_sheet_theme.dart';
 import 'src/dialog_theme.dart';
 import 'src/divider_theme.dart';
@@ -11,7 +12,7 @@ import 'src/outline_button_theme.dart';
 import 'src/text_theme.dart';
 import 'src/textbuton_theme.dart';
 
-ThemeData dark(BuildContext context) => ThemeData(
+ThemeData get dark => ThemeData(
       fontFamily: 'Poppins',
       useMaterial3: true,
       brightness: Brightness.dark,
@@ -21,20 +22,20 @@ ThemeData dark(BuildContext context) => ThemeData(
       hintColor: hintColorDark,
       cardColor: cardColorDark,
       shadowColor: shadowColorDark,
-      colorScheme: ColorScheme.fromSeed(seedColor: primaryColor, secondary: primaryColor).copyWith(
-        outline: dividerColorDark,
-        surface: cardColorDark,
-        brightness: Brightness.dark,
-      ),
-      textTheme: textThemeDark(context),
-      iconTheme: iconThemeDark(context),
-      appBarTheme: appBarThemeDark(context),
-      elevatedButtonTheme: elevatedButtonThemeData(context),
-      outlinedButtonTheme: outlinedButtonThemeData(context),
-      textButtonTheme: textButtonTheme(context),
-      inputDecorationTheme: inputDecorationThemeDark(context),
-      dropdownMenuTheme: dropdownMenuThemeDark(context),
-      dialogTheme: dialogThemeDark(context),
-      bottomSheetTheme: bottomSheetThemeDark(context),
-      dividerTheme: dividerThemeDark(context),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: primaryColor,
+        secondary: primaryColor,
+      ).copyWith(outline: dividerColorDark, surface: cardColorDark, brightness: Brightness.dark),
+      textTheme: darkTextTheme,
+      iconTheme: iconThemeDark,
+      appBarTheme: appBarThemeDark,
+      elevatedButtonTheme: elevatedButtonThemeData,
+      outlinedButtonTheme: outlinedButtonThemeData,
+      inputDecorationTheme: inputDecorationThemeDark,
+      dropdownMenuTheme: dropdownMenuThemeDark,
+      dialogTheme: dialogThemeDark,
+      bottomSheetTheme: bottomSheetThemeDark,
+      dividerTheme: dividerThemeDark,
+      bottomNavigationBarTheme: bottomNavigationBarThemeDark,
+      textButtonTheme: textButtonTheme,
     );

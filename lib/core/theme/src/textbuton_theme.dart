@@ -1,9 +1,9 @@
 import '../../../imports.dart';
 
-TextButtonThemeData textButtonTheme(BuildContext context) => TextButtonThemeData(
+TextButtonThemeData get textButtonTheme => TextButtonThemeData(
       style: TextButton.styleFrom(
         backgroundColor: Colors.transparent,
-        textStyle: bodyMedium(context),
+        textStyle: TextStyle(fontSize: 14.sp),
         padding: EdgeInsets.zero,
         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
       ),

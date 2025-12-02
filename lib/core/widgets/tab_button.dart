@@ -1,4 +1,4 @@
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 
 class PrimaryTabButton extends StatelessWidget {
   final String text;
@@ -6,13 +6,14 @@ class PrimaryTabButton extends StatelessWidget {
   final void Function() onPressed;
   final double radiusLeft;
   final double radiusRight;
-  const PrimaryTabButton(
-      {required this.text,
-      required this.selected,
-      required this.onPressed,
-      required this.radiusLeft,
-      required this.radiusRight,
-      super.key});
+  const PrimaryTabButton({
+    required this.text,
+    required this.selected,
+    required this.onPressed,
+    required this.radiusLeft,
+    required this.radiusRight,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +34,7 @@ class PrimaryTabButton extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: Text(
-            text,
-            style: bodyMedium(context).copyWith(color: selected ? Colors.white : null),
-          ),
+          child: Text(text, style: context.font14.copyWith(color: selected ? Colors.white : null)),
         ),
       ),
     );

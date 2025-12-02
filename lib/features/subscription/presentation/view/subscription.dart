@@ -1,26 +1,18 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import '../../../../core/widgets/primary_button.dart';
+import '../../../../imports.dart';
 import '../../../../modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import '../controller/subscription_controller.dart';
 import '../../data/model/subscription_item.dart';
-import '../../../../core/helper/navigation.dart';
-import '../../../../core/utils/colors.dart';
-import '../../../../core/utils/images.dart';
-import '../../../../core/utils/style.dart';
 import '../../../html/html_screen.dart';
 import 'widgets/purchase_item.dart';
 
-showPremiumSheet() => showModalBottomSheet(
-      context: Get.context!,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => const SubscriptionScreen(),
-    );
+Future<dynamic> showPremiumSheet() => showModalBottomSheet(
+  context: Get.context!,
+  isScrollControlled: true,
+  backgroundColor: Colors.transparent,
+  builder: (context) => const SubscriptionScreen(),
+);
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
@@ -63,7 +55,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           GetBuilder<SubscriptionController>(
             builder: (subscription) {
               return Padding(
-                padding: paddingDefault,
+                padding: AppPadding.padding16,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -72,7 +64,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: 3,
-                      separatorBuilder: (context, index) => SizedBox(height: spacingMedium),
+                      separatorBuilder: (context, index) => SizedBox(height: 12.sp),
                       itemBuilder: (context, index) {
                         SubscriptionItem item = getSubscriptionItems(index);
                         return SubscriptionPackageWidget(
@@ -86,7 +78,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         );
                       },
                     ),
-                    SizedBox(height: spacingExtraLarge),
+                    SizedBox(height: 32.sp),
                     SizedBox(
                       width: double.infinity,
                       child: PrimaryButton(
@@ -97,22 +89,22 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: spacingMedium),
+                    SizedBox(height: 12.sp),
                     Text(
                       "subscription_agreement".trParams({
                         'price': _selectedItem.price,
                         'period': _selectedPackage == 0
                             ? 'year'
                             : _selectedPackage == 1
-                                ? 'month'
-                                : 'week',
+                            ? 'month'
+                            : 'week',
                         'provider': Platform.isIOS ? 'Apple' : 'Google',
                       }),
-                      style: labelLarge(context).copyWith(color: context.theme.hintColor),
+                      style: context.font10.copyWith(color: context.theme.hintColor),
                     ),
                     Center(
                       child: Wrap(
-                        spacing: spacingSmall,
+                        spacing: 8.sp,
                         alignment: WrapAlignment.spaceBetween,
                         children: [
                           LinkButton(
@@ -143,11 +135,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             builder: (context, double value, child) {
               return Positioned(
                 top: 40.sp,
-                left: spacingDefault,
-                child: Opacity(
-                  opacity: value,
-                  child: const CloseButton(),
-                ),
+                left: 16.sp,
+                child: Opacity(opacity: value, child: const CloseButton()),
               );
             },
           ),
@@ -178,10 +167,7 @@ class LinkButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onTap,
-      child: Text(
-        text,
-        style: bodySmall(context).copyWith(color: primaryColor),
-      ),
+      child: Text(text, style: context.font12.copyWith(color: primaryColor)),
     );
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:get/get.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
-import 'package:matrix_ai/modules/image_generation/history/domain/service/history_service_interface.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
+import 'package:pixart_app/modules/image_generation/history/domain/service/history_service_interface.dart';
 import '../../../prompt_setting/presentation/controller/settings_controller.dart';
 
 class HistoryController extends GetxController {
@@ -49,9 +49,7 @@ class HistoryController extends GetxController {
     if (_promptHistory.isEmpty) {
       _promptHistory = historyService.getPromptHistoryFromRepo();
     }
-    SettingsController.find.setPromptText(
-      _promptHistory.isNotEmpty ? _promptHistory.first.meta.prompt : '',
-    );
+    SettingsController.find.setPromptText(_promptHistory.isNotEmpty ? _promptHistory.first.meta.prompt : '');
     update();
   }
 

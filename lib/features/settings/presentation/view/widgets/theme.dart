@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/features/theme/presentation/controller/theme_controller.dart';
-import 'package:matrix_ai/core/utils/colors.dart';
-import '../../../../../core/utils/style.dart';
+import '../../../../../imports.dart';
 
 class ThemeTile extends StatefulWidget {
   const ThemeTile({super.key});
@@ -23,23 +17,23 @@ class _ThemeTileState extends State<ThemeTile> {
             _isExpanded = value;
           });
         },
-        tilePadding: EdgeInsets.symmetric(horizontal: spacingDefault),
-        childrenPadding: paddingDefault,
-        leading: Icon(Iconsax.moon, size: 18.sp, color: bodyMedium(context).color),
-        title: Text('theme'.tr, style: bodyMedium(context)),
+        tilePadding: EdgeInsets.symmetric(horizontal: 16.sp),
+        childrenPadding: AppPadding.padding16,
+        leading: Icon(Iconsax.moon, size: 18.sp, color: context.font14.color),
+        title: Text('theme'.tr, style: context.font14),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             GetBuilder<ThemeController>(builder: (con) {
               return Text(
                 con.themeMode.toString().split('.').last.tr,
-                style: bodySmall(context).copyWith(color: Theme.of(context).hintColor),
+                style: context.font12.copyWith(color: Theme.of(context).hintColor),
               );
             }),
             SizedBox(width: 8.sp),
             Icon(
               _isExpanded ? Iconsax.arrow_down_1 : Iconsax.arrow_right_3,
-              size: spacingDefault,
+              size: 16.sp,
               color: context.theme.hintColor,
             ),
           ],
@@ -97,13 +91,13 @@ class ThemeModeWidget extends StatelessWidget {
             child: Icon(
               icon,
               size: 18.sp,
-              color: selected ? bodyMedium(context).color : Theme.of(context).hintColor,
+              color: selected ? context.font14.color : Theme.of(context).hintColor,
             ),
           ),
           SizedBox(height: 8.sp),
           Text(
             text.tr,
-            style: bodySmall(context),
+            style: context.font12,
           ),
         ],
       ),

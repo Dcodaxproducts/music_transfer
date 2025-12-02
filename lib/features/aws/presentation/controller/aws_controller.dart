@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:get/get.dart';
-import 'package:matrix_ai/features/aws/domain/service/aws_service_intereface.dart';
+import 'package:pixart_app/features/aws/domain/service/aws_service_intereface.dart';
 
 class AwsController extends GetxController implements GetxService {
   final AwsServiceInterface awsService;

@@ -5,23 +5,19 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:get/get.dart';
 import 'package:upgrader/upgrader.dart';
+import 'core/theme/light_theme.dart';
 import 'core/utils/scroll_behavior.dart';
 import 'core/widgets/loading.dart';
-import 'features/language/presentation/controller/localization_controller.dart';
-import 'features/theme/presentation/controller/theme_controller.dart';
 import 'firebase_options.dart';
 import 'core/helper/notification_helper.dart';
 import 'core/theme/dark_theme.dart';
-import 'core/utils/app_constants.dart';
 import 'core/utils/messages.dart';
 import 'core/helper/get_di.dart' as di;
 import 'features/root.dart';
+import 'imports.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,56 +67,55 @@ class MyApp extends StatelessWidget {
     } else {
       designSize = const Size(411.4, 866.3); // Example for phones
     }
-    return GetBuilder<LocalizationController>(builder: (localizeController) {
-      return GetBuilder<ThemeController>(
-        builder: (themeController) {
-          return ScreenUtilInit(
-            designSize: designSize,
-            minTextAdapt: true,
-            splitScreenMode: true,
-            fontSizeResolver: (size, util) => _screenSize(size, isTablet, isLargeTablet, util),
-            builder: (context, child) => MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                textScaler: TextScaler.linear(MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.0)),
+    return GetBuilder<LocalizationController>(
+      builder: (localizeController) {
+        return GetBuilder<ThemeController>(
+          builder: (themeController) {
+            return ScreenUtilInit(
+              designSize: designSize,
+              minTextAdapt: true,
+              splitScreenMode: true,
+              fontSizeResolver: (size, util) => _screenSize(size, isTablet, isLargeTablet, util),
+              builder: (context, child) => MediaQuery(
+                data: MediaQuery.of(context).copyWith(
+                  textScaler: TextScaler.linear(MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.0)),
+                ),
+                child: GetMaterialApp(
+                  title: AppConstants.APP_NAME,
+                  debugShowCheckedModeBanner: false,
+                  themeMode: themeController.themeMode,
+                  theme: light,
+                  darkTheme: dark,
+                  locale: localizeController.locale,
+                  translations: Messages(languages: languages),
+                  fallbackLocale: Locale(appLanguages[0].languageCode, appLanguages[0].countryCode),
+                  navigatorObservers: [FlutterSmartDialog.observer],
+                  builder: FlutterSmartDialog.init(
+                    loadingBuilder: (string) => const LoadingWidget(),
+                    builder: (context, child) {
+                      return ScrollConfiguration(
+                        behavior: CustomScrollBehavior(),
+                        child: child ?? const SizedBox(),
+                      );
+                    },
+                  ),
+                  home: UpgradeAlert(
+                    dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
+                    showIgnore: false,
+                    showLater: false,
+                    barrierDismissible: false,
+                    child: const Root(),
+                  ),
+                ),
               ),
-              child: GetMaterialApp(
-                title: AppConstants.APP_NAME,
-                debugShowCheckedModeBanner: false,
-                themeMode: themeController.themeMode,
-                // theme: light(context),
-                darkTheme: dark(context),
-                locale: localizeController.locale,
-                translations: Messages(languages: languages),
-                fallbackLocale: Locale(
-                  AppConstants.languages[0].languageCode,
-                  AppConstants.languages[0].countryCode,
-                ),
-                navigatorObservers: [FlutterSmartDialog.observer],
-                builder: FlutterSmartDialog.init(
-                  loadingBuilder: (string) => const LoadingWidget(),
-                  builder: (context, child) {
-                    return ScrollConfiguration(
-                      behavior: CustomScrollBehavior(),
-                      child: child ?? const SizedBox(),
-                    );
-                  },
-                ),
-                home: UpgradeAlert(
-                  dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
-                  showIgnore: false,
-                  showLater: false,
-                  barrierDismissible: false,
-                  child: const Root(),
-                ),
-              ),
-            ),
-          );
-        },
-      );
-    });
+            );
+          },
+        );
+      },
+    );
   }
 
-  double _screenSize(size, isTablet, isLargeTablet, util) {
+  double _screenSize(num size, bool isTablet, bool isLargeTablet, ScreenUtil util) {
     double scaleFactor = 1.0;
     if (isTablet || isLargeTablet) {
       scaleFactor = 1.0;

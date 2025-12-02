@@ -1,13 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/modules/image_generation/history/presentation/controller/history_controller.dart';
-import 'package:matrix_ai/core/widgets/primary_button.dart';
-import 'package:matrix_ai/core/widgets/snackbar.dart';
-import 'package:matrix_ai/core/helper/navigation.dart';
-import 'package:matrix_ai/core/utils/colors.dart';
-import 'package:matrix_ai/core/utils/style.dart';
+import 'package:pixart_app/modules/image_generation/history/presentation/controller/history_controller.dart';
+import '../../../../../../imports.dart';
 import '../../controller/image_generation_result_controller.dart';
 
 class PromptReportButton extends StatelessWidget {
@@ -20,10 +12,10 @@ class PromptReportButton extends StatelessWidget {
       right: 10.sp,
       child: InkWell(
         onTap: showFeedbackDialog,
-        borderRadius: borderRadiusDefault,
+        borderRadius: AppRadius.circular16,
         child: Container(
-          padding: paddingSmall,
-          decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: borderRadiusDefault),
+          padding: AppPadding.padding8,
+          decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: AppRadius.circular16),
           child: Icon(Iconsax.flag, size: 22.sp, color: Colors.white),
         ),
       ),
@@ -42,24 +34,20 @@ class FeedbackDialog extends StatelessWidget {
       backgroundColor: context.theme.scaffoldBackgroundColor,
       surfaceTintColor: context.theme.scaffoldBackgroundColor,
       child: Padding(
-        padding: paddingDefault,
+        padding: AppPadding.padding16,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             // Title
-            Text(
-              "${'feedback'.tr}/${'report'.tr}",
-              style: headlineSmall(context),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: spacingMedium),
+            Text("${'feedback'.tr}/${'report'.tr}", style: context.font24, textAlign: TextAlign.center),
+            SizedBox(height: 12.sp),
             // Subtitle
             Text(
               "is_this_the_result_you_were_expecting".tr,
-              style: bodyLarge(context),
+              style: context.font16,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: spacingLarge),
+            SizedBox(height: 24.sp),
             Row(
               children: [
                 Expanded(
@@ -70,7 +58,7 @@ class FeedbackDialog extends StatelessWidget {
                     onPressed: showReportDialog,
                   ),
                 ),
-                SizedBox(width: spacingDefault),
+                SizedBox(width: 16.sp),
                 Expanded(
                   child: PrimaryButton(
                     icon: Icon(Iconsax.like_1, color: context.theme.disabledColor),
@@ -87,7 +75,7 @@ class FeedbackDialog extends StatelessWidget {
     );
   }
 
-  _like() {
+  void _like() {
     showLoading();
     Future.delayed(const Duration(seconds: 1), () {
       dismiss();
@@ -111,24 +99,20 @@ class _ReportingDialogState extends State<ReportingDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
+      shape: RoundedRectangleBorder(borderRadius: AppRadius.circular16),
       backgroundColor: context.theme.scaffoldBackgroundColor,
       surfaceTintColor: context.theme.shadowColor,
       child: Padding(
-        padding: paddingDefault,
+        padding: AppPadding.padding16,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              "${'feedback'.tr}/${'report'.tr}",
-              style: headlineSmall(context),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: spacingMedium),
+            Text("${'feedback'.tr}/${'report'.tr}", style: context.font24, textAlign: TextAlign.center),
+            SizedBox(height: 12.sp),
             RadioListTile<String>(
               visualDensity: VisualDensity.compact,
               activeColor: primaryColor, // Custom active color
-              title: Text("result_is_not_accurate".tr, style: bodyLarge(context)),
+              title: Text("result_is_not_accurate".tr, style: context.font16),
               value: "not_accurate",
               groupValue: selectedOption,
               onChanged: (value) {
@@ -139,7 +123,7 @@ class _ReportingDialogState extends State<ReportingDialog> {
             ),
             RadioListTile<String>(
               activeColor: primaryColor,
-              title: Text("inappropriate_content".tr, style: bodyLarge(context)),
+              title: Text("inappropriate_content".tr, style: context.font16),
               value: "inappropriate",
               groupValue: selectedOption,
               onChanged: (value) {
@@ -148,12 +132,12 @@ class _ReportingDialogState extends State<ReportingDialog> {
                 });
               },
             ),
-            SizedBox(height: spacingDefault),
+            SizedBox(height: 16.sp),
             SizedBox(
               width: double.infinity,
               child: PrimaryButton(
                 color: context.theme.cardColor,
-                textColor: bodyLarge(context).color,
+                textColor: context.font16.color,
                 text: "submit".tr,
                 onPressed: _submit,
               ),
@@ -164,7 +148,7 @@ class _ReportingDialogState extends State<ReportingDialog> {
     );
   }
 
-  _submit() {
+  void _submit() {
     if (selectedOption == null) {
       return;
     }
@@ -179,7 +163,7 @@ class _ReportingDialogState extends State<ReportingDialog> {
     });
   }
 
-  _deleteResult() {
+  void _deleteResult() {
     final response = ImageGenerationResultController.find.imageGenerationResult;
     HistoryController.find.deletePrompt(response!);
     pop();

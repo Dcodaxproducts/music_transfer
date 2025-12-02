@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:get/get.dart';
-import 'package:matrix_ai/modules/upscale/image_upscale/data/model/upscale_response.dart';
+import 'package:pixart_app/modules/upscale/image_upscale/data/model/upscale_response.dart';
 import '../../../../../features/tools/data/model/tools.dart';
 import 'package:http/http.dart' as http;
 import '../../domain/service/background_remover_service_interface.dart';
@@ -14,10 +14,16 @@ class BackgroundRemoverController extends GetxController implements GetxService 
   final List<UpscaleResponse> _backgroundRemovalHistory = [];
   List<UpscaleResponse> get backgroundRemovalHistory => _backgroundRemovalHistory;
 
-  Future<UpscaleResponse?> removeImageBackground(
-      {File? image, required ToolModel tool, String? urlImage}) async {
-    final http.Response? response =
-        await backgroundRemoverService.removeImageBackground(image: image, tool: tool, urlImage: urlImage);
+  Future<UpscaleResponse?> removeImageBackground({
+    File? image,
+    required ToolModel tool,
+    String? urlImage,
+  }) async {
+    final http.Response? response = await backgroundRemoverService.removeImageBackground(
+      image: image,
+      tool: tool,
+      urlImage: urlImage,
+    );
 
     return backgroundRemoverService.processResponse(response: response, tool: tool);
   }

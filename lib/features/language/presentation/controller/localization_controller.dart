@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
-import 'package:matrix_ai/features/language/data/model/language.dart';
-import 'package:matrix_ai/core/utils/app_constants.dart';
+import 'package:pixart_app/features/language/data/model/language.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../domain/service/localization_service_interface.dart';
@@ -12,10 +11,7 @@ class LocalizationController extends GetxController implements GetxService {
     loadCurrentLanguage();
   }
 
-  Locale _locale = Locale(
-    AppConstants.languages[0].languageCode,
-    AppConstants.languages[0].countryCode,
-  );
+  Locale _locale = Locale(appLanguages[0].languageCode, appLanguages[0].countryCode);
   bool _isLtr = true;
   List<LanguageModel> _languages = [];
   int _selectedIndex = 0;
@@ -36,7 +32,7 @@ class LocalizationController extends GetxController implements GetxService {
   void loadCurrentLanguage() async {
     Locale locale = localizationService.loadCurrentLanguage();
     setLanguage(locale);
-    _languages = List.from(AppConstants.languages);
+    _languages = List.from(appLanguages);
     update();
   }
 
@@ -51,10 +47,10 @@ class LocalizationController extends GetxController implements GetxService {
 
   void searchLanguage(String query) {
     if (query.isEmpty) {
-      _languages = List.from(AppConstants.languages);
+      _languages = List.from(appLanguages);
     } else {
       _selectedIndex = -1;
-      _languages = AppConstants.languages
+      _languages = appLanguages
           .where((language) => language.languageName.toLowerCase().contains(query.toLowerCase()))
           .toList();
     }

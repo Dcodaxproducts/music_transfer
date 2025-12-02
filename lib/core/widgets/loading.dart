@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:matrix_ai/core/utils/colors.dart';
+import '../../imports.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({super.key});

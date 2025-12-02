@@ -1,12 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:get/get.dart';
-import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
-import 'package:matrix_ai/core/widgets/primary_button.dart';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:matrix_ai/core/utils/colors.dart';
-import 'package:matrix_ai/features/subscription/presentation/view/subscription.dart';
-import '../../../../core/utils/style.dart';
+import 'package:pixart_app/features/subscription/presentation/controller/subscription_controller.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/features/subscription/presentation/view/subscription.dart';
+import '../../../../imports.dart';
 
 Future showAdsDialog({required Function() onWatchAdPressed}) =>
     Get.dialog(AdsDialog(onWatchAdPressed: onWatchAdPressed));
@@ -33,7 +29,7 @@ class _AdsDialogState extends State<AdsDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Padding(
-        padding: paddingDefault,
+        padding: AppPadding.padding16,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -46,28 +42,31 @@ class _AdsDialogState extends State<AdsDialog> {
                 onPressed: Get.back,
               ),
             ),
-            SizedBox(height: spacingSmall),
+            SizedBox(height: 8.sp),
             Text(
               "you're_using_the_free_version".tr,
-              style: bodyLarge(context).copyWith(fontWeight: FontWeight.w600),
+              style: context.font16.copyWith(fontWeight: FontWeight.w600),
             ),
-            SizedBox(height: spacingDefault),
+            SizedBox(height: 16.sp),
             Text(
               SubscriptionController.find.products.isNotEmpty
                   ? "${"to_keep_this_service_free_ads_are_displayed_during_your_experience".tr}${"upgrade_to_an_ad-free_experience".tr}"
                   : "to_keep_this_service_free_ads_are_displayed_during_your_experience".tr,
-              style: bodyMedium(context),
+              style: context.font14,
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: EdgeInsets.only(top: spacingExtraLarge),
+              padding: EdgeInsets.only(top: 32.sp),
               child: Row(
                 children: [
                   Expanded(
-                      child: PrimaryOutlineButton(text: 'watch_ad'.tr, onPressed: widget.onWatchAdPressed)),
+                    child: PrimaryOutlineButton(text: 'watch_ad'.tr, onPressed: widget.onWatchAdPressed),
+                  ),
                   if (SubscriptionController.find.products.isNotEmpty) ...[
-                    SizedBox(width: spacingDefault),
-                    Expanded(child: PrimaryButton(text: 'go_pro'.tr, onPressed: showPremiumSheet)),
+                    SizedBox(width: 16.sp),
+                    Expanded(
+                      child: PrimaryButton(text: 'go_pro'.tr, onPressed: showPremiumSheet),
+                    ),
                   ],
                 ],
               ),

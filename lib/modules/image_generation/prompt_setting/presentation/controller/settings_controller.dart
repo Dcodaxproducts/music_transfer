@@ -1,7 +1,7 @@
-import 'package:matrix_ai/modules/image_generation/prompt_setting/data/model/config_model.dart';
-import 'package:matrix_ai/modules/image_generation/models/data/model/model.dart';
-import 'package:matrix_ai/features/splash/data/model/setting_model.dart';
-import 'package:matrix_ai/core/utils/app_constants.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/data/model/config_model.dart';
+import 'package:pixart_app/modules/image_generation/models/data/model/model.dart';
+import 'package:pixart_app/features/splash/data/model/setting_model.dart';
+import 'package:pixart_app/core/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -16,10 +16,7 @@ class SettingsController extends GetxController implements GetxService {
 
   // Text controllers for user input
   final promptController = StyleableTextFieldController(
-    styles: TextPartStyleDefinitions(
-      definitionList: [],
-      adultWords: AppConstants.ADULT_WORDS,
-    ),
+    styles: TextPartStyleDefinitions(definitionList: [], adultWords: AppConstants.ADULT_WORDS),
   );
   final seedController = TextEditingController();
   final negativePromptController = TextEditingController();
@@ -96,7 +93,7 @@ class SettingsController extends GetxController implements GetxService {
   PackageInfo? _packageInfo;
   PackageInfo? get packageInfo => _packageInfo;
 
-  getPackageInfo() async {
+  Future<void> getPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
     update();
   }

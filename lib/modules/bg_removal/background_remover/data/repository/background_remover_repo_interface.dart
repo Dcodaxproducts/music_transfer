@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:http/http.dart';
-import 'package:matrix_ai/modules/upscale/image_upscale/data/model/upscale_response.dart';
+import 'package:pixart_app/modules/upscale/image_upscale/data/model/upscale_response.dart';
 
 abstract class BackgroundRemoverRepoInterface {
   Future<Response?> removeImageBackground({

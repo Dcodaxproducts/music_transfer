@@ -1,4 +1,4 @@
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/view/widgets/expansion_tile.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/view/widgets/expansion_tile.dart';
 import '../../controller/settings_controller.dart';
 import '../../../../../../imports.dart';
 import '../../../../../../core/widgets/gradient_widget.dart';
@@ -14,10 +14,7 @@ class NegativePromptWidget extends StatelessWidget {
       value: 'add',
       children: [
         GradientBorderContainer(
-          padding: EdgeInsets.symmetric(
-            horizontal: 12.sp,
-            vertical: 5.sp,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 5.sp),
           child: TextFormField(
             controller: con.negativePromptController,
             maxLines: 1,
@@ -29,7 +26,7 @@ class NegativePromptWidget extends StatelessWidget {
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
             ),
-            style: bodyMedium(context),
+            style: context.font14,
           ),
         ),
       ],

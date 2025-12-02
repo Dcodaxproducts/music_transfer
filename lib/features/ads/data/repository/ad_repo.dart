@@ -3,22 +3,21 @@ import 'dart:developer';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:http/http.dart';
-import 'package:matrix_ai/features/subscription/presentation/controller/subscription_controller.dart';
-import 'package:matrix_ai/core/api/api_client_interface.dart';
-import 'package:matrix_ai/features/ads/data/utils/ads.dart';
+import 'package:pixart_app/features/subscription/presentation/controller/subscription_controller.dart';
+import 'package:pixart_app/core/api/api_client.dart';
+import 'package:pixart_app/features/ads/data/utils/ads.dart';
+import 'package:pixart_app/imports.dart';
 import '../../presentation/controller/ads_controller.dart';
-import '../../../../core/utils/app_constants.dart';
 import 'ad_repo_interface.dart';
 import 'package:easy_audience_network/easy_audience_network.dart' as meta;
 
 class AdRepo implements AdRepoInterface {
-  final ApiClientInterface apiClient;
+  final ApiClient apiClient;
   AdRepo({required this.apiClient});
 
   @override
   Future<Response?> getAdIds() async {
-    return await apiClient.get(AppConstants.GET_ADS);
+    return await apiClient.get(Endpoints.GET_ADS);
   }
 
   @override
@@ -82,8 +81,10 @@ class AdRepo implements AdRepoInterface {
     return await RewardedAd.load(
       adUnitId: unitId,
       request: AdIds.adRequest,
-      rewardedAdLoadCallback:
-          RewardedAdLoadCallback(onAdLoaded: loadCallback, onAdFailedToLoad: failCallback),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: loadCallback,
+        onAdFailedToLoad: failCallback,
+      ),
     );
   }
 
@@ -95,8 +96,10 @@ class AdRepo implements AdRepoInterface {
     return await RewardedInterstitialAd.load(
       adUnitId: unitId,
       request: AdIds.adRequest,
-      rewardedInterstitialAdLoadCallback:
-          RewardedInterstitialAdLoadCallback(onAdLoaded: loadCallback, onAdFailedToLoad: failCallback),
+      rewardedInterstitialAdLoadCallback: RewardedInterstitialAdLoadCallback(
+        onAdLoaded: loadCallback,
+        onAdFailedToLoad: failCallback,
+      ),
     );
   }
 
@@ -114,16 +117,16 @@ class AdRepo implements AdRepoInterface {
 
   @override
   FullScreenContentCallback<T> getFullScreenContentCallback<T>() => FullScreenContentCallback<T>(
-        onAdDismissedFullScreenContent: (ad) {
-          AdsController.find.adShowing = false;
-        },
-        onAdFailedToShowFullScreenContent: (ad, error) {
-          AdsController.find.adShowing = false;
-        },
-        onAdShowedFullScreenContent: (ad) {
-          AdsController.find.adShowing = true;
-        },
-      );
+    onAdDismissedFullScreenContent: (ad) {
+      AdsController.find.adShowing = false;
+    },
+    onAdFailedToShowFullScreenContent: (ad, error) {
+      AdsController.find.adShowing = false;
+    },
+    onAdShowedFullScreenContent: (ad) {
+      AdsController.find.adShowing = true;
+    },
+  );
 
   /* Meta ads */
 

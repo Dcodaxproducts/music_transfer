@@ -3,8 +3,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'package:matrix_ai/core/widgets/snackbar.dart';
-import 'package:matrix_ai/core/helper/navigation.dart';
+import 'package:pixart_app/core/widgets/snackbar.dart';
+import 'package:pixart_app/core/helper/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:get/get.dart';
@@ -18,11 +18,7 @@ class SubscriptionController extends GetxController implements GetxService {
 
   static SubscriptionController get find => Get.find<SubscriptionController>();
 
-  final List<String> _subscriptionIds = const <String>[
-    'yearly_plan',
-    'monthly_plan',
-    'weekly_plan',
-  ];
+  final List<String> _subscriptionIds = const <String>['yearly_plan', 'monthly_plan', 'weekly_plan'];
   List<IAPItem> _products = [];
   late StreamSubscription _purchaseUpdatedSubscription;
   DateTime? _proLimitDate;
@@ -45,10 +41,13 @@ class SubscriptionController extends GetxController implements GetxService {
     await _getSubscriptions();
     await refreshProStatus();
     _purchaseUpdatedSubscription = FlutterInappPurchase.purchaseUpdated.listen((result) {
-      _verifyPurchase(result, callback: () {
-        pop();
-        showToast('purchase_success'.tr, success: true);
-      });
+      _verifyPurchase(
+        result,
+        callback: () {
+          pop();
+          showToast('purchase_success'.tr, success: true);
+        },
+      );
     });
   }
 
@@ -72,7 +71,7 @@ class SubscriptionController extends GetxController implements GetxService {
     }
   }
 
-  _verifyPurchase(PurchasedItem? result, {Function()? callback}) async {
+  Future<void> _verifyPurchase(PurchasedItem? result, {Function()? callback}) async {
     if (result == null) {
       return; // Handle the case where the purchase is null
     }

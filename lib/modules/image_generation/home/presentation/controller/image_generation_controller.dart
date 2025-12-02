@@ -1,12 +1,12 @@
-import 'package:matrix_ai/modules/image_generation/history/presentation/controller/history_controller.dart';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/model/api_model.dart';
-import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
-import 'package:matrix_ai/modules/image_generation/models/data/model/model.dart';
-import 'package:matrix_ai/modules/image_generation/home/domain/service/image_generation_service_interface.dart';
+import 'package:pixart_app/modules/image_generation/history/presentation/controller/history_controller.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/api_model.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
+import 'package:pixart_app/modules/image_generation/models/data/model/model.dart';
+import 'package:pixart_app/modules/image_generation/home/domain/service/image_generation_service_interface.dart';
 import 'package:http/http.dart' as http;
-import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
+import 'package:pixart_app/imports.dart';
+import 'package:pixart_app/features/loading_screen/presentation/view/src/loading_manager.dart';
 import 'generation_controller.dart';
 
 class ImageGenerationController extends GetxController implements GetxService {

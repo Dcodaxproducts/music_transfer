@@ -1,10 +1,9 @@
 import '../../../imports.dart';
 
-DialogTheme dialogThemeLight(BuildContext context) => DialogTheme(
-      shape: RoundedRectangleBorder(borderRadius: borderRadiusDefault),
-      backgroundColor: cardColorLight,
-      insetPadding: EdgeInsets.all(30.sp),
+DialogThemeData get dialogThemeLight => DialogThemeData(
+      shape: AppRadius.circular12Shape,
+      backgroundColor: backgroundColorLight,
+      insetPadding: AppPadding.padding32,
     );
 
-DialogTheme dialogThemeDark(BuildContext context) =>
-    dialogThemeLight(context).copyWith(backgroundColor: cardColorDark);
+DialogThemeData get dialogThemeDark => dialogThemeLight.copyWith(backgroundColor: backgroundColorDark);

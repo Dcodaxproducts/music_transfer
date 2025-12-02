@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:easy_audience_network/easy_audience_network.dart';
 import 'package:flutter/foundation.dart';
-import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/features/ads/data/utils/ads.dart';
+import 'package:pixart_app/imports.dart';
+import 'package:pixart_app/features/ads/data/utils/ads.dart';
 import '../enum/ad_type.dart';
 import '../enum/ad_position.dart';
 import '../extension/ad_position.dart';
@@ -29,7 +29,8 @@ class AdModel {
     return AdModel(
       id: json['id'],
       type: AdTypeExtension.fromString(
-          GetPlatform.isAndroid ? json['type'] : (json['ios_type'] ?? json['type'])),
+        GetPlatform.isAndroid ? json['type'] : (json['ios_type'] ?? json['type']),
+      ),
       active: Platform.isAndroid ? json['status'] == 1 : json['ios_status'] == 1,
       androidAdId: json['android_ad_id'] ?? '',
       iosAdId: json['ios_ad_id'] ?? '',

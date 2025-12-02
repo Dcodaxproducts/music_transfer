@@ -1,9 +1,9 @@
 import 'package:http/http.dart';
-import 'package:matrix_ai/core/api/api_client_interface.dart';
+import 'package:pixart_app/core/api/api_client.dart';
 import 'tools_repo_interface.dart';
 
 class ToolsRepo implements ToolsRepoInterface {
-  final ApiClientInterface apiClient;
+  final ApiClient apiClient;
   ToolsRepo({required this.apiClient});
 
   @override

@@ -1,6 +1,6 @@
-import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/core/widgets/gradient_widget.dart';
-import 'package:matrix_ai/features/subscription/presentation/view/subscription.dart';
+import 'package:pixart_app/imports.dart';
+import 'package:pixart_app/core/widgets/gradient_widget.dart';
+import 'package:pixart_app/features/subscription/presentation/view/subscription.dart';
 import '../../../../prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../../../../features/subscription/presentation/controller/subscription_controller.dart';
 import '../../controller/generation_controller.dart';
@@ -16,11 +16,11 @@ class FreeGenerationLeftWidget extends StatelessWidget {
           builder: (con) => Visibility(
             visible: settingCon.settingModel.freeGenerations > 0 && !isPro,
             child: Padding(
-              padding: EdgeInsets.only(top: spacingSmall),
+              padding: EdgeInsets.only(top: 8.sp),
               child: Center(
                 child: Text(
                   "${(settingCon.settingModel.freeGenerations - GenerationController.find.dailyGenerationCount)} ${'free_generations_are_left_for_today'.tr}",
-                  style: bodySmall(context),
+                  style: context.font12,
                 ),
               ),
             ),
@@ -41,7 +41,7 @@ class FreeLimitDialog extends StatelessWidget {
     bool subscriptionAvailable = SubscriptionController.find.products.isNotEmpty;
     return Dialog(
       child: Padding(
-        padding: paddingDefault,
+        padding: AppPadding.padding16,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -57,19 +57,16 @@ class FreeLimitDialog extends StatelessWidget {
             GradientWidget(
               child: Icon(Iconsax.warning_2, size: 100.sp, color: Colors.white),
             ),
-            SizedBox(height: spacingDefault),
-            Text(
-              "free_limit_reached".tr,
-              style: bodyLarge(context).copyWith(fontWeight: FontWeight.w600),
-            ),
-            SizedBox(height: spacingDefault),
+            SizedBox(height: 16.sp),
+            Text("free_limit_reached".tr, style: context.font16.copyWith(fontWeight: FontWeight.w600)),
+            SizedBox(height: 16.sp),
             Text(
               subscriptionAvailable ? "free_limit_reached_message1".tr : "free_limit_reached_message2".tr,
-              style: bodyMedium(context),
+              style: context.font14,
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: EdgeInsets.only(top: spacingExtraLarge),
+              padding: EdgeInsets.only(top: 32.sp),
               child: SizedBox(
                 width: double.infinity,
                 child: PrimaryButton(

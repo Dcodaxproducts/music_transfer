@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart' as st;
 import 'package:http/http.dart';
-import 'package:matrix_ai/features/tools/data/model/tools.dart';
-import 'package:matrix_ai/modules/upscale/image_upscale/data/repository/image_upscale_repo_interface.dart';
-import 'package:matrix_ai/features/ads/data/utils/firebase_events.dart';
-import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
+import 'package:pixart_app/features/tools/data/model/tools.dart';
+import 'package:pixart_app/modules/upscale/image_upscale/data/repository/image_upscale_repo_interface.dart';
+import 'package:pixart_app/features/ads/data/utils/firebase_events.dart';
+import 'package:pixart_app/features/loading_screen/presentation/view/src/loading_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../../core/widgets/snackbar.dart';
 import '../../../../../features/aws/presentation/controller/aws_controller.dart';
@@ -65,14 +65,11 @@ class ImageUpscaleService implements ImageUpscaleServiceInterface {
 
     // Log the event
     PackageInfo? packageInfo = SettingsController.find.packageInfo;
-    EventsHelper.logEvent(
-      'upscale_image_impression',
-      {
-        'tool_name': tool.name,
-        'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
-        'platform': Platform.isAndroid ? 'Android' : 'iOS',
-      },
-    );
+    EventsHelper.logEvent('upscale_image_impression', {
+      'tool_name': tool.name,
+      'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
+      'platform': Platform.isAndroid ? 'Android' : 'iOS',
+    });
 
     // Check if the response is successful
     if (value.status == "success") {

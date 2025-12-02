@@ -12,7 +12,7 @@ class RegenerateButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       child: Padding(
-        padding: EdgeInsets.only(top: spacingExtraLarge, bottom: spacingDefault),
+        padding: EdgeInsets.only(top: 32.sp, bottom: 16.sp),
         child: SizedBox(
           width: double.infinity,
           child: PrimaryButton(
@@ -28,7 +28,7 @@ class RegenerateButton extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(spacingDefault),
+                      top: Radius.circular(16.sp),
                     ),
                   ),
                   child: HomeScreen(

@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:matrix_ai/core/widgets/gradient_widget.dart';
-import 'package:matrix_ai/modules/image_generation/models/presentation/controller/models_controller.dart';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:matrix_ai/modules/image_generation/history/presentation/view/widgets/animated_heart.dart';
+import 'package:pixart_app/modules/image_generation/models/presentation/controller/models_controller.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/modules/image_generation/history/presentation/view/widgets/animated_heart.dart';
 import '../../../data/model/model.dart';
 import '../../../../../../imports.dart';
 
@@ -19,11 +18,11 @@ class ModelsGrid extends StatelessWidget {
             : GetBuilder<ModelsController>(
                 builder: (modelsController) {
                   return GridView.builder(
-                    padding: EdgeInsets.only(top: spacingSmall),
+                    padding: EdgeInsets.only(top: 8.sp),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      mainAxisSpacing: spacingDefault,
-                      crossAxisSpacing: spacingDefault,
+                      mainAxisSpacing: 16.sp,
+                      crossAxisSpacing: 16.sp,
                       childAspectRatio: 0.75,
                     ),
                     itemCount: models.length,
@@ -40,9 +39,7 @@ class ModelsGrid extends StatelessWidget {
 }
 
 class NoFavoritesWidget extends StatelessWidget {
-  const NoFavoritesWidget({
-    super.key,
-  });
+  const NoFavoritesWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +48,8 @@ class NoFavoritesWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const AnimatedHeart(),
-          SizedBox(height: spacingDefault),
-          Text('no_favorites_yet'.tr, style: bodyMedium(context)),
+          SizedBox(height: 16.sp),
+          Text('no_favorites_yet'.tr, style: context.font14),
         ],
       ),
     );
@@ -66,19 +63,19 @@ class AIModelCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlassmorphicWidget(
-      borderRadius: borderRadiusSmall,
+    return DecoratedBox(
+      decoration: BoxDecoration(borderRadius: AppRadius.circular8),
       child: InkWell(
         onTap: () {
           SettingsController setting = SettingsController.find;
           setting.configModel = setting.configModel.copyWith(selectedModel: model);
         },
-        borderRadius: borderRadiusSmall,
+        borderRadius: AppRadius.circular8,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
             color: context.theme.cardColor.withOpacity(0.4),
-            borderRadius: borderRadiusSmall,
+            borderRadius: AppRadius.circular8,
             border: Border.all(color: selected ? primaryColor : Colors.transparent, width: 1.5),
           ),
           child: Column(
@@ -91,7 +88,7 @@ class AIModelCard extends StatelessWidget {
                     Container(
                       height: 120.sp,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(radiusSmall)),
+                        borderRadius: AppRadius.top(8),
                         image: DecorationImage(
                           image: CachedNetworkImageProvider(model.image),
                           fit: BoxFit.cover,
@@ -108,12 +105,12 @@ class AIModelCard extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
                           decoration: BoxDecoration(
                             color: Colors.black.withOpacity(0.6),
-                            borderRadius: BorderRadius.circular(spacingExtraLarge),
+                            borderRadius: BorderRadius.circular(32.sp),
                             border: Border.all(color: secondaryColor, width: 1.sp),
                           ),
                           child: Text(
                             'hot'.tr.toUpperCase(),
-                            style: labelLarge(context).copyWith(color: Colors.white),
+                            style: context.font10.copyWith(color: Colors.white),
                           ),
                         ),
                       ),
@@ -121,24 +118,21 @@ class AIModelCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: paddingSmall,
+                padding: AppPadding.padding8,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      model.name,
-                      style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(height: spacingSmall),
+                    Text(model.name, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
+                    SizedBox(height: 8.sp),
                     Text(
                       model.shortDescription,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: bodySmall(context),
+                      style: context.font12,
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -167,14 +161,12 @@ class FavoritePremiumIcon extends StatelessWidget {
         },
         child: Container(
           padding: EdgeInsets.all(5.sp),
-          decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle, boxShadow: [
-            BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-          ]),
-          child: Icon(
-            getIcon(),
-            size: 15.sp,
-            color: isFavorite ? Colors.red : Colors.black,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))],
           ),
+          child: Icon(getIcon(), size: 15.sp, color: isFavorite ? Colors.red : Colors.black),
         ),
       ),
     );

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:matrix_ai/features/review/data/repository/review_repo_interface.dart';
+import 'package:pixart_app/features/review/data/repository/review_repo_interface.dart';
 import 'review_service_interface.dart';
 
 class ReviewService implements ReviewServiceInterface {

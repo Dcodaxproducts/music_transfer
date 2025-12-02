@@ -1,11 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/features/tools/data/model/tools.dart';
-import 'package:matrix_ai/core/helper/navigation.dart';
-import 'package:matrix_ai/modules/upscale/image_upscale/presentation/view/upscale_image.dart';
-import '../../../../../../core/utils/style.dart';
+import 'package:pixart_app/features/tools/data/model/tools.dart';
+import 'package:pixart_app/imports.dart';
+import 'package:pixart_app/modules/upscale/image_upscale/presentation/view/upscale_image.dart';
 import '../../../../../../features/settings/presentation/view/widgets/menu_item.dart';
 import '../../controller/image_generation_result_controller.dart';
 
@@ -19,16 +14,16 @@ class PromptEditButton extends StatelessWidget {
       right: 10.sp,
       child: InkWell(
         onTap: showActionSheet,
-        borderRadius: borderRadiusDefault,
+        borderRadius: AppRadius.circular16,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: spacingDefault, vertical: spacingMedium),
-          decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: borderRadiusDefault),
+          padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp),
+          decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: AppRadius.circular16),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Iconsax.edit, size: spacingDefault, color: Colors.white),
-              SizedBox(width: spacingSmall),
-              Text('edit'.tr, style: bodyMedium(context).copyWith(color: Colors.white)),
+              Icon(Iconsax.edit, size: 16.sp, color: Colors.white),
+              SizedBox(width: 8.sp),
+              Text('edit'.tr, style: context.font14.copyWith(color: Colors.white)),
             ],
           ),
         ),
@@ -37,7 +32,7 @@ class PromptEditButton extends StatelessWidget {
   }
 }
 
-showActionSheet() => Get.bottomSheet(const ActionSheet());
+Future<dynamic> showActionSheet() => Get.bottomSheet(const ActionSheet());
 
 class ActionSheet extends StatefulWidget {
   const ActionSheet({super.key});
@@ -54,10 +49,12 @@ class _ActionSheetState extends State<ActionSheet> {
       icon: Iconsax.magicpen,
       onTap: () async {
         pop();
-        launchScreen(UpscaleImageScreen(
-          tool: ToolModel.upscaleImageTool,
-          imageUrl: ImageGenerationResultController.find.imageUrl,
-        ));
+        launchScreen(
+          UpscaleImageScreen(
+            tool: ToolModel.upscaleImageTool,
+            imageUrl: ImageGenerationResultController.find.imageUrl,
+          ),
+        );
       },
     ),
     MenuItem(
@@ -66,10 +63,12 @@ class _ActionSheetState extends State<ActionSheet> {
       icon: Iconsax.eraser_1,
       onTap: () async {
         pop();
-        launchScreen(UpscaleImageScreen(
-          tool: ToolModel.backgroundRemoverTool,
-          imageUrl: ImageGenerationResultController.find.imageUrl,
-        ));
+        launchScreen(
+          UpscaleImageScreen(
+            tool: ToolModel.backgroundRemoverTool,
+            imageUrl: ImageGenerationResultController.find.imageUrl,
+          ),
+        );
       },
     ),
   ];
@@ -80,10 +79,10 @@ class _ActionSheetState extends State<ActionSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: paddingDefault,
+      padding: AppPadding.padding16,
       decoration: BoxDecoration(
         color: context.theme.scaffoldBackgroundColor,
-        borderRadius: borderRadiusDefault,
+        borderRadius: AppRadius.circular16,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,14 +97,11 @@ class _ActionSheetState extends State<ActionSheet> {
               ),
             ),
           ),
-          SizedBox(height: spacingDefault),
-          Text(
-            'edit_result'.tr,
-            style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
-          ),
+          SizedBox(height: 16.sp),
+          Text('edit_result'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
           SizedBox(height: 8.sp),
           Container(
-            decoration: BoxDecoration(color: context.theme.cardColor, borderRadius: borderRadiusDefault),
+            decoration: BoxDecoration(color: context.theme.cardColor, borderRadius: AppRadius.circular16),
             child: ListView.separated(
               itemCount: items.length,
               shrinkWrap: true,

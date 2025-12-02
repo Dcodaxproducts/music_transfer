@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:matrix_ai/features/tools/data/repository/tools_repo_interface.dart';
-import 'package:matrix_ai/features/tools/domain/service/tools_service_interface.dart';
+import 'package:pixart_app/features/tools/data/repository/tools_repo_interface.dart';
+import 'package:pixart_app/features/tools/domain/service/tools_service_interface.dart';
 import '../../data/repository/tools_repo.dart';
 import '../../presentation/controller/tools_controller.dart';
 import '../service/tools_service.dart';

@@ -1,14 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:matrix_ai/core/widgets/primary_button.dart';
-import 'package:matrix_ai/modules/image_generation/home/presentation/controller/generation_controller.dart';
-import 'package:matrix_ai/core/utils/app_constants.dart';
+import 'package:pixart_app/modules/image_generation/home/presentation/controller/generation_controller.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import '../../../../core/widgets/snackbar.dart';
+import '../../../../imports.dart';
 import '../controller/review_controller.dart';
-import '../../../../core/utils/style.dart';
 
 Future showRateUsDialog() {
   return Get.dialog(const RateUsSheet());
@@ -45,21 +38,18 @@ class _RateUsSheetState extends State<RateUsSheet> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Padding(
-        padding: paddingDefault,
+        padding: AppPadding.padding16,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '${'do_you_like'.tr} ${AppConstants.APP_NAME}?'.tr,
-              style: titleMedium(context),
-            ),
-            SizedBox(height: spacingSmall),
+            Text('${'do_you_like'.tr} ${AppConstants.APP_NAME}?'.tr, style: context.font20),
+            SizedBox(height: 8.sp),
             Text(
               'your_feedback_will_help_us_improve_our_service_for_you'.tr,
-              style: bodyMedium(context),
+              style: context.font14,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: spacingDefault),
+            SizedBox(height: 16.sp),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -80,25 +70,23 @@ class _RateUsSheetState extends State<RateUsSheet> {
             ),
             if (_rating < 4)
               Padding(
-                padding: EdgeInsets.only(top: spacingDefault),
+                padding: EdgeInsets.only(top: 16.sp),
                 child: TextField(
                   controller: _review,
                   decoration: InputDecoration(
                     hintText: 'add_a_comment'.tr,
-                    border: OutlineInputBorder(borderRadius: borderRadiusDefault),
+                    border: OutlineInputBorder(borderRadius: AppRadius.circular16),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: borderRadiusDefault,
-                      borderSide: BorderSide(
-                        color: Theme.of(context).dividerColor,
-                      ),
+                      borderRadius: AppRadius.circular16,
+                      borderSide: BorderSide(color: Theme.of(context).dividerColor),
                     ),
                   ),
                   maxLines: 3,
-                  style: bodyMedium(context),
+                  style: context.font14,
                 ),
               ),
             Padding(
-              padding: EdgeInsets.only(top: spacingExtraLarge),
+              padding: EdgeInsets.only(top: 32.sp),
               child: SizedBox(
                 width: double.infinity,
                 child: PrimaryButton(text: 'submit'.tr, onPressed: _submitReview),
@@ -110,7 +98,7 @@ class _RateUsSheetState extends State<RateUsSheet> {
     );
   }
 
-  _submitReview() {
+  void _submitReview() {
     if (_rating > 3) {
       launchUrlString(AppConstants.APP_LINK, mode: LaunchMode.externalApplication);
       ReviewController.find.setReviewed();

@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:matrix_ai/modules/image_generation/home/data/model/models_lab_response.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
 
 abstract class HistoryServiceInterface {
   Future<void> savePromptHistory(List<ImageGenerationResult> promptHistory);

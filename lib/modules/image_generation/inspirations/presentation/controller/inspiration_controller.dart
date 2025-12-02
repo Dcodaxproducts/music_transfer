@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:matrix_ai/modules/image_generation/inspirations/data/model/inspiration.dart';
+import 'package:pixart_app/modules/image_generation/inspirations/data/model/inspiration.dart';
 import 'package:get/get.dart';
 import '../../domain/service/inspiration_service_interface.dart';
 

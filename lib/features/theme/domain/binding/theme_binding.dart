@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:matrix_ai/features/theme/data/repository/theme_repo_interface.dart';
-import 'package:matrix_ai/features/theme/domain/service/theme_service_interface.dart';
+import 'package:pixart_app/features/theme/data/repository/theme_repo_interface.dart';
+import 'package:pixart_app/features/theme/domain/service/theme_service_interface.dart';
 import '../../data/repository/theme_repo.dart';
 import '../../presentation/controller/theme_controller.dart';
 import '../service/theme_service.dart';

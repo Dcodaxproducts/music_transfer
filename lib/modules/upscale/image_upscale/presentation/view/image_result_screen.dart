@@ -1,8 +1,8 @@
-import 'package:matrix_ai/modules/upscale/image_upscale/presentation/controller/image_upscale_controller.dart';
-import 'package:matrix_ai/core/helper/image_download.dart';
-import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/core/widgets/confirmation_dialog.dart';
-import 'package:matrix_ai/core/widgets/view_image.dart';
+import 'package:pixart_app/modules/upscale/image_upscale/presentation/controller/image_upscale_controller.dart';
+import 'package:pixart_app/core/helper/image_download.dart';
+import 'package:pixart_app/imports.dart';
+import 'package:pixart_app/core/widgets/confirmation_dialog.dart';
+import 'package:pixart_app/core/widgets/view_image.dart';
 import '../../../../bg_removal/background_remover/presentation/controller/background_remover_controller.dart';
 import '../../data/model/upscale_response.dart';
 
@@ -27,9 +27,9 @@ class _ImageResultScreenState extends State<ImageResultScreen> {
               child: ImageViewWithErrorHandling(url: widget.response.output.first),
             ),
           ),
-          SizedBox(height: spacingDefault),
+          SizedBox(height: 16.sp),
           Padding(
-            padding: paddingDefault,
+            padding: AppPadding.padding16,
             child: Column(
               children: [
                 SizedBox(
@@ -42,7 +42,7 @@ class _ImageResultScreenState extends State<ImageResultScreen> {
                     icon: Icon(Icons.download, color: Colors.white, size: 18.sp),
                   ),
                 ),
-                SizedBox(height: spacingDefault),
+                SizedBox(height: 16.sp),
                 SizedBox(
                   width: double.infinity,
                   child: PrimaryOutlineButton(
@@ -54,13 +54,13 @@ class _ImageResultScreenState extends State<ImageResultScreen> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  _deleteResult() {
+  void _deleteResult() {
     showConfirmationDialog(
       title: 'Delete Result',
       subtitle: "Are you sure you want to result this result?",

@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:matrix_ai/modules/upscale/image_upscale/presentation/controller/image_upscale_controller.dart';
-import 'package:matrix_ai/modules/upscale/image_upscale/data/model/upscale_response.dart';
-import 'package:matrix_ai/imports.dart';
-import 'package:matrix_ai/core/widgets/network_image.dart';
-import 'package:matrix_ai/features/loading_screen/presentation/view/src/loading_manager.dart';
+import 'package:pixart_app/modules/upscale/image_upscale/presentation/controller/image_upscale_controller.dart';
+import 'package:pixart_app/modules/upscale/image_upscale/data/model/upscale_response.dart';
+import 'package:pixart_app/imports.dart';
+import 'package:pixart_app/core/widgets/network_image.dart';
+import 'package:pixart_app/features/loading_screen/presentation/view/src/loading_manager.dart';
 import '../../../../../features/tools/data/model/tools.dart';
 import '../../../../bg_removal/background_remover/presentation/controller/background_remover_controller.dart';
 import 'image_result_screen.dart';
@@ -54,9 +54,9 @@ class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
                   : Image.file(File(image!.path), fit: BoxFit.contain),
             ),
           ),
-          SizedBox(height: spacingDefault),
+          SizedBox(height: 16.sp),
           Padding(
-            padding: paddingDefault,
+            padding: AppPadding.padding16,
             child: Column(
               children: [
                 SizedBox(
@@ -67,20 +67,20 @@ class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
                     onPressed: _handleApiCall,
                   ),
                 ),
-                SizedBox(height: spacingDefault),
+                SizedBox(height: 16.sp),
                 SizedBox(
                   width: double.infinity,
                   child: PrimaryOutlineButton(text: 'Change Image', onPressed: _pickImage),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  _handleApiCall() async {
+  Future<void> _handleApiCall() async {
     UpscaleResponse? response;
 
     File? file;
@@ -88,11 +88,17 @@ class _ImageUplodedScreenState extends State<ImageUplodedScreen> {
       file = File(image!.path);
     }
     if (_bacgroundRemover) {
-      response = await BackgroundRemoverController.find
-          .removeImageBackground(image: file, tool: widget.tool, urlImage: widget.imageUrl);
+      response = await BackgroundRemoverController.find.removeImageBackground(
+        image: file,
+        tool: widget.tool,
+        urlImage: widget.imageUrl,
+      );
     } else {
-      response = await ImageUpscaleController.find
-          .upscaleImage(image: file, tool: widget.tool, urlImage: widget.imageUrl);
+      response = await ImageUpscaleController.find.upscaleImage(
+        image: file,
+        tool: widget.tool,
+        urlImage: widget.imageUrl,
+      );
     }
     if (response != null) {
       await LoadingManager.complete();

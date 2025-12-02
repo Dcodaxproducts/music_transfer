@@ -1,4 +1,0 @@
-APP_NAME = PixArt
-MARKETING_VERSION = 2.7;
-CURRENT_PROJECT_VERSION = 1;
-BUNDLE_ID= pixart.aiart.imagegenerator

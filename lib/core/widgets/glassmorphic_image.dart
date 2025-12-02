@@ -1,4 +1,4 @@
-import 'package:matrix_ai/imports.dart';
+import 'package:pixart_app/imports.dart';
 import 'dart:ui';
 import 'network_image.dart';
 
@@ -20,9 +20,7 @@ class GlassmorphicImage extends StatelessWidget {
           height: context.height,
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 30.sp, sigmaY: 30.sp),
-            child: Container(
-              decoration: const BoxDecoration(color: Colors.transparent),
-            ),
+            child: Container(decoration: const BoxDecoration(color: Colors.transparent)),
           ),
         ),
 

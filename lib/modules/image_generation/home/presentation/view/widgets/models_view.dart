@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:matrix_ai/modules/image_generation/models/presentation/controller/models_controller.dart';
-import 'package:matrix_ai/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/modules/image_generation/models/presentation/controller/models_controller.dart';
+import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../../models/data/model/model.dart';
 import '../../../../../../imports.dart';
 import '../../../../../../core/widgets/shimmer.dart';
@@ -35,14 +35,14 @@ class ModelsView extends StatelessWidget {
 
             return Column(
               children: [
-                SizedBox(height: spacingDefault),
+                SizedBox(height: 16.sp),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text('set_a_theme'.tr, style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600)),
+                    Text('set_a_theme'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
                     Text(
                       ' • ( ${selectedModel.name} )',
-                      style: bodySmall(context).copyWith(
+                      style: context.font12.copyWith(
                         fontWeight: FontWeight.w600,
                         color: context.theme.hintColor,
                       ),
@@ -51,7 +51,7 @@ class ModelsView extends StatelessWidget {
                     TextButton(
                       onPressed: () => Get.bottomSheet(const ModelsScreen(), isScrollControlled: true),
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                      child: Text('see_all'.tr, style: bodySmall(context)),
+                      child: Text('see_all'.tr, style: context.font12),
                     ),
                   ],
                 ),
@@ -60,7 +60,7 @@ class ModelsView extends StatelessWidget {
                   child: ListView.separated(
                     itemCount: popularModels.length,
                     scrollDirection: Axis.horizontal,
-                    separatorBuilder: (_, __) => SizedBox(width: spacingDefault),
+                    separatorBuilder: (_, _) => SizedBox(width: 16.sp),
                     itemBuilder: (context, index) {
                       final Model model = popularModels[index];
                       final bool selected = model.id == selectedModel.id;
@@ -88,8 +88,8 @@ class ModelsView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: spacingSmall),
-                                Text(model.name, style: bodySmall(context)),
+                                SizedBox(height: 8.sp),
+                                Text(model.name, style: context.font12),
                               ],
                             ),
                             FavoritePremiumIcon(model: model, positioned: 0),
@@ -116,19 +116,16 @@ class ModelsViewShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: spacingSmall),
+        SizedBox(height: 8.sp),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              'set_a_theme'.tr,
-              style: bodyMedium(context).copyWith(fontWeight: FontWeight.w600),
-            ),
+            Text('set_a_theme'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
             const Spacer(),
             TextButton(
               onPressed: () {},
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              child: Text('see_all'.tr, style: bodySmall(context)),
+              child: Text('see_all'.tr, style: context.font12),
             ),
           ],
         ),
@@ -136,25 +133,26 @@ class ModelsViewShimmer extends StatelessWidget {
           child: SizedBox(
             height: 110.sp,
             child: ListView.separated(
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (_, __) => SizedBox(width: spacingDefault),
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: 90.sp,
-                          decoration: BoxDecoration(color: context.theme.cardColor, shape: BoxShape.circle),
-                        ),
+              itemCount: 5,
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (_, _) => SizedBox(width: 16.sp),
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: 90.sp,
+                        decoration: BoxDecoration(color: context.theme.cardColor, shape: BoxShape.circle),
                       ),
-                      SizedBox(height: spacingSmall),
-                      Container(width: 60.sp, height: 10.sp, color: context.theme.cardColor),
-                    ],
-                  );
-                }),
+                    ),
+                    SizedBox(height: 8.sp),
+                    Container(width: 60.sp, height: 10.sp, color: context.theme.cardColor),
+                  ],
+                );
+              },
+            ),
           ),
-        )
+        ),
       ],
     );
   }
