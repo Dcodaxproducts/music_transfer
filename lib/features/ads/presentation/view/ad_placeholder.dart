@@ -23,7 +23,11 @@ class NativeAdPlaceholder extends StatelessWidget {
 class BannerAdPlaceholder extends StatelessWidget {
   final double width;
   final double height;
-  const BannerAdPlaceholder({super.key, this.width = double.infinity, this.height = 64});
+  const BannerAdPlaceholder({
+    super.key,
+    this.width = double.infinity,
+    this.height = 64,
+  });
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(

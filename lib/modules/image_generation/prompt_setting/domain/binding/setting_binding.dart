@@ -9,11 +9,16 @@ class SettingBinding extends Bindings {
   @override
   void dependencies() {
     // repo
-    SettingsRepoInterface settingsRepoInterface = SettingsRepo(apiClient: Get.find(), prefs: Get.find());
+    SettingsRepoInterface settingsRepoInterface = SettingsRepo(
+      apiClient: Get.find(),
+      prefs: Get.find(),
+    );
     Get.lazyPut(() => settingsRepoInterface, fenix: true);
 
     // service
-    SettingsServiceInterface settingsServiceInterface = SettingsService(settingsRepo: Get.find());
+    SettingsServiceInterface settingsServiceInterface = SettingsService(
+      settingsRepo: Get.find(),
+    );
     Get.lazyPut(() => settingsServiceInterface, fenix: true);
 
     // controller

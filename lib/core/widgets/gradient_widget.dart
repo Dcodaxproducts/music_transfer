@@ -8,8 +8,9 @@ class GradientWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
-      shaderCallback: (bounds) =>
-          (gradient ?? primaryGradient).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
+      shaderCallback: (bounds) => (gradient ?? primaryGradient).createShader(
+        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+      ),
       child: child,
     );
   }
@@ -57,7 +58,10 @@ class GradientBorderContainer extends StatelessWidget {
         padding: EdgeInsets.all(borderWidth),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius.topLeft.x - borderWidth),
-          child: Padding(padding: padding ?? AppPadding.padding16, child: child),
+          child: Padding(
+            padding: padding ?? AppPadding.padding16,
+            child: child,
+          ),
         ),
       ),
     );
@@ -70,7 +74,11 @@ class GradientBorderPainter extends CustomPainter {
   final double strokeWidth;
   final double borderRadius;
 
-  GradientBorderPainter({required this.gradient, required this.strokeWidth, required this.borderRadius});
+  GradientBorderPainter({
+    required this.gradient,
+    required this.strokeWidth,
+    required this.borderRadius,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -78,11 +86,19 @@ class GradientBorderPainter extends CustomPainter {
     final Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
 
     // Create rounded rectangle
-    final RRect rrect = RRect.fromRectAndRadius(rect, Radius.circular(borderRadius));
+    final RRect rrect = RRect.fromRectAndRadius(
+      rect,
+      Radius.circular(borderRadius),
+    );
 
     // Create smaller rounded rectangle for the "hole"
     final RRect innerRRect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(strokeWidth, strokeWidth, size.width - strokeWidth * 2, size.height - strokeWidth * 2),
+      Rect.fromLTWH(
+        strokeWidth,
+        strokeWidth,
+        size.width - strokeWidth * 2,
+        size.height - strokeWidth * 2,
+      ),
       Radius.circular(borderRadius - strokeWidth),
     );
 

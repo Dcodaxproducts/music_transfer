@@ -1,5 +1,4 @@
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:pixart_app/core/widgets/network_image.dart';
 import 'package:pixart_app/features/ads/presentation/controller/ads_controller.dart';
 import 'package:pixart_app/modules/image_generation/inspirations/presentation/controller/inspiration_controller.dart';
 import 'package:pixart_app/modules/image_generation/inspirations/data/model/inspiration.dart';
@@ -28,16 +27,9 @@ class InspirationScreen extends StatelessWidget {
                 crossAxisSpacing: 4.sp,
                 itemBuilder: (context, index) => InkWell(
                   onTap: () => launchScreen(InspirationDetailScreen(inspiration: inspirations[index])),
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (_) => InspirationDialog(inspiration: inspirations[index]),
-                  // ),
                   child: Stack(
                     children: [
-                      CustomNetworkImage(
-                        url: inspirations[index].image,
-                        color: Colors.black.withOpacity(0.15),
-                      ),
+                      PrimaryNetworkImage(url: inspirations[index].image),
                       Positioned(
                         bottom: 8.sp,
                         right: 8.sp,

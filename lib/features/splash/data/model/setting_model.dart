@@ -17,28 +17,32 @@ class SettingModel {
 
   // from json
   factory SettingModel.fromJson(Map<String, dynamic> json) => SettingModel(
-        termsAndConditions: json["terms_condition"]["value"],
-        privacyPolicy: json["privacy_policy"]["value"],
-        userAgreement: json["user_agreement"]["value"],
-        cancelAnytime: json["cancel_anytime"]["value"],
-        freeGenerations: (Platform.isAndroid ? json["free_generations"] : json["ios_free_generations"]) ?? 0,
-      );
+    termsAndConditions: json["terms_condition"]["value"],
+    privacyPolicy: json["privacy_policy"]["value"],
+    userAgreement: json["user_agreement"]["value"],
+    cancelAnytime: json["cancel_anytime"]["value"],
+    freeGenerations:
+        (Platform.isAndroid
+            ? json["free_generations"]
+            : json["ios_free_generations"]) ??
+        0,
+  );
 
   // to json
   Map<String, dynamic> toJson() => {
-        "terms_condition": {"value": termsAndConditions},
-        "privacy_policy": {"value": privacyPolicy},
-        "user_agreement": {"value": userAgreement},
-        "cancel_anytime": {"value": cancelAnytime},
-        "free_generations": freeGenerations,
-      };
+    "terms_condition": {"value": termsAndConditions},
+    "privacy_policy": {"value": privacyPolicy},
+    "user_agreement": {"value": userAgreement},
+    "cancel_anytime": {"value": cancelAnytime},
+    "free_generations": freeGenerations,
+  };
 
   // default
- static SettingModel get settings => SettingModel(
-        termsAndConditions: "",
-        privacyPolicy: "",
-        userAgreement: "",
-        cancelAnytime: "",
-        freeGenerations: 0,
-      );
+  static SettingModel get settings => SettingModel(
+    termsAndConditions: "",
+    privacyPolicy: "",
+    userAgreement: "",
+    cancelAnytime: "",
+    freeGenerations: 0,
+  );
 }

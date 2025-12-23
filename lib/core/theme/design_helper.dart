@@ -5,8 +5,10 @@ class DesignHelper {
     const double shortestSide = 600; // Tablet threshold
     const double largeTabletThreshold = 800;
 
-    final bool isTablet = MediaQuery.of(context).size.shortestSide > shortestSide;
-    final bool isLargeTablet = MediaQuery.of(context).size.shortestSide > largeTabletThreshold;
+    final bool isTablet =
+        MediaQuery.of(context).size.shortestSide > shortestSide;
+    final bool isLargeTablet =
+        MediaQuery.of(context).size.shortestSide > largeTabletThreshold;
 
     if (isLargeTablet) {
       return const Size(1024, 1366); // Large tablets
@@ -17,7 +19,12 @@ class DesignHelper {
     }
   }
 
-  static double screenSize(num size, bool isTablet, bool isLargeTablet, ScreenUtil util) {
+  static double screenSize(
+    num size,
+    bool isTablet,
+    bool isLargeTablet,
+    ScreenUtil util,
+  ) {
     double scaleFactor = 1.0;
     if (isTablet || isLargeTablet) {
       scaleFactor = 1.0;

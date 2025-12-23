@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:pixart_app/modules/image_generation/home/domain/service/generation_service.dart';
-
 import '../../../../../core/utils/app_constants.dart';
 
 class GenerationController extends GetxController {
@@ -13,7 +12,8 @@ class GenerationController extends GetxController {
   int get dailyGenerationCount => _dailyGenerationCount;
 
   Future<void> initialize() async {
-    _dailyGenerationCount = await generationServiceInterface.loadDailyGenerationCount();
+    _dailyGenerationCount = await generationServiceInterface
+        .loadDailyGenerationCount();
     update();
   }
 
@@ -29,5 +29,6 @@ class GenerationController extends GetxController {
     update();
   }
 
-  bool get proUserLimitExceeded => _dailyGenerationCount >= AppConstants.PRO_USER_DAILY_LIMIT;
+  bool get proUserLimitExceeded =>
+      _dailyGenerationCount >= AppConstants.proUserDailyLimit;
 }

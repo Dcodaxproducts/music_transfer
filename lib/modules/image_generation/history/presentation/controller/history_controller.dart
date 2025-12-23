@@ -1,12 +1,10 @@
-import 'dart:async';
-import 'dart:typed_data';
 import 'package:get/get.dart';
-import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
-import 'package:pixart_app/modules/image_generation/history/domain/service/history_service_interface.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/image_generation.dart';
+import 'package:pixart_app/modules/image_generation/history/domain/service/history_service.dart';
 import '../../../prompt_setting/presentation/controller/settings_controller.dart';
 
 class HistoryController extends GetxController {
-  final HistoryServiceInterface historyService;
+  final HistoryService historyService;
   HistoryController({required this.historyService});
 
   static HistoryController get find => Get.find<HistoryController>();
@@ -20,16 +18,17 @@ class HistoryController extends GetxController {
     update();
   }
 
-  ImageGenerationResult addPrompt(ImageGenerationResult prompt, {int? seed}) {
-    // if seed is not null and _promptHistory has any item with the same seed then remove it
-    if (seed != null) {
-      ImageGenerationResult? oldResponse = _promptHistory.firstWhereOrNull((e) => e.meta.seed == seed);
-      if (oldResponse != null) {
-        prompt = prompt.copyWith(linkedResponses: [oldResponse.id, ...oldResponse.linkedResponses ?? []]);
-      }
+  void initPromptHistory() {
+    if (_promptHistory.isEmpty) {
+      _promptHistory = historyService.getPromptHistoryFromRepo();
     }
+    SettingsController.find.setPromptText(
+      _promptHistory.isNotEmpty ? _promptHistory.first.meta.prompt : '',
+    );
+    update();
+  }
 
-    // add prompt at the beginning of the list
+  ImageGenerationResult addPrompt(ImageGenerationResult prompt) {
     _promptHistory.insert(0, prompt);
     update();
     historyService.addPrompt(_promptHistory);
@@ -38,18 +37,6 @@ class HistoryController extends GetxController {
 
   void removePrompt(ImageGenerationResult prompt) {
     historyService.removePrompt(prompt, _promptHistory);
-    update();
-  }
-
-  Future<Uint8List?> downloadImage(String url) async {
-    return await historyService.downloadImage(url);
-  }
-
-  void initPromptHistory() {
-    if (_promptHistory.isEmpty) {
-      _promptHistory = historyService.getPromptHistoryFromRepo();
-    }
-    SettingsController.find.setPromptText(_promptHistory.isNotEmpty ? _promptHistory.first.meta.prompt : '');
     update();
   }
 
@@ -65,25 +52,5 @@ class HistoryController extends GetxController {
     _promptHistory[index] = response;
     update();
     historyService.toggleFavorite(_promptHistory);
-  }
-
-  int getInitialIndex(ImageGenerationResult response, {bool favorites = false}) {
-    final history = getFilteredHistory(favorites: favorites);
-    return history.indexWhere((item) => item.id == response.id);
-  }
-
-  List<ImageGenerationResult> getFilteredHistory({bool favorites = false}) {
-    if (favorites) {
-      return _promptHistory.where((e) => e.bookmarked).toList();
-    }
-    return _promptHistory;
-  }
-
-  ImageGenerationResult? getResponseById(int id) {
-    return _promptHistory.firstWhereOrNull((response) => response.id == id);
-  }
-
-  ImageGenerationResult? getResponseByImageUrl(String imageUrl) {
-    return _promptHistory.firstWhereOrNull((response) => response.output.contains(imageUrl));
   }
 }

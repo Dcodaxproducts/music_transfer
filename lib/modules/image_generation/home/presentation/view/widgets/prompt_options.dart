@@ -17,7 +17,10 @@ class PromptSettingsWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 16.sp),
-        Text('advance_options'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
+        Text(
+          'advance_options'.tr,
+          style: context.font14.copyWith(fontWeight: FontWeight.w600),
+        ),
         SizedBox(height: 8.sp),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -25,11 +28,16 @@ class PromptSettingsWidget extends StatelessWidget {
             Expanded(
               child: GetBuilder<SettingsController>(
                 builder: (con) {
-                  final aspectRatio = aspectRatios.firstWhere((e) => e.id == con.configModel.aspectRatio);
+                  final aspectRatio = aspectRatios.firstWhere(
+                    (e) => e.id == con.configModel.aspectRatio,
+                  );
                   return PromptOptionButton(
                     title: '${aspectRatio.width} x ${aspectRatio.height}',
                     icon: Iconsax.image,
-                    onTap: () => Get.bottomSheet(const AspectRatioScreen(), isScrollControlled: true),
+                    onTap: () => Get.bottomSheet(
+                      const AspectRatioScreen(),
+                      isScrollControlled: true,
+                    ),
                   );
                 },
               ),
@@ -39,7 +47,10 @@ class PromptSettingsWidget extends StatelessWidget {
               child: PromptOptionButton(
                 title: 'prompt_settings'.tr,
                 icon: Iconsax.setting_4,
-                onTap: () => Get.bottomSheet(const PromptSettingScreen(), isScrollControlled: true),
+                onTap: () => Get.bottomSheet(
+                  const PromptSettingScreen(),
+                  isScrollControlled: true,
+                ),
               ),
             ),
           ],
@@ -53,7 +64,12 @@ class PromptOptionButton extends StatelessWidget {
   final String title;
   final IconData? icon;
   final Function() onTap;
-  const PromptOptionButton({super.key, required this.title, this.icon, required this.onTap});
+  const PromptOptionButton({
+    super.key,
+    required this.title,
+    this.icon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +81,10 @@ class PromptOptionButton extends StatelessWidget {
         child: Container(
           height: 55.sp,
           padding: EdgeInsets.symmetric(horizontal: 16.sp),
-          decoration: BoxDecoration(color: context.theme.cardColor, borderRadius: AppRadius.circular16),
+          decoration: BoxDecoration(
+            color: context.theme.cardColor,
+            borderRadius: AppRadius.circular16,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

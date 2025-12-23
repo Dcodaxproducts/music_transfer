@@ -7,18 +7,19 @@ InputDecorationTheme get inputDecorationThemeLight => InputDecorationTheme(
   // borders
   disabledBorder: border(),
   focusedBorder: border(),
-  errorBorder: border(color: Colors.red),
-  focusedErrorBorder: border(color: Colors.red),
+  errorBorder: border(color: errorColor),
+  focusedErrorBorder: border(color: errorColor),
   // styles
-  errorStyle: TextStyle(fontSize: 12.sp, color: Colors.red),
+  errorStyle: TextStyle(fontSize: 12.sp, color: errorColor),
   hintStyle: TextStyle(fontSize: 14.sp, color: hintColorLight),
   labelStyle: TextStyle(fontSize: 14.sp, color: hintColorLight),
 );
 
-InputDecorationTheme get inputDecorationThemeDark => inputDecorationThemeLight.copyWith(
-  hintStyle: TextStyle(fontSize: 14.sp, color: hintColorDark),
-  labelStyle: TextStyle(fontSize: 14.sp, color: hintColorDark),
-);
+InputDecorationTheme get inputDecorationThemeDark =>
+    inputDecorationThemeLight.copyWith(
+      hintStyle: TextStyle(fontSize: 14.sp, color: hintColorDark),
+      labelStyle: TextStyle(fontSize: 14.sp, color: hintColorDark),
+    );
 
 InputBorder border({Color? color}) => OutlineInputBorder(
   borderSide: BorderSide(color: color ?? primaryColor, width: 1.sp),

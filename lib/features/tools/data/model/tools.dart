@@ -1,36 +1,21 @@
 import 'dart:io';
-import 'package:pixart_app/modules/upscale/image_upscale/data/model/upscale_image.dart';
 import 'package:pixart_app/imports.dart';
-import 'package:pixart_app/features/tools/presentation/view/widgets/background_remover_animation.dart';
-import 'package:pixart_app/features/tools/presentation/view/widgets/upscale_animation.dart';
-
-import '../../../../modules/bg_removal/background_remover/data/model/background_remover.dart';
+import 'package:pixart_app/features/tools/presentation/widgets/bg_remover_animation.dart';
+import 'package:pixart_app/features/tools/presentation/widgets/upscale_animation.dart';
 
 class ToolModel {
   final String name;
   final String description;
   final String image;
   final Widget? animation;
-  final String apiUrl;
-  final String apiKey;
-  final String queueUrl;
-  final String apiKeyLoation;
   final bool premium;
-  final UpscaleImage? upscaleImage;
-  final BackgroundRemover? backgroundRemover;
 
   ToolModel({
     required this.name,
     required this.description,
     required this.image,
     this.animation,
-    required this.apiKey,
-    required this.apiUrl,
-    required this.queueUrl,
-    required this.apiKeyLoation,
     this.premium = false,
-    this.upscaleImage,
-    this.backgroundRemover,
   });
 
   // from json
@@ -40,39 +25,26 @@ class ToolModel {
       description: json['description'],
       image: json['image'],
       animation: json['animation'],
-      apiUrl: json['api_url'],
-      apiKey: json['api_key'],
-      queueUrl: json['queue_url'] ?? '',
-      apiKeyLoation: json['api_key_location'],
-      premium: Platform.isAndroid ? json['premium'] : json['ios_premium'] ?? false,
-      upscaleImage: json['upscale_image'] != null ? UpscaleImage.fromJson(json['upscale_image']) : null,
-      backgroundRemover: json['background_remover'] != null
-          ? BackgroundRemover.fromJson(json['background_remover'])
-          : null,
+      premium: Platform.isAndroid
+          ? json['premium']
+          : json['ios_premium'] ?? false,
     );
   }
   static ToolModel backgroundRemoverTool = ToolModel(
     image: Images.bg_remover,
-    animation: const BackgroundRemoverAnimation(),
+    animation: const BgRemoverAnimation(),
     name: 'ai_bg_remover',
     description: 'remove_background_easily',
-    apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',
-    apiUrl: 'https://modelslab.com/api/v6/image_editing/removebg_mask',
-    queueUrl: 'https://modelslab.com/api/v6/image_editing/fetch',
-    apiKeyLoation: 'body',
-    backgroundRemover: BackgroundRemover.initialValue,
   );
   static ToolModel upscaleImageTool = ToolModel(
     image: Images.toolsImage,
     animation: const UpscaleAnimation(),
     name: 'ai_upscale',
     description: 'upscale_images_to_higher_resolutions',
-    apiKey: 'Ah9XwMqgVKaQLiMtxykW8SrNsJ0CypVEyyrudFINjH1yWij7SFZ35c7egoaI',
-    apiUrl: 'https://modelslab.com/api/v6/image_editing/super_resolution',
-    queueUrl: 'https://modelslab.com/api/v6/image_editing/fetch',
-    apiKeyLoation: 'body',
-    upscaleImage: UpscaleImage.initialValue,
   );
 }
 
-List<ToolModel> get tools => [ToolModel.upscaleImageTool, ToolModel.backgroundRemoverTool];
+List<ToolModel> get tools => [
+  ToolModel.upscaleImageTool,
+  ToolModel.backgroundRemoverTool,
+];

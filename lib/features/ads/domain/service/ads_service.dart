@@ -203,8 +203,4 @@ class AdsService implements AdsServiceInterface {
     }
     return adWidget;
   }
-
-  void showSnack(String text) {
-    showToast(text, success: false);
-  }
 }

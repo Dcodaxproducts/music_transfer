@@ -15,7 +15,9 @@ class AppVersionWidget extends StatelessWidget {
             child: Center(
               child: Text(
                 '${'version'.tr} ${con.packageInfo?.version} (${con.packageInfo?.buildNumber})',
-                style: context.font14.copyWith(color: Theme.of(context).hintColor),
+                style: context.font14.copyWith(
+                  color: Theme.of(context).hintColor,
+                ),
               ),
             ),
           ),

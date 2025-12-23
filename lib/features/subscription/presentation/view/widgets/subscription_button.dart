@@ -24,7 +24,10 @@ class SubsriptionButton extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Icon(Iconsax.crown_1, color: Colors.white, size: 16.sp),
-                Text('go_pro'.tr, style: context.font12.copyWith(color: Colors.white)),
+                Text(
+                  'go_pro'.tr,
+                  style: context.font12.copyWith(color: Colors.white),
+                ),
               ],
             ),
           ),

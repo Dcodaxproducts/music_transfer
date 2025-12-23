@@ -13,7 +13,9 @@ class ThemeBinding extends Bindings {
     Get.lazyPut(() => themeRepoInterface, fenix: true);
 
     // service
-    ThemeServiceInterface themeServiceInterface = ThemeService(themeRepo: Get.find());
+    ThemeServiceInterface themeServiceInterface = ThemeService(
+      themeRepo: Get.find(),
+    );
     Get.lazyPut(() => themeServiceInterface, fenix: true);
 
     // controller

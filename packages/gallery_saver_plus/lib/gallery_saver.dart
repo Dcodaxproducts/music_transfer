@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:gallery_saver_plus/files.dart';
 import 'package:http/http.dart' as http;
@@ -75,9 +74,8 @@ class GallerySaver {
     return result;
   }
 
-  static Future<File> downloadFile(String url, {Map<String, String>? headers}) async {
-    debugPrint(url);
-    debugPrint(headers?.toString());
+  static Future<File> downloadFile(String url,
+      {Map<String, String>? headers}) async {
     http.Client client = http.Client();
     var req = await client.get(Uri.parse(url), headers: headers);
     if (req.statusCode >= 400) {
@@ -85,11 +83,10 @@ class GallerySaver {
     }
     var bytes = req.bodyBytes;
     String dir = (await getTemporaryDirectory()).path;
-    final String fileName = "${DateTime.now().millisecondsSinceEpoch.toString()}.jpeg";
+    final String fileName =
+        "${DateTime.now().millisecondsSinceEpoch.toString()}.jpeg";
     File file = File('$dir/${basename(fileName)}');
     await file.writeAsBytes(bytes);
-    debugPrint('File size:${await file.length()}');
-    debugPrint(file.path);
     return file;
   }
 }

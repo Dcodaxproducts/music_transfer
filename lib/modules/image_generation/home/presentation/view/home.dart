@@ -3,7 +3,7 @@ import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/modules/image_generation/models/presentation/controller/models_controller.dart';
 import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/modules/image_generation/home/presentation/view/widgets/models_view.dart';
-import '../../domain/helper/image_generation_helper.dart';
+import '../../utils/image_generation_helper.dart';
 import 'widgets/free_generations.dart';
 import 'widgets/history_view.dart';
 import 'widgets/prompt_options.dart';

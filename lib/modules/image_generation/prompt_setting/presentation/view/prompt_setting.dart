@@ -29,19 +29,31 @@ class PromptSettingScreen extends StatelessWidget {
                         onPressed: pop,
                         icon: Icon(Icons.close),
                         padding: EdgeInsets.zero,
-                        visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                        visualDensity: VisualDensity(
+                          horizontal: -4,
+                          vertical: -4,
+                        ),
                       ),
-                      Text('settings'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
+                      Text(
+                        'settings'.tr,
+                        style: context.font14.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       TextButton(
                         onPressed: () {
                           SettingsController con = SettingsController.find;
                           con.configModel = con.configModel.copyWith(
-                            negativePrompt: con.negativePromptController.text.trim(),
+                            negativePrompt: con.negativePromptController.text
+                                .trim(),
                           );
                           pop();
                         },
                         style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                        child: Text('done'.tr, style: context.font14.copyWith(color: primaryColor)),
+                        child: Text(
+                          'done'.tr,
+                          style: context.font14.copyWith(color: primaryColor),
+                        ),
                       ),
                     ],
                   ),
@@ -49,11 +61,16 @@ class PromptSettingScreen extends StatelessWidget {
                     child: GetBuilder<SettingsController>(
                       builder: (con) {
                         final selectedAspectRatio = aspectRatios
-                            .firstWhere((e) => e.id == con.configModel.aspectRatio)
+                            .firstWhere(
+                              (e) => e.id == con.configModel.aspectRatio,
+                            )
                             .aspectRatio;
                         return ListView(
                           children: [
-                            AspectRatioSelectionWidget(con: con, selectedAspectRatio: selectedAspectRatio),
+                            AspectRatioSelectionWidget(
+                              con: con,
+                              selectedAspectRatio: selectedAspectRatio,
+                            ),
                             NegativePromptWidget(con: con),
                             CFGWidget(con: con),
                             SeedWidget(con: con),

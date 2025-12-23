@@ -9,7 +9,8 @@ class EventsHelper {
   EventsHelper._internal();
 
   final String _googleInterstitalAdEvent = 'google_interstitial_ad';
-  final String _googleRewardedInterstitalAdEvent = 'google_reward_interstitial_ad';
+  final String _googleRewardedInterstitalAdEvent =
+      'google_reward_interstitial_ad';
   final String _googleRewardedAdEvent = 'google_rewarded_ad';
   final String _googleAppOpenAdEvent = 'google_app_open_ad';
   final String _googleBannerAdEvent = 'google_banner_ad';

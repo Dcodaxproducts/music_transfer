@@ -8,7 +8,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
 import '../../../language/presentation/view/language.dart';
 import 'widgets/menu_item.dart';
-import 'widgets/theme.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -24,7 +23,6 @@ class _SettingScreenState extends State<SettingScreen> {
       icon: Iconsax.language_circle,
       onTap: () => launchScreen(const LanguageScreen()),
     ),
-    const ThemeTile(),
     const NotificationTile(text: 'notifications', icon: Iconsax.notification),
   ];
 
@@ -33,7 +31,7 @@ class _SettingScreenState extends State<SettingScreen> {
       MenuItem(
         text: 'manage_subscription',
         icon: Iconsax.crown_1,
-        onTap: () => launchUrlString(AppConstants.MANAGE_SUBSCRIPTIONS_URL),
+        onTap: () => launchUrlString(AppConstants.manageSubscriptionsUrl),
       ),
     MenuItem(
       text: 'privacy_policy',
@@ -51,7 +49,7 @@ class _SettingScreenState extends State<SettingScreen> {
       icon: Iconsax.share,
       onTap: () {
         String shareText =
-            'Check out this amazing AI app\n\nAndroid:${AppConstants.ANDROID_APP_URL}\n\niOS:${AppConstants.IOS_APP_URL}';
+            'Check out this amazing AI app\n\nAndroid:${AppConstants.androidAppUrl}\n\niOS:${AppConstants.iOSAppUrl}';
         Share.share(shareText);
       },
     ),

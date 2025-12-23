@@ -33,12 +33,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
     NavigationItem(icon: Iconsax.setting, child: const SettingScreen()),
   ];
 
-  final List<String> _titles = [AppConstants.APP_NAME, 'tools', 'inspirations', 'settings'];
+  final List<String> _titles = [
+    AppConstants.appName,
+    'tools',
+    'inspirations',
+    'settings',
+  ];
 
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      if (SubscriptionController.find.products.isNotEmpty && !SubscriptionController.find.isPro) {
+      if (SubscriptionController.find.products.isNotEmpty &&
+          !SubscriptionController.find.isPro) {
         Future.delayed(const Duration(seconds: 2), () => showPremiumSheet());
       }
       SettingsController.find.saveShowAppOpen();

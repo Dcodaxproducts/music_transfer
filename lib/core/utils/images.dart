@@ -6,9 +6,10 @@ class Images {
   static const String subscriptionBg = 'assets/images/subscription_bg.png';
 
   // tools
-  static const String toolsImage = 'assets/images/tools_image.jpg';
+  static const String toolsImage = 'assets/images/upscale_image.jpg';
   static const String bg_remover = 'assets/images/bg_remover.png';
-  static const String bg_remover_removed = 'assets/images/bg_remover_removed.png';
+  static const String bg_remover_removed =
+      'assets/images/bg_remover_removed.png';
   // animation
   static const String starAnimation = 'assets/animations/loading_1.json';
 

@@ -12,34 +12,39 @@ class _ThemeTileState extends State<ThemeTile> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-        onExpansionChanged: (value) {
-          setState(() {
-            _isExpanded = value;
-          });
-        },
-        tilePadding: EdgeInsets.symmetric(horizontal: 16.sp),
-        childrenPadding: AppPadding.padding16,
-        leading: Icon(Iconsax.moon, size: 18.sp, color: context.font14.color),
-        title: Text('theme'.tr, style: context.font14),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GetBuilder<ThemeController>(builder: (con) {
+      onExpansionChanged: (value) {
+        setState(() {
+          _isExpanded = value;
+        });
+      },
+      tilePadding: EdgeInsets.symmetric(horizontal: 16.sp),
+      childrenPadding: AppPadding.padding16,
+      leading: Icon(Iconsax.moon, size: 18.sp, color: context.font14.color),
+      title: Text('theme'.tr, style: context.font14),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GetBuilder<ThemeController>(
+            builder: (con) {
               return Text(
                 con.themeMode.toString().split('.').last.tr,
-                style: context.font12.copyWith(color: Theme.of(context).hintColor),
+                style: context.font12.copyWith(
+                  color: Theme.of(context).hintColor,
+                ),
               );
-            }),
-            SizedBox(width: 8.sp),
-            Icon(
-              _isExpanded ? Iconsax.arrow_down_1 : Iconsax.arrow_right_3,
-              size: 16.sp,
-              color: context.theme.hintColor,
-            ),
-          ],
-        ),
-        children: [
-          GetBuilder<ThemeController>(builder: (con) {
+            },
+          ),
+          SizedBox(width: 8.sp),
+          Icon(
+            _isExpanded ? Iconsax.arrow_down_1 : Iconsax.arrow_right_3,
+            size: 16.sp,
+            color: context.theme.hintColor,
+          ),
+        ],
+      ),
+      children: [
+        GetBuilder<ThemeController>(
+          builder: (con) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -60,8 +65,10 @@ class _ThemeTileState extends State<ThemeTile> {
                 ),
               ],
             );
-          }),
-        ]);
+          },
+        ),
+      ],
+    );
   }
 }
 
@@ -69,7 +76,12 @@ class ThemeModeWidget extends StatelessWidget {
   final String text;
   final ThemeMode themeMode;
   final bool selected;
-  const ThemeModeWidget({required this.text, required this.themeMode, required this.selected, super.key});
+  const ThemeModeWidget({
+    required this.text,
+    required this.themeMode,
+    required this.selected,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -91,14 +103,13 @@ class ThemeModeWidget extends StatelessWidget {
             child: Icon(
               icon,
               size: 18.sp,
-              color: selected ? context.font14.color : Theme.of(context).hintColor,
+              color: selected
+                  ? context.font14.color
+                  : Theme.of(context).hintColor,
             ),
           ),
           SizedBox(height: 8.sp),
-          Text(
-            text.tr,
-            style: context.font12,
-          ),
+          Text(text.tr, style: context.font12),
         ],
       ),
     );

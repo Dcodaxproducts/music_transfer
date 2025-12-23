@@ -1,13 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:pixart_app/modules/image_generation/history/presentation/controller/history_controller.dart';
-import 'package:pixart_app/modules/image_generation/home/data/model/models_lab_response.dart';
+import 'package:pixart_app/modules/image_generation/home/data/model/image_generation.dart';
+import '../../../../../../imports.dart';
 
 class FavoriteHistoryIcon extends StatelessWidget {
   final ImageGenerationResult response;
   final double positioned;
-  const FavoriteHistoryIcon({super.key, required this.response, this.positioned = 8});
+  const FavoriteHistoryIcon({
+    super.key,
+    required this.response,
+    this.positioned = 8,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +23,19 @@ class FavoriteHistoryIcon extends StatelessWidget {
           decoration: const BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
-            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
           ),
-          child: Icon(getIcon(), size: 15.sp, color: isFavorite ? Colors.red : Colors.black),
+          child: Icon(
+            getIcon(),
+            size: 15.sp,
+            color: isFavorite ? errorColor : Colors.black,
+          ),
         ),
       ),
     );

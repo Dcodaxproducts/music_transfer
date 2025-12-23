@@ -9,11 +9,16 @@ class ModelsBinding extends Bindings {
   @override
   void dependencies() {
     // repo
-    ModelsRepoInterface modelsRepoInterface = ModelsRepo(apiClient: Get.find(), prefs: Get.find());
+    ModelsRepoInterface modelsRepoInterface = ModelsRepo(
+      apiClient: Get.find(),
+      prefs: Get.find(),
+    );
     Get.lazyPut(() => modelsRepoInterface, fenix: true);
 
     // service
-    ModelsServiceInterface modelsServiceInterface = ModelsService(modelsRepo: Get.find());
+    ModelsServiceInterface modelsServiceInterface = ModelsService(
+      modelsRepo: Get.find(),
+    );
     Get.lazyPut(() => modelsServiceInterface, fenix: true);
 
     // controller

@@ -16,7 +16,10 @@ class SettingsController extends GetxController implements GetxService {
 
   // Text controllers for user input
   final promptController = StyleableTextFieldController(
-    styles: TextPartStyleDefinitions(definitionList: [], adultWords: AppConstants.ADULT_WORDS),
+    styles: TextPartStyleDefinitions(
+      definitionList: [],
+      adultWords: AppConstants.adultWords,
+    ),
   );
   final seedController = TextEditingController();
   final negativePromptController = TextEditingController();
@@ -43,7 +46,9 @@ class SettingsController extends GetxController implements GetxService {
   ConfigModel initSharedData() {
     _configModel = settingsService.initSharedData();
     negativePromptController.text = _configModel.negativePrompt;
-    seedController.text = _configModel.seed == null ? '-1' : _configModel.seed!.toString();
+    seedController.text = _configModel.seed == null
+        ? '-1'
+        : _configModel.seed!.toString();
     _isFirstTime = settingsService.getFirstTime();
     getPackageInfo();
     return _configModel;
@@ -69,7 +74,9 @@ class SettingsController extends GetxController implements GetxService {
     bool isOffensive = false;
     final textParts = promptController.text.split(' ');
     for (final textPart in textParts) {
-      if (AppConstants.ADULT_WORDS.contains(removePunctuation(textPart.toLowerCase()))) {
+      if (AppConstants.adultWords.contains(
+        removePunctuation(textPart.toLowerCase()),
+      )) {
         isOffensive = true;
         break;
       }
@@ -86,7 +93,8 @@ class SettingsController extends GetxController implements GetxService {
   bool _isFirstTime = false;
   bool get isFirstTime => _isFirstTime;
 
-  Future<bool> saveShowAppOpen() async => await settingsService.saveShowAppOpen();
+  Future<bool> saveShowAppOpen() async =>
+      await settingsService.saveShowAppOpen();
 
   bool get showAppOpen => settingsService.getShowAppOpen();
 

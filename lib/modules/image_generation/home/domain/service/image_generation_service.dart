@@ -1,29 +1,26 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:pixart_app/features/aws/presentation/controller/aws_controller.dart';
-import 'package:pixart_app/modules/image_generation/home/presentation/controller/generation_controller.dart';
+import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/modules/image_generation/history/presentation/controller/history_controller.dart';
+import 'package:pixart_app/modules/image_generation/home/presentation/controller/generation_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:pixart_app/modules/image_generation/home/data/model/api_model.dart';
-import 'package:pixart_app/modules/image_generation/home/data/repository/image_generation_repo_interface.dart';
+import 'package:pixart_app/modules/image_generation/home/data/repository/image_gen_repo.dart';
 import 'package:pixart_app/features/ads/data/utils/firebase_events.dart';
-import 'package:pixart_app/core/utils/images.dart';
-import 'package:pixart_app/features/loading_screen/presentation/view/src/loading_manager.dart';
+import 'package:pixart_app/features/loading_screen/src/loading_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../../../../../core/widgets/snackbar.dart';
+import '../../../../../core/widgets/confirmation_dialog.dart';
 import '../../../../../features/subscription/presentation/controller/subscription_controller.dart';
-import '../../../../../core/utils/app_constants.dart';
 import '../../../aspect_ratio/data/model/aspect_ratio.dart';
-import '../../data/model/models_lab_response.dart';
+import '../../data/model/image_generation.dart';
 import '../../../models/data/model/model.dart';
-import '../../data/utils/image_generation_utils.dart';
+import '../../utils/image_generation_utils.dart';
 import 'image_generation_service_interface.dart';
 
-class ImageGenerationService implements ImageGenerationServiceInterface {
-  final ImageGenerationRepoInterface imageGenerationRepo;
-  ImageGenerationService({required this.imageGenerationRepo});
+class ImageGenerationServiceImpl implements ImageGenerationService {
+  final ImageGenRepo repo;
+  ImageGenerationServiceImpl({required this.repo});
 
   Future<void> _showAds() async {
     if (isPro) return Future.value();
@@ -39,9 +36,8 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     if (SettingsController.find.settingModel.freeGenerations == 0) {
       return Future.value(false);
     }
-
     // daily generation limit exceeded
-    bool proUserCondition = dailyGenerationCount >= AppConstants.PRO_USER_DAILY_LIMIT;
+    bool proUserCondition = dailyGenerationCount >= AppConstants.proUserDailyLimit;
 
     // free generation limit exceeded
     int count = freeGenerations - dailyGenerationCount;
@@ -52,35 +48,18 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
   }
 
   @override
-  Future<ApiKeyModel?> getTogetherApiKey(Model? modelValue) async {
-    LoadingManager.show();
-    Model model = ImageGenerationUtils.getModel(modelValue);
-    bool isTogetherAi = ImageGenerationUtils.isTogetherAi(model);
-    await Future.delayed(Duration(seconds: model.delay));
-    if (isTogetherAi) {
-      http.Response? response = await imageGenerationRepo.getTogetherApiKey();
-      if (response != null) {
-        Map<String, dynamic> data = jsonDecode(response.body);
-        return ApiKeyModel.fromJson(data);
-      }
-    }
-    return null;
-  }
-
-  @override
   Future<http.Response?> generateImages(
     String prompt, {
-    int? seed,
     Model? modelValue,
     bool showAds = true,
-    String? apiKey,
+    int? seed,
   }) async {
     // show ads
     if (showAds) {
       await _showAds();
     }
 
-    // update progress
+    LoadingManager.show(upscale: true);
     LoadingManager.updateProgress(1);
 
     // get model (selected or from models list)
@@ -89,122 +68,64 @@ class ImageGenerationService implements ImageGenerationServiceInterface {
     // get aspect ratio
     AspectRatioModel size = ImageGenerationUtils.getAspectRatio();
 
-    // get api url (the url to send the request to from the model)
-    String apiUrl = model.apiUrl;
+    // generate seed
+    int seedValue = seed ?? ImageGenerationUtils.generateSeed();
 
-    // get headers (if api key is in header)
-    Map<String, dynamic> headers = ImageGenerationUtils.getHeaders(model, apiKey);
+    // negative prompt
+    String negativePrompt = SettingsController.find.configModel.negativePrompt;
 
-    // create request body (parameters to send to the api)
-    Map<String, dynamic> body = ImageGenerationUtils.createRequestBody(prompt, size, model, seed, apiKey);
+    // guidance scale
+    double guidanceScale = SettingsController.find.configModel.guidanceScale;
+
+    Map<String, dynamic> body = {
+      "token": Endpoints.token,
+      "prompt": prompt,
+      "model_id": model.id,
+      "width": size.width,
+      "height": size.height,
+      "seed": seedValue,
+      "negative_prompt": negativePrompt,
+      "guidance_scale": guidanceScale,
+    };
 
     // send request to api
-    return await imageGenerationRepo.generateImages(url: apiUrl, body: body, headers: headers);
+    return await repo.generateImages(body);
   }
 
   // process generation response
   @override
-  Future<ImageGenerationResult?> processGenerationResponse(
-    http.Response? response,
-    String prompt,
-    Model? modelValue,
-    int? seed,
-  ) async {
+  ImageGenerationResult? processGenerationResponse(http.Response? response) {
     if (response == null) return null;
+
     Map<String, dynamic> data = jsonDecode(response.body);
 
-    if (!ImageGenerationUtils.isSuccessResponse(data)) return null;
+    // Check if the response is successful
+    if (!ImageGenerationUtils.isSuccessResponse(data)) {
+      showErrorDialog();
+      return null;
+    }
 
     GenerationController.find.incrementGenerationCount();
 
-    Model model = ImageGenerationUtils.getModel(modelValue);
-
     LoadingManager.updateProgress(2);
 
-    ImageGenerationResult value = await ImageGenerationUtils.getPromptResponse(data, prompt);
-
-    LoadingManager.updateProgress(3);
-
-    // replace prompt with original prompt
-    value = value.copyWith(
-      meta: value.meta.copyWith(prompt: prompt, seed: ImageGenerationUtils.isTogetherAi(model) ? seed : null),
-      createdAt: DateTime.now(),
-      model: model,
-    );
-
-    // add prompt history
-    value = HistoryController.find.addPrompt(value, seed: seed);
+    ImageGenerationResult value = ImageGenerationResult.fromJson(data);
 
     //  log impression for model to track usage to firebase
     PackageInfo? packageInfo = SettingsController.find.packageInfo;
     EventsHelper.logEvent('model_impression', {
-      'model': model.name,
+      'model': value.meta.model.name,
       'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
       'platform': Platform.isAndroid ? 'Android' : 'iOS',
     });
 
-    if (value.status == "success") {
-      return value;
-    } else if (value.status == "processing") {
-      await LoadingManager.queue();
-      showToast('your_prompt_is_processing_in_the_queue', success: true);
-    } else if (value.status == "queued") {
-      await LoadingManager.error();
-      // if genration failed then add link to output
-      value = value.copyWith(
-        output: [...value.output, Images.generationFailed],
-        futureLinks: [value.futureLinks.first],
-      );
-    } else {
-      await LoadingManager.error();
-      showToast(data["message"]);
-    }
-    return null;
-  }
+    HistoryController.find.addPrompt(value);
 
-  @override
-  Future<bool> getQueuedImages(ImageGenerationResult value) async {
-    // Save the original value in case of rollback
-    ImageGenerationResult oldResponse = value;
-
-    // prepare body
-    Map<String, dynamic> body = {"key": value.model!.apiKey, "request_id": value.id};
-
-    // get queue url
-    String url = value.model!.queueUrl;
-
-    http.Response? response = await imageGenerationRepo.getQueueImage(url: url, body: body);
-
-    if (response != null) {
-      Map<String, dynamic> data = jsonDecode(response.body);
-
-      if (data['status'] == "success") {
-        final List<String> output = List<String>.from(data['output']);
-
-        // Update response with new data
-        value = value.copyWith(status: 'success', output: output);
-
-        // Update the history
-        HistoryController.find.removePrompt(oldResponse);
-        HistoryController.find.addPrompt(value);
-        AwsController.find.downloadImageAndUploadToAWS(value.output.first);
-        return true;
-      }
-    }
-    return false;
+    return value;
   }
 
   @override
   Future<void> cancelRequest() async {
-    await imageGenerationRepo.cancelRequest();
-  }
-
-  @override
-  int? getSeed(int? seed, Model? model) {
-    Model modelValue = ImageGenerationUtils.getModel(model);
-    if (seed == null && ImageGenerationUtils.isTogetherAi(modelValue)) {
-      return ImageGenerationUtils.generateSeed();
-    }
-    return seed;
+    await repo.cancelRequest();
   }
 }

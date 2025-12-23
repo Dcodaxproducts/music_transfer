@@ -10,26 +10,32 @@ class ReviewRepo implements ReviewRepoInterface {
 
   @override
   Future<Response?> saveReview(Map<String, dynamic> body) async {
-    return await apiClient.post(Endpoints.BASE_URL + Endpoints.FEEDBACK_URL, body);
+    return await apiClient.post(
+      Endpoints.baseUrl + Endpoints.FEEDBACK_URL,
+      body,
+    );
   }
 
   @override
   Future<bool> setReviewed() async {
-    return await prefs.setBool(SharedKeys.REVIEWED, true);
+    return await prefs.setBool(SharedKeys.reviewed, true);
   }
 
   @override
   bool isReviewed() {
-    return prefs.getBool(SharedKeys.REVIEWED) ?? false;
+    return prefs.getBool(SharedKeys.reviewed) ?? false;
   }
 
   @override
   Future<bool> setLastDialogShowed() {
-    return prefs.setString(SharedKeys.LAST_DIALOG_SHOWED, DateTime.now().toString());
+    return prefs.setString(
+      SharedKeys.lastShowedDialog,
+      DateTime.now().toString(),
+    );
   }
 
   @override
   String? getLastDialogShowed() {
-    return prefs.getString(SharedKeys.LAST_DIALOG_SHOWED);
+    return prefs.getString(SharedKeys.lastShowedDialog);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:pixart_app/features/ads/presentation/controller/ads_controller.dart';
 import 'package:pixart_app/modules/image_generation/models/presentation/controller/models_controller.dart';
-import 'package:pixart_app/modules/image_generation/models/presentation/view/widgets/model_grid.dart';
+import 'package:pixart_app/modules/image_generation/models/presentation/widgets/model_grid.dart';
 import '../../../../../imports.dart';
 import '../../data/model/model.dart';
 import '../../../../../core/widgets/tab_button.dart';
@@ -34,7 +34,9 @@ class _ModelsScreenState extends State<ModelsScreen> {
           builder: (context, index, child) {
             final List<Model> models = modelsController.models;
             final List<Model> favoriteModels = modelsController.models
-                .where((model) => modelsController.favoriteModels.contains(model.id))
+                .where(
+                  (model) => modelsController.favoriteModels.contains(model.id),
+                )
                 .toList();
             bool canShowAd = false;
             if (index == 0 && models.isNotEmpty) {
@@ -59,23 +61,37 @@ class _ModelsScreenState extends State<ModelsScreen> {
                                 onPressed: pop,
                                 icon: Icon(Icons.close),
                                 padding: EdgeInsets.zero,
-                                visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                visualDensity: VisualDensity(
+                                  horizontal: -4,
+                                  vertical: -4,
+                                ),
                               ),
                               Text(
                                 'set_a_theme'.tr,
-                                style: context.font14.copyWith(fontWeight: FontWeight.w600),
+                                style: context.font14.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                               TextButton(
                                 onPressed: pop,
-                                style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                                child: Text('done'.tr, style: context.font14.copyWith(color: primaryColor)),
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: Text(
+                                  'done'.tr,
+                                  style: context.font14.copyWith(
+                                    color: primaryColor,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 16.sp),
                             child: DecoratedBox(
-                              decoration: BoxDecoration(borderRadius: AppRadius.circular16),
+                              decoration: BoxDecoration(
+                                borderRadius: AppRadius.circular16,
+                              ),
                               child: Row(
                                 children: [
                                   Expanded(

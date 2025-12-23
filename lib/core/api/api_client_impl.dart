@@ -1,168 +1,222 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
-import 'package:pixart_app/core/utils/endpoints.dart';
-import 'package:pixart_app/core/widgets/snackbar.dart';
-import 'package:pixart_app/core/api/api_client.dart';
-import 'package:pixart_app/core/error/error.dart';
-import 'package:get/get.dart';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
-import 'package:pixart_app/core/widgets/together_ai_error_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pixart_app/core/error/together_ai_error.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../imports.dart';
+import 'error.dart';
+import 'api_client.dart';
 
 class ApiClientImpl extends GetxService implements ApiClient {
-  final SharedPreferences prefs;
-  final int timeoutInSeconds = 30;
-  http.Client? _client; // Track the client for cancellation
+  final String baseUrl;
+  final int timeoutInSeconds = 20;
 
-  final Map<String, String> _mainHeaders = {"Content-Type": "application/json", 'Accept': 'application/json'};
-
-  ApiClientImpl({required this.prefs});
+  ApiClientImpl({required this.baseUrl});
+  http.Client? _client;
+  final Map<String, String> _mainHeaders = {
+    "Content-Type": "application/json",
+    'Accept': 'application/json',
+  };
 
   @override
   Future<void> cancelRequest() async {
-    if (_client != null) {
-      _client!.close(); // Cancel the ongoing request
-      _client = null; // Reset the client
+    _client?.close();
+    _client = null;
+    debugPrint('====> API request canceled');
+  }
+
+  Future<http.Response?> _request(
+    String method,
+    String uri, {
+    Map<String, dynamic>? body,
+    Map<String, String>? headers,
+    Map<String, String>? queryParams,
+    List<MultipartBody>? muliparts,
+    bool hideLoading = true,
+  }) async {
+    Uri url = Uri.parse('$baseUrl$uri').replace(queryParameters: queryParams);
+    try {
+      _printData(url.toString(), body: body);
+      _client = http.Client();
+      http.Response response;
+
+      final requestHeaders = {..._mainHeaders, if (headers != null) ...headers};
+      switch (method) {
+        case 'GET':
+          response = await _client!.get(url, headers: requestHeaders);
+          break;
+        case 'POST':
+          response = await _client!.post(
+            url,
+            body: jsonEncode(body),
+            headers: requestHeaders,
+          );
+          break;
+        case 'PUT':
+          response = await _client!.put(
+            url,
+            body: jsonEncode(body),
+            headers: requestHeaders,
+          );
+          break;
+        case 'DELETE':
+          response = await _client!.delete(url, headers: requestHeaders);
+          break;
+        case 'MULTIPART':
+          MultipartRequest request = http.MultipartRequest('POST', url);
+          request.headers.addAll(requestHeaders);
+
+          // Adding fields and files to the request
+          if (body != null) {
+            body.forEach((key, value) {
+              request.fields[key] = value.toString();
+            });
+          }
+
+          // Adding multipart files
+          if (muliparts != null) {
+            for (MultipartBody multipart in muliparts) {
+              request.files.add(
+                MultipartFile(
+                  multipart.key,
+                  multipart.file.readAsBytes().asStream(),
+                  await multipart.file.length(),
+                  filename: DateTime.now().millisecondsSinceEpoch.toString(),
+                ),
+              );
+            }
+          }
+
+          // Sending the request
+          response = await http.Response.fromStream(await request.send());
+        default:
+          throw UnsupportedError("HTTP method not supported");
+      }
+      return await _handleResponse(response);
+    } catch (e) {
+      _socketException(e);
+      return null;
+    } finally {
+      _client = null;
     }
   }
 
   @override
-  Future<http.Response?> get(String uri, {Map<String, String>? headers, bool hideLoading = true}) async {
-    try {
-      // print the api call
-      _debugPrint('====> API Call: ${Endpoints.BASE_URL + uri}, ====> Header: $_mainHeaders');
-
-      // Initialize a new client
-      _client = http.Client();
-
-      // api call
-      http.Response response = await _client!
-          .get(Uri.parse(Endpoints.BASE_URL + uri), headers: headers ?? _mainHeaders)
-          .timeout(Duration(seconds: timeoutInSeconds));
-
-      _client = null; // Reset the client after completion
-
-      // handle response
-      return _handleResponse(response, hideLoading: hideLoading);
-    } catch (e) {
-      _client = null; // Reset the client after completion
-      dismiss();
-      _socketException(e);
-      return null;
-    }
-  }
+  Future<http.Response?> get(
+    String uri, {
+    Map<String, String>? headers,
+    Map<String, String>? queryParams,
+    bool hideLoading = true,
+  }) => _request(
+    'GET',
+    uri,
+    headers: headers,
+    queryParams: queryParams,
+    hideLoading: hideLoading,
+  );
 
   @override
   Future<http.Response?> post(
-    String url,
+    String uri,
     Map<String, dynamic> body, {
-    Map<String, dynamic>? headers,
+    Map<String, String>? headers,
     bool hideLoading = true,
-  }) async {
-    try {
-      // print the api call
-      _debugPrint('====> API Call: $url, ====> Header: $_mainHeaders');
-      _debugPrint('====> Body: $body');
-
-      // Initialize a new client
-      _client = http.Client();
-
-      // api call
-      http.Response response = await _client!
-          .post(
-            Uri.parse(url),
-            body: jsonEncode(body),
-            headers: {..._mainHeaders, if (headers != null) ...headers},
-          )
-          .timeout(Duration(seconds: timeoutInSeconds));
-
-      _client = null; // Reset the client after completion
-      // handle response
-      return _handleResponse(response, hideLoading: hideLoading);
-    } catch (e) {
-      _client = null; // Reset the client after completion
-      dismiss();
-      _socketException(e);
-      return null;
-    }
-  }
+  }) => _request(
+    'POST',
+    uri,
+    body: body,
+    headers: headers,
+    hideLoading: hideLoading,
+  );
 
   @override
-  Future<Uint8List?> downloadImage(String uri, {bool hideLoading = true}) async {
-    try {
-      // print the api call
-      _debugPrint('====> API Call: $uri, ====> Header: $_mainHeaders');
+  Future<http.Response?> put(
+    String uri,
+    Map<String, dynamic> body, {
+    Map<String, String>? headers,
+    bool hideLoading = true,
+  }) => _request(
+    'PUT',
+    uri,
+    body: body,
+    headers: headers,
+    hideLoading: hideLoading,
+  );
 
-      http.Response response = await http
+  @override
+  Future<http.Response?> delete(
+    String uri, {
+    Map<String, String>? headers,
+    bool hideLoading = true,
+  }) => _request('DELETE', uri, headers: headers, hideLoading: hideLoading);
+
+  @override
+  Future<http.Response?> postMultipart(
+    String uri,
+    Map<String, dynamic> body,
+    List<MultipartBody>? muliparts, {
+    bool hideLoading = true,
+  }) => _request(
+    'MULTIPART',
+    uri,
+    body: body,
+    muliparts: muliparts,
+    hideLoading: hideLoading,
+  );
+
+  @override
+  Future<Uint8List?> downloadImage(String uri) async {
+    try {
+      _printData(uri);
+      final response = await http
           .get(Uri.parse(uri), headers: _mainHeaders)
           .timeout(Duration(seconds: timeoutInSeconds));
-      if (response.statusCode != 200) {
-        return _handleError(jsonDecode(response.body));
-      } else {
-        if (hideLoading) dismiss();
-        return Uint8List.fromList(response.bodyBytes);
-      }
+      return response.statusCode == 200
+          ? Uint8List.fromList(response.bodyBytes)
+          : _handleError(jsonDecode(response.body));
     } catch (e) {
-      dismiss();
       _socketException(e);
       return null;
     }
   }
 
-  Future<http.Response?> _handleResponse(http.Response response, {bool hideLoading = true}) async {
-    if (response.statusCode != 200) {
-      dismiss();
-      try {
-        return _handleError(jsonDecode(response.body));
-      } catch (e) {
-        showToast('Something went wrong');
-        return null;
-      }
-    } else {
-      if (hideLoading) {
-        dismiss();
-      }
-      return response;
-    }
+  void _printData(String url, {Map<String, dynamic>? body}) {
+    debugPrint('====> API Call: $url, ====> Headers: $_mainHeaders');
+    if (body != null) debugPrint('====> Body: $body');
+  }
+
+  Future<http.Response?> _handleResponse(
+    http.Response response, {
+    bool hideLoading = true,
+  }) async {
+    if (hideLoading) dismiss();
+    return response.statusCode == 200 || response.statusCode == 201
+        ? response
+        : _handleError(jsonDecode(response.body));
   }
 
   Null _handleError(Map<String, dynamic> body) {
     if (body.containsKey('message')) {
-      showToast(body['message']);
+      String message = body['message'];
+      showToast(message);
       return null;
     }
     ErrorResponse response = ErrorResponse.fromJson(body);
-    // Handle TogetherAIError
-    if (body.containsKey('id')) {
-      TogetherAIError error = getTogetherAIError(body['error']['type'], body['error']['message']);
-      dismiss();
-      _showCustomErrorDialog(error);
-    } else {
-      showToast(response.errors.first.message);
-    }
-
+    showToast(response.errors.first.message);
     return null;
   }
-
-  dynamic _showCustomErrorDialog(TogetherAIError error) => showTogetherAiErrorDialog(error);
 
   void _socketException(Object e) {
     if (e is SocketException) {
       showToast('Please check your internet connection');
     } else {
-      if (e is http.ClientException) {
-        showToast('Something went wrong');
-      } else {
-        showToast('Something went wrong');
-      }
+      showToast('Something went wrong');
     }
   }
+}
 
-  void _debugPrint(String message) {
-    if (kDebugMode) {
-      debugPrint(message);
-    }
-  }
+class MultipartBody {
+  String key;
+  XFile file;
+  MultipartBody(this.key, this.file);
 }

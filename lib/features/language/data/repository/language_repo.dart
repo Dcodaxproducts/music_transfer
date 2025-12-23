@@ -9,20 +9,22 @@ class LocalizationRepo implements LocalizationRepoInterface {
 
   @override
   List<Locale> get availableLanguages {
-    return appLanguages.map((lang) => Locale(lang.languageCode, lang.countryCode)).toList();
+    return appLanguages
+        .map((lang) => Locale(lang.languageCode, lang.countryCode))
+        .toList();
   }
 
   @override
   Locale loadCurrentLanguage() {
     return Locale(
-      prefs.getString(SharedKeys.LANGUAGE_CODE) ?? appLanguages[0].languageCode,
-      prefs.getString(SharedKeys.COUNTRY_CODE) ?? appLanguages[0].countryCode,
+      prefs.getString(SharedKeys.languageCode) ?? appLanguages[0].languageCode,
+      prefs.getString(SharedKeys.countryCode) ?? appLanguages[0].countryCode,
     );
   }
 
   @override
   Future<void> saveLanguage(Locale locale) async {
-    await prefs.setString(SharedKeys.LANGUAGE_CODE, locale.languageCode);
-    await prefs.setString(SharedKeys.COUNTRY_CODE, locale.countryCode!);
+    await prefs.setString(SharedKeys.languageCode, locale.languageCode);
+    await prefs.setString(SharedKeys.countryCode, locale.countryCode!);
   }
 }

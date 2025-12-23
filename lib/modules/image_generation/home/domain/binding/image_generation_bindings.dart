@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pixart_app/modules/image_generation/home/domain/service/image_generation_service_interface.dart';
-import '../../data/repository/image_generation_repo.dart';
-import '../../data/repository/image_generation_repo_interface.dart';
+import '../../data/repository/image_gen_repo_impl.dart';
+import '../../data/repository/image_gen_repo.dart';
 import '../../presentation/controller/image_generation_controller.dart';
 import '../service/image_generation_service.dart';
 
@@ -9,19 +9,18 @@ class ImageGenerationBindings extends Bindings {
   @override
   void dependencies() {
     // repo
-    ImageGenerationRepoInterface imageGenerationRepoInterface = ImageGenerationRepo(
+    ImageGenRepo imageGenerationRepoInterface = ImageGenRepoImpl(
       apiClient: Get.find(),
       prefs: Get.find(),
     );
     Get.lazyPut(() => imageGenerationRepoInterface, fenix: true);
 
     // service
-    ImageGenerationServiceInterface imageGenerationServiceInterface = ImageGenerationService(
-      imageGenerationRepo: Get.find(),
-    );
+    ImageGenerationService imageGenerationServiceInterface =
+        ImageGenerationServiceImpl(repo: Get.find());
     Get.lazyPut(() => imageGenerationServiceInterface, fenix: true);
 
     // controller
-    Get.lazyPut(() => ImageGenerationController(imageGenerationServiceInterface: Get.find()));
+    Get.lazyPut(() => ImageGenerationController(service: Get.find()));
   }
 }

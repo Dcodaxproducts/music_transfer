@@ -16,7 +16,9 @@ class InspirationService implements InspirationServiceInterface {
     if (response != null && response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
       List<dynamic> modelList = data['inspiration'];
-      List<Inspiration> inspirations = modelList.map((e) => Inspiration.fromJson(e)).toList();
+      List<Inspiration> inspirations = modelList
+          .map((e) => Inspiration.fromJson(e))
+          .toList();
       return inspirations;
     }
     return [];

@@ -21,9 +21,7 @@ class CFGWidget extends StatelessWidget {
           divisions: 199,
           labels: const ['better_quality', 'match_prompt'],
           onChanged: (value) {
-            con.configModel = con.configModel.copyWith(
-              guidanceScale: value,
-            );
+            con.configModel = con.configModel.copyWith(guidanceScale: value);
           },
         ),
       ],

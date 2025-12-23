@@ -14,7 +14,10 @@ class PromptWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('type_your_idea'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
+        Text(
+          'type_your_idea'.tr,
+          style: context.font14.copyWith(fontWeight: FontWeight.w600),
+        ),
         SizedBox(height: 8.sp),
         GradientBorderContainer(
           borderWidth: 1,
@@ -46,12 +49,18 @@ class PromptWidget extends StatelessWidget {
                 children: [
                   // random insipiration
                   IconButton(
-                    visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                    visualDensity: const VisualDensity(
+                      horizontal: -4,
+                      vertical: -4,
+                    ),
                     padding: EdgeInsets.zero,
                     onPressed: () {
-                      InspirationController inspirationCon = InspirationController.find;
+                      InspirationController inspirationCon =
+                          InspirationController.find;
                       Inspiration inspiration =
-                          inspirationCon.inspirations[Random().nextInt(inspirationCon.inspirations.length)];
+                          inspirationCon.inspirations[Random().nextInt(
+                            inspirationCon.inspirations.length,
+                          )];
                       con.promptController.text = inspiration.prompt;
                       con.update();
                     },
@@ -61,7 +70,10 @@ class PromptWidget extends StatelessWidget {
                   if (con.promptController.text.isNotEmpty) ...[
                     SizedBox(width: 8.sp),
                     IconButton(
-                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                      visualDensity: const VisualDensity(
+                        horizontal: -4,
+                        vertical: -4,
+                      ),
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         con.promptController.clear();

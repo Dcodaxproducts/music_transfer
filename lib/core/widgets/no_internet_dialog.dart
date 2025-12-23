@@ -18,13 +18,23 @@ class NoInternetDialog extends StatelessWidget {
         children: [
           Image.asset(Images.noInternet, width: 300.sp),
           SizedBox(height: 16.sp),
-          Text('no_internet'.tr, style: context.font16.copyWith(fontWeight: FontWeight.w600)),
+          Text(
+            'no_internet'.tr,
+            style: context.font16.copyWith(fontWeight: FontWeight.w600),
+          ),
           SizedBox(height: 8.sp),
-          Text('no_internet_message'.tr, textAlign: TextAlign.center, style: context.font14),
+          Text(
+            'no_internet_message'.tr,
+            textAlign: TextAlign.center,
+            style: context.font14,
+          ),
           SizedBox(height: 24.sp),
           SizedBox(
             width: 200.sp,
-            child: PrimaryOutlineButton(onPressed: () async {}, text: 'retry'.tr),
+            child: PrimaryOutlineButton(
+              onPressed: () async {},
+              text: 'retry'.tr,
+            ),
           ),
           SizedBox(height: 24.sp),
         ],
@@ -34,6 +44,7 @@ class NoInternetDialog extends StatelessWidget {
 }
 
 Future<bool> isConnected() async {
-  List<ConnectivityResult> connectivityResult = await Connectivity().checkConnectivity();
+  List<ConnectivityResult> connectivityResult = await Connectivity()
+      .checkConnectivity();
   return !connectivityResult.contains(ConnectivityResult.none);
 }

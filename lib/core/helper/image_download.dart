@@ -1,19 +1,25 @@
+import 'dart:io';
 import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:pixart_app/imports.dart';
 
 class DownloadImage {
-  static Future<void> downloadImage(String url) async {
-    showLoading();
+  static Future<bool> saveToGallery(String url) async {
     try {
-      bool success = (await GallerySaver.saveImage(url, albumName: AppConstants.APP_NAME)) ?? false;
-      if (success) {
-        showToast('image_download_success'.tr, success: true);
-      } else {
-        showToast('image_not_available'.tr);
-      }
+      return (await GallerySaver.saveImage(
+            url,
+            albumName: AppConstants.appName,
+          )) ??
+          false;
     } catch (e) {
-      showToast('image_not_available'.tr);
+      return false;
     }
-    dismiss();
+  }
+
+  static Future<File?> downloadImage(String url) async {
+    try {
+      return await GallerySaver.downloadFile(url);
+    } catch (e) {
+      return null;
+    }
   }
 }

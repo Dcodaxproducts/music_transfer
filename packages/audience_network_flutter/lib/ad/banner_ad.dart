@@ -20,7 +20,8 @@ class BannerSize {
 
   static const BannerSize STANDARD = BannerSize(width: 320, height: 50);
   static const BannerSize LARGE = BannerSize(width: 320, height: 90);
-  static const BannerSize MEDIUM_RECTANGLE = BannerSize(width: 300, height: 250);
+  static const BannerSize MEDIUM_RECTANGLE =
+      BannerSize(width: 300, height: 250);
 
   const BannerSize({this.width = 320, this.height = 50});
 }
@@ -125,9 +126,12 @@ class BannerAdState extends State<BannerAd> with AutomaticKeepAliveClientMixin {
       );
     } else {
       return SizedBox(
-        height: widget.bannerSize.height <= -1 ? double.infinity : widget.bannerSize.height.toDouble(),
+        height: widget.bannerSize.height <= -1
+            ? double.infinity
+            : widget.bannerSize.height.toDouble(),
         child: const Center(
-          child: Text("Banner Ads for this platform is currently not supported"),
+          child:
+              Text("Banner Ads for this platform is currently not supported"),
         ),
       );
     }
@@ -146,8 +150,9 @@ class BannerAdState extends State<BannerAd> with AutomaticKeepAliveClientMixin {
           break;
         case LOADED_METHOD:
           setState(() {
-            containerHeight =
-                widget.bannerSize.height <= -1 ? double.infinity : widget.bannerSize.height.toDouble();
+            containerHeight = widget.bannerSize.height <= -1
+                ? double.infinity
+                : widget.bannerSize.height.toDouble();
           });
           widget.listener?.onLoaded?.call();
           break;

@@ -27,7 +27,7 @@ class PrimaryTabButton extends StatelessWidget {
         height: 45.sp,
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          color: selected ? primaryColor : Colors.transparent,
+          color: selected ? primaryColor : context.theme.cardColor,
           borderRadius: BorderRadius.horizontal(
             right: Radius.circular(radiusRight),
             left: Radius.circular(radiusLeft),

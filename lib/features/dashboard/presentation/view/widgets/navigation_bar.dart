@@ -26,7 +26,8 @@ class GlasmorphicNavigationBar extends StatelessWidget {
               GetBuilder<LocalizationController>(
                 builder: (con) {
                   bool isLtr = con.isLtr;
-                  double alignment = -1 + (2 / (navigationItems.length - 1)) * currentIndex;
+                  double alignment =
+                      -1 + (2 / (navigationItems.length - 1)) * currentIndex;
                   if (!isLtr) alignment *= -1;
                   return AnimatedAlign(
                     alignment: Alignment(alignment, 0),
@@ -70,7 +71,12 @@ class NavigationButton extends StatelessWidget {
   final bool selected;
   final void Function() onPressed;
 
-  const NavigationButton({required this.icon, required this.selected, required this.onPressed, super.key});
+  const NavigationButton({
+    required this.icon,
+    required this.selected,
+    required this.onPressed,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +84,9 @@ class NavigationButton extends StatelessWidget {
       onPressed: onPressed,
       style: TextButton.styleFrom(
         padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.sp)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(40.sp),
+        ),
         minimumSize: Size(0, 55.sp),
       ),
       child: AnimatedSwitcher(

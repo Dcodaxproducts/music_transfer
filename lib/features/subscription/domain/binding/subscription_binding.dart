@@ -7,7 +7,8 @@ class SubscriptionBinding extends Bindings {
   @override
   void dependencies() {
     // service
-    SubscriptionServiceInterface subscriptionServiceInterface = SubscriptionService();
+    SubscriptionServiceInterface subscriptionServiceInterface =
+        SubscriptionService();
     Get.lazyPut(() => subscriptionServiceInterface, fenix: true);
 
     // controller

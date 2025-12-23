@@ -11,7 +11,10 @@ class LocalizationController extends GetxController implements GetxService {
     loadCurrentLanguage();
   }
 
-  Locale _locale = Locale(appLanguages[0].languageCode, appLanguages[0].countryCode);
+  Locale _locale = Locale(
+    appLanguages[0].languageCode,
+    appLanguages[0].countryCode,
+  );
   bool _isLtr = true;
   List<LanguageModel> _languages = [];
   int _selectedIndex = 0;
@@ -51,7 +54,11 @@ class LocalizationController extends GetxController implements GetxService {
     } else {
       _selectedIndex = -1;
       _languages = appLanguages
-          .where((language) => language.languageName.toLowerCase().contains(query.toLowerCase()))
+          .where(
+            (language) => language.languageName.toLowerCase().contains(
+              query.toLowerCase(),
+            ),
+          )
           .toList();
     }
     update();

@@ -23,7 +23,10 @@ class AspectRatioScreen extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                 ),
-                Text('aspect_ratio'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
+                Text(
+                  'aspect_ratio'.tr,
+                  style: context.font14.copyWith(fontWeight: FontWeight.w600),
+                ),
                 TextButton(
                   onPressed: () {
                     SettingsController con = SettingsController.find;
@@ -33,7 +36,10 @@ class AspectRatioScreen extends StatelessWidget {
                     pop();
                   },
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                  child: Text('done'.tr, style: context.font14.copyWith(color: primaryColor)),
+                  child: Text(
+                    'done'.tr,
+                    style: context.font14.copyWith(color: primaryColor),
+                  ),
                 ),
               ],
             ),
@@ -53,7 +59,9 @@ class AspectRatioScreen extends StatelessWidget {
                       bool selected = con.configModel.aspectRatio == ratio.id;
                       return InkWell(
                         onTap: () {
-                          con.configModel = con.configModel.copyWith(aspectRatio: ratio.id);
+                          con.configModel = con.configModel.copyWith(
+                            aspectRatio: ratio.id,
+                          );
                           pop();
                         },
                         child: AnimatedContainer(
@@ -61,7 +69,9 @@ class AspectRatioScreen extends StatelessWidget {
                           padding: AppPadding.padding16,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: selected ? primaryColor : context.theme.dividerColor,
+                              color: selected
+                                  ? primaryColor
+                                  : context.theme.dividerColor,
                               width: selected ? 2 : 1,
                             ),
                             borderRadius: AppRadius.circular16,

@@ -8,12 +8,13 @@ class LanguageBinding extends Bindings {
   @override
   void dependencies() {
     // repo
-    LocalizationRepoInterface localizationRepoInterface = LocalizationRepo(prefs: Get.find());
+    LocalizationRepoInterface localizationRepoInterface = LocalizationRepo(
+      prefs: Get.find(),
+    );
     Get.lazyPut(() => localizationRepoInterface, fenix: true);
     // service
-    LocalizationServiceInterface localizationServiceInterface = LocalizationService(
-      localizationRepo: Get.find(),
-    );
+    LocalizationServiceInterface localizationServiceInterface =
+        LocalizationService(localizationRepo: Get.find());
     Get.lazyPut(() => localizationServiceInterface, fenix: true);
     // controller
     Get.lazyPut(() => LocalizationController(localizationService: Get.find()));

@@ -9,7 +9,8 @@ class AnimatedHeart extends StatefulWidget {
   AnimatedHeartState createState() => AnimatedHeartState();
 }
 
-class AnimatedHeartState extends State<AnimatedHeart> with SingleTickerProviderStateMixin {
+class AnimatedHeartState extends State<AnimatedHeart>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 

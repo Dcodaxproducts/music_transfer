@@ -64,7 +64,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: 3,
-                      separatorBuilder: (context, index) => SizedBox(height: 12.sp),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 12.sp),
                       itemBuilder: (context, index) {
                         SubscriptionItem item = getSubscriptionItems(index);
                         return SubscriptionPackageWidget(
@@ -100,7 +101,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             : 'week',
                         'provider': Platform.isIOS ? 'Apple' : 'Google',
                       }),
-                      style: context.font10.copyWith(color: context.theme.hintColor),
+                      style: context.font10.copyWith(
+                        color: context.theme.hintColor,
+                      ),
                     ),
                     Center(
                       child: Wrap(
@@ -110,16 +113,29 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           LinkButton(
                             text: 'privacy_policy'.tr,
                             onTap: () => launchScreen(
-                              HtmlScreen(html: SettingsController.find.settingModel.privacyPolicy),
+                              HtmlScreen(
+                                html: SettingsController
+                                    .find
+                                    .settingModel
+                                    .privacyPolicy,
+                              ),
                             ),
                           ),
                           LinkButton(
                             text: 'terms_of_service'.tr,
                             onTap: () => launchScreen(
-                              HtmlScreen(html: SettingsController.find.settingModel.termsAndConditions),
+                              HtmlScreen(
+                                html: SettingsController
+                                    .find
+                                    .settingModel
+                                    .termsAndConditions,
+                              ),
                             ),
                           ),
-                          LinkButton(text: 'restore'.tr, onTap: subscription.restorePurchase),
+                          LinkButton(
+                            text: 'restore'.tr,
+                            onTap: subscription.restorePurchase,
+                          ),
                         ],
                       ),
                     ),

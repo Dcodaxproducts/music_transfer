@@ -18,7 +18,11 @@ class SubscriptionController extends GetxController implements GetxService {
 
   static SubscriptionController get find => Get.find<SubscriptionController>();
 
-  final List<String> _subscriptionIds = const <String>['yearly_plan', 'monthly_plan', 'weekly_plan'];
+  final List<String> _subscriptionIds = const <String>[
+    'yearly_plan',
+    'monthly_plan',
+    'weekly_plan',
+  ];
   List<IAPItem> _products = [];
   late StreamSubscription _purchaseUpdatedSubscription;
   DateTime? _proLimitDate;
@@ -40,12 +44,14 @@ class SubscriptionController extends GetxController implements GetxService {
     await subscriptionService.initialize();
     await _getSubscriptions();
     await refreshProStatus();
-    _purchaseUpdatedSubscription = FlutterInappPurchase.purchaseUpdated.listen((result) {
+    _purchaseUpdatedSubscription = FlutterInappPurchase.purchaseUpdated.listen((
+      result,
+    ) {
       _verifyPurchase(
         result,
         callback: () {
           pop();
-          showToast('purchase_success'.tr, success: true);
+          showToast('purchase_success'.tr);
         },
       );
     });
@@ -59,7 +65,10 @@ class SubscriptionController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> buyProduct(IAPItem productDetails, {Function()? callback}) async {
+  Future<void> buyProduct(
+    IAPItem productDetails, {
+    Function()? callback,
+  }) async {
     showLoading();
     Future.delayed(const Duration(seconds: 3), () {
       dismiss();
@@ -71,7 +80,10 @@ class SubscriptionController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> _verifyPurchase(PurchasedItem? result, {Function()? callback}) async {
+  Future<void> _verifyPurchase(
+    PurchasedItem? result, {
+    Function()? callback,
+  }) async {
     if (result == null) {
       return; // Handle the case where the purchase is null
     }
@@ -89,7 +101,10 @@ class SubscriptionController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> _finishTransaction(PurchasedItem result, {Function()? callback}) async {
+  Future<void> _finishTransaction(
+    PurchasedItem result, {
+    Function()? callback,
+  }) async {
     DateTime? purchaseTime = result.transactionDate;
 
     switch (result.productId!.toLowerCase()) {

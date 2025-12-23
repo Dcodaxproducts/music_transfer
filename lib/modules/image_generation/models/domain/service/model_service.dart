@@ -25,7 +25,11 @@ class ModelsService implements ModelsServiceInterface {
   }
 
   @override
-  List<Model> filterModels(List<Model> models, List<int> favoriteModels, int type) {
+  List<Model> filterModels(
+    List<Model> models,
+    List<int> favoriteModels,
+    int type,
+  ) {
     if (type == 0) {
       return models;
     } else if (type == 1) {

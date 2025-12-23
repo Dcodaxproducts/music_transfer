@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:pixart_app/features/ads/domain/binding/ads_binding.dart';
-import 'package:pixart_app/features/aws/domain/binding/aws_binding.dart';
-import 'package:pixart_app/modules/bg_removal/background_remover/domain/binding/background_remover_bindings.dart';
+import 'package:pixart_app/modules/bg_remover/domain/binding/background_remover_bindings.dart';
 import 'package:pixart_app/features/dashboard/domain/binding/dashboard_binding.dart';
 import 'package:pixart_app/modules/image_generation/history/domain/binding/history_binding.dart';
 import 'package:pixart_app/modules/image_generation/home/domain/binding/image_generation_bindings.dart';
@@ -13,21 +12,19 @@ import 'package:pixart_app/features/subscription/domain/binding/subscription_bin
 import 'package:pixart_app/features/tools/domain/binding/tools_binding.dart';
 import 'package:pixart_app/core/api/api_client_impl.dart';
 import 'package:pixart_app/core/api/api_client.dart';
-import 'package:pixart_app/features/language/data/model/language.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get/get.dart';
+import '../../imports.dart';
 import '../../modules/image_generation/home/domain/binding/generation_binding.dart';
-import '../../modules/image_generation/image_generation_result/domain/binding/binding.dart';
 import '../../modules/image_generation/models/domain/binding/models_binding.dart';
 import '../../features/theme/domain/binding/theme_binding.dart';
-import '../../modules/upscale/image_upscale/domain/binding/upscale_binding.dart';
+import '../../modules/image_upscale/domain/binding/upscale_binding.dart';
 
 Future<Map<String, Map<String, String>>> init() async {
   // Core
   final sharedPreferences = await SharedPreferences.getInstance();
   Get.lazyPut(() => sharedPreferences, fenix: true);
-  ApiClient apiClient = ApiClientImpl(prefs: Get.find());
+  ApiClient apiClient = ApiClientImpl(baseUrl: Endpoints.baseUrl);
   Get.lazyPut(() => apiClient, fenix: true);
 
   final List<Bindings> bindings = [
@@ -35,7 +32,6 @@ Future<Map<String, Map<String, String>>> init() async {
     ThemeBinding(),
     LanguageBinding(),
     AdsBinding(),
-    AwsBinding(),
     ModelsBinding(),
     ImageGenerationBindings(),
     GenerationBinding(),
@@ -48,7 +44,6 @@ Future<Map<String, Map<String, String>>> init() async {
     BackgroundRemoverBindings(),
     ToolsBinding(),
     SubscriptionBinding(),
-    ImageGenerationResultBinding(),
   ];
 
   for (Bindings binding in bindings) {
@@ -66,7 +61,8 @@ Future<Map<String, Map<String, String>>> init() async {
     mappedJson.forEach((key, value) {
       json[key] = value.toString();
     });
-    languages['${languageModel.languageCode}_${languageModel.countryCode}'] = json;
+    languages['${languageModel.languageCode}_${languageModel.countryCode}'] =
+        json;
   }
   return languages;
 }

@@ -7,7 +7,14 @@ class PrimaryButton extends StatelessWidget {
   final Widget? icon;
   final Color? color;
   final Color? textColor;
-  const PrimaryButton({required this.text, this.onPressed, this.icon, this.color, this.textColor, super.key});
+  const PrimaryButton({
+    required this.text,
+    this.onPressed,
+    this.icon,
+    this.color,
+    this.textColor,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,10 @@ class PrimaryButton extends StatelessWidget {
           if (icon != null) ...[icon!, SizedBox(width: 8.sp)],
           Text(
             text.tr,
-            style: context.font12.copyWith(fontWeight: FontWeight.w600, color: textColor),
+            style: context.font14.copyWith(
+              fontWeight: FontWeight.w600,
+              color: textColor,
+            ),
           ),
         ],
       ),
@@ -59,7 +69,9 @@ class PrimaryOutlineButton extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         minimumSize: Size((width ?? 100).sp, 55.sp),
         side: BorderSide(color: Theme.of(context).dividerColor),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular((radius ?? 16).sp)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular((radius ?? 16).sp),
+        ),
       ),
       onPressed: onPressed,
       child: Row(
@@ -69,7 +81,10 @@ class PrimaryOutlineButton extends StatelessWidget {
           if (text != null)
             Text(
               text!,
-              style: context.font12.copyWith(fontWeight: FontWeight.w600, color: textColor),
+              style: context.font12.copyWith(
+                fontWeight: FontWeight.w600,
+                color: textColor,
+              ),
             ),
         ],
       ),
@@ -82,7 +97,12 @@ class GradientButton extends StatelessWidget {
   final String text;
   final Widget? icon;
 
-  const GradientButton({required this.text, this.onPressed, this.icon, super.key});
+  const GradientButton({
+    required this.text,
+    this.onPressed,
+    this.icon,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +121,10 @@ class GradientButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (icon != null) ...[icon!, SizedBox(width: 8.sp)],
-            Text(text, style: context.font12.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              text,
+              style: context.font12.copyWith(fontWeight: FontWeight.w600),
+            ),
           ],
         ),
       ),

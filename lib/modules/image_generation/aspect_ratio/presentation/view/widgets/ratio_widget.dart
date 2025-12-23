@@ -1,6 +1,5 @@
 import '../../../data/model/aspect_ratio.dart';
 import '../../../../../../imports.dart';
-import '../../../../../../core/widgets/network_image.dart';
 
 class AspectRatioBox extends StatelessWidget {
   final AspectRatioModel ratio;
@@ -13,7 +12,7 @@ class AspectRatioBox extends StatelessWidget {
       height: ratio.height.toDouble(),
       child: ClipRRect(
         borderRadius: AppRadius.circular16,
-        child: const CustomNetworkImage(url: 'https://picsum.photos/seed/4:3/200/300'),
+        child: const PrimaryNetworkImage(url: 'https://picsum.photos/seed/4:3/200/300'),
       ),
     );
   }

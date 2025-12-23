@@ -26,7 +26,9 @@ class SubscriptionPackageWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: AppRadius.circular16,
                 color: cardColorDark.withOpacity(0.7),
-                border: Border.all(color: selected ? primaryColor : dividerColorDark),
+                border: Border.all(
+                  color: selected ? primaryColor : dividerColorDark,
+                ),
               ),
               child: Row(
                 children: [
@@ -36,14 +38,25 @@ class SubscriptionPackageWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(item.title.tr, style: context.font14.copyWith(color: Colors.white)),
+                        Text(
+                          item.title.tr,
+                          style: context.font14.copyWith(color: Colors.white),
+                        ),
                         SizedBox(height: 4.sp),
-                        Text(item.subtitle.tr, style: context.font12.copyWith(color: Colors.grey[400])),
+                        Text(
+                          item.subtitle.tr,
+                          style: context.font12.copyWith(
+                            color: Colors.grey[400],
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   SizedBox(width: 8.sp),
-                  Text(item.price, style: context.font14.copyWith(color: Colors.white)),
+                  Text(
+                    item.price,
+                    style: context.font14.copyWith(color: Colors.white),
+                  ),
                 ],
               ),
             ),

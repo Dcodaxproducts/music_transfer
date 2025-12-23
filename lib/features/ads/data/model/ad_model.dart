@@ -29,9 +29,13 @@ class AdModel {
     return AdModel(
       id: json['id'],
       type: AdTypeExtension.fromString(
-        GetPlatform.isAndroid ? json['type'] : (json['ios_type'] ?? json['type']),
+        GetPlatform.isAndroid
+            ? json['type']
+            : (json['ios_type'] ?? json['type']),
       ),
-      active: Platform.isAndroid ? json['status'] == 1 : json['ios_status'] == 1,
+      active: Platform.isAndroid
+          ? json['status'] == 1
+          : json['ios_status'] == 1,
       androidAdId: json['android_ad_id'] ?? '',
       iosAdId: json['ios_ad_id'] ?? '',
       position: AdPositionExtension.fromString(json['position']),
@@ -54,13 +58,19 @@ class AdModel {
           adId = isAndroid ? NativeAd.testPlacementId : AdIds.NATIVE_AD_ID;
           break;
         case AdType.interstitial:
-          adId = isAndroid ? InterstitialAd.testPlacementId : AdIds.INTERSTITIAL_ID;
+          adId = isAndroid
+              ? InterstitialAd.testPlacementId
+              : AdIds.INTERSTITIAL_ID;
           break;
         case AdType.rewardedInterstitial:
-          adId = isAndroid ? InterstitialAd.testPlacementId : AdIds.REWARD_INTERSTITIAL_AD_ID;
+          adId = isAndroid
+              ? InterstitialAd.testPlacementId
+              : AdIds.REWARD_INTERSTITIAL_AD_ID;
           break;
         case AdType.reward:
-          adId = isAndroid ? RewardedAd.testPlacementId : AdIds.REWARD_VIDEO_AD_ID;
+          adId = isAndroid
+              ? RewardedAd.testPlacementId
+              : AdIds.REWARD_VIDEO_AD_ID;
           break;
         case AdType.appOpen:
           adId = isAndroid ? InterstitialAd.testPlacementId : AdIds.APP_OPEN_ID;

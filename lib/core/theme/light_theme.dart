@@ -1,4 +1,3 @@
-
 import 'src/appbar_theme.dart';
 import 'src/bottom_navigation_theme.dart';
 import 'src/bottom_sheet_theme.dart';
@@ -14,29 +13,35 @@ import '../../../imports.dart';
 import 'src/textbuton_theme.dart';
 
 ThemeData get light => ThemeData(
-      fontFamily: 'Poppins',
-      useMaterial3: true,
-      brightness: Brightness.light,
-      primaryColor: primaryColor,
-      disabledColor: disabledColorLight,
-      scaffoldBackgroundColor: backgroundColorLight,
-      hintColor: hintColorLight,
-      cardColor: cardColorLight,
-      shadowColor: shadowColorLight,
-      colorScheme: ColorScheme.fromSeed(
+  fontFamily: 'Poppins',
+  useMaterial3: true,
+  brightness: Brightness.light,
+  primaryColor: primaryColor,
+  disabledColor: disabledColorLight,
+  scaffoldBackgroundColor: backgroundColorLight,
+  hintColor: hintColorLight,
+  cardColor: cardColorLight,
+  shadowColor: shadowColorLight,
+  canvasColor: canvasColorLight,
+  colorScheme:
+      ColorScheme.fromSeed(
         seedColor: primaryColor,
         secondary: primaryColor,
-      ).copyWith(outline: dividerColorLight, surface: cardColorDark, brightness: Brightness.light),
-      textTheme: lightTextTheme,
-      iconTheme: iconThemeLight,
-      appBarTheme: appBarThemeLight,
-      elevatedButtonTheme: elevatedButtonThemeData,
-      outlinedButtonTheme: outlinedButtonThemeData,
-      inputDecorationTheme: inputDecorationThemeLight,
-      dropdownMenuTheme: dropdownMenuThemeLight,
-      dialogTheme: dialogThemeLight,
-      bottomSheetTheme: bottomSheetThemeLight,
-      dividerTheme: dividerThemeLight,
-      bottomNavigationBarTheme: bottomNavigationBarThemeLight,
-      textButtonTheme: textButtonTheme,
-    );
+      ).copyWith(
+        outline: dividerColorLight,
+        surface: cardColorDark,
+        brightness: Brightness.light,
+      ),
+  textTheme: lightTextTheme,
+  iconTheme: iconThemeLight,
+  appBarTheme: appBarThemeLight,
+  elevatedButtonTheme: elevatedButtonThemeData,
+  outlinedButtonTheme: outlinedButtonThemeData,
+  inputDecorationTheme: inputDecorationThemeLight,
+  dropdownMenuTheme: dropdownMenuThemeLight,
+  dialogTheme: dialogThemeLight,
+  bottomSheetTheme: bottomSheetThemeLight,
+  dividerTheme: dividerThemeLight,
+  bottomNavigationBarTheme: bottomNavigationBarThemeLight,
+  textButtonTheme: textButtonTheme,
+);

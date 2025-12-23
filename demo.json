@@ -1,0 +1,19 @@
+{
+    "status": "success",
+    "id": 123456,
+    "meta": {
+        "prompt": "A beautiful landscape with mountains and a river",
+        "width": 1024,
+        "height": 1024,
+        "seed": 987654321,
+        "guidance_scale": 7.5,
+        "negative_prompt": "low quality, blurry"
+    },
+    "output": [
+        "https://example.com/generated_image_1.png",
+        "https://example.com/generated_image_2.png"
+    ],  
+    "created_at": "2024-06-15T12:34:56Z"
+    
+}
+

@@ -37,7 +37,10 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(widget.value.tr, style: context.font12.copyWith(color: context.theme.hintColor)),
+              Text(
+                widget.value.tr,
+                style: context.font12.copyWith(color: context.theme.hintColor),
+              ),
               SizedBox(width: 16.sp),
               Icon(
                 _isExpanded ? Iconsax.arrow_down_1 : Iconsax.arrow_right_3,
@@ -48,7 +51,10 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
           ),
           tilePadding: EdgeInsets.symmetric(horizontal: 16.sp),
           childrenPadding: AppPadding.padding16,
-          title: Text(widget.title.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
+          title: Text(
+            widget.title.tr,
+            style: context.font14.copyWith(fontWeight: FontWeight.w600),
+          ),
           children: widget.children,
         ),
       ),

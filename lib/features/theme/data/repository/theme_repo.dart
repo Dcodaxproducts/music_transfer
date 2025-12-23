@@ -8,11 +8,11 @@ class ThemeRepo implements ThemeRepoInterface {
 
   @override
   String? loadCurrentTheme() {
-    return prefs.getString(SharedKeys.THEME);
+    return prefs.getString(SharedKeys.theme);
   }
 
   @override
   Future<bool> setTheme(String themeMode) async {
-    return await prefs.setString(SharedKeys.THEME, themeMode);
+    return await prefs.setString(SharedKeys.theme, themeMode);
   }
 }

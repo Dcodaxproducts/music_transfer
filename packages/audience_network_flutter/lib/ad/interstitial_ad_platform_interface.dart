@@ -25,7 +25,8 @@ enum InterstitialAdPlatformInterfaceResult {
 }
 
 class InterstitialAdPlatformInterface {
-  static final _listeners = <int, void Function(InterstitialAdPlatformInterfaceResult, dynamic)>{};
+  static final _listeners =
+      <int, void Function(InterstitialAdPlatformInterfaceResult, dynamic)>{};
 
   static const _channel = MethodChannel(INTERSTITIAL_AD_CHANNEL);
 
@@ -127,10 +128,12 @@ class InterstitialAdPlatformInterface {
 
     switch (call.method) {
       case DISPLAYED_METHOD:
-        listener(InterstitialAdPlatformInterfaceResult.DISPLAYED, call.arguments);
+        listener(
+            InterstitialAdPlatformInterfaceResult.DISPLAYED, call.arguments);
         break;
       case DISMISSED_METHOD:
-        listener(InterstitialAdPlatformInterfaceResult.DISMISSED, call.arguments);
+        listener(
+            InterstitialAdPlatformInterfaceResult.DISMISSED, call.arguments);
         break;
       case ERROR_METHOD:
         listener(InterstitialAdPlatformInterfaceResult.ERROR, call.arguments);
@@ -142,7 +145,8 @@ class InterstitialAdPlatformInterface {
         listener(InterstitialAdPlatformInterfaceResult.CLICKED, call.arguments);
         break;
       case LOGGING_IMPRESSION_METHOD:
-        listener(InterstitialAdPlatformInterfaceResult.LOGGING_IMPRESSION, call.arguments);
+        listener(InterstitialAdPlatformInterfaceResult.LOGGING_IMPRESSION,
+            call.arguments);
         break;
     }
   }

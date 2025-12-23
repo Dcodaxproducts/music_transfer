@@ -1,4 +1,13 @@
-const List<String> videoFormats = ['.mp4', '.mov', '.avi', '.wmv', '.3gp', '.3gpp', '.mkv', '.flv'];
+const List<String> videoFormats = [
+  '.mp4',
+  '.mov',
+  '.avi',
+  '.wmv',
+  '.3gp',
+  '.3gpp',
+  '.mkv',
+  '.flv'
+];
 const List<String> imageFormats = [
   '.jpeg',
   '.png',

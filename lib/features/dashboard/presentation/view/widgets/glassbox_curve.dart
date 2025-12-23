@@ -27,7 +27,11 @@ class GlassBoxCurve extends StatelessWidget {
                 stops: const [0.0, 1.0],
               ),
               boxShadow: [
-                BoxShadow(color: cardColor.withOpacity(0.2), blurRadius: 30, offset: const Offset(2, 2)),
+                BoxShadow(
+                  color: cardColor.withOpacity(0.2),
+                  blurRadius: 30,
+                  offset: const Offset(2, 2),
+                ),
               ],
             ),
             child: child,

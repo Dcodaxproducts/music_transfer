@@ -7,7 +7,13 @@ class MenuItem extends StatelessWidget {
   final String? subtile;
   final IconData icon;
   final Function()? onTap;
-  const MenuItem({required this.text, this.subtile, required this.icon, required this.onTap, super.key});
+  const MenuItem({
+    required this.text,
+    this.subtile,
+    required this.icon,
+    required this.onTap,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +25,19 @@ class MenuItem extends StatelessWidget {
       subtitle: subtile != null
           ? Padding(
               padding: EdgeInsets.only(top: 5.sp),
-              child: Text(subtile!.tr, style: context.font12.copyWith(color: Theme.of(context).hintColor)),
+              child: Text(
+                subtile!.tr,
+                style: context.font12.copyWith(
+                  color: Theme.of(context).hintColor,
+                ),
+              ),
             )
           : null,
-      trailing: Icon(Iconsax.arrow_right_3, size: 16.sp, color: Theme.of(context).hintColor),
+      trailing: Icon(
+        Iconsax.arrow_right_3,
+        size: 16.sp,
+        color: Theme.of(context).hintColor,
+      ),
       contentPadding: EdgeInsets.symmetric(horizontal: 16.sp),
     );
   }
@@ -32,13 +47,19 @@ class NotificationTile extends StatefulWidget {
   final String text;
   final String? subtile;
   final IconData icon;
-  const NotificationTile({required this.text, this.subtile, required this.icon, super.key});
+  const NotificationTile({
+    required this.text,
+    this.subtile,
+    required this.icon,
+    super.key,
+  });
 
   @override
   State<NotificationTile> createState() => _NotificationTileState();
 }
 
-class _NotificationTileState extends State<NotificationTile> with WidgetsBindingObserver {
+class _NotificationTileState extends State<NotificationTile>
+    with WidgetsBindingObserver {
   //
   @override
   void initState() {
@@ -70,7 +91,9 @@ class _NotificationTileState extends State<NotificationTile> with WidgetsBinding
       builder: (context, snapshot) {
         bool authorized = false;
         if (snapshot.data != null) {
-          authorized = snapshot.data?.authorizationStatus == AuthorizationStatus.authorized;
+          authorized =
+              snapshot.data?.authorizationStatus ==
+              AuthorizationStatus.authorized;
         }
         return ListTile(
           onTap: () => _onTap(authorized),
@@ -82,7 +105,9 @@ class _NotificationTileState extends State<NotificationTile> with WidgetsBinding
                   padding: EdgeInsets.only(top: 5.sp),
                   child: Text(
                     widget.subtile!.tr,
-                    style: context.font12.copyWith(color: Theme.of(context).hintColor),
+                    style: context.font12.copyWith(
+                      color: Theme.of(context).hintColor,
+                    ),
                   ),
                 )
               : null,
@@ -98,6 +123,9 @@ class _NotificationTileState extends State<NotificationTile> with WidgetsBinding
   }
 
   void _onTap(bool authorized) {
-    AppSettings.openAppSettings(type: AppSettingsType.notification, asAnotherTask: true);
+    AppSettings.openAppSettings(
+      type: AppSettingsType.notification,
+      asAnotherTask: true,
+    );
   }
 }

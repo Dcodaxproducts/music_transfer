@@ -26,7 +26,9 @@ class CustomSlider extends StatelessWidget {
             trackHeight: 2,
             thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8.sp),
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 0),
-            valueIndicatorTextStyle: context.font12.copyWith(color: context.theme.scaffoldBackgroundColor),
+            valueIndicatorTextStyle: context.font12.copyWith(
+              color: context.theme.scaffoldBackgroundColor,
+            ),
           ),
           child: Slider(
             value: value,
@@ -45,7 +47,14 @@ class CustomSlider extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: labels
-                .map((e) => Text(e.tr, style: context.font12.copyWith(color: context.theme.hintColor)))
+                .map(
+                  (e) => Text(
+                    e.tr,
+                    style: context.font12.copyWith(
+                      color: context.theme.hintColor,
+                    ),
+                  ),
+                )
                 .toList(),
           ),
         ),

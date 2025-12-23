@@ -76,26 +76,47 @@ class AdsController extends GetxController {
   }
 
   Widget _buildAdWidget(AdPosition position) {
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == position);
+    AdModel? ad = ads.firstWhereOrNull(
+      (element) => element.position == position,
+    );
     return adsService.getBannerWidget(ad);
   }
 
-  Future<bool> _showAd(AdPosition position, {Function()? onUserEarnedReward}) async {
-    AdModel? ad = ads.firstWhereOrNull((element) => element.position == position);
+  Future<bool> _showAd(
+    AdPosition position, {
+    Function()? onUserEarnedReward,
+  }) async {
+    AdModel? ad = ads.firstWhereOrNull(
+      (element) => element.position == position,
+    );
     if (ad != null && ad.active) {
       String adId = ad.getAdId();
-      return await _showAdAccordingToType(ad.type, adId, onUserEarnedReward: onUserEarnedReward);
+      return await _showAdAccordingToType(
+        ad.type,
+        adId,
+        onUserEarnedReward: onUserEarnedReward,
+      );
     }
     return false;
   }
 
-  Future<bool> _showAdAccordingToType(AdType? type, String adId, {Function()? onUserEarnedReward}) async {
+  Future<bool> _showAdAccordingToType(
+    AdType? type,
+    String adId, {
+    Function()? onUserEarnedReward,
+  }) async {
     if (type == AdType.interstitial) {
       return await adsService.showInterstitial(adId);
     } else if (type == AdType.rewardedInterstitial) {
-      return await adsService.showRewardInterstitial(adId, onUserEarnedReward: onUserEarnedReward);
+      return await adsService.showRewardInterstitial(
+        adId,
+        onUserEarnedReward: onUserEarnedReward,
+      );
     } else if (type == AdType.reward) {
-      return await adsService.showRewardVideo(adId, onUserEarnedReward: onUserEarnedReward);
+      return await adsService.showRewardVideo(
+        adId,
+        onUserEarnedReward: onUserEarnedReward,
+      );
     } else if (type == AdType.appOpen) {
       return await adsService.showAppOpen(adId);
     }

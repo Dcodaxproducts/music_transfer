@@ -1,6 +1,7 @@
 import '../../../imports.dart';
 
-BottomNavigationBarThemeData get bottomNavigationBarThemeLight => const BottomNavigationBarThemeData(
+BottomNavigationBarThemeData get bottomNavigationBarThemeLight =>
+    const BottomNavigationBarThemeData(
       backgroundColor: backgroundColorLight,
       selectedItemColor: primaryColor,
       unselectedItemColor: Colors.grey,
@@ -10,7 +11,8 @@ BottomNavigationBarThemeData get bottomNavigationBarThemeLight => const BottomNa
       type: BottomNavigationBarType.fixed,
     );
 
-BottomNavigationBarThemeData get bottomNavigationBarThemeDark => const BottomNavigationBarThemeData(
+BottomNavigationBarThemeData get bottomNavigationBarThemeDark =>
+    const BottomNavigationBarThemeData(
       backgroundColor: backgroundColorDark,
       selectedItemColor: primaryColor,
       unselectedItemColor: Colors.grey,

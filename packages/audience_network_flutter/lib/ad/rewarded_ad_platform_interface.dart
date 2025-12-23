@@ -25,7 +25,8 @@ enum RewardedAdPlatformInterfaceResult {
 }
 
 class RewardedAdPlatformInterface {
-  static final _listeners = <int, void Function(RewardedAdPlatformInterfaceResult, dynamic)>{};
+  static final _listeners =
+      <int, void Function(RewardedAdPlatformInterfaceResult, dynamic)>{};
 
   static const _channel = MethodChannel(REWARDED_VIDEO_CHANNEL);
 
@@ -129,10 +130,12 @@ class RewardedAdPlatformInterface {
 
     switch (call.method) {
       case REWARDED_VIDEO_COMPLETE_METHOD:
-        listener(RewardedAdPlatformInterfaceResult.VIDEO_COMPLETE, call.arguments);
+        listener(
+            RewardedAdPlatformInterfaceResult.VIDEO_COMPLETE, call.arguments);
         break;
       case REWARDED_VIDEO_CLOSED_METHOD:
-        listener(RewardedAdPlatformInterfaceResult.VIDEO_CLOSED, call.arguments);
+        listener(
+            RewardedAdPlatformInterfaceResult.VIDEO_CLOSED, call.arguments);
         break;
       case ERROR_METHOD:
         listener(RewardedAdPlatformInterfaceResult.ERROR, call.arguments);
@@ -144,7 +147,8 @@ class RewardedAdPlatformInterface {
         listener(RewardedAdPlatformInterfaceResult.CLICKED, call.arguments);
         break;
       case LOGGING_IMPRESSION_METHOD:
-        listener(RewardedAdPlatformInterfaceResult.LOGGING_IMPRESSION, call.arguments);
+        listener(RewardedAdPlatformInterfaceResult.LOGGING_IMPRESSION,
+            call.arguments);
         break;
     }
   }

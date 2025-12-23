@@ -9,11 +9,16 @@ class ReviewBinding extends Bindings {
   @override
   void dependencies() {
     // repo
-    ReviewRepoInterface reviewRepoInterface = ReviewRepo(apiClient: Get.find(), prefs: Get.find());
+    ReviewRepoInterface reviewRepoInterface = ReviewRepo(
+      apiClient: Get.find(),
+      prefs: Get.find(),
+    );
     Get.lazyPut(() => reviewRepoInterface, fenix: true);
 
     // service
-    ReviewServiceInterface reviewServiceInterface = ReviewService(reviewRepo: Get.find());
+    ReviewServiceInterface reviewServiceInterface = ReviewService(
+      reviewRepo: Get.find(),
+    );
     Get.lazyPut(() => reviewServiceInterface, fenix: true);
 
     // controller

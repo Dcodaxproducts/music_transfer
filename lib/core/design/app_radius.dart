@@ -18,20 +18,31 @@ class AppRadius {
   static BorderRadius circular(double value) => BorderRadius.circular(value);
 
   // shape
-  static ShapeBorder get circular8Shape => RoundedRectangleBorder(borderRadius: circular8);
-  static ShapeBorder get circular12Shape => RoundedRectangleBorder(borderRadius: circular12);
-  static ShapeBorder get circular16Shape => RoundedRectangleBorder(borderRadius: circular16);
+  static ShapeBorder get circular8Shape =>
+      RoundedRectangleBorder(borderRadius: circular8);
+  static ShapeBorder get circular12Shape =>
+      RoundedRectangleBorder(borderRadius: circular12);
+  static ShapeBorder get circular16Shape =>
+      RoundedRectangleBorder(borderRadius: circular16);
 
   // Specific corners
-  static BorderRadius topLeft(double radius) => BorderRadius.only(topLeft: Radius.circular(radius.r));
-  static BorderRadius topRight(double radius) => BorderRadius.only(topRight: Radius.circular(radius.r));
-  static BorderRadius bottomLeft(double radius) => BorderRadius.only(bottomLeft: Radius.circular(radius.r));
-  static BorderRadius bottomRight(double radius) => BorderRadius.only(bottomRight: Radius.circular(radius.r));
+  static BorderRadius topLeft(double radius) =>
+      BorderRadius.only(topLeft: Radius.circular(radius.r));
+  static BorderRadius topRight(double radius) =>
+      BorderRadius.only(topRight: Radius.circular(radius.r));
+  static BorderRadius bottomLeft(double radius) =>
+      BorderRadius.only(bottomLeft: Radius.circular(radius.r));
+  static BorderRadius bottomRight(double radius) =>
+      BorderRadius.only(bottomRight: Radius.circular(radius.r));
 
   // Common combinations
-  static BorderRadius top(double radius) =>
-      BorderRadius.only(topLeft: Radius.circular(radius), topRight: Radius.circular(radius));
+  static BorderRadius top(double radius) => BorderRadius.only(
+    topLeft: Radius.circular(radius),
+    topRight: Radius.circular(radius),
+  );
 
-  static BorderRadius bottom(double radius) =>
-      BorderRadius.only(bottomLeft: Radius.circular(radius), bottomRight: Radius.circular(radius));
+  static BorderRadius bottom(double radius) => BorderRadius.only(
+    bottomLeft: Radius.circular(radius),
+    bottomRight: Radius.circular(radius),
+  );
 }

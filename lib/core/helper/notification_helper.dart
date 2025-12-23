@@ -11,13 +11,18 @@ class NotificationHelper {
     final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
     // android
-    var androidInitialize = const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var androidInitialize = const AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
 
     // iOS
     var iOSInitialize = const DarwinInitializationSettings();
 
     // initialization settings
-    var initializationsSettings = InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
+    var initializationsSettings = InitializationSettings(
+      android: androidInitialize,
+      iOS: iOSInitialize,
+    );
 
     // initialize
     flutterLocalNotificationsPlugin.initialize(initializationsSettings);
@@ -27,7 +32,10 @@ class NotificationHelper {
     });
   }
 
-  static Future<void> showNotification(RemoteMessage message, FlutterLocalNotificationsPlugin fln) async {
+  static Future<void> showNotification(
+    RemoteMessage message,
+    FlutterLocalNotificationsPlugin fln,
+  ) async {
     String title = message.notification?.title ?? '';
     String body = message.notification!.body ?? '';
 
@@ -39,7 +47,9 @@ class NotificationHelper {
   }
 
   static Future<void> showBigTextNotification(
-      PayloadModel payload, FlutterLocalNotificationsPlugin fln) async {
+    PayloadModel payload,
+    FlutterLocalNotificationsPlugin fln,
+  ) async {
     final bigTextStyleInformation = BigTextStyleInformation(
       payload.body!,
       htmlFormatBigText: true,
@@ -48,15 +58,17 @@ class NotificationHelper {
     );
 
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      AppConstants.APP_NAME,
-      AppConstants.APP_NAME,
+      AppConstants.appName,
+      AppConstants.appName,
       importance: Importance.max,
       styleInformation: bigTextStyleInformation,
       priority: Priority.max,
       playSound: true,
     );
 
-    final platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
+    final platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
 
     await fln.show(
       0,
@@ -67,20 +79,17 @@ class NotificationHelper {
     );
   }
 
-  static Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
+  static Future<dynamic> myBackgroundMessageHandler(
+    RemoteMessage message,
+  ) async {
     debugPrint(
-        "onBackground: ${message.notification!.title}/${message.notification!.body}/${message.notification!.titleLocKey}");
+      "onBackground: ${message.notification!.title}/${message.notification!.body}/${message.notification!.titleLocKey}",
+    );
   }
 }
 
 class PayloadModel {
-  PayloadModel({
-    this.title,
-    this.body,
-    this.orderId,
-    this.image,
-    this.type,
-  });
+  PayloadModel({this.title, this.body, this.orderId, this.image, this.type});
 
   String? title;
   String? body;
@@ -88,23 +97,24 @@ class PayloadModel {
   String? image;
   String? type;
 
-  factory PayloadModel.fromRawJson(String str) => PayloadModel.fromJson(json.decode(str));
+  factory PayloadModel.fromRawJson(String str) =>
+      PayloadModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory PayloadModel.fromJson(Map<String, dynamic> json) => PayloadModel(
-        title: json["title"],
-        body: json["body"],
-        orderId: json["order_id"],
-        image: json["image"],
-        type: json["type"],
-      );
+    title: json["title"],
+    body: json["body"],
+    orderId: json["order_id"],
+    image: json["image"],
+    type: json["type"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "title": title,
-        "body": body,
-        "order_id": orderId,
-        "image": image,
-        "type": type,
-      };
+    "title": title,
+    "body": body,
+    "order_id": orderId,
+    "image": image,
+    "type": type,
+  };
 }

@@ -38,7 +38,8 @@ class FreeLimitDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool subscriptionAvailable = SubscriptionController.find.products.isNotEmpty;
+    bool subscriptionAvailable =
+        SubscriptionController.find.products.isNotEmpty;
     return Dialog(
       child: Padding(
         padding: AppPadding.padding16,
@@ -48,7 +49,10 @@ class FreeLimitDialog extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                visualDensity: const VisualDensity(
+                  horizontal: -4,
+                  vertical: -4,
+                ),
                 padding: EdgeInsets.zero,
                 icon: const Icon(Icons.close, color: primaryColor),
                 onPressed: Get.back,
@@ -58,10 +62,15 @@ class FreeLimitDialog extends StatelessWidget {
               child: Icon(Iconsax.warning_2, size: 100.sp, color: Colors.white),
             ),
             SizedBox(height: 16.sp),
-            Text("free_limit_reached".tr, style: context.font16.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              "free_limit_reached".tr,
+              style: context.font16.copyWith(fontWeight: FontWeight.w600),
+            ),
             SizedBox(height: 16.sp),
             Text(
-              subscriptionAvailable ? "free_limit_reached_message1".tr : "free_limit_reached_message2".tr,
+              subscriptionAvailable
+                  ? "free_limit_reached_message1".tr
+                  : "free_limit_reached_message2".tr,
               style: context.font14,
               textAlign: TextAlign.center,
             ),
@@ -71,7 +80,9 @@ class FreeLimitDialog extends StatelessWidget {
                 width: double.infinity,
                 child: PrimaryButton(
                   text: subscriptionAvailable ? 'go_pro'.tr : 'continue'.tr,
-                  onPressed: subscriptionAvailable ? showPremiumSheet : Get.back,
+                  onPressed: subscriptionAvailable
+                      ? showPremiumSheet
+                      : Get.back,
                 ),
               ),
             ),

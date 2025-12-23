@@ -15,10 +15,13 @@ class AppPadding {
   static EdgeInsets get padding32 => EdgeInsets.all(32.sp);
 
   // symmetric padding
-  static EdgeInsets vertical(double padding) => EdgeInsets.symmetric(vertical: padding.sp);
-  static EdgeInsets horizontal(double padding) => EdgeInsets.symmetric(horizontal: padding.sp);
+  static EdgeInsets vertical(double padding) =>
+      EdgeInsets.symmetric(vertical: padding.sp);
+  static EdgeInsets horizontal(double padding) =>
+      EdgeInsets.symmetric(horizontal: padding.sp);
 
   // Common combinations
   static EdgeInsets get screenPadding => padding16;
-  static EdgeInsets get cardPadding => EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp);
+  static EdgeInsets get cardPadding =>
+      EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp);
 }

@@ -8,7 +8,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:upgrader/upgrader.dart';
-import 'core/theme/light_theme.dart';
 import 'core/utils/scroll_behavior.dart';
 import 'core/widgets/loading.dart';
 import 'firebase_options.dart';
@@ -81,10 +80,9 @@ class MyApp extends StatelessWidget {
                   textScaler: TextScaler.linear(MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.0)),
                 ),
                 child: GetMaterialApp(
-                  title: AppConstants.APP_NAME,
+                  title: AppConstants.appName,
                   debugShowCheckedModeBanner: false,
-                  themeMode: themeController.themeMode,
-                  theme: light,
+                  themeMode: ThemeMode.dark,
                   darkTheme: dark,
                   locale: localizeController.locale,
                   translations: Messages(languages: languages),

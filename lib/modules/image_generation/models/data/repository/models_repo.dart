@@ -15,12 +15,15 @@ class ModelsRepo implements ModelsRepoInterface {
 
   @override
   Future<bool> saveFavoriteModel(List<int> models) async {
-    return await prefs.setStringList(SharedKeys.FAVORITE_MODELS, models.map((e) => e.toString()).toList());
+    return await prefs.setStringList(
+      SharedKeys.favoriteModels,
+      models.map((e) => e.toString()).toList(),
+    );
   }
 
   @override
   List<int> getFavoriteModels() {
-    List<String>? list = prefs.getStringList(SharedKeys.FAVORITE_MODELS);
+    List<String>? list = prefs.getStringList(SharedKeys.favoriteModels);
     if (list != null) {
       return list.map((e) => int.parse(e)).toList();
     } else {

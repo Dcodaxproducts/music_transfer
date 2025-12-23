@@ -4,7 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_audience_network/easy_audience_network.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:pixart_app/features/aws/presentation/controller/aws_controller.dart';
 import 'package:pixart_app/features/review/presentation/controller/review_controller.dart';
 import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/imports.dart';
@@ -63,9 +62,6 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
       // get history from shared preferences
       _getHistoryFromPrefs();
 
-      // init aws
-      AwsController.find.initAWS();
-
       //get data from api
       await _getDataFromApi();
 
@@ -81,7 +77,9 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
   }
 
   void _checkInternetConnection() {
-    _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
+    _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((
+      List<ConnectivityResult> result,
+    ) {
       if (result.contains(ConnectivityResult.none)) {
         disconnected = true;
       } else {
@@ -92,7 +90,9 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
 
   Future<void> _loadAdNetwork() async {
     if (GetPlatform.isAndroid) {
-      await EasyAudienceNetwork.init(testingId: '5cfcb5cc-93c0-4edf-9e36-a09fda9c6495');
+      await EasyAudienceNetwork.init(
+        testingId: '5cfcb5cc-93c0-4edf-9e36-a09fda9c6495',
+      );
     } else {
       await MobileAds.instance.initialize();
     }
@@ -132,7 +132,9 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     } else if (_ready) {
       return GetBuilder<SettingsController>(
         builder: (settingController) {
-          return settingController.isFirstTime ? const WelcomeScreen() : const DashboardScreen();
+          return settingController.isFirstTime
+              ? const WelcomeScreen()
+              : const DashboardScreen();
         },
       );
     } else {

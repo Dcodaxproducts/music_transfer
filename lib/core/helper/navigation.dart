@@ -8,13 +8,25 @@ void pop([int times = 1]) {
 }
 
 /// Launch a new screen
-Future<dynamic> launchScreen(Widget child, {bool pushAndRemove = false, bool replace = false}) async {
+Future<dynamic> launchScreen(
+  Widget child, {
+  bool pushAndRemove = false,
+  bool replace = false,
+}) async {
   if (pushAndRemove) {
     return Get.offAll(() => child, routeName: routeName(child));
   } else if (replace) {
-    return Get.off(() => child, routeName: routeName(child), preventDuplicates: false);
+    return Get.off(
+      () => child,
+      routeName: routeName(child),
+      preventDuplicates: false,
+    );
   } else {
-    return Get.to(() => child, routeName: routeName(child), preventDuplicates: false);
+    return Get.to(
+      () => child,
+      routeName: routeName(child),
+      preventDuplicates: false,
+    );
   }
 }
 

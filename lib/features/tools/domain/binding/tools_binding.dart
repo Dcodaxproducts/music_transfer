@@ -13,7 +13,9 @@ class ToolsBinding extends Bindings {
     Get.lazyPut(() => toolsRepoInterface, fenix: true);
 
     // service
-    ToolsServiceInterface toolsServiceInterface = ToolsService(toolsRepo: Get.find());
+    ToolsServiceInterface toolsServiceInterface = ToolsService(
+      toolsRepo: Get.find(),
+    );
     Get.lazyPut(() => toolsServiceInterface, fenix: true);
 
     // controller

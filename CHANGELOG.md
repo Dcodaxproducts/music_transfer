@@ -1,5 +1,32 @@
 # Changelog
 
+## 3.0
+
+### Added
+
+- Share Result
+
+### Changed
+
+- Image Generation Result Screen
+- Background Remover Result Screen
+- Upsclae Result Screen
+- Inspirations Details Screen
+- Tools Screen
+- Tools Detail Screen
+- Tools images
+- Image Generation, Background Remover, Upscale api's implementation on backend
+
+### Removed
+
+- AWS Implementation from app
+- Regenerate result
+- Light Theme
+
+### Fixed
+
+- Image download issue
+
 ## iOS [2.7], android [2.0(11)] - 29-01-2025
 
 ### Added

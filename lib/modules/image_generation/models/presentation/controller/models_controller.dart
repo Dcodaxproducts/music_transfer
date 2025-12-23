@@ -47,7 +47,11 @@ class ModelsController extends GetxController {
   }
 
   void filterModels(int index) {
-    _filteredModels = modelsService.filterModels(_models, _favoriteModels, index);
+    _filteredModels = modelsService.filterModels(
+      _models,
+      _favoriteModels,
+      index,
+    );
     type = index;
     update();
   }

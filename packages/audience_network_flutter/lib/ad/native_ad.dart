@@ -144,7 +144,8 @@ class NativeAdState extends State<NativeAd> with AutomaticKeepAliveClientMixin {
 
   String _getChannelRegisterId() {
     String channel = NATIVE_AD_CHANNEL;
-    if (defaultTargetPlatform == TargetPlatform.iOS && widget.adType == NativeAdType.NATIVE_BANNER_AD) {
+    if (defaultTargetPlatform == TargetPlatform.iOS &&
+        widget.adType == NativeAdType.NATIVE_BANNER_AD) {
       channel = NATIVE_BANNER_AD_CHANNEL;
     }
     return channel;
@@ -153,17 +154,23 @@ class NativeAdState extends State<NativeAd> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    double width = widget.width == double.infinity ? MediaQuery.of(context).size.width : widget.width;
+    double width = widget.width == double.infinity
+        ? MediaQuery.of(context).size.width
+        : widget.width;
     return AnimatedContainer(
       color: Colors.transparent,
       width: width,
-      height: isAdReady || widget.keepExpandedWhileLoading ? widget.height : containerHeight,
+      height: isAdReady || widget.keepExpandedWhileLoading
+          ? widget.height
+          : containerHeight,
       duration: Duration(milliseconds: widget.expandAnimationDuraion),
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
           Positioned.fill(
-            top: isAdReady || widget.keepExpandedWhileLoading ? 0 : -(widget.height - containerHeight),
+            top: isAdReady || widget.keepExpandedWhileLoading
+                ? 0
+                : -(widget.height - containerHeight),
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 maxHeight: widget.height,
@@ -192,29 +199,41 @@ class NativeAdState extends State<NativeAd> with AutomaticKeepAliveClientMixin {
           creationParamsCodec: const StandardMessageCodec(),
           creationParams: <String, dynamic>{
             "id": widget.placementId,
-            "banner_ad": widget.adType == NativeAdType.NATIVE_BANNER_AD ? true : false,
+            "banner_ad":
+                widget.adType == NativeAdType.NATIVE_BANNER_AD ? true : false,
             // height param is only for Banner Ads. Native Ad's height is
             // governed by container.
             "height": widget.bannerAdSize.height,
-            "bg_color":
-                widget.backgroundColor == null ? null : _getHexStringFromColor(widget.backgroundColor!),
-            "title_color": widget.titleColor == null ? null : _getHexStringFromColor(widget.titleColor!),
-            "desc_color":
-                widget.descriptionColor == null ? null : _getHexStringFromColor(widget.descriptionColor!),
-            "label_color": widget.labelColor == null ? null : _getHexStringFromColor(widget.labelColor!),
-            "button_color": widget.buttonColor == null ? null : _getHexStringFromColor(widget.buttonColor!),
-            "button_title_color":
-                widget.buttonTitleColor == null ? null : _getHexStringFromColor(widget.buttonTitleColor!),
-            "button_border_color":
-                widget.buttonBorderColor == null ? null : _getHexStringFromColor(widget.buttonBorderColor!),
+            "bg_color": widget.backgroundColor == null
+                ? null
+                : _getHexStringFromColor(widget.backgroundColor!),
+            "title_color": widget.titleColor == null
+                ? null
+                : _getHexStringFromColor(widget.titleColor!),
+            "desc_color": widget.descriptionColor == null
+                ? null
+                : _getHexStringFromColor(widget.descriptionColor!),
+            "label_color": widget.labelColor == null
+                ? null
+                : _getHexStringFromColor(widget.labelColor!),
+            "button_color": widget.buttonColor == null
+                ? null
+                : _getHexStringFromColor(widget.buttonColor!),
+            "button_title_color": widget.buttonTitleColor == null
+                ? null
+                : _getHexStringFromColor(widget.buttonTitleColor!),
+            "button_border_color": widget.buttonBorderColor == null
+                ? null
+                : _getHexStringFromColor(widget.buttonBorderColor!),
           },
         ),
       );
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
       return SizedBox(
         width: width,
-        height:
-            widget.adType == NativeAdType.NATIVE_AD ? widget.height : widget.bannerAdSize.height!.toDouble(),
+        height: widget.adType == NativeAdType.NATIVE_AD
+            ? widget.height
+            : widget.bannerAdSize.height!.toDouble(),
         child: UiKitView(
           viewType: _getChannelRegisterId(),
           onPlatformViewCreated: _onNativeAdViewCreated,
@@ -222,20 +241,32 @@ class NativeAdState extends State<NativeAd> with AutomaticKeepAliveClientMixin {
           creationParams: <String, dynamic>{
             "id": widget.placementId,
             "ad_type": widget.adType.index,
-            "banner_ad": widget.adType == NativeAdType.NATIVE_BANNER_AD ? true : false,
-            "height":
-                widget.adType == NativeAdType.NATIVE_BANNER_AD ? widget.bannerAdSize.height : widget.height,
-            "bg_color":
-                widget.backgroundColor == null ? null : _getHexStringFromColor(widget.backgroundColor!),
-            "title_color": widget.titleColor == null ? null : _getHexStringFromColor(widget.titleColor!),
-            "desc_color":
-                widget.descriptionColor == null ? null : _getHexStringFromColor(widget.descriptionColor!),
-            "label_color": widget.labelColor == null ? null : _getHexStringFromColor(widget.labelColor!),
-            "button_color": widget.buttonColor == null ? null : _getHexStringFromColor(widget.buttonColor!),
-            "button_title_color":
-                widget.buttonTitleColor == null ? null : _getHexStringFromColor(widget.buttonTitleColor!),
-            "button_border_color":
-                widget.buttonBorderColor == null ? null : _getHexStringFromColor(widget.buttonBorderColor!),
+            "banner_ad":
+                widget.adType == NativeAdType.NATIVE_BANNER_AD ? true : false,
+            "height": widget.adType == NativeAdType.NATIVE_BANNER_AD
+                ? widget.bannerAdSize.height
+                : widget.height,
+            "bg_color": widget.backgroundColor == null
+                ? null
+                : _getHexStringFromColor(widget.backgroundColor!),
+            "title_color": widget.titleColor == null
+                ? null
+                : _getHexStringFromColor(widget.titleColor!),
+            "desc_color": widget.descriptionColor == null
+                ? null
+                : _getHexStringFromColor(widget.descriptionColor!),
+            "label_color": widget.labelColor == null
+                ? null
+                : _getHexStringFromColor(widget.labelColor!),
+            "button_color": widget.buttonColor == null
+                ? null
+                : _getHexStringFromColor(widget.buttonColor!),
+            "button_title_color": widget.buttonTitleColor == null
+                ? null
+                : _getHexStringFromColor(widget.buttonTitleColor!),
+            "button_border_color": widget.buttonBorderColor == null
+                ? null
+                : _getHexStringFromColor(widget.buttonBorderColor!),
             "is_media_cover": widget.isMediaCover,
           },
         ),
@@ -244,12 +275,14 @@ class NativeAdState extends State<NativeAd> with AutomaticKeepAliveClientMixin {
       return SizedBox(
         width: width,
         height: widget.height,
-        child: const Text("Native Ads for this platform is currently not supported"),
+        child: const Text(
+            "Native Ads for this platform is currently not supported"),
       );
     }
   }
 
-  String _getHexStringFromColor(Color color) => '#${color.value.toRadixString(16)}';
+  String _getHexStringFromColor(Color color) =>
+      '#${color.value.toRadixString(16)}';
 
   void _onNativeAdViewCreated(int id) {
     final channel = MethodChannel('${NATIVE_AD_CHANNEL}_$id');

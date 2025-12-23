@@ -52,23 +52,33 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
           });
         },
       ),
-      nativeTemplateStyle: NativeTemplateStyle(templateType: widget.templateType ?? TemplateType.small),
+      nativeTemplateStyle: NativeTemplateStyle(
+        templateType: widget.templateType ?? TemplateType.small,
+      ),
     );
     _ad.load();
   }
 
   @override
   Widget build(BuildContext context) {
-    final double height = widget.templateType == TemplateType.medium ? 250 : 120;
-    return GetBuilder<SubscriptionController>(builder: (con) {
-      return con.isPro
-          ? const SizedBox.shrink()
-          : isLoaded
-              ? SizedBox(height: height, width: double.infinity, child: AdWidget(ad: _ad))
-              : isLoading
-                  ? NativeAdPlaceholder(height: height)
-                  : const SizedBox.shrink();
-    });
+    final double height = widget.templateType == TemplateType.medium
+        ? 250
+        : 120;
+    return GetBuilder<SubscriptionController>(
+      builder: (con) {
+        return con.isPro
+            ? const SizedBox.shrink()
+            : isLoaded
+            ? SizedBox(
+                height: height,
+                width: double.infinity,
+                child: AdWidget(ad: _ad),
+              )
+            : isLoading
+            ? NativeAdPlaceholder(height: height)
+            : const SizedBox.shrink();
+      },
+    );
   }
 }
 
@@ -125,14 +135,20 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   Widget build(BuildContext context) {
     final double height = widget.adSize.height.truncateToDouble();
     final double width = widget.adSize.width.truncateToDouble();
-    return GetBuilder<SubscriptionController>(builder: (con) {
-      return con.isPro
-          ? const SizedBox.shrink()
-          : isLoaded
-              ? SizedBox(height: height, width: width, child: AdWidget(ad: _ad))
-              : isLoading
-                  ? BannerAdPlaceholder(width: width, height: height)
-                  : const SizedBox.shrink();
-    });
+    return GetBuilder<SubscriptionController>(
+      builder: (con) {
+        return con.isPro
+            ? const SizedBox.shrink()
+            : isLoaded
+            ? SizedBox(
+                height: height,
+                width: width,
+                child: AdWidget(ad: _ad),
+              )
+            : isLoading
+            ? BannerAdPlaceholder(width: width, height: height)
+            : const SizedBox.shrink();
+      },
+    );
   }
 }

@@ -56,7 +56,10 @@ class AdRepo implements AdRepoInterface {
         break;
     }
 
-    return await completer.future.timeout(const Duration(seconds: 6), onTimeout: () => null);
+    return await completer.future.timeout(
+      const Duration(seconds: 6),
+      onTimeout: () => null,
+    );
   }
 
   /* Admob Ads */
@@ -69,7 +72,10 @@ class AdRepo implements AdRepoInterface {
     return await InterstitialAd.load(
       adUnitId: unitId,
       request: AdIds.adRequest,
-      adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: loadCallback, onAdFailedToLoad: failCallback),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: loadCallback,
+        onAdFailedToLoad: failCallback,
+      ),
     );
   }
 
@@ -111,22 +117,26 @@ class AdRepo implements AdRepoInterface {
     return await AppOpenAd.load(
       adUnitId: unitId,
       request: AdIds.adRequest,
-      adLoadCallback: AppOpenAdLoadCallback(onAdLoaded: loadCallback, onAdFailedToLoad: failCallback),
+      adLoadCallback: AppOpenAdLoadCallback(
+        onAdLoaded: loadCallback,
+        onAdFailedToLoad: failCallback,
+      ),
     );
   }
 
   @override
-  FullScreenContentCallback<T> getFullScreenContentCallback<T>() => FullScreenContentCallback<T>(
-    onAdDismissedFullScreenContent: (ad) {
-      AdsController.find.adShowing = false;
-    },
-    onAdFailedToShowFullScreenContent: (ad, error) {
-      AdsController.find.adShowing = false;
-    },
-    onAdShowedFullScreenContent: (ad) {
-      AdsController.find.adShowing = true;
-    },
-  );
+  FullScreenContentCallback<T> getFullScreenContentCallback<T>() =>
+      FullScreenContentCallback<T>(
+        onAdDismissedFullScreenContent: (ad) {
+          AdsController.find.adShowing = false;
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          AdsController.find.adShowing = false;
+        },
+        onAdShowedFullScreenContent: (ad) {
+          AdsController.find.adShowing = true;
+        },
+      );
 
   /* Meta ads */
 
@@ -135,7 +145,9 @@ class AdRepo implements AdRepoInterface {
     Function(meta.InterstitialAd) loadCallback,
     Function(dynamic) failCallback,
   ) async {
-    final interstitialAd = meta.InterstitialAd(kDebugMode ? meta.InterstitialAd.testPlacementId : unitId);
+    final interstitialAd = meta.InterstitialAd(
+      kDebugMode ? meta.InterstitialAd.testPlacementId : unitId,
+    );
 
     interstitialAd.listener = meta.InterstitialAdListener(
       onLoaded: () => loadCallback(interstitialAd),
@@ -154,7 +166,9 @@ class AdRepo implements AdRepoInterface {
     Function(meta.RewardedAd) loadCallback,
     Function(dynamic) failCallback,
   ) async {
-    final rewardedAd = meta.RewardedAd(kDebugMode ? meta.RewardedAd.testPlacementId : unitId);
+    final rewardedAd = meta.RewardedAd(
+      kDebugMode ? meta.RewardedAd.testPlacementId : unitId,
+    );
 
     rewardedAd.listener = meta.RewardedAdListener(
       onLoaded: () => loadCallback(rewardedAd),

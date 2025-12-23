@@ -46,10 +46,14 @@ class CustomTextField extends StatelessWidget {
       onTap: onTap,
       decoration: InputDecoration(
         filled: filled,
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon, size: 20.sp, color: context.theme.hintColor) : null,
+        prefixIcon: prefixIcon != null
+            ? Icon(prefixIcon, size: 20.sp, color: context.theme.hintColor)
+            : null,
         hintText: hintText,
         enabledBorder: border(color: context.theme.dividerColor),
-        suffixIcon: suffixIcon != null ? Icon(suffixIcon, size: 20.sp, color: context.theme.hintColor) : null,
+        suffixIcon: suffixIcon != null
+            ? Icon(suffixIcon, size: 20.sp, color: context.theme.hintColor)
+            : null,
       ),
       style: context.font14,
     );

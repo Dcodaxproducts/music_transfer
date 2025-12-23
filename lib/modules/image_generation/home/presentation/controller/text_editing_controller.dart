@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
+import '../../../../../imports.dart';
 
 class StyleableTextFieldController extends TextEditingController {
-  StyleableTextFieldController({
-    required this.styles,
-  }) : combinedPattern = styles.createCombinedPatternBasedOnStyleMap();
+  StyleableTextFieldController({required this.styles})
+    : combinedPattern = styles.createCombinedPatternBasedOnStyleMap();
 
   final TextPartStyleDefinitions styles;
   final Pattern combinedPattern;
@@ -23,10 +22,8 @@ class StyleableTextFieldController extends TextEditingController {
 
         if (textPart == null) return '';
 
-        final TextPartStyleDefinition? styleDefinition = styles.getStyleOfTextPart(
-          textPart,
-          text,
-        );
+        final TextPartStyleDefinition? styleDefinition = styles
+            .getStyleOfTextPart(textPart, text);
 
         if (styleDefinition == null) return '';
 
@@ -53,21 +50,18 @@ class StyleableTextFieldController extends TextEditingController {
     String? textToBeStyled,
     TextStyle? style,
   ) {
-    textSpanChildren.add(
-      TextSpan(
-        text: textToBeStyled,
-        style: style,
-      ),
-    );
+    textSpanChildren.add(TextSpan(text: textToBeStyled, style: style));
   }
 }
 
 class TextPartStyleDefinitions {
-  TextPartStyleDefinitions({required this.definitionList, required this.adultWords})
-      : adultWordStyle = const TextStyle(
-          color: Colors.red,
-          fontWeight: FontWeight.w600,
-        );
+  TextPartStyleDefinitions({
+    required this.definitionList,
+    required this.adultWords,
+  }) : adultWordStyle = const TextStyle(
+         color: errorColor,
+         fontWeight: FontWeight.w600,
+       );
 
   final List<TextPartStyleDefinition> definitionList;
   final List<String> adultWords;
@@ -75,48 +69,44 @@ class TextPartStyleDefinitions {
 
   RegExp createCombinedPatternBasedOnStyleMap() {
     final adultWordsPattern = adultWords.join('|');
-    final combinedPatternString =
-        [...definitionList.map<String>((definition) => definition.pattern), adultWordsPattern].join('|');
+    final combinedPatternString = [
+      ...definitionList.map<String>((definition) => definition.pattern),
+      adultWordsPattern,
+    ].join('|');
     return RegExp(combinedPatternString, multiLine: true, caseSensitive: false);
   }
 
-  TextPartStyleDefinition? getStyleOfTextPart(
-    String textPart,
-    String text,
-  ) {
+  TextPartStyleDefinition? getStyleOfTextPart(String textPart, String text) {
     // Check if the textPart is an adult word
     if (adultWords.contains(removePunctuation(textPart.toLowerCase()))) {
       return TextPartStyleDefinition(pattern: textPart, style: adultWordStyle);
     }
 
-    return List<TextPartStyleDefinition?>.from(definitionList).firstWhere(
-      (TextPartStyleDefinition? styleDefinition) {
-        if (styleDefinition == null) return false;
+    return List<TextPartStyleDefinition?>.from(definitionList).firstWhere((
+      TextPartStyleDefinition? styleDefinition,
+    ) {
+      if (styleDefinition == null) return false;
 
-        bool hasMatch = false;
+      bool hasMatch = false;
 
-        RegExp(styleDefinition.pattern, caseSensitive: false).allMatches(text).forEach(
-          (RegExpMatch currentMatch) {
-            if (hasMatch) return;
+      RegExp(
+        styleDefinition.pattern,
+        caseSensitive: false,
+      ).allMatches(text).forEach((RegExpMatch currentMatch) {
+        if (hasMatch) return;
 
-            if (currentMatch.group(0) == textPart) {
-              hasMatch = true;
-            }
-          },
-        );
+        if (currentMatch.group(0) == textPart) {
+          hasMatch = true;
+        }
+      });
 
-        return hasMatch;
-      },
-      orElse: () => null,
-    );
+      return hasMatch;
+    }, orElse: () => null);
   }
 }
 
 class TextPartStyleDefinition {
-  TextPartStyleDefinition({
-    required this.pattern,
-    required this.style,
-  });
+  TextPartStyleDefinition({required this.pattern, required this.style});
 
   final String pattern;
   final TextStyle style;

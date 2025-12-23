@@ -14,43 +14,44 @@ class SettingsRepo implements SettingsRepoInterface {
   @override
   ConfigModel initSharedData() {
     // negative prompt
-    String negativePrompt = prefs.getString(SharedKeys.NEGATIVE_PROMPT) ?? '';
+    String negativePrompt = prefs.getString(SharedKeys.negativePrompt) ?? '';
 
     // guidance scale
-    double guidanceScale = prefs.getDouble(SharedKeys.GUIDANCE_SCALE) ?? 3.5;
+    double guidanceScale = prefs.getDouble(SharedKeys.guidanceScale) ?? 3.5;
 
     // aspect ratio
-    int aspectRatio = prefs.getInt(SharedKeys.ASPECT_RATIO) ?? 1;
+    int aspectRatio = prefs.getInt(SharedKeys.aspectRatio) ?? 1;
 
     // selected model
-    String? model = prefs.getString(SharedKeys.SELECTED_MODEL);
+    String? model = prefs.getString(SharedKeys.selectedModel);
     Model? selectedModel;
     if (model != null) {
       selectedModel = Model.fromJson(jsonDecode(model));
     }
 
     // has viewed ads dialog
-    bool hasViewedAdsDialog = prefs.getBool(SharedKeys.HAS_VIEWED_ADS_DIALOG) ?? false;
+    bool hasViewedAdsDialog =
+        prefs.getBool(SharedKeys.hasViewedAdsDialog) ?? false;
 
     // onboarding skip
-    bool onBoardingSkip = prefs.getBool(SharedKeys.ON_BOARDING_SKIP) ?? false;
+    bool onBoardingSkip = prefs.getBool(SharedKeys.onBoardingSkip) ?? false;
 
     // notification enabled
-    bool notificationEnabled = prefs.getBool(SharedKeys.NOTIFICATION) ?? false;
+    bool notificationEnabled = prefs.getBool(SharedKeys.notification) ?? false;
 
     // check if the theme, language and country code are set
-    if (!prefs.containsKey(SharedKeys.THEME)) {
-      prefs.setString(SharedKeys.THEME, 'system');
+    if (!prefs.containsKey(SharedKeys.theme)) {
+      prefs.setString(SharedKeys.theme, 'system');
     }
 
     // check if the theme, language and country code are set
-    if (!prefs.containsKey(SharedKeys.COUNTRY_CODE)) {
-      prefs.setString(SharedKeys.COUNTRY_CODE, appLanguages[0].countryCode);
+    if (!prefs.containsKey(SharedKeys.countryCode)) {
+      prefs.setString(SharedKeys.countryCode, appLanguages[0].countryCode);
     }
 
     // check if the theme, language and country code are set
-    if (!prefs.containsKey(SharedKeys.LANGUAGE_CODE)) {
-      prefs.setString(SharedKeys.LANGUAGE_CODE, appLanguages[0].languageCode);
+    if (!prefs.containsKey(SharedKeys.languageCode)) {
+      prefs.setString(SharedKeys.languageCode, appLanguages[0].languageCode);
     }
 
     return ConfigModel(
@@ -67,36 +68,45 @@ class SettingsRepo implements SettingsRepoInterface {
   @override
   Future<void> updateSharedData(ConfigModel configModel) async {
     await Future.wait([
-      prefs.setDouble(SharedKeys.GUIDANCE_SCALE, configModel.guidanceScale),
-      prefs.setInt(SharedKeys.ASPECT_RATIO, configModel.aspectRatio),
-      prefs.setString(SharedKeys.SELECTED_MODEL, jsonEncode(configModel.selectedModel?.toJson())),
-      prefs.setString(SharedKeys.NEGATIVE_PROMPT, configModel.negativePrompt),
-      prefs.setBool(SharedKeys.ON_BOARDING_SKIP, configModel.onBoardingSkip),
-      prefs.setBool(SharedKeys.NOTIFICATION, configModel.notificationsEnabled),
-      prefs.setBool(SharedKeys.HAS_VIEWED_ADS_DIALOG, configModel.hasViewdAdsDialog),
+      prefs.setDouble(SharedKeys.guidanceScale, configModel.guidanceScale),
+      prefs.setInt(SharedKeys.aspectRatio, configModel.aspectRatio),
+      prefs.setString(
+        SharedKeys.selectedModel,
+        jsonEncode(configModel.selectedModel?.toJson()),
+      ),
+      prefs.setString(SharedKeys.negativePrompt, configModel.negativePrompt),
+      prefs.setBool(SharedKeys.onBoardingSkip, configModel.onBoardingSkip),
+      prefs.setBool(SharedKeys.notification, configModel.notificationsEnabled),
+      prefs.setBool(
+        SharedKeys.hasViewedAdsDialog,
+        configModel.hasViewdAdsDialog,
+      ),
     ]);
   }
 
   @override
-  Future<Response?> getConfig() async => await apiClient.get(Endpoints.CONFIG_URL);
+  Future<Response?> getConfig() async =>
+      await apiClient.get(Endpoints.CONFIG_URL);
 
   @override
   int getOpenCount() {
-    int openCount = prefs.getInt(SharedKeys.OPEN_COUNT) ?? 0;
+    int openCount = prefs.getInt(SharedKeys.openCount) ?? 0;
     openCount++;
-    prefs.setInt(SharedKeys.OPEN_COUNT, openCount);
+    prefs.setInt(SharedKeys.openCount, openCount);
     return openCount;
   }
 
   @override
-  Future<bool> saveFirstTime() async => await prefs.setBool(SharedKeys.ON_BOARDING_SKIP, false);
+  Future<bool> saveFirstTime() async =>
+      await prefs.setBool(SharedKeys.onBoardingSkip, false);
 
   @override
-  bool getFirstTime() => prefs.getBool(SharedKeys.ON_BOARDING_SKIP) ?? true;
+  bool getFirstTime() => prefs.getBool(SharedKeys.onBoardingSkip) ?? true;
 
   @override
-  Future<bool> saveShowAppOpen() async => await prefs.setBool(SharedKeys.SHOW_APP_OPEN, true);
+  Future<bool> saveShowAppOpen() async =>
+      await prefs.setBool(SharedKeys.showAppOpen, true);
 
   @override
-  bool getShowAppOpen() => prefs.getBool(SharedKeys.SHOW_APP_OPEN) ?? false;
+  bool getShowAppOpen() => prefs.getBool(SharedKeys.showAppOpen) ?? false;
 }

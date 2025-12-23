@@ -17,13 +17,18 @@ class BottomButton extends StatelessWidget {
           duration: const Duration(milliseconds: 300),
           height: 80.sp,
           decoration: BoxDecoration(
-            color: onPressed != null ? primaryColor : Theme.of(context).disabledColor,
+            color: onPressed != null
+                ? primaryColor
+                : Theme.of(context).disabledColor,
             borderRadius: radius,
           ),
           child: Center(
             child: Text(
               text,
-              style: context.font14.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+              style: context.font14.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),

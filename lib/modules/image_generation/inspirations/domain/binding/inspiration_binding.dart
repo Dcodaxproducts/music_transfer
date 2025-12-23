@@ -9,12 +9,15 @@ class InspirationBinding extends Bindings {
   @override
   void dependencies() {
     // repo
-    InspirationRepoInterface inspirationRepoInterface =
-        InspirationRepo(apiClient: Get.find(), prefs: Get.find());
+    InspirationRepoInterface inspirationRepoInterface = InspirationRepo(
+      apiClient: Get.find(),
+      prefs: Get.find(),
+    );
     Get.lazyPut(() => inspirationRepoInterface, fenix: true);
 
     // service
-    InspirationServiceInterface inspirationServiceInterface = InspirationService(inspirationRepo: Get.find());
+    InspirationServiceInterface inspirationServiceInterface =
+        InspirationService(inspirationRepo: Get.find());
     Get.lazyPut(() => inspirationServiceInterface, fenix: true);
 
     // controller
