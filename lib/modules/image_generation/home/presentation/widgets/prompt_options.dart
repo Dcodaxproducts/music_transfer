@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:pixart_app/core/design/design_system.dart';
-import '../../../../prompt_setting/presentation/controller/settings_controller.dart';
-import '../../../../aspect_ratio/data/model/aspect_ratio.dart';
-import '../../../../aspect_ratio/presentation/view/aspect_ratio.dart';
-import '../../../../prompt_setting/presentation/view/prompt_setting.dart';
+import '../../../prompt_setting/presentation/controller/settings_controller.dart';
+import '../../../aspect_ratio/data/model/aspect_ratio.dart';
+import '../../../aspect_ratio/presentation/view/aspect_ratio.dart';
+import '../../../prompt_setting/presentation/view/prompt_setting.dart';
 
 class PromptSettingsWidget extends StatelessWidget {
   const PromptSettingsWidget({super.key});

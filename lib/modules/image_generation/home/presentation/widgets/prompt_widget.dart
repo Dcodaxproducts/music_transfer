@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/imports.dart';
-import '../../../../inspirations/presentation/controller/inspiration_controller.dart';
-import '../../../../inspirations/data/model/inspiration.dart';
-import '../../../../../../core/widgets/gradient_widget.dart';
+import '../../../inspirations/presentation/controller/inspiration_controller.dart';
+import '../../../inspirations/data/model/inspiration.dart';
+import '../../../../../core/widgets/gradient_widget.dart';
 
 class PromptWidget extends StatelessWidget {
   final SettingsController con;

@@ -10,7 +10,7 @@ import 'package:pixart_app/core/widgets/snackbar.dart';
 import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart';
 import 'package:pixart_app/features/subscription/presentation/view/subscription.dart';
 import '../../preview/presentation/view/image_gen_result.dart';
-import '../presentation/view/widgets/free_generations.dart';
+import '../presentation/widgets/free_generations.dart';
 
 class ImageGenerationHelper {
   static Future<void> handleTap(Function(String) handleImageGeneration) async {
@@ -46,8 +46,7 @@ class ImageGenerationHelper {
     required Function(String, {bool showAds}) generateImage,
   }) async {
     if (GenerationController.find.proUserLimitExceeded) {
-      bool hasShowedFreeLimitDialog = await ImageGenerationController.find
-          .hasShowedFreeLimitDialog();
+      bool hasShowedFreeLimitDialog = await ImageGenerationController.find.hasShowedFreeLimitDialog();
       if (hasShowedFreeLimitDialog) {
         await showFreeLimitDialog();
         return;
@@ -57,10 +56,7 @@ class ImageGenerationHelper {
     }
   }
 
-  static void _handleFreeUser(
-    String text, {
-    required Function(String, {bool showAds}) generateImage,
-  }) {
+  static void _handleFreeUser(String text, {required Function(String, {bool showAds}) generateImage}) {
     if (_isProModel()) {
       showPremiumSheet();
     } else {
@@ -72,8 +68,7 @@ class ImageGenerationHelper {
     String text, {
     required Function(String, {bool showAds}) generateImage,
   }) async {
-    bool hasShowedFreeLimitDialog = await ImageGenerationController.find
-        .hasShowedFreeLimitDialog();
+    bool hasShowedFreeLimitDialog = await ImageGenerationController.find.hasShowedFreeLimitDialog();
     if (hasShowedFreeLimitDialog) {
       await showFreeLimitDialog();
       return;
@@ -96,27 +91,21 @@ class ImageGenerationHelper {
     }
   }
 
-  static bool _isProModel() =>
-      SettingsController.find.configModel.selectedModel?.premium ?? false;
+  static bool _isProModel() => SettingsController.find.configModel.selectedModel?.premium ?? false;
 
   static void generateImage(String text, {bool showAds = true, int? seed}) {
-    ImageGenerationController.find
-        .generateImages(text, seed: seed, showAds: showAds)
-        .then((response) async {
-          if (response != null) {
-            bool fromRegenerate = seed != null;
-            if (fromRegenerate) {
-              pop();
-            }
-            await LoadingManager.complete();
-            launchScreen(
-              PreviewScreen(result: response),
-              replace: fromRegenerate,
-            );
-            Future.delayed(const Duration(seconds: 2), () {
-              showConditionalRateUsDialog();
-            });
-          }
+    ImageGenerationController.find.generateImages(text, seed: seed, showAds: showAds).then((response) async {
+      if (response != null) {
+        bool fromRegenerate = seed != null;
+        if (fromRegenerate) {
+          pop();
+        }
+        LoadingManager.complete();
+        launchScreen(PreviewScreen(result: response), replace: fromRegenerate);
+        Future.delayed(const Duration(seconds: 2), () {
+          showConditionalRateUsDialog();
         });
+      }
+    });
   }
 }

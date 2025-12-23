@@ -1,10 +1,10 @@
 import 'package:pixart_app/modules/image_generation/models/presentation/controller/models_controller.dart';
 import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import '../../../../models/data/model/model.dart';
-import '../../../../../../imports.dart';
-import '../../../../../../core/widgets/shimmer.dart';
-import '../../../../models/presentation/view/models.dart';
-import '../../../../models/presentation/widgets/model_grid.dart';
+import '../../../models/data/model/model.dart';
+import '../../../../../imports.dart';
+import '../../../../../core/widgets/shimmer.dart';
+import '../../../models/presentation/view/models.dart';
+import '../../../models/presentation/widgets/model_grid.dart';
 
 class ModelsView extends StatelessWidget {
   const ModelsView({super.key});

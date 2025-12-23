@@ -1,8 +1,8 @@
 import 'package:pixart_app/modules/image_generation/history/presentation/controller/history_controller.dart';
 import 'package:pixart_app/modules/image_generation/home/data/model/image_generation.dart';
-import '../../../../../../imports.dart';
-import '../../../../history/presentation/view/history.dart';
-import '../../../../history/presentation/view/widgets/hisory_list.dart';
+import '../../../../../imports.dart';
+import '../../../history/presentation/view/history.dart';
+import '../../../history/presentation/view/widgets/hisory_list.dart';
 
 class HistoryView extends StatelessWidget {
   const HistoryView({super.key});

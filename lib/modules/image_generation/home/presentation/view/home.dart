@@ -2,12 +2,12 @@ import 'package:pixart_app/core/widgets/gradient_widget.dart';
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/modules/image_generation/models/presentation/controller/models_controller.dart';
 import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:pixart_app/modules/image_generation/home/presentation/view/widgets/models_view.dart';
+import 'package:pixart_app/modules/image_generation/home/presentation/widgets/models_view.dart';
 import '../../utils/image_generation_helper.dart';
-import 'widgets/free_generations.dart';
-import 'widgets/history_view.dart';
-import 'widgets/prompt_options.dart';
-import 'widgets/prompt_widget.dart';
+import '../widgets/free_generations.dart';
+import '../widgets/history_view.dart';
+import '../widgets/prompt_options.dart';
+import '../widgets/prompt_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   final Function()? onRegenerate;

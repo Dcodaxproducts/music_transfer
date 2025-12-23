@@ -1,9 +1,9 @@
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/core/widgets/gradient_widget.dart';
 import 'package:pixart_app/features/subscription/presentation/view/subscription.dart';
-import '../../../../prompt_setting/presentation/controller/settings_controller.dart';
-import '../../../../../../features/subscription/presentation/controller/subscription_controller.dart';
-import '../../controller/generation_controller.dart';
+import '../../../prompt_setting/presentation/controller/settings_controller.dart';
+import '../../../../../features/subscription/presentation/controller/subscription_controller.dart';
+import '../controller/generation_controller.dart';
 
 class FreeGenerationLeftWidget extends StatelessWidget {
   const FreeGenerationLeftWidget({super.key});
