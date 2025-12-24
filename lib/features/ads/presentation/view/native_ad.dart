@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import '../../../subscription/presentation/controller/subscription_controller.dart';
+import '../../../paywall/presentation/controller/subscription_controller.dart';
 import 'ad_placeholder.dart';
 
 class NativeAdWidget extends StatefulWidget {
@@ -24,7 +24,7 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
     loadNativeAd();
   }
 
-  ///Important make sure to dispose the ad when disposing the screen
+  //Important make sure to dispose the ad when disposing the screen
   @override
   void dispose() {
     _ad.dispose();
@@ -34,8 +34,6 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
   void loadNativeAd() {
     _ad = NativeAd(
       request: const AdRequest(),
-
-      ///This is a test adUnitId make sure to change it
       adUnitId: widget.adId,
       factoryId: 'listTile',
       listener: NativeAdListener(
@@ -52,18 +50,14 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
           });
         },
       ),
-      nativeTemplateStyle: NativeTemplateStyle(
-        templateType: widget.templateType ?? TemplateType.small,
-      ),
+      nativeTemplateStyle: NativeTemplateStyle(templateType: widget.templateType ?? TemplateType.small),
     );
     _ad.load();
   }
 
   @override
   Widget build(BuildContext context) {
-    final double height = widget.templateType == TemplateType.medium
-        ? 250
-        : 120;
+    final double height = widget.templateType == TemplateType.medium ? 250 : 120;
     return GetBuilder<SubscriptionController>(
       builder: (con) {
         return con.isPro

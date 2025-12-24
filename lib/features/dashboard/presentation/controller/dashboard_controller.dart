@@ -11,4 +11,9 @@ class DashboardController extends GetxController implements GetxService {
     _selectedIndex = selectedIndex;
     update();
   }
+
+  void toHome() {
+    selectedIndex = 0;
+    update();
+  }
 }

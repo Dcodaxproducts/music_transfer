@@ -8,12 +8,11 @@ import 'package:pixart_app/modules/image_generation/inspirations/domain/binding/
 import 'package:pixart_app/features/language/domain/binding/language_binding.dart';
 import 'package:pixart_app/features/review/domain/binding/review_binding.dart';
 import 'package:pixart_app/modules/image_generation/prompt_setting/domain/binding/setting_binding.dart';
-import 'package:pixart_app/features/subscription/domain/binding/subscription_binding.dart';
 import 'package:pixart_app/features/tools/domain/binding/tools_binding.dart';
 import 'package:pixart_app/core/api/api_client_impl.dart';
 import 'package:pixart_app/core/api/api_client.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../features/paywall/domain/binding/subscription_binding.dart';
 import '../../imports.dart';
 import '../../modules/image_generation/home/domain/binding/generation_binding.dart';
 import '../../modules/image_generation/models/domain/binding/models_binding.dart';
@@ -61,8 +60,7 @@ Future<Map<String, Map<String, String>>> init() async {
     mappedJson.forEach((key, value) {
       json[key] = value.toString();
     });
-    languages['${languageModel.languageCode}_${languageModel.countryCode}'] =
-        json;
+    languages['${languageModel.languageCode}_${languageModel.countryCode}'] = json;
   }
   return languages;
 }

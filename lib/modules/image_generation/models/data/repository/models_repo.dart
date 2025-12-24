@@ -1,6 +1,5 @@
 import 'package:pixart_app/core/api/api_client.dart';
 import 'package:pixart_app/imports.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'models_repo_interface.dart';
 
 class ModelsRepo implements ModelsRepoInterface {
@@ -15,10 +14,7 @@ class ModelsRepo implements ModelsRepoInterface {
 
   @override
   Future<bool> saveFavoriteModel(List<int> models) async {
-    return await prefs.setStringList(
-      SharedKeys.favoriteModels,
-      models.map((e) => e.toString()).toList(),
-    );
+    return await prefs.setStringList(SharedKeys.favoriteModels, models.map((e) => e.toString()).toList());
   }
 
   @override

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/features/tools/presentation/widgets/bg_remover_animation.dart';
 import 'package:pixart_app/features/tools/presentation/widgets/upscale_animation.dart';
@@ -25,9 +24,7 @@ class ToolModel {
       description: json['description'],
       image: json['image'],
       animation: json['animation'],
-      premium: Platform.isAndroid
-          ? json['premium']
-          : json['ios_premium'] ?? false,
+      premium: Platform.isAndroid ? json['premium'] : json['ios_premium'] ?? false,
     );
   }
   static ToolModel backgroundRemoverTool = ToolModel(
@@ -44,7 +41,4 @@ class ToolModel {
   );
 }
 
-List<ToolModel> get tools => [
-  ToolModel.upscaleImageTool,
-  ToolModel.backgroundRemoverTool,
-];
+List<ToolModel> get tools => [ToolModel.upscaleImageTool, ToolModel.backgroundRemoverTool];

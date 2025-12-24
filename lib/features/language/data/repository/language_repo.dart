@@ -1,5 +1,4 @@
 import 'package:pixart_app/imports.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'language_repo_interface.dart';
 
 class LocalizationRepo implements LocalizationRepoInterface {
@@ -9,9 +8,7 @@ class LocalizationRepo implements LocalizationRepoInterface {
 
   @override
   List<Locale> get availableLanguages {
-    return appLanguages
-        .map((lang) => Locale(lang.languageCode, lang.countryCode))
-        .toList();
+    return appLanguages.map((lang) => Locale(lang.languageCode, lang.countryCode)).toList();
   }
 
   @override

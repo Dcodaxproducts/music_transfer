@@ -1,8 +1,7 @@
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/core/widgets/gradient_widget.dart';
-import 'package:pixart_app/features/subscription/presentation/view/subscription.dart';
+import '../../../../../features/paywall/presentation/controller/subscription_controller.dart';
 import '../../../prompt_setting/presentation/controller/settings_controller.dart';
-import '../../../../../features/subscription/presentation/controller/subscription_controller.dart';
 import '../controller/generation_controller.dart';
 
 class FreeGenerationLeftWidget extends StatelessWidget {
@@ -14,7 +13,7 @@ class FreeGenerationLeftWidget extends StatelessWidget {
       builder: (settingCon) {
         return GetBuilder<GenerationController>(
           builder: (con) => Visibility(
-            visible: settingCon.settingModel.freeGenerations > 0 && !isPro,
+            visible: settingCon.settingModel.freeGenerations > 0 && !SubscriptionController.find.isPro,
             child: Padding(
               padding: EdgeInsets.only(top: 8.sp),
               child: Center(
@@ -38,8 +37,6 @@ class FreeLimitDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool subscriptionAvailable =
-        SubscriptionController.find.products.isNotEmpty;
     return Dialog(
       child: Padding(
         padding: AppPadding.padding16,
@@ -49,10 +46,7 @@ class FreeLimitDialog extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                visualDensity: const VisualDensity(
-                  horizontal: -4,
-                  vertical: -4,
-                ),
+                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                 padding: EdgeInsets.zero,
                 icon: const Icon(Icons.close, color: primaryColor),
                 onPressed: Get.back,
@@ -62,28 +56,14 @@ class FreeLimitDialog extends StatelessWidget {
               child: Icon(Iconsax.warning_2, size: 100.sp, color: Colors.white),
             ),
             SizedBox(height: 16.sp),
-            Text(
-              "free_limit_reached".tr,
-              style: context.font16.copyWith(fontWeight: FontWeight.w600),
-            ),
+            Text("free_limit_reached".tr, style: context.font16.copyWith(fontWeight: FontWeight.w600)),
             SizedBox(height: 16.sp),
-            Text(
-              subscriptionAvailable
-                  ? "free_limit_reached_message1".tr
-                  : "free_limit_reached_message2".tr,
-              style: context.font14,
-              textAlign: TextAlign.center,
-            ),
+            Text("free_limit_reached_message1".tr, style: context.font14, textAlign: TextAlign.center),
             Padding(
               padding: EdgeInsets.only(top: 32.sp),
               child: SizedBox(
                 width: double.infinity,
-                child: PrimaryButton(
-                  text: subscriptionAvailable ? 'go_pro'.tr : 'continue'.tr,
-                  onPressed: subscriptionAvailable
-                      ? showPremiumSheet
-                      : Get.back,
-                ),
+                child: PrimaryButton(text: 'go_pro'.tr, onPressed: () {}),
               ),
             ),
           ],

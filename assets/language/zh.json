@@ -160,5 +160,8 @@
   "recent": "最近",
   "completed": "已完成",
   "in_queue": "在队列中",
-  "loading": "加载中"
+  "loading": "加载中",
+  "welcome_to_pixart_pro": "Welcome to Pixart Pro",
+    "unlocked_features_description": "You’ve unlocked all Pro features including unlimited image generations, priority processing, exclusive AI models, and an ad-free experience.",
+    "start_exploring_pro": "Start Exploring Pro"
 }

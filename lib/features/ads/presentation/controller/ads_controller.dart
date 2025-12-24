@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pixart_app/features/ads/domain/service/ads_service_interface.dart';
+import 'package:pixart_app/features/paywall/presentation/controller/subscription_controller.dart';
 import '../../data/enum/ad_position.dart';
 import '../../data/enum/ad_type.dart';
 import '../../data/model/ad_model.dart';
-import '../../../subscription/presentation/controller/subscription_controller.dart';
 
 class AdsController extends GetxController {
   final AdsServiceInterface adsService;
@@ -31,7 +31,7 @@ class AdsController extends GetxController {
   }
 
   Future<void> initialize() async {
-    if (!isPro) {
+    if (!SubscriptionController.find.isPro) {
       if (Platform.isIOS) {
         adsService.initialize();
       }

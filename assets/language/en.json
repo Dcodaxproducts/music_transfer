@@ -141,5 +141,8 @@
     "upscale_images_to_higher_resolutions": "Instantly enhance the resolution of your images using advanced AI technology.",
     "completed": "Completed",
     "error": "Error",
-    "loading": "Loading"
+    "loading": "Loading",
+    "welcome_to_pixart_pro": "Welcome to Pixart Pro",
+    "unlocked_features_description": "You’ve unlocked all Pro features including unlimited image generations, priority processing, exclusive AI models, and an ad-free experience.",
+    "start_exploring_pro": "Start Exploring Pro"
 }

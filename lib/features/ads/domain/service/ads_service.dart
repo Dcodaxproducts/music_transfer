@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pixart_app/features/ads/data/repository/ad_repo_interface.dart';
 import 'package:pixart_app/features/ads/data/utils/firebase_events.dart';
 import 'package:pixart_app/imports.dart';
-import '../../../subscription/presentation/controller/subscription_controller.dart';
+import '../../../paywall/presentation/controller/subscription_controller.dart';
 import '../../data/enum/ad_type.dart';
 import '../../presentation/view/native_ad.dart';
 import '../../data/model/ad_model.dart';
@@ -79,7 +77,6 @@ class AdsService implements AdsServiceInterface {
       await rewardedInterstitialAd.show(
         onUserEarnedReward: (ad, reward) {
           onUserEarnedReward?.call();
-          FirebaseAnalytics.instance.logAdImpression();
         },
       );
       return true;
@@ -101,7 +98,6 @@ class AdsService implements AdsServiceInterface {
       await rewardedAd.show(
         onUserEarnedReward: (ad, reward) {
           onUserEarnedReward?.call();
-          FirebaseAnalytics.instance.logAdImpression();
         },
       );
       return true;
@@ -150,7 +146,7 @@ class AdsService implements AdsServiceInterface {
   // Facebook Ads
 
   Future<bool> _showFacebookInterstitial(String adId) async {
-    if (isPro) return false;
+    if (SubscriptionController.find.isPro) return false;
     meta.InterstitialAd? interstitialAd = await adRepo.loadAd<meta.InterstitialAd>(adId);
     if (interstitialAd != null) {
       await interstitialAd.show();
@@ -160,7 +156,7 @@ class AdsService implements AdsServiceInterface {
   }
 
   Future<bool> _showFacebookRewardAd(String adId) async {
-    if (isPro) return false;
+    if (SubscriptionController.find.isPro) return false;
     meta.RewardedAd? rewardedAd = await adRepo.loadAd<meta.RewardedAd>(adId);
     if (rewardedAd != null) {
       await rewardedAd.show();

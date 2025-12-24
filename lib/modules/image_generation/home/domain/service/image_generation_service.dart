@@ -1,17 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/modules/image_generation/history/presentation/controller/history_controller.dart';
 import 'package:pixart_app/modules/image_generation/home/presentation/controller/generation_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/modules/image_generation/home/data/repository/image_gen_repo.dart';
-import 'package:pixart_app/features/ads/data/utils/firebase_events.dart';
 import 'package:pixart_app/features/loading_screen/src/loading_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../../core/widgets/confirmation_dialog.dart';
-import '../../../../../features/subscription/presentation/controller/subscription_controller.dart';
+import '../../../../../features/ads/data/utils/firebase_events.dart';
+import '../../../../../features/paywall/presentation/controller/subscription_controller.dart';
 import '../../../aspect_ratio/data/model/aspect_ratio.dart';
 import '../../data/model/image_generation.dart';
 import '../../../models/data/model/model.dart';
@@ -23,7 +22,7 @@ class ImageGenerationServiceImpl implements ImageGenerationService {
   ImageGenerationServiceImpl({required this.repo});
 
   Future<void> _showAds() async {
-    if (isPro) return Future.value();
+    if (SubscriptionController.find.isPro) return Future.value();
     return ImageGenerationUtils.showAdAccordingToGeneration(
       SettingsController.find.settingModel.freeGenerations,
       GenerationController.find.dailyGenerationCount,
@@ -43,7 +42,7 @@ class ImageGenerationServiceImpl implements ImageGenerationService {
     int count = freeGenerations - dailyGenerationCount;
     bool freeUserCondition = count <= 0 || count.isNegative;
 
-    bool condition = isPro ? proUserCondition : freeUserCondition;
+    bool condition = SubscriptionController.find.isPro ? proUserCondition : freeUserCondition;
     return Future.value(condition);
   }
 

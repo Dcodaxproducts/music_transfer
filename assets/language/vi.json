@@ -161,5 +161,8 @@
   "recent": "Gần đây",
   "completed": "Hoàn thành",
   "in_queue": "Trong hàng đợi",
-  "loading": "Đang tải"
+  "loading": "Đang tải",
+  "welcome_to_pixart_pro": "Welcome to Pixart Pro",
+    "unlocked_features_description": "You’ve unlocked all Pro features including unlimited image generations, priority processing, exclusive AI models, and an ad-free experience.",
+    "start_exploring_pro": "Start Exploring Pro"
 }

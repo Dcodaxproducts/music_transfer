@@ -1,5 +1,4 @@
 import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:pixart_app/features/subscription/presentation/controller/subscription_controller.dart';
 import 'package:pixart_app/features/settings/presentation/view/widgets/app_version_widget.dart';
 import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart';
 import 'package:pixart_app/features/html/html_screen.dart';
@@ -27,12 +26,11 @@ class _SettingScreenState extends State<SettingScreen> {
   ];
 
   final List<Widget> _moreMenuItems = [
-    if (SubscriptionController.find.products.isNotEmpty)
-      MenuItem(
-        text: 'manage_subscription',
-        icon: Iconsax.crown_1,
-        onTap: () => launchUrlString(AppConstants.manageSubscriptionsUrl),
-      ),
+    MenuItem(
+      text: 'manage_subscription',
+      icon: Iconsax.crown_1,
+      onTap: () => launchUrlString(AppConstants.manageSubscriptionsUrl),
+    ),
     MenuItem(
       text: 'privacy_policy',
       icon: Iconsax.lock,

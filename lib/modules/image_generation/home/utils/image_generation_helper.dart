@@ -2,13 +2,12 @@ import 'package:get/get.dart';
 import 'package:pixart_app/modules/image_generation/home/presentation/controller/generation_controller.dart';
 import 'package:pixart_app/modules/image_generation/home/presentation/controller/image_generation_controller.dart';
 import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:pixart_app/features/subscription/presentation/controller/subscription_controller.dart';
 import 'package:pixart_app/features/ads/presentation/view/ads_dialog.dart';
 import 'package:pixart_app/features/loading_screen/src/loading_manager.dart';
 import 'package:pixart_app/core/helper/navigation.dart';
 import 'package:pixart_app/core/widgets/snackbar.dart';
 import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart';
-import 'package:pixart_app/features/subscription/presentation/view/subscription.dart';
+import '../../../../features/paywall/presentation/controller/subscription_controller.dart';
 import '../../preview/presentation/view/image_gen_result.dart';
 import '../presentation/widgets/free_generations.dart';
 
@@ -58,7 +57,7 @@ class ImageGenerationHelper {
 
   static void _handleFreeUser(String text, {required Function(String, {bool showAds}) generateImage}) {
     if (_isProModel()) {
-      showPremiumSheet();
+      SubscriptionController.find.showPaywallIfNeeded();
     } else {
       _handleFreeUserGeneration(text, generateImage: generateImage);
     }

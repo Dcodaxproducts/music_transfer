@@ -1,19 +1,14 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:pixart_app/features/dashboard/presentation/controller/dashboard_controller.dart';
+import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:pixart_app/features/subscription/presentation/controller/subscription_controller.dart';
 import 'package:pixart_app/core/widgets/confirmation_dialog.dart';
-import 'package:pixart_app/features/subscription/presentation/view/widgets/subscription_button.dart';
-import '../../../../core/utils/app_constants.dart';
+import 'package:pixart_app/features/paywall/presentation/widgets/subscription_button.dart';
 import '../../../../modules/image_generation/home/presentation/view/home.dart';
 import '../../../../modules/image_generation/inspirations/presentation/view/inspirations.dart';
+import '../../../paywall/presentation/controller/subscription_controller.dart';
 import '../../../settings/presentation/view/settings.dart';
-import '../../../subscription/presentation/view/subscription.dart';
 import '../../../tools/presentation/view/tools.dart';
 import '../../data/model/navigation_item.dart';
 import 'widgets/navigation_bar.dart';
@@ -33,19 +28,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     NavigationItem(icon: Iconsax.setting, child: const SettingScreen()),
   ];
 
-  final List<String> _titles = [
-    AppConstants.appName,
-    'tools',
-    'inspirations',
-    'settings',
-  ];
+  final List<String> _titles = [AppConstants.appName, 'tools', 'inspirations', 'settings'];
 
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      if (SubscriptionController.find.products.isNotEmpty &&
-          !SubscriptionController.find.isPro) {
-        Future.delayed(const Duration(seconds: 2), () => showPremiumSheet());
+      if (!SubscriptionController.find.isPro) {
+        Future.delayed(const Duration(seconds: 2), SubscriptionController.find.showPaywallIfNeeded);
       }
       SettingsController.find.saveShowAppOpen();
     });
@@ -74,13 +63,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              title: Text(_titles[currentIndex].tr),
-              actions: [
-                if (SubscriptionController.find.products.isNotEmpty) ...[
-                  const SubsriptionButton(),
-                  SizedBox(width: 10.sp),
+              title: Row(
+                children: [
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Image.asset(Images.logo, width: 24.sp, height: 24.sp, color: Colors.white),
+                  ),
+                  SizedBox(width: 8.sp),
+                  Text(_titles[currentIndex].tr),
                 ],
+              ),
+              centerTitle: false,
+              actions: [
+                const SubsriptionButton(),
+                SizedBox(width: 10.sp),
               ],
             ),
             body: Stack(

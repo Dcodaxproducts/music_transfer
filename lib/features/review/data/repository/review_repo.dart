@@ -1,6 +1,5 @@
 import 'package:pixart_app/core/api/api_client.dart';
 import 'package:pixart_app/imports.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'review_repo_interface.dart';
 
 class ReviewRepo implements ReviewRepoInterface {
@@ -10,10 +9,7 @@ class ReviewRepo implements ReviewRepoInterface {
 
   @override
   Future<Response?> saveReview(Map<String, dynamic> body) async {
-    return await apiClient.post(
-      Endpoints.baseUrl + Endpoints.FEEDBACK_URL,
-      body,
-    );
+    return await apiClient.post(Endpoints.baseUrl + Endpoints.FEEDBACK_URL, body);
   }
 
   @override
@@ -28,10 +24,7 @@ class ReviewRepo implements ReviewRepoInterface {
 
   @override
   Future<bool> setLastDialogShowed() {
-    return prefs.setString(
-      SharedKeys.lastShowedDialog,
-      DateTime.now().toString(),
-    );
+    return prefs.setString(SharedKeys.lastShowedDialog, DateTime.now().toString());
   }
 
   @override

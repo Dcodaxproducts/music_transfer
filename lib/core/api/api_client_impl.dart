@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -13,10 +12,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
 
   ApiClientImpl({required this.baseUrl});
   http.Client? _client;
-  final Map<String, String> _mainHeaders = {
-    "Content-Type": "application/json",
-    'Accept': 'application/json',
-  };
+  final Map<String, String> _mainHeaders = {"Content-Type": "application/json", 'Accept': 'application/json'};
 
   @override
   Future<void> cancelRequest() async {
@@ -46,18 +42,10 @@ class ApiClientImpl extends GetxService implements ApiClient {
           response = await _client!.get(url, headers: requestHeaders);
           break;
         case 'POST':
-          response = await _client!.post(
-            url,
-            body: jsonEncode(body),
-            headers: requestHeaders,
-          );
+          response = await _client!.post(url, body: jsonEncode(body), headers: requestHeaders);
           break;
         case 'PUT':
-          response = await _client!.put(
-            url,
-            body: jsonEncode(body),
-            headers: requestHeaders,
-          );
+          response = await _client!.put(url, body: jsonEncode(body), headers: requestHeaders);
           break;
         case 'DELETE':
           response = await _client!.delete(url, headers: requestHeaders);
@@ -107,13 +95,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
     Map<String, String>? headers,
     Map<String, String>? queryParams,
     bool hideLoading = true,
-  }) => _request(
-    'GET',
-    uri,
-    headers: headers,
-    queryParams: queryParams,
-    hideLoading: hideLoading,
-  );
+  }) => _request('GET', uri, headers: headers, queryParams: queryParams, hideLoading: hideLoading);
 
   @override
   Future<http.Response?> post(
@@ -121,13 +103,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
     Map<String, dynamic> body, {
     Map<String, String>? headers,
     bool hideLoading = true,
-  }) => _request(
-    'POST',
-    uri,
-    body: body,
-    headers: headers,
-    hideLoading: hideLoading,
-  );
+  }) => _request('POST', uri, body: body, headers: headers, hideLoading: hideLoading);
 
   @override
   Future<http.Response?> put(
@@ -135,20 +111,11 @@ class ApiClientImpl extends GetxService implements ApiClient {
     Map<String, dynamic> body, {
     Map<String, String>? headers,
     bool hideLoading = true,
-  }) => _request(
-    'PUT',
-    uri,
-    body: body,
-    headers: headers,
-    hideLoading: hideLoading,
-  );
+  }) => _request('PUT', uri, body: body, headers: headers, hideLoading: hideLoading);
 
   @override
-  Future<http.Response?> delete(
-    String uri, {
-    Map<String, String>? headers,
-    bool hideLoading = true,
-  }) => _request('DELETE', uri, headers: headers, hideLoading: hideLoading);
+  Future<http.Response?> delete(String uri, {Map<String, String>? headers, bool hideLoading = true}) =>
+      _request('DELETE', uri, headers: headers, hideLoading: hideLoading);
 
   @override
   Future<http.Response?> postMultipart(
@@ -156,13 +123,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
     Map<String, dynamic> body,
     List<MultipartBody>? muliparts, {
     bool hideLoading = true,
-  }) => _request(
-    'MULTIPART',
-    uri,
-    body: body,
-    muliparts: muliparts,
-    hideLoading: hideLoading,
-  );
+  }) => _request('MULTIPART', uri, body: body, muliparts: muliparts, hideLoading: hideLoading);
 
   @override
   Future<Uint8List?> downloadImage(String uri) async {
@@ -185,10 +146,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
     if (body != null) debugPrint('====> Body: $body');
   }
 
-  Future<http.Response?> _handleResponse(
-    http.Response response, {
-    bool hideLoading = true,
-  }) async {
+  Future<http.Response?> _handleResponse(http.Response response, {bool hideLoading = true}) async {
     if (hideLoading) dismiss();
     return response.statusCode == 200 || response.statusCode == 201
         ? response

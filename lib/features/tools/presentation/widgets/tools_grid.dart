@@ -11,10 +11,7 @@ class ToolsGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'image_editing'.tr,
-          style: context.font16.copyWith(fontWeight: FontWeight.w600),
-        ),
+        Text('image_editing'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
         SizedBox(height: 12.sp),
         SizedBox(
           height: 200.sp,
@@ -31,9 +28,7 @@ class ToolsGrid extends StatelessWidget {
               } else {
                 return ToolCard(
                   tool: ToolModel.backgroundRemoverTool,
-                  screen: BgRemoverScreen(
-                    tool: ToolModel.backgroundRemoverTool,
-                  ),
+                  screen: BgRemoverScreen(tool: ToolModel.backgroundRemoverTool),
                 );
               }
             },
@@ -70,14 +65,9 @@ class ToolCard extends StatelessWidget {
                   padding: EdgeInsets.all(12.sp),
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor.withOpacity(0.6),
-                    borderRadius: BorderRadius.vertical(
-                      bottom: borderRadius.bottomLeft,
-                    ),
+                    borderRadius: BorderRadius.vertical(bottom: borderRadius.bottomLeft),
                   ),
-                  child: Text(
-                    tool.name.tr,
-                    style: context.font12.copyWith(fontWeight: FontWeight.w600),
-                  ),
+                  child: Text(tool.name.tr, style: context.font12.copyWith(fontWeight: FontWeight.w600)),
                 ),
               ),
             ],

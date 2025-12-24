@@ -2,12 +2,12 @@ package com.example.pixart_app;
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity // Import this for revenue cat
 import io.flutter.embedding.engine.FlutterEngine
-
 import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin
 
 
-class MainActivity : FlutterActivity() {
+class MainActivity : FlutterFragmentActivity() {
 
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
@@ -15,7 +15,7 @@ class MainActivity : FlutterActivity() {
 
         // Register Google Mobile Ads Native Ad Factory
         GoogleMobileAdsPlugin.registerNativeAdFactory(
-            flutterEngine, "listTile", ListTileNativeAdFactory(context)
+            flutterEngine, "listTile", ListTileNativeAdFactory(this)
         )
     }
 

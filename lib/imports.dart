@@ -1,6 +1,6 @@
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:flutter/material.dart';
-export 'package:get/get.dart' hide Response, MultipartFile;
+export 'package:get/get.dart' hide Response, MultipartFile, HeaderValue;
 export 'package:http/http.dart';
 export 'core/utils/app_constants.dart';
 export 'core/utils/images.dart';
@@ -20,3 +20,6 @@ export 'package:photo_view/photo_view.dart';
 export 'package:pixart_app/core/widgets/back_button.dart';
 export 'package:pixart_app/core/widgets/network_image.dart';
 export 'package:pixart_app/core/widgets/save_button.dart';
+export 'dart:io';
+export 'package:purchases_flutter/purchases_flutter.dart';
+export 'package:shared_preferences/shared_preferences.dart';

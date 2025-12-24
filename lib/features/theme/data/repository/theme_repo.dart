@@ -1,5 +1,4 @@
 import 'package:pixart_app/imports.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'theme_repo_interface.dart';
 
 class ThemeRepo implements ThemeRepoInterface {
