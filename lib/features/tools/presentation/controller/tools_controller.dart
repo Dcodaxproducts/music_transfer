@@ -1,36 +1,63 @@
-import 'package:get/get.dart';
-import 'package:pixart_app/features/tools/domain/service/tools_service_interface.dart';
+import 'package:pixart_app/features/tools/domain/service/tools_service.dart';
+import 'package:pixart_app/imports.dart';
 import '../../data/model/tools.dart';
 
 class ToolsController extends GetxController implements GetxService {
-  final ToolsServiceInterface toolsService;
-  ToolsController({required this.toolsService});
+  final ToolsService service;
+  ToolsController({required this.service});
 
   static ToolsController get find => Get.find<ToolsController>();
 
-  List<ToolModel> _tools = [];
-  bool _loading = false;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  set isLoading(bool value) {
+    _isLoading = value;
+    update();
+  }
 
-  List<ToolModel> get tools => _tools;
-  bool get loading => _loading;
+  bool _generatingImage = false;
+  bool get generatingImage => _generatingImage;
+  set generatingImage(bool value) {
+    _generatingImage = value;
+    update();
+  }
 
-  set tools(List<ToolModel> value) {
+  List<ToolsNew> _tools = [];
+  List<ToolsNew> get tools => _tools;
+  set tools(List<ToolsNew> value) {
     _tools = value;
     update();
   }
 
-  set loading(bool value) {
-    _loading = value;
+  ToolResult? _result;
+  ToolResult? get result => _result;
+  set result(ToolResult? value) {
+    _result = value;
     update();
   }
 
-  Future<List<ToolModel>> getTools() async {
-    if (_tools.isNotEmpty) return _tools;
-    loading = true;
-    tools = await toolsService.getTools();
-    Future.delayed(const Duration(milliseconds: 500), () {
-      loading = false;
-    });
-    return _tools;
+  Future<void> getTools() async {
+    try {
+      if (_tools.isNotEmpty) return;
+      isLoading = true;
+      _tools.addAll(await service.getTools());
+    } catch (e) {
+      showToast('Failed to load tools: $e');
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  Future<ToolResult?> generateImage(ToolsNew tool, XFile image) async {
+    try {
+      generatingImage = true;
+      final Response? response = await service.generateImage(tool.endPoint, image);
+      return service.processResponse(tool, response);
+    } catch (e) {
+      showToast('Image generation failed: $e');
+      return null;
+    } finally {
+      generatingImage = false;
+    }
   }
 }

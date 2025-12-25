@@ -1,5 +1,5 @@
-import '../../../../../imports.dart';
-import '../../../data/model/navigation_item.dart';
+import '../../../../imports.dart';
+import '../../data/model/navigation_item.dart';
 import 'glassbox_curve.dart';
 
 class GlasmorphicNavigationBar extends StatelessWidget {

@@ -7,7 +7,16 @@ class PrimaryButton extends StatelessWidget {
   final Widget? icon;
   final Color? color;
   final Color? textColor;
-  const PrimaryButton({required this.text, this.onPressed, this.icon, this.color, this.textColor, super.key});
+  final bool isLoading;
+  const PrimaryButton({
+    required this.text,
+    this.onPressed,
+    this.icon,
+    this.color,
+    this.textColor,
+    this.isLoading = false,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +33,17 @@ class PrimaryButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[icon!, SizedBox(width: 8.sp)],
+          if (isLoading) ...[
+            SizedBox(
+              height: 14.sp,
+              width: 14.sp,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.sp,
+                valueColor: AlwaysStoppedAnimation<Color>(textColor),
+              ),
+            ),
+            SizedBox(width: 12.sp),
+          ],
           Text(
             text.tr,
             style: context.font14.copyWith(fontWeight: FontWeight.w600, color: textColor),

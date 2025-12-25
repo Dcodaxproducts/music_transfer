@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:pixart_app/features/ads/domain/binding/ads_binding.dart';
-import 'package:pixart_app/modules/bg_remover/domain/binding/background_remover_bindings.dart';
 import 'package:pixart_app/features/dashboard/domain/binding/dashboard_binding.dart';
 import 'package:pixart_app/modules/image_generation/history/domain/binding/history_binding.dart';
 import 'package:pixart_app/modules/image_generation/home/domain/binding/image_generation_bindings.dart';
@@ -17,7 +16,6 @@ import '../../imports.dart';
 import '../../modules/image_generation/home/domain/binding/generation_binding.dart';
 import '../../modules/image_generation/models/domain/binding/models_binding.dart';
 import '../../features/theme/domain/binding/theme_binding.dart';
-import '../../modules/image_upscale/domain/binding/upscale_binding.dart';
 
 Future<Map<String, Map<String, String>>> init() async {
   // Core
@@ -39,8 +37,6 @@ Future<Map<String, Map<String, String>>> init() async {
     ModelsBinding(),
     InspirationBinding(),
     ReviewBinding(),
-    UpscaleBinding(),
-    BackgroundRemoverBindings(),
     ToolsBinding(),
     SubscriptionBinding(),
   ];

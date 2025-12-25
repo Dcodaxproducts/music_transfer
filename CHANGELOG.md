@@ -5,6 +5,8 @@
 ### Added
 
 - Share Result
+- Revenue Cat
+- Firebase performance (required by Revenue Cat)
 
 ### Changed
 

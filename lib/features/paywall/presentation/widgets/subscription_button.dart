@@ -15,17 +15,20 @@ class SubsriptionButton extends StatelessWidget {
               SubscriptionController.find.showPaywallIfNeeded();
             },
             style: TextButton.styleFrom(
-              padding: AppPadding.cardPadding,
+              minimumSize: Size(75.sp, 40.sp),
               visualDensity: VisualDensity.comfortable,
-              backgroundColor: primaryColor,
+              backgroundColor: primaryLight.withOpacity(0.25),
               shape: RoundedRectangleBorder(borderRadius: AppRadius.circular32),
             ),
             child: Wrap(
               spacing: 5.sp,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Icon(Iconsax.crown_1, color: Colors.white, size: 16.sp),
-                Text('go_pro'.tr, style: context.font12.copyWith(color: Colors.white)),
+                Icon(Iconsax.crown5, color: primaryLight, size: 14.sp),
+                Text(
+                  'PRO',
+                  style: context.font12.copyWith(color: primaryLight, fontWeight: FontWeight.w600),
+                ),
               ],
             ),
           ),

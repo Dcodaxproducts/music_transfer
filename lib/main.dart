@@ -7,7 +7,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:upgrader/upgrader.dart';
-import 'core/utils/scroll_behavior.dart';
 import 'core/widgets/loading.dart';
 import 'firebase_options.dart';
 import 'core/helper/notification_helper.dart';
@@ -87,15 +86,7 @@ class MyApp extends StatelessWidget {
                   translations: Messages(languages: languages),
                   fallbackLocale: Locale(appLanguages[0].languageCode, appLanguages[0].countryCode),
                   navigatorObservers: [FlutterSmartDialog.observer],
-                  builder: FlutterSmartDialog.init(
-                    loadingBuilder: (string) => const LoadingWidget(),
-                    builder: (context, child) {
-                      return ScrollConfiguration(
-                        behavior: CustomScrollBehavior(),
-                        child: child ?? const SizedBox(),
-                      );
-                    },
-                  ),
+                  builder: FlutterSmartDialog.init(loadingBuilder: (string) => const LoadingWidget()),
                   home: UpgradeAlert(
                     dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
                     showIgnore: false,

@@ -9,9 +9,9 @@ import '../../../../modules/image_generation/home/presentation/view/home.dart';
 import '../../../../modules/image_generation/inspirations/presentation/view/inspirations.dart';
 import '../../../paywall/presentation/controller/subscription_controller.dart';
 import '../../../settings/presentation/view/settings.dart';
-import '../../../tools/presentation/view/tools.dart';
+import '../../../tools/presentation/view/tools_screen.dart';
 import '../../data/model/navigation_item.dart';
-import 'widgets/navigation_bar.dart';
+import '../widgets/navigation_bar.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -34,7 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       if (!SubscriptionController.find.isPro) {
-        Future.delayed(const Duration(seconds: 2), SubscriptionController.find.showPaywallIfNeeded);
+        SubscriptionController.find.showPaywallIfNeeded();
       }
       SettingsController.find.saveShowAppOpen();
     });

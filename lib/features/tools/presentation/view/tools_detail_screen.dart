@@ -1,22 +1,19 @@
-import 'package:image_picker/image_picker.dart';
+import 'package:pixart_app/features/tools/presentation/controller/tools_controller.dart';
+import 'package:pixart_app/features/tools/presentation/widgets/image_animation.dart';
 import 'package:pixart_app/imports.dart';
 import '../../../../core/widgets/image_picker.dart';
-import '../../../../features/loading_screen/src/loading_manager.dart';
 import '../../../../features/tools/data/model/tools.dart';
-import '../../data/model/bg_remover_result.dart';
-import '../controller/background_remover_controller.dart';
 import 'image_result_screen.dart';
 
-class BgRemoverScreen extends StatefulWidget {
-  final ToolModel tool;
-  final String? imageUrl;
-  const BgRemoverScreen({super.key, required this.tool, this.imageUrl});
+class ToolDetailScreen extends StatefulWidget {
+  final ToolsNew tool;
+  const ToolDetailScreen({super.key, required this.tool});
 
   @override
-  State<BgRemoverScreen> createState() => _BgRemoverScreenState();
+  State<ToolDetailScreen> createState() => _ToolDetailScreenState();
 }
 
-class _BgRemoverScreenState extends State<BgRemoverScreen> {
+class _ToolDetailScreenState extends State<ToolDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +26,10 @@ class _BgRemoverScreenState extends State<BgRemoverScreen> {
               child: SizedBox(
                 height: 500.sp,
                 width: double.infinity,
-                child: widget.tool.animation ?? SizedBox.shrink(),
+                child: ImageAnimation(
+                  beforeImage: widget.tool.beforeImage,
+                  afterImage: widget.tool.afterImage,
+                ),
               ),
             ),
           ),
@@ -51,9 +51,7 @@ class _BgRemoverScreenState extends State<BgRemoverScreen> {
                   SizedBox(height: 24.sp),
                   PrimaryButton(
                     text: 'Try Now!',
-                    onPressed: () {
-                      pickImage(text: 'remove_background'.tr, onImagePicked: _handleApiCall);
-                    },
+                    onPressed: () => pickImage(onImagePicked: _handleApiCall),
                   ),
                 ],
               ),
@@ -65,13 +63,11 @@ class _BgRemoverScreenState extends State<BgRemoverScreen> {
   }
 
   Future<void> _handleApiCall(XFile image) async {
-    BgRemoverResult? response;
-    response = await BgRemoverController.find.removeBg(image);
+    ToolResult? response;
+    response = await ToolsController.find.generateImage(widget.tool, image);
     if (response != null) {
-      LoadingManager.complete();
-      launchScreen(BgRemoverResultScreen(response: response), replace: true);
-    } else {
-      await LoadingManager.error();
+      Get.back();
+      launchScreen(ToolResultScreen(response: response));
     }
   }
 }

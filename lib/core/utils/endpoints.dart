@@ -10,13 +10,11 @@ class Endpoints {
 
   // API Endpoints
   static const String generateImage = 'images/generate-image';
-  static const String removeBackground = 'images/remove-background';
-  static const String upscaleImage = 'images/upscale-image';
+  static const String tools = 'tool-list';
 
   static const String MODELS_URL = 'ai-models';
   static const String INSIPIRATIONS_URL = 'inspirations';
   static const String FEEDBACK_URL = 'feedback-save';
   static const String CONFIG_URL = 'config';
   static const String GET_ADS = 'ad-list';
-  static const String TOGETHER_API_KEY = "api-key?token=w3lc0m3";
 }

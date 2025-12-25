@@ -1,13 +1,8 @@
-import 'package:pixart_app/features/tools/data/model/tools.dart';
-import 'package:pixart_app/features/tools/data/repository/tools_repo_interface.dart';
-import 'tools_service_interface.dart';
+import '../../../../imports.dart';
+import '../../data/model/tools.dart';
 
-class ToolsService implements ToolsServiceInterface {
-  final ToolsRepoInterface toolsRepo;
-  ToolsService({required this.toolsRepo});
-
-  @override
-  Future<List<ToolModel>> getTools() async {
-    return await Future.value(tools);
-  }
+abstract class ToolsService {
+  Future<List<ToolsNew>> getTools();
+  Future<Response?> generateImage(String endpoint, XFile image);
+  Future<ToolResult?> processResponse(ToolsNew tool, Response? response);
 }

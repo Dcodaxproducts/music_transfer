@@ -1,11 +1,11 @@
 import 'package:http/http.dart';
-import 'package:pixart_app/core/api/api_client.dart';
-import 'tools_repo_interface.dart';
+import '../../../../core/api/api_client_impl.dart';
 
-class ToolsRepo implements ToolsRepoInterface {
-  final ApiClient apiClient;
-  ToolsRepo({required this.apiClient});
-
-  @override
-  Future<Response?> getTools() async => await apiClient.get('');
+abstract class ToolsRepo {
+  Future<Response?> getTools();
+  Future<Response?> generateImage({
+    required String endpoint,
+    required Map<String, dynamic> body,
+    required MultipartBody multipartBody,
+  });
 }

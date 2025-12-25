@@ -3,7 +3,7 @@ import 'package:pixart_app/modules/image_generation/home/domain/service/generati
 import '../../../../../core/utils/app_constants.dart';
 
 class GenerationController extends GetxController {
-  final GenerationServiceInterface generationServiceInterface;
+  final GenerationService generationServiceInterface;
   GenerationController({required this.generationServiceInterface});
 
   static GenerationController get find => Get.find<GenerationController>();
@@ -12,8 +12,7 @@ class GenerationController extends GetxController {
   int get dailyGenerationCount => _dailyGenerationCount;
 
   Future<void> initialize() async {
-    _dailyGenerationCount = await generationServiceInterface
-        .loadDailyGenerationCount();
+    _dailyGenerationCount = await generationServiceInterface.loadDailyGenerationCount();
     update();
   }
 
@@ -29,6 +28,5 @@ class GenerationController extends GetxController {
     update();
   }
 
-  bool get proUserLimitExceeded =>
-      _dailyGenerationCount >= AppConstants.proUserDailyLimit;
+  bool get proUserLimitExceeded => _dailyGenerationCount >= AppConstants.proUserDailyLimit;
 }

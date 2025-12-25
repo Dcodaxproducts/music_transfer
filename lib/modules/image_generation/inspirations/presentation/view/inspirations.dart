@@ -29,7 +29,10 @@ class InspirationScreen extends StatelessWidget {
                   onTap: () => launchScreen(InspirationDetailScreen(inspiration: inspirations[index])),
                   child: Stack(
                     children: [
-                      PrimaryNetworkImage(url: inspirations[index].image),
+                      ClipRRect(
+                        borderRadius: AppRadius.circular8,
+                        child: PrimaryNetworkImage(url: inspirations[index].image),
+                      ),
                       Positioned(
                         bottom: 8.sp,
                         right: 8.sp,
