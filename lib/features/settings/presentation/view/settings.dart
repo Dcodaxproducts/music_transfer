@@ -1,12 +1,13 @@
-import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
-import 'package:pixart_app/features/settings/presentation/view/widgets/app_version_widget.dart';
+import 'package:pixart_app/features/settings/presentation/widgets/theme.dart';
+import 'package:pixart_app/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/features/settings/presentation/widgets/app_version_widget.dart';
 import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart';
 import 'package:pixart_app/features/html/html_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
 import '../../../language/presentation/view/language.dart';
-import 'widgets/menu_item.dart';
+import '../widgets/menu_item.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -22,6 +23,7 @@ class _SettingScreenState extends State<SettingScreen> {
       icon: Iconsax.language_circle,
       onTap: () => launchScreen(const LanguageScreen()),
     ),
+    ThemeTile(),
     const NotificationTile(text: 'notifications', icon: Iconsax.notification),
   ];
 

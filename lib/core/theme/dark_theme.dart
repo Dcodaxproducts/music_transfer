@@ -23,15 +23,13 @@ ThemeData get dark => ThemeData(
   cardColor: cardColorDark,
   shadowColor: shadowColorDark,
   canvasColor: canvasColorDark,
-  colorScheme:
-      ColorScheme.fromSeed(
-        seedColor: primaryColor,
-        secondary: primaryColor,
-      ).copyWith(
-        outline: dividerColorDark,
-        surface: cardColorDark,
-        brightness: Brightness.dark,
-      ),
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: primaryColor,
+    secondary: primaryColor,
+    brightness: Brightness.dark,
+    outline: dividerColorDark,
+    surface: cardColorDark,
+  ),
   textTheme: darkTextTheme,
   iconTheme: iconThemeDark,
   appBarTheme: appBarThemeDark,

@@ -7,11 +7,7 @@ class PrimarySafeArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: GetPlatform.isAndroid ? true : false,
-      child: child,
-    );
+    return SafeArea(top: false, bottom: GetPlatform.isAndroid ? true : false, child: child);
   }
 }
 
@@ -25,12 +21,8 @@ class PrimaryAnnotatedRegion extends StatelessWidget {
       value: SystemUiOverlayStyle(
         systemNavigationBarColor: context.theme.scaffoldBackgroundColor,
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: context.isDarkMode
-            ? Brightness.light
-            : Brightness.dark,
-        statusBarBrightness: context.isDarkMode
-            ? Brightness.dark
-            : Brightness.light,
+        statusBarIconBrightness: context.isDarkMode ? Brightness.light : Brightness.dark,
+        statusBarBrightness: context.isDarkMode ? Brightness.dark : Brightness.light,
       ),
       child: child,
     );

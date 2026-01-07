@@ -1,6 +1,6 @@
 import 'package:flutter/scheduler.dart';
 import 'package:pixart_app/features/paywall/presentation/controller/subscription_controller.dart';
-import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import '../../../../imports.dart';
 
 Future showAdsDialog({required Function() onWatchAdPressed}) =>

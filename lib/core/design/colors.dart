@@ -21,11 +21,11 @@ const Color bottomSheetColorDark = Color(0xFF1A1A1A);
 const Color bottomSheetColorLight = Colors.white;
 
 // canvas color
-const Color canvasColorDark = Color(0xFF353535);
+const Color canvasColorDark = Color(0xFF2B2B2B);
 const Color canvasColorLight = Color(0xFFEFEFEF);
 
 // Text Colors
-const Color textColorDark = Color(0XFFDADADA);
+const Color textColorDark = Color(0XFFF3F3F3);
 const Color textColorLight = Colors.black;
 
 // Shadow Colors

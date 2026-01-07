@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import '../../imports.dart';
+import '../model/dev.dart';
 import 'error.dart';
 import 'api_client.dart';
 
@@ -142,6 +142,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
   }
 
   void _printData(String url, {Map<String, dynamic>? body}) {
+    if (Environment.isProd) return;
     debugPrint('====> API Call: $url, ====> Headers: $_mainHeaders');
     if (body != null) debugPrint('====> Body: $body');
   }

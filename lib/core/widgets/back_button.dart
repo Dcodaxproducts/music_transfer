@@ -11,11 +11,8 @@ class PrimaryBackButton extends StatelessWidget {
         onTap: Get.back,
         child: Container(
           padding: EdgeInsets.all(8.sp),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: context.theme.cardColor,
-          ),
-          child: Icon(Icons.arrow_back, size: 22.sp, color: Colors.white),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: context.theme.cardColor),
+          child: Icon(Icons.arrow_back, size: 22.sp, color: context.font14.color),
         ),
       ),
     );
@@ -33,11 +30,8 @@ class PrimaryCloseButton extends StatelessWidget {
       borderRadius: AppRadius.circular32,
       child: Container(
         padding: AppPadding.padding8,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: context.theme.canvasColor,
-        ),
-        child: Icon(Icons.close, size: 18.sp, color: Colors.white),
+        decoration: BoxDecoration(shape: BoxShape.circle, color: context.theme.canvasColor),
+        child: Icon(Icons.close, size: 18.sp, color: context.font14.color),
       ),
     );
   }

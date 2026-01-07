@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:upgrader/upgrader.dart';
+import 'core/theme/light_theme.dart';
 import 'core/widgets/loading.dart';
 import 'firebase_options.dart';
 import 'core/helper/notification_helper.dart';
@@ -80,7 +81,8 @@ class MyApp extends StatelessWidget {
                 child: GetMaterialApp(
                   title: AppConstants.appName,
                   debugShowCheckedModeBanner: false,
-                  themeMode: ThemeMode.dark,
+                  themeMode: themeController.themeMode,
+                  theme: light,
                   darkTheme: dark,
                   locale: localizeController.locale,
                   translations: Messages(languages: languages),

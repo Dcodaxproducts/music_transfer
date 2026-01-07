@@ -2,16 +2,16 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:pixart_app/features/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:pixart_app/imports.dart';
-import 'package:pixart_app/modules/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/core/widgets/confirmation_dialog.dart';
 import 'package:pixart_app/features/paywall/presentation/widgets/subscription_button.dart';
-import '../../../../modules/image_generation/home/presentation/view/home.dart';
-import '../../../../modules/image_generation/inspirations/presentation/view/inspirations.dart';
+import '../../../../core/widgets/primary_safe_area.dart';
+import '../../../../image_generation/home/presentation/view/home.dart';
+import '../../../../image_generation/inspirations/presentation/view/inspirations.dart';
 import '../../../paywall/presentation/controller/subscription_controller.dart';
 import '../../../settings/presentation/view/settings.dart';
 import '../../../tools/presentation/view/tools_screen.dart';
 import '../../data/model/navigation_item.dart';
-import '../widgets/navigation_bar.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -60,48 +60,82 @@ class _DashboardScreenState extends State<DashboardScreen> {
               );
             }
           },
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              title: Row(
-                children: [
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Image.asset(Images.logo, width: 24.sp, height: 24.sp, color: Colors.white),
-                  ),
-                  SizedBox(width: 8.sp),
-                  Text(_titles[currentIndex].tr),
+          child: PrimaryAnnotatedRegion(
+            child: Scaffold(
+              appBar: AppBar(
+                title: Row(
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Image.asset(
+                        Images.logo,
+                        width: 24.sp,
+                        height: 24.sp,
+                        color: context.font12.color,
+                      ),
+                    ),
+                    SizedBox(width: 8.sp),
+                    Text(_titles[currentIndex].tr),
+                  ],
+                ),
+                centerTitle: false,
+                actions: [
+                  const SubsriptionButton(),
+                  SizedBox(width: 10.sp),
                 ],
               ),
-              centerTitle: false,
-              actions: [
-                const SubsriptionButton(),
-                SizedBox(width: 10.sp),
-              ],
-            ),
-            body: Stack(
-              children: [
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: _screens[currentIndex].child,
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: GlasmorphicNavigationBar(
-                    currentIndex: currentIndex,
-                    navigationItems: _screens,
-                    onTap: (index) {
-                      dashboardController.selectedIndex = index;
-                    },
+              body: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: _screens[currentIndex].child,
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                onTap: (index) => dashboardController.selectedIndex = index,
+                currentIndex: currentIndex,
+                selectedItemColor: primaryColor,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Iconsax.home),
+                    activeIcon: Icon(Iconsax.home5),
+                    label: 'home'.tr,
                   ),
-                ),
-              ],
+                  BottomNavigationBarItem(
+                    icon: Icon(Iconsax.category),
+                    activeIcon: Icon(Iconsax.category5),
+                    label: 'tools'.tr,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Iconsax.activity),
+                    activeIcon: Icon(Iconsax.activity5),
+                    label: 'inspirations'.tr,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Iconsax.setting_2),
+                    activeIcon: Icon(Iconsax.setting_2),
+                    label: 'settings'.tr,
+                  ),
+                ],
+              ),
             ),
           ),
         );
       },
+    );
+  }
+}
+
+class NavBarItem extends StatelessWidget {
+  final IconData icon;
+  final bool selected;
+  const NavBarItem({super.key, required this.icon, required this.selected});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      // width: 50.sp,
+      // height: 50.sp,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: selected ? primaryColor : Colors.transparent),
+      child: Icon(icon, color: selected ? Colors.white : Colors.grey),
     );
   }
 }

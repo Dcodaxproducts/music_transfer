@@ -33,6 +33,7 @@ dependencies:
   upgrader: any
   app_settings: ^5.1.1
   particles_fly: ^0.0.9
+  loading_animation_widget: ^1.3.0
   flutter_native_splash: any
 
   # Facebook ads 

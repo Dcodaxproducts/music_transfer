@@ -6,9 +6,17 @@ class ErrorResponse {
   factory ErrorResponse.fromJson(Map<String, dynamic> json) {
     return ErrorResponse(
       errors: json['error'] != null
-          ? [Error.fromJson(json['error'])]
+          ? [ErrorResponse.handleError(json)]
           : List<Error>.from(json['errors'].map((x) => Error.fromJson(x))),
     );
+  }
+
+  static Error handleError(Map<String, dynamic> json) {
+    if (json['error'] is String) {
+      return Error.fromJson({'message': json['error']});
+    } else {
+      return Error.fromJson(json['error']);
+    }
   }
 }
 

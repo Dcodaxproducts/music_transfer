@@ -17,7 +17,7 @@ class SubsriptionButton extends StatelessWidget {
             style: TextButton.styleFrom(
               minimumSize: Size(75.sp, 40.sp),
               visualDensity: VisualDensity.comfortable,
-              backgroundColor: primaryLight.withOpacity(0.25),
+              backgroundColor: primaryColor.withOpacity(0.25),
               shape: RoundedRectangleBorder(borderRadius: AppRadius.circular32),
             ),
             child: Wrap(

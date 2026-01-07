@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:pixart_app/modules/image_generation/home/presentation/controller/image_generation_controller.dart';
+import 'package:pixart_app/image_generation/home/presentation/controller/image_generation_controller.dart';
 import 'package:pixart_app/imports.dart';
 import 'package:particles_fly/particles_fly.dart';
 import 'package:shimmer/shimmer.dart';
@@ -34,7 +34,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void _cancelApiCall() {
-    ImageGenerationController.find.cancelRequest();
+    ImageGenController.find.cancelRequest();
     LoadingManager.dismiss();
   }
 

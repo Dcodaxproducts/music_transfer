@@ -5,25 +5,34 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [Loading()],
+      children: [
+        Container(
+          width: 75.sp,
+          height: 75.sp,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: context.theme.cardColor,
+            borderRadius: BorderRadius.circular(8.sp),
+          ),
+          child: const Loading(),
+        ),
+      ],
     );
   }
 }
 
 class Loading extends StatelessWidget {
-  final Color? color;
-  final double? size;
-  const Loading({this.color, this.size, super.key});
+  final double size;
+  const Loading({super.key, this.size = 27});
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        height: (size ?? 27).sp,
-        width: (size ?? 27).sp,
-        child: CircularProgressIndicator(color: color ?? primaryColor),
-      ),
+    return SizedBox(
+      width: size.sp,
+      height: size.sp,
+      child: const CircularProgressIndicator.adaptive(valueColor: AlwaysStoppedAnimation(primaryColor)),
     );
   }
 }
