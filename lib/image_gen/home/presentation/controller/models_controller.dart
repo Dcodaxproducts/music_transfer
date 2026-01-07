@@ -33,10 +33,14 @@ class ModelsController extends GetxController {
 
     // fetch from API
     List<Model> fetchedModels = await modelsService.fetchModels();
-    _models.addAll(fetchedModels);
-    update();
-    _getSelectedModel();
-    _getSelectedAspectRatio();
+    if (fetchedModels.isNotEmpty) {
+      _models.clear();
+      _models.addAll(fetchedModels);
+      _getSelectedModel();
+      _getSelectedAspectRatio();
+      await modelsService.cacheModels(fetchedModels);
+      update();
+    }
   }
 
   void _getSelectedModel() {
@@ -44,7 +48,9 @@ class ModelsController extends GetxController {
     if (selectedId != null) {
       _selectedModel = _models.firstWhere((model) => model.id == selectedId, orElse: () => _models.first);
     } else {
-      _selectedModel = _models.isNotEmpty ? _models.first : null;
+      _selectedModel = _models.isNotEmpty
+          ? _models.firstWhere((model) => !model.isPro, orElse: () => _models.first)
+          : null;
     }
     update();
   }
