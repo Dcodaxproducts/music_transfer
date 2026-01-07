@@ -1,5 +1,5 @@
 import 'package:pixart_app/features/settings/presentation/widgets/theme.dart';
-import 'package:pixart_app/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/features/settings/presentation/widgets/app_version_widget.dart';
 import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart';
 import 'package:pixart_app/features/html/html_screen.dart';

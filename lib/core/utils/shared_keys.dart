@@ -8,15 +8,15 @@ class SharedKeys {
 
   static const String negativePrompt = 'negative_prompt';
   static const String guidanceScale = 'guidance_scale';
-  static const String aspectRatio = 'aspect_ratio_id';
-  static const String selectedModel = 'selected_model';
-  static const String cachedModels = 'cached_models';
+  static const String aspectRatio = 'aspect_ratio_id_1';
+  static const String selectedModel = 'selected_model_1';
+  static const String cachedModels = 'cached_models_1';
   static const String favoriteModels = 'favorite_models';
 
   static const String openCount = 'open_count';
   static const String notification = 'notification';
 
-  static const String imageGenHistory = 'imageGenHistory';
+  static const String imageGenHistory = 'image_gen_history';
   static const String bgRemoverHistory = 'bg_remover_history';
   static const String upscaleHistory = 'upscale_history';
 

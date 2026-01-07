@@ -1,4 +1,4 @@
-import 'package:pixart_app/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/imports.dart';
 
 class AppVersionWidget extends StatelessWidget {

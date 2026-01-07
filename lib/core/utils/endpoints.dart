@@ -12,9 +12,9 @@ class Endpoints {
   static const String generateImage = 'images/generate-image';
   static const String tools = 'tool-list';
 
-  static const String MODELS_URL = 'ai-models';
-  static const String INSIPIRATIONS_URL = 'inspirations';
-  static const String FEEDBACK_URL = 'feedback-save';
-  static const String CONFIG_URL = 'config';
-  static const String GET_ADS = 'ad-list';
+  static const String models = 'gen-model-list';
+  static const String inspirations = 'inspirations';
+  static const String feedback = 'feedback-save';
+  static const String config = 'config';
+  static const String ads = 'ad-list';
 }

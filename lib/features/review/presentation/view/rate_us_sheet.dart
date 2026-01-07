@@ -1,4 +1,4 @@
-import 'package:pixart_app/image_generation/home/presentation/controller/generation_controller.dart';
+import 'package:pixart_app/image_gen/home/presentation/controller/generation_controller.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
 import '../controller/review_controller.dart';

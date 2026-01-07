@@ -1,5 +1,5 @@
 import 'package:flutter/gestures.dart';
-import 'package:pixart_app/image_generation/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
 import 'widgets/bottom_button.dart';

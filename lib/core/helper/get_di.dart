@@ -1,20 +1,20 @@
 import 'dart:convert';
 import 'package:pixart_app/features/ads/domain/binding/ads_binding.dart';
 import 'package:pixart_app/features/dashboard/domain/binding/dashboard_binding.dart';
-import 'package:pixart_app/image_generation/history/domain/binding/history_binding.dart';
-import 'package:pixart_app/image_generation/home/domain/binding/image_generation_bindings.dart';
-import 'package:pixart_app/image_generation/inspirations/domain/binding/inspiration_binding.dart';
+import 'package:pixart_app/image_gen/history/domain/binding/history_binding.dart';
+import 'package:pixart_app/image_gen/home/domain/binding/image_generation_bindings.dart';
+import 'package:pixart_app/image_gen/inspirations/domain/binding/inspiration_binding.dart';
 import 'package:pixart_app/features/language/domain/binding/language_binding.dart';
 import 'package:pixart_app/features/review/domain/binding/review_binding.dart';
-import 'package:pixart_app/image_generation/prompt_setting/domain/binding/setting_binding.dart';
+import 'package:pixart_app/image_gen/prompt_setting/domain/binding/setting_binding.dart';
 import 'package:pixart_app/features/tools/domain/binding/tools_binding.dart';
 import 'package:pixart_app/core/api/api_client_impl.dart';
 import 'package:pixart_app/core/api/api_client.dart';
 import 'package:flutter/services.dart';
 import '../../features/paywall/domain/binding/subscription_binding.dart';
 import '../../imports.dart';
-import '../../image_generation/home/domain/binding/generation_binding.dart';
-import '../../image_generation/home/domain/binding/models_binding.dart';
+import '../../image_gen/home/domain/binding/generation_binding.dart';
+import '../../image_gen/home/domain/binding/models_binding.dart';
 import '../../features/theme/domain/binding/theme_binding.dart';
 
 Future<Map<String, Map<String, String>>> init() async {

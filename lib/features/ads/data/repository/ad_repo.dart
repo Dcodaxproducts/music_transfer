@@ -17,7 +17,7 @@ class AdRepo implements AdRepoInterface {
 
   @override
   Future<Response?> getAdIds() async {
-    return await apiClient.get(Endpoints.GET_ADS);
+    return await apiClient.get(Endpoints.ads);
   }
 
   @override

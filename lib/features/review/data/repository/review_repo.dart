@@ -9,7 +9,7 @@ class ReviewRepo implements ReviewRepoInterface {
 
   @override
   Future<Response?> saveReview(Map<String, dynamic> body) async {
-    return await apiClient.post(Endpoints.baseUrl + Endpoints.FEEDBACK_URL, body);
+    return await apiClient.post(Endpoints.baseUrl + Endpoints.feedback, body);
   }
 
   @override

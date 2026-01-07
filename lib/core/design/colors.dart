@@ -14,7 +14,7 @@ const Color backgroundColorLight = Color(0xFFFFFFFF);
 
 // Card Colors
 const Color cardColorDark = Color(0xFF1E1E1E);
-const Color cardColorLight = Color(0xFFF7F8FA);
+const Color cardColorLight = Color(0xFFEEEEEE);
 
 // bottom sheet
 const Color bottomSheetColorDark = Color(0xFF1A1A1A);
