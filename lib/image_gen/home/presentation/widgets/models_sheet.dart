@@ -79,10 +79,14 @@ class SettingSheetTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 20.sp,
-              backgroundImage: NetworkImage(model.image),
-              backgroundColor: Colors.transparent,
+            SizedBox(width: 4.sp),
+            ClipRRect(
+              borderRadius: AppRadius.circular32,
+              child: SizedBox(
+                width: 26.sp,
+                height: 26.sp,
+                child: CachedNetworkImage(imageUrl: model.image, color: context.font14.color),
+              ),
             ),
             SizedBox(width: 12.sp),
             Expanded(
@@ -90,16 +94,33 @@ class SettingSheetTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    spacing: 8.sp,
                     children: [
                       Expanded(
                         child: Text(model.name, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                       ),
                       Container(
-                        width: 22.sp,
-                        height: 22.sp,
-                        decoration: BoxDecoration(gradient: primaryGradient, shape: BoxShape.circle),
-                        child: Icon(Iconsax.crown5, size: 14.sp, color: Colors.white),
+                        padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 2.sp),
+                        decoration: BoxDecoration(
+                          color: selected ? context.theme.cardColor : context.theme.canvasColor,
+                          borderRadius: AppRadius.circular4,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Iconsax.magic_star, size: 10.sp, color: context.font12.color),
+                            SizedBox(width: 4.sp),
+                            Text('${model.creditsPerImage}', style: context.font12),
+                          ],
+                        ),
                       ),
+                      if (model.isPro)
+                        Container(
+                          width: 20.sp,
+                          height: 20.sp,
+                          decoration: BoxDecoration(gradient: primaryGradient, shape: BoxShape.circle),
+                          child: Icon(Iconsax.crown5, size: 12.sp, color: Colors.white),
+                        ),
                     ],
                   ),
                   SizedBox(height: 4.sp),
