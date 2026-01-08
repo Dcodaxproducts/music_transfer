@@ -1,25 +1,13 @@
 import 'package:pixart_app/core/widgets/share_button.dart';
+import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
 import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/imports.dart';
 import '../../utils/image_generation_helper.dart';
+import '../controller/image_generation_controller.dart';
 import 'settings_sheet.dart';
 
-class PromptInputWidget extends StatefulWidget {
-  final SettingsController con;
-  const PromptInputWidget({required this.con, super.key});
-
-  @override
-  State<PromptInputWidget> createState() => _PromptInputWidgetState();
-}
-
-class _PromptInputWidgetState extends State<PromptInputWidget> {
-  final ValueNotifier<XFile?> _attachedImageNotifier = ValueNotifier(null);
-
-  Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    _attachedImageNotifier.value = image;
-  }
+class PromptInputWidget extends StatelessWidget {
+  const PromptInputWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +25,9 @@ class _PromptInputWidgetState extends State<PromptInputWidget> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ValueListenableBuilder<XFile?>(
-            valueListenable: _attachedImageNotifier,
-            builder: (context, attachedImage, _) {
-              if (attachedImage == null) {
+          GetBuilder<ImageGenController>(
+            builder: (controller) {
+              if (controller.attachedImage == null) {
                 return const SizedBox.shrink();
               }
               return Padding(
@@ -53,7 +40,7 @@ class _PromptInputWidgetState extends State<PromptInputWidget> {
                       ClipRRect(
                         borderRadius: AppRadius.circular8,
                         child: Image.file(
-                          File(attachedImage.path),
+                          File(controller.attachedImage!.path),
                           width: 90.sp,
                           height: 90.sp,
                           fit: BoxFit.cover,
@@ -63,7 +50,7 @@ class _PromptInputWidgetState extends State<PromptInputWidget> {
                         right: 2.sp,
                         top: 2.sp,
                         child: GestureDetector(
-                          onTap: () => _attachedImageNotifier.value = null,
+                          onTap: () => ImageGenController.find.attachedImage = null,
                           child: Container(
                             decoration: BoxDecoration(color: errorColor, shape: BoxShape.circle),
                             padding: EdgeInsets.all(4.sp),
@@ -78,23 +65,27 @@ class _PromptInputWidgetState extends State<PromptInputWidget> {
             },
           ),
           // text field
-          TextFormField(
-            maxLines: 5,
-            maxLength: 1200,
-            textInputAction: TextInputAction.done,
-            textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(
-              hintText: 'enter_prompt_message'.tr,
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.zero,
-              counterText: '',
-              focusedBorder: InputBorder.none,
-              errorBorder: InputBorder.none,
-            ),
-            style: context.font14,
-            onTapOutside: (_) => FocusScope.of(context).unfocus(),
-            controller: widget.con.promptController,
-            onChanged: (value) => widget.con.update(),
+          GetBuilder<SettingsController>(
+            builder: (setting) {
+              return TextFormField(
+                maxLines: 5,
+                maxLength: 1200,
+                textInputAction: TextInputAction.done,
+                textCapitalization: TextCapitalization.sentences,
+                decoration: InputDecoration(
+                  hintText: 'enter_prompt_message'.tr,
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                  counterText: '',
+                  focusedBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                ),
+                style: context.font14,
+                onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                controller: setting.promptController,
+                onChanged: (value) => setting.update(),
+              );
+            },
           ),
 
           SizedBox(height: 12.sp),
@@ -110,24 +101,33 @@ class _PromptInputWidgetState extends State<PromptInputWidget> {
                 icon: Iconsax.setting_4,
               ),
               const Spacer(),
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: primaryLight,
-                  visualDensity: VisualDensity(horizontal: 1, vertical: -1),
-                ),
-                onPressed: () => _handleImageGeneration(widget.con.promptController.text.trim()),
-                child: Padding(
-                  padding: AppPadding.cardPadding,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Iconsax.magicpen, size: 16.sp),
-                      SizedBox(width: 4.sp),
-                      Text('Create'),
-                    ],
-                  ),
-                ),
+              GetBuilder<ModelsController>(
+                builder: (modelController) {
+                  return TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: primaryLight,
+                      visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                    ),
+                    onPressed: _handleImageGeneration,
+                    child: Padding(
+                      padding: AppPadding.padding14,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Create', style: TextStyle(fontWeight: FontWeight.w600)),
+                          SizedBox(width: 4.sp),
+                          Image.asset(Images.sparkle, width: 16.sp, height: 16.sp, color: Colors.white),
+                          SizedBox(width: 4.sp),
+                          Text(
+                            "${modelController.selectedModel?.creditsPerImage ?? 5}",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -136,18 +136,21 @@ class _PromptInputWidgetState extends State<PromptInputWidget> {
     );
   }
 
-  // ignore: unused_element
-  Future<void> _handleImageGeneration(String text) async {
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    ImageGenController.find.attachedImage = image;
+    ModelsController.find.handleImageModelSelection();
+  }
+
+  Future<void> _handleImageGeneration() async {
+    String text = SettingsController.find.promptController.text.trim();
     await ImageGenerationHelper.handleImageGeneration(text, generateImage: _generateImage);
   }
 
   void _generateImage(String text, {bool showAds = true}) {
-    ImageGenerationHelper.generateImage(
-      text,
-      showAds: showAds,
-      attachedImage: _attachedImageNotifier.value,
-    ).then((_) {
-      _attachedImageNotifier.value = null;
+    ImageGenerationHelper.generateImage(text, showAds: showAds).then((_) {
+      SettingsController.find.promptController.clear();
     });
   }
 }

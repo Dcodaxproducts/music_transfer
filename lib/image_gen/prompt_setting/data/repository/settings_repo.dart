@@ -10,9 +10,6 @@ class SettingsRepo implements SettingsRepoInterface {
 
   @override
   ConfigModel initSharedData() {
-    // guidance scale
-    double guidanceScale = prefs.getDouble(SharedKeys.guidanceScale) ?? 3.5;
-
     // has viewed ads dialog
     bool hasViewedAdsDialog = prefs.getBool(SharedKeys.hasViewedAdsDialog) ?? false;
 
@@ -39,7 +36,6 @@ class SettingsRepo implements SettingsRepoInterface {
 
     return ConfigModel(
       onBoardingSkip: onBoardingSkip,
-      guidanceScale: guidanceScale,
       notificationsEnabled: notificationEnabled,
       hasViewdAdsDialog: hasViewedAdsDialog,
     );
@@ -48,7 +44,6 @@ class SettingsRepo implements SettingsRepoInterface {
   @override
   Future<void> updateSharedData(ConfigModel configModel) async {
     await Future.wait([
-      prefs.setDouble(SharedKeys.guidanceScale, configModel.guidanceScale),
       prefs.setBool(SharedKeys.onBoardingSkip, configModel.onBoardingSkip),
       prefs.setBool(SharedKeys.notification, configModel.notificationsEnabled),
       prefs.setBool(SharedKeys.hasViewedAdsDialog, configModel.hasViewdAdsDialog),

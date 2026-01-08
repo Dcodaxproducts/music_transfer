@@ -3,7 +3,7 @@ import '../../../../core/widgets/share_button.dart';
 import '../../../../imports.dart';
 import 'delete_result_sheet.dart';
 import 'info_sheet.dart';
-import 'prompt_report.dart';
+import 'feedback_sheet.dart';
 
 class BottomActions extends StatelessWidget {
   const BottomActions({super.key});

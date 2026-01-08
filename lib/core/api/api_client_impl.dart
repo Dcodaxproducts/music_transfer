@@ -74,7 +74,6 @@ class ApiClientImpl extends GetxService implements ApiClient {
               );
             }
           }
-
           // Sending the request
           response = await http.Response.fromStream(await request.send());
         default:

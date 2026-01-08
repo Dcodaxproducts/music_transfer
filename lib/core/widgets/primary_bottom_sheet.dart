@@ -2,11 +2,14 @@ import '../../imports.dart';
 
 class PrimaryBottomSheet extends StatelessWidget {
   final String title;
-  const PrimaryBottomSheet({super.key, required this.title});
+  final Widget child;
+  final EdgeInsetsGeometry? padding;
+  const PrimaryBottomSheet({super.key, required this.title, required this.child, this.padding});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: padding,
       decoration: BoxDecoration(
         color: context.theme.bottomSheetTheme.backgroundColor,
         borderRadius: AppRadius.top(16),
@@ -23,13 +26,15 @@ class PrimaryBottomSheet extends StatelessWidget {
                 SizedBox(width: 24.sp),
 
                 // title
-                Text('Settings', style: context.font16.copyWith(fontWeight: FontWeight.w600)),
+                Text(title, style: context.font16.copyWith(fontWeight: FontWeight.w600)),
 
                 // close button
                 PrimaryCloseButton(),
               ],
             ),
-            SizedBox(height: 12.sp),
+            SizedBox(height: 24.sp),
+            child,
+            SafeArea(child: SizedBox(height: 16.sp)),
           ],
         ),
       ),

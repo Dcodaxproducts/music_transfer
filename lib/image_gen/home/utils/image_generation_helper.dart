@@ -89,11 +89,7 @@ class ImageGenerationHelper {
 
   static bool _isProModel() => ModelsController.find.selectedModel?.isPro ?? false;
 
-  static Future<ImageGenerationResult?> generateImage(
-    String text, {
-    bool showAds = true,
-    XFile? attachedImage,
-  }) async {
+  static Future<ImageGenerationResult?> generateImage(String text, {bool showAds = true}) async {
     return await ImageGenController.find.generateImages(text, showAds: showAds);
   }
 }

@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:pixart_app/image_gen/home/domain/service/image_generation_service_impl.dart';
+import 'package:pixart_app/image_gen/home/domain/service/image_gen_service.dart';
 import '../../data/repository/image_gen_repo_impl.dart';
 import '../../data/repository/image_gen_repo.dart';
 import '../../presentation/controller/image_generation_controller.dart';
-import '../service/image_generation_service.dart';
+import '../service/image_gen_service_impl.dart';
 
 class ImageGenerationBindings extends Bindings {
   @override

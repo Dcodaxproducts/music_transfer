@@ -3,17 +3,11 @@
 class Images {
   static const String logo = 'assets/images/logo.png';
   static const String noInternet = 'assets/images/no_connection.png';
-  static const String subscriptionBg = 'assets/images/subscription_bg.png';
 
-  // tools
-  static const String toolsImage = 'assets/images/upscale_image.jpg';
-  static const String bg_remover = 'assets/images/bg_remover.png';
-  static const String bg_remover_removed =
-      'assets/images/bg_remover_removed.png';
-  // animation
-  static const String starAnimation = 'assets/animations/loading_1.json';
+  // sparkle
+  static const String sparkle = 'assets/images/sparkle.png';
+  static const String sparkle_outline = 'assets/images/sparkle_outline.png';
 
-  // s3
-  static const String generationFailed =
-      'https://matrixart.s3.eu-west-2.amazonaws.com/uploads/generation_failed.png';
+  // social icons
+  static const String google = 'assets/images/google.png';
 }

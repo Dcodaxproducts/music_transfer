@@ -1,7 +1,7 @@
 import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/image_gen/home/data/model/image_generation.dart';
 import 'package:pixart_app/image_gen/home/data/model/model.dart';
-import 'package:pixart_app/image_gen/home/domain/service/image_generation_service_impl.dart';
+import 'package:pixart_app/image_gen/home/domain/service/image_gen_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:pixart_app/imports.dart';
 import 'generation_controller.dart';
@@ -11,6 +11,13 @@ class ImageGenController extends GetxController implements GetxService {
   ImageGenController({required this.service});
 
   static ImageGenController get find => Get.find<ImageGenController>();
+
+  XFile? _attachedImage;
+  XFile? get attachedImage => _attachedImage;
+  set attachedImage(XFile? value) {
+    _attachedImage = value;
+    update();
+  }
 
   ImageGenerationResult? _result;
   ImageGenerationResult? get result => _result;
@@ -22,31 +29,37 @@ class ImageGenController extends GetxController implements GetxService {
   final List<bool> _loading = [];
   List<bool> get loading => _loading;
 
-  Future<ImageGenerationResult?> generateImages(
-    String prompt, {
-    Model? model,
-    bool showAds = true,
-    XFile? attachedImage,
-  }) async {
-    // Start loading
-    _loading.add(true);
-    update();
+  Future<ImageGenerationResult?> generateImages(String prompt, {Model? model, bool showAds = true}) async {
+    try {
+      // Start loading
+      _loading.add(true);
+      update();
 
-    // Make request
-    http.Response? response = await service.generateImages(
-      prompt,
-      modelValue: model,
-      showAds: showAds,
-      attachedImage: attachedImage,
-    );
+      // Prepare attached image
+      List<XFile>? images;
+      if (_attachedImage != null) {
+        images = [_attachedImage!];
+      }
 
-    // Process response
-    ImageGenerationResult? value = service.processGenerationResponse(response);
+      // Make request
+      http.Response? response = await service.generateImages(
+        prompt,
+        modelValue: model,
+        showAds: showAds,
+        images: images,
+      );
 
-    // End loading
-    _loading.removeLast();
-    update();
-    return value;
+      // Process response
+      ImageGenerationResult? value = service.processGenerationResponse(response);
+
+      return value;
+    } catch (e) {
+      return null;
+    } finally {
+      // End loading
+      _loading.removeLast();
+      update();
+    }
   }
 
   Future<void> cancelRequest() async {

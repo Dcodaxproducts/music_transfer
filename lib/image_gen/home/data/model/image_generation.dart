@@ -17,15 +17,14 @@ class ImageGenerationResult {
     this.bookmarked = false,
   });
 
-  factory ImageGenerationResult.fromJson(Map<String, dynamic> json) =>
-      ImageGenerationResult(
-        status: json["status"],
-        id: json["id"],
-        meta: Meta.fromJson(json["meta"]),
-        output: List<String>.from(json["output"].map((x) => x)),
-        createdAt: DateTime.parse(json["created_at"]),
-        bookmarked: json["bookmarked"] ?? false,
-      );
+  factory ImageGenerationResult.fromJson(Map<String, dynamic> json) => ImageGenerationResult(
+    status: json["status"],
+    id: json["id"],
+    meta: Meta.fromJson(json["meta"]),
+    output: List<String>.from(json["output"].map((x) => x)),
+    createdAt: DateTime.parse(json["created_at"]),
+    bookmarked: json["bookmarked"] ?? false,
+  );
 
   Map<String, dynamic> toJson() => {
     "status": status,
@@ -63,18 +62,7 @@ class Meta {
   Model model;
   int? seed;
 
-  double? guidanceScale;
-  String? negativePrompt;
-
-  Meta({
-    required this.height,
-    required this.width,
-    required this.prompt,
-    required this.model,
-    this.seed,
-    this.guidanceScale,
-    this.negativePrompt,
-  });
+  Meta({required this.height, required this.width, required this.prompt, required this.model, this.seed});
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
     height: json["height"],
@@ -82,8 +70,6 @@ class Meta {
     prompt: json["prompt"],
     model: Model.fromJson(json["model"]),
     seed: json["seed"],
-    guidanceScale: json["guidance_scale"],
-    negativePrompt: json["negative_prompt"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -92,28 +78,16 @@ class Meta {
     "prompt": prompt,
     "model": model.toJson(),
     "seed": seed,
-    "guidance_scale": guidanceScale,
-    "negative_prompt": negativePrompt,
   };
 
   // copy with
-  Meta copyWith({
-    int? height,
-    int? width,
-    String? prompt,
-    Model? model,
-    int? seed,
-    double? guidanceScale,
-    String? negativePrompt,
-  }) {
+  Meta copyWith({int? height, int? width, String? prompt, Model? model, int? seed}) {
     return Meta(
       height: height ?? this.height,
       width: width ?? this.width,
       prompt: prompt ?? this.prompt,
       model: model ?? this.model,
       seed: seed ?? this.seed,
-      guidanceScale: guidanceScale ?? this.guidanceScale,
-      negativePrompt: negativePrompt ?? this.negativePrompt,
     );
   }
 }

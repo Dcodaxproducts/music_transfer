@@ -12,10 +12,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('language'.tr),
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: AppBar(title: Text('language'.tr), backgroundColor: Colors.transparent),
       body: GetBuilder<LocalizationController>(
         builder: (con) {
           return Padding(
@@ -48,9 +45,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                             Locale(language.languageCode, language.countryCode),
                           );
                         },
-                        overlayColor: WidgetStateProperty.all(
-                          Colors.transparent,
-                        ),
+                        overlayColor: WidgetStateProperty.all(Colors.transparent),
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 12.sp),
                           child: Row(
@@ -58,7 +53,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                               CircleAvatar(
                                 radius: 18.sp,
                                 backgroundImage: AssetImage(
-                                  'assets/images/${language.countryCode.toLowerCase()}.png',
+                                  'assets/icons/${language.countryCode.toLowerCase()}.png',
                                 ),
                               ),
                               SizedBox(width: 12.sp),
@@ -97,19 +92,14 @@ class LanguageRadioButton extends StatelessWidget {
       width: 20.sp,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(
-          color: selected ? primaryColor : Theme.of(context).dividerColor,
-        ),
+        border: Border.all(color: selected ? primaryColor : Theme.of(context).dividerColor),
       ),
       child: Center(
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           height: 12.sp,
           width: 12.sp,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: selected ? secondaryGradient : null,
-          ),
+          decoration: BoxDecoration(shape: BoxShape.circle, gradient: selected ? secondaryGradient : null),
         ),
       ),
     );

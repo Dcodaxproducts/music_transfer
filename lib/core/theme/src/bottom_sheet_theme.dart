@@ -1,9 +1,7 @@
 import '../../../imports.dart';
 
 BottomSheetThemeData get bottomSheetThemeLight => BottomSheetThemeData(
-  shape: RoundedRectangleBorder(
-    borderRadius: AppRadius.top(AppRadius.radius16),
-  ),
+  shape: RoundedRectangleBorder(borderRadius: AppRadius.top(16)),
   backgroundColor: bottomSheetColorLight,
   modalBackgroundColor: bottomSheetColorLight,
   elevation: 0,

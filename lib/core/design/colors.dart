@@ -14,7 +14,7 @@ const Color backgroundColorLight = Color(0xFFFFFFFF);
 
 // Card Colors
 const Color cardColorDark = Color(0xFF1E1E1E);
-const Color cardColorLight = Color(0xFFEEEEEE);
+const Color cardColorLight = Color(0xFFEFEFEF);
 
 // bottom sheet
 const Color bottomSheetColorDark = Color(0xFF1A1A1A);
@@ -45,8 +45,8 @@ const Color hintColorLight = Color(0xff606060);
 const Color hintColorDark = Color(0xFF909090);
 
 // Icon Colors
-const Color iconColorLight = Color(0xff606060);
-const Color iconColorDark = Color(0xFF909090);
+const Color iconColorLight = Color(0XFFF3F3F3);
+const Color iconColorDark = Colors.black;
 
 // Gradients
 LinearGradient get primaryGradient => const LinearGradient(

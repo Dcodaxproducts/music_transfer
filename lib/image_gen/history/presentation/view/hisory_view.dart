@@ -23,11 +23,11 @@ class HistoryView extends StatelessWidget {
             return promptHistory.isEmpty && imageGen.loading.isEmpty
                 ? EmptyHistory()
                 : GridView.builder(
-                    padding: AppPadding.padding4,
+                    padding: AppPadding.padding12,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: crossAxisCount,
-                      mainAxisSpacing: 4.sp,
-                      crossAxisSpacing: 4.sp,
+                      mainAxisSpacing: 8.sp,
+                      crossAxisSpacing: 8.sp,
                       childAspectRatio: 1.1,
                     ),
                     itemCount: promptHistory.length + imageGen.loading.length,

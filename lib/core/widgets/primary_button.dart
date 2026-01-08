@@ -20,7 +20,7 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor = color ?? primaryColor;
+    final Color backgroundColor = color ?? primaryLight;
     final Color textColor = this.textColor ?? Colors.white;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(

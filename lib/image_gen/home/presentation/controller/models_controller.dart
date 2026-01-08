@@ -4,7 +4,7 @@ import 'package:pixart_app/image_gen/home/data/model/model.dart';
 import 'package:get/get.dart';
 import '../../domain/service/model_service.dart';
 
-class ModelsController extends GetxController {
+class ModelsController extends GetxController implements GetxService {
   final ModelsService modelsService;
   ModelsController({required this.modelsService});
 
@@ -26,9 +26,9 @@ class ModelsController extends GetxController {
     List<Model> cachedModels = modelsService.getCachedModels();
     if (cachedModels.isNotEmpty) {
       _models.addAll(cachedModels);
+      update();
       _getSelectedModel();
       _getSelectedAspectRatio();
-      update();
     }
 
     // fetch from API
@@ -36,10 +36,10 @@ class ModelsController extends GetxController {
     if (fetchedModels.isNotEmpty) {
       _models.clear();
       _models.addAll(fetchedModels);
+      update();
       _getSelectedModel();
       _getSelectedAspectRatio();
       await modelsService.cacheModels(fetchedModels);
-      update();
     }
   }
 
@@ -55,18 +55,37 @@ class ModelsController extends GetxController {
     update();
   }
 
-  Future<void> selectModel(Model model) async {
+  Future<bool> selectModel(Model model) async {
     _selectedModel = model;
     update();
-    await modelsService.saveSelectedModel(model.id);
+    return await modelsService.saveSelectedModel(model.id);
   }
+
+  Future<bool> handleImageModelSelection() async {
+    // if selected model does not support image, select one that does
+    if (_selectedModel != null && !_selectedModel!.supportImage) {
+      Model? imageModel = _models.firstWhereOrNull((model) => model.supportImage);
+      if (imageModel != null) {
+        return await selectModel(imageModel);
+      } else {
+        return false;
+      }
+    }else{
+      return true;
+    }
+  }
+
+  /*   Aspect Ratio Methods  */
 
   void _getSelectedAspectRatio() {
     int? selectedId = modelsService.getSelectedAspectRatio();
     if (selectedId != null) {
-      _selectedModel = _models.firstWhere((model) => model.id == selectedId, orElse: () => _models.first);
+      _selectedAspectRatio = aspectRatios.firstWhere(
+        (model) => model.id == selectedId,
+        orElse: () => aspectRatios.first,
+      );
     } else {
-      _selectedModel = _models.isNotEmpty ? _models.first : null;
+      _selectedAspectRatio = aspectRatios.first;
     }
     update();
   }

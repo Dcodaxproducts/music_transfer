@@ -7,7 +7,7 @@ abstract class ImageGenService<T> {
     String prompt, {
     Model? modelValue,
     bool showAds = true,
-    XFile? attachedImage,
+    List<XFile>? images,
   });
 
   ImageGenerationResult? processGenerationResponse(Response? response);

@@ -49,9 +49,7 @@ class SettingsController extends GetxController implements GetxService {
     return _settingModel;
   }
 
-  void setPromptText(String text) {
-    promptController.text = text;
-  }
+
 
   bool get hasOffensiveWords {
     bool isOffensive = false;

@@ -1,5 +1,6 @@
 import 'package:pixart_app/image_gen/home/data/model/model.dart';
 
+import '../../../../core/widgets/primary_bottom_sheet.dart';
 import '../../../../imports.dart';
 import '../../data/model/aspect_ratio.dart';
 import '../controller/models_controller.dart';
@@ -15,48 +16,28 @@ class SettingsSheet extends StatelessWidget {
       builder: (controller) {
         Model? selectedModel = controller.selectedModel;
         AspectRatioModel selectedAspectRatio = controller.selectedAspectRatio;
-        return Container(
-          decoration: BoxDecoration(
-            color: context.theme.bottomSheetTheme.backgroundColor,
-            borderRadius: AppRadius.top(16),
-          ),
-          child: Padding(
-            padding: AppPadding.padding16,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // back button
-                    SizedBox(width: 24.sp),
-
-                    // title
-                    Text('Settings', style: context.font16.copyWith(fontWeight: FontWeight.w600)),
-
-                    // close button
-                    PrimaryCloseButton(),
-                  ],
-                ),
-                SizedBox(height: 24.sp),
-                SettingSheetTile(
-                  title: 'Model',
-                  icon: Iconsax.cpu,
-                  valueText: selectedModel?.name ?? 'N/A',
-                  onPressed: () {
-                    Get.bottomSheet(ModelsSheet(), isScrollControlled: true);
-                  },
-                ),
-                SettingSheetTile(
-                  title: 'Aspect Ratio',
-                  icon: Iconsax.format_square,
-                  valueText: selectedAspectRatio.aspectRatio,
-                  onPressed: () {
-                    Get.bottomSheet(AspectRatioSheet());
-                  },
-                ),
-              ],
-            ),
+        return PrimaryBottomSheet(
+          title: 'Settings',
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SettingSheetTile(
+                title: 'Model',
+                icon: Iconsax.cpu,
+                valueText: selectedModel?.name ?? 'N/A',
+                onPressed: () {
+                  Get.bottomSheet(ModelsSheet(), isScrollControlled: true);
+                },
+              ),
+              SettingSheetTile(
+                title: 'Aspect Ratio',
+                icon: Iconsax.format_square,
+                valueText: selectedAspectRatio.aspectRatio,
+                onPressed: () {
+                  Get.bottomSheet(AspectRatioSheet());
+                },
+              ),
+            ],
           ),
         );
       },

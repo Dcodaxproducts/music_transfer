@@ -15,7 +15,7 @@ import '../../data/model/aspect_ratio.dart';
 import '../../data/model/image_generation.dart';
 import '../../data/model/model.dart';
 import '../../utils/image_generation_utils.dart';
-import 'image_generation_service_impl.dart';
+import 'image_gen_service.dart';
 
 class ImageGenerationServiceImpl implements ImageGenService {
   final ImageGenRepo repo;
@@ -51,7 +51,7 @@ class ImageGenerationServiceImpl implements ImageGenService {
     String prompt, {
     Model? modelValue,
     bool showAds = true,
-    XFile? attachedImage,
+    List<XFile>? images,
   }) async {
     // show ads
     if (showAds) {
@@ -67,9 +67,6 @@ class ImageGenerationServiceImpl implements ImageGenService {
     // generate seed
     int seedValue = ImageGenerationUtils.generateSeed();
 
-    // guidance scale
-    double guidanceScale = SettingsController.find.configModel.guidanceScale;
-
     Map<String, dynamic> body = {
       "token": Endpoints.token,
       "prompt": prompt,
@@ -77,16 +74,17 @@ class ImageGenerationServiceImpl implements ImageGenService {
       "width": size.width,
       "height": size.height,
       "seed": seedValue,
-      "guidance_scale": guidanceScale,
     };
 
     // attach image if any
     List<MultipartBody>? files;
-    if (attachedImage != null) {
-      MultipartBody multipartFile = MultipartBody('image', attachedImage);
-      files = [multipartFile];
+    if (images != null) {
+      files = [];
+      for (int i = 0; i < images.length; i++) {
+        MultipartBody additionalFile = MultipartBody('images[$i]', images[i]);
+        files.add(additionalFile);
+      }
     }
-
     // send request to api
     return await repo.generateImages(body, files: files);
   }
@@ -94,31 +92,36 @@ class ImageGenerationServiceImpl implements ImageGenService {
   // process generation response
   @override
   ImageGenerationResult? processGenerationResponse(http.Response? response) {
-    if (response == null) return null;
+    try {
+      if (response == null) return null;
 
-    Map<String, dynamic> data = jsonDecode(response.body);
+      Map<String, dynamic> data = jsonDecode(response.body);
 
-    // Check if the response is successful
-    if (!ImageGenerationUtils.isSuccessResponse(data)) {
-      showErrorDialog();
-      return null;
+      // Check if the response is successful
+      if (!ImageGenerationUtils.isSuccessResponse(data)) {
+        showErrorDialog();
+        return null;
+      }
+
+      GenerationController.find.incrementGenerationCount();
+
+      ImageGenerationResult value = ImageGenerationResult.fromJson(data);
+
+      //  log impression for model to track usage to firebase
+      PackageInfo? packageInfo = SettingsController.find.packageInfo;
+      EventsHelper.logEvent('model_impression', {
+        'model': value.meta.model.name,
+        'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
+        'platform': Platform.isAndroid ? 'Android' : 'iOS',
+      });
+
+      HistoryController.find.addPrompt(value);
+
+      return value;
+    } catch (e) {
+      showToast("Failed to process response: $e");
+      rethrow;
     }
-
-    GenerationController.find.incrementGenerationCount();
-
-    ImageGenerationResult value = ImageGenerationResult.fromJson(data);
-
-    //  log impression for model to track usage to firebase
-    PackageInfo? packageInfo = SettingsController.find.packageInfo;
-    EventsHelper.logEvent('model_impression', {
-      'model': value.meta.model.name,
-      'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",
-      'platform': Platform.isAndroid ? 'Android' : 'iOS',
-    });
-
-    HistoryController.find.addPrompt(value);
-
-    return value;
   }
 
   @override

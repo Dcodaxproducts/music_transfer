@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:pixart_app/image_gen/home/data/model/image_generation.dart';
 import 'package:pixart_app/image_gen/history/domain/service/history_service.dart';
-import '../../../prompt_setting/presentation/controller/settings_controller.dart';
 
 class HistoryController extends GetxController {
   final HistoryService historyService;
@@ -16,7 +15,6 @@ class HistoryController extends GetxController {
     if (_promptHistory.isEmpty) {
       _promptHistory = historyService.getPromptHistory();
     }
-    SettingsController.find.setPromptText(_promptHistory.isNotEmpty ? _promptHistory.first.meta.prompt : '');
     update();
   }
 

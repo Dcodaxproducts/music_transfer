@@ -1,4 +1,6 @@
+import 'package:pixart_app/image_gen/home/presentation/controller/image_generation_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
+import '../../../../core/widgets/primary_bottom_sheet.dart';
 import '../../../../imports.dart';
 import '../../data/model/model.dart';
 
@@ -7,51 +9,31 @@ class ModelsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return PrimaryBottomSheet(
       padding: EdgeInsets.only(top: 24.sp),
-      decoration: BoxDecoration(
-        color: context.theme.bottomSheetTheme.backgroundColor,
-        borderRadius: AppRadius.top(16),
-      ),
-      child: Padding(
-        padding: AppPadding.padding16,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // back button
-                SizedBox(width: 24.sp),
+      title: 'Models',
+      child: Expanded(
+        child: GetBuilder<ModelsController>(
+          builder: (controller) {
+            // copy models list
+            List<Model> models = [...controller.models];
 
-                // title
-                Text('Models', style: context.font16.copyWith(fontWeight: FontWeight.w600)),
+            // filter models that support image if an image is attached
+            if (ImageGenController.find.attachedImage != null) {
+              models = models.where((model) => model.supportImage).toList();
+            }
 
-                // close button
-                PrimaryCloseButton(),
-              ],
-            ),
-            SizedBox(height: 24.sp),
+            // get selected model
+            Model selectedModel = controller.selectedModel ?? controller.models.first;
 
-            Expanded(
-              child: GetBuilder<ModelsController>(
-                builder: (controller) {
-                  // get selected model
-                  Model selectedModel = controller.selectedModel ?? controller.models.first;
-                  return ListView.separated(
-                    itemCount: controller.models.length,
-                    separatorBuilder: (context, index) => SizedBox(height: 12.sp),
-                    itemBuilder: (context, index) {
-                      return SettingSheetTile(
-                        model: controller.models[index],
-                        selected: controller.models[index].id == selectedModel.id,
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
+            return ListView.separated(
+              itemCount: models.length,
+              separatorBuilder: (context, index) => SizedBox(height: 12.sp),
+              itemBuilder: (context, index) {
+                return SettingSheetTile(model: models[index], selected: models[index].id == selectedModel.id);
+              },
+            );
+          },
         ),
       ),
     );
@@ -100,17 +82,17 @@ class SettingSheetTile extends StatelessWidget {
                         child: Text(model.name, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 2.sp),
+                        padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
                         decoration: BoxDecoration(
                           color: selected ? context.theme.cardColor : context.theme.canvasColor,
-                          borderRadius: AppRadius.circular4,
+                          borderRadius: AppRadius.circular8,
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Iconsax.magic_star, size: 10.sp, color: context.font12.color),
+                            Image.asset(Images.sparkle_outline, width: 10.sp, color: context.font12.color),
                             SizedBox(width: 4.sp),
-                            Text('${model.creditsPerImage}', style: context.font12),
+                            Text('${model.creditsPerImage}', style: context.font10),
                           ],
                         ),
                       ),
