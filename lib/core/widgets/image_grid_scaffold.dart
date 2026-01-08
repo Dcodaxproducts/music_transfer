@@ -99,7 +99,8 @@ class _ImageGridBackground extends StatelessWidget {
 
         final double spacing = isTablet ? 10.sp : 8.sp;
         final int columnCount = isTablet ? 4 : 3;
-        final double columnWidth = (screenWidth - spacing * (columnCount + 1)) / columnCount;
+        // Remove side padding - only spacing between columns
+        final double columnWidth = (screenWidth - spacing * (columnCount - 1)) / columnCount;
 
         // Image height based on aspect ratio
         final double imageHeight = columnWidth * 1.35;
@@ -117,7 +118,8 @@ class _ImageGridBackground extends StatelessWidget {
           children: [
             for (int colIndex = 0; colIndex < columnCount; colIndex++)
               Positioned(
-                left: spacing + colIndex * (columnWidth + spacing),
+                // Start from edge, no left padding
+                left: colIndex * (columnWidth + spacing),
                 top: -topOffsets[colIndex % topOffsets.length],
                 width: columnWidth,
                 child: Column(
