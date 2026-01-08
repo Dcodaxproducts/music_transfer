@@ -46,6 +46,7 @@ class ImageGenerationHelper {
   static Future<ImageGenerationResult?> generateImage(String text) async {
     ImageGenerationResult? result = await ImageGenController.find.generateImages(text);
     ImageGenController.find.promptController.clear();
+    ImageGenController.find.attachedImage = null;
     return result;
   }
 }
