@@ -1,5 +1,6 @@
-import 'package:get/get.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import '../../../../imports.dart';
 import '../../domain/service/splash_service.dart';
 
 class SplashController extends GetxController implements GetxService {
@@ -20,8 +21,17 @@ class SplashController extends GetxController implements GetxService {
   PackageInfo? _packageInfo;
   PackageInfo? get packageInfo => _packageInfo;
 
+  String? _userId;
+  String? get userId => _userId;
+
   Future<void> getPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
     update();
+  }
+
+  Future<void> getUserId() async {
+    final deviceInfo = DeviceInfoPlugin();
+    Map<String, dynamic> deviceData = await service.getDeviceData(deviceInfo);
+    _userId = deviceData['uuid'] ?? 'unknown';
   }
 }

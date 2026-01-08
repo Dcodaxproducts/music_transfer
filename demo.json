@@ -1,29 +1,58 @@
-[
+{
+  "category": {
+    "id": "ai_headshots",
+    "name": "AI Headshots"
+  },
+  "templates": [
     {
-        "status": "success",
-        "id": 123456,
-        "meta": {
-            "prompt": "A beautiful landscape with mountains and a river",
-            "width": 1024,
-            "height": 1024,
-            "seed": 987654321,
-            "guidance_scale": 7.5,
-            "negative_prompt": "low quality, blurry"
-        },
-        "output": [
-            "https://example.com/generated_image_1.png",
-            "https://example.com/generated_image_2.png"
-        ],  
-        "created_at": "2024-06-15T12:34:56Z"
-    
+      "id": "cinematic_professional_headshot",
+      "name": "Cinematic Professional Headshot",
+      "description": "Create a high-contrast, studio-quality headshot with cinematic lighting that highlights facial structure and confidence. Ideal for LinkedIn and professional profiles.",
+      "category": "AI Headshots",
+      "prompt": "Create a high-quality professional portrait while preserving the subject’s exact facial identity, structure, and proportions. Apply dramatic, cinematic lighting with strong contrast and soft highlights. Capture the subject from a slightly low, upward-facing angle to emphasize the jawline and neck, creating a confident and authoritative presence. Use a rich, soft blue or dark neutral background that complements natural skin tones and eye color. Skin should appear clean and natural without excessive smoothing or artificial retouching. The subject should be wearing dark, minimal, professional clothing. Avoid stylized effects, exaggerated features, or artistic abstraction. Photorealistic, studio-quality, sharp focus."
     },
     {
-        "name": "Background Remover",
-        "description": "Remove the background from your images quickly and accurately using AI-powered technology.",
-        "before_image": "https://example.com/before_image.png",
-        "after_image": "https://example.com/after_image.png",
-        "api_endpoint": "https://api.example.com/remove_background",
-        "category": "Image Editing",
-        "is_pro": true
+      "id": "corporate_linkedin_headshot",
+      "name": "Corporate LinkedIn Headshot",
+      "description": "Generate a clean, professional corporate headshot with balanced lighting and a neutral background, suitable for LinkedIn, CVs, and company profiles.",
+      "category": "AI Headshots",
+      "prompt": "Generate a clean and professional corporate headshot while preserving the subject’s exact facial features and identity. Use balanced, soft studio lighting with minimal shadows. The background should be light gray, white, or a subtle neutral gradient. Ensure natural skin texture, realistic tones, and professional grooming. The subject should appear well-lit, confident, and approachable, wearing formal or business-casual attire. Avoid dramatic lighting, artistic stylization, or facial alterations. Photorealistic, corporate studio quality."
+    },
+    {
+      "id": "startup_founder_headshot",
+      "name": "Startup Founder Headshot",
+      "description": "Create a modern, confident headshot with a relaxed professional style, perfect for founders, entrepreneurs, and tech professionals.",
+      "category": "AI Headshots",
+      "prompt": "Create a modern professional headshot while preserving the subject’s facial identity and natural expression. Use soft, directional lighting similar to window light, creating a relaxed yet confident look. Add gentle depth-of-field separation between the subject and background. The background should be clean and minimal with a subtle gradient or blurred studio setting. Clothing should appear modern and professional, such as a blazer, dark shirt, or smart casual outfit. Avoid overly formal corporate styling or heavy cinematic shadows. Photorealistic, modern studio portrait."
+    },
+    {
+      "id": "clean_casual_headshot",
+      "name": "Clean Casual Headshot",
+      "description": "Generate a natural and friendly headshot with soft lighting and a casual look, ideal for social profiles and personal branding.",
+      "category": "AI Headshots",
+      "prompt": "Generate a natural and friendly headshot while preserving the subject’s exact facial features. Use soft daylight-style lighting with minimal contrast. The background should be bright, neutral, and uncluttered. Skin tones should be realistic and natural, with light retouching only. The subject should appear approachable and relaxed, wearing casual clothing. Avoid dramatic lighting, heavy shadows, or studio effects. Photorealistic, clean portrait style."
+    },
+    {
+      "id": "studio_portrait_headshot",
+      "name": "Studio Portrait Headshot",
+      "description": "Produce a high-quality studio-style headshot with even lighting, sharp focus, and a minimal background for a polished appearance.",
+      "category": "AI Headshots",
+      "prompt": "Create a classic studio-style headshot while preserving the subject’s facial identity and proportions. Use evenly distributed studio lighting with soft shadows and sharp focus. The background should be plain and neutral, such as white, gray, or light beige. Ensure accurate skin texture, balanced exposure, and professional clarity. The subject should appear centered, composed, and well-lit. Avoid cinematic lighting, creative color grading, or stylized effects. Photorealistic, traditional studio quality."
+    },
+    {
+      "id": "creative_professional_headshot",
+      "name": "Creative Professional Headshot",
+      "description": "Design a stylish and expressive headshot with subtle artistic lighting, tailored for designers, creators, and freelancers.",
+      "category": "AI Headshots",
+      "prompt": "Generate a stylish and expressive professional headshot while preserving the subject’s facial identity. Use artistic yet subtle lighting to add character without altering facial features. The background may include soft colors or minimal texture to enhance creativity. The subject should appear confident and expressive, with a polished but not overly formal appearance. Maintain natural skin tones and realistic detail. Avoid extreme stylization, exaggerated colors, or abstract effects. Photorealistic with creative editorial influence."
+    },
+    {
+      "id": "dark_cinematic_headshot",
+      "name": "Dark Cinematic Headshot",
+      "description": "Create a dramatic, cinematic headshot using low-key lighting and deep shadows for a bold and powerful visual presence.",
+      "category": "AI Headshots",
+      "prompt": "Create a dramatic cinematic headshot while preserving the subject’s exact facial identity. Use low-key lighting with strong contrast, deep shadows, and directional highlights. Emphasize facial contours, jawline, and expression. The background should be dark and minimal. Clothing should be dark and simple to enhance contrast and mood. Avoid excessive noise, harsh artifacts, or artistic distortion. Photorealistic, cinematic portrait with moody lighting."
     }
-]
+  ],
+  "global_negative_prompt": "Do not change facial structure, eye shape, nose, lips, age, gender, or ethnicity. Do not add accessories, tattoos, text, or watermarks."
+}
