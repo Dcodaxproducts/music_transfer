@@ -6,7 +6,7 @@ import 'package:pixart_app/image_gen/home/domain/binding/image_generation_bindin
 import 'package:pixart_app/image_gen/inspirations/domain/binding/inspiration_binding.dart';
 import 'package:pixart_app/features/language/domain/binding/language_binding.dart';
 import 'package:pixart_app/features/review/domain/binding/review_binding.dart';
-import 'package:pixart_app/image_gen/prompt_setting/domain/binding/setting_binding.dart';
+import 'package:pixart_app/features/splash/domain/binding/splash_binding.dart';
 import 'package:pixart_app/features/tools/domain/binding/tools_binding.dart';
 import 'package:pixart_app/core/api/api_client_impl.dart';
 import 'package:pixart_app/core/api/api_client.dart';
@@ -33,7 +33,7 @@ Future<Map<String, Map<String, String>>> init() async {
     ImageGenerationBindings(),
     GenerationBinding(),
     HistoryBinding(),
-    SettingBinding(),
+    SplashBinding(),
     ModelsBinding(),
     InspirationBinding(),
     ReviewBinding(),

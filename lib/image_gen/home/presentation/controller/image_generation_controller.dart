@@ -1,16 +1,32 @@
-import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/image_gen/home/data/model/image_generation.dart';
 import 'package:pixart_app/image_gen/home/data/model/model.dart';
 import 'package:pixart_app/image_gen/home/domain/service/image_gen_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:pixart_app/imports.dart';
-import 'generation_controller.dart';
+import 'text_editing_controller.dart';
 
 class ImageGenController extends GetxController implements GetxService {
   final ImageGenService service;
   ImageGenController({required this.service});
 
   static ImageGenController get find => Get.find<ImageGenController>();
+
+  // Text controllers for user input
+  final promptController = StyleableTextFieldController(
+    styles: TextPartStyleDefinitions(definitionList: [], adultWords: AppConstants.adultWords),
+  );
+
+  bool get hasOffensiveWords {
+    bool isOffensive = false;
+    final textParts = promptController.text.split(' ');
+    for (final textPart in textParts) {
+      if (AppConstants.adultWords.contains(removePunctuation(textPart.toLowerCase()))) {
+        isOffensive = true;
+        break;
+      }
+    }
+    return isOffensive;
+  }
 
   XFile? _attachedImage;
   XFile? get attachedImage => _attachedImage;
@@ -29,7 +45,7 @@ class ImageGenController extends GetxController implements GetxService {
   final List<bool> _loading = [];
   List<bool> get loading => _loading;
 
-  Future<ImageGenerationResult?> generateImages(String prompt, {Model? model, bool showAds = true}) async {
+  Future<ImageGenerationResult?> generateImages(String prompt, {Model? model}) async {
     try {
       // Start loading
       _loading.add(true);
@@ -42,12 +58,7 @@ class ImageGenController extends GetxController implements GetxService {
       }
 
       // Make request
-      http.Response? response = await service.generateImages(
-        prompt,
-        modelValue: model,
-        showAds: showAds,
-        images: images,
-      );
+      http.Response? response = await service.generateImages(prompt, modelValue: model, images: images);
 
       // Process response
       ImageGenerationResult? value = service.processGenerationResponse(response);
@@ -64,12 +75,5 @@ class ImageGenController extends GetxController implements GetxService {
 
   Future<void> cancelRequest() async {
     await service.cancelRequest();
-  }
-
-  Future<bool> hasShowedFreeLimitDialog() async {
-    return service.willShowFreeLimitDialog(
-      SettingsController.find.settingModel.freeGenerations,
-      GenerationController.find.dailyGenerationCount,
-    );
   }
 }

@@ -3,7 +3,7 @@ import 'package:pixart_app/image_gen/inspirations/data/model/inspiration.dart';
 import '../../../../core/widgets/share_button.dart';
 import '../../../../features/dashboard/presentation/controller/dashboard_controller.dart';
 import '../../../../imports.dart';
-import '../../../prompt_setting/presentation/controller/settings_controller.dart';
+import '../../../home/presentation/controller/image_generation_controller.dart';
 
 class InspirationActions extends StatelessWidget {
   final Inspiration inspiration;
@@ -32,10 +32,9 @@ class InspirationActions extends StatelessWidget {
               minimumSize: Size(120.sp, 50.sp),
             ),
             onPressed: () {
-              final settings = SettingsController.find;
               pop();
               DashboardController.find.selectedIndex = 0;
-              settings.promptController.text = inspiration.prompt;
+              ImageGenController.find.promptController.text = inspiration.prompt;
             },
             child: Text('try_now'.tr),
           ),

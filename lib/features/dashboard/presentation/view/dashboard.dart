@@ -2,7 +2,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:pixart_app/features/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:pixart_app/imports.dart';
-import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/core/widgets/confirmation_dialog.dart';
 import 'package:pixart_app/features/paywall/presentation/widgets/subscription_button.dart';
 import '../../../../core/widgets/primary_safe_area.dart';
@@ -36,7 +35,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       if (!SubscriptionController.find.isPro) {
         SubscriptionController.find.showPaywallIfNeeded();
       }
-      SettingsController.find.saveShowAppOpen();
     });
     super.initState();
   }

@@ -6,7 +6,7 @@ import '../../../../core/api/api_client_impl.dart';
 import '../../../../core/widgets/confirmation_dialog.dart';
 import '../../../../imports.dart';
 import '../../../../image_gen/home/utils/image_generation_utils.dart';
-import '../../../../image_gen/prompt_setting/presentation/controller/settings_controller.dart';
+import '../../../splash/presentation/controller/splash_controller.dart';
 import '../../../ads/data/utils/firebase_events.dart';
 import 'tools_service.dart';
 
@@ -48,7 +48,7 @@ class ToolsServiceImpl implements ToolsService {
     ToolResult value = ToolResult.fromJson(data);
 
     // Log the event
-    PackageInfo? packageInfo = SettingsController.find.packageInfo;
+    PackageInfo? packageInfo = SplashController.find.packageInfo;
     EventsHelper.logEvent(tool.name, {
       'tool_name': tool.name,
       'version': "${packageInfo?.version} (${packageInfo?.buildNumber})",

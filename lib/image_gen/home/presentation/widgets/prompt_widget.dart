@@ -1,8 +1,7 @@
 import 'package:pixart_app/core/widgets/share_button.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
-import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/imports.dart';
-import '../../utils/image_generation_helper.dart';
+import '../../utils/image_gen_helper.dart';
 import '../controller/image_generation_controller.dart';
 import 'settings_sheet.dart';
 
@@ -65,27 +64,23 @@ class PromptInputWidget extends StatelessWidget {
             },
           ),
           // text field
-          GetBuilder<SettingsController>(
-            builder: (setting) {
-              return TextFormField(
-                maxLines: 5,
-                maxLength: 1200,
-                textInputAction: TextInputAction.done,
-                textCapitalization: TextCapitalization.sentences,
-                decoration: InputDecoration(
-                  hintText: 'enter_prompt_message'.tr,
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.zero,
-                  counterText: '',
-                  focusedBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                ),
-                style: context.font14,
-                onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                controller: setting.promptController,
-                onChanged: (value) => setting.update(),
-              );
-            },
+          TextFormField(
+            maxLines: 5,
+            maxLength: 1200,
+            textInputAction: TextInputAction.done,
+            textCapitalization: TextCapitalization.sentences,
+            decoration: InputDecoration(
+              hintText: 'enter_prompt_message'.tr,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+              counterText: '',
+              focusedBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+            ),
+            style: context.font14,
+            onTapOutside: (_) => FocusScope.of(context).unfocus(),
+            controller: ImageGenController.find.promptController,
+            onChanged: (value) => ImageGenController.find.update(),
           ),
 
           SizedBox(height: 12.sp),
@@ -144,13 +139,7 @@ class PromptInputWidget extends StatelessWidget {
   }
 
   Future<void> _handleImageGeneration() async {
-    String text = SettingsController.find.promptController.text.trim();
-    await ImageGenerationHelper.handleImageGeneration(text, generateImage: _generateImage);
-  }
-
-  void _generateImage(String text, {bool showAds = true}) {
-    ImageGenerationHelper.generateImage(text, showAds: showAds).then((_) {
-      SettingsController.find.promptController.clear();
-    });
+    String text = ImageGenController.find.promptController.text.trim();
+    await ImageGenerationHelper.handleImageGeneration(text);
   }
 }

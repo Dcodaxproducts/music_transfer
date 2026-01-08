@@ -1,5 +1,5 @@
 import 'package:flutter/gestures.dart';
-import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/features/splash/presentation/controller/splash_controller.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
 import 'widgets/bottom_button.dart';
@@ -31,10 +31,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               GradientWidget(
                 child: Text(
                   'turn your\nimagination',
-                  style: context.font30.copyWith(
-                    height: 1.4,
-                    color: Colors.white,
-                  ),
+                  style: context.font30.copyWith(height: 1.4, color: Colors.white),
                 ),
               ),
               SizedBox(height: 4.sp),
@@ -70,14 +67,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                launchUrlString(
-                                  AppConstants.termsAndConditions,
-                                );
+                                launchUrlString(AppConstants.termsAndConditions);
                               },
                           ),
-                          const TextSpan(
-                            text: ' and acknowledged I have read the ',
-                          ),
+                          const TextSpan(text: ' and acknowledged I have read the '),
                           TextSpan(
                             text: 'Privacy Policy.',
                             style: const TextStyle(
@@ -109,6 +102,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   void _saveFirstTime() {
-    SettingsController.find.saveFirstTime();
+    SplashController.find.saveFirstTime();
   }
 }

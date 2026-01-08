@@ -44,8 +44,8 @@ class ImageGridScaffold extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.transparent,
-                    Colors.transparent,
+                    context.theme.scaffoldBackgroundColor.withOpacity(0.1),
+                    context.theme.scaffoldBackgroundColor.withOpacity(0.1),
                     context.theme.scaffoldBackgroundColor.withOpacity(0.7),
                     context.theme.scaffoldBackgroundColor,
                   ],

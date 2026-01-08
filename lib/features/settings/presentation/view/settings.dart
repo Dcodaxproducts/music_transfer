@@ -1,8 +1,6 @@
 import 'package:pixart_app/features/settings/presentation/widgets/theme.dart';
-import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
 import 'package:pixart_app/features/settings/presentation/widgets/app_version_widget.dart';
 import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart';
-import 'package:pixart_app/features/html/html_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
@@ -36,12 +34,16 @@ class _SettingScreenState extends State<SettingScreen> {
     MenuItem(
       text: 'privacy_policy',
       icon: Iconsax.lock,
-      onTap: () => launchScreen(HtmlScreen(html: SettingsController.find.settingModel.privacyPolicy)),
+      onTap: () {
+        // TODO: Update privacy policy link
+      },
     ),
     MenuItem(
       text: 'terms_of_service',
       icon: Iconsax.info_circle,
-      onTap: () => launchScreen(HtmlScreen(html: SettingsController.find.settingModel.termsAndConditions)),
+      onTap: () {
+        // TODO: Update terms of service link
+      },
     ),
     const MenuItem(text: 'rate_us', icon: Iconsax.star, onTap: showRateUsDialog),
     MenuItem(

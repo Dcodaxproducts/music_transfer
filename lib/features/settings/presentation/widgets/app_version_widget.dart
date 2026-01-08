@@ -1,4 +1,4 @@
-import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/features/splash/presentation/controller/splash_controller.dart';
 import 'package:pixart_app/imports.dart';
 
 class AppVersionWidget extends StatelessWidget {
@@ -6,7 +6,7 @@ class AppVersionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SettingsController>(
+    return GetBuilder<SplashController>(
       builder: (con) {
         return Visibility(
           visible: con.packageInfo != null,
@@ -15,9 +15,7 @@ class AppVersionWidget extends StatelessWidget {
             child: Center(
               child: Text(
                 '${'version'.tr} ${con.packageInfo?.version} (${con.packageInfo?.buildNumber})',
-                style: context.font14.copyWith(
-                  color: Theme.of(context).hintColor,
-                ),
+                style: context.font14.copyWith(color: Theme.of(context).hintColor),
               ),
             ),
           ),

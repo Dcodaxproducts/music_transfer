@@ -5,7 +5,7 @@ import 'package:easy_audience_network/easy_audience_network.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pixart_app/features/review/presentation/controller/review_controller.dart';
-import 'package:pixart_app/image_gen/prompt_setting/presentation/controller/settings_controller.dart';
+import 'package:pixart_app/features/splash/presentation/controller/splash_controller.dart';
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/features/dashboard/presentation/view/dashboard.dart';
 import 'package:pixart_app/features/welcome/presentation/view/welcome.dart';
@@ -94,7 +94,6 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
   void _getHistoryFromPrefs() {
     HistoryController.find.initPromptHistory();
     ReviewController.find.checkReviewed();
-    SettingsController.find.initSharedData();
   }
 
   Future<void> _getDataFromApi() async {
@@ -103,7 +102,6 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
       AdsController.find.initialize(),
       ModelsController.find.getModels(),
       InspirationController.find.getInspirations(),
-      SettingsController.find.getSettings(),
     ]);
   }
 
@@ -114,7 +112,6 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
   }
 
   Future<bool> _loadAppOpenAd() async {
-    if (!SettingsController.find.showAppOpen) return false;
     return AdsController.find.showAppOpenAd();
   }
 
@@ -123,7 +120,7 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
     if (disconnected) {
       return const NoInternetDialog();
     } else if (_ready) {
-      return GetBuilder<SettingsController>(
+      return GetBuilder<SplashController>(
         builder: (settingController) {
           return settingController.isFirstTime ? const WelcomeScreen() : const DashboardScreen();
         },
