@@ -1,6 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
-
-import '../../../../imports.dart';
 import '../../data/repository/splash_repo.dart';
 import 'splash_service.dart';
 
@@ -16,24 +13,5 @@ class SplashServiceImpl implements SplashService {
   @override
   bool getFirstTime() {
     return settingsRepo.getFirstTime();
-  }
-
-  @override
-  Future<Map<String, dynamic>> getDeviceData(DeviceInfoPlugin deviceInfo) async {
-    Map<String, dynamic> deviceData = {};
-    if (Platform.isAndroid) {
-      deviceData = _getAndroidProperties(await deviceInfo.androidInfo);
-    } else if (Platform.isIOS) {
-      deviceData = _getiOSProperties(await deviceInfo.iosInfo);
-    }
-    return deviceData;
-  }
-
-  Map<String, dynamic> _getiOSProperties(IosDeviceInfo iosInfo) {
-    return {'model_name': iosInfo.modelName, 'uuid': iosInfo.identifierForVendor ?? 'unknown'};
-  }
-
-  Map<String, dynamic> _getAndroidProperties(AndroidDeviceInfo androidInfo) {
-    return {'model_name': androidInfo.model, 'uuid': androidInfo.id};
   }
 }
