@@ -1,4 +1,5 @@
 import 'package:pixart_app/core/widgets/context_menu.dart';
+import 'package:pixart_app/core/widgets/primary_image_grid.dart';
 import 'package:pixart_app/image_gen/home/data/model/image_generation.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/image_generation_controller.dart';
 import '../../../../core/helper/image_download.dart';
@@ -14,32 +15,20 @@ class HistoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        bool isWide = constraints.maxWidth > 600;
-        int crossAxisCount = isWide ? 4 : 2;
-        return GetBuilder<ImageGenController>(
-          builder: (imageGen) {
-            return promptHistory.isEmpty && imageGen.loading.isEmpty
-                ? EmptyHistory()
-                : GridView.builder(
-                    padding: AppPadding.padding12,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      mainAxisSpacing: 8.sp,
-                      crossAxisSpacing: 8.sp,
-                      childAspectRatio: 1.1,
-                    ),
-                    itemCount: promptHistory.length + imageGen.loading.length,
-                    itemBuilder: (context, index) {
-                      if (index < imageGen.loading.length) {
-                        return const LoadingCard();
-                      }
-                      return HistoryCard(response: promptHistory[index - imageGen.loading.length]);
-                    },
-                  );
-          },
-        );
+    return GetBuilder<ImageGenController>(
+      builder: (imageGen) {
+        return promptHistory.isEmpty && imageGen.loading.isEmpty
+            ? EmptyHistory()
+            : PrimaryImageGrid(
+                childAspectRatio: 1.1,
+                itemCount: promptHistory.length + imageGen.loading.length,
+                itemBuilder: (context, index) {
+                  if (index < imageGen.loading.length) {
+                    return const LoadingCard();
+                  }
+                  return HistoryCard(response: promptHistory[index - imageGen.loading.length]);
+                },
+              );
       },
     );
   }
