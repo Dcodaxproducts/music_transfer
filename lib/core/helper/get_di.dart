@@ -9,8 +9,8 @@ import 'package:pixart_app/features/review/domain/binding/review_binding.dart';
 import 'package:pixart_app/features/splash/domain/binding/splash_binding.dart';
 import 'package:pixart_app/features/tools/domain/binding/tools_binding.dart';
 import 'package:pixart_app/core/api/api_client_impl.dart';
-import 'package:pixart_app/core/api/api_client.dart';
 import 'package:flutter/services.dart';
+import '../../features/auth/domain/binding/auth_binding.dart';
 import '../../features/paywall/domain/binding/subscription_binding.dart';
 import '../../imports.dart';
 import '../../image_gen/home/domain/binding/generation_binding.dart';
@@ -39,6 +39,7 @@ Future<Map<String, Map<String, String>>> init() async {
     ReviewBinding(),
     ToolsBinding(),
     SubscriptionBinding(),
+    AuthBinding(),
   ];
 
   for (Bindings binding in bindings) {
