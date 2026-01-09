@@ -1,4 +1,3 @@
-import 'package:pixart_app/core/api/api_client.dart';
 import 'package:pixart_app/imports.dart';
 import 'models_repo.dart';
 

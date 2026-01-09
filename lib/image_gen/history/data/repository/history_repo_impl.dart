@@ -1,4 +1,3 @@
-import 'package:pixart_app/core/api/api_client.dart';
 import '../../../../imports.dart';
 import 'history_repo.dart';
 

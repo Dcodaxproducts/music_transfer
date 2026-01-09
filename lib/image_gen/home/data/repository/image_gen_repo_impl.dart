@@ -1,5 +1,4 @@
 import 'package:pixart_app/imports.dart';
-import '../../../../core/api/api_client.dart';
 import '../../../../core/api/api_client_impl.dart';
 import 'image_gen_repo.dart';
 
