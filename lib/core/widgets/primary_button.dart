@@ -1,4 +1,3 @@
-import 'package:pixart_app/core/widgets/gradient_widget.dart';
 import 'package:pixart_app/imports.dart';
 
 class PrimaryButton extends StatelessWidget {
@@ -82,38 +81,6 @@ class PrimaryOutlineButton extends StatelessWidget {
               style: context.font12.copyWith(fontWeight: FontWeight.w600, color: textColor),
             ),
         ],
-      ),
-    );
-  }
-}
-
-class GradientButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final String text;
-  final Widget? icon;
-
-  const GradientButton({required this.text, this.onPressed, this.icon, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GradientBorderContainer(
-      padding: EdgeInsets.zero,
-      borderRadius: AppRadius.circular32,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: context.theme.cardColor.withOpacity(0.1),
-          shadowColor: context.theme.cardColor,
-          shape: RoundedRectangleBorder(borderRadius: AppRadius.circular32),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (icon != null) ...[icon!, SizedBox(width: 8.sp)],
-            Text(text, style: context.font12.copyWith(fontWeight: FontWeight.w600)),
-          ],
-        ),
       ),
     );
   }
