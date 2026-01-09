@@ -5,6 +5,7 @@ class SharedKeys {
   static const String languageCode = 'language_code';
 
   static const String onBoardingSkip = 'on_boarding_skip';
+  static const String credits = 'credits';
 
   static const String negativePrompt = 'negative_prompt';
   static const String guidanceScale = 'guidance_scale';
