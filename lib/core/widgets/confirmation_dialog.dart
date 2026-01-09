@@ -1,18 +1,5 @@
 import '../../imports.dart';
 
-Future showConfirmationDialog({
-  required String title,
-  required String subtitle,
-  required String actionText,
-  required Function() onAccept,
-}) {
-  return showDialog(
-    context: Get.context!,
-    builder: (context) =>
-        ConfirmationDialog(title: title, subtitle: subtitle, actionText: actionText, onAccept: onAccept),
-  );
-}
-
 class ConfirmationDialog extends StatelessWidget {
   final String title, subtitle, actionText;
   final Function() onAccept;
@@ -24,17 +11,37 @@ class ConfirmationDialog extends StatelessWidget {
     super.key,
   });
 
+  ConfirmationDialog.show({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.actionText,
+    required this.onAccept,
+  }) {
+    showDialog(
+      context: Get.context!,
+      builder: (context) =>
+          ConfirmationDialog(title: title, subtitle: subtitle, actionText: actionText, onAccept: onAccept),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
       child: Padding(
-        padding: AppPadding.padding16,
+        padding: AppPadding.padding24,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(title.tr, style: context.font16.copyWith(fontWeight: FontWeight.w700)),
-            Divider(height: 24.sp),
-            Text(subtitle.tr, textAlign: TextAlign.center, style: context.font14),
+            Icon(Iconsax.info_circle, size: 70.sp),
+            SizedBox(height: 16.sp),
+            Text(title.tr, style: context.font18.copyWith(fontWeight: FontWeight.bold)),
+            SizedBox(height: 12.sp),
+            Text(
+              subtitle.tr,
+              textAlign: TextAlign.center,
+              style: context.font14.copyWith(color: context.theme.hintColor),
+            ),
             SizedBox(height: 24.sp),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

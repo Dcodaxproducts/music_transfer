@@ -50,7 +50,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             if (currentIndex != 0) {
               dashboardController.selectedIndex = 0;
             } else {
-              showConfirmationDialog(
+              ConfirmationDialog.show(
                 title: 'exit_app'.tr,
                 subtitle: 'exit_app_message'.tr,
                 actionText: 'yes'.tr,
