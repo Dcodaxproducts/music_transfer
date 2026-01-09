@@ -25,3 +25,4 @@ export 'package:purchases_flutter/purchases_flutter.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:image_picker/image_picker.dart';
 export 'package:pixart_app/features/tools/data/model/tool_result.dart';
+export 'package:pixart_app/core/api/api_client.dart';
