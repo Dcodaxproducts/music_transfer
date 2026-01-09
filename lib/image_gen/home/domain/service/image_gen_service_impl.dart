@@ -21,9 +21,7 @@ class ImageGenerationServiceImpl implements ImageGenService {
   ImageGenerationServiceImpl({required this.repo});
 
   @override
-  Future<http.Response?> generateImages(String prompt, {Model? modelValue, List<XFile>? images}) async {
-    // get model (selected or from models list)
-    Model model = ImageGenerationUtils.getModel(modelValue);
+  Future<http.Response?> generateImages(String prompt, Model model, { List<XFile>? images}) async {
 
     // get aspect ratio
     AspectRatioModel size = ImageGenerationUtils.getAspectRatio();

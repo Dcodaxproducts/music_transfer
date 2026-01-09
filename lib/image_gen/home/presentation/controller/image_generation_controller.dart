@@ -45,7 +45,7 @@ class ImageGenController extends GetxController implements GetxService {
   final List<bool> _loading = [];
   List<bool> get loading => _loading;
 
-  Future<ImageGenerationResult?> generateImages(String prompt, {Model? model}) async {
+  Future<ImageGenerationResult?> generateImages(String prompt, Model model) async {
     try {
       // Start loading
       _loading.add(true);
@@ -58,7 +58,7 @@ class ImageGenController extends GetxController implements GetxService {
       }
 
       // Make request
-      http.Response? response = await service.generateImages(prompt, modelValue: model, images: images);
+      http.Response? response = await service.generateImages(prompt, model, images: images);
 
       // Process response
       ImageGenerationResult? value = service.processGenerationResponse(response);
