@@ -6,29 +6,31 @@ import '../data/model/image_generation.dart';
 
 class ImageGenerationHelper {
   // Handles the tap action for generating an image
-  static Future<void> handleTap() async {
+  static void handleTap() {
     final String text = ImageGenController.find.promptController.text;
 
     // Validate prompt
     if (text.isEmpty) {
       showToast('please_enter_prompt'.tr);
+      return;
     } else if (ImageGenController.find.hasOffensiveWords) {
       showToast('please_remove_offensive_words'.tr);
+      return;
     } else {
-      handleImageGeneration(text);
+      return handleImageGeneration(text);
     }
   }
 
-  static Future<void> handleImageGeneration(String text) async {
+  static void handleImageGeneration(String text) {
     // Check subscription status and model type
     if (SubscriptionController.find.isPro) {
-      await _handleProUser(text);
+      return _handleProUser(text);
     } else {
-      _handleFreeUser(text);
+      return _handleFreeUser(text);
     }
   }
 
-  static Future<void> _handleProUser(String text) async {
+  static void _handleProUser(String text) {
     generateImage(text);
   }
 

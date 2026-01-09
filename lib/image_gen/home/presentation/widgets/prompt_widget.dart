@@ -140,6 +140,6 @@ class PromptInputWidget extends StatelessWidget {
 
   Future<void> _handleImageGeneration() async {
     String text = ImageGenController.find.promptController.text.trim();
-    await ImageGenerationHelper.handleImageGeneration(text);
+    ImageGenerationHelper.handleImageGeneration(text);
   }
 }
