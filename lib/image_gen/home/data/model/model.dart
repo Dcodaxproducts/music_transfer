@@ -8,6 +8,7 @@ class Model {
   final bool supportImage;
   final int creditsPerImage;
   final bool expensive;
+  final bool isDefault;
 
   Model({
     required this.id,
@@ -19,6 +20,7 @@ class Model {
     required this.supportImage,
     required this.creditsPerImage,
     required this.expensive,
+    this.isDefault = false,
   });
 
   factory Model.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class Model {
       supportImage: json['support_image'] ?? false,
       creditsPerImage: json['credits_per_image'] ?? 5,
       expensive: json['expensive'] ?? false,
+      isDefault: json['is_default'] ?? false,
     );
   }
 
@@ -46,6 +49,7 @@ class Model {
       'support_image': supportImage,
       'credits_per_image': creditsPerImage,
       'expensive': expensive,
+      'is_default': isDefault,
     };
   }
 }

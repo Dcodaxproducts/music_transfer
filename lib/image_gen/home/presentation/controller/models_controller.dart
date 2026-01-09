@@ -27,7 +27,7 @@ class ModelsController extends GetxController implements GetxService {
     if (cachedModels.isNotEmpty) {
       _models.addAll(cachedModels);
       update();
-      _getSelectedModel();
+      setDefaultModel();
       _getSelectedAspectRatio();
     }
 
@@ -37,23 +37,21 @@ class ModelsController extends GetxController implements GetxService {
       _models.clear();
       _models.addAll(fetchedModels);
       update();
-      _getSelectedModel();
+      setDefaultModel();
       _getSelectedAspectRatio();
       await modelsService.cacheModels(fetchedModels);
     }
   }
 
-  void _getSelectedModel() {
-    int? selectedId = modelsService.getSelectedModel();
-    if (selectedId != null) {
-      _selectedModel = _models.firstWhere((model) => model.id == selectedId, orElse: () => _models.first);
-    } else {
-      _selectedModel = _models.isNotEmpty
-          ? _models.firstWhere((model) => !model.isPro, orElse: () => _models.first)
-          : null;
-    }
-    update();
-  }
+  // void _getSelectedModel() {
+  //   int? selectedId = modelsService.getSelectedModel();
+  //   if (selectedId != null) {
+  //     _selectedModel = _models.firstWhere((model) => model.id == selectedId, orElse: _getDefaultModel);
+  //   } else {
+  //     _selectedModel = _models.isNotEmpty ? _getDefaultModel() : null;
+  //   }
+  //   update();
+  // }
 
   Future<bool> selectModel(Model model) async {
     _selectedModel = model;
@@ -61,17 +59,22 @@ class ModelsController extends GetxController implements GetxService {
     return await modelsService.saveSelectedModel(model.id);
   }
 
-  Future<bool> handleImageModelSelection() async {
+  Model _getDefaultModel() {
+    return _models.firstWhere((model) => model.isDefault, orElse: () => _models.first);
+  }
+
+  Future<void> setDefaultModel() async {
+    Model defaultModel = _getDefaultModel();
+    await selectModel(defaultModel);
+  }
+
+  Future<void> handleImageModelSelection() async {
     // if selected model does not support image, select one that does
     if (_selectedModel != null && !_selectedModel!.supportImage) {
       Model? imageModel = _models.firstWhereOrNull((model) => model.supportImage);
       if (imageModel != null) {
-        return await selectModel(imageModel);
-      } else {
-        return false;
+        await selectModel(imageModel);
       }
-    }else{
-      return true;
     }
   }
 
