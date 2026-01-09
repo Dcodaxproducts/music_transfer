@@ -1,8 +1,11 @@
+import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/image_generation_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
 import '../../../features/paywall/presentation/controller/subscription_controller.dart';
 import '../../../imports.dart';
 import '../data/model/image_generation.dart';
+import '../data/model/model.dart';
+import '../presentation/widgets/watch_ads_dialog.dart';
 
 class ImageGenerationHelper {
   // Handles the tap action for generating an image
@@ -17,11 +20,11 @@ class ImageGenerationHelper {
       showToast('please_remove_offensive_words'.tr);
       return;
     } else {
-      return handleImageGeneration(text);
+      return _handleUser(text);
     }
   }
 
-  static void handleImageGeneration(String text) {
+  static void _handleUser(String text) {
     // Check subscription status and model type
     if (SubscriptionController.find.isPro) {
       return _handleProUser(text);
@@ -31,24 +34,51 @@ class ImageGenerationHelper {
   }
 
   static void _handleProUser(String text) {
-    generateImage(text);
+    _handleCredits(text);
   }
 
   static void _handleFreeUser(String text) {
-    if (_isProModel()) {
+    if (ModelsController.find.selectedModel?.isPro ?? false) {
       SubscriptionController.find.showPaywallIfNeeded();
     } else {
-      generateImage(text);
+      _handleCredits(text);
     }
   }
 
-  static bool _isProModel() => ModelsController.find.selectedModel?.isPro ?? false;
+  static void _handleCredits(String text) {
+    Model? model = ModelsController.find.selectedModel;
+
+    if (model == null) {
+      showToast('No model available');
+      return;
+    }
+
+    if (AuthController.find.credits < model.creditsPerImage) {
+      // showToast('Not enough credits available');
+      WatchAdsDialog.show(
+        Get.context!,
+        onWatchAd: () => generateImage(text, model),
+        onUpgrade: SubscriptionController.find.showPaywallIfNeeded,
+      );
+      return;
+    }
+  }
 
   // Generates an image based on the provided text prompt
-  static Future<ImageGenerationResult?> generateImage(String text) async {
-    ImageGenerationResult? result = await ImageGenController.find.generateImages(text);
-    ImageGenController.find.promptController.clear();
-    ImageGenController.find.attachedImage = null;
+  static Future<ImageGenerationResult?> generateImage(String text, Model model) async {
+    ImageGenerationResult? result = await ImageGenController.find.generateImages(text, model);
+
+    if (result != null) {
+      // Clear prompt and attached image after generation
+      ImageGenController.find.promptController.clear();
+      ImageGenController.find.attachedImage = null;
+
+      // update credits
+      AuthController.find.updateCredits(result.meta.model.creditsPerImage);
+
+      // set default model after generation
+      ModelsController.find.setDefaultModel();
+    }
     return result;
   }
 }
