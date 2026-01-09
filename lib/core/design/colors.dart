@@ -45,8 +45,8 @@ const Color hintColorLight = Color(0xff606060);
 const Color hintColorDark = Color(0xFF909090);
 
 // Icon Colors
-const Color iconColorLight = Color(0XFFF3F3F3);
-const Color iconColorDark = Colors.black;
+const Color iconColorLight = Colors.black;
+const Color iconColorDark = Color(0XFFF3F3F3);
 
 // Gradients
 LinearGradient get primaryGradient => const LinearGradient(

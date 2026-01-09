@@ -16,6 +16,7 @@ class AppRadius {
   static ShapeBorder get circular8Shape => RoundedRectangleBorder(borderRadius: circular8);
   static ShapeBorder get circular12Shape => RoundedRectangleBorder(borderRadius: circular12);
   static ShapeBorder get circular16Shape => RoundedRectangleBorder(borderRadius: circular16);
+  static ShapeBorder get circular32Shape => RoundedRectangleBorder(borderRadius: circular32);
 
   // Specific corners
   static BorderRadius topLeft(double radius) => BorderRadius.only(topLeft: Radius.circular(radius.r));
