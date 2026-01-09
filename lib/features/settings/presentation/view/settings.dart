@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
 import '../../../auth/presentation/view/login_screen.dart';
 import '../../../language/presentation/view/language.dart';
+import '../widgets/credits_widget.dart';
 import '../widgets/menu_item.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -66,46 +67,7 @@ class _SettingScreenState extends State<SettingScreen> {
       children: [
         PrimaryButton(onPressed: () => launchScreen(LoginScreen()), text: 'Login '),
         SizedBox(height: 16.sp),
-        Container(
-          padding: AppPadding.padding12,
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.circular16,
-            border: Border.all(color: context.theme.dividerColor),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Generation credits left',
-                      style: context.font12.copyWith(color: context.theme.hintColor),
-                    ),
-                    SizedBox(height: 8.sp),
-                    Text('100', style: context.font16.copyWith(fontWeight: FontWeight.w600)),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 8.sp),
-                decoration: BoxDecoration(
-                  color: primaryLight.withOpacity(0.15),
-                  borderRadius: AppRadius.circular12,
-                ),
-                child: Row(
-                  children: [
-                    Image.asset(Images.sparkle, width: 14.sp, height: 14.sp, color: primaryLight),
-                    SizedBox(width: 4.sp),
-                    Text('Get credits', style: context.font10.copyWith(color: primaryLight)),
-                    SizedBox(width: 4.sp),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+        CreditsWidget(),
         SizedBox(height: 16.sp),
         DecoratedBox(
           decoration: BoxDecoration(color: context.theme.cardColor, borderRadius: AppRadius.circular16),
