@@ -1,3 +1,4 @@
+import 'package:pixart_app/core/widgets/primary_image_grid.dart';
 import 'package:pixart_app/core/widgets/shimmer.dart';
 import 'package:pixart_app/features/tools/data/model/tools.dart';
 import '../../../../imports.dart';
@@ -25,17 +26,11 @@ class _ToolScreenState extends State<ToolScreen> {
         if (controller.isLoading) {
           return const ToolsShimmer();
         }
-        return GridView.builder(
-          padding: AppPadding.screenPadding,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 16.sp,
-            crossAxisSpacing: 16.sp,
-            childAspectRatio: 0.7,
-          ),
+        return PrimaryImageGrid(
+          childAspectRatio: 0.75,
           itemCount: controller.tools.length,
           itemBuilder: (context, index) {
-            final ToolsNew tool = controller.tools[index];
+            final Tools tool = controller.tools[index];
             return ToolCard(tool: tool);
           },
         );
@@ -50,12 +45,12 @@ class ToolsShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: AppPadding.screenPadding,
+      padding: AppPadding.padding12,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 16.sp,
-        crossAxisSpacing: 16.sp,
-        childAspectRatio: 0.7,
+        crossAxisCount: context.width > 600 ? 4 : 2,
+        mainAxisSpacing: 8.sp,
+        crossAxisSpacing: 8.sp,
+        childAspectRatio: 0.75,
       ),
       itemCount: 6,
       itemBuilder: (context, index) {

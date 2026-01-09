@@ -15,11 +15,11 @@ class ToolsServiceImpl implements ToolsService {
   ToolsServiceImpl({required this.toolsRepo});
 
   @override
-  Future<List<ToolsNew>> getTools() async {
+  Future<List<Tools>> getTools() async {
     final Response? response = await toolsRepo.getTools();
     if (response != null && response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body)["data"];
-      return data.map((json) => ToolsNew.fromJson(json)).toList();
+      return data.map((json) => Tools.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load tools');
     }
@@ -33,7 +33,7 @@ class ToolsServiceImpl implements ToolsService {
   }
 
   @override
-  Future<ToolResult?> processResponse(ToolsNew tool, Response? response) async {
+  Future<ToolResult?> processResponse(Tools tool, Response? response) async {
     if (response == null) return null;
 
     // Decode the response

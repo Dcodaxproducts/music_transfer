@@ -1,4 +1,4 @@
-class ToolsNew {
+class Tools {
   final int id;
   final String name;
   final String description;
@@ -8,7 +8,7 @@ class ToolsNew {
   final String category;
   final bool premium;
 
-  ToolsNew({
+  Tools({
     required this.id,
     required this.name,
     required this.description,
@@ -19,8 +19,8 @@ class ToolsNew {
     this.premium = false,
   });
 
-  factory ToolsNew.fromJson(Map<String, dynamic> json) {
-    return ToolsNew(
+  factory Tools.fromJson(Map<String, dynamic> json) {
+    return Tools(
       id: json['id'],
       name: json['name'],
       description: json['description'],

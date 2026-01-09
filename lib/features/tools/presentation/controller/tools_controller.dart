@@ -22,9 +22,9 @@ class ToolsController extends GetxController implements GetxService {
     update();
   }
 
-  List<ToolsNew> _tools = [];
-  List<ToolsNew> get tools => _tools;
-  set tools(List<ToolsNew> value) {
+  List<Tools> _tools = [];
+  List<Tools> get tools => _tools;
+  set tools(List<Tools> value) {
     _tools = value;
     update();
   }
@@ -48,7 +48,7 @@ class ToolsController extends GetxController implements GetxService {
     }
   }
 
-  Future<ToolResult?> generateImage(ToolsNew tool, XFile image) async {
+  Future<ToolResult?> generateImage(Tools tool, XFile image) async {
     try {
       generatingImage = true;
       final Response? response = await service.generateImage(tool.endPoint, image);

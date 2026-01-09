@@ -6,7 +6,7 @@ import '../../../../features/tools/data/model/tools.dart';
 import 'image_result_screen.dart';
 
 class ToolDetailScreen extends StatefulWidget {
-  final ToolsNew tool;
+  final Tools tool;
   const ToolDetailScreen({super.key, required this.tool});
 
   @override

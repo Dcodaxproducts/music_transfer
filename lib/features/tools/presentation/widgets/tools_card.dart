@@ -4,7 +4,7 @@ import '../../../../imports.dart';
 import '../view/tools_detail_screen.dart';
 
 class ToolCard extends StatelessWidget {
-  final ToolsNew tool;
+  final Tools tool;
   const ToolCard({super.key, required this.tool});
 
   @override
