@@ -151,3 +151,4 @@ class _RightClipper extends CustomClipper<Rect> {
   @override
   bool shouldReclip(_) => true;
 }
+

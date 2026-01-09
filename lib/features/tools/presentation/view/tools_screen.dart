@@ -7,7 +7,6 @@ import '../widgets/tools_card.dart';
 
 class ToolScreen extends StatefulWidget {
   const ToolScreen({super.key});
-
   @override
   State<ToolScreen> createState() => _ToolScreenState();
 }
