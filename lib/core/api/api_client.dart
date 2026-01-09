@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'api_client_impl.dart';
 
@@ -26,13 +25,7 @@ abstract class ApiClient {
     bool hideLoading = true,
   });
 
-  Future<Response?> delete(
-    String url, {
-    Map<String, String>? headers,
-    bool hideLoading = true,
-  });
-
-  Future<Uint8List?> downloadImage(String uri);
+  Future<Response?> delete(String url, {Map<String, String>? headers, bool hideLoading = true});
 
   Future<Response?> postMultipart(
     String uri,

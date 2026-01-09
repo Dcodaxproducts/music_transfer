@@ -1,17 +1,14 @@
 import 'dart:convert';
-import 'dart:typed_data';
-import 'package:http/http.dart' as http;
 import '../../imports.dart';
 import '../model/dev.dart';
 import 'error.dart';
-import 'api_client.dart';
 
 class ApiClientImpl extends GetxService implements ApiClient {
   final String baseUrl;
   final int timeoutInSeconds = 20;
 
   ApiClientImpl({required this.baseUrl});
-  http.Client? _client;
+  Client? _client;
   final Map<String, String> _mainHeaders = {"Content-Type": "application/json", 'Accept': 'application/json'};
 
   @override
@@ -21,7 +18,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
     debugPrint('====> API request canceled');
   }
 
-  Future<http.Response?> _request(
+  Future<Response?> _request(
     String method,
     String uri, {
     Map<String, dynamic>? body,
@@ -33,8 +30,8 @@ class ApiClientImpl extends GetxService implements ApiClient {
     Uri url = Uri.parse('$baseUrl$uri').replace(queryParameters: queryParams);
     try {
       _printData(url.toString(), body: body);
-      _client = http.Client();
-      http.Response response;
+      _client = Client();
+      Response response;
 
       final requestHeaders = {..._mainHeaders, if (headers != null) ...headers};
       switch (method) {
@@ -51,7 +48,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
           response = await _client!.delete(url, headers: requestHeaders);
           break;
         case 'MULTIPART':
-          MultipartRequest request = http.MultipartRequest('POST', url);
+          MultipartRequest request = MultipartRequest('POST', url);
           request.headers.addAll(requestHeaders);
 
           // Adding fields and files to the request
@@ -75,7 +72,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
             }
           }
           // Sending the request
-          response = await http.Response.fromStream(await request.send());
+          response = await Response.fromStream(await request.send());
         default:
           throw UnsupportedError("HTTP method not supported");
       }
@@ -89,7 +86,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
   }
 
   @override
-  Future<http.Response?> get(
+  Future<Response?> get(
     String uri, {
     Map<String, String>? headers,
     Map<String, String>? queryParams,
@@ -97,7 +94,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
   }) => _request('GET', uri, headers: headers, queryParams: queryParams, hideLoading: hideLoading);
 
   @override
-  Future<http.Response?> post(
+  Future<Response?> post(
     String uri,
     Map<String, dynamic> body, {
     Map<String, String>? headers,
@@ -105,7 +102,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
   }) => _request('POST', uri, body: body, headers: headers, hideLoading: hideLoading);
 
   @override
-  Future<http.Response?> put(
+  Future<Response?> put(
     String uri,
     Map<String, dynamic> body, {
     Map<String, String>? headers,
@@ -113,32 +110,16 @@ class ApiClientImpl extends GetxService implements ApiClient {
   }) => _request('PUT', uri, body: body, headers: headers, hideLoading: hideLoading);
 
   @override
-  Future<http.Response?> delete(String uri, {Map<String, String>? headers, bool hideLoading = true}) =>
+  Future<Response?> delete(String uri, {Map<String, String>? headers, bool hideLoading = true}) =>
       _request('DELETE', uri, headers: headers, hideLoading: hideLoading);
 
   @override
-  Future<http.Response?> postMultipart(
+  Future<Response?> postMultipart(
     String uri,
     Map<String, dynamic> body,
     List<MultipartBody>? muliparts, {
     bool hideLoading = true,
   }) => _request('MULTIPART', uri, body: body, muliparts: muliparts, hideLoading: hideLoading);
-
-  @override
-  Future<Uint8List?> downloadImage(String uri) async {
-    try {
-      _printData(uri);
-      final response = await http
-          .get(Uri.parse(uri), headers: _mainHeaders)
-          .timeout(Duration(seconds: timeoutInSeconds));
-      return response.statusCode == 200
-          ? Uint8List.fromList(response.bodyBytes)
-          : _handleError(jsonDecode(response.body));
-    } catch (e) {
-      _socketException(e);
-      return null;
-    }
-  }
 
   void _printData(String url, {Map<String, dynamic>? body}) {
     if (Environment.isProd) return;
@@ -146,7 +127,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
     if (body != null) debugPrint('====> Body: $body');
   }
 
-  Future<http.Response?> _handleResponse(http.Response response, {bool hideLoading = true}) async {
+  Future<Response?> _handleResponse(Response response, {bool hideLoading = true}) async {
     if (hideLoading) dismiss();
     return response.statusCode == 200 || response.statusCode == 201
         ? response
