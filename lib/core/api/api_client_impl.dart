@@ -6,8 +6,8 @@ import 'error.dart';
 class ApiClientImpl extends GetxService implements ApiClient {
   final String baseUrl;
   final int timeoutInSeconds = 20;
-
   ApiClientImpl({required this.baseUrl});
+
   Client? _client;
   final Map<String, String> _mainHeaders = {"Content-Type": "application/json", 'Accept': 'application/json'};
 
@@ -15,7 +15,6 @@ class ApiClientImpl extends GetxService implements ApiClient {
   Future<void> cancelRequest() async {
     _client?.close();
     _client = null;
-    debugPrint('====> API request canceled');
   }
 
   Future<Response?> _request(

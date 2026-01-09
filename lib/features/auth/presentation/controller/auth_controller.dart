@@ -29,6 +29,9 @@ class AuthController extends GetxController implements GetxService {
   Future<void> updateCredits(int value) async {
     // deduct credits used from available credits
     int updatedCredits = _credits - value;
+    if (updatedCredits.isNegative) {
+      updatedCredits = 0;
+    }
     bool success = await service.saveCredits(updatedCredits);
     if (success) {
       _credits = updatedCredits;

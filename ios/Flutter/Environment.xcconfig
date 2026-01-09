@@ -1,4 +1,4 @@
 APP_NAME = PixArt
 APP_VERSION = 3.0
-BUILD_NUMBER = 19
+BUILD_NUMBER = 20
 BUNDLE_ID = pixart.aiart.imagegenerator

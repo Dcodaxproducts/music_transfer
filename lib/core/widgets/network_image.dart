@@ -7,11 +7,7 @@ import 'package:shimmer/shimmer.dart';
 class PrimaryNetworkImage extends StatelessWidget {
   final String? url;
   final BoxFit fit;
-  const PrimaryNetworkImage({
-    super.key,
-    required this.url,
-    this.fit = BoxFit.cover,
-  });
+  const PrimaryNetworkImage({super.key, required this.url, this.fit = BoxFit.cover});
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +31,8 @@ class PrimaryNetworkImage extends StatelessWidget {
   Widget _buildShimmer(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: Theme.of(context).cardColor,
-      highlightColor: Theme.of(
-        context,
-      ).textTheme.bodyLarge!.color!.withOpacity(0.05),
-      child: Container(
-        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.3),
-      ),
+      highlightColor: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.05),
+      child: Container(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.3)),
     );
   }
 }
