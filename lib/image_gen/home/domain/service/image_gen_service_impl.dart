@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/image_gen/history/presentation/controller/history_controller.dart';
-import 'package:pixart_app/image_gen/home/presentation/controller/generation_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:pixart_app/features/splash/presentation/controller/splash_controller.dart';
 import 'package:pixart_app/image_gen/home/data/repository/image_gen_repo.dart';
@@ -10,7 +10,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/api/api_client_impl.dart';
 import '../../../../core/widgets/confirmation_dialog.dart';
 import '../../../../features/ads/data/utils/firebase_events.dart';
-import '../../data/model/aspect_ratio.dart';
+import '../../data/model/size_preset.dart';
 import '../../data/model/image_generation.dart';
 import '../../data/model/model.dart';
 import '../../utils/image_generation_utils.dart';
@@ -21,10 +21,9 @@ class ImageGenerationServiceImpl implements ImageGenService {
   ImageGenerationServiceImpl({required this.repo});
 
   @override
-  Future<http.Response?> generateImages(String prompt, Model model, { List<XFile>? images}) async {
-
+  Future<http.Response?> generateImages(String prompt, Model model, {List<XFile>? images}) async {
     // get aspect ratio
-    AspectRatioModel size = ImageGenerationUtils.getAspectRatio();
+    SizePreset size = ModelsController.find.selectedSize;
 
     // generate seed
     int seedValue = ImageGenerationUtils.generateSeed();
@@ -64,8 +63,6 @@ class ImageGenerationServiceImpl implements ImageGenService {
         showErrorDialog();
         return null;
       }
-
-      GenerationController.find.incrementGenerationCount();
 
       ImageGenerationResult value = ImageGenerationResult.fromJson(data);
 

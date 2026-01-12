@@ -1,4 +1,3 @@
-import 'package:pixart_app/image_gen/home/presentation/controller/generation_controller.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
 import '../controller/review_controller.dart';
@@ -8,9 +7,7 @@ Future showRateUsDialog() {
 }
 
 Future showConditionalRateUsDialog() {
-  if (!ReviewController.find.isReviewed &&
-      ReviewController.find.canShowDialog() &&
-      GenerationController.find.dailyGenerationCount >= 3) {
+  if (!ReviewController.find.isReviewed && ReviewController.find.canShowDialog()) {
     return Get.dialog(const RateUsSheet());
   } else {
     return Future.value();
@@ -42,10 +39,7 @@ class _RateUsSheetState extends State<RateUsSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '${'do_you_like'.tr} ${AppConstants.appName}?'.tr,
-              style: context.font20,
-            ),
+            Text('${'do_you_like'.tr} ${AppConstants.appName}?'.tr, style: context.font20),
             SizedBox(height: 8.sp),
             Text(
               'your_feedback_will_help_us_improve_our_service_for_you'.tr,
@@ -66,9 +60,7 @@ class _RateUsSheetState extends State<RateUsSheet> {
                     child: Icon(
                       Iconsax.star1,
                       size: 40.sp,
-                      color: i <= _rating
-                          ? Colors.orange
-                          : context.theme.disabledColor,
+                      color: i <= _rating ? Colors.orange : context.theme.disabledColor,
                     ),
                   ),
               ],
@@ -80,14 +72,10 @@ class _RateUsSheetState extends State<RateUsSheet> {
                   controller: _review,
                   decoration: InputDecoration(
                     hintText: 'add_a_comment'.tr,
-                    border: OutlineInputBorder(
-                      borderRadius: AppRadius.circular16,
-                    ),
+                    border: OutlineInputBorder(borderRadius: AppRadius.circular16),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: AppRadius.circular16,
-                      borderSide: BorderSide(
-                        color: Theme.of(context).dividerColor,
-                      ),
+                      borderSide: BorderSide(color: Theme.of(context).dividerColor),
                     ),
                   ),
                   maxLines: 3,
@@ -98,10 +86,7 @@ class _RateUsSheetState extends State<RateUsSheet> {
               padding: EdgeInsets.only(top: 32.sp),
               child: SizedBox(
                 width: double.infinity,
-                child: PrimaryButton(
-                  text: 'submit'.tr,
-                  onPressed: _submitReview,
-                ),
+                child: PrimaryButton(text: 'submit'.tr, onPressed: _submitReview),
               ),
             ),
           ],
@@ -112,18 +97,13 @@ class _RateUsSheetState extends State<RateUsSheet> {
 
   void _submitReview() {
     if (_rating > 3) {
-      launchUrlString(
-        AppConstants.appLink,
-        mode: LaunchMode.externalApplication,
-      );
+      launchUrlString(AppConstants.appLink, mode: LaunchMode.externalApplication);
       ReviewController.find.setReviewed();
       Get.back();
       return;
     }
     if (_review.text.isNotEmpty) {
-      ReviewController.find.saveReview(_rating, _review.text.trim()).then((
-        value,
-      ) {
+      ReviewController.find.saveReview(_rating, _review.text.trim()).then((value) {
         ReviewController.find.setReviewed();
         Get.back();
       });

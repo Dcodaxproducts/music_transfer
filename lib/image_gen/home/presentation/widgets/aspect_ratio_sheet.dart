@@ -1,7 +1,7 @@
 import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
 import '../../../../core/widgets/primary_bottom_sheet.dart';
 import '../../../../imports.dart';
-import '../../data/model/aspect_ratio.dart';
+import '../../data/model/size_preset.dart';
 
 class AspectRatioSheet extends StatelessWidget {
   const AspectRatioSheet({super.key});
@@ -13,8 +13,11 @@ class AspectRatioSheet extends StatelessWidget {
       child: Expanded(
         child: GetBuilder<ModelsController>(
           builder: (con) {
+            if (con.selectedModel == null) {
+              return SizedBox.shrink();
+            }
             return GridView.builder(
-              itemCount: aspectRatios.length,
+              itemCount: con.selectedModel!.sizes.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 8.sp,
@@ -22,11 +25,11 @@ class AspectRatioSheet extends StatelessWidget {
                 childAspectRatio: 1,
               ),
               itemBuilder: (context, index) {
-                final ratio = aspectRatios[index];
-                bool selected = con.selectedAspectRatio.id == ratio.id;
+                final SizePreset ratio = con.selectedModel!.sizes[index];
+                bool selected = con.selectedSize.id == ratio.id;
                 return InkWell(
                   onTap: () {
-                    con.selectAspectRatio(ratio);
+                    con.selectedSize = ratio;
                     Get.back();
                   },
                   child: AnimatedContainer(
@@ -65,7 +68,7 @@ class AspectRatioSheet extends StatelessWidget {
 }
 
 class AspectRatioBox extends StatelessWidget {
-  final AspectRatioModel ratio;
+  final SizePreset ratio;
   const AspectRatioBox({super.key, required this.ratio});
 
   @override

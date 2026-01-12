@@ -13,7 +13,6 @@ import 'package:flutter/services.dart';
 import '../../features/auth/domain/binding/auth_binding.dart';
 import '../../features/paywall/domain/binding/subscription_binding.dart';
 import '../../imports.dart';
-import '../../image_gen/home/domain/binding/generation_binding.dart';
 import '../../image_gen/home/domain/binding/models_binding.dart';
 import '../../features/theme/domain/binding/theme_binding.dart';
 
@@ -31,7 +30,6 @@ Future<Map<String, Map<String, String>>> init() async {
     AdsBinding(),
     ModelsBinding(),
     ImageGenerationBindings(),
-    GenerationBinding(),
     HistoryBinding(),
     SplashBinding(),
     ModelsBinding(),

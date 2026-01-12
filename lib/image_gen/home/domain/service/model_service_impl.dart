@@ -45,12 +45,4 @@ class ModelsServiceImpl implements ModelsService {
 
   @override
   int? getSelectedModel() => modelsRepo.getSelectedModel();
-
-  @override
-  Future<bool> saveSelectedAspectRatio(int aspectRatio) async {
-    return await modelsRepo.saveSelectedAspectRatio(aspectRatio);
-  }
-
-  @override
-  int? getSelectedAspectRatio() => modelsRepo.getSelectedAspectRatio();
 }

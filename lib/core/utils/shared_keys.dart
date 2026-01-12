@@ -9,7 +9,6 @@ class SharedKeys {
 
   static const String negativePrompt = 'negative_prompt';
   static const String guidanceScale = 'guidance_scale';
-  static const String aspectRatio = 'aspect_ratio_id_1';
   static const String selectedModel = 'selected_model_1';
   static const String cachedModels = 'cached_models_1';
   static const String favoriteModels = 'favorite_models';

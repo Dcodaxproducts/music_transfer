@@ -1,3 +1,5 @@
+import 'package:pixart_app/image_gen/home/data/model/size_preset.dart';
+
 class Model {
   final int id;
   final String modelId;
@@ -9,6 +11,7 @@ class Model {
   final int creditsPerImage;
   final bool expensive;
   final bool isDefault;
+  final List<SizePreset> sizes;
 
   Model({
     required this.id,
@@ -21,6 +24,7 @@ class Model {
     required this.creditsPerImage,
     required this.expensive,
     this.isDefault = false,
+    this.sizes = const [],
   });
 
   factory Model.fromJson(Map<String, dynamic> json) {
@@ -35,6 +39,9 @@ class Model {
       creditsPerImage: json['credits_per_image'] ?? 5,
       expensive: json['expensive'] ?? false,
       isDefault: json['is_default'] ?? false,
+      sizes: json['sizes'] != null
+          ? List<SizePreset>.from(json['sizes'].map((x) => SizePreset.fromJson(x)))
+          : [],
     );
   }
 
@@ -50,6 +57,7 @@ class Model {
       'credits_per_image': creditsPerImage,
       'expensive': expensive,
       'is_default': isDefault,
+      'sizes': sizes.map((x) => x.toJson()).toList(),
     };
   }
 }

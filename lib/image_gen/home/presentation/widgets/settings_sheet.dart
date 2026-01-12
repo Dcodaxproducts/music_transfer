@@ -2,7 +2,7 @@ import 'package:pixart_app/image_gen/home/data/model/model.dart';
 
 import '../../../../core/widgets/primary_bottom_sheet.dart';
 import '../../../../imports.dart';
-import '../../data/model/aspect_ratio.dart';
+import '../../data/model/size_preset.dart';
 import '../controller/models_controller.dart';
 import 'aspect_ratio_sheet.dart';
 import 'models_sheet.dart';
@@ -15,7 +15,7 @@ class SettingsSheet extends StatelessWidget {
     return GetBuilder<ModelsController>(
       builder: (controller) {
         Model? selectedModel = controller.selectedModel;
-        AspectRatioModel selectedAspectRatio = controller.selectedAspectRatio;
+        SizePreset selectedAspectRatio = controller.selectedSize;
         return PrimaryBottomSheet(
           title: 'Settings',
           child: Column(

@@ -9,7 +9,4 @@ abstract class ModelsService {
 
   Future<bool> saveSelectedModel(int modelId);
   int? getSelectedModel();
-
-  Future<bool> saveSelectedAspectRatio(int aspectRatio);
-  int? getSelectedAspectRatio();
 }

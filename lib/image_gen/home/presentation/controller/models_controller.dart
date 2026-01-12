@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:pixart_app/image_gen/home/data/model/aspect_ratio.dart';
+import 'package:pixart_app/image_gen/home/data/model/size_preset.dart';
 import 'package:pixart_app/image_gen/home/data/model/model.dart';
 import 'package:get/get.dart';
 import '../../domain/service/model_service.dart';
@@ -16,8 +16,12 @@ class ModelsController extends GetxController implements GetxService {
   Model? _selectedModel;
   Model? get selectedModel => _selectedModel;
 
-  AspectRatioModel _selectedAspectRatio = aspectRatios.first;
-  AspectRatioModel get selectedAspectRatio => _selectedAspectRatio;
+  SizePreset _selectedSize = SizePreset.defaultPreset();
+  SizePreset get selectedSize => _selectedSize;
+  set selectedSize(SizePreset size) {
+    _selectedSize = size;
+    update();
+  }
 
   Future<void> getModels() async {
     _models.clear();
@@ -27,8 +31,7 @@ class ModelsController extends GetxController implements GetxService {
     if (cachedModels.isNotEmpty) {
       _models.addAll(cachedModels);
       update();
-      setDefaultModel();
-      _getSelectedAspectRatio();
+      _setDefaultModel();
     }
 
     // fetch from API
@@ -37,34 +40,20 @@ class ModelsController extends GetxController implements GetxService {
       _models.clear();
       _models.addAll(fetchedModels);
       update();
-      setDefaultModel();
-      _getSelectedAspectRatio();
+      _setDefaultModel();
       await modelsService.cacheModels(fetchedModels);
     }
   }
 
-  // void _getSelectedModel() {
-  //   int? selectedId = modelsService.getSelectedModel();
-  //   if (selectedId != null) {
-  //     _selectedModel = _models.firstWhere((model) => model.id == selectedId, orElse: _getDefaultModel);
-  //   } else {
-  //     _selectedModel = _models.isNotEmpty ? _getDefaultModel() : null;
-  //   }
-  //   update();
-  // }
-
   Future<bool> selectModel(Model model) async {
     _selectedModel = model;
+    _selectedSize = model.sizes.first;
     update();
     return await modelsService.saveSelectedModel(model.id);
   }
 
-  Model _getDefaultModel() {
-    return _models.firstWhere((model) => model.isDefault, orElse: () => _models.first);
-  }
-
-  Future<void> setDefaultModel() async {
-    Model defaultModel = _getDefaultModel();
+  Future<void> _setDefaultModel() async {
+    Model defaultModel = _models.firstWhere((model) => model.isDefault, orElse: () => _models.first);
     await selectModel(defaultModel);
   }
 
@@ -76,26 +65,5 @@ class ModelsController extends GetxController implements GetxService {
         await selectModel(imageModel);
       }
     }
-  }
-
-  /*   Aspect Ratio Methods  */
-
-  void _getSelectedAspectRatio() {
-    int? selectedId = modelsService.getSelectedAspectRatio();
-    if (selectedId != null) {
-      _selectedAspectRatio = aspectRatios.firstWhere(
-        (model) => model.id == selectedId,
-        orElse: () => aspectRatios.first,
-      );
-    } else {
-      _selectedAspectRatio = aspectRatios.first;
-    }
-    update();
-  }
-
-  Future<void> selectAspectRatio(AspectRatioModel aspectRatio) async {
-    _selectedAspectRatio = aspectRatio;
-    update();
-    await modelsService.saveSelectedAspectRatio(aspectRatio.id);
   }
 }

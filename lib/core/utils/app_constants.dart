@@ -7,39 +7,22 @@ class AppConstants {
   static const String appName = 'PixArt';
   static const String bundleId = 'pixart.aiart.generator';
 
-  /* AWS Credientials */
-  static const String AWS_ENDPOINT = 's3.amazonaws.com';
-  static const String AWS_ACCESS_KEY = 'AKIA4MI2J3YJLGPHFR7L';
-  static const String AWS_SECRET_KEY =
-      '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';
-  static const String AWS_REGION = 'eu-west-2';
-  static const String AWS_BUCKET_NAME = 'matrixart';
-
-  //
-  static const int proUserDailyLimit = 100;
-
   /* App Share link */
   static String appLink = Platform.isAndroid ? androidAppUrl : iOSAppUrl;
-  static const String androidAppUrl =
-      "https://play.google.com/store/apps/details?id=$bundleId";
-  static const String iOSAppUrl =
-      "https://apps.apple.com/app/pixart-the-ai-art-generator/id6737462382";
+  static const String androidAppUrl = "https://play.google.com/store/apps/details?id=$bundleId";
+  static const String iOSAppUrl = "https://apps.apple.com/app/pixart-the-ai-art-generator/id6737462382";
 
   /* manage subscription link */
   static String manageSubscriptionsUrl = Platform.isAndroid
       ? manageSubscriptionsUrlAndroid
       : manageSubscriptionsUrlIos;
 
-  static const String manageSubscriptionsUrlAndroid =
-      'https://play.google.com/store/account/subscriptions';
-  static const String manageSubscriptionsUrlIos =
-      'https://apps.apple.com/account/subscriptions';
+  static const String manageSubscriptionsUrlAndroid = 'https://play.google.com/store/account/subscriptions';
+  static const String manageSubscriptionsUrlIos = 'https://apps.apple.com/account/subscriptions';
 
   /* Privacy and terms Url's */
-  static const String privacyPolicy =
-      'https://pixartai.dcodax.net/privacy-policy';
-  static const String termsAndConditions =
-      'https://pixartai.dcodax.net/terms-condition';
+  static const String privacyPolicy = 'https://pixartai.dcodax.net/privacy-policy';
+  static const String termsAndConditions = 'https://pixartai.dcodax.net/terms-condition';
 
   static const List<String> adultWords = [
     'sex',

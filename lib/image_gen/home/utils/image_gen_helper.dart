@@ -75,9 +75,6 @@ class ImageGenerationHelper {
 
       // update credits
       AuthController.find.updateCredits(result.meta.model.creditsPerImage);
-
-      // set default model after generation
-      ModelsController.find.setDefaultModel();
     }
     return result;
   }

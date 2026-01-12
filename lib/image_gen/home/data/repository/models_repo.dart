@@ -6,6 +6,4 @@ abstract class ModelsRepo {
   String? getCachedModels();
   Future<bool> saveSelectedModel(int modelId);
   int? getSelectedModel();
-  Future<bool> saveSelectedAspectRatio(int aspectRatio);
-  int? getSelectedAspectRatio();
 }

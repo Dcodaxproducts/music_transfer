@@ -10,7 +10,6 @@ import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/features/dashboard/presentation/view/dashboard.dart';
 import 'package:pixart_app/features/welcome/presentation/view/welcome.dart';
 import 'ads/presentation/controller/ads_controller.dart';
-import '../image_gen/home/presentation/controller/generation_controller.dart';
 import '../image_gen/history/presentation/controller/history_controller.dart';
 import '../image_gen/inspirations/presentation/controller/inspiration_controller.dart';
 import '../image_gen/home/presentation/controller/models_controller.dart';
@@ -98,7 +97,6 @@ class _RootState extends State<Root> with WidgetsBindingObserver {
 
   Future<void> _getDataFromApi() async {
     await Future.wait([
-      GenerationController.find.initialize(),
       AdsController.find.initialize(),
       ModelsController.find.getModels(),
       InspirationController.find.getInspirations(),

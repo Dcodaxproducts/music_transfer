@@ -30,15 +30,4 @@ class ModelsRepoImpl implements ModelsRepo {
   int? getSelectedModel() {
     return prefs.getInt(SharedKeys.selectedModel);
   }
-
-  // aspect ratio methods
-  @override
-  Future<bool> saveSelectedAspectRatio(int aspectRatio) async {
-    return await prefs.setInt(SharedKeys.aspectRatio, aspectRatio);
-  }
-
-  @override
-  int? getSelectedAspectRatio() {
-    return prefs.getInt(SharedKeys.aspectRatio);
-  }
 }
