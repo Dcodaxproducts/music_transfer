@@ -34,6 +34,7 @@ class ImageGenerationServiceImpl implements ImageGenService {
       "model_id": model.id,
       "width": size.width,
       "height": size.height,
+      "aspect_ratio": size.aspectRatio,
       "seed": seedValue,
     };
 
