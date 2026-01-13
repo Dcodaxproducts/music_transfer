@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pixart_app/features/tools/data/model/tools.dart';
 import 'package:pixart_app/features/tools/data/repository/tools_repo.dart';
+import 'package:pixart_app/image_gen/home/data/model/size_preset.dart';
 import '../../../../core/api/api_client_impl.dart';
 import '../../../../core/widgets/confirmation_dialog.dart';
 import '../../../../imports.dart';
@@ -15,25 +16,39 @@ class ToolsServiceImpl implements ToolsService {
   ToolsServiceImpl({required this.toolsRepo});
 
   @override
-  Future<List<Tools>> getTools() async {
+  Future<List<Tool>> getTools() async {
     final Response? response = await toolsRepo.getTools();
     if (response != null && response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body)["data"];
-      return data.map((json) => Tools.fromJson(json)).toList();
+      return data.map((json) => Tool.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load tools');
     }
   }
 
   @override
-  Future<Response?> generateImage(String endpoint, XFile image) async {
+  Future<Response?> generateImage(Tool tool, XFile image, {SizePreset? size}) async {
     final Map<String, dynamic> body = {"token": Endpoints.token};
     MultipartBody multipartBody = MultipartBody('image', image);
-    return await toolsRepo.generateImage(endpoint: endpoint, body: body, multipartBody: multipartBody);
+
+    // add model id if any
+    if (tool.model != null) {
+      body['tool_id'] = tool.id;
+    }
+
+    // add size if any
+    if (size != null) {
+      body['width'] = size.width;
+      body['height'] = size.height;
+      body['aspect_ratio'] = size.aspectRatio;
+    }
+
+    // send request to api
+    return await toolsRepo.generateImage(endpoint: tool.endPoint, body: body, multipartBody: multipartBody);
   }
 
   @override
-  Future<ToolResult?> processResponse(Tools tool, Response? response) async {
+  Future<ToolResult?> processResponse(Tool tool, Response? response) async {
     if (response == null) return null;
 
     // Decode the response

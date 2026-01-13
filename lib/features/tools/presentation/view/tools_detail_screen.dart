@@ -1,23 +1,20 @@
 import 'package:pixart_app/features/tools/presentation/controller/tools_controller.dart';
 import 'package:pixart_app/features/tools/presentation/widgets/image_animation.dart';
 import 'package:pixart_app/imports.dart';
-import '../../../../core/widgets/image_picker.dart';
+import '../widgets/image_picker.dart';
 import '../../../../features/tools/data/model/tools.dart';
 import 'image_result_screen.dart';
 
-class ToolDetailScreen extends StatefulWidget {
-  final Tools tool;
-  const ToolDetailScreen({super.key, required this.tool});
+class ToolDetailScreen extends StatelessWidget {
+  final Tool tool;
+  ToolDetailScreen({super.key, required this.tool}) {
+    ToolsController.find.selectedTool = tool;
+  }
 
-  @override
-  State<ToolDetailScreen> createState() => _ToolDetailScreenState();
-}
-
-class _ToolDetailScreenState extends State<ToolDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: PrimaryBackButton(), title: Text(widget.tool.name.tr)),
+      appBar: AppBar(leading: PrimaryBackButton(), title: Text("Pixart Apps")),
       body: Stack(
         children: [
           Center(
@@ -26,10 +23,9 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
               child: SizedBox(
                 height: 500.sp,
                 width: double.infinity,
-                child: ImageAnimation(
-                  beforeImage: widget.tool.beforeImage,
-                  afterImage: widget.tool.afterImage,
-                ),
+                child: tool.prompt == null
+                    ? ImageAnimation(beforeImage: tool.beforeImage, afterImage: tool.afterImage)
+                    : PrimaryNetworkImage(url: tool.beforeImage, fit: BoxFit.cover),
               ),
             ),
           ),
@@ -42,16 +38,13 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(widget.tool.name.tr, style: context.font18.copyWith(fontWeight: FontWeight.w600)),
+                  Text(tool.name.tr, style: context.font18.copyWith(fontWeight: FontWeight.w600)),
                   SizedBox(height: 8.sp),
-                  Text(
-                    widget.tool.description.tr,
-                    style: context.font14.copyWith(color: context.theme.hintColor),
-                  ),
+                  Text(tool.description.tr, style: context.font14.copyWith(color: context.theme.hintColor)),
                   SizedBox(height: 24.sp),
                   PrimaryButton(
                     text: 'Try Now!',
-                    onPressed: () => pickImage(onImagePicked: _handleApiCall),
+                    onPressed: () => ToolImagePicker.show(onImagePicked: _handleApiCall),
                   ),
                 ],
               ),
@@ -64,7 +57,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
 
   Future<void> _handleApiCall(XFile image) async {
     ToolResult? response;
-    response = await ToolsController.find.generateImage(widget.tool, image);
+    response = await ToolsController.find.generateImage(tool, image);
     if (response != null) {
       Get.back();
       launchScreen(ToolResultScreen(response: response));

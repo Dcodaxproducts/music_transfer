@@ -1,4 +1,5 @@
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:pixart_app/features/auth/data/model/user_model.dart';
 import 'package:pixart_app/features/auth/domain/service/auth_service.dart';
 import 'package:pixart_app/imports.dart';
 
@@ -8,16 +9,19 @@ class AuthController extends GetxController implements GetxService {
 
   static AuthController get find => Get.find<AuthController>();
 
-  String? _userId;
-  String? get userId => _userId;
+  UserModel? _user;
+  UserModel? get user => _user;
+
+  String? _deviceId;
+  String? get deviceId => _deviceId;
 
   int _credits = 0;
   int get credits => _credits;
 
-  Future<void> getUserId() async {
+  Future<void> getDeviceId() async {
     final deviceInfo = DeviceInfoPlugin();
     Map<String, dynamic> deviceData = await service.getDeviceData(deviceInfo);
-    _userId = deviceData['uuid'] ?? 'unknown';
+    _deviceId = deviceData['uuid'] ?? 'unknown';
   }
 
   void loadCredits() {

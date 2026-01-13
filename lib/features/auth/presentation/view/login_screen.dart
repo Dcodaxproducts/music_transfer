@@ -1,4 +1,5 @@
 import 'package:flutter/gestures.dart';
+import 'package:pixart_app/features/auth/presentation/view/login_with_email.dart';
 import 'package:pixart_app/imports.dart';
 import '../../../../core/widgets/image_grid_scaffold.dart';
 
@@ -41,9 +42,7 @@ class LoginScreen extends StatelessWidget {
           SocialLoginButton(
             label: 'Continue with Email',
             icon: Iconsax.sms,
-            onTap: () {
-              // Handle Facebook login
-            },
+            onTap: () => launchScreen(EmailLoginScreen()),
           ),
 
           SizedBox(height: 12.sp),

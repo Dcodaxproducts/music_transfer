@@ -1,4 +1,5 @@
 import 'package:pixart_app/features/tools/domain/service/tools_service.dart';
+import 'package:pixart_app/image_gen/home/data/model/size_preset.dart';
 import 'package:pixart_app/imports.dart';
 import '../../data/model/tools.dart';
 
@@ -15,17 +16,43 @@ class ToolsController extends GetxController implements GetxService {
     update();
   }
 
+  List<Tool> _tools = [];
+  List<Tool> get tools => _tools;
+  set tools(List<Tool> value) {
+    _tools = value;
+    update();
+  }
+
+  Map<String, List<Tool>> get categorizedTools {
+    Map<String, List<Tool>> categorized = {};
+    for (var tool in _tools) {
+      if (!categorized.containsKey(tool.category)) {
+        categorized[tool.category] = [];
+      }
+      categorized[tool.category]!.add(tool);
+    }
+    return categorized;
+  }
+
+  Tool? _selectedTool;
+  Tool? get selectedTool => _selectedTool;
+  set selectedTool(Tool? value) {
+    _selectedTool = value;
+    _selectedSize = SizePreset.defaultPreset();
+    update();
+  }
+
+  SizePreset _selectedSize = SizePreset.defaultPreset();
+  SizePreset get selectedSize => _selectedSize;
+  set selectedSize(SizePreset value) {
+    _selectedSize = value;
+    update();
+  }
+
   bool _generatingImage = false;
   bool get generatingImage => _generatingImage;
   set generatingImage(bool value) {
     _generatingImage = value;
-    update();
-  }
-
-  List<Tools> _tools = [];
-  List<Tools> get tools => _tools;
-  set tools(List<Tools> value) {
-    _tools = value;
     update();
   }
 
@@ -48,10 +75,10 @@ class ToolsController extends GetxController implements GetxService {
     }
   }
 
-  Future<ToolResult?> generateImage(Tools tool, XFile image) async {
+  Future<ToolResult?> generateImage(Tool tool, XFile image) async {
     try {
       generatingImage = true;
-      final Response? response = await service.generateImage(tool.endPoint, image);
+      final Response? response = await service.generateImage(tool, image, size: selectedSize);
       return service.processResponse(tool, response);
     } catch (e) {
       showToast('Image generation failed: $e');
