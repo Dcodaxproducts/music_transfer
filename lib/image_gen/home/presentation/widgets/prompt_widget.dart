@@ -75,6 +75,7 @@ class PromptInputWidget extends StatelessWidget {
                   counterText: '',
                   focusedBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
+                  filled: false,
                 ),
                 style: context.font14,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),

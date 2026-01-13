@@ -24,9 +24,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   decoration: BoxDecoration(borderRadius: AppRadius.circular16),
                   child: CustomTextField(
                     hintText: 'search_langauge'.tr,
-                    suffixIcon: Iconsax.search_normal,
+                    prefixIcon: Iconsax.search_normal,
                     onChanged: con.searchLanguage,
-                    filled: false,
                   ),
                 ),
                 SizedBox(height: 16.sp),

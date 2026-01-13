@@ -54,6 +54,7 @@ class SubscriptionController extends GetxController implements GetxService {
   /// Refresh customer info and premium status
   Future<void> refreshCustomerInfo({CustomerInfo? info}) async {
     customerInfo = info ?? await revenueCatService.getCustomerInfo();
+    log(customerInfo?.toJson().toString() ?? 'No customer info');
   }
 
   Future<void> showPaywallIfNeeded({Offering? offering, Function()? onSuccess}) async {

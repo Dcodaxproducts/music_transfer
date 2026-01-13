@@ -10,7 +10,6 @@ class RevenueCatConstants {
 
   /// Environment settings
   static const bool useSandboxInDebug = true;
-  static const bool enableDebugLogsInDebug = true;
 
   /// Private constructor to prevent instantiation
   RevenueCatConstants._();

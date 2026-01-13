@@ -1,5 +1,3 @@
-// Primary and Secondary Colors
-
 import '../../imports.dart';
 
 // Primary and Secondary Colors
@@ -9,7 +7,9 @@ const Color secondaryColor = Color(0xFFD27579);
 const Color errorColor = Color(0xFFE75B5C);
 
 // Background Colors
-const Color backgroundColorDark = Colors.black;
+const Color backgroundColorDark =
+    //  Colors.black;
+    Color(0xFF0F0F0F);
 const Color backgroundColorLight = Color(0xFFFFFFFF);
 
 // Card Colors
@@ -46,7 +46,7 @@ const Color hintColorDark = Color(0xFF909090);
 
 // Icon Colors
 const Color iconColorLight = Colors.black;
-const Color iconColorDark = Color(0XFFF3F3F3);
+const Color iconColorDark = Color(0XFF757575);
 
 // Gradients
 LinearGradient get primaryGradient => const LinearGradient(

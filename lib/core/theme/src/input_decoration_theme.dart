@@ -2,8 +2,9 @@ import '../../../imports.dart';
 
 InputDecorationTheme get inputDecorationThemeLight => InputDecorationTheme(
   floatingLabelBehavior: FloatingLabelBehavior.never,
-  filled: false,
-  contentPadding: AppPadding.padding16,
+  filled: true,
+  fillColor: cardColorLight,
+  contentPadding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 18.sp),
   // borders
   disabledBorder: border(),
   focusedBorder: border(),
@@ -15,11 +16,11 @@ InputDecorationTheme get inputDecorationThemeLight => InputDecorationTheme(
   labelStyle: TextStyle(fontSize: 14.sp, color: hintColorLight),
 );
 
-InputDecorationTheme get inputDecorationThemeDark =>
-    inputDecorationThemeLight.copyWith(
-      hintStyle: TextStyle(fontSize: 14.sp, color: hintColorDark),
-      labelStyle: TextStyle(fontSize: 14.sp, color: hintColorDark),
-    );
+InputDecorationTheme get inputDecorationThemeDark => inputDecorationThemeLight.copyWith(
+  fillColor: cardColorDark,
+  hintStyle: TextStyle(fontSize: 14.sp, color: hintColorDark),
+  labelStyle: TextStyle(fontSize: 14.sp, color: hintColorDark),
+);
 
 InputBorder border({Color? color}) => OutlineInputBorder(
   borderSide: BorderSide(color: color ?? primaryColor, width: 1.sp),

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "968155825470",
+    "firebase_url": "https://pixart-7091b-default-rtdb.firebaseio.com",
     "project_id": "pixart-7091b",
     "storage_bucket": "pixart-7091b.firebasestorage.app"
   },
@@ -12,7 +13,28 @@
           "package_name": "pixart.aiart.generator"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "968155825470-p5ohi5vn8de69dm2ug2mkqbr59e5s4gf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pixart.aiart.generator",
+            "certificate_hash": "d88204432dfe1f87f59553e06c483ee1375f98fb"
+          }
+        },
+        {
+          "client_id": "968155825470-tgm6t1oah7bvisup6lo9ddeeigd1cvnm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pixart.aiart.generator",
+            "certificate_hash": "51541639a17b4527c057d748e4c398ca9e655459"
+          }
+        },
+        {
+          "client_id": "968155825470-3ust77haqbh89fh2fn9lai4n8u42oubq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDrUBuT-D3qqpatSdExfgylQRuA1vp-HXw"
@@ -20,7 +42,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968155825470-3ust77haqbh89fh2fn9lai4n8u42oubq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "968155825470-07cjve8l3663t1qdkei8429lvgre825o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "pixart.aiart.generator"
+              }
+            }
+          ]
         }
       }
     }

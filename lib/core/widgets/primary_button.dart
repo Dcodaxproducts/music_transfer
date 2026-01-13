@@ -24,7 +24,6 @@ class PrimaryButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
-        minimumSize: Size(100.sp, 50.sp),
         disabledBackgroundColor: backgroundColor,
       ),
       onPressed: onPressed,
@@ -65,11 +64,6 @@ class PrimaryOutlineButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color textColor = this.textColor ?? primaryColor;
     return OutlinedButton(
-      style: OutlinedButton.styleFrom(
-        minimumSize: Size(100.sp, 50.sp),
-        side: BorderSide(color: Theme.of(context).dividerColor),
-        shape: RoundedRectangleBorder(borderRadius: AppRadius.circular32),
-      ),
       onPressed: onPressed,
       child: Row(
         mainAxisSize: MainAxisSize.min,

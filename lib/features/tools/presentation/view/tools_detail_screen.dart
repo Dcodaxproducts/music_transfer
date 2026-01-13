@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+import 'package:pixart_app/core/theme/dark_theme.dart';
 import 'package:pixart_app/features/tools/presentation/controller/tools_controller.dart';
 import 'package:pixart_app/features/tools/presentation/widgets/image_animation.dart';
 import 'package:pixart_app/imports.dart';
@@ -13,44 +15,72 @@ class ToolDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(leading: PrimaryBackButton(), title: Text("Pixart Apps")),
-      body: Stack(
-        children: [
-          Center(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 100.sp),
-              child: SizedBox(
-                height: 500.sp,
-                width: double.infinity,
-                child: tool.prompt == null
-                    ? ImageAnimation(beforeImage: tool.beforeImage, afterImage: tool.afterImage)
-                    : PrimaryNetworkImage(url: tool.beforeImage, fit: BoxFit.cover),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: AppPadding.padding16,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(tool.name.tr, style: context.font18.copyWith(fontWeight: FontWeight.w600)),
-                  SizedBox(height: 8.sp),
-                  Text(tool.description.tr, style: context.font14.copyWith(color: context.theme.hintColor)),
-                  SizedBox(height: 24.sp),
-                  PrimaryButton(
-                    text: 'Try Now!',
-                    onPressed: () => ToolImagePicker.show(onImagePicked: _handleApiCall),
+    return Theme(
+      data: dark,
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          systemNavigationBarColor: backgroundColorDark,
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+        ),
+        child: Scaffold(
+          appBar: AppBar(leading: PrimaryBackButton(), title: Text("Pixart Apps")),
+          body: Stack(
+            children: [
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 132.sp),
+                  child: AspectRatio(
+                    aspectRatio: 3 / 4,
+                    child: tool.prompt == null
+                        ? ImageAnimation(beforeImage: tool.beforeImage, afterImage: tool.afterImage)
+                        : PrimaryNetworkImage(url: tool.beforeImage, fit: BoxFit.cover),
                   ),
-                ],
+                ),
               ),
-            ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        backgroundColorDark.withOpacity(0),
+                        backgroundColorDark.withOpacity(0.1),
+                        backgroundColorDark.withOpacity(0.7),
+                        backgroundColorDark,
+                      ],
+                      stops: const [0.0, 0.25, 0.45, 0.55],
+                    ),
+                  ),
+                  child: Padding(
+                    padding: AppPadding.padding16,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          tool.name.tr,
+                          style: context.font18.copyWith(fontWeight: FontWeight.w600, color: textColorDark),
+                        ),
+                        SizedBox(height: 8.sp),
+                        Text(tool.description.tr, style: context.font14.copyWith(color: hintColorDark)),
+                        SizedBox(height: 24.sp),
+                        PrimaryButton(
+                          text: 'Try Now!',
+                          onPressed: () => ToolImagePicker.show(onImagePicked: _handleApiCall),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

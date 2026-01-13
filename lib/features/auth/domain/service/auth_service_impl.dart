@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:pixart_app/core/api/api_client_impl.dart';
 import '../../../../imports.dart';
+import '../../data/model/signup_body.dart';
+import '../../data/model/user_model.dart';
 import '../../data/repository/auth_repo.dart';
 import 'auth_service.dart';
 
@@ -35,4 +39,28 @@ class AuthServiceImpl implements AuthService {
 
   @override
   int? loadCredits() => repo.loadCredits();
+
+  @override
+  Future<UserModel?> signup(SignupBody signupBody) async {
+    MultipartBody? profileImage;
+    if (signupBody.profileImage != null) {
+      profileImage = MultipartBody('profile_image', signupBody.profileImage!);
+    }
+    final Response? response = await repo.signup(signupBody.toJson(), profileImage);
+    if (response != null && response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return UserModel.fromJson(data);
+    }
+    return null;
+  }
+
+  Future<UserModel?> login(String email, String password, String deviceId) async {
+    final Map<String, dynamic> body = {'email': email, 'password': password, 'device_id': deviceId};
+    final Response? response = await repo.login(body);
+    if (response != null && response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return UserModel.fromJson(data);
+    }
+    return null;
+  }
 }
