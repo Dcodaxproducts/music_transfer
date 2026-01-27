@@ -4,18 +4,8 @@ import '../controller/tools_controller.dart';
 import '../widgets/tools_card.dart';
 import 'category_screen.dart';
 
-class ToolScreen extends StatefulWidget {
+class ToolScreen extends StatelessWidget {
   const ToolScreen({super.key});
-  @override
-  State<ToolScreen> createState() => _ToolScreenState();
-}
-
-class _ToolScreenState extends State<ToolScreen> {
-  @override
-  void initState() {
-    ToolsController.find.getTools();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +33,7 @@ class _ToolScreenState extends State<ToolScreen> {
                       children: [
                         Text('See All'.tr, style: context.font14.copyWith(color: context.theme.hintColor)),
                         SizedBox(width: 4.sp),
-                        Icon(Iconsax.arrow_right_1, size: 16.sp, color: context.theme.hintColor),
+                        Icon(Iconsax.arrow_right_1_copy, size: 16.sp, color: context.theme.hintColor),
                       ],
                     ),
                   ),

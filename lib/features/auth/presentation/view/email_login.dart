@@ -62,7 +62,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       hintText: "Enter your email",
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      prefixIcon: Iconsax.sms,
+                      prefixIcon: Iconsax.sms_copy,
                       controller: _emailController,
                       autofillHints: [AutofillHints.email],
                       validator: (value) {
@@ -88,13 +88,13 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                         return CustomTextField(
                           hintText: "Enter your password",
                           obscureText: obscureText,
-                          prefixIcon: Iconsax.lock,
+                          prefixIcon: Iconsax.lock_copy,
                           controller: _passwordController,
                           focusNode: _passwordFocusNode,
                           textInputAction: TextInputAction.next,
                           autofillHints: [AutofillHints.password],
                           suffixIcon: IconButton(
-                            icon: Icon(obscureText ? Iconsax.eye : Iconsax.eye_slash),
+                            icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
                             onPressed: () {
                               _obscurePassword.value = !_obscurePassword.value;
                             },

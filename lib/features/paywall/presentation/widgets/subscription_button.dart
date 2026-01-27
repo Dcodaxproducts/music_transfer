@@ -24,7 +24,7 @@ class SubsriptionButton extends StatelessWidget {
               spacing: 5.sp,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Icon(Iconsax.crown5, color: primaryLight, size: 14.sp),
+                Icon(Iconsax.crown, color: primaryLight, size: 14.sp),
                 Text(
                   'PRO',
                   style: context.font12.copyWith(color: primaryLight, fontWeight: FontWeight.w600),

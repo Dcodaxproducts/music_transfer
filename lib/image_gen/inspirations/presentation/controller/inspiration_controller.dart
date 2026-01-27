@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:pixart_app/image_gen/inspirations/data/model/inspiration.dart';
 import 'package:get/get.dart';
-import '../../domain/service/inspiration_service_interface.dart';
+import '../../domain/service/inspiration_service.dart';
 
-class InspirationController extends GetxController {
-  final InspirationServiceInterface inspirationService;
-  InspirationController({required this.inspirationService});
+class InspirationController extends GetxController implements GetxService {
+  final InspirationService service;
+  InspirationController({required this.service});
 
   static InspirationController get find => Get.find<InspirationController>();
 
@@ -13,7 +13,8 @@ class InspirationController extends GetxController {
   List<Inspiration> get inspirations => _inspirations;
 
   Future<void> getInspirations() async {
-    _inspirations = await inspirationService.fetchInspirations();
+    if (_inspirations.isNotEmpty) return;
+    _inspirations = await service.fetchInspirations();
     update();
   }
 }

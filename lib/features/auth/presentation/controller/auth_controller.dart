@@ -1,8 +1,6 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:pixart_app/features/auth/data/model/user_model.dart';
 import 'package:pixart_app/features/auth/domain/service/auth_service.dart';
 import 'package:pixart_app/imports.dart';
-
 import '../../data/model/signup_body.dart';
 import '../../data/model/social_login_model.dart';
 
@@ -19,6 +17,8 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
+  bool get isLoggedIn => service.getToken() != null;
+
   UserModel? _user;
   UserModel? get user => _user;
 
@@ -28,10 +28,32 @@ class AuthController extends GetxController implements GetxService {
   int _credits = 0;
   int get credits => _credits;
 
+  Future<void> initialize() async {
+    if (!isLoggedIn) {
+      await guestLogin();
+    }
+  }
+
+  Future<void> guestLogin() async {
+    try {
+      isLoading = true;
+      final Uuid uuid = Uuid();
+      String generatedUuid = uuid.v4();
+      UserModel? guestUser = await service.guestLogin(generatedUuid);
+      if (guestUser != null) {
+        _user = guestUser;
+      }
+    } catch (e) {
+      debugPrint('Unable to login as guest: $e');
+    } finally {
+      isLoading = false;
+    }
+  }
+
   Future<void> login(String email, String password) async {
     try {
       isLoading = true;
-      UserModel? loggedInUser = await service.login(email, password, _deviceId ?? 'unknown');
+      UserModel? loggedInUser = await service.login(email, password);
       if (loggedInUser != null) {
         _user = loggedInUser;
       }
@@ -62,12 +84,6 @@ class AuthController extends GetxController implements GetxService {
     //   _user = loggedInUser;
     //   update();
     // }
-  }
-
-  Future<void> getDeviceId() async {
-    final deviceInfo = DeviceInfoPlugin();
-    Map<String, dynamic> deviceData = await service.getDeviceData(deviceInfo);
-    _deviceId = deviceData['uuid'] ?? 'unknown';
   }
 
   void loadCredits() {

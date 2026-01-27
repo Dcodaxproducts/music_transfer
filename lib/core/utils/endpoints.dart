@@ -13,8 +13,10 @@ class Endpoints {
   static const String tools = 'tool-list';
 
   // auth
-  static const String signup = 'signup';
+  static const String register = 'register';
   static const String login = 'login';
+  static const String socialLogin = 'social-login';
+  static const String logout = 'logout';
 
   static const String models = 'gen-model-list';
   static const String inspirations = 'inspirations';

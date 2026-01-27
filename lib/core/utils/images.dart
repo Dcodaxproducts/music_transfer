@@ -3,6 +3,7 @@
 class Images {
   static const String logo = 'assets/images/logo.png';
   static const String noInternet = 'assets/images/no_connection.png';
+  static const String lottieGenerating = 'assets/animation/star_animation.json';
 
   // sparkle
   static const String sparkle = 'assets/images/sparkle.png';

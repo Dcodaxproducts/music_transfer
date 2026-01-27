@@ -73,7 +73,7 @@ class WatchAdsDialog extends StatelessWidget {
             // Upgrade button
             PrimaryButton(
               text: 'Upgrade',
-              icon: Icon(Iconsax.crown5, color: Colors.white),
+              icon: Icon(Iconsax.crown, color: Colors.white),
               onPressed: () {
                 Get.back();
                 onUpgrade();

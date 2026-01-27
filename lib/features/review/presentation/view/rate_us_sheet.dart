@@ -58,7 +58,7 @@ class _RateUsSheetState extends State<RateUsSheet> {
                       });
                     },
                     child: Icon(
-                      Iconsax.star1,
+                      Iconsax.star_copy,
                       size: 40.sp,
                       color: i <= _rating ? Colors.orange : context.theme.disabledColor,
                     ),

@@ -1,17 +1,13 @@
 import 'package:purchases_flutter/purchases_flutter.dart';
+import '../../data/model/revenuecat_config.dart';
 
 abstract class SubscriptionService {
   /// Initialize RevenueCat with configuration
-  Future<void> initialize();
+  Future<void> initialize(RevenueCatConfig config);
 
   /// Get current customer information
   Future<CustomerInfo> getCustomerInfo();
 
   /// Present paywall only if user doesn't have premium access
-  Future<bool> showPaywall({Offering? offering});
-
-  /// Restore user's purchases
-  Future<CustomerInfo> restorePurchases();
-
-  Future<CustomerInfo> purchasePackage(Package package, {String? oldProductIdentifier});
+  Future<bool> showPaywall();
 }

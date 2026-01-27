@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import 'package:pixart_app/features/ads/presentation/controller/ads_controller.dart';
 import '../../../../imports.dart';
 
@@ -9,6 +10,22 @@ class LanguageScreen extends StatefulWidget {
 }
 
 class _LanguageScreenState extends State<LanguageScreen> {
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      LocalizationController.find.loadCurrentLanguage();
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      LocalizationController.find.searchLanguage('');
+    });
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +41,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   decoration: BoxDecoration(borderRadius: AppRadius.circular16),
                   child: CustomTextField(
                     hintText: 'search_langauge'.tr,
-                    prefixIcon: Iconsax.search_normal,
+                    prefixIcon: Iconsax.search_normal_copy,
                     onChanged: con.searchLanguage,
                   ),
                 ),
@@ -36,13 +53,10 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     itemBuilder: (context, index) {
                       LanguageModel language = con.languages[index];
                       bool selected = con.selectedIndex == index;
-
                       return InkWell(
                         onTap: () {
                           con.setSelectIndex(index);
-                          LocalizationController.to.setLanguage(
-                            Locale(language.languageCode, language.countryCode),
-                          );
+                          con.setLanguage(Locale(language.languageCode, language.countryCode));
                         },
                         overlayColor: WidgetStateProperty.all(Colors.transparent),
                         child: Padding(

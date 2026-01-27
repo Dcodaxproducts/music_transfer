@@ -19,7 +19,7 @@ class InspirationActions extends StatelessWidget {
         children: [
           ShareButton(url: inspiration.image),
           ActionButton(
-            icon: Iconsax.copy,
+            icon: Iconsax.copy_copy,
             onPressed: () {
               Clipboard.setData(ClipboardData(text: inspiration.prompt));
             },

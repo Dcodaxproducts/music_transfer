@@ -27,10 +27,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         child: ListView(
           padding: AppPadding.screenPadding,
           children: [
-            Text(
-              "Forgot Password?",
-              style: context.font28.copyWith(fontWeight: FontWeight.w600),
-            ),
+            Text("Forgot Password?", style: context.font28.copyWith(fontWeight: FontWeight.w600)),
             SizedBox(height: 8.sp),
             Text(
               "Don't worry! Enter your email address and we'll send you a verification code to reset your password.",
@@ -48,26 +45,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   color: context.theme.primaryColor.withAlpha(25),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  Iconsax.sms,
-                  size: 48.sp,
-                  color: context.theme.primaryColor,
-                ),
+                child: Icon(Iconsax.sms_copy, size: 48.sp, color: context.theme.primaryColor),
               ),
             ),
 
             SizedBox(height: 32.sp),
 
-            Text(
-              "Email",
-              style: context.font14.copyWith(fontWeight: FontWeight.w500),
-            ),
+            Text("Email", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
             SizedBox(height: 8.sp),
             CustomTextField(
               hintText: "Enter your email",
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.done,
-              prefixIcon: Iconsax.sms,
+              prefixIcon: Iconsax.sms_copy,
               controller: _emailController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -107,12 +97,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void _sendResetCode() {
     if (_formKey.currentState!.validate()) {
       // Navigate to OTP verification screen
-      launchScreen(
-        OtpVerificationScreen(
-          email: _emailController.text.trim(),
-          isPasswordReset: true,
-        ),
-      );
+      launchScreen(OtpVerificationScreen(email: _emailController.text.trim(), isPasswordReset: true));
     }
   }
 }

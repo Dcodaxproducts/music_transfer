@@ -69,7 +69,7 @@ class ToolsController extends GetxController implements GetxService {
       isLoading = true;
       _tools.addAll(await service.getTools());
     } catch (e) {
-      showToast('Failed to load tools: $e');
+      debugPrint('Failed to load tools: $e');
     } finally {
       isLoading = false;
     }

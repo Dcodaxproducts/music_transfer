@@ -1,5 +1,4 @@
 import 'package:pixart_app/image_gen/home/data/model/model.dart';
-
 import '../../../../core/widgets/primary_bottom_sheet.dart';
 import '../../../../imports.dart';
 import '../../data/model/size_preset.dart';
@@ -9,6 +8,11 @@ import 'models_sheet.dart';
 
 class SettingsSheet extends StatelessWidget {
   const SettingsSheet({super.key});
+
+  SettingsSheet.show({super.key}) {
+    ModelsController.find.getModels();
+    Get.bottomSheet(const SettingsSheet(), isScrollControlled: true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +27,15 @@ class SettingsSheet extends StatelessWidget {
             children: [
               SettingSheetTile(
                 title: 'Model',
-                icon: Iconsax.cpu,
+                icon: Iconsax.cpu_copy,
                 valueText: selectedModel?.name ?? 'N/A',
-                onPressed: () {
-                  Get.bottomSheet(ModelsSheet(), isScrollControlled: true);
-                },
+                onPressed: ModelsSheet.show,
               ),
               SettingSheetTile(
                 title: 'Aspect Ratio',
-                icon: Iconsax.format_square,
+                icon: Iconsax.format_square_copy,
                 valueText: selectedAspectRatio.aspectRatio,
-                onPressed: () {
-                  Get.bottomSheet(AspectRatioSheet());
-                },
+                onPressed: AspectRatioSheet.show,
               ),
             ],
           ),

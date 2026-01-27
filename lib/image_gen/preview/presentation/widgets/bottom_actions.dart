@@ -18,19 +18,19 @@ class BottomActions extends StatelessWidget {
         children: [
           ShareButton(url: ImageGenController.find.result?.output.first ?? ''),
           ActionButton(
-            icon: Iconsax.info_circle,
+            icon: Iconsax.info_circle_copy,
             onPressed: () {
               Get.bottomSheet(ResultInfoSheet());
             },
           ),
           ActionButton(
-            icon: Iconsax.flag,
+            icon: Iconsax.flag_copy,
             onPressed: () {
               Get.bottomSheet(const FeedbackSheeet());
             },
           ),
           ActionButton(
-            icon: Iconsax.trash,
+            icon: Iconsax.trash_copy,
             onPressed: () {
               Get.bottomSheet(DeleteResultSheet(result: ImageGenController.find.result!));
             },

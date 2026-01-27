@@ -20,7 +20,7 @@ class _SettingScreenState extends State<SettingScreen> {
   final List<Widget> _appMenuItems = [
     MenuItem(
       text: 'language',
-      icon: Iconsax.language_circle,
+      icon: Iconsax.language_circle_copy,
       onTap: () => launchScreen(const LanguageScreen()),
     ),
     ThemeTile(),
@@ -29,27 +29,27 @@ class _SettingScreenState extends State<SettingScreen> {
   final List<Widget> _moreMenuItems = [
     MenuItem(
       text: 'manage_subscription',
-      icon: Iconsax.crown_1,
+      icon: Iconsax.crown_1_copy,
       onTap: () => launchUrlString(AppConstants.manageSubscriptionsUrl),
     ),
     MenuItem(
       text: 'privacy_policy',
-      icon: Iconsax.lock,
+      icon: Iconsax.lock_copy,
       onTap: () {
         // TODO: Update privacy policy link
       },
     ),
     MenuItem(
       text: 'terms_of_service',
-      icon: Iconsax.info_circle,
+      icon: Iconsax.info_circle_copy,
       onTap: () {
         // TODO: Update terms of service link
       },
     ),
-    const MenuItem(text: 'rate_us', icon: Iconsax.star, onTap: showRateUsDialog),
+    const MenuItem(text: 'rate_us', icon: Iconsax.star_copy, onTap: showRateUsDialog),
     MenuItem(
       text: 'share_app',
-      icon: Iconsax.share,
+      icon: Iconsax.share_copy,
       onTap: () {
         String shareText =
             'Check out this amazing AI app\n\nAndroid:${AppConstants.androidAppUrl}\n\niOS:${AppConstants.iOSAppUrl}';

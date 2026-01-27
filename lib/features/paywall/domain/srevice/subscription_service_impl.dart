@@ -10,44 +10,38 @@ class SubscriptionServiceImpl implements SubscriptionService {
   SubscriptionServiceImpl({required this.revenueCatRepo});
 
   @override
-  Future<void> initialize() async {
+  Future<void> initialize(RevenueCatConfig config) async {
     try {
-      await revenueCatRepo.initialize(RevenueCatConfig.defaultConfig);
+      // Configure RevenueCat with platform-specific API key
+      final apiKey = Platform.isIOS ? config.iosApiKey : config.androidApiKey;
+
+      final PurchasesConfiguration configuration = PurchasesConfiguration(apiKey);
+
+      // Initialize Purchases SDK
+      await Purchases.configure(configuration);
     } catch (e) {
-      showToast('Error initializing RevenueCat service: $e');
-      rethrow;
+      debugPrint('Error initializing RevenueCat: $e');
     }
   }
 
   @override
   Future<CustomerInfo> getCustomerInfo() async {
-    return await revenueCatRepo.getCustomerInfo();
+    try {
+      return await Purchases.getCustomerInfo();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<bool> showPaywall({Offering? offering}) async {
+  Future<bool> showPaywall() async {
     try {
-      PaywallResult result = await RevenueCatUI.presentPaywall(offering: offering);
+      PaywallResult result = await RevenueCatUI.presentPaywall();
       List<PaywallResult> potentialResults = [PaywallResult.purchased, PaywallResult.restored];
-      // Analytics.paywallResult(result, offering?.identifier ?? 'main');
       return potentialResults.contains(result);
     } catch (e) {
       showToast('Error showing paywall: $e');
       return false;
     }
-  }
-
-  @override
-  Future<CustomerInfo> restorePurchases() async {
-    return await revenueCatRepo.restorePurchases();
-  }
-
-  @override
-  Future<CustomerInfo> purchasePackage(Package package, {String? oldProductIdentifier}) async {
-    if (oldProductIdentifier == null) {
-      return await Purchases.purchasePackage(package);
-    }
-    GoogleProductChangeInfo info = GoogleProductChangeInfo(oldProductIdentifier);
-    return await Purchases.purchasePackage(package, googleProductChangeInfo: info);
   }
 }

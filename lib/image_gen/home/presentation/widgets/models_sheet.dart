@@ -7,6 +7,10 @@ import '../../data/model/model.dart';
 class ModelsSheet extends StatelessWidget {
   const ModelsSheet({super.key});
 
+  ModelsSheet.show({super.key}) {
+    Get.bottomSheet(const ModelsSheet(), isScrollControlled: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return PrimaryBottomSheet(
@@ -101,7 +105,7 @@ class SettingSheetTile extends StatelessWidget {
                           width: 20.sp,
                           height: 20.sp,
                           decoration: BoxDecoration(gradient: primaryGradient, shape: BoxShape.circle),
-                          child: Icon(Iconsax.crown5, size: 12.sp, color: Colors.white),
+                          child: Icon(Iconsax.crown, size: 12.sp, color: Colors.white),
                         ),
                     ],
                   ),

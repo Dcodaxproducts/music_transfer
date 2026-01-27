@@ -35,7 +35,7 @@ class LoginScreen extends StatelessWidget {
 
           SocialLoginButton(
             label: 'Continue with Email',
-            icon: Iconsax.sms,
+            icon: Iconsax.sms_copy,
             onTap: () => launchScreen(EmailLoginScreen()),
           ),
 

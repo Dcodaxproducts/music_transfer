@@ -9,12 +9,8 @@ class ReviewController extends GetxController implements GetxService {
 
   static ReviewController get find => Get.find<ReviewController>();
 
-  static ReviewController get to => Get.find<ReviewController>();
-
   bool _isReviewed = false;
-
   bool get isReviewed => _isReviewed;
-
   set isReviewed(bool value) {
     _isReviewed = value;
     update();

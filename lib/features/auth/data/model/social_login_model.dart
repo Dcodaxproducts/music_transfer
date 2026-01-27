@@ -12,4 +12,14 @@ class SocialLoginModel {
     required this.medium,
     this.profilePicture,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'email': email,
+      'unique_id': uniqueId,
+      'medium': medium,
+      'profile_picture': profilePicture,
+    };
+  }
 }

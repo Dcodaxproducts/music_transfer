@@ -42,7 +42,7 @@ class FeedbackSheeet extends StatelessWidget {
                               height: 100.sp,
                               fit: BoxFit.cover,
                               errorWidget: (context, url, error) =>
-                                  Center(child: Icon(Iconsax.image, size: 30.sp)),
+                                  Center(child: Icon(Iconsax.image_copy, size: 30.sp)),
                             ),
                           ),
                         ),
@@ -61,7 +61,7 @@ class FeedbackSheeet extends StatelessWidget {
                         child: Container(
                           padding: AppPadding.padding8,
                           decoration: BoxDecoration(shape: BoxShape.circle, color: primaryLight),
-                          child: Icon(Iconsax.flag, size: 16.sp, color: Colors.white),
+                          child: Icon(Iconsax.flag_copy, size: 16.sp, color: Colors.white),
                         ),
                       ),
                     ),
@@ -87,7 +87,7 @@ class FeedbackSheeet extends StatelessWidget {
                     Expanded(
                       child: PrimaryButton(
                         color: context.theme.canvasColor,
-                        icon: Icon(Iconsax.dislike, color: context.theme.disabledColor),
+                        icon: Icon(Iconsax.dislike_copy, color: context.theme.disabledColor),
                         text: "",
                         onPressed: () {
                           Get.bottomSheet(const ReportingSheet());
@@ -97,7 +97,7 @@ class FeedbackSheeet extends StatelessWidget {
                     SizedBox(width: 16.sp),
                     Expanded(
                       child: PrimaryButton(
-                        icon: Icon(Iconsax.like_1, color: context.theme.disabledColor),
+                        icon: Icon(Iconsax.like_1_copy, color: context.theme.disabledColor),
                         color: context.theme.canvasColor,
                         text: "",
                         onPressed: _like,

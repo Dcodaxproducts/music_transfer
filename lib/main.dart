@@ -1,12 +1,12 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:ui';
+import 'package:easy_audience_network/easy_audience_network.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:upgrader/upgrader.dart';
+import 'core/theme/design_helper.dart';
 import 'core/theme/light_theme.dart';
 import 'core/widgets/loading.dart';
 import 'firebase_options.dart';
@@ -14,37 +14,51 @@ import 'core/helper/notification_helper.dart';
 import 'core/theme/dark_theme.dart';
 import 'core/utils/messages.dart';
 import 'core/helper/get_di.dart' as di;
-import 'features/root.dart';
+import 'features/splash/presentation/view/root.dart';
 import 'imports.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // disable landscape mode
+  await _initializeApp();
+  runApp(MyApp(languages: await di.init()));
+}
+
+Future<void> _initializeApp() async {
+  // Disable landscape mode
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  // initialize firebase
+
+  // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // initialize localization
-  Map<String, Map<String, String>> languages = await di.init();
-  // request permission for firebase messaging
-  FirebaseMessaging.instance.requestPermission();
-  // initialize notification
+  // Initialize notification
   NotificationHelper.initialize();
 
+  // Initialize ad network (do not wait for it)
+  _initializeAdNetwork();
+
+  // Initialize Crashlytics
+  _initCrashlytics();
+}
+
+Future<void> _initializeAdNetwork() async {
+  if (GetPlatform.isAndroid) {
+    await EasyAudienceNetwork.init(testingId: '5cfcb5cc-93c0-4edf-9e36-a09fda9c6495');
+  } else {
+    await MobileAds.instance.initialize();
+  }
+}
+
+void _initCrashlytics() {
   // Firebase Crashlytics
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
+
   // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
   PlatformDispatcher.instance.onError = (error, stack) {
-    if (error.toString().contains('HttpException')) {
-      return false;
-    } else {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    }
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
   };
-  runApp(MyApp(languages: languages));
 }
 
 class MyApp extends StatelessWidget {
@@ -53,18 +67,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Example criteria for device type detection
+    final Size designSize = DesignHelper.getDesignSize(context);
     final bool isTablet = MediaQuery.of(context).size.shortestSide > 600;
     final bool isLargeTablet = MediaQuery.of(context).size.shortestSide > 800;
-    // Define designSizes for different devices
-    Size designSize;
-    if (isLargeTablet) {
-      designSize = const Size(1024, 1366); // Example for large tablets
-    } else if (isTablet) {
-      designSize = const Size(768, 1024); // Example for regular tablets
-    } else {
-      designSize = const Size(411.4, 866.3); // Example for phones
-    }
     return GetBuilder<LocalizationController>(
       builder: (localizeController) {
         return GetBuilder<ThemeController>(
@@ -73,7 +78,9 @@ class MyApp extends StatelessWidget {
               designSize: designSize,
               minTextAdapt: true,
               splitScreenMode: true,
-              fontSizeResolver: (size, util) => _screenSize(size, isTablet, isLargeTablet, util),
+              fontSizeResolver: (num size, ScreenUtil util) {
+                return DesignHelper.screenSize(size, isTablet, isLargeTablet, util);
+              },
               builder: (context, child) => MediaQuery(
                 data: MediaQuery.of(context).copyWith(
                   textScaler: TextScaler.linear(MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.0)),
@@ -103,15 +110,5 @@ class MyApp extends StatelessWidget {
         );
       },
     );
-  }
-
-  double _screenSize(num size, bool isTablet, bool isLargeTablet, ScreenUtil util) {
-    double scaleFactor = 1.0;
-    if (isTablet || isLargeTablet) {
-      scaleFactor = 1.0;
-    } else {
-      scaleFactor = util.scaleText;
-    }
-    return size * scaleFactor;
   }
 }

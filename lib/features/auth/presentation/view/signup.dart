@@ -117,7 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       hintText: "Enter your name",
                       keyboardType: TextInputType.name,
                       textInputAction: TextInputAction.next,
-                      prefixIcon: Iconsax.user,
+                      prefixIcon: Iconsax.user_copy,
                       controller: _nameController,
                       autofillHints: [AutofillHints.name],
                       validator: (value) {
@@ -137,7 +137,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       hintText: "Enter your email",
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      prefixIcon: Iconsax.sms,
+                      prefixIcon: Iconsax.sms_copy,
                       controller: _emailController,
                       focusNode: _emailFocusNode,
                       autofillHints: [AutofillHints.email],
@@ -164,13 +164,13 @@ class _SignupScreenState extends State<SignupScreen> {
                         return CustomTextField(
                           hintText: "Enter your password",
                           obscureText: obscureText,
-                          prefixIcon: Iconsax.lock,
+                          prefixIcon: Iconsax.lock_copy,
                           controller: _passwordController,
                           focusNode: _passwordFocusNode,
                           textInputAction: TextInputAction.next,
                           autofillHints: [AutofillHints.password],
                           suffixIcon: IconButton(
-                            icon: Icon(obscureText ? Iconsax.eye : Iconsax.eye_slash),
+                            icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
                             onPressed: () {
                               _obscurePassword.value = !_obscurePassword.value;
                             },
@@ -200,13 +200,13 @@ class _SignupScreenState extends State<SignupScreen> {
                         return CustomTextField(
                           hintText: "Enter your password again",
                           obscureText: obscureText,
-                          prefixIcon: Iconsax.lock,
+                          prefixIcon: Iconsax.lock_copy,
                           controller: _confirmPasswordController,
                           focusNode: _confirmPasswordFocusNode,
                           textInputAction: TextInputAction.done,
                           autofillHints: [AutofillHints.password],
                           suffixIcon: IconButton(
-                            icon: Icon(obscureText ? Iconsax.eye : Iconsax.eye_slash),
+                            icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
                             onPressed: () {
                               _obscureConfirmPassword.value = !_obscureConfirmPassword.value;
                             },
@@ -261,7 +261,6 @@ class _SignupScreenState extends State<SignupScreen> {
         name: _nameController.text.trim(),
         email: _emailController.text.trim(),
         password: _passwordController.text,
-        deviceId: AuthController.find.deviceId ?? 'unknown',
         profileImage: _profileImage.value,
       );
       AuthController.find.service.signup(signupBody).then((success) {});

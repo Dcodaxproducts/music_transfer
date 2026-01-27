@@ -1,4 +1,3 @@
-import 'package:pixart_app/features/paywall/presentation/controller/subscription_controller.dart';
 import 'package:pixart_app/imports.dart';
 import 'package:purchases_ui_flutter/views/paywall_view.dart';
 
@@ -7,7 +6,6 @@ class PaywallScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Offering? offering = SubscriptionController.find.offerings?.current;
-    return PaywallView(offering: offering, onDismiss: Get.back);
+    return PaywallView(onDismiss: Get.back);
   }
 }

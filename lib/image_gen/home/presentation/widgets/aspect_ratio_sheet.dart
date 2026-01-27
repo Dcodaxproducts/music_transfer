@@ -6,6 +6,10 @@ import '../../data/model/size_preset.dart';
 class AspectRatioSheet extends StatelessWidget {
   const AspectRatioSheet({super.key});
 
+  AspectRatioSheet.show({super.key}) {
+    Get.bottomSheet(const AspectRatioSheet());
+  }
+
   @override
   Widget build(BuildContext context) {
     return PrimaryBottomSheet(

@@ -91,26 +91,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 currentIndex: currentIndex,
                 selectedItemColor: primaryColor,
                 items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(Iconsax.home),
-                    activeIcon: Icon(Iconsax.home5),
-                    label: 'home'.tr,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Iconsax.category),
-                    activeIcon: Icon(Iconsax.category5),
-                    label: 'tools'.tr,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Iconsax.activity),
-                    activeIcon: Icon(Iconsax.activity5),
-                    label: 'inspirations'.tr,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Iconsax.setting_2),
-                    activeIcon: Icon(Iconsax.setting_2),
-                    label: 'settings'.tr,
-                  ),
+                  ..._screens.map((e) {
+                    return BottomNavigationBarItem(icon: Icon(e.icon), activeIcon: Icon(e.icon), label: '');
+                  }),
                 ],
               ),
             ),

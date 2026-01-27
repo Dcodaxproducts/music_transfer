@@ -57,8 +57,7 @@ class ResultInfoSheet extends StatelessWidget {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: result.meta.prompt.trim()));
                   },
-                  icon: Iconsax.copy,
-                  size: 16.sp,
+                  icon: Iconsax.copy_copy,
                 ),
               ],
             ),

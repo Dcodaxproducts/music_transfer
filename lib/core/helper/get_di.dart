@@ -24,6 +24,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => apiClient, fenix: true);
 
   final List<Bindings> bindings = [
+    AuthBinding(),
     DashboardBinding(),
     ThemeBinding(),
     LanguageBinding(),
@@ -32,12 +33,10 @@ Future<Map<String, Map<String, String>>> init() async {
     ImageGenerationBindings(),
     HistoryBinding(),
     SplashBinding(),
-    ModelsBinding(),
     InspirationBinding(),
     ReviewBinding(),
     ToolsBinding(),
     SubscriptionBinding(),
-    AuthBinding(),
   ];
 
   for (Bindings binding in bindings) {

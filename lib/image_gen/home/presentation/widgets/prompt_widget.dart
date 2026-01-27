@@ -89,12 +89,7 @@ class PromptInputWidget extends StatelessWidget {
                 spacing: 8.sp,
                 children: [
                   ActionButton.small(onPressed: _pickImage, icon: Icons.add),
-                  ActionButton.small(
-                    onPressed: () {
-                      Get.bottomSheet(const SettingsSheet(), isScrollControlled: true);
-                    },
-                    icon: Iconsax.setting_4,
-                  ),
+                  ActionButton.small(onPressed: SettingsSheet.show, icon: Iconsax.setting_4_copy),
                   const Spacer(),
                   GetBuilder<ModelsController>(
                     builder: (modelController) {

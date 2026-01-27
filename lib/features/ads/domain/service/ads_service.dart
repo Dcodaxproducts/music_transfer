@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:pixart_app/features/ads/data/repository/ad_repo_interface.dart';
+import 'package:pixart_app/features/ads/data/repository/ad_repo.dart';
 import 'package:pixart_app/features/ads/data/utils/firebase_events.dart';
 import 'package:pixart_app/imports.dart';
 import '../../../paywall/presentation/controller/subscription_controller.dart';
@@ -14,7 +14,7 @@ import 'ads_service_interface.dart';
 import 'package:easy_audience_network/easy_audience_network.dart' as meta;
 
 class AdsService implements AdsServiceInterface {
-  final AdRepoInterface adRepo;
+  final AdRepo adRepo;
   AdsService({required this.adRepo});
 
   @override

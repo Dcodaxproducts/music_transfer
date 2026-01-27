@@ -17,7 +17,7 @@ class _ShareButtonState extends State<ShareButton> {
     return ValueListenableBuilder<bool>(
       valueListenable: _isDownloading,
       builder: (context, isDownloading, child) {
-        return ActionButton(icon: Iconsax.share, isLoading: isDownloading, onPressed: _downloadImage);
+        return ActionButton(icon: Iconsax.share_copy, isLoading: isDownloading, onPressed: _downloadImage);
       },
     );
   }

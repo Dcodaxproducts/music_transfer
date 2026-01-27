@@ -30,7 +30,7 @@ class ToolAspectRatio extends StatelessWidget {
                     SizedBox(width: 8.sp),
                     Text(controller.selectedSize.aspectRatio.tr, style: context.font14),
                     SizedBox(width: 8.sp),
-                    Icon(Iconsax.arrow_down_1, size: 16.sp, color: context.theme.iconTheme.color),
+                    Icon(Iconsax.arrow_down_1_copy, size: 16.sp, color: context.theme.iconTheme.color),
                   ],
                 ),
               ),

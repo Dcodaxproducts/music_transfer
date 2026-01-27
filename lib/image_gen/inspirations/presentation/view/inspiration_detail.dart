@@ -27,7 +27,7 @@ class InspirationDetailScreen extends StatelessWidget {
                 backgroundDecoration: BoxDecoration(color: context.theme.scaffoldBackgroundColor),
                 imageProvider: CachedNetworkImageProvider(inspiration.image),
                 errorBuilder: (context, error, stackTrace) {
-                  return Center(child: Icon(Iconsax.image, size: 50.sp));
+                  return Center(child: Icon(Iconsax.image_copy, size: 50.sp));
                 },
               ),
             ),

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:pixart_app/core/api/api_client_impl.dart';
 import '../../../../imports.dart';
 import '../../data/model/signup_body.dart';
+import '../../data/model/social_login_model.dart';
 import '../../data/model/user_model.dart';
 import '../../data/repository/auth_repo.dart';
 import 'auth_service.dart';
@@ -10,26 +10,6 @@ import 'auth_service.dart';
 class AuthServiceImpl implements AuthService {
   final AuthRepo repo;
   AuthServiceImpl({required this.repo});
-
-  /* Device Info */
-  @override
-  Future<Map<String, dynamic>> getDeviceData(DeviceInfoPlugin deviceInfo) async {
-    Map<String, dynamic> deviceData = {};
-    if (Platform.isAndroid) {
-      deviceData = _getAndroidProperties(await deviceInfo.androidInfo);
-    } else if (Platform.isIOS) {
-      deviceData = _getiOSProperties(await deviceInfo.iosInfo);
-    }
-    return deviceData;
-  }
-
-  Map<String, dynamic> _getiOSProperties(IosDeviceInfo iosInfo) {
-    return {'model_name': iosInfo.modelName, 'uuid': iosInfo.identifierForVendor ?? 'unknown'};
-  }
-
-  Map<String, dynamic> _getAndroidProperties(AndroidDeviceInfo androidInfo) {
-    return {'model_name': androidInfo.model, 'uuid': androidInfo.id};
-  }
 
   /* Credits Management */
   @override
@@ -40,6 +20,7 @@ class AuthServiceImpl implements AuthService {
   @override
   int? loadCredits() => repo.loadCredits();
 
+  /* Auth Methods */
   @override
   Future<UserModel?> signup(SignupBody signupBody) async {
     MultipartBody? profileImage;
@@ -54,8 +35,9 @@ class AuthServiceImpl implements AuthService {
     return null;
   }
 
-  Future<UserModel?> login(String email, String password, String deviceId) async {
-    final Map<String, dynamic> body = {'email': email, 'password': password, 'device_id': deviceId};
+  @override
+  Future<UserModel?> login(String email, String password) async {
+    final Map<String, dynamic> body = {'email': email, 'password': password};
     final Response? response = await repo.login(body);
     if (response != null && response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
@@ -63,4 +45,32 @@ class AuthServiceImpl implements AuthService {
     }
     return null;
   }
+
+  @override
+  Future<UserModel?> socialLogin(SocialLoginModel socialLoginModel) async {
+    final Map<String, dynamic> body = socialLoginModel.toJson();
+    final Response? response = await repo.socialLogin(body);
+    if (response != null && response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return UserModel.fromJson(data);
+    }
+    return null;
+  }
+
+  @override
+  Future<UserModel?> guestLogin(String uuid) async {
+    final Map<String, dynamic> body = {'uuid': uuid};
+    final Response? response = await repo.guestLogin(body);
+    if (response != null && response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return UserModel.fromJson(data);
+    }
+    return null;
+  }
+
+  @override
+  Future<bool> saveToken(String token) => repo.saveToken(token);
+
+  @override
+  String? getToken() => repo.getToken();
 }

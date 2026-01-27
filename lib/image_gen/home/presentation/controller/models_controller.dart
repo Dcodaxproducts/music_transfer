@@ -24,6 +24,7 @@ class ModelsController extends GetxController implements GetxService {
   }
 
   Future<void> getModels() async {
+    if (_models.isNotEmpty) return;
     _models.clear();
 
     // get cached models first

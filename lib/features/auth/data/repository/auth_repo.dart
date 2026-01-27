@@ -5,6 +5,11 @@ abstract class AuthRepo {
   Future<bool> saveCredits(int credits);
   int? loadCredits();
 
-  Future<Response?> signup(Map<String, dynamic> body, MultipartBody? profileImage);
   Future<Response?> login(Map<String, dynamic> body);
+  Future<Response?> socialLogin(Map<String, dynamic> body);
+  Future<Response?> guestLogin(Map<String, dynamic> body);
+  Future<Response?> signup(Map<String, dynamic> body, MultipartBody? profileImage);
+  Future<Response?> logout();
+  Future<bool> saveToken(String token);
+  String? getToken();
 }

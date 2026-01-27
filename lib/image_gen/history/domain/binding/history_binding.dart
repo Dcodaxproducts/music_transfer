@@ -9,10 +9,7 @@ class HistoryBinding extends Bindings {
   @override
   void dependencies() {
     // repo
-    HistoryRepo historyRepoInterface = HistoryRepoImpl(
-      apiClient: Get.find(),
-      prefs: Get.find(),
-    );
+    HistoryRepo historyRepoInterface = HistoryRepoImpl(apiClient: Get.find(), prefs: Get.find());
     Get.lazyPut(() => historyRepoInterface, fenix: true);
 
     // service
@@ -20,9 +17,9 @@ class HistoryBinding extends Bindings {
     Get.lazyPut(() => adsServiceInterface, fenix: true);
 
     // controller
-    Get.lazyPut(
-      () => HistoryController(historyService: Get.find()),
-      fenix: true,
-    );
+    Get.lazyPut(() => HistoryController(historyService: Get.find()), fenix: true);
+
+    // initialize
+    HistoryController.find.initPromptHistory();
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import '../../imports.dart';
+import '../helper/connectivity.dart';
 import '../model/dev.dart';
 import 'error.dart';
 
@@ -26,6 +27,9 @@ class ApiClientImpl extends GetxService implements ApiClient {
     List<MultipartBody>? muliparts,
     bool hideLoading = true,
   }) async {
+    bool online = await ConnectivityService.checkAndNotify();
+    if (!online) return null;
+
     Uri url = Uri.parse('$baseUrl$uri').replace(queryParameters: queryParams);
     try {
       _printData(url.toString(), body: body);
@@ -146,7 +150,7 @@ class ApiClientImpl extends GetxService implements ApiClient {
 
   void _socketException(Object e) {
     if (e is SocketException) {
-      showToast('Please check your internet connection');
+      ConnectivityService.showOfflineDialog();
     } else {
       showToast('Something went wrong');
     }

@@ -54,7 +54,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   color: context.theme.primaryColor.withAlpha(25),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Iconsax.lock, size: 48.sp, color: context.theme.primaryColor),
+                child: Icon(Iconsax.lock_copy, size: 48.sp, color: context.theme.primaryColor),
               ),
             ),
 
@@ -68,11 +68,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 return CustomTextField(
                   hintText: "Enter new password",
                   obscureText: obscureText,
-                  prefixIcon: Iconsax.lock,
+                  prefixIcon: Iconsax.lock_copy,
                   controller: _passwordController,
                   textInputAction: TextInputAction.next,
                   suffixIcon: IconButton(
-                    icon: Icon(obscureText ? Iconsax.eye : Iconsax.eye_slash),
+                    icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
                     onPressed: () {
                       _obscurePassword.value = !_obscurePassword.value;
                     },
@@ -103,12 +103,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 return CustomTextField(
                   hintText: "Confirm your new password",
                   obscureText: obscureText,
-                  prefixIcon: Iconsax.lock,
+                  prefixIcon: Iconsax.lock_copy,
                   controller: _confirmPasswordController,
                   focusNode: _confirmPasswordFocusNode,
                   textInputAction: TextInputAction.done,
                   suffixIcon: IconButton(
-                    icon: Icon(obscureText ? Iconsax.eye : Iconsax.eye_slash),
+                    icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
                     onPressed: () {
                       _obscureConfirmPassword.value = !_obscureConfirmPassword.value;
                     },

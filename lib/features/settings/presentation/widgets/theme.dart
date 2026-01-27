@@ -8,18 +8,14 @@ class ThemeTile extends StatefulWidget {
 }
 
 class _ThemeTileState extends State<ThemeTile> {
-  bool _isExpanded = false;
+  final ValueNotifier<bool> _isExpanded = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      onExpansionChanged: (value) {
-        setState(() {
-          _isExpanded = value;
-        });
-      },
+      onExpansionChanged: (value) => _isExpanded.value = value,
       tilePadding: EdgeInsets.symmetric(horizontal: 16.sp),
       childrenPadding: AppPadding.padding16,
-      leading: Icon(Iconsax.moon, size: 18.sp, color: context.font14.color),
+      leading: Icon(Iconsax.moon_copy, size: 18.sp, color: context.font14.color),
       title: Text('theme'.tr, style: context.font14),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -28,17 +24,20 @@ class _ThemeTileState extends State<ThemeTile> {
             builder: (con) {
               return Text(
                 con.themeMode.toString().split('.').last.tr,
-                style: context.font12.copyWith(
-                  color: Theme.of(context).hintColor,
-                ),
+                style: context.font12.copyWith(color: Theme.of(context).hintColor),
               );
             },
           ),
           SizedBox(width: 8.sp),
-          Icon(
-            _isExpanded ? Iconsax.arrow_down_1 : Iconsax.arrow_right_3,
-            size: 16.sp,
-            color: context.theme.hintColor,
+          ValueListenableBuilder<bool>(
+            valueListenable: _isExpanded,
+            builder: (context, value, child) {
+              return Icon(
+                value ? Iconsax.arrow_down_1_copy : Iconsax.arrow_right_3_copy,
+                size: 16.sp,
+                color: context.theme.hintColor,
+              );
+            },
           ),
         ],
       ),
@@ -76,12 +75,7 @@ class ThemeModeWidget extends StatelessWidget {
   final String text;
   final ThemeMode themeMode;
   final bool selected;
-  const ThemeModeWidget({
-    required this.text,
-    required this.themeMode,
-    required this.selected,
-    super.key,
-  });
+  const ThemeModeWidget({required this.text, required this.themeMode, required this.selected, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -95,17 +89,12 @@ class ThemeModeWidget extends StatelessWidget {
             height: 60.sp,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(
-                color: selected ? primaryColor : Theme.of(context).hintColor,
-                width: 1.5.sp,
-              ),
+              border: Border.all(color: selected ? primaryColor : Theme.of(context).hintColor, width: 1.5.sp),
             ),
             child: Icon(
               icon,
               size: 18.sp,
-              color: selected
-                  ? context.font14.color
-                  : Theme.of(context).hintColor,
+              color: selected ? context.font14.color : Theme.of(context).hintColor,
             ),
           ),
           SizedBox(height: 8.sp),
@@ -118,11 +107,11 @@ class ThemeModeWidget extends StatelessWidget {
   IconData get icon {
     switch (themeMode) {
       case ThemeMode.system:
-        return Iconsax.monitor_mobbile;
+        return Iconsax.monitor_mobbile_copy;
       case ThemeMode.light:
-        return Iconsax.sun_1;
+        return Iconsax.sun_1_copy;
       case ThemeMode.dark:
-        return Iconsax.moon;
+        return Iconsax.moon_copy;
     }
   }
 }
