@@ -1,4 +1,4 @@
-import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
+import 'package:pixart_app/features/profile/presentation/controller/profile_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/image_generation_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
 import '../../../features/paywall/presentation/controller/subscription_controller.dart';
@@ -53,7 +53,7 @@ class ImageGenerationHelper {
       return;
     }
 
-    if (AuthController.find.credits < model.creditsPerImage) {
+    if (ProfileController.find.credits < model.creditsPerImage) {
       // showToast('Not enough credits available');
       WatchAdsDialog.show(
         Get.context!,
@@ -74,7 +74,7 @@ class ImageGenerationHelper {
       ImageGenController.find.attachedImage = null;
 
       // update credits
-      AuthController.find.updateCredits(result.meta.model.creditsPerImage);
+      ProfileController.find.updateCredits(result.meta.model.creditsPerImage);
     }
     return result;
   }

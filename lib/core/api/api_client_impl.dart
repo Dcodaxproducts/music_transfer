@@ -6,11 +6,26 @@ import 'error.dart';
 
 class ApiClientImpl extends GetxService implements ApiClient {
   final String baseUrl;
+  final SharedPreferences prefs;
   final int timeoutInSeconds = 20;
-  ApiClientImpl({required this.baseUrl});
+  ApiClientImpl({required this.baseUrl, required this.prefs}) {
+    token = prefs.getString(SharedKeys.token);
+    updateHeader(token ?? '');
+  }
 
   Client? _client;
-  final Map<String, String> _mainHeaders = {"Content-Type": "application/json", 'Accept': 'application/json'};
+  String? token;
+  Map<String, String> _mainHeaders = {"Content-Type": "application/json", 'Accept': 'application/json'};
+
+  @override
+  void updateHeader(String token) {
+    this.token = token;
+    _mainHeaders = {
+      "Content-Type": "application/json",
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+  }
 
   @override
   Future<void> cancelRequest() async {
@@ -152,7 +167,8 @@ class ApiClientImpl extends GetxService implements ApiClient {
     if (e is SocketException) {
       ConnectivityService.showOfflineDialog();
     } else {
-      showToast('Something went wrong');
+      String message = e.toString().split('Exception: ').last;
+      showToast('Unexpected error occurred: $message');
     }
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:pixart_app/features/auth/presentation/view/email_login.dart';
 import 'package:pixart_app/imports.dart';
 import '../../../../core/widgets/image_grid_scaffold.dart';
-import '../widgets/social_login_button.dart';
+import '../widgets/social_login_widget.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

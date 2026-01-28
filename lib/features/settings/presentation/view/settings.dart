@@ -3,9 +3,12 @@ import 'package:pixart_app/features/settings/presentation/widgets/app_version_wi
 import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import '../../../../core/widgets/context_menu.dart';
 import '../../../../imports.dart';
+import '../../../auth/presentation/controller/auth_controller.dart';
 import '../../../auth/presentation/view/login_screen.dart';
 import '../../../language/presentation/view/language.dart';
+import '../../../profile/presentation/view/profile_update.dart';
 import '../widgets/credits_widget.dart';
 import '../widgets/menu_item.dart';
 
@@ -65,7 +68,7 @@ class _SettingScreenState extends State<SettingScreen> {
     return ListView(
       padding: AppPadding.padding16.copyWith(top: 24.sp),
       children: [
-        PrimaryButton(onPressed: () => launchScreen(LoginScreen()), text: 'Login '),
+        LoginWidget(),
         SizedBox(height: 16.sp),
         CreditsWidget(),
         SizedBox(height: 16.sp),
@@ -94,6 +97,94 @@ class _SettingScreenState extends State<SettingScreen> {
         ),
         const AppVersionWidget(),
       ],
+    );
+  }
+}
+
+class LoginWidget extends StatefulWidget {
+  const LoginWidget({super.key});
+
+  @override
+  State<LoginWidget> createState() => _LoginWidgetState();
+}
+
+class _LoginWidgetState extends State<LoginWidget> {
+  final GlobalKey _settingsKey = GlobalKey();
+
+  (Offset, Size) _getWidgetPosition() {
+    final RenderBox? renderBox = _settingsKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      final Offset position = renderBox.localToGlobal(Offset.zero); // Global position
+      final Size size = renderBox.size; // Also get the size if needed
+      return (position, size);
+    }
+    return (Offset.zero, Size.zero);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<AuthController>(
+      builder: (controller) {
+        if (controller.isLoggedIn) {
+          return Padding(
+            padding: EdgeInsets.only(bottom: 16.sp),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: CachedNetworkImageProvider(controller.user?.photoUrl ?? ''),
+                  radius: 24.sp,
+                  backgroundColor: context.theme.cardColor,
+                ),
+                SizedBox(width: 12.sp),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        controller.user?.name ?? '',
+                        style: context.font14.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 4.sp),
+                      Text(
+                        controller.user?.email ?? '',
+                        style: context.font12.copyWith(color: context.theme.hintColor),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 12.sp),
+                IconButton(
+                  key: _settingsKey,
+                  icon: Icon(Iconsax.more_copy, color: context.theme.hintColor),
+                  onPressed: () {
+                    final (Offset position, Size size) = _getWidgetPosition();
+                    showPrimaryContextMenu(
+                      context: context,
+                      details: LongPressStartDetails(
+                        globalPosition: Offset(position.dx + size.width, position.dy),
+                      ),
+                      items: [
+                        PrimaryContextMenu(
+                          text: 'Profile',
+                          icon: Iconsax.user_copy,
+                          onTap: () => launchScreen(ProfileUpdateScreen()),
+                        ),
+                        PrimaryContextMenu(
+                          text: 'Logout',
+                          icon: Iconsax.logout_1_copy,
+                          color: errorColor,
+                          onTap: controller.logout,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+        return PrimaryButton(onPressed: () => launchScreen(LoginScreen()), text: 'Login ');
+      },
     );
   }
 }

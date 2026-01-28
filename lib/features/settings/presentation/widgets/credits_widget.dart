@@ -1,4 +1,5 @@
 import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
+import 'package:pixart_app/features/profile/presentation/controller/profile_controller.dart';
 import '../../../../imports.dart';
 import '../../../paywall/presentation/controller/subscription_controller.dart';
 
@@ -28,7 +29,7 @@ class CreditsWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 8.sp),
                     Text(
-                      '${controller.credits}',
+                      '${ProfileController.find.credits}',
                       style: context.font16.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ],

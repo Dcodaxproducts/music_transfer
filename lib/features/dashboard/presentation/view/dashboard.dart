@@ -31,11 +31,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      if (!SubscriptionController.find.isPro) {
-        SubscriptionController.find.showPaywallIfNeeded();
-      }
-    });
+    if (1 == 2) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        if (!SubscriptionController.find.isPro) {
+          SubscriptionController.find.showPaywallIfNeeded();
+        }
+      });
+    }
     super.initState();
   }
 

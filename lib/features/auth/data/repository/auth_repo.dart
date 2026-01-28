@@ -2,14 +2,18 @@ import 'package:pixart_app/imports.dart';
 import '../../../../core/api/api_client_impl.dart';
 
 abstract class AuthRepo {
-  Future<bool> saveCredits(int credits);
-  int? loadCredits();
-
+  // Authentication
   Future<Response?> login(Map<String, dynamic> body);
   Future<Response?> socialLogin(Map<String, dynamic> body);
   Future<Response?> guestLogin(Map<String, dynamic> body);
   Future<Response?> signup(Map<String, dynamic> body, MultipartBody? profileImage);
   Future<Response?> logout();
-  Future<bool> saveToken(String token);
-  String? getToken();
+  Future<Response?> verifyOtp(Map<String, dynamic> body);
+  Future<Response?> forgetPasswrod(Map<String, dynamic> body);
+
+  // user management
+  Future<bool> saveUser(Map<String, dynamic> user);
+  String? getUser();
+  Future<void> updateHeader(String token);
+  Future<bool> deleteUser();
 }

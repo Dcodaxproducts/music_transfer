@@ -1,8 +1,11 @@
+import 'package:pixart_app/features/auth/data/model/user_model.dart';
 import 'package:pixart_app/features/auth/presentation/view/signup.dart';
+import 'package:pixart_app/features/dashboard/presentation/view/dashboard.dart';
 import 'package:pixart_app/imports.dart';
 import '../controller/auth_controller.dart';
-import '../widgets/social_login_button.dart';
+import '../widgets/social_login_widget.dart';
 import 'forgot_password.dart';
+import 'otp_verification.dart';
 
 class EmailLoginScreen extends StatefulWidget {
   const EmailLoginScreen({super.key});
@@ -91,7 +94,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                           prefixIcon: Iconsax.lock_copy,
                           controller: _passwordController,
                           focusNode: _passwordFocusNode,
-                          textInputAction: TextInputAction.next,
+                          textInputAction: TextInputAction.done,
                           autofillHints: [AutofillHints.password],
                           suffixIcon: IconButton(
                             icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
@@ -123,7 +126,11 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                     ),
 
                     SizedBox(height: 24.sp),
-                    PrimaryButton(text: 'Login', onPressed: _login),
+                    PrimaryButton(
+                      text: controller.isLoading ? 'Logging in...' : 'Login',
+                      onPressed: _login,
+                      isLoading: controller.isLoading,
+                    ),
                     SizedBox(height: 8.sp),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +177,18 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      // Perform login action
+      final String email = _emailController.text.trim();
+      final String password = _passwordController.text.trim();
+
+      AuthController.find.login(email, password).then((response) {
+        final UserModel? user = response.$1;
+        final bool isOtpVerified = response.$2;
+        if (!isOtpVerified && user != null) {
+          launchScreen(OtpVerificationScreen(email: email));
+        } else if (user != null) {
+          launchScreen(DashboardScreen(), pushAndRemove: true);
+        }
+      });
     }
   }
 }

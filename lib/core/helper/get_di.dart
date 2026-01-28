@@ -12,15 +12,16 @@ import 'package:pixart_app/core/api/api_client_impl.dart';
 import 'package:flutter/services.dart';
 import '../../features/auth/domain/binding/auth_binding.dart';
 import '../../features/paywall/domain/binding/subscription_binding.dart';
+import '../../features/profile/domain/binding/profile_binding.dart';
 import '../../imports.dart';
 import '../../image_gen/home/domain/binding/models_binding.dart';
 import '../../features/theme/domain/binding/theme_binding.dart';
 
 Future<Map<String, Map<String, String>>> init() async {
   // Core
-  final sharedPreferences = await SharedPreferences.getInstance();
-  Get.lazyPut(() => sharedPreferences, fenix: true);
-  ApiClient apiClient = ApiClientImpl(baseUrl: Endpoints.baseUrl);
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  Get.lazyPut(() => prefs, fenix: true);
+  ApiClient apiClient = ApiClientImpl(baseUrl: Endpoints.baseUrl, prefs: prefs);
   Get.lazyPut(() => apiClient, fenix: true);
 
   final List<Bindings> bindings = [
@@ -37,6 +38,7 @@ Future<Map<String, Map<String, String>>> init() async {
     ReviewBinding(),
     ToolsBinding(),
     SubscriptionBinding(),
+    ProfileBinding(),
   ];
 
   for (Bindings binding in bindings) {

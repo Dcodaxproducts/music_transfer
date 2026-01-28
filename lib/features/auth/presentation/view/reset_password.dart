@@ -1,9 +1,9 @@
+import 'package:pixart_app/features/dashboard/presentation/view/dashboard.dart';
+import 'package:pixart_app/features/profile/presentation/controller/profile_controller.dart';
 import 'package:pixart_app/imports.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  final String email;
-  final String otp;
-  const ResetPasswordScreen({super.key, required this.email, required this.otp});
+  const ResetPasswordScreen({super.key});
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -29,118 +29,133 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(leading: PrimaryBackButton()),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: AppPadding.screenPadding,
-          children: [
-            Text("Reset Password", style: context.font28.copyWith(fontWeight: FontWeight.w600)),
-            SizedBox(height: 8.sp),
-            Text(
-              "Create a new password for your account.",
-              style: context.font14.copyWith(color: context.theme.hintColor),
-            ),
+    return GetBuilder<ProfileController>(
+      builder: (controller) {
+        return AbsorbPointer(
+          absorbing: controller.isLoading,
+          child: Scaffold(
+            appBar: AppBar(leading: PrimaryBackButton()),
+            body: Form(
+              key: _formKey,
+              child: ListView(
+                padding: AppPadding.screenPadding,
+                children: [
+                  Text("Reset Password", style: context.font28.copyWith(fontWeight: FontWeight.w600)),
+                  SizedBox(height: 8.sp),
+                  Text(
+                    "Create a new password for your account.",
+                    style: context.font14.copyWith(color: context.theme.hintColor),
+                  ),
 
-            SizedBox(height: 32.sp),
+                  SizedBox(height: 32.sp),
 
-            // Lock icon illustration
-            Center(
-              child: Container(
-                width: 100.sp,
-                height: 100.sp,
-                decoration: BoxDecoration(
-                  color: context.theme.primaryColor.withAlpha(25),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(Iconsax.lock_copy, size: 48.sp, color: context.theme.primaryColor),
+                  // Lock icon illustration
+                  Center(
+                    child: Container(
+                      width: 100.sp,
+                      height: 100.sp,
+                      decoration: BoxDecoration(
+                        color: context.theme.primaryColor.withAlpha(25),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Iconsax.lock_copy, size: 48.sp, color: context.theme.primaryColor),
+                    ),
+                  ),
+
+                  SizedBox(height: 32.sp),
+
+                  Text("New Password", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                  SizedBox(height: 8.sp),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _obscurePassword,
+                    builder: (context, obscureText, child) {
+                      return CustomTextField(
+                        hintText: "Enter new password",
+                        obscureText: obscureText,
+                        prefixIcon: Iconsax.lock_copy,
+                        controller: _passwordController,
+                        textInputAction: TextInputAction.next,
+                        suffixIcon: IconButton(
+                          icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
+                          onPressed: () {
+                            _obscurePassword.value = !_obscurePassword.value;
+                          },
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          if (value.length < 6) {
+                            return 'Password must be at least 6 characters';
+                          }
+                          return null;
+                        },
+                        onSubmitted: (_) {
+                          _confirmPasswordFocusNode.requestFocus();
+                        },
+                      );
+                    },
+                  ),
+
+                  SizedBox(height: 16.sp),
+
+                  Text("Confirm Password", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                  SizedBox(height: 8.sp),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _obscureConfirmPassword,
+                    builder: (context, obscureText, child) {
+                      return CustomTextField(
+                        hintText: "Confirm your new password",
+                        obscureText: obscureText,
+                        prefixIcon: Iconsax.lock_copy,
+                        controller: _confirmPasswordController,
+                        focusNode: _confirmPasswordFocusNode,
+                        textInputAction: TextInputAction.done,
+                        suffixIcon: IconButton(
+                          icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
+                          onPressed: () {
+                            _obscureConfirmPassword.value = !_obscureConfirmPassword.value;
+                          },
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please confirm your password';
+                          }
+                          if (value != _passwordController.text) {
+                            return 'Passwords do not match';
+                          }
+                          return null;
+                        },
+                      );
+                    },
+                  ),
+
+                  SizedBox(height: 32.sp),
+
+                  PrimaryButton(
+                    text: controller.isLoading ? 'Resetting Password...' : 'Reset Password',
+                    onPressed: _resetPassword,
+                    isLoading: controller.isLoading,
+                  ),
+
+                  SafeArea(child: SizedBox()),
+                ],
               ),
             ),
-
-            SizedBox(height: 32.sp),
-
-            Text("New Password", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
-            SizedBox(height: 8.sp),
-            ValueListenableBuilder<bool>(
-              valueListenable: _obscurePassword,
-              builder: (context, obscureText, child) {
-                return CustomTextField(
-                  hintText: "Enter new password",
-                  obscureText: obscureText,
-                  prefixIcon: Iconsax.lock_copy,
-                  controller: _passwordController,
-                  textInputAction: TextInputAction.next,
-                  suffixIcon: IconButton(
-                    icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
-                    onPressed: () {
-                      _obscurePassword.value = !_obscurePassword.value;
-                    },
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    }
-                    return null;
-                  },
-                  onSubmitted: (_) {
-                    _confirmPasswordFocusNode.requestFocus();
-                  },
-                );
-              },
-            ),
-
-            SizedBox(height: 16.sp),
-
-            Text("Confirm Password", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
-            SizedBox(height: 8.sp),
-            ValueListenableBuilder<bool>(
-              valueListenable: _obscureConfirmPassword,
-              builder: (context, obscureText, child) {
-                return CustomTextField(
-                  hintText: "Confirm your new password",
-                  obscureText: obscureText,
-                  prefixIcon: Iconsax.lock_copy,
-                  controller: _confirmPasswordController,
-                  focusNode: _confirmPasswordFocusNode,
-                  textInputAction: TextInputAction.done,
-                  suffixIcon: IconButton(
-                    icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
-                    onPressed: () {
-                      _obscureConfirmPassword.value = !_obscureConfirmPassword.value;
-                    },
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
-                    }
-                    if (value != _passwordController.text) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-
-            SizedBox(height: 32.sp),
-
-            PrimaryButton(text: 'Reset Password', onPressed: _resetPassword),
-
-            SafeArea(child: SizedBox()),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
   void _resetPassword() {
     if (_formKey.currentState!.validate()) {
-      // TODO: Implement password reset logic
-      debugPrint('Resetting password for ${widget.email} with OTP ${widget.otp}');
+      ProfileController.find.updateProfile(password: _passwordController.text).then((success) {
+        if (success) {
+          showToast('Password reset successfully');
+          launchScreen(DashboardScreen(), pushAndRemove: true);
+        }
+      });
     }
   }
 }

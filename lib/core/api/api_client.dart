@@ -2,6 +2,8 @@ import 'package:http/http.dart';
 import 'api_client_impl.dart';
 
 abstract class ApiClient {
+  void updateHeader(String token);
+
   Future<void> cancelRequest();
 
   Future<Response?> get(

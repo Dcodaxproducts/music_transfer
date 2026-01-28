@@ -48,12 +48,15 @@ class ModelsController extends GetxController implements GetxService {
 
   Future<bool> selectModel(Model model) async {
     _selectedModel = model;
-    _selectedSize = model.sizes.first;
+    if (model.sizes.isNotEmpty) {
+      _selectedSize = model.sizes.first;
+    }
     update();
     return await modelsService.saveSelectedModel(model.id);
   }
 
   Future<void> _setDefaultModel() async {
+    if (_models.isEmpty) return;
     Model defaultModel = _models.firstWhere((model) => model.isDefault, orElse: () => _models.first);
     await selectModel(defaultModel);
   }

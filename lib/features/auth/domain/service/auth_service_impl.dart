@@ -11,39 +11,33 @@ class AuthServiceImpl implements AuthService {
   final AuthRepo repo;
   AuthServiceImpl({required this.repo});
 
-  /* Credits Management */
-  @override
-  Future<bool> saveCredits(int credits) {
-    return repo.saveCredits(credits);
-  }
-
-  @override
-  int? loadCredits() => repo.loadCredits();
-
   /* Auth Methods */
   @override
-  Future<UserModel?> signup(SignupBody signupBody) async {
+  Future<bool> signup(SignupBody signupBody) async {
     MultipartBody? profileImage;
     if (signupBody.profileImage != null) {
       profileImage = MultipartBody('profile_image', signupBody.profileImage!);
     }
     final Response? response = await repo.signup(signupBody.toJson(), profileImage);
     if (response != null && response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      return UserModel.fromJson(data);
+      return true;
     }
-    return null;
+    return false;
   }
 
   @override
-  Future<UserModel?> login(String email, String password) async {
+  Future<(UserModel?, bool)> login(String email, String password) async {
     final Map<String, dynamic> body = {'email': email, 'password': password};
     final Response? response = await repo.login(body);
+
     if (response != null && response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return UserModel.fromJson(data);
+      final bool isVerified = data['is_verified'];
+      final UserModel user = UserModel.fromJson(data['data']);
+      await saveUser(user);
+      return (user, isVerified);
     }
-    return null;
+    return (null, false);
   }
 
   @override
@@ -51,26 +45,73 @@ class AuthServiceImpl implements AuthService {
     final Map<String, dynamic> body = socialLoginModel.toJson();
     final Response? response = await repo.socialLogin(body);
     if (response != null && response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      return UserModel.fromJson(data);
+      final Map<String, dynamic> data = jsonDecode(response.body)['data'];
+      final UserModel user = UserModel.fromJson(data);
+      await saveUser(user);
+      return user;
     }
     return null;
   }
 
   @override
-  Future<UserModel?> guestLogin(String uuid) async {
-    final Map<String, dynamic> body = {'uuid': uuid};
+  Future<UserModel?> guestLogin() async {
+    final Map<String, dynamic> body = {'uid': Uuid().v4()};
     final Response? response = await repo.guestLogin(body);
     if (response != null && response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      return UserModel.fromJson(data);
+      final Map<String, dynamic> data = jsonDecode(response.body)['data'];
+      final UserModel user = UserModel.fromJson(data);
+      await saveUser(user);
+      return user;
     }
     return null;
   }
 
   @override
-  Future<bool> saveToken(String token) => repo.saveToken(token);
+  Future<UserModel?> verifyOtp(String email, String otp) async {
+    final Map<String, dynamic> body = {'email': email, 'otp': otp};
+    final Response? response = await repo.verifyOtp(body);
+    if (response != null && response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body)['data'];
+      final UserModel user = UserModel.fromJson(data);
+      await saveUser(user);
+      return user;
+    }
+    return null;
+  }
 
   @override
-  String? getToken() => repo.getToken();
+  Future<bool> logout() async {
+    await repo.logout();
+    await repo.deleteUser();
+    return true;
+  }
+
+  @override
+  Future<bool> forgetPassword(String email) async {
+    final Map<String, dynamic> body = {'email': email};
+    final Response? response = await repo.forgetPasswrod(body);
+    if (response != null && response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  // user management
+  @override
+  Future<bool> saveUser(UserModel user) async {
+    if (user.token != null) {
+      await repo.updateHeader(user.token!);
+    }
+    return await repo.saveUser(user.toJson());
+  }
+
+  @override
+  UserModel? getUser() {
+    final String? userString = repo.getUser();
+    if (userString != null) {
+      final Map<String, dynamic> userMap = jsonDecode(userString);
+      return UserModel.fromJson(userMap);
+    }
+    return null;
+  }
 }

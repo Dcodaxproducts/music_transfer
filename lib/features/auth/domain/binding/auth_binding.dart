@@ -14,7 +14,5 @@ class AuthBinding extends Bindings {
     Get.lazyPut<AuthService>(() => AuthServiceImpl(repo: Get.find()));
     // controller
     Get.lazyPut<AuthController>(() => AuthController(service: Get.find()));
-
-    
   }
 }

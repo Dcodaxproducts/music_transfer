@@ -1,25 +1,25 @@
 class SocialLoginModel {
+  final String uid;
   final String? name;
   final String email;
-  final String uniqueId;
   final String medium;
   final String? profilePicture;
 
   SocialLoginModel({
+    required this.uid,
     this.name,
     required this.email,
-    required this.uniqueId,
     required this.medium,
     this.profilePicture,
   });
 
   Map<String, dynamic> toJson() {
     return {
+      'guest_uid': uid,
       'name': name,
       'email': email,
-      'unique_id': uniqueId,
       'medium': medium,
-      'profile_picture': profilePicture,
+      'profile_image': profilePicture,
     };
   }
 }

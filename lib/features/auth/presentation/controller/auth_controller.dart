@@ -17,19 +17,15 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
-  bool get isLoggedIn => service.getToken() != null;
+  bool get isLoggedIn => _user?.email != null;
 
   UserModel? _user;
   UserModel? get user => _user;
 
-  String? _deviceId;
-  String? get deviceId => _deviceId;
-
-  int _credits = 0;
-  int get credits => _credits;
-
   Future<void> initialize() async {
-    if (!isLoggedIn) {
+    _user = service.getUser();
+    update();
+    if (_user == null) {
       await guestLogin();
     }
   }
@@ -37,9 +33,7 @@ class AuthController extends GetxController implements GetxService {
   Future<void> guestLogin() async {
     try {
       isLoading = true;
-      final Uuid uuid = Uuid();
-      String generatedUuid = uuid.v4();
-      UserModel? guestUser = await service.guestLogin(generatedUuid);
+      UserModel? guestUser = await service.guestLogin();
       if (guestUser != null) {
         _user = guestUser;
       }
@@ -50,58 +44,99 @@ class AuthController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<(UserModel?, bool)> login(String email, String password) async {
     try {
       isLoading = true;
-      UserModel? loggedInUser = await service.login(email, password);
-      if (loggedInUser != null) {
-        _user = loggedInUser;
+      (UserModel?, bool) response = await service.login(email, password);
+      if (response.$1 != null) {
+        _user = response.$1;
       }
       isLoading = false;
+      return response;
     } catch (e) {
       showToast('Unable to login: $e');
+      return (null, false);
     } finally {
       isLoading = false;
     }
   }
 
-  Future<void> signup(SignupBody signupBody) async {
+  Future<bool> signup(SignupBody signupBody) async {
     try {
-      UserModel? registeredUser = await service.signup(signupBody);
-      if (registeredUser != null) {
-        _user = registeredUser;
-      }
+      isLoading = true;
+      return await service.signup(signupBody);
     } catch (e) {
       showToast('Unable to signup: $e');
+      return false;
     } finally {
       isLoading = false;
     }
   }
 
-  Future<void> socialLogin(SocialLoginModel socialLoginModel) async {
-    // UserModel? loggedInUser = await service.socialLogin(socialLoginModel, _deviceId ?? 'unknown');
-    // if (loggedInUser != null) {
-    //   _user = loggedInUser;
-    //   update();
-    // }
+  Future<bool> socialLogin(SocialLoginModel socialLoginModel) async {
+    try {
+      isLoading = true;
+      UserModel? loggedInUser = await service.socialLogin(socialLoginModel);
+      if (loggedInUser != null) {
+        _user = loggedInUser;
+        update();
+      }
+      return loggedInUser != null;
+    } catch (e) {
+      showToast('Unable to login with social account: $e');
+      return false;
+    } finally {
+      isLoading = false;
+    }
   }
 
-  void loadCredits() {
-    int? savedCredits = service.loadCredits();
-    _credits = savedCredits ?? 0;
+  Future<bool> verifyOtp(String email, String otp) async {
+    try {
+      isLoading = true;
+      final UserModel? verifiedUser = await service.verifyOtp(email, otp);
+      if (verifiedUser != null) {
+        _user = verifiedUser;
+        return true;
+      }
+      return false;
+    } catch (e) {
+      showToast('OTP verification failed: $e');
+      return false;
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  Future<bool> forgetPassword(String email) async {
+    try {
+      isLoading = true;
+      return await service.forgetPassword(email);
+    } catch (e) {
+      showToast('OTP verification failed: $e');
+      return false;
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      showLoading();
+      bool success = await service.logout();
+      if (success) {
+        _user = null;
+        await guestLogin();
+      }
+    } catch (e) {
+      showToast('Unable to logout: $e');
+    } finally {
+      dismiss();
+    }
+  }
+
+  Future<bool> saveUser(UserModel user) async {
+    _user = user;
     update();
-  }
-
-  Future<void> updateCredits(int value) async {
-    // deduct credits used from available credits
-    int updatedCredits = _credits - value;
-    if (updatedCredits.isNegative) {
-      updatedCredits = 0;
-    }
-    bool success = await service.saveCredits(updatedCredits);
-    if (success) {
-      _credits = updatedCredits;
-      update();
-    }
+    return await service.saveUser(user);
   }
 }

@@ -17,6 +17,14 @@ class Endpoints {
   static const String login = 'login';
   static const String socialLogin = 'social-login';
   static const String logout = 'logout';
+  static const String verifyEmail = 'verify-email';
+  static const String resendOtp = 'resend-otp';
+  static const String forgetPassword = 'forgot-password';
+  static const String changePassword = 'change-password';
+
+  // profile
+  static const String profile = 'profile';
+  static const String updateProfile = 'update-profile';
 
   static const String models = 'gen-model-list';
   static const String inspirations = 'inspirations';

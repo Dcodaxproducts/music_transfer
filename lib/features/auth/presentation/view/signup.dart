@@ -1,3 +1,4 @@
+import 'package:pixart_app/features/auth/presentation/view/otp_verification.dart';
 import 'package:pixart_app/imports.dart';
 import '../../data/model/signup_body.dart';
 import '../controller/auth_controller.dart';
@@ -225,7 +226,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
 
                     SizedBox(height: 24.sp),
-                    PrimaryButton(text: 'Sign Up', onPressed: _signup),
+                    PrimaryButton(
+                      text: controller.isLoading ? 'Signing Up...' : 'Sign Up',
+                      onPressed: _signup,
+                      isLoading: controller.isLoading,
+                    ),
                     SizedBox(height: 8.sp),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -257,13 +262,19 @@ class _SignupScreenState extends State<SignupScreen> {
 
   void _signup() async {
     if (_formKey.currentState!.validate()) {
+      final String email = _emailController.text.trim();
       SignupBody signupBody = SignupBody(
         name: _nameController.text.trim(),
-        email: _emailController.text.trim(),
+        email: email,
         password: _passwordController.text,
         profileImage: _profileImage.value,
+        uid: AuthController.find.user?.uid ?? Uuid().v4(),
       );
-      AuthController.find.service.signup(signupBody).then((success) {});
+      AuthController.find.signup(signupBody).then((success) {
+        if (success) {
+          launchScreen(OtpVerificationScreen(email: email));
+        }
+      });
     }
   }
 }

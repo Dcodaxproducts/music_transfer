@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:pixart_app/features/splash/presentation/controller/splash_controller.dart';
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/features/dashboard/presentation/view/dashboard.dart';
@@ -7,6 +6,7 @@ import 'package:pixart_app/features/welcome/presentation/view/welcome.dart';
 import '../../../../image_gen/inspirations/presentation/controller/inspiration_controller.dart';
 import '../../../ads/presentation/controller/ads_controller.dart';
 import '../../../../image_gen/home/presentation/controller/models_controller.dart';
+import '../../../auth/presentation/controller/auth_controller.dart';
 import 'splash.dart';
 
 class Root extends StatefulWidget {
@@ -24,24 +24,20 @@ class RootState extends State<Root> {
     super.initState();
   }
 
-  Future<void> initData() async {
-    // get data from api
-    await _getDataFromApi();
-
-    // show add
+  void initData() async {
+    _getDataFromApi();
+    await AdsController.find.initialize();
     await _loadAppOpenAd();
 
-    //
     _ready = true;
     if (mounted) setState(() {});
   }
 
   Future<void> _getDataFromApi() async {
-    Future.wait([
-      AdsController.find.initialize(),
+    await Future.wait([
       ModelsController.find.getModels(),
-      AuthController.find.initialize(),
       InspirationController.find.getInspirations(),
+      AuthController.find.initialize(),
     ]);
   }
 
