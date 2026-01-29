@@ -22,6 +22,8 @@ class AuthController extends GetxController implements GetxService {
   UserModel? _user;
   UserModel? get user => _user;
 
+  int get credits => _user?.credits ?? 0;
+
   Future<void> initialize() async {
     _user = service.getUser();
     update();

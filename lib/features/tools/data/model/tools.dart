@@ -11,6 +11,7 @@ class Tool {
   final String endPoint;
   final String category;
   final bool premium;
+  final int credits;
 
   Tool({
     required this.id,
@@ -23,6 +24,7 @@ class Tool {
     required this.endPoint,
     required this.category,
     this.premium = false,
+    this.credits = 0,
   });
 
   factory Tool.fromJson(Map<String, dynamic> json) {
@@ -37,6 +39,7 @@ class Tool {
       endPoint: json['api_endpoint'],
       category: json['category'],
       premium: json['is_pro'] ?? false,
+      credits: json['credits'] ?? 0,
     );
   }
   Map<String, dynamic> toJson() {
@@ -51,6 +54,7 @@ class Tool {
       'api_endpoint': endPoint,
       'category': category,
       'is_pro': premium,
+      'credits': credits,
     };
   }
 }

@@ -69,9 +69,37 @@ class ToolDetailScreen extends StatelessWidget {
                         SizedBox(height: 8.sp),
                         Text(tool.description.tr, style: context.font14.copyWith(color: hintColorDark)),
                         SizedBox(height: 24.sp),
-                        PrimaryButton(
-                          text: 'Try Now!',
-                          onPressed: () => ToolImagePicker.show(onImagePicked: _handleApiCall),
+                        ElevatedButton(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Try it now',
+                                style: context.font14.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Padding(
+                                padding: AppPadding.horizontal(8),
+                                child: Image.asset(
+                                  Images.sparkle,
+                                  width: 16.sp,
+                                  height: 16.sp,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                '${tool.credits}',
+                                style: context.font14.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onPressed: () =>
+                              ToolImagePicker.show(onImagePicked: _handleApiCall, tool: tool),
                         ),
                       ],
                     ),

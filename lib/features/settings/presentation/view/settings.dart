@@ -35,20 +35,8 @@ class _SettingScreenState extends State<SettingScreen> {
       icon: Iconsax.crown_1_copy,
       onTap: () => launchUrlString(AppConstants.manageSubscriptionsUrl),
     ),
-    MenuItem(
-      text: 'privacy_policy',
-      icon: Iconsax.lock_copy,
-      onTap: () {
-        // TODO: Update privacy policy link
-      },
-    ),
-    MenuItem(
-      text: 'terms_of_service',
-      icon: Iconsax.info_circle_copy,
-      onTap: () {
-        // TODO: Update terms of service link
-      },
-    ),
+    MenuItem(text: 'privacy_policy', icon: Iconsax.lock_copy, onTap: () {}),
+    MenuItem(text: 'terms_of_service', icon: Iconsax.info_circle_copy, onTap: () {}),
     const MenuItem(text: 'rate_us', icon: Iconsax.star_copy, onTap: showRateUsDialog),
     MenuItem(
       text: 'share_app',

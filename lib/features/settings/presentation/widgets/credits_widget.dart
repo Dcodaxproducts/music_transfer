@@ -1,5 +1,4 @@
 import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
-import 'package:pixart_app/features/profile/presentation/controller/profile_controller.dart';
 import '../../../../imports.dart';
 import '../../../paywall/presentation/controller/subscription_controller.dart';
 
@@ -10,6 +9,7 @@ class CreditsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(
       builder: (controller) {
+        int credits = AuthController.find.user?.credits ?? 0;
         return Container(
           padding: AppPadding.padding12,
           decoration: BoxDecoration(
@@ -28,10 +28,7 @@ class CreditsWidget extends StatelessWidget {
                       style: context.font12.copyWith(color: context.theme.hintColor),
                     ),
                     SizedBox(height: 8.sp),
-                    Text(
-                      '${ProfileController.find.credits}',
-                      style: context.font16.copyWith(fontWeight: FontWeight.w600),
-                    ),
+                    Text('$credits', style: context.font16.copyWith(fontWeight: FontWeight.w600)),
                   ],
                 ),
               ),

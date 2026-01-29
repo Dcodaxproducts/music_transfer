@@ -59,6 +59,18 @@ class ToolCard extends StatelessWidget {
                   ),
                 ),
               ),
+
+            // Premium badge
+            if (tool.premium)
+              Positioned(
+                top: 8.sp,
+                right: 8.sp,
+                child: CircleAvatar(
+                  backgroundColor: primaryLight.withOpacity(0.9),
+                  radius: 12.sp,
+                  child: Icon(Iconsax.crown, size: 12.sp, color: Colors.white),
+                ),
+              ),
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:pixart_app/features/paywall/data/model/revenuecat_config.dart';
 import '../../../../imports.dart';
 import '../../domain/srevice/subscription_service.dart';
@@ -9,17 +10,7 @@ class SubscriptionController extends GetxController implements GetxService {
 
   static SubscriptionController get find => Get.find<SubscriptionController>();
 
-  bool get isPro {
-    EntitlementInfos? entitlements = _customerInfo?.entitlements;
-    if (entitlements == null || entitlements.active.isNotEmpty == false) {
-      return false;
-    }
-    final DateTime now = DateTime.now().toLocal();
-    final DateTime expiration = DateTime.parse(
-      entitlements.active.values.first.expirationDate ?? '',
-    ).toLocal();
-    return now.isBefore(expiration);
-  }
+  bool get isPro => AuthController.find.user?.isPro ?? false;
 
   CustomerInfo? _customerInfo;
   CustomerInfo? get customerInfo => _customerInfo;

@@ -1,16 +1,20 @@
 import 'dart:ui';
 import 'package:pixart_app/core/widgets/primary_bottom_sheet.dart';
+import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
+import 'package:pixart_app/features/paywall/presentation/controller/subscription_controller.dart';
 import 'package:pixart_app/features/tools/presentation/controller/tools_controller.dart';
 import 'package:pixart_app/imports.dart';
+import '../../data/model/tools.dart';
 import 'aspect_ratio.dart';
 
 class ToolImagePicker extends StatefulWidget {
   final Function(XFile image) onImagePicked;
-  const ToolImagePicker({super.key, required this.onImagePicked});
+  final Tool tool;
+  const ToolImagePicker({super.key, required this.onImagePicked, required this.tool});
 
-  ToolImagePicker.show({super.key, onImagePicked}) : onImagePicked = onImagePicked! {
+  ToolImagePicker.show({super.key, tool, onImagePicked}) : tool = tool!, onImagePicked = onImagePicked! {
     Get.bottomSheet(
-      ToolImagePicker(onImagePicked: onImagePicked),
+      ToolImagePicker(onImagePicked: onImagePicked, tool: tool),
       isScrollControlled: true,
       isDismissible: false, // ❌ no tap outside
       enableDrag: false, // ❌ no swipe down
@@ -115,10 +119,58 @@ class _ToolImagePickerState extends State<ToolImagePicker> {
                         SizedBox(height: 32.sp),
                         SizedBox(
                           width: double.infinity,
-                          child: PrimaryButton(
-                            text: controller.generatingImage ? 'Generating...' : 'Continue',
-                            isLoading: controller.generatingImage,
+                          child: ElevatedButton(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (controller.generatingImage)
+                                  Padding(
+                                    padding: AppPadding.horizontal(8),
+                                    child: SizedBox(
+                                      width: 14.sp,
+                                      height: 14.sp,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                Text(
+                                  controller.generatingImage ? 'Creating...' : 'Create Image',
+                                  style: context.font14.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                if (!controller.generatingImage) ...[
+                                  Padding(
+                                    padding: AppPadding.horizontal(8),
+                                    child: Image.asset(
+                                      Images.sparkle,
+                                      width: 16.sp,
+                                      height: 16.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${widget.tool.credits}',
+                                    style: context.font14.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
                             onPressed: () {
+                              if (widget.tool.premium && !SubscriptionController.find.isPro) {
+                                SubscriptionController.find.showPaywallIfNeeded();
+                                return;
+                              }
+                              if (AuthController.find.credits < widget.tool.credits) {
+                                showToast('Not enough credits. Please purchase more to continue.');
+                                return;
+                              }
                               if (image != null) {
                                 widget.onImagePicked(image);
                               }

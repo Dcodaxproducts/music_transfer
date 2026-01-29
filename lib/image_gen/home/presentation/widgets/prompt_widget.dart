@@ -90,6 +90,25 @@ class PromptInputWidget extends StatelessWidget {
                 children: [
                   ActionButton.small(onPressed: _pickImage, icon: Icons.add),
                   ActionButton.small(onPressed: SettingsSheet.show, icon: Iconsax.setting_4_copy),
+                  if (controller.attachedImage != null)
+                    TextButton(
+                      style: TextButton.styleFrom(backgroundColor: primaryLight.withOpacity(0.1)),
+                      onPressed: () => ImageGenController.find.attachedImage = null,
+                      child: Padding(
+                        padding: EdgeInsetsGeometry.symmetric(horizontal: 14.sp, vertical: 10.sp),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Edit',
+                              style: TextStyle(fontWeight: FontWeight.w600, color: primaryLight),
+                            ),
+                            SizedBox(width: 4.sp),
+                            Icon(Icons.close, size: 16.sp, color: primaryLight),
+                          ],
+                        ),
+                      ),
+                    ),
                   const Spacer(),
                   GetBuilder<ModelsController>(
                     builder: (modelController) {

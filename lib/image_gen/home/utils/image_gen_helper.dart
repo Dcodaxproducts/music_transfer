@@ -1,11 +1,10 @@
-import 'package:pixart_app/features/profile/presentation/controller/profile_controller.dart';
+import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/image_generation_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
 import '../../../features/paywall/presentation/controller/subscription_controller.dart';
 import '../../../imports.dart';
 import '../data/model/image_generation.dart';
 import '../data/model/model.dart';
-import '../presentation/widgets/watch_ads_dialog.dart';
 
 class ImageGenerationHelper {
   // Handles the tap action for generating an image
@@ -27,19 +26,16 @@ class ImageGenerationHelper {
   static void _handleUser(String text) {
     // Check subscription status and model type
     if (SubscriptionController.find.isPro) {
-      return _handleProUser(text);
+      return _handleCredits(text);
     } else {
       return _handleFreeUser(text);
     }
   }
 
-  static void _handleProUser(String text) {
-    _handleCredits(text);
-  }
-
   static void _handleFreeUser(String text) {
     if (ModelsController.find.selectedModel?.isPro ?? false) {
       SubscriptionController.find.showPaywallIfNeeded();
+      return;
     } else {
       _handleCredits(text);
     }
@@ -53,15 +49,12 @@ class ImageGenerationHelper {
       return;
     }
 
-    if (ProfileController.find.credits < model.creditsPerImage) {
-      // showToast('Not enough credits available');
-      WatchAdsDialog.show(
-        Get.context!,
-        onWatchAd: () => generateImage(text, model),
-        onUpgrade: SubscriptionController.find.showPaywallIfNeeded,
-      );
+    if (AuthController.find.credits < model.creditsPerImage) {
+      showToast('Not enough credits available');
       return;
     }
+
+    generateImage(text, model);
   }
 
   // Generates an image based on the provided text prompt
@@ -72,9 +65,6 @@ class ImageGenerationHelper {
       // Clear prompt and attached image after generation
       ImageGenController.find.promptController.clear();
       ImageGenController.find.attachedImage = null;
-
-      // update credits
-      ProfileController.find.updateCredits(result.meta.model.creditsPerImage);
     }
     return result;
   }

@@ -18,27 +18,7 @@ class ProfileController extends GetxController implements GetxService {
     update();
   }
 
-  int _credits = 0;
-  int get credits => _credits;
-
-  void loadCredits() {
-    int? savedCredits = service.loadCredits();
-    _credits = savedCredits ?? 0;
-    update();
-  }
-
-  Future<void> updateCredits(int value) async {
-    // deduct credits used from available credits
-    int updatedCredits = _credits - value;
-    if (updatedCredits.isNegative) {
-      updatedCredits = 0;
-    }
-    bool success = await service.saveCredits(updatedCredits);
-    if (success) {
-      _credits = updatedCredits;
-      update();
-    }
-  }
+ 
 
   Future<bool> updateProfile({String? name, String? password, XFile? image}) async {
     try {
