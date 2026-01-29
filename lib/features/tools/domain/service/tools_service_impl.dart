@@ -28,7 +28,7 @@ class ToolsServiceImpl implements ToolsService {
 
   @override
   Future<Response?> generateImage(Tool tool, XFile image, {SizePreset? size}) async {
-    final Map<String, dynamic> body = {"token": Endpoints.token};
+    final Map<String, dynamic> body = {};
     MultipartBody multipartBody = MultipartBody('image', image);
 
     // add model id if any

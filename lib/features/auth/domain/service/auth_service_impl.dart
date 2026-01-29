@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:pixart_app/core/api/api_client_impl.dart';
+import 'package:pixart_app/features/paywall/presentation/controller/subscription_controller.dart';
 import '../../../../imports.dart';
 import '../../data/model/signup_body.dart';
 import '../../data/model/social_login_model.dart';
@@ -102,6 +103,7 @@ class AuthServiceImpl implements AuthService {
     if (user.token != null) {
       await repo.updateHeader(user.token!);
     }
+    await SubscriptionController.find.login(user.uid);
     return await repo.saveUser(user.toJson());
   }
 

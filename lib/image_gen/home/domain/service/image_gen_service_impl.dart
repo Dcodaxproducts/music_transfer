@@ -29,7 +29,6 @@ class ImageGenerationServiceImpl implements ImageGenService {
     int seedValue = ImageGenerationUtils.generateSeed();
 
     Map<String, dynamic> body = {
-      "token": Endpoints.token,
       "prompt": prompt,
       "model_id": model.id,
       "width": size.width,

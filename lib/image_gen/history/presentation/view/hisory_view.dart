@@ -60,10 +60,10 @@ class _HistoryCardState extends State<HistoryCard> {
               details: details,
               context: context,
               items: [
-                PrimaryContextMenu(text: 'Download'.tr, icon: Iconsax.export, onTap: _downloadResult),
+                PrimaryContextMenu(text: 'Download'.tr, icon: Iconsax.export_copy, onTap: _downloadResult),
                 PrimaryContextMenu(
                   text: 'Delete'.tr,
-                  icon: Iconsax.trash,
+                  icon: Iconsax.trash_copy,
                   color: errorColor,
                   onTap: _deleteResult,
                 ),

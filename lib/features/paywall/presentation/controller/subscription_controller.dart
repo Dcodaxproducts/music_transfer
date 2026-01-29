@@ -51,4 +51,13 @@ class SubscriptionController extends GetxController implements GetxService {
       }
     }
   }
+
+  Future<void> login(String appUserId) async {
+    try {
+      await revenueCatService.login(appUserId);
+      await refreshCustomerInfo();
+    } catch (e) {
+      debugPrint('Error during RevenueCat login: $e');
+    }
+  }
 }

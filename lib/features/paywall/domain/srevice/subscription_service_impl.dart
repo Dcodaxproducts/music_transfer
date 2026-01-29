@@ -44,4 +44,14 @@ class SubscriptionServiceImpl implements SubscriptionService {
       return false;
     }
   }
+
+  @override
+  Future<void> login(String appUserId) async {
+    try {
+      await Purchases.logOut();
+      await Purchases.logIn(appUserId);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

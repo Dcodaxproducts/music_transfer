@@ -6,7 +6,6 @@ class Endpoints {
       // "http://192.168.18.40:8000";
       'https://pixartai.dcodax.net';
   static const String baseUrl = '$DOMAIN/api/';
-  static const String token = 'w3lc0m3';
 
   // API Endpoints
   static const String generateImage = 'images/generate-image';
