@@ -5,7 +5,7 @@ class RevenueCatConstants {
   static const String androidTestKey = "test_tfpGDFBygQaTKqGjNmaeJAziaru";
   static const String iosTestKey = "test_bfIiULHVfneVyQvbAXyDgxgvUcb";
 
-  static const bool useSandboxInDebug = true;
+  static const bool useSandboxInDebug = false;
 
   /// Private constructor to prevent instantiation
   RevenueCatConstants._();

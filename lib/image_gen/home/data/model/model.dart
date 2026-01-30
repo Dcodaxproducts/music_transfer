@@ -8,6 +8,7 @@ class Model {
   final String image;
   final bool isPro;
   final bool supportImage;
+  final bool requiresImage;
   final int creditsPerImage;
   final bool expensive;
   final bool isDefault;
@@ -21,6 +22,7 @@ class Model {
     required this.isPro,
     required this.description,
     required this.supportImage,
+    this.requiresImage = false,
     required this.creditsPerImage,
     required this.expensive,
     this.isDefault = false,
@@ -36,6 +38,7 @@ class Model {
       description: json['description'] ?? '',
       isPro: json['is_pro'] ?? false,
       supportImage: json['support_image'] ?? false,
+      requiresImage: json['requires_image'] ?? false,
       creditsPerImage: json['credits_per_image'] ?? 5,
       expensive: json['expensive'] ?? false,
       isDefault: json['is_default'] ?? false,
@@ -54,6 +57,7 @@ class Model {
       'description': description,
       'is_pro': isPro,
       'support_image': supportImage,
+      'requires_image': requiresImage,
       'credits_per_image': creditsPerImage,
       'expensive': expensive,
       'is_default': isDefault,

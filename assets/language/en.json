@@ -251,5 +251,7 @@
   "privacy_policy_text": "Privacy Policy",
   "welcome_to": "Welcome to",
   "by_proceeding_agree": "By proceeding, you agree to our ",
-  "and": " and "
+  "and": " and ",
+  "please_select_a_model": "Please select a model",
+  "this_model_requires_an_input_for_editing": "This model requires an input image for editing."
 }

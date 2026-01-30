@@ -9,7 +9,7 @@ class CustomShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: context.theme.cardColor,
-      highlightColor: context.font16.color!.withOpacity(0.05),
+      highlightColor: context.theme.canvasColor,
       child: child,
     );
   }

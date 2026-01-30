@@ -1,7 +1,7 @@
-import 'package:pixart_app/core/widgets/shimmer.dart';
 import '../../../../imports.dart';
 import '../controller/tools_controller.dart';
 import '../widgets/tools_card.dart';
+import '../widgets/tools_shimmer.dart';
 import 'category_screen.dart';
 
 class ToolScreen extends StatelessWidget {
@@ -58,31 +58,6 @@ class ToolScreen extends StatelessWidget {
               SizedBox(height: 16.sp),
             ],
           ],
-        );
-      },
-    );
-  }
-}
-
-class ToolsShimmer extends StatelessWidget {
-  const ToolsShimmer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: AppPadding.padding12,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: context.width > 600 ? 4 : 2,
-        mainAxisSpacing: 8.sp,
-        crossAxisSpacing: 8.sp,
-        childAspectRatio: 0.75,
-      ),
-      itemCount: 6,
-      itemBuilder: (context, index) {
-        return CustomShimmer(
-          child: Container(
-            decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: AppRadius.circular8),
-          ),
         );
       },
     );
