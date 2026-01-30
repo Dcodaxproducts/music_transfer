@@ -83,7 +83,7 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<bool> logout() async {
     await repo.logout();
-    await repo.deleteUser();
+    await Future.wait([repo.deleteUser(), Purchases.logOut()]);
     return true;
   }
 
@@ -103,7 +103,7 @@ class AuthServiceImpl implements AuthService {
     if (user.token != null) {
       await repo.updateHeader(user.token!);
     }
-    await SubscriptionController.find.login(user.uid);
+    await SubscriptionController.find.login(user);
     return await repo.saveUser(user.toJson());
   }
 

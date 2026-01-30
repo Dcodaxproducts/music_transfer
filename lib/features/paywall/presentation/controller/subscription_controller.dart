@@ -1,6 +1,8 @@
 import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:pixart_app/features/paywall/data/model/revenuecat_config.dart';
+import 'package:pixart_app/features/profile/presentation/controller/profile_controller.dart';
 import '../../../../imports.dart';
+import '../../../auth/data/model/user_model.dart';
 import '../../domain/srevice/subscription_service.dart';
 import '../view/pro_success_screen.dart';
 
@@ -23,11 +25,13 @@ class SubscriptionController extends GetxController implements GetxService {
   Future<void> initialize() async {
     await revenueCatService.initialize(RevenueCatConfig.defaultConfig);
     await refreshCustomerInfo();
+    ProfileController.find.updateProfile();
   }
 
   /// Refresh customer info and premium status
   Future<void> refreshCustomerInfo({CustomerInfo? info}) async {
     customerInfo = info ?? await revenueCatService.getCustomerInfo();
+    log(customerInfo?.toJson().toString() ?? 'No customer info available');
   }
 
   Future<void> showPaywallIfNeeded({Function()? onSuccess}) async {
@@ -43,9 +47,9 @@ class SubscriptionController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> login(String appUserId) async {
+  Future<void> login(UserModel user) async {
     try {
-      await revenueCatService.login(appUserId);
+      await revenueCatService.login(user);
       await refreshCustomerInfo();
     } catch (e) {
       debugPrint('Error during RevenueCat login: $e');

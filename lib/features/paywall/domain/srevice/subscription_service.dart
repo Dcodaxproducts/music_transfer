@@ -1,4 +1,5 @@
 import 'package:purchases_flutter/purchases_flutter.dart';
+import '../../../auth/data/model/user_model.dart';
 import '../../data/model/revenuecat_config.dart';
 
 abstract class SubscriptionService {
@@ -12,5 +13,5 @@ abstract class SubscriptionService {
   Future<bool> showPaywall();
 
   // Login
-  Future<void> login(String appUserId);
+  Future<void> login(UserModel user);
 }
