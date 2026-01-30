@@ -15,10 +15,10 @@ class _EmptyHistoryState extends State<EmptyHistory> {
       children: [
         const AnimatedImageStack(),
         SizedBox(height: 8.sp),
-        Text('AI Image', style: context.font18),
+        Text("ai_image".tr, style: context.font18),
         SizedBox(height: 4.sp),
         Text(
-          'Describe your image below and\nstart creating',
+          "describe_image_start_creating".tr,
           textAlign: TextAlign.center,
           style: context.font14.copyWith(color: context.theme.hintColor),
         ),

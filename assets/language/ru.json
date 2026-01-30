@@ -236,5 +236,17 @@
     "i_agree_to_the": "Я согласен с ",
     "terms_of_use": "Условиями использования",
     "and_acknowledged_read": " и подтверждаю, что прочитал ",
-    "agree_and_continue": "Согласиться и продолжить"
+    "agree_and_continue": "Согласиться и продолжить",
+    "are_you_sure": "Вы уверены?",
+    "delete_confirmation": "Вы уверены, что хотите удалить это?",
+    "no_history": "Пока нет истории",
+    "no_history_description": "Ваши сгенерированные изображения появятся здесь",
+    "start_creating": "Начать создание",
+    "recent": "Недавние",
+    "clear_all": "Очистить все",
+    "select_aspect_ratio": "Выбрать соотношение сторон",
+    "select_model": "Выбрать модель",
+    "image_settings": "Настройки изображения",
+    "credits": "Кредиты",
+    "privacy_policy_text": "Политика конфиденциальности"
 }

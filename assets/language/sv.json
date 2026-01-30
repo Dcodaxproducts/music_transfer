@@ -236,5 +236,17 @@
     "i_agree_to_the": "Jag godkänner ",
     "terms_of_use": "Användarvillkoren",
     "and_acknowledged_read": " och bekräftar att jag har läst ",
-    "agree_and_continue": "Godkänn & Fortsätt"
+    "agree_and_continue": "Godkänn & Fortsätt",
+    "are_you_sure": "Är du säker?",
+    "delete_confirmation": "Är du säker på att du vill radera detta?",
+    "no_history": "Ingen historik ännu",
+    "no_history_description": "Dina genererade bilder kommer att visas här",
+    "start_creating": "Börja skapa",
+    "recent": "Senaste",
+    "clear_all": "Rensa alla",
+    "select_aspect_ratio": "Välj bildförhållande",
+    "select_model": "Välj modell",
+    "image_settings": "Bildinställningar",
+    "credits": "Krediter",
+    "privacy_policy_text": "Integritetspolicy"
 }

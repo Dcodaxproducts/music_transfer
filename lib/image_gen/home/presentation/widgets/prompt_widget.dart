@@ -100,7 +100,7 @@ class PromptInputWidget extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              'Edit',
+                              "edit".tr,
                               style: TextStyle(fontWeight: FontWeight.w600, color: primaryLight),
                             ),
                             SizedBox(width: 4.sp),
@@ -124,7 +124,7 @@ class PromptInputWidget extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text('Create', style: TextStyle(fontWeight: FontWeight.w600)),
+                              Text("create".tr, style: TextStyle(fontWeight: FontWeight.w600)),
                               SizedBox(width: 4.sp),
                               Image.asset(Images.sparkle, width: 16.sp, height: 16.sp, color: Colors.white),
                               SizedBox(width: 4.sp),

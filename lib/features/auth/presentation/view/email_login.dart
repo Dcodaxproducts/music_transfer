@@ -50,19 +50,19 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 child: ListView(
                   padding: AppPadding.screenPadding,
                   children: [
-                    Text("Welcome", style: context.font28.copyWith(fontWeight: FontWeight.w600)),
+                    Text("welcome".tr, style: context.font28.copyWith(fontWeight: FontWeight.w600)),
                     SizedBox(height: 8.sp),
                     Text(
-                      "Login with your email to continue",
+                      "sign_in_to_continue".tr,
                       style: context.font14.copyWith(color: context.theme.hintColor),
                     ),
 
                     SizedBox(height: 24.sp),
 
-                    Text("Email", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                    Text("email".tr, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                     SizedBox(height: 8.sp),
                     CustomTextField(
-                      hintText: "Enter your email",
+                      hintText: "enter_your_email".tr,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       prefixIcon: Iconsax.sms_copy,
@@ -70,10 +70,10 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       autofillHints: [AutofillHints.email],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
+                          return "please_enter_your_email".tr;
                         }
                         if (!GetUtils.isEmail(value)) {
-                          return 'Please enter a valid email';
+                          return "please_enter_valid_email".tr;
                         }
                         return null;
                       },
@@ -83,13 +83,13 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                     ),
 
                     SizedBox(height: 16.sp),
-                    Text("Password", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                    Text("password".tr, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                     SizedBox(height: 8.sp),
                     ValueListenableBuilder<bool>(
                       valueListenable: _obscurePassword,
                       builder: (context, obscureText, child) {
                         return CustomTextField(
-                          hintText: "Enter your password",
+                          hintText: "enter_your_password".tr,
                           obscureText: obscureText,
                           prefixIcon: Iconsax.lock_copy,
                           controller: _passwordController,
@@ -104,10 +104,10 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your password';
+                              return "please_enter_your_password".tr;
                             }
                             if (value.length < 6) {
-                              return 'Password must be at least 6 characters';
+                              return "password_min_6_chars".tr;
                             }
                             return null;
                           },
@@ -119,7 +119,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       child: TextButton(
                         onPressed: () => launchScreen(const ForgotPasswordScreen()),
                         child: Text(
-                          "Forget Password?",
+                          "forgot_password".tr,
                           style: context.font12.copyWith(decoration: TextDecoration.underline),
                         ),
                       ),
@@ -127,7 +127,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
 
                     SizedBox(height: 24.sp),
                     PrimaryButton(
-                      text: controller.isLoading ? 'Logging in...' : 'Login',
+                      text: controller.isLoading ? "logging_in".tr : "login".tr,
                       onPressed: _login,
                       isLoading: controller.isLoading,
                     ),
@@ -136,13 +136,13 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't have an account? ",
+                          "dont_have_account".tr,
                           style: context.font12.copyWith(color: context.theme.hintColor),
                         ),
                         TextButton(
                           onPressed: () => launchScreen(const SignupScreen(), replace: true),
                           child: Text(
-                            "Sign Up",
+                            "sign_up".tr,
                             style: context.font12.copyWith(decoration: TextDecoration.underline),
                           ),
                         ),
@@ -155,7 +155,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                         spacing: 16.sp,
                         children: [
                           Expanded(child: Divider()),
-                          Text("OR", style: context.font12.copyWith(color: context.theme.hintColor)),
+                          Text("or".tr, style: context.font12.copyWith(color: context.theme.hintColor)),
                           Expanded(child: Divider()),
                         ],
                       ),

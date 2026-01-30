@@ -12,7 +12,7 @@ class SocialLoginWidget extends StatelessWidget {
     return GetBuilder<AuthController>(
       builder: (controller) {
         return SocialLoginButton(
-          label: 'Continue with Google',
+          label: "continue_with_google".tr,
           image: Images.google,
           isDark: true,
           onTap: _googleLogin,

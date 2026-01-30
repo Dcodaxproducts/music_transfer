@@ -15,7 +15,7 @@ class ModelsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return PrimaryBottomSheet(
       padding: EdgeInsets.only(top: 24.sp),
-      title: 'Models',
+      title: 'models'.tr,
       child: Expanded(
         child: GetBuilder<ModelsController>(
           builder: (controller) {

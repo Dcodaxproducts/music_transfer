@@ -15,7 +15,7 @@ class PreviewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: PrimaryBackButton(),
-        title: Text('Preview'),
+        title: Text("preview".tr),
         actions: [
           SaveButton(url: ImageGenController.find.result!.output.first),
           SizedBox(width: 8),

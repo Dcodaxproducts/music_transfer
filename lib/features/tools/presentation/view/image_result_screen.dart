@@ -18,7 +18,7 @@ class _ToolResultScreenState extends State<ToolResultScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: PrimaryBackButton(),
-        title: Text('Preview'),
+        title: Text("preview".tr),
         actions: [
           SaveButton(url: widget.response.image),
           SizedBox(width: 8),

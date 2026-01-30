@@ -21,18 +21,18 @@ class SettingsSheet extends StatelessWidget {
         Model? selectedModel = controller.selectedModel;
         SizePreset selectedAspectRatio = controller.selectedSize;
         return PrimaryBottomSheet(
-          title: 'Settings',
+          title: "image_settings".tr,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               SettingSheetTile(
-                title: 'Model',
+                title: "model".tr,
                 icon: Iconsax.cpu_copy,
                 valueText: selectedModel?.name ?? 'N/A',
                 onPressed: ModelsSheet.show,
               ),
               SettingSheetTile(
-                title: 'Aspect Ratio',
+                title: "aspect_ratio".tr,
                 icon: Iconsax.format_square_copy,
                 valueText: selectedAspectRatio.aspectRatio,
                 onPressed: AspectRatioSheet.show,

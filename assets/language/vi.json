@@ -236,5 +236,17 @@
     "i_agree_to_the": "Tôi đồng ý với ",
     "terms_of_use": "Điều khoản sử dụng",
     "and_acknowledged_read": " và xác nhận rằng tôi đã đọc ",
-    "agree_and_continue": "Đồng ý & Tiếp tục"
+    "agree_and_continue": "Đồng ý & Tiếp tục",
+    "are_you_sure": "Bạn có chắc chắn không?",
+    "delete_confirmation": "Bạn có chắc chắn muốn xóa cái này không?",
+    "no_history": "Chưa có lịch sử",
+    "no_history_description": "Hình ảnh được tạo của bạn sẽ xuất hiện ở đây",
+    "start_creating": "Bắt đầu tạo",
+    "recent": "Gần đây",
+    "clear_all": "Xóa tất cả",
+    "select_aspect_ratio": "Chọn tỷ lệ khung hình",
+    "select_model": "Chọn mô hình",
+    "image_settings": "Cài đặt hình ảnh",
+    "credits": "Tín dụng",
+    "privacy_policy_text": "Chính sách bảo mật"
 }

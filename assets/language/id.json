@@ -236,5 +236,17 @@
     "i_agree_to_the": "Saya setuju dengan ",
     "terms_of_use": "Ketentuan Penggunaan",
     "and_acknowledged_read": " dan mengakui bahwa saya telah membaca ",
-    "agree_and_continue": "Setuju & Lanjutkan"
+    "agree_and_continue": "Setuju & Lanjutkan",
+    "are_you_sure": "Apakah Anda yakin?",
+    "delete_confirmation": "Apakah Anda yakin ingin menghapus ini?",
+    "no_history": "Belum ada riwayat",
+    "no_history_description": "Gambar yang Anda hasilkan akan muncul di sini",
+    "start_creating": "Mulai membuat",
+    "recent": "Terbaru",
+    "clear_all": "Hapus semua",
+    "select_aspect_ratio": "Pilih rasio aspek",
+    "select_model": "Pilih model",
+    "image_settings": "Pengaturan gambar",
+    "credits": "Kredit",
+    "privacy_policy_text": "Kebijakan Privasi"
 }

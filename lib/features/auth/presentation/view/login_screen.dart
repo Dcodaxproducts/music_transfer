@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
           SizedBox(height: 12.sp),
 
           SocialLoginButton(
-            label: 'Continue with Email',
+            label: "continue_with_email".tr,
             icon: Iconsax.sms_copy,
             onTap: () => launchScreen(EmailLoginScreen()),
           ),
@@ -46,15 +46,15 @@ class LoginScreen extends StatelessWidget {
             text: TextSpan(
               style: context.font12.copyWith(color: context.theme.hintColor),
               children: [
-                const TextSpan(text: 'By proceeding, you agree to our '),
+                TextSpan(text: 'By proceeding, you agree to our '.tr),
                 TextSpan(
-                  text: 'Terms of Use',
+                  text: "terms_of_use".tr,
                   style: TextStyle(decoration: TextDecoration.underline),
                   recognizer: TapGestureRecognizer()..onTap = () {},
                 ),
                 const TextSpan(text: ' and '),
                 TextSpan(
-                  text: 'Privacy Policy',
+                  text: 'privacy_policy'.tr,
                   style: TextStyle(decoration: TextDecoration.underline),
                   recognizer: TapGestureRecognizer()..onTap = () {},
                 ),

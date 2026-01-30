@@ -236,5 +236,17 @@
     "i_agree_to_the": "ฉันยอมรับ ",
     "terms_of_use": "เงื่อนไขการใช้งาน",
     "and_acknowledged_read": " และยอมรับว่าฉันได้อ่าน ",
-    "agree_and_continue": "ยอมรับและดำเนินต่อ"
+    "agree_and_continue": "ยอมรับและดำเนินต่อ",
+    "are_you_sure": "คุณแน่ใจหรือไม่?",
+    "delete_confirmation": "คุณแน่ใจหรือไม่ว่าต้องการลบสิ่งนี้?",
+    "no_history": "ยังไม่มีประวัติ",
+    "no_history_description": "ภาพที่สร้างของคุณจะปรากฏที่นี่",
+    "start_creating": "เริ่มสร้าง",
+    "recent": "ล่าสุด",
+    "clear_all": "ล้างทั้งหมด",
+    "select_aspect_ratio": "เลือกอัตราส่วนภาพ",
+    "select_model": "เลือกโมเดล",
+    "image_settings": "การตั้งค่าภาพ",
+    "credits": "เครดิต",
+    "privacy_policy_text": "นโยบายความเป็นส่วนตัว"
 }

@@ -1,14 +1,10 @@
-/// Constants for RevenueCat configuration
 class RevenueCatConstants {
-  /// RevenueCat API Keys
-  static const String iosApiKey = 'appl_cYkFvzJGqCHAYoBiXcMWnYLDBDo';
-  static const String androidApiKey = 'goog_xXdPPDzoEwGrhOAbfFIwfFqEkUV';
+  static const String iosLiveApiKey = 'appl_cYkFvzJGqCHAYoBiXcMWnYLDBDo';
+  static const String androidLiveApiKey = 'goog_xXdPPDzoEwGrhOAbfFIwfFqEkUV';
 
-  /// Entitlement identifiers
-  /// These should match the entitlements configured in RevenueCat dashboard
-  static const String premiumEntitlementId = 'premium';
+  static const String androidTestKey = "test_tfpGDFBygQaTKqGjNmaeJAziaru";
+  static const String iosTestKey = "test_AbCdEfGhIjKlMnOpQrStUvWxYz";
 
-  /// Environment settings
   static const bool useSandboxInDebug = true;
 
   /// Private constructor to prevent instantiation

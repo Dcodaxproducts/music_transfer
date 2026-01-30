@@ -236,5 +236,17 @@
     "i_agree_to_the": "나는 ",
     "terms_of_use": "이용 약관",
     "and_acknowledged_read": "에 동의하며, 읽었음을 확인합니다 ",
-    "agree_and_continue": "동의하고 계속"
+    "agree_and_continue": "동의하고 계속",
+    "are_you_sure": "확실합니까?",
+    "delete_confirmation": "정말 삭제하시겠습니까?",
+    "no_history": "아직 기록이 없습니다",
+    "no_history_description": "생성된 이미지가 여기에 표시됩니다",
+    "start_creating": "생성 시작",
+    "recent": "최근",
+    "clear_all": "모두 지우기",
+    "select_aspect_ratio": "가로 세로 비율 선택",
+    "select_model": "모델 선택",
+    "image_settings": "이미지 설정",
+    "credits": "크레딧",
+    "privacy_policy_text": "개인정보 보호정책"
 }

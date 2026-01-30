@@ -236,5 +236,17 @@
     "i_agree_to_the": "Sunt de acord cu ",
     "terms_of_use": "Termenii de utilizare",
     "and_acknowledged_read": " și confirm că am citit ",
-    "agree_and_continue": "Acceptați & Continuați"
+    "agree_and_continue": "Acceptați & Continuați",
+    "are_you_sure": "Ești sigur?",
+    "delete_confirmation": "Ești sigur că vrei să ștergi acest lucru?",
+    "no_history": "Încă nu există istoric",
+    "no_history_description": "Imaginile generate vor apărea aici",
+    "start_creating": "Începe crearea",
+    "recent": "Recente",
+    "clear_all": "Șterge tot",
+    "select_aspect_ratio": "Selectează raportul de aspect",
+    "select_model": "Selectează modelul",
+    "image_settings": "Setări imagine",
+    "credits": "Credite",
+    "privacy_policy_text": "Politica de confidențialitate"
 }

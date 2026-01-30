@@ -236,5 +236,17 @@
     "i_agree_to_the": "Kabul ediyorum ",
     "terms_of_use": "Kullanım Koşulları",
     "and_acknowledged_read": " ve okuduğumu onaylıyorum ",
-    "agree_and_continue": "Kabul Et ve Devam Et"
+    "agree_and_continue": "Kabul Et ve Devam Et",
+    "are_you_sure": "Emin misiniz?",
+    "delete_confirmation": "Bunu silmek istediğinizden emin misiniz?",
+    "no_history": "Henüz geçmiş yok",
+    "no_history_description": "Oluşturulan görselleriniz burada görünecek",
+    "start_creating": "Oluşturmaya başla",
+    "recent": "Son",
+    "clear_all": "Tümünü temizle",
+    "select_aspect_ratio": "En boy oranı seç",
+    "select_model": "Model seç",
+    "image_settings": "Görsel ayarları",
+    "credits": "Krediler",
+    "privacy_policy_text": "Gizlilik Politikası"
 }

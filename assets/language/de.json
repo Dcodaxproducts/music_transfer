@@ -236,5 +236,17 @@
     "i_agree_to_the": "Ich stimme den ",
     "terms_of_use": "Nutzungsbedingungen",
     "and_acknowledged_read": " zu und bestätige, dass ich die ",
-    "agree_and_continue": "Zustimmen und fortfahren"
+    "agree_and_continue": "Zustimmen und fortfahren",
+    "are_you_sure": "Sind Sie sicher?",
+    "delete_confirmation": "Sind Sie sicher, dass Sie dies löschen möchten?",
+    "no_history": "Noch kein Verlauf",
+    "no_history_description": "Ihre generierten Bilder werden hier angezeigt",
+    "start_creating": "Mit der Erstellung beginnen",
+    "recent": "Kürzlich",
+    "clear_all": "Alle löschen",
+    "select_aspect_ratio": "Seitenverhältnis auswählen",
+    "select_model": "Modell auswählen",
+    "image_settings": "Bildeinstellungen",
+    "credits": "Credits",
+    "privacy_policy_text": "Datenschutzrichtlinie"
 }

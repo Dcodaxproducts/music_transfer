@@ -80,7 +80,7 @@ class DeleteResultSheet extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: PrimaryButton(
-                    text: 'Delete',
+                    text: "delete".tr,
                     color: errorColor,
                     onPressed: () {
                       HistoryController.find.deletePrompt(result);
@@ -93,7 +93,7 @@ class DeleteResultSheet extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: PrimaryButton(
-                    text: 'Cancel',
+                    text: "cancel".tr,
                     color: context.theme.canvasColor,
                     textColor: context.font14.color!,
                     onPressed: Get.back,

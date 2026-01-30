@@ -32,10 +32,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               child: ListView(
                 padding: AppPadding.screenPadding,
                 children: [
-                  Text("Forgot Password?", style: context.font28.copyWith(fontWeight: FontWeight.w600)),
+                  Text("forgot_password".tr, style: context.font28.copyWith(fontWeight: FontWeight.w600)),
                   SizedBox(height: 8.sp),
                   Text(
-                    "Don't worry! Enter your email address and we'll send you a verification code to reset your password.",
+                    "enter_email_reset_link".tr,
                     style: context.font14.copyWith(color: context.theme.hintColor),
                   ),
 
@@ -56,20 +56,20 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                   SizedBox(height: 32.sp),
 
-                  Text("Email", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                  Text("email".tr, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                   SizedBox(height: 8.sp),
                   CustomTextField(
-                    hintText: "Enter your email",
+                    hintText: "enter_your_email".tr,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.done,
                     prefixIcon: Iconsax.sms_copy,
                     controller: _emailController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
+                        return "please_enter_your_email".tr;
                       }
                       if (!GetUtils.isEmail(value)) {
-                        return 'Please enter a valid email';
+                        return "please_enter_valid_email".tr;
                       }
                       return null;
                     },
@@ -78,7 +78,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   SizedBox(height: 32.sp),
 
                   PrimaryButton(
-                    text: controller.isLoading ? 'Sending...' : 'Send Code',
+                    text: controller.isLoading ? "sending_email".tr : "send_reset_link".tr,
                     onPressed: _sendResetCode,
                     isLoading: controller.isLoading,
                   ),
@@ -88,7 +88,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: Text(
-                      "Back to Login",
+                      "back_to_login".tr,
                       style: context.font14.copyWith(
                         decoration: TextDecoration.underline,
                         color: context.theme.hintColor,

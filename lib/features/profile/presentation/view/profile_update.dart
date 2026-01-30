@@ -89,17 +89,17 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                   ),
 
                   SizedBox(height: 40.sp),
-                  Text("Name", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                  Text("name".tr, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                   SizedBox(height: 8.sp),
                   CustomTextField(
-                    hintText: "Enter your name",
+                    hintText: "enter_your_name".tr,
                     keyboardType: TextInputType.name,
                     textInputAction: TextInputAction.next,
                     prefixIcon: Iconsax.user_copy,
                     controller: _nameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your name';
+                        return "please_enter_your_name".tr;
                       }
                       return null;
                     },
@@ -116,7 +116,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
             return Padding(
               padding: AppPadding.screenPadding,
               child: PrimaryButton(
-                text: controller.isLoading ? 'Updating...' : 'Update',
+                text: controller.isLoading ? "updating".tr : "update".tr,
                 onPressed: _signup,
                 isLoading: controller.isLoading,
               ),
@@ -133,7 +133,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
           .updateProfile(name: _nameController.text.trim(), image: _profileImage.value)
           .then((success) {
             if (success) {
-              showToast('Profile updated successfully');
+              showToast("profile_updated_successfully".tr);
               Get.back();
             }
           });

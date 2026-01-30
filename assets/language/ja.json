@@ -236,5 +236,17 @@
     "i_agree_to_the": "私は ",
     "terms_of_use": "利用規約",
     "and_acknowledged_read": " に同意し、 ",
-    "agree_and_continue": "同意して続ける"
+    "agree_and_continue": "同意して続ける",
+    "are_you_sure": "よろしいですか？",
+    "delete_confirmation": "本当に削除しますか？",
+    "no_history": "まだ履歴がありません",
+    "no_history_description": "生成された画像がここに表示されます",
+    "start_creating": "作成を開始",
+    "recent": "最近",
+    "clear_all": "すべてクリア",
+    "select_aspect_ratio": "アスペクト比を選択",
+    "select_model": "モデルを選択",
+    "image_settings": "画像設定",
+    "credits": "クレジット",
+    "privacy_policy_text": "プライバシーポリシー"
 }

@@ -40,10 +40,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               child: ListView(
                 padding: AppPadding.screenPadding,
                 children: [
-                  Text("Reset Password", style: context.font28.copyWith(fontWeight: FontWeight.w600)),
+                  Text("reset_password".tr, style: context.font28.copyWith(fontWeight: FontWeight.w600)),
                   SizedBox(height: 8.sp),
                   Text(
-                    "Create a new password for your account.",
+                    "create_new_password".tr,
                     style: context.font14.copyWith(color: context.theme.hintColor),
                   ),
 
@@ -64,13 +64,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                   SizedBox(height: 32.sp),
 
-                  Text("New Password", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                  Text("new_password".tr, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                   SizedBox(height: 8.sp),
                   ValueListenableBuilder<bool>(
                     valueListenable: _obscurePassword,
                     builder: (context, obscureText, child) {
                       return CustomTextField(
-                        hintText: "Enter new password",
+                        hintText: "enter_new_password".tr,
                         obscureText: obscureText,
                         prefixIcon: Iconsax.lock_copy,
                         controller: _passwordController,
@@ -83,10 +83,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
+                            return "please_enter_your_password".tr;
                           }
                           if (value.length < 6) {
-                            return 'Password must be at least 6 characters';
+                            return "password_min_6_chars".tr;
                           }
                           return null;
                         },
@@ -99,13 +99,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                   SizedBox(height: 16.sp),
 
-                  Text("Confirm Password", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                  Text("confirm_password".tr, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                   SizedBox(height: 8.sp),
                   ValueListenableBuilder<bool>(
                     valueListenable: _obscureConfirmPassword,
                     builder: (context, obscureText, child) {
                       return CustomTextField(
-                        hintText: "Confirm your new password",
+                        hintText: "confirm_your_new_password".tr,
                         obscureText: obscureText,
                         prefixIcon: Iconsax.lock_copy,
                         controller: _confirmPasswordController,
@@ -119,10 +119,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please confirm your password';
+                            return "please_confirm_your_password".tr;
                           }
                           if (value != _passwordController.text) {
-                            return 'Passwords do not match';
+                            return "passwords_do_not_match".tr;
                           }
                           return null;
                         },
@@ -133,7 +133,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   SizedBox(height: 32.sp),
 
                   PrimaryButton(
-                    text: controller.isLoading ? 'Resetting Password...' : 'Reset Password',
+                    text: controller.isLoading ? "resetting_password".tr : "reset_password".tr,
                     onPressed: _resetPassword,
                     isLoading: controller.isLoading,
                   ),
@@ -152,7 +152,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     if (_formKey.currentState!.validate()) {
       ProfileController.find.updateProfile(password: _passwordController.text).then((success) {
         if (success) {
-          showToast('Password reset successfully');
+          showToast("password_reset_successfully".tr);
           launchScreen(DashboardScreen(), pushAndRemove: true);
         }
       });

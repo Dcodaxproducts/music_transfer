@@ -13,7 +13,7 @@ class AspectRatioSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PrimaryBottomSheet(
-      title: 'Aspect Ratio',
+      title: "aspect_ratio".tr,
       child: Expanded(
         child: GetBuilder<ModelsController>(
           builder: (con) {

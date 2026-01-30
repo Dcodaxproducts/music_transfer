@@ -67,10 +67,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 child: ListView(
                   padding: AppPadding.screenPadding,
                   children: [
-                    Text("Create Account", style: context.font28.copyWith(fontWeight: FontWeight.w600)),
+                    Text("create_account".tr, style: context.font28.copyWith(fontWeight: FontWeight.w600)),
                     SizedBox(height: 8.sp),
                     Text(
-                      "Provide your details to create a new account.",
+                      "provide_details_create_account".tr,
                       style: context.font14.copyWith(color: context.theme.hintColor),
                     ),
 
@@ -112,10 +112,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
 
                     SizedBox(height: 24.sp),
-                    Text("Name", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                    Text("name".tr, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                     SizedBox(height: 8.sp),
                     CustomTextField(
-                      hintText: "Enter your name",
+                      hintText: "enter_your_name".tr,
                       keyboardType: TextInputType.name,
                       textInputAction: TextInputAction.next,
                       prefixIcon: Iconsax.user_copy,
@@ -123,7 +123,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       autofillHints: [AutofillHints.name],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
+                          return "please_enter_your_name".tr;
                         }
                         return null;
                       },
@@ -132,10 +132,10 @@ class _SignupScreenState extends State<SignupScreen> {
                       },
                     ),
                     SizedBox(height: 16.sp),
-                    Text("Email", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                    Text("email".tr, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                     SizedBox(height: 8.sp),
                     CustomTextField(
-                      hintText: "Enter your email",
+                      hintText: "enter_your_email".tr,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       prefixIcon: Iconsax.sms_copy,
@@ -144,10 +144,10 @@ class _SignupScreenState extends State<SignupScreen> {
                       autofillHints: [AutofillHints.email],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
+                          return "please_enter_your_email".tr;
                         }
                         if (!GetUtils.isEmail(value)) {
-                          return 'Please enter a valid email';
+                          return "please_enter_valid_email".tr;
                         }
                         return null;
                       },
@@ -157,13 +157,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
 
                     SizedBox(height: 16.sp),
-                    Text("Password", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                    Text("password".tr, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                     SizedBox(height: 8.sp),
                     ValueListenableBuilder<bool>(
                       valueListenable: _obscurePassword,
                       builder: (context, obscureText, child) {
                         return CustomTextField(
-                          hintText: "Enter your password",
+                          hintText: "enter_your_password".tr,
                           obscureText: obscureText,
                           prefixIcon: Iconsax.lock_copy,
                           controller: _passwordController,
@@ -178,10 +178,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your password';
+                              return "please_enter_your_password".tr;
                             }
                             if (value.length < 6) {
-                              return 'Password must be at least 6 characters';
+                              return "password_min_6_chars".tr;
                             }
                             return null;
                           },
@@ -193,13 +193,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
 
                     SizedBox(height: 16.sp),
-                    Text("Confirm Password", style: context.font14.copyWith(fontWeight: FontWeight.w500)),
+                    Text("confirm_password".tr, style: context.font14.copyWith(fontWeight: FontWeight.w500)),
                     SizedBox(height: 8.sp),
                     ValueListenableBuilder<bool>(
                       valueListenable: _obscureConfirmPassword,
                       builder: (context, obscureText, child) {
                         return CustomTextField(
-                          hintText: "Enter your password again",
+                          hintText: "enter_your_password_again".tr,
                           obscureText: obscureText,
                           prefixIcon: Iconsax.lock_copy,
                           controller: _confirmPasswordController,
@@ -214,10 +214,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please confirm your password';
+                              return "please_confirm_your_password".tr;
                             }
                             if (value != _passwordController.text) {
-                              return 'Passwords do not match';
+                              return "passwords_do_not_match".tr;
                             }
                             return null;
                           },
@@ -227,7 +227,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                     SizedBox(height: 24.sp),
                     PrimaryButton(
-                      text: controller.isLoading ? 'Signing Up...' : 'Sign Up',
+                      text: controller.isLoading ? "signing_up".tr : "sign_up".tr,
                       onPressed: _signup,
                       isLoading: controller.isLoading,
                     ),
@@ -236,13 +236,13 @@ class _SignupScreenState extends State<SignupScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Already have an account? ",
+                          "already_have_account".tr,
                           style: context.font12.copyWith(color: context.theme.hintColor),
                         ),
                         TextButton(
                           onPressed: () => launchScreen(const EmailLoginScreen(), replace: true),
                           child: Text(
-                            "Login",
+                            "login".tr,
                             style: context.font12.copyWith(decoration: TextDecoration.underline),
                           ),
                         ),

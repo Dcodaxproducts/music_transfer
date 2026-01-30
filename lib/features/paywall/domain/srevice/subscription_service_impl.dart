@@ -49,22 +49,19 @@ class SubscriptionServiceImpl implements SubscriptionService {
   @override
   Future<void> login(UserModel user) async {
     try {
-      // log in with new appUserId
-      await Purchases.logIn(user.uid);
+      String currentAppUserId = await Purchases.appUserID;
+
+      // Log in only if the user ID is different
+      if (currentAppUserId != user.uid) {
+        await Purchases.logIn(user.uid);
+      }
 
       // set attributes if provided
       if (user.email != null || user.name != null) {
-        final Map<String, String> attributes = {};
-        if (user.email != null) attributes['email'] = user.email ?? 'N/A';
-        if (user.name != null) attributes['name'] = user.name ?? 'N/A';
-
         await Future.wait([
-          Purchases.setAttributes(attributes),
           Purchases.setEmail(user.email ?? 'N/A'),
           Purchases.setDisplayName(user.name ?? 'N/A'),
         ]);
-
-        showToast("User Logged in to RevenueCat as ${user.email}, ${user.name}, ${user.uid}");
       }
     } catch (e) {
       rethrow;

@@ -236,5 +236,17 @@
     "i_agree_to_the": "أوافق على ",
     "terms_of_use": "شروط الاستخدام",
     "and_acknowledged_read": " وأقر بأنني قرأت ",
-    "agree_and_continue": "الموافقة والمتابعة"
+    "agree_and_continue": "الموافقة والمتابعة",
+    "are_you_sure": "هل أنت متأكد؟",
+    "delete_confirmation": "هل أنت متأكد أنك تريد حذف هذا؟",
+    "no_history": "لا يوجد سجل بعد",
+    "no_history_description": "ستظهر صورك المُنشأة هنا",
+    "start_creating": "ابدأ الإنشاء",
+    "recent": "الأخيرة",
+    "clear_all": "مسح الكل",
+    "select_aspect_ratio": "اختر نسبة العرض إلى الارتفاع",
+    "select_model": "اختر النموذج",
+    "image_settings": "إعدادات الصورة",
+    "credits": "الاعتمادات",
+    "privacy_policy_text": "سياسة الخصوصية"
 }

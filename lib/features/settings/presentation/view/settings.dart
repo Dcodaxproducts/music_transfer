@@ -153,12 +153,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                       items: [
                         PrimaryContextMenu(
-                          text: 'Profile',
+                          text: "profile".tr,
                           icon: Iconsax.user_copy,
                           onTap: () => launchScreen(ProfileUpdateScreen()),
                         ),
                         PrimaryContextMenu(
-                          text: 'Logout',
+                          text: "logout".tr,
                           icon: Iconsax.logout_1_copy,
                           color: errorColor,
                           onTap: controller.logout,
@@ -171,7 +171,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             ),
           );
         }
-        return PrimaryButton(onPressed: () => launchScreen(LoginScreen()), text: 'Login ');
+        return PrimaryButton(onPressed: () => launchScreen(LoginScreen()), text: "login".tr);
       },
     );
   }

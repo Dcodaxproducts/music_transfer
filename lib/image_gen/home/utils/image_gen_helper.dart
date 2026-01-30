@@ -2,6 +2,7 @@ import 'package:pixart_app/features/auth/presentation/controller/auth_controller
 import 'package:pixart_app/image_gen/home/presentation/controller/image_generation_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
 import '../../../features/paywall/presentation/controller/subscription_controller.dart';
+import '../../../features/profile/presentation/controller/profile_controller.dart';
 import '../../../imports.dart';
 import '../data/model/image_generation.dart';
 import '../data/model/model.dart';
@@ -65,6 +66,8 @@ class ImageGenerationHelper {
       // Clear prompt and attached image after generation
       ImageGenController.find.promptController.clear();
       ImageGenController.find.attachedImage = null;
+
+      ProfileController.find.updateProfile(); // update profile to refresh credits
     }
     return result;
   }

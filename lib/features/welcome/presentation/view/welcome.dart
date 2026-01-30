@@ -26,19 +26,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 150.h),
-              Text('Get ready to', style: context.font30),
+              Text("get_ready_to".tr, style: context.font30),
               SizedBox(height: 4.sp),
               GradientWidget(
                 child: Text(
-                  'turn your\nimagination',
+                  "turn_your_imagination".tr,
                   style: context.font30.copyWith(height: 1.4, color: Colors.white),
                 ),
               ),
               SizedBox(height: 4.sp),
-              Text(
-                'into art: Your\ncreative\njourney begins\nnow!',
-                style: context.font30.copyWith(height: 1.4),
-              ),
+              Text("into_art_creative_journey".tr, style: context.font30.copyWith(height: 1.4)),
               const Spacer(),
               Row(
                 children: [
@@ -57,9 +54,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       text: TextSpan(
                         style: context.font12,
                         children: [
-                          const TextSpan(text: 'I agree to the '),
+                          TextSpan(text: "i_agree_to_the".tr),
                           TextSpan(
-                            text: 'Terms of use',
+                            text: "terms_of_use".tr,
                             style: const TextStyle(
                               color: Colors.blue,
                               decoration: TextDecoration.underline,
@@ -70,9 +67,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 launchUrlString(AppConstants.termsAndConditions);
                               },
                           ),
-                          const TextSpan(text: ' and acknowledged I have read the '),
+                          TextSpan(text: "and_acknowledged_read".tr),
                           TextSpan(
-                            text: 'Privacy Policy.',
+                            text: "privacy_policy_text".tr,
                             style: const TextStyle(
                               color: Colors.blue,
                               decoration: TextDecoration.underline,
@@ -94,7 +91,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ),
         ),
         bottomNavigationBar: BottomButton(
-          text: 'Agree & Continue',
+          text: "agree_and_continue".tr,
           onPressed: _radioSelected ? _saveFirstTime : null,
         ),
       ),

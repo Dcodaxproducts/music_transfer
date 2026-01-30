@@ -117,7 +117,7 @@ class SocialLoginButton extends StatelessWidget {
             Image.asset(image!, width: 24.sp, height: 24.sp),
 
           if (icon != null) Icon(icon, size: 24.sp, color: textColor),
-          Text(label, style: context.font14.copyWith(color: textColor)),
+          Text(label.tr, style: context.font14.copyWith(color: textColor)),
           SizedBox(width: 16.sp),
         ],
       ),

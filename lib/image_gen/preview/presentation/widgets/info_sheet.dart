@@ -16,7 +16,7 @@ class ResultInfoSheet extends StatelessWidget {
     return Visibility(
       visible: result != null,
       child: PrimaryBottomSheet(
-        title: 'Info',
+        title: "info".tr,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -68,8 +68,8 @@ class ResultInfoSheet extends StatelessWidget {
               trimMode: Trimer.line,
               textAlign: TextAlign.start,
               style: context.font12,
-              trimExpandedText: ' View Less',
-              trimCollapsedText: ' View More',
+              trimExpandedText: " ${'view_less'.tr}",
+              trimCollapsedText: " ${'view_more'.tr}",
             ),
             SizedBox(height: 12.sp),
             Align(

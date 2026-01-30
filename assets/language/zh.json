@@ -236,5 +236,17 @@
     "i_agree_to_the": "我同意 ",
     "terms_of_use": "使用条款",
     "and_acknowledged_read": " 并确认我已阅读 ",
-    "agree_and_continue": "同意并继续"
+    "agree_and_continue": "同意并继续",
+    "are_you_sure": "你确定吗？",
+    "delete_confirmation": "您确定要删除此项吗？",
+    "no_history": "还没有历史记录",
+    "no_history_description": "您生成的图像将显示在这里",
+    "start_creating": "开始创作",
+    "recent": "最近",
+    "clear_all": "全部清除",
+    "select_aspect_ratio": "选择纵横比",
+    "select_model": "选择模型",
+    "image_settings": "图像设置",
+    "credits": "积分",
+    "privacy_policy_text": "隐私政策"
 }

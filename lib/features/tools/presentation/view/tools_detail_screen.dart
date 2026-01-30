@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:pixart_app/core/theme/dark_theme.dart';
+import 'package:pixart_app/features/profile/presentation/controller/profile_controller.dart';
 import 'package:pixart_app/features/tools/presentation/controller/tools_controller.dart';
 import 'package:pixart_app/features/tools/presentation/widgets/image_animation.dart';
 import 'package:pixart_app/imports.dart';
@@ -98,8 +99,7 @@ class ToolDetailScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          onPressed: () =>
-                              ToolImagePicker.show(onImagePicked: _handleApiCall, tool: tool),
+                          onPressed: () => ToolImagePicker.show(onImagePicked: _handleApiCall, tool: tool),
                         ),
                       ],
                     ),
@@ -119,6 +119,7 @@ class ToolDetailScreen extends StatelessWidget {
     if (response != null) {
       Get.back();
       launchScreen(ToolResultScreen(response: response));
+      ProfileController.find.updateProfile(); // update profile to refresh credits
     }
   }
 }

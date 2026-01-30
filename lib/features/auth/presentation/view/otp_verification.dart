@@ -90,7 +90,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             body: ListView(
               padding: AppPadding.screenPadding,
               children: [
-                Text("Verify Your Email", style: context.font28.copyWith(fontWeight: FontWeight.w600)),
+                Text("verify_your_email".tr, style: context.font28.copyWith(fontWeight: FontWeight.w600)),
                 SizedBox(height: 8.sp),
                 Text(
                   "We've sent a 4-digit verification code to",
@@ -153,14 +153,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Didn't receive the code? ",
+                              "didnt_receive_code".tr,
                               style: context.font12.copyWith(color: context.theme.hintColor),
                             ),
                             if (canResend)
                               TextButton(
                                 onPressed: _resendOtp,
                                 child: Text(
-                                  "Resend",
+                                  "resend".tr,
                                   style: context.font12.copyWith(
                                     decoration: TextDecoration.underline,
                                     fontWeight: FontWeight.w600,
@@ -169,7 +169,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                               )
                             else
                               Text(
-                                "Resend in ${seconds}s",
+                                "resend_in_seconds".trParams({"seconds": "$seconds"}),
                                 style: context.font12.copyWith(color: context.theme.hintColor),
                               ),
                           ],
@@ -182,7 +182,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 SizedBox(height: 24.sp),
 
                 PrimaryButton(
-                  text: controller.isLoading ? 'Verifying...' : 'Verify',
+                  text: controller.isLoading ? "verifying".tr : "verify".tr,
                   isLoading: controller.isLoading,
                   onPressed: _verifyOtp,
                 ),

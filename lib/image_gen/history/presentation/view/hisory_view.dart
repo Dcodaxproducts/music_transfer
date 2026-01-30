@@ -103,7 +103,7 @@ class _HistoryCardState extends State<HistoryCard> {
     if (success) {
       showToast('image_download_success'.tr);
     } else {
-      showToast('Failed to download image.');
+      showToast("failed_to_download_image".tr);
     }
   }
 }

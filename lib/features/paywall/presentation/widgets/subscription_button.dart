@@ -1,3 +1,4 @@
+import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:pixart_app/imports.dart';
 import '../controller/subscription_controller.dart';
 
@@ -6,10 +7,10 @@ class SubsriptionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SubscriptionController>(
+    return GetBuilder<AuthController>(
       builder: (con) {
         return Visibility(
-          visible: !con.isPro,
+          visible: !(con.user?.isPro ?? false),
           child: TextButton(
             onPressed: () {
               SubscriptionController.find.showPaywallIfNeeded();

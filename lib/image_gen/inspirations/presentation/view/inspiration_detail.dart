@@ -11,7 +11,7 @@ class InspirationDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: PrimaryBackButton(),
-        title: Text('Preview'),
+        title: Text("preview".tr),
         actions: [
           SaveButton(url: inspiration.image),
           SizedBox(width: 8.sp),

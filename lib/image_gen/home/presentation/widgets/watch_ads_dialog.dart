@@ -41,7 +41,7 @@ class WatchAdsDialog extends StatelessWidget {
 
             // Title
             Text(
-              'Continue generating by watching Ad.',
+              "continue_generating_by_watching_ad".tr,
               textAlign: TextAlign.center,
               style: context.font18.copyWith(fontWeight: FontWeight.bold),
             ),
@@ -50,7 +50,7 @@ class WatchAdsDialog extends StatelessWidget {
 
             // Subtitle
             Text(
-              'Keep your creativity flowing. Watch a short ad or upgrade your subscription to keep generating.',
+              "keep_creativity_flowing".tr,
               textAlign: TextAlign.center,
               style: context.font14.copyWith(color: context.theme.hintColor),
             ),
@@ -59,7 +59,7 @@ class WatchAdsDialog extends StatelessWidget {
 
             // Watch an Ad button
             PrimaryButton(
-              text: 'Watch an Ad',
+              text: "watch_an_ad".tr,
               icon: Icon(Iconsax.video_play, color: context.theme.iconTheme.color),
               color: context.theme.canvasColor,
               textColor: context.font14.color,
@@ -72,7 +72,7 @@ class WatchAdsDialog extends StatelessWidget {
             SizedBox(height: 12.sp),
             // Upgrade button
             PrimaryButton(
-              text: 'Upgrade',
+              text: "upgrade".tr,
               icon: Icon(Iconsax.crown, color: Colors.white),
               onPressed: () {
                 Get.back();

@@ -236,5 +236,17 @@
     "i_agree_to_the": "من موافقم با ",
     "terms_of_use": "شرایط استفاده",
     "and_acknowledged_read": " و تایید می‌کنم که خوانده‌ام ",
-    "agree_and_continue": "موافقت و ادامه"
+    "agree_and_continue": "موافقت و ادامه",
+    "are_you_sure": "آیا مطمئن هستید؟",
+    "delete_confirmation": "آیا مطمئن هستید که می‌خواهید این را حذف کنید؟",
+    "no_history": "هنوز تاریخچه‌ای ندارید",
+    "no_history_description": "تصاویر تولید شده شما اینجا نمایش داده می‌شوند",
+    "start_creating": "شروع به ایجاد",
+    "recent": "اخیر",
+    "clear_all": "پاک کردن همه",
+    "select_aspect_ratio": "انتخاب نسبت تصویر",
+    "select_model": "انتخاب مدل",
+    "image_settings": "تنظیمات تصویر",
+    "credits": "اعتبارات",
+    "privacy_policy_text": "سیاست حفظ حریم خصوصی"
 }
