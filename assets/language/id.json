@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ Kredit Tidak Akan Disimpan",
   "guest_credits_warning_message": "Sebagai pengguna tamu, kredit Anda tidak akan dipertahankan. Masuk atau buat akun untuk menjaga kredit Anda tetap aman.",
   "sign_in_to_save_credits": "Masuk untuk Menyimpan Kredit",
-  "sign_in_to_preserve_credits": "Masuk untuk mempertahankan kredit Anda"
+  "sign_in_to_preserve_credits": "Masuk untuk mempertahankan kredit Anda",
+  "please_select_a_model": "Silakan pilih model",
+  "this_model_requires_an_input_for_editing": "Model ini memerlukan gambar input untuk pengeditan."
 }

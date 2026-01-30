@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ クレジットは保存されません",
   "guest_credits_warning_message": "ゲストユーザーとして、クレジットは保存されません。サインインまたはアカウントを作成してクレジットを安全に保ちましょう。",
   "sign_in_to_save_credits": "クレジットを保存するためにサインイン",
-  "sign_in_to_preserve_credits": "クレジットを保持するためにサインイン"
+  "sign_in_to_preserve_credits": "クレジットを保持するためにサインイン",
+  "please_select_a_model": "モデルを選択してください",
+  "this_model_requires_an_input_for_editing": "このモデルは編集用の入力画像が必要です。"
 }

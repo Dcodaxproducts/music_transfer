@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ 积分将不会保存",
   "guest_credits_warning_message": "作为访客用户，您的积分将不会被保留。登录或创建账户以保护您的积分。",
   "sign_in_to_save_credits": "登录以保存积分",
-  "sign_in_to_preserve_credits": "登录以保留您的积分"
+  "sign_in_to_preserve_credits": "登录以保留您的积分",
+  "please_select_a_model": "请选择一个模型",
+  "this_model_requires_an_input_for_editing": "此模型需要输入图像进行编辑。"
 }

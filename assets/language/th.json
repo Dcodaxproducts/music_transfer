@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ เครดิตจะไม่ถูกบันทึก",
   "guest_credits_warning_message": "ในฐานะผู้ใช้แขก เครดิตของคุณจะไม่ถูกเก็บไว้ ลงชื่อเข้าใช้หรือสร้างบัญชีเพื่อรักษาเครดิตของคุณให้ปลอดภัย",
   "sign_in_to_save_credits": "ลงชื่อเข้าใช้เพื่อบันทึกเครดิต",
-  "sign_in_to_preserve_credits": "ลงชื่อเข้าใช้เพื่อรักษาเครดิตของคุณ"
+  "sign_in_to_preserve_credits": "ลงชื่อเข้าใช้เพื่อรักษาเครดิตของคุณ",
+  "please_select_a_model": "กรุณาเลือกโมเดล",
+  "this_model_requires_an_input_for_editing": "โมเดลนี้ต้องการภาพอินพุตสำหรับการแก้ไข"
 }

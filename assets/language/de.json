@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ Credits werden nicht gespeichert",
   "guest_credits_warning_message": "Als Gastbenutzer werden Ihre Credits nicht gespeichert. Melden Sie sich an oder erstellen Sie ein Konto, um Ihre Credits zu sichern.",
   "sign_in_to_save_credits": "Anmelden um Credits zu speichern",
-  "sign_in_to_preserve_credits": "Melden Sie sich an, um Ihre Credits zu bewahren"
+  "sign_in_to_preserve_credits": "Melden Sie sich an, um Ihre Credits zu bewahren",
+  "please_select_a_model": "Bitte wählen Sie ein Modell",
+  "this_model_requires_an_input_for_editing": "Dieses Modell erfordert ein Eingabebild zur Bearbeitung."
 }

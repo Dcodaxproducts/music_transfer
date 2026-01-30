@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ اعتبارات ذخیره نخواهند شد",
   "guest_credits_warning_message": "به عنوان کاربر مهمان، اعتبارات شما حفظ نخواهد شد. وارد شوید یا حساب کاربری ایجاد کنید تا اعتبارات خود را ایمن نگه دارید.",
   "sign_in_to_save_credits": "ورود برای ذخیره اعتبارات",
-  "sign_in_to_preserve_credits": "برای حفظ اعتبارات خود وارد شوید"
+  "sign_in_to_preserve_credits": "برای حفظ اعتبارات خود وارد شوید",
+  "please_select_a_model": "لطفا یک مدل انتخاب کنید",
+  "this_model_requires_an_input_for_editing": "این مدل به یک تصویر ورودی برای ویرایش نیاز دارد."
 }

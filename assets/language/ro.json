@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ Creditele nu vor fi salvate",
   "guest_credits_warning_message": "Ca utilizator invitat, creditele tale nu vor fi păstrate. Autentifică-te sau creează un cont pentru a-ți păstra creditele în siguranță.",
   "sign_in_to_save_credits": "Autentifică-te pentru a salva credite",
-  "sign_in_to_preserve_credits": "Autentifică-te pentru a-ți păstra creditele"
+  "sign_in_to_preserve_credits": "Autentifică-te pentru a-ți păstra creditele",
+  "please_select_a_model": "Vă rugăm să selectați un model",
+  "this_model_requires_an_input_for_editing": "Acest model necesită o imagine de intrare pentru editare."
 }

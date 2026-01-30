@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ Les crédits ne seront pas sauvegardés",
   "guest_credits_warning_message": "En tant qu'utilisateur invité, vos crédits ne seront pas conservés. Connectez-vous ou créez un compte pour sécuriser vos crédits.",
   "sign_in_to_save_credits": "Se connecter pour sauvegarder les crédits",
-  "sign_in_to_preserve_credits": "Connectez-vous pour conserver vos crédits"
+  "sign_in_to_preserve_credits": "Connectez-vous pour conserver vos crédits",
+  "please_select_a_model": "Veuillez sélectionner un modèle",
+  "this_model_requires_an_input_for_editing": "Ce modèle nécessite une image d'entrée pour l'édition."
 }

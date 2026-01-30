@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ Krediler Kaydedilmeyecek",
   "guest_credits_warning_message": "Misafir kullanıcı olarak kredileriniz korunmayacak. Kredilerinizi güvende tutmak için giriş yapın veya hesap oluşturun.",
   "sign_in_to_save_credits": "Kredileri Kaydetmek için Giriş Yap",
-  "sign_in_to_preserve_credits": "Kredilerinizi korumak için giriş yapın"
+  "sign_in_to_preserve_credits": "Kredilerinizi korumak için giriş yapın",
+  "please_select_a_model": "Lütfen bir model seçin",
+  "this_model_requires_an_input_for_editing": "Bu model düzenleme için bir girdi görüntüsü gerektirir."
 }

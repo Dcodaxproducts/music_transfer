@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ Tín dụng sẽ không được lưu",
   "guest_credits_warning_message": "Là người dùng khách, tín dụng của bạn sẽ không được giữ lại. Đăng nhập hoặc tạo tài khoản để giữ tín dụng của bạn an toàn.",
   "sign_in_to_save_credits": "Đăng nhập để lưu tín dụng",
-  "sign_in_to_preserve_credits": "Đăng nhập để bảo toàn tín dụng của bạn"
+  "sign_in_to_preserve_credits": "Đăng nhập để bảo toàn tín dụng của bạn",
+  "please_select_a_model": "Vui lòng chọn một mô hình",
+  "this_model_requires_an_input_for_editing": "Mô hình này yêu cầu hình ảnh đầu vào để chỉnh sửa."
 }

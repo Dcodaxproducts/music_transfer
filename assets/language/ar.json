@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ لن يتم حفظ الرصيد",
   "guest_credits_warning_message": "كمستخدم ضيف، لن يتم الحفاظ على رصيدك. قم بتسجيل الدخول أو إنشاء حساب للحفاظ على رصيدك آمنًا.",
   "sign_in_to_save_credits": "تسجيل الدخول لحفظ الرصيد",
-  "sign_in_to_preserve_credits": "سجل الدخول للحفاظ على رصيدك"
+  "sign_in_to_preserve_credits": "سجل الدخول للحفاظ على رصيدك",
+  "please_select_a_model": "يرجى اختيار نموذج",
+  "this_model_requires_an_input_for_editing": "يتطلب هذا النموذج صورة إدخال للتحرير."
 }

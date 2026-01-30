@@ -255,5 +255,7 @@
   "guest_credits_warning_title": "⚠️ Кредиты не будут сохранены",
   "guest_credits_warning_message": "Как гостевой пользователь, ваши кредиты не сохранятся. Войдите или создайте аккаунт, чтобы сохранить кредиты.",
   "sign_in_to_save_credits": "Войти для сохранения кредитов",
-  "sign_in_to_preserve_credits": "Войдите, чтобы сохранить свои кредиты"
+  "sign_in_to_preserve_credits": "Войдите, чтобы сохранить свои кредиты",
+  "please_select_a_model": "Пожалуйста, выберите модель",
+  "this_model_requires_an_input_for_editing": "Эта модель требует входное изображение для редактирования."
 }
