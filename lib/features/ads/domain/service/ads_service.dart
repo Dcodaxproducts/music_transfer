@@ -1,17 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pixart_app/features/ads/data/repository/ad_repo.dart';
-import 'package:pixart_app/features/ads/data/utils/firebase_events.dart';
 import 'package:pixart_app/imports.dart';
 import '../../../paywall/presentation/controller/subscription_controller.dart';
 import '../../data/enum/ad_type.dart';
 import '../../presentation/view/native_ad.dart';
 import '../../data/model/ad_model.dart';
 import 'ads_service_interface.dart';
-import 'package:easy_audience_network/easy_audience_network.dart' as meta;
 
 class AdsService implements AdsServiceInterface {
   final AdRepo adRepo;
@@ -49,10 +46,6 @@ class AdsService implements AdsServiceInterface {
   Future<bool> showInterstitial(String adId) async {
     if (SubscriptionController.find.isPro) return false;
 
-    if (Platform.isAndroid) {
-      return await _showFacebookInterstitial(adId);
-    }
-
     InterstitialAd? interstitialAd = await adRepo.loadAd<InterstitialAd>(adId);
     if (interstitialAd != null) {
       interstitialAd.fullScreenContentCallback = adRepo.getFullScreenContentCallback<InterstitialAd>();
@@ -65,10 +58,6 @@ class AdsService implements AdsServiceInterface {
   @override
   Future<bool> showRewardInterstitial(String adId, {Function()? onUserEarnedReward}) async {
     if (SubscriptionController.find.isPro) return false;
-
-    if (Platform.isAndroid) {
-      return await _showFacebookRewardAd(adId);
-    }
 
     RewardedInterstitialAd? rewardedInterstitialAd = await adRepo.loadAd<RewardedInterstitialAd>(adId);
     if (rewardedInterstitialAd != null) {
@@ -88,10 +77,6 @@ class AdsService implements AdsServiceInterface {
   Future<bool> showRewardVideo(String adId, {Function()? onUserEarnedReward}) async {
     if (SubscriptionController.find.isPro) return false;
 
-    if (Platform.isAndroid) {
-      return await _showFacebookInterstitial(adId);
-    }
-
     RewardedAd? rewardedAd = await adRepo.loadAd<RewardedAd>(adId);
     if (rewardedAd != null) {
       rewardedAd.fullScreenContentCallback = adRepo.getFullScreenContentCallback<RewardedAd>();
@@ -109,10 +94,6 @@ class AdsService implements AdsServiceInterface {
   Future<bool> showAppOpen(String adId) async {
     if (SubscriptionController.find.isPro) return false;
 
-    if (Platform.isAndroid) {
-      return await _showFacebookInterstitial(adId);
-    }
-
     AppOpenAd? appOpenAd = await adRepo.loadAd<AppOpenAd>(adId);
     if (appOpenAd != null) {
       appOpenAd.fullScreenContentCallback = adRepo.getFullScreenContentCallback<AppOpenAd>();
@@ -124,7 +105,6 @@ class AdsService implements AdsServiceInterface {
 
   @override
   Widget getBannerWidget(AdModel? ad) {
-    if (Platform.isAndroid) return getFacebookBannerWidget(ad);
     if (ad == null || !ad.active || SubscriptionController.find.isPro) return const SizedBox.shrink();
     String adId = ad.getAdId();
     if (ad.type == AdType.banner) {
@@ -141,62 +121,5 @@ class AdsService implements AdsServiceInterface {
       return NativeAdWidget(adId: adId, templateType: TemplateType.small);
     }
     return const SizedBox.shrink();
-  }
-
-  // Facebook Ads
-
-  Future<bool> _showFacebookInterstitial(String adId) async {
-    if (SubscriptionController.find.isPro) return false;
-    meta.InterstitialAd? interstitialAd = await adRepo.loadAd<meta.InterstitialAd>(adId);
-    if (interstitialAd != null) {
-      await interstitialAd.show();
-      return true;
-    }
-    return false;
-  }
-
-  Future<bool> _showFacebookRewardAd(String adId) async {
-    if (SubscriptionController.find.isPro) return false;
-    meta.RewardedAd? rewardedAd = await adRepo.loadAd<meta.RewardedAd>(adId);
-    if (rewardedAd != null) {
-      await rewardedAd.show();
-      return true;
-    }
-    return false;
-  }
-
-  @override
-  Widget getFacebookBannerWidget(AdModel? ad) {
-    Widget adWidget = const SizedBox.shrink();
-    // if ad is not null and active and type is interstitial
-    if (ad != null && ad.active) {
-      String adId = ad.getAdId();
-
-      if (ad.type == AdType.banner) {
-        adWidget = meta.BannerAd(
-          placementId: kDebugMode ? meta.BannerAd.testPlacementId : adId,
-          bannerSize: meta.BannerSize.STANDARD,
-          listener: meta.BannerAdListener(onLoggingImpression: EventsHelper.logFacebookBannerAdEvent),
-        );
-      } else if (ad.type == AdType.nativeMedium || ad.type == AdType.nativeSmall) {
-        adWidget = meta.NativeAd(
-          placementId: kDebugMode ? meta.NativeAd.testPlacementId : adId,
-          adType: meta.NativeAdType.NATIVE_AD,
-          width: double.infinity,
-          bannerAdSize: meta.NativeBannerAdSize.HEIGHT_100,
-          backgroundColor: primaryColor,
-          titleColor: Colors.white,
-          descriptionColor: Colors.white,
-          buttonColor: primaryColor,
-          buttonTitleColor: Colors.white,
-          buttonBorderColor: Colors.white,
-          keepAlive: true,
-          keepExpandedWhileLoading: true,
-          expandAnimationDuraion: 300,
-          listener: meta.NativeAdListener(onLoggingImpression: EventsHelper.logFacebookNativeAdEvent),
-        );
-      }
-    }
-    return adWidget;
   }
 }

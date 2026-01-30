@@ -37,10 +37,6 @@ dependencies:
   device_info_plus: ^12.3.0
   package_info_plus: ^9.0.0
 
-  # Facebook ads 
-  easy_audience_network:
-    path: packages/audience_network_flutter
-
   # Admob
   google_mobile_ads: ^7.0.0
   app_tracking_transparency: ^2.0.6+1

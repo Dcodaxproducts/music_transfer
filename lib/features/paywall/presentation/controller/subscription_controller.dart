@@ -20,8 +20,6 @@ class SubscriptionController extends GetxController implements GetxService {
   }
 
   Future<void> showPaywallIfNeeded({Function()? onSuccess}) async {
-    if (isPro) return; // Already premium, no need to show paywall
-
     final bool result = await revenueCatService.showPaywall();
     await ProfileController.find.updateProfile();
 

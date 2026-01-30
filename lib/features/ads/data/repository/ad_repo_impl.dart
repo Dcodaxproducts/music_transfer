@@ -1,14 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pixart_app/features/ads/data/utils/ads.dart';
 import 'package:pixart_app/imports.dart';
 import '../../../paywall/presentation/controller/subscription_controller.dart';
 import '../../presentation/controller/ads_controller.dart';
 import 'ad_repo.dart';
-import 'package:easy_audience_network/easy_audience_network.dart' as meta;
 
 class AdRepoImpl implements AdRepo {
   final ApiClient apiClient;
@@ -48,10 +45,6 @@ class AdRepoImpl implements AdRepo {
         break;
       case const (AppOpenAd):
         _loadAppOpenAd(unitId, loadCallback, failCallback);
-      case const (meta.InterstitialAd):
-        _loadMetaInterstitialAd(unitId, loadCallback, failCallback);
-      case const (meta.RewardedAd):
-        _loadMetaRewardedAd(unitId, loadCallback, failCallback);
         break;
     }
 
@@ -126,44 +119,4 @@ class AdRepoImpl implements AdRepo {
       AdsController.find.adShowing = true;
     },
   );
-
-  /* Meta ads */
-
-  Future<void> _loadMetaInterstitialAd(
-    String unitId,
-    Function(meta.InterstitialAd) loadCallback,
-    Function(dynamic) failCallback,
-  ) async {
-    final interstitialAd = meta.InterstitialAd(kDebugMode ? meta.InterstitialAd.testPlacementId : unitId);
-
-    interstitialAd.listener = meta.InterstitialAdListener(
-      onLoaded: () => loadCallback(interstitialAd),
-      onDismissed: interstitialAd.destroy,
-      onError: (code, error) {
-        failCallback(error);
-        interstitialAd.destroy();
-      },
-    );
-
-    return await interstitialAd.load();
-  }
-
-  Future<void> _loadMetaRewardedAd(
-    String unitId,
-    Function(meta.RewardedAd) loadCallback,
-    Function(dynamic) failCallback,
-  ) async {
-    final rewardedAd = meta.RewardedAd(kDebugMode ? meta.RewardedAd.testPlacementId : unitId);
-
-    rewardedAd.listener = meta.RewardedAdListener(
-      onLoaded: () => loadCallback(rewardedAd),
-      onVideoClosed: rewardedAd.destroy,
-      onError: (code, error) {
-        failCallback(error);
-        rewardedAd.destroy();
-      },
-    );
-
-    return await rewardedAd.load();
-  }
 }

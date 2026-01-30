@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:easy_audience_network/easy_audience_network.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/services.dart';
@@ -41,11 +40,7 @@ Future<void> _initializeApp() async {
 }
 
 Future<void> _initializeAdNetwork() async {
-  if (GetPlatform.isAndroid) {
-    await EasyAudienceNetwork.init(testingId: '5cfcb5cc-93c0-4edf-9e36-a09fda9c6495');
-  } else {
-    await MobileAds.instance.initialize();
-  }
+  await MobileAds.instance.initialize();
 }
 
 void _initCrashlytics() {

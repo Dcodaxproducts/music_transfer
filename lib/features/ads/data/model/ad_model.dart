@@ -1,4 +1,3 @@
-import 'package:easy_audience_network/easy_audience_network.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/features/ads/data/utils/ads.dart';
@@ -44,25 +43,25 @@ class AdModel {
     if (kDebugMode) {
       switch (type) {
         case AdType.banner:
-          adId = isAndroid ? BannerAd.testPlacementId : AdIds.BANNER_ID;
+          adId = AdIds.BANNER_ID;
           break;
         case AdType.nativeMedium:
-          adId = isAndroid ? NativeAd.testPlacementId : AdIds.NATIVE_AD_ID;
+          adId = AdIds.NATIVE_AD_ID;
           break;
         case AdType.nativeSmall:
-          adId = isAndroid ? NativeAd.testPlacementId : AdIds.NATIVE_AD_ID;
+          adId = AdIds.NATIVE_AD_ID;
           break;
         case AdType.interstitial:
-          adId = isAndroid ? InterstitialAd.testPlacementId : AdIds.INTERSTITIAL_ID;
+          adId = AdIds.INTERSTITIAL_ID;
           break;
         case AdType.rewardedInterstitial:
-          adId = isAndroid ? InterstitialAd.testPlacementId : AdIds.REWARD_INTERSTITIAL_AD_ID;
+          adId = AdIds.REWARD_INTERSTITIAL_AD_ID;
           break;
         case AdType.reward:
-          adId = isAndroid ? RewardedAd.testPlacementId : AdIds.REWARD_VIDEO_AD_ID;
+          adId = AdIds.REWARD_VIDEO_AD_ID;
           break;
         case AdType.appOpen:
-          adId = isAndroid ? InterstitialAd.testPlacementId : AdIds.APP_OPEN_ID;
+          adId = AdIds.APP_OPEN_ID;
           break;
         default:
           adId = AdIds.BANNER_ID;
