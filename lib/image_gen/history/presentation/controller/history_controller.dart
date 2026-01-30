@@ -11,6 +11,9 @@ class HistoryController extends GetxController {
   List<ImageGenerationResult> _promptHistory = [];
   List<ImageGenerationResult> get promptHistory => _promptHistory;
 
+  final List<ImageGenerationResult> _generations = [];
+  List<ImageGenerationResult> get generations => _generations;
+
   void initPromptHistory() {
     if (_promptHistory.isEmpty) {
       _promptHistory = historyService.getPromptHistory();
@@ -20,6 +23,7 @@ class HistoryController extends GetxController {
 
   ImageGenerationResult addPrompt(ImageGenerationResult prompt) {
     _promptHistory.insert(0, prompt);
+    _generations.insert(0, prompt);
     update();
     historyService.addPrompt(_promptHistory);
     return prompt;
@@ -27,6 +31,7 @@ class HistoryController extends GetxController {
 
   void deletePrompt(ImageGenerationResult response) {
     _promptHistory.removeWhere((e) => e.id == response.id);
+    _generations.removeWhere((e) => e.id == response.id);
     update();
     historyService.addPrompt(_promptHistory);
   }

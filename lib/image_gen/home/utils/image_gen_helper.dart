@@ -65,7 +65,7 @@ class ImageGenerationHelper {
     if (result != null) {
       // Clear prompt and attached image after generation
       ImageGenController.find.promptController.clear();
-      ImageGenController.find.attachedImage = null;
+      ImageGenController.find.clearImages();
 
       ProfileController.find.updateProfile(); // update profile to refresh credits
     }

@@ -1,38 +1,9 @@
-import 'package:pixart_app/core/widgets/context_menu.dart';
-import 'package:pixart_app/core/widgets/primary_image_grid.dart';
-import 'package:pixart_app/image_gen/home/data/model/image_generation.dart';
-import 'package:pixart_app/image_gen/home/presentation/controller/image_generation_controller.dart';
 import '../../../../core/helper/image_download.dart';
+import '../../../../core/widgets/context_menu.dart';
 import '../../../../imports.dart';
+import '../../../home/data/model/image_generation.dart';
 import '../../../preview/presentation/view/image_gen_result.dart';
 import '../../../preview/presentation/widgets/delete_result_sheet.dart';
-import '../widgets/empty_history.dart';
-import '../widgets/loading_card.dart';
-
-class HistoryView extends StatelessWidget {
-  final List<ImageGenerationResult> promptHistory;
-  const HistoryView({super.key, required this.promptHistory});
-
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<ImageGenController>(
-      builder: (imageGen) {
-        return promptHistory.isEmpty && imageGen.loading.isEmpty
-            ? EmptyHistory()
-            : PrimaryImageGrid(
-                childAspectRatio: 1.1,
-                itemCount: promptHistory.length + imageGen.loading.length,
-                itemBuilder: (context, index) {
-                  if (index < imageGen.loading.length) {
-                    return const LoadingCard();
-                  }
-                  return HistoryCard(response: promptHistory[index - imageGen.loading.length]);
-                },
-              );
-      },
-    );
-  }
-}
 
 class HistoryCard extends StatefulWidget {
   final ImageGenerationResult response;

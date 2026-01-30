@@ -23,7 +23,7 @@ class ModelsSheet extends StatelessWidget {
             List<Model> models = [...controller.models];
 
             // filter models that support image if an image is attached
-            if (ImageGenController.find.attachedImage != null) {
+            if (ImageGenController.find.attachedImages.isNotEmpty) {
               models = models.where((model) => model.supportImage).toList();
             }
 

@@ -19,8 +19,9 @@ class AppConstants {
   static const String manageSubscriptionsUrlIos = 'https://apps.apple.com/account/subscriptions';
 
   /* Privacy and terms Url's */
-  static const String privacyPolicy = 'https://pixartai.dcodax.net/privacy-policy';
-  static const String termsAndConditions = 'https://pixartai.dcodax.net/terms-condition';
+  static const String privacyPolicy = 'https://sites.google.com/view/privacypoliciesai?usp=sharing';
+  static const String termsAndConditions =
+      'https://sites.google.com/view/pixart-terms-and-conditions?usp=sharing';
 
   static const List<String> adultWords = [
     'sex',

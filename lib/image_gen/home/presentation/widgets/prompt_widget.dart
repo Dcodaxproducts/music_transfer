@@ -27,38 +27,49 @@ class PromptInputWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (controller.attachedImage == null)
+              if (controller.attachedImages.isEmpty)
                 const SizedBox.shrink()
               else
                 Padding(
                   padding: EdgeInsets.only(bottom: 8.sp),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        ClipRRect(
-                          borderRadius: AppRadius.circular8,
-                          child: Image.file(
-                            File(controller.attachedImage!.path),
-                            width: 90.sp,
-                            height: 90.sp,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned(
-                          right: 2.sp,
-                          top: 2.sp,
-                          child: GestureDetector(
-                            onTap: () => ImageGenController.find.attachedImage = null,
-                            child: Container(
-                              decoration: BoxDecoration(color: errorColor, shape: BoxShape.circle),
-                              padding: EdgeInsets.all(4.sp),
-                              child: Icon(Icons.close, size: 14.sp, color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: SizedBox(
+                      height: 90.sp,
+                      child: ListView.separated(
+                        itemCount: controller.attachedImages.length,
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (_, _) => SizedBox(width: 8.sp),
+                        itemBuilder: (context, index) {
+                          final XFile attachedImage = controller.attachedImages[index];
+                          return Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              ClipRRect(
+                                borderRadius: AppRadius.circular8,
+                                child: Image.file(
+                                  File(attachedImage.path),
+                                  width: 90.sp,
+                                  height: 90.sp,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned(
+                                right: 2.sp,
+                                top: 2.sp,
+                                child: GestureDetector(
+                                  onTap: () => controller.removeImageAt(index),
+                                  child: Container(
+                                    decoration: BoxDecoration(color: errorColor, shape: BoxShape.circle),
+                                    padding: EdgeInsets.all(4.sp),
+                                    child: Icon(Icons.close, size: 14.sp, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -90,10 +101,10 @@ class PromptInputWidget extends StatelessWidget {
                 children: [
                   ActionButton.small(onPressed: _pickImage, icon: Icons.add),
                   ActionButton.small(onPressed: SettingsSheet.show, icon: Iconsax.setting_4_copy),
-                  if (controller.attachedImage != null)
+                  if (controller.attachedImages.isNotEmpty)
                     TextButton(
                       style: TextButton.styleFrom(backgroundColor: primaryLight.withOpacity(0.1)),
-                      onPressed: () => ImageGenController.find.attachedImage = null,
+                      onPressed: () => ImageGenController.find.clearImages(),
                       child: Padding(
                         padding: EdgeInsetsGeometry.symmetric(horizontal: 14.sp, vertical: 10.sp),
                         child: Row(
@@ -149,8 +160,9 @@ class PromptInputWidget extends StatelessWidget {
 
   Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    ImageGenController.find.attachedImage = image;
+    final List<XFile> images = await picker.pickMultiImage(limit: 5);
+    if (images.isEmpty) return;
+    ImageGenController.find.addImages(images);
     ModelsController.find.handleImageModelSelection();
   }
 }

@@ -4,6 +4,7 @@ import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart'
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../core/widgets/context_menu.dart';
+import '../../../../image_gen/history/presentation/view/hisory_screen.dart';
 import '../../../../imports.dart';
 import '../../../auth/presentation/controller/auth_controller.dart';
 import '../../../auth/presentation/view/login_screen.dart';
@@ -21,6 +22,7 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   final List<Widget> _appMenuItems = [
+    MenuItem(text: 'history', icon: Iconsax.refresh_copy, onTap: () => launchScreen(const HistoryScreen())),
     MenuItem(
       text: 'language',
       icon: Iconsax.language_circle_copy,
@@ -35,8 +37,16 @@ class _SettingScreenState extends State<SettingScreen> {
       icon: Iconsax.crown_1_copy,
       onTap: () => launchUrlString(AppConstants.manageSubscriptionsUrl),
     ),
-    MenuItem(text: 'privacy_policy', icon: Iconsax.lock_copy, onTap: () {}),
-    MenuItem(text: 'terms_of_service', icon: Iconsax.info_circle_copy, onTap: () {}),
+    MenuItem(
+      text: 'privacy_policy',
+      icon: Iconsax.lock_copy,
+      onTap: () => launchUrlString(AppConstants.privacyPolicy),
+    ),
+    MenuItem(
+      text: 'terms_of_service',
+      icon: Iconsax.info_circle_copy,
+      onTap: () => launchUrlString(AppConstants.termsAndConditions),
+    ),
     const MenuItem(text: 'rate_us', icon: Iconsax.star_copy, onTap: showRateUsDialog),
     MenuItem(
       text: 'share_app',
@@ -49,7 +59,6 @@ class _SettingScreenState extends State<SettingScreen> {
     ),
   ];
 
-  //
   Widget get divider => Divider(color: context.theme.scaffoldBackgroundColor);
   @override
   Widget build(BuildContext context) {

@@ -248,5 +248,8 @@
   "select_model": "Select Model",
   "image_settings": "Image Settings",
   "credits": "Credits",
-  "privacy_policy_text": "Privacy Policy"
+  "privacy_policy_text": "Privacy Policy",
+  "welcome_to": "Welcome to",
+  "by_proceeding_agree": "By proceeding, you agree to our ",
+  "and": " and "
 }

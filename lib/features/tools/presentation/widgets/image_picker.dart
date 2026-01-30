@@ -125,7 +125,7 @@ class _ToolImagePickerState extends State<ToolImagePicker> {
                               children: [
                                 if (controller.generatingImage)
                                   Padding(
-                                    padding: AppPadding.horizontal(8),
+                                    padding: AppPadding.horizontal(6),
                                     child: SizedBox(
                                       width: 14.sp,
                                       height: 14.sp,
@@ -144,7 +144,7 @@ class _ToolImagePickerState extends State<ToolImagePicker> {
                                 ),
                                 if (!controller.generatingImage) ...[
                                   Padding(
-                                    padding: AppPadding.horizontal(8),
+                                    padding: AppPadding.horizontal(6),
                                     child: Image.asset(
                                       Images.sparkle,
                                       width: 16.sp,

@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
           SizedBox(height: 12.sp),
 
           // Welcome text
-          Text('Welcome to', style: context.font14.copyWith(color: context.theme.hintColor)),
+          Text("welcome_to".tr, style: context.font14.copyWith(color: context.theme.hintColor)),
 
           SizedBox(height: 4.sp),
 
@@ -46,13 +46,13 @@ class LoginScreen extends StatelessWidget {
             text: TextSpan(
               style: context.font12.copyWith(color: context.theme.hintColor),
               children: [
-                TextSpan(text: 'By proceeding, you agree to our '.tr),
+                TextSpan(text: "by_proceeding_agree".tr),
                 TextSpan(
                   text: "terms_of_use".tr,
                   style: TextStyle(decoration: TextDecoration.underline),
                   recognizer: TapGestureRecognizer()..onTap = () {},
                 ),
-                const TextSpan(text: ' and '),
+                TextSpan(text: "and".tr),
                 TextSpan(
                   text: 'privacy_policy'.tr,
                   style: TextStyle(decoration: TextDecoration.underline),

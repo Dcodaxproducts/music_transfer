@@ -28,10 +28,10 @@ class ImageGenController extends GetxController implements GetxService {
     return isOffensive;
   }
 
-  XFile? _attachedImage;
-  XFile? get attachedImage => _attachedImage;
-  set attachedImage(XFile? value) {
-    _attachedImage = value;
+  List<XFile> _attachedImages = [];
+  List<XFile> get attachedImages => _attachedImages;
+  set attachedImages(List<XFile> value) {
+    _attachedImages = value;
     update();
   }
 
@@ -53,8 +53,8 @@ class ImageGenController extends GetxController implements GetxService {
 
       // Prepare attached image
       List<XFile>? images;
-      if (_attachedImage != null) {
-        images = [_attachedImage!];
+      if (_attachedImages.isNotEmpty) {
+        images = _attachedImages;
       }
 
       // Make request
@@ -75,5 +75,22 @@ class ImageGenController extends GetxController implements GetxService {
 
   Future<void> cancelRequest() async {
     await service.cancelRequest();
+  }
+
+  void clearImages() {
+    _attachedImages.clear();
+    update();
+  }
+
+  void addImages(List<XFile> images) {
+    _attachedImages.addAll(images);
+    update();
+  }
+
+  void removeImageAt(int index) {
+    if (index >= 0 && index < _attachedImages.length) {
+      _attachedImages.removeAt(index);
+      update();
+    }
   }
 }

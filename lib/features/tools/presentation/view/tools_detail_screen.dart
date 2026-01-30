@@ -63,9 +63,23 @@ class ToolDetailScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          tool.name.tr,
-                          style: context.font18.copyWith(fontWeight: FontWeight.w600, color: textColorDark),
+                        Row(
+                          children: [
+                            Text(
+                              tool.name.tr,
+                              style: context.font18.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: textColorDark,
+                              ),
+                            ),
+                            SizedBox(width: 8.sp),
+                            if (tool.premium)
+                              CircleAvatar(
+                                backgroundColor: primaryLight.withOpacity(0.9),
+                                radius: 11.sp,
+                                child: Icon(Iconsax.crown, size: 12.sp, color: Colors.white),
+                              ),
+                          ],
                         ),
                         SizedBox(height: 8.sp),
                         Text(tool.description.tr, style: context.font14.copyWith(color: hintColorDark)),
@@ -82,7 +96,7 @@ class ToolDetailScreen extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding: AppPadding.horizontal(8),
+                                padding: AppPadding.horizontal(6),
                                 child: Image.asset(
                                   Images.sparkle,
                                   width: 16.sp,
