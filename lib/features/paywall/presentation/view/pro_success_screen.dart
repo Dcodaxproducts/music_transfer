@@ -1,4 +1,6 @@
 import '../../../../imports.dart';
+import '../../../auth/presentation/controller/auth_controller.dart';
+import '../../../auth/presentation/view/login_screen.dart';
 import '../../../dashboard/presentation/controller/dashboard_controller.dart';
 
 Future<void> showPurchaseSuccess(Function() onSuccess) async {
@@ -27,7 +29,8 @@ class ProSuccessScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(Images.logo, height: 150.sp, color: primaryLight),
-                    SizedBox(height: 26.sp),
+                    SizedBox(height: 32.sp),
+
                     Text(
                       'welcome_to_pixart_pro'.tr,
                       style: context.font22.copyWith(fontWeight: FontWeight.bold),
@@ -37,6 +40,49 @@ class ProSuccessScreen extends StatelessWidget {
                       'unlocked_features_description'.tr,
                       style: context.font16,
                       textAlign: TextAlign.center,
+                    ),
+
+                    // Guest user warning banner
+                    GetBuilder<AuthController>(
+                      builder: (authController) {
+                        final bool isGuest = !authController.isLoggedIn;
+
+                        if (!isGuest) {
+                          return const SizedBox.shrink();
+                        }
+
+                        return Column(
+                          children: [
+                            SizedBox(height: 24.sp),
+                            Column(
+                              children: [
+                                Text(
+                                  'guest_credits_warning_title'.tr,
+                                  style: context.font14.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.orange,
+                                  ),
+                                ),
+                                SizedBox(height: 8.sp),
+                                Text(
+                                  'guest_credits_warning_message'.tr,
+                                  style: context.font14.copyWith(color: context.theme.hintColor),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: 12.sp),
+                                OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    side: BorderSide(color: Colors.orange),
+                                    foregroundColor: Colors.orange,
+                                  ),
+                                  onPressed: () => launchScreen(LoginScreen()),
+                                  child: Text('sign_in_to_save_credits'.tr),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),

@@ -251,5 +251,9 @@
   "privacy_policy_text": "Politica de confidențialitate",
   "welcome_to": "Bun venit la",
   "by_proceeding_agree": "Continuând, sunteți de acord cu ",
-  "and": " și "
+  "and": " și ",
+  "guest_credits_warning_title": "⚠️ Creditele nu vor fi salvate",
+  "guest_credits_warning_message": "Ca utilizator invitat, creditele tale nu vor fi păstrate. Autentifică-te sau creează un cont pentru a-ți păstra creditele în siguranță.",
+  "sign_in_to_save_credits": "Autentifică-te pentru a salva credite",
+  "sign_in_to_preserve_credits": "Autentifică-te pentru a-ți păstra creditele"
 }

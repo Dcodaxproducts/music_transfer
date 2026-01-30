@@ -251,5 +251,9 @@
   "privacy_policy_text": "Chính sách bảo mật",
   "welcome_to": "Chào mừng đến với",
   "by_proceeding_agree": "Bằng cách tiếp tục, bạn đồng ý với ",
-  "and": " và "
+  "and": " và ",
+  "guest_credits_warning_title": "⚠️ Tín dụng sẽ không được lưu",
+  "guest_credits_warning_message": "Là người dùng khách, tín dụng của bạn sẽ không được giữ lại. Đăng nhập hoặc tạo tài khoản để giữ tín dụng của bạn an toàn.",
+  "sign_in_to_save_credits": "Đăng nhập để lưu tín dụng",
+  "sign_in_to_preserve_credits": "Đăng nhập để bảo toàn tín dụng của bạn"
 }

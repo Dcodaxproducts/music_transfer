@@ -8,6 +8,7 @@ import '../../../../image_gen/history/presentation/view/hisory_screen.dart';
 import '../../../../imports.dart';
 import '../../../auth/presentation/controller/auth_controller.dart';
 import '../../../auth/presentation/view/login_screen.dart';
+import '../../../paywall/presentation/controller/subscription_controller.dart';
 import '../../../language/presentation/view/language.dart';
 import '../../../profile/presentation/view/profile_update.dart';
 import '../widgets/credits_widget.dart';
@@ -180,6 +181,16 @@ class _LoginWidgetState extends State<LoginWidget> {
             ),
           );
         }
+
+        // Guest user with subscription - show warning
+        if (!SubscriptionController.find.isPro) {
+          return PrimaryButton(
+            onPressed: () => launchScreen(LoginScreen()),
+            text: 'sign_in_to_preserve_credits'.tr,
+          );
+        }
+
+        // Guest user without subscription - simple login button
         return PrimaryButton(onPressed: () => launchScreen(LoginScreen()), text: "login".tr);
       },
     );

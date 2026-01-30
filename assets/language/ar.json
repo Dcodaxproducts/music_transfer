@@ -251,5 +251,9 @@
   "privacy_policy_text": "سياسة الخصوصية",
   "welcome_to": "مرحبا بك في",
   "by_proceeding_agree": "بالمتابعة، فإنك توافق على ",
-  "and": " و "
+  "and": " و ",
+  "guest_credits_warning_title": "⚠️ لن يتم حفظ الرصيد",
+  "guest_credits_warning_message": "كمستخدم ضيف، لن يتم الحفاظ على رصيدك. قم بتسجيل الدخول أو إنشاء حساب للحفاظ على رصيدك آمنًا.",
+  "sign_in_to_save_credits": "تسجيل الدخول لحفظ الرصيد",
+  "sign_in_to_preserve_credits": "سجل الدخول للحفاظ على رصيدك"
 }

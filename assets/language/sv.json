@@ -251,5 +251,9 @@
   "privacy_policy_text": "Integritetspolicy",
   "welcome_to": "Välkommen till",
   "by_proceeding_agree": "Genom att fortsätta godkänner du våra ",
-  "and": " och "
+  "and": " och ",
+  "guest_credits_warning_title": "⚠️ Krediter kommer inte att sparas",
+  "guest_credits_warning_message": "Som gästanvändare kommer dina krediter inte att bevaras. Logga in eller skapa ett konto för att hålla dina krediter säkra.",
+  "sign_in_to_save_credits": "Logga in för att spara krediter",
+  "sign_in_to_preserve_credits": "Logga in för att bevara dina krediter"
 }

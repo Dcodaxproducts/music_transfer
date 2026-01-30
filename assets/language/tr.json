@@ -251,5 +251,9 @@
   "privacy_policy_text": "Gizlilik Politikası",
   "welcome_to": "Hoş geldiniz",
   "by_proceeding_agree": "Devam ederek, ",
-  "and": " ve "
+  "and": " ve ",
+  "guest_credits_warning_title": "⚠️ Krediler Kaydedilmeyecek",
+  "guest_credits_warning_message": "Misafir kullanıcı olarak kredileriniz korunmayacak. Kredilerinizi güvende tutmak için giriş yapın veya hesap oluşturun.",
+  "sign_in_to_save_credits": "Kredileri Kaydetmek için Giriş Yap",
+  "sign_in_to_preserve_credits": "Kredilerinizi korumak için giriş yapın"
 }

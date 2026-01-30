@@ -253,5 +253,9 @@
   "by_proceeding_agree": "By proceeding, you agree to our ",
   "and": " and ",
   "please_select_a_model": "Please select a model",
-  "this_model_requires_an_input_for_editing": "This model requires an input image for editing."
+  "this_model_requires_an_input_for_editing": "This model requires an input image for editing.",
+  "guest_credits_warning_title": "⚠️ Credits Won't Be Saved",
+  "guest_credits_warning_message": "As a guest user, your credits won't be preserved. Sign in or create an account to keep your credits safe.",
+  "sign_in_to_save_credits": "Sign In to Save Credits",
+  "sign_in_to_preserve_credits": "Sign in to preserve your credits"
 }

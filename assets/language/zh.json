@@ -251,5 +251,9 @@
   "privacy_policy_text": "隐私政策",
   "welcome_to": "欢迎来到",
   "by_proceeding_agree": "继续即表示您同意我们的",
-  "and": "和"
+  "and": "和",
+  "guest_credits_warning_title": "⚠️ 积分将不会保存",
+  "guest_credits_warning_message": "作为访客用户，您的积分将不会被保留。登录或创建账户以保护您的积分。",
+  "sign_in_to_save_credits": "登录以保存积分",
+  "sign_in_to_preserve_credits": "登录以保留您的积分"
 }

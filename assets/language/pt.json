@@ -251,5 +251,9 @@
   "privacy_policy_text": "Política de Privacidade",
   "welcome_to": "Bem-vindo ao",
   "by_proceeding_agree": "Ao continuar, você concorda com nossos ",
-  "and": " e "
+  "and": " e ",
+  "guest_credits_warning_title": "⚠️ Créditos não serão salvos",
+  "guest_credits_warning_message": "Como usuário convidado, seus créditos não serão preservados. Entre ou crie uma conta para manter seus créditos seguros.",
+  "sign_in_to_save_credits": "Entrar para salvar créditos",
+  "sign_in_to_preserve_credits": "Entre para preservar seus créditos"
 }

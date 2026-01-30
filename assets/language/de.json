@@ -251,5 +251,9 @@
   "privacy_policy_text": "Datenschutzrichtlinie",
   "welcome_to": "Willkommen bei",
   "by_proceeding_agree": "Indem Sie fortfahren, stimmen Sie unseren ",
-  "and": " und "
+  "and": " und ",
+  "guest_credits_warning_title": "⚠️ Credits werden nicht gespeichert",
+  "guest_credits_warning_message": "Als Gastbenutzer werden Ihre Credits nicht gespeichert. Melden Sie sich an oder erstellen Sie ein Konto, um Ihre Credits zu sichern.",
+  "sign_in_to_save_credits": "Anmelden um Credits zu speichern",
+  "sign_in_to_preserve_credits": "Melden Sie sich an, um Ihre Credits zu bewahren"
 }

@@ -251,5 +251,9 @@
   "privacy_policy_text": "개인정보 보호정책",
   "welcome_to": "환영합니다",
   "by_proceeding_agree": "계속하면 다음에 동의하는 것입니다 ",
-  "and": " 및 "
+  "and": " 및 ",
+  "guest_credits_warning_title": "⚠️ 크레딧이 저장되지 않습니다",
+  "guest_credits_warning_message": "게스트 사용자로서 크레딧이 보존되지 않습니다. 크레딧을 안전하게 유지하려면 로그인하거나 계정을 만드세요.",
+  "sign_in_to_save_credits": "크레딧 저장을 위해 로그인",
+  "sign_in_to_preserve_credits": "크레딧을 보존하려면 로그인하세요"
 }

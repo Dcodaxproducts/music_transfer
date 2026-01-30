@@ -251,5 +251,9 @@
   "privacy_policy_text": "Dasar Privasi",
   "welcome_to": "Selamat datang ke",
   "by_proceeding_agree": "Dengan meneruskan, anda bersetuju dengan ",
-  "and": " dan "
+  "and": " dan ",
+  "guest_credits_warning_title": "⚠️ Kredit Tidak Akan Disimpan",
+  "guest_credits_warning_message": "Sebagai pengguna tetamu, kredit anda tidak akan dipelihara. Log masuk atau cipta akaun untuk menjaga kredit anda selamat.",
+  "sign_in_to_save_credits": "Log Masuk untuk Simpan Kredit",
+  "sign_in_to_preserve_credits": "Log masuk untuk memelihara kredit anda"
 }
