@@ -1,5 +1,6 @@
 import 'package:pixart_app/features/auth/data/model/user_model.dart';
 import 'package:pixart_app/features/auth/domain/service/auth_service.dart';
+import 'package:pixart_app/features/paywall/presentation/controller/subscription_controller.dart';
 import 'package:pixart_app/imports.dart';
 import '../../data/model/signup_body.dart';
 import '../../data/model/social_login_model.dart';
@@ -27,8 +28,12 @@ class AuthController extends GetxController implements GetxService {
   Future<void> initialize() async {
     _user = service.getUser();
     update();
+
+    // If no user is logged in, perform guest login
     if (_user == null) {
       await guestLogin();
+    } else {
+      await SubscriptionController.find.login(user!);
     }
   }
 
