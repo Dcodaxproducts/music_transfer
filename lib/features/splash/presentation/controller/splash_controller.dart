@@ -8,20 +8,26 @@ class SplashController extends GetxController implements GetxService {
 
   static SplashController get find => Get.find<SplashController>();
 
-  Future<void> saveFirstTime() async {
-    _isFirstTime = false;
-    update();
-    await service.saveFirstTime();
-  }
-
-  bool _isFirstTime = false;
+  bool _isFirstTime = true;
   bool get isFirstTime => _isFirstTime;
 
   PackageInfo? _packageInfo;
   PackageInfo? get packageInfo => _packageInfo;
 
+  Future<void> initialize() async {
+    _isFirstTime = service.getFirstTime();
+    await getPackageInfo();
+    update();
+  }
+
   Future<void> getPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
     update();
+  }
+
+  Future<void> saveFirstTime() async {
+    _isFirstTime = false;
+    update();
+    await service.saveFirstTime();
   }
 }

@@ -31,13 +31,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    if (1 == 2) {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        if (!SubscriptionController.find.isPro) {
-          SubscriptionController.find.showPaywallIfNeeded();
-        }
-      });
-    }
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      if (!SubscriptionController.find.isPro) {
+        SubscriptionController.find.showPaywallIfNeeded();
+      }
+    });
     super.initState();
   }
 
@@ -102,23 +100,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         );
       },
-    );
-  }
-}
-
-class NavBarItem extends StatelessWidget {
-  final IconData icon;
-  final bool selected;
-  const NavBarItem({super.key, required this.icon, required this.selected});
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      // width: 50.sp,
-      // height: 50.sp,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: selected ? primaryColor : Colors.transparent),
-      child: Icon(icon, color: selected ? Colors.white : Colors.grey),
     );
   }
 }

@@ -3,7 +3,7 @@ class RevenueCatConstants {
   static const String androidLiveApiKey = 'goog_xXdPPDzoEwGrhOAbfFIwfFqEkUV';
 
   static const String androidTestKey = "test_tfpGDFBygQaTKqGjNmaeJAziaru";
-  static const String iosTestKey = "test_AbCdEfGhIjKlMnOpQrStUvWxYz";
+  static const String iosTestKey = "test_bfIiULHVfneVyQvbAXyDgxgvUcb";
 
   static const bool useSandboxInDebug = true;
 

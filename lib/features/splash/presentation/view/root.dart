@@ -16,7 +16,7 @@ class Root extends StatefulWidget {
 }
 
 class RootState extends State<Root> {
-  bool _ready = false;
+  final ValueNotifier<bool> _ready = ValueNotifier(false);
 
   @override
   void initState() {
@@ -29,12 +29,13 @@ class RootState extends State<Root> {
     await AdsController.find.initialize();
     await _loadAppOpenAd();
 
-    _ready = true;
+    _ready.value = true;
     if (mounted) setState(() {});
   }
 
   Future<void> _getDataFromApi() async {
     await Future.wait([
+      SplashController.find.initialize(),
       ModelsController.find.getModels(),
       InspirationController.find.getInspirations(),
       AuthController.find.initialize(),
@@ -47,14 +48,19 @@ class RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
-    if (_ready) {
-      return GetBuilder<SplashController>(
-        builder: (setting) {
-          return setting.isFirstTime ? const WelcomeScreen() : const DashboardScreen();
-        },
-      );
-    } else {
-      return const SplashScreen();
-    }
+    return ValueListenableBuilder<bool>(
+      valueListenable: _ready,
+      builder: (context, ready, child) {
+        if (_ready.value) {
+          return GetBuilder<SplashController>(
+            builder: (setting) {
+              return setting.isFirstTime ? const WelcomeScreen() : const DashboardScreen();
+            },
+          );
+        } else {
+          return const SplashScreen();
+        }
+      },
+    );
   }
 }
