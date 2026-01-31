@@ -1,4 +1,5 @@
 import '../../../../imports.dart';
+import '../../../ads/presentation/controller/ads_controller.dart';
 import '../controller/tools_controller.dart';
 import '../widgets/tools_card.dart';
 import '../widgets/tools_shimmer.dart';
@@ -17,6 +18,7 @@ class ToolScreen extends StatelessWidget {
         return ListView(
           padding: AppPadding.padding12,
           children: [
+            if (controller.tools.isNotEmpty) AdsController.find.buildAppsScreenAd(),
             for (String category in controller.categorizedTools.keys) ...[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

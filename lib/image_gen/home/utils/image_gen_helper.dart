@@ -1,4 +1,3 @@
-import 'package:pixart_app/features/ads/presentation/controller/ads_controller.dart';
 import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/image_generation_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
@@ -43,7 +42,7 @@ class ImageGenerationHelper {
 
     // Check user credits
     if (AuthController.find.credits < model!.creditsPerImage) {
-      SubscriptionController.find.showPaywallIfNeeded();
+      SubscriptionController.find.showPaywall();
       return;
     }
 
@@ -58,16 +57,15 @@ class ImageGenerationHelper {
 
   static void _handleFreeUser(String text, Model model) async {
     if (ModelsController.find.selectedModel?.isPro ?? false) {
-      SubscriptionController.find.showPaywallIfNeeded();
+      SubscriptionController.find.showPaywall();
       return;
     } else {
       await WatchAdsDialog.show(
         Get.context!,
         onWatchAd: () async {
-          await AdsController.find.showOnGenerateVideo();
           await generateImage(text, model);
         },
-        onUpgrade: SubscriptionController.find.showPaywallIfNeeded,
+        onUpgrade: SubscriptionController.find.showPaywall,
       );
       return;
     }

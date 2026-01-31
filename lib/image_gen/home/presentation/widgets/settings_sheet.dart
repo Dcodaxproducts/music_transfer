@@ -1,3 +1,4 @@
+import 'package:pixart_app/features/ads/presentation/controller/ads_controller.dart';
 import 'package:pixart_app/image_gen/home/data/model/model.dart';
 import '../../../../core/widgets/primary_bottom_sheet.dart';
 import '../../../../imports.dart';
@@ -25,6 +26,7 @@ class SettingsSheet extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              AdsController.find.buildPromptSettingAd(),
               SettingSheetTile(
                 title: "model".tr,
                 icon: Iconsax.cpu_copy,

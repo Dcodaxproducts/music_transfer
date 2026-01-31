@@ -1,4 +1,5 @@
 import 'package:pixart_app/core/widgets/primary_image_grid.dart';
+import 'package:pixart_app/features/ads/presentation/controller/ads_controller.dart';
 import 'package:pixart_app/image_gen/history/presentation/controller/history_controller.dart';
 import 'package:pixart_app/image_gen/home/data/model/image_generation.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/image_generation_controller.dart';
@@ -34,6 +35,7 @@ class HistoryScreen extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: SafeArea(child: AdsController.find.buildHistoryScreenAd()),
     );
   }
 }

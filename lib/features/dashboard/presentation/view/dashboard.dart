@@ -35,7 +35,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       if (!SubscriptionController.find.isPro) {
-        SubscriptionController.find.showPaywallIfNeeded();
+        Future.delayed(const Duration(seconds: 2), () {
+          SubscriptionController.find.showPaywall();
+        });
       }
     });
     super.initState();

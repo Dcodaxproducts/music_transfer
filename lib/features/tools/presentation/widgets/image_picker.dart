@@ -164,7 +164,7 @@ class _ToolImagePickerState extends State<ToolImagePicker> {
                             ),
                             onPressed: () {
                               if (widget.tool.premium && !SubscriptionController.find.isPro) {
-                                SubscriptionController.find.showPaywallIfNeeded();
+                                SubscriptionController.find.showPaywall();
                                 return;
                               }
                               if (AuthController.find.credits < widget.tool.credits) {

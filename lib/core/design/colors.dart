@@ -7,9 +7,7 @@ const Color secondaryColor = Color(0xFFD27579);
 const Color errorColor = Color(0xFFE75B5C);
 
 // Background Colors
-const Color backgroundColorDark =
-    //  Colors.black;
-    Color(0xFF0F0F0F);
+const Color backgroundColorDark = Color(0xFF0F0F0F);
 const Color backgroundColorLight = Color(0xFFFFFFFF);
 
 // Card Colors

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pixart_app/features/ads/domain/service/ads_service_interface.dart';
@@ -32,10 +31,8 @@ class AdsController extends GetxController {
 
   Future<void> initialize() async {
     if (!SubscriptionController.find.isPro) {
-      if (Platform.isIOS) {
-        adsService.initialize();
-        ads = await adsService.getAdIds();
-      }
+      adsService.initialize();
+      ads = await adsService.getAdIds();
     }
   }
 
@@ -47,8 +44,8 @@ class AdsController extends GetxController {
     return await _showAd(AdPosition.onGenerateVideo);
   }
 
-  Future<bool> showOnGenerateInterstitial() async {
-    return await _showAd(AdPosition.onGenerateInterstitial);
+  Widget buildAppsScreenAd() {
+    return _buildAdWidget(AdPosition.appsScreen);
   }
 
   Widget buildModelScreenAd() {

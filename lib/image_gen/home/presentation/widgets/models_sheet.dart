@@ -1,3 +1,4 @@
+import 'package:pixart_app/features/ads/presentation/controller/ads_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/image_generation_controller.dart';
 import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
 import '../../../../core/widgets/primary_bottom_sheet.dart';
@@ -34,6 +35,15 @@ class ModelsSheet extends StatelessWidget {
               itemCount: models.length,
               separatorBuilder: (context, index) => SizedBox(height: 12.sp),
               itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AdsController.find.buildModelScreenAd(),
+                      SettingSheetTile(model: models[index], selected: models[index].id == selectedModel.id),
+                    ],
+                  );
+                }
                 return SettingSheetTile(model: models[index], selected: models[index].id == selectedModel.id);
               },
             );

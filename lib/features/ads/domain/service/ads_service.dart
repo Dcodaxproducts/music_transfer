@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pixart_app/features/ads/data/repository/ad_repo.dart';
 import 'package:pixart_app/imports.dart';
 import '../../../paywall/presentation/controller/subscription_controller.dart';
@@ -25,7 +23,6 @@ class AdsService implements AdsServiceInterface {
 
   @override
   void initialize() async {
-    await AppTrackingTransparency.requestTrackingAuthorization();
     ConsentInformation.instance.requestConsentInfoUpdate(
       ConsentRequestParameters(),
       () => ConsentInformation.instance.isConsentFormAvailable().then((_) => loadForm()),

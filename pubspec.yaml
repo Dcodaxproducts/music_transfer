@@ -39,7 +39,6 @@ dependencies:
 
   # Admob
   google_mobile_ads: ^7.0.0
-  app_tracking_transparency: ^2.0.6+1
 
   # Firebase
   firebase_core: ^4.2.1
@@ -66,12 +65,12 @@ flutter_native_splash:
   ios: false
   web: false
   color_android: "#ffffff"
-  color_dark_android: "#000000"
+  color_dark_android: "#0F0F0F"
   image: assets/images/logo_icon.png
 
   android_12:
     color_android: "#ffffff"
-    color_dark_android: "#000000"
+    color_dark_android: "#0F0F0F"
     image: assets/images/logo_icon.png
 
      

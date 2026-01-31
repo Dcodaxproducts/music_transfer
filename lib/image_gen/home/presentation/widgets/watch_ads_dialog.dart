@@ -1,6 +1,8 @@
 import 'package:pixart_app/imports.dart';
 
-class WatchAdsDialog extends StatelessWidget {
+import '../../../../features/ads/presentation/controller/ads_controller.dart';
+
+class WatchAdsDialog extends StatefulWidget {
   final VoidCallback onWatchAd;
   final VoidCallback onUpgrade;
 
@@ -25,6 +27,12 @@ class WatchAdsDialog extends StatelessWidget {
     );
   }
 
+  @override
+  State<WatchAdsDialog> createState() => _WatchAdsDialogState();
+}
+
+class _WatchAdsDialogState extends State<WatchAdsDialog> {
+  final ValueNotifier<bool> _isLoading = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -58,14 +66,22 @@ class WatchAdsDialog extends StatelessWidget {
             SizedBox(height: 24.sp),
 
             // Watch an Ad button
-            PrimaryButton(
-              text: "watch_an_ad".tr,
-              icon: Icon(Iconsax.video_play, color: context.theme.iconTheme.color),
-              color: context.theme.canvasColor,
-              textColor: context.font14.color,
-              onPressed: () {
-                Get.back();
-                onWatchAd();
+            ValueListenableBuilder<bool>(
+              valueListenable: _isLoading,
+              builder: (context, isLoading, child) {
+                return PrimaryButton(
+                  text: isLoading ? "loading".tr : "watch_an_ad".tr,
+                  icon: Icon(Iconsax.video_play, color: context.theme.iconTheme.color),
+                  color: context.theme.canvasColor,
+                  textColor: context.font14.color,
+                  isLoading: isLoading,
+                  onPressed: () async {
+                    _isLoading.value = true;
+                    await AdsController.find.showOnGenerateVideo();
+                    Get.back();
+                    widget.onWatchAd();
+                  },
+                );
               },
             ),
 
@@ -76,7 +92,7 @@ class WatchAdsDialog extends StatelessWidget {
               icon: Icon(Iconsax.crown, color: Colors.white),
               onPressed: () {
                 Get.back();
-                onUpgrade();
+                widget.onUpgrade();
               },
             ),
           ],
@@ -94,13 +110,19 @@ class WatchAdsDialog extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           // Left image (rotated left)
-          Positioned(left: 0, child: Transform.rotate(angle: -0.15, child: _buildImageCard(_demoImages[0]))),
+          Positioned(
+            left: 0,
+            child: Transform.rotate(angle: -0.15, child: _buildImageCard(WatchAdsDialog._demoImages[0])),
+          ),
 
           // Right image (rotated right)
-          Positioned(right: 0, child: Transform.rotate(angle: 0.15, child: _buildImageCard(_demoImages[2]))),
+          Positioned(
+            right: 0,
+            child: Transform.rotate(angle: 0.15, child: _buildImageCard(WatchAdsDialog._demoImages[2])),
+          ),
 
           // Center image (on top, no rotation)
-          Positioned(child: _buildImageCard(_demoImages[1], isCenter: true)),
+          Positioned(child: _buildImageCard(WatchAdsDialog._demoImages[1], isCenter: true)),
         ],
       ),
     );

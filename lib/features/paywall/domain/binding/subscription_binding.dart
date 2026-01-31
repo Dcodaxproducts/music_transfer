@@ -16,7 +16,7 @@ class SubscriptionBinding extends Bindings {
     Get.lazyPut<SubscriptionService>(() => SubscriptionServiceImpl(revenueCatRepo: Get.find()));
 
     // Controller
-    Get.lazyPut(() => SubscriptionController(revenueCatService: Get.find()));
+    Get.lazyPut(() => SubscriptionController(service: Get.find()));
 
     // initialize
     Get.find<SubscriptionController>().initialize();

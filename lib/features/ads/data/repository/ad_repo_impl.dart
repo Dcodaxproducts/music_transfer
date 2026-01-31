@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pixart_app/features/ads/data/utils/ads.dart';
 import 'package:pixart_app/imports.dart';
 import '../../../paywall/presentation/controller/subscription_controller.dart';

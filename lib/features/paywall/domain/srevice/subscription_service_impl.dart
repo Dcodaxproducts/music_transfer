@@ -11,9 +11,9 @@ class SubscriptionServiceImpl implements SubscriptionService {
   SubscriptionServiceImpl({required this.revenueCatRepo});
 
   @override
-  Future<void> initialize(RevenueCatConfig config) async {
+  Future<void> initialize() async {
     try {
-      // Configure RevenueCat with platform-specific API key
+      final config = RevenueCatConfig.defaultConfig;
       final apiKey = Platform.isIOS ? config.iosApiKey : config.androidApiKey;
 
       final PurchasesConfiguration configuration = PurchasesConfiguration(apiKey);

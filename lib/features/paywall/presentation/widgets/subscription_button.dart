@@ -13,7 +13,7 @@ class SubsriptionButton extends StatelessWidget {
           visible: !(con.user?.isPro ?? false),
           child: TextButton(
             onPressed: () {
-              SubscriptionController.find.showPaywallIfNeeded();
+              SubscriptionController.find.showPaywall();
             },
             style: TextButton.styleFrom(
               minimumSize: Size(75.sp, 40.sp),
