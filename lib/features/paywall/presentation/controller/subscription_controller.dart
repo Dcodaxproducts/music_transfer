@@ -20,13 +20,18 @@ class SubscriptionController extends GetxController implements GetxService {
   bool get isPro {
     EntitlementInfos? entitlements = _customerInfo?.entitlements;
     if (entitlements == null || entitlements.active.isNotEmpty == false) {
-      return false;
+      return AuthController.find.user?.isPro ?? false;
     }
     final DateTime now = DateTime.now().toLocal();
     final DateTime expiration = DateTime.parse(
       entitlements.active.values.first.expirationDate ?? '',
     ).toLocal();
-    return AuthController.find.user?.isPro ?? now.isBefore(expiration);
+
+    if (AuthController.find.user == null) {
+      return now.isBefore(expiration);
+    }
+
+    return AuthController.find.user?.isPro ?? false;
   }
 
   // Initialize RevenueCat and fetch offerings

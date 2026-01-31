@@ -33,14 +33,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      if (!SubscriptionController.find.isPro) {
-        Future.delayed(const Duration(seconds: 2), () {
-          SubscriptionController.find.showPaywall();
-        });
-      }
-    });
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) => _showPaywallIfNeeded());
     super.initState();
+  }
+
+  void _showPaywallIfNeeded() {
+    if (!SubscriptionController.find.isPro) {
+      Future.delayed(const Duration(seconds: 2), SubscriptionController.find.showPaywall);
+    }
   }
 
   @override
