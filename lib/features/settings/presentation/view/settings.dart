@@ -4,7 +4,7 @@ import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart'
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../core/widgets/context_menu.dart';
-import '../../../../image_gen/history/presentation/view/hisory_screen.dart';
+import '../../../../image_gen/history/presentation/view/history_screen.dart';
 import '../../../../imports.dart';
 import '../../../auth/presentation/controller/auth_controller.dart';
 import '../../../auth/presentation/view/login_screen.dart';
@@ -183,7 +183,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         }
 
         // Guest user with subscription - show warning
-        if (!SubscriptionController.find.isPro) {
+        if (!SubscriptionController.find.isPro && !controller.isLoggedIn) {
           return PrimaryButton(
             onPressed: () => launchScreen(LoginScreen()),
             text: 'sign_in_to_preserve_credits'.tr,

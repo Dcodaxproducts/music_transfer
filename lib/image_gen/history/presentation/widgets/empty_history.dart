@@ -10,19 +10,21 @@ class EmptyHistory extends StatefulWidget {
 class _EmptyHistoryState extends State<EmptyHistory> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const AnimatedImageStack(),
-        SizedBox(height: 8.sp),
-        Text("ai_image".tr, style: context.font18),
-        SizedBox(height: 4.sp),
-        Text(
-          "describe_image_start_creating".tr,
-          textAlign: TextAlign.center,
-          style: context.font14.copyWith(color: context.theme.hintColor),
-        ),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const AnimatedImageStack(),
+          SizedBox(height: 8.sp),
+          Text("ai_image".tr, style: context.font18),
+          SizedBox(height: 4.sp),
+          Text(
+            "describe_image_start_creating".tr,
+            textAlign: TextAlign.center,
+            style: context.font14.copyWith(color: context.theme.hintColor),
+          ),
+        ],
+      ),
     );
   }
 }

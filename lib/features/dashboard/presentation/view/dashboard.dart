@@ -1,7 +1,7 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:pixart_app/features/dashboard/presentation/controller/dashboard_controller.dart';
-import 'package:pixart_app/image_gen/history/presentation/view/hisory_screen.dart';
+import 'package:pixart_app/image_gen/history/presentation/view/history_screen.dart';
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/core/widgets/confirmation_dialog.dart';
 import 'package:pixart_app/features/paywall/presentation/widgets/subscription_button.dart';

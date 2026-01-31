@@ -32,7 +32,7 @@ class ModelsController extends GetxController implements GetxService {
     if (cachedModels.isNotEmpty) {
       _models.addAll(cachedModels);
       update();
-      _setDefaultModel();
+      _getSelectedModel();
     }
 
     // fetch from API
@@ -41,7 +41,7 @@ class ModelsController extends GetxController implements GetxService {
       _models.clear();
       _models.addAll(fetchedModels);
       update();
-      _setDefaultModel();
+      _getSelectedModel();
       await modelsService.cacheModels(fetchedModels);
     }
   }
@@ -53,6 +53,21 @@ class ModelsController extends GetxController implements GetxService {
     }
     update();
     return await modelsService.saveSelectedModel(model.id);
+  }
+
+  void _getSelectedModel() {
+    int? selectedModelId = modelsService.getSelectedModel();
+    if (selectedModelId != null && _models.isNotEmpty) {
+      Model? model = _models.firstWhereOrNull((model) => model.id == selectedModelId);
+      if (model != null) {
+        _selectedModel = model;
+        if (model.sizes.isNotEmpty) {
+          _selectedSize = model.sizes.first;
+        }
+      }
+    } else {
+      _setDefaultModel();
+    }
   }
 
   Future<void> _setDefaultModel() async {
