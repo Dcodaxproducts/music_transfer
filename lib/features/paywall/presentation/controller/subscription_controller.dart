@@ -27,11 +27,14 @@ class SubscriptionController extends GetxController implements GetxService {
       entitlements.active.values.first.expirationDate ?? '',
     ).toLocal();
 
-    if (AuthController.find.user == null) {
-      return now.isBefore(expiration);
-    }
+    bool isActive = now.isBefore(expiration);
 
-    return AuthController.find.user?.isPro ?? false;
+    // if entitlement is active, return true else check user model
+    if (isActive) {
+      return true;
+    } else {
+      return AuthController.find.user?.isPro ?? false;
+    }
   }
 
   // Initialize RevenueCat and fetch offerings
