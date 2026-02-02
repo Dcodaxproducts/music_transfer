@@ -3,9 +3,9 @@ import 'package:pixart_app/features/splash/presentation/controller/splash_contro
 import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/features/dashboard/presentation/view/dashboard.dart';
 import 'package:pixart_app/features/welcome/presentation/view/welcome.dart';
-import '../../../../image_gen/inspirations/presentation/controller/inspiration_controller.dart';
+import '../../../inspirations/presentation/controller/inspiration_controller.dart';
 import '../../../ads/presentation/controller/ads_controller.dart';
-import '../../../../image_gen/home/presentation/controller/models_controller.dart';
+import '../../../home/presentation/controller/models_controller.dart';
 import '../../../auth/presentation/controller/auth_controller.dart';
 import 'splash.dart';
 

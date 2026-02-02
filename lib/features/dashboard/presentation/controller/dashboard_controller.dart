@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pixart_app/features/tools/presentation/controller/tools_controller.dart';
-import 'package:pixart_app/image_gen/home/presentation/controller/models_controller.dart';
-import 'package:pixart_app/image_gen/inspirations/presentation/controller/inspiration_controller.dart';
+import 'package:pixart_app/features/home/presentation/controller/models_controller.dart';
+import 'package:pixart_app/features/inspirations/presentation/controller/inspiration_controller.dart';
 
 class DashboardController extends GetxController implements GetxService {
   static DashboardController get find => Get.find<DashboardController>();

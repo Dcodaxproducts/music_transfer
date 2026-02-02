@@ -1,4 +1,4 @@
-import '../../../../image_gen/home/data/model/size_preset.dart';
+import '../../../home/data/model/size_preset.dart';
 import '../../../../imports.dart';
 import '../../data/model/tools.dart';
 

@@ -1,46 +1,7 @@
-import 'package:pixart_app/features/tools/presentation/controller/tools_controller.dart';
+import 'package:pixart_app/features/home/presentation/controller/models_controller.dart';
 import '../../../../core/widgets/primary_bottom_sheet.dart';
-import '../../../home/data/model/size_preset.dart';
 import '../../../../imports.dart';
-
-class ToolAspectRatio extends StatelessWidget {
-  const ToolAspectRatio({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<ToolsController>(
-      builder: (controller) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Aspect Ratio'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
-            InkWell(
-              onTap: AspectRatioSheet.show,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 8.sp),
-                decoration: BoxDecoration(
-                  color: context.theme.canvasColor,
-                  borderRadius: AppRadius.circular32,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(width: 4.sp),
-                    AspectRatioBox(ratio: controller.selectedSize, size: 14, radius: 2),
-                    SizedBox(width: 8.sp),
-                    Text(controller.selectedSize.aspectRatio.tr, style: context.font14),
-                    SizedBox(width: 8.sp),
-                    Icon(Iconsax.arrow_down_1_copy, size: 16.sp, color: context.theme.iconTheme.color),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
+import '../../data/model/size_preset.dart';
 
 class AspectRatioSheet extends StatelessWidget {
   const AspectRatioSheet({super.key});
@@ -52,15 +13,15 @@ class AspectRatioSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PrimaryBottomSheet(
-      title: 'Aspect Ratio',
+      title: "aspect_ratio".tr,
       child: Expanded(
-        child: GetBuilder<ToolsController>(
+        child: GetBuilder<ModelsController>(
           builder: (con) {
-            if (con.selectedTool == null) {
+            if (con.selectedModel == null) {
               return SizedBox.shrink();
             }
             return GridView.builder(
-              itemCount: con.selectedTool!.model!.sizes.length,
+              itemCount: con.selectedModel!.sizes.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 8.sp,
@@ -68,7 +29,7 @@ class AspectRatioSheet extends StatelessWidget {
                 childAspectRatio: 1,
               ),
               itemBuilder: (context, index) {
-                final SizePreset ratio = con.selectedTool!.model!.sizes[index];
+                final SizePreset ratio = con.selectedModel!.sizes[index];
                 bool selected = con.selectedSize.id == ratio.id;
                 return InkWell(
                   onTap: () {
@@ -112,19 +73,17 @@ class AspectRatioSheet extends StatelessWidget {
 
 class AspectRatioBox extends StatelessWidget {
   final SizePreset ratio;
-  final double size;
-  final double radius;
-  const AspectRatioBox({super.key, required this.ratio, this.size = 40, this.radius = 8});
+  const AspectRatioBox({super.key, required this.ratio});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: size.sp,
+      height: 40.sp,
       child: AspectRatio(
         aspectRatio: ratio.width / ratio.height,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(radius.sp),
+            borderRadius: AppRadius.circular8,
             border: Border.all(color: context.font12.color!),
           ),
         ),

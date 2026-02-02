@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:pixart_app/features/ads/domain/binding/ads_binding.dart';
 import 'package:pixart_app/features/dashboard/domain/binding/dashboard_binding.dart';
-import 'package:pixart_app/image_gen/history/domain/binding/history_binding.dart';
-import 'package:pixart_app/image_gen/home/domain/binding/image_generation_bindings.dart';
-import 'package:pixart_app/image_gen/inspirations/domain/binding/inspiration_binding.dart';
+import 'package:pixart_app/features/history/domain/binding/history_binding.dart';
+import 'package:pixart_app/features/home/domain/binding/image_generation_bindings.dart';
+import 'package:pixart_app/features/inspirations/domain/binding/inspiration_binding.dart';
 import 'package:pixart_app/features/language/domain/binding/language_binding.dart';
 import 'package:pixart_app/features/review/domain/binding/review_binding.dart';
 import 'package:pixart_app/features/splash/domain/binding/splash_binding.dart';
@@ -14,7 +14,7 @@ import '../../features/auth/domain/binding/auth_binding.dart';
 import '../../features/paywall/domain/binding/subscription_binding.dart';
 import '../../features/profile/domain/binding/profile_binding.dart';
 import '../../imports.dart';
-import '../../image_gen/home/domain/binding/models_binding.dart';
+import '../../features/home/domain/binding/models_binding.dart';
 import '../../features/theme/domain/binding/theme_binding.dart';
 
 Future<Map<String, Map<String, String>>> init() async {

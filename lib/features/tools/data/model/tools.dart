@@ -1,4 +1,4 @@
-import '../../../../image_gen/home/data/model/model.dart';
+import '../../../home/data/model/model.dart';
 
 class Tool {
   final int id;

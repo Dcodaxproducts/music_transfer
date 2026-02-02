@@ -4,7 +4,7 @@ import 'package:pixart_app/features/review/presentation/view/rate_us_sheet.dart'
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../core/widgets/context_menu.dart';
-import '../../../../image_gen/history/presentation/view/history_screen.dart';
+import '../../../history/presentation/view/history_screen.dart';
 import '../../../../imports.dart';
 import '../../../auth/presentation/controller/auth_controller.dart';
 import '../../../auth/presentation/view/login_screen.dart';

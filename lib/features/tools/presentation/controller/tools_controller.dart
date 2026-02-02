@@ -1,5 +1,5 @@
 import 'package:pixart_app/features/tools/domain/service/tools_service.dart';
-import 'package:pixart_app/image_gen/home/data/model/size_preset.dart';
+import 'package:pixart_app/features/home/data/model/size_preset.dart';
 import 'package:pixart_app/imports.dart';
 import '../../data/model/tools.dart';
 
