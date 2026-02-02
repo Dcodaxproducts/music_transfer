@@ -21,7 +21,7 @@ class LoadingCard extends StatelessWidget {
           ),
           SizedBox(height: 16.sp),
           Text(
-            'Generating\nThis may take up to 1 min',
+            'generating_may_take_1_min'.tr,
             style: context.font12.copyWith(height: 1.5),
             textAlign: TextAlign.center,
           ),

@@ -31,7 +31,7 @@ class _SaveButtonState extends State<SaveButton> {
                   height: 16.sp,
                   child: CircularProgressIndicator(strokeWidth: 2.sp, color: Colors.white),
                 )
-              : Text('Save'),
+              : Text('save'.tr),
         );
       },
     );

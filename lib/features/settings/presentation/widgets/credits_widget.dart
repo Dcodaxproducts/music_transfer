@@ -24,7 +24,7 @@ class CreditsWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Generation credits left',
+                      'generation_credits_left'.tr,
                       style: context.font12.copyWith(color: context.theme.hintColor),
                     ),
                     SizedBox(height: 8.sp),
@@ -45,7 +45,7 @@ class CreditsWidget extends StatelessWidget {
                     children: [
                       Image.asset(Images.sparkle, width: 14.sp, height: 14.sp, color: primaryLight),
                       SizedBox(width: 4.sp),
-                      Text('Get credits', style: context.font10.copyWith(color: primaryLight)),
+                      Text('get_credits'.tr, style: context.font10.copyWith(color: primaryLight)),
                       SizedBox(width: 4.sp),
                     ],
                   ),

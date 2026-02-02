@@ -123,27 +123,30 @@ class PromptInputWidget extends StatelessWidget {
                   const Spacer(),
                   GetBuilder<ModelsController>(
                     builder: (modelController) {
-                      return TextButton(
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: isEmpty ? context.theme.disabledColor : primaryLight,
-                          visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                        ),
-                        onPressed: ImageGenerationHelper.handleTap,
-                        child: Padding(
-                          padding: AppPadding.padding14,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text("create".tr, style: TextStyle(fontWeight: FontWeight.w600)),
-                              SizedBox(width: 4.sp),
-                              Image.asset(Images.sparkle, width: 16.sp, height: 16.sp, color: Colors.white),
-                              SizedBox(width: 4.sp),
-                              Text(
-                                "${modelController.selectedModel?.creditsPerImage ?? 5}",
-                                style: TextStyle(fontWeight: FontWeight.w600),
-                              ),
-                            ],
+                      return AbsorbPointer(
+                        absorbing: controller.loading.isNotEmpty,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: isEmpty ? context.theme.disabledColor : primaryLight,
+                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                          ),
+                          onPressed: ImageGenerationHelper.handleTap,
+                          child: Padding(
+                            padding: AppPadding.padding14,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text("create".tr, style: TextStyle(fontWeight: FontWeight.w600)),
+                                SizedBox(width: 4.sp),
+                                Image.asset(Images.sparkle, width: 16.sp, height: 16.sp, color: Colors.white),
+                                SizedBox(width: 4.sp),
+                                Text(
+                                  "${modelController.selectedModel?.creditsPerImage ?? 5}",
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

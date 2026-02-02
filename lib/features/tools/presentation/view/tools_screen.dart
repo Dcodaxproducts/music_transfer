@@ -34,7 +34,7 @@ class ToolScreen extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('See All'.tr, style: context.font14.copyWith(color: context.theme.hintColor)),
+                          Text('see_all'.tr, style: context.font14.copyWith(color: context.theme.hintColor)),
                           SizedBox(width: 4.sp),
                           Icon(Iconsax.arrow_right_1_copy, size: 16.sp, color: context.theme.hintColor),
                         ],

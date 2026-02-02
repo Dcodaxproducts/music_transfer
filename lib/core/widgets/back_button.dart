@@ -21,7 +21,8 @@ class PrimaryBackButton extends StatelessWidget {
 
 class PrimaryCloseButton extends StatelessWidget {
   final Function()? onTap;
-  const PrimaryCloseButton({super.key, this.onTap});
+  final IconData? icon;
+  const PrimaryCloseButton({super.key, this.onTap, this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class PrimaryCloseButton extends StatelessWidget {
       child: Container(
         padding: AppPadding.padding8,
         decoration: BoxDecoration(shape: BoxShape.circle, color: context.theme.canvasColor),
-        child: Icon(Icons.close, size: 18.sp, color: context.font14.color),
+        child: Icon(icon ?? Icons.close, size: 18.sp, color: context.font14.color),
       ),
     );
   }

@@ -33,6 +33,7 @@ class LocalizationController extends GetxController implements GetxService {
     Locale locale = localizationService.loadCurrentLanguage();
     setLanguage(locale);
     _languages = List.from(appLanguages);
+    _selectedIndex = _languages.indexWhere((lang) => lang.languageCode == locale.languageCode);
     update();
   }
 

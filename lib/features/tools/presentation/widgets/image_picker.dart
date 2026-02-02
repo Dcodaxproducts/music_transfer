@@ -287,7 +287,7 @@ class _ImageUploadSlot extends StatelessWidget {
               Positioned(
                 right: 8.sp,
                 top: 8.sp,
-                child: PrimaryCloseButton(onTap: onRemove),
+                child: PrimaryCloseButton(icon: Iconsax.trash_copy, onTap: onRemove),
               ),
 
             // Empty state

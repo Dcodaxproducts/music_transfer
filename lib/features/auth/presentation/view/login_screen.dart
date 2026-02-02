@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:pixart_app/features/auth/presentation/view/email_login.dart';
 import 'package:pixart_app/imports.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../core/widgets/image_grid_scaffold.dart';
 import '../widgets/social_login_widget.dart';
 
@@ -50,13 +51,15 @@ class LoginScreen extends StatelessWidget {
                 TextSpan(
                   text: "terms_of_use".tr,
                   style: TextStyle(decoration: TextDecoration.underline),
-                  recognizer: TapGestureRecognizer()..onTap = () {},
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => launchUrlString(AppConstants.privacyPolicy),
                 ),
                 TextSpan(text: "and".tr),
                 TextSpan(
                   text: 'privacy_policy'.tr,
                   style: TextStyle(decoration: TextDecoration.underline),
-                  recognizer: TapGestureRecognizer()..onTap = () {},
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => launchUrlString(AppConstants.termsAndConditions),
                 ),
               ],
             ),
