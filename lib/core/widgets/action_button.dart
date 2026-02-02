@@ -1,42 +1,4 @@
-import 'package:share_plus/share_plus.dart';
 import '../../imports.dart';
-import '../helper/image_download.dart';
-
-class ShareButton extends StatefulWidget {
-  final String url;
-  const ShareButton({super.key, required this.url});
-
-  @override
-  State<ShareButton> createState() => _ShareButtonState();
-}
-
-class _ShareButtonState extends State<ShareButton> {
-  final ValueNotifier<bool> _isDownloading = ValueNotifier(false);
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: _isDownloading,
-      builder: (context, isDownloading, child) {
-        return ActionButton(icon: Iconsax.share_copy, isLoading: isDownloading, onPressed: _downloadImage);
-      },
-    );
-  }
-
-  Future<void> _downloadImage() async {
-    _isDownloading.value = true;
-    File? file = await DownloadImage.downloadImage(widget.url);
-    _isDownloading.value = false;
-    if (file != null) {
-      await Share.shareXFiles([XFile(file.path)], text: 'Check out this image!');
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Failed to download image for sharing.')));
-      }
-    }
-  }
-}
 
 class ActionButton extends StatelessWidget {
   final IconData icon;

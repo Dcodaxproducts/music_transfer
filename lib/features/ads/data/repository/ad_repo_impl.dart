@@ -107,15 +107,17 @@ class AdRepoImpl implements AdRepo {
   }
 
   @override
-  FullScreenContentCallback<T> getFullScreenContentCallback<T>() => FullScreenContentCallback<T>(
-    onAdDismissedFullScreenContent: (ad) {
-      AdsController.find.adShowing = false;
-    },
-    onAdFailedToShowFullScreenContent: (ad, error) {
-      AdsController.find.adShowing = false;
-    },
-    onAdShowedFullScreenContent: (ad) {
-      AdsController.find.adShowing = true;
-    },
-  );
+  FullScreenContentCallback<T> getFullScreenContentCallback<T>({Function()? onAdDismissed}) =>
+      FullScreenContentCallback<T>(
+        onAdDismissedFullScreenContent: (ad) {
+          AdsController.find.adShowing = false;
+          onAdDismissed?.call();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          AdsController.find.adShowing = false;
+        },
+        onAdShowedFullScreenContent: (ad) {
+          AdsController.find.adShowing = true;
+        },
+      );
 }

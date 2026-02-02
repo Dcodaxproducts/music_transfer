@@ -16,22 +16,11 @@ class ToolsController extends GetxController implements GetxService {
     update();
   }
 
-  List<Tool> _tools = [];
-  List<Tool> get tools => _tools;
-  set tools(List<Tool> value) {
-    _tools = value;
+  List<ToolCategory> _toolCategories = [];
+  List<ToolCategory> get toolCategories => _toolCategories;
+  set toolCategories(List<ToolCategory> value) {
+    _toolCategories = value;
     update();
-  }
-
-  Map<String, List<Tool>> get categorizedTools {
-    Map<String, List<Tool>> categorized = {};
-    for (var tool in _tools) {
-      if (!categorized.containsKey(tool.category)) {
-        categorized[tool.category] = [];
-      }
-      categorized[tool.category]!.add(tool);
-    }
-    return categorized;
   }
 
   Tool? _selectedTool;
@@ -63,11 +52,17 @@ class ToolsController extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> getTools() async {
+  Future<void> getTools({bool refresh = false}) async {
     try {
-      if (_tools.isNotEmpty) return;
-      isLoading = true;
-      _tools.addAll(await service.getTools());
+      // if tools are already loaded and not refreshing, return early
+      if (_toolCategories.isNotEmpty && !refresh) return;
+
+      // Clear the tools list if refreshing
+      if (refresh) _toolCategories.clear();
+
+      // refresh only sets isLoading when not refreshing
+      if (!refresh) isLoading = true;
+      _toolCategories.addAll(await service.getTools());
     } catch (e) {
       debugPrint('Failed to load tools: $e');
     } finally {
@@ -75,10 +70,10 @@ class ToolsController extends GetxController implements GetxService {
     }
   }
 
-  Future<ToolResult?> generateImage(Tool tool, XFile image) async {
+  Future<ToolResult?> generateImage(Tool tool, List<XFile> images) async {
     try {
       generatingImage = true;
-      final Response? response = await service.generateImage(tool, image, size: selectedSize);
+      final Response? response = await service.generateImage(tool, images, size: selectedSize);
       return service.processResponse(tool, response);
     } catch (e) {
       showToast('Image generation failed: $e');

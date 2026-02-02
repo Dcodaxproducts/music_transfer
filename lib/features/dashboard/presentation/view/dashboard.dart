@@ -1,4 +1,3 @@
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:pixart_app/features/dashboard/presentation/controller/dashboard_controller.dart';
 import 'package:pixart_app/features/history/presentation/view/history_screen.dart';
@@ -6,10 +5,9 @@ import 'package:pixart_app/imports.dart';
 import 'package:pixart_app/core/widgets/confirmation_dialog.dart';
 import 'package:pixart_app/features/paywall/presentation/widgets/subscription_button.dart';
 import '../../../../core/widgets/primary_safe_area.dart';
-import '../../../../core/widgets/share_button.dart';
+import '../../../../core/widgets/action_button.dart';
 import '../../../home/presentation/view/home.dart';
 import '../../../inspirations/presentation/view/inspirations.dart';
-import '../../../paywall/presentation/controller/subscription_controller.dart';
 import '../../../settings/presentation/view/settings.dart';
 import '../../../tools/presentation/view/tools_screen.dart';
 import '../../data/model/navigation_item.dart';
@@ -30,18 +28,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   ];
 
   final List<String> _titles = [AppConstants.appName, 'tools', 'inspirations', 'settings'];
-
-  @override
-  void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) => _showPaywallIfNeeded());
-    super.initState();
-  }
-
-  void _showPaywallIfNeeded() {
-    if (!SubscriptionController.find.isPro) {
-      Future.delayed(const Duration(seconds: 2), SubscriptionController.find.showPaywall);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

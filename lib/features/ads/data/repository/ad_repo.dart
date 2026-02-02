@@ -4,5 +4,5 @@ import 'package:http/http.dart';
 abstract class AdRepo {
   Future<Response?> getAdIds();
   Future<T?> loadAd<T>(String unitId);
-  FullScreenContentCallback<T> getFullScreenContentCallback<T>();
+  FullScreenContentCallback<T> getFullScreenContentCallback<T>({Function()? onAdDismissed});
 }

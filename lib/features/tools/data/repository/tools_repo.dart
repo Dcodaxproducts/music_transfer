@@ -6,6 +6,6 @@ abstract class ToolsRepo {
   Future<Response?> generateImage({
     required String endpoint,
     required Map<String, dynamic> body,
-    required MultipartBody multipartBody,
+    required List<MultipartBody> multipartBodies,
   });
 }

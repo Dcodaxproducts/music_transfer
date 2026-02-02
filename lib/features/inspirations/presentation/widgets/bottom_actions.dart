@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:pixart_app/features/inspirations/data/model/inspiration.dart';
-import '../../../../core/widgets/share_button.dart';
+import '../../../../core/widgets/action_button.dart';
 import '../../../dashboard/presentation/controller/dashboard_controller.dart';
 import '../../../../imports.dart';
 import '../../../home/presentation/controller/image_generation_controller.dart';

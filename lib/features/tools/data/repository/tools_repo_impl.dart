@@ -17,6 +17,6 @@ class ToolsRepoImpl implements ToolsRepo {
   Future<Response?> generateImage({
     required String endpoint,
     required Map<String, dynamic> body,
-    required MultipartBody multipartBody,
-  }) async => await client.postMultipart(endpoint, body, [multipartBody]);
+    required List<MultipartBody> multipartBodies,
+  }) async => await client.postMultipart(endpoint, body, multipartBodies);
 }

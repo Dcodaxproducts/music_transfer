@@ -1,5 +1,4 @@
 import 'package:pixart_app/imports.dart';
-
 import '../../../ads/presentation/controller/ads_controller.dart';
 
 class WatchAdsDialog extends StatefulWidget {
@@ -9,11 +8,7 @@ class WatchAdsDialog extends StatefulWidget {
   const WatchAdsDialog({super.key, required this.onWatchAd, required this.onUpgrade});
 
   // Demo images for the stacked images display
-  static const List<String> _demoImages = [
-    'https://picsum.photos/200/200?random=1',
-    'https://picsum.photos/200/200?random=2',
-    'https://picsum.photos/200/200?random=3',
-  ];
+  static const List<String> _demoImages = [Images.grid7, Images.grid6, Images.grid9];
 
   static Future<void> show(
     BuildContext context, {
@@ -139,7 +134,7 @@ class _WatchAdsDialogState extends State<WatchAdsDialog> {
       ),
       child: ClipRRect(
         borderRadius: AppRadius.circular12,
-        child: CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.cover),
+        child: Image.asset(imageUrl, fit: BoxFit.cover),
       ),
     );
   }

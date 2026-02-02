@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:pixart_app/core/widgets/primary_bottom_sheet.dart';
-import 'package:pixart_app/core/widgets/share_button.dart';
+import 'package:pixart_app/core/widgets/action_button.dart';
 import 'package:pixart_app/features/home/data/model/image_generation.dart';
 import 'package:view_more/view_more.dart';
 import '../../../../core/helper/date_converter.dart';

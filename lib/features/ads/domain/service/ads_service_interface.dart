@@ -8,6 +8,6 @@ abstract class AdsServiceInterface {
   Future<bool> showInterstitial(String adId);
   Future<bool> showRewardInterstitial(String adId, {Function()? onUserEarnedReward});
   Future<bool> showRewardVideo(String adId, {Function()? onUserEarnedReward});
-  Future<bool> showAppOpen(String adId);
+  Future<bool> showAppOpen(String adId, {Function()? onAdDismissed});
   Widget getBannerWidget(AdModel? ad);
 }

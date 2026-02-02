@@ -36,8 +36,8 @@ class AdsController extends GetxController {
     }
   }
 
-  Future<bool> showAppOpenAd() async {
-    return await _showAd(AdPosition.appOpen);
+  Future<bool> showAppOpenAd({Function()? onAdDismissed}) async {
+    return await _showAd(AdPosition.appOpen, onUserEarnedReward: onAdDismissed);
   }
 
   Future<bool> showOnGenerateVideo() async {
@@ -94,7 +94,7 @@ class AdsController extends GetxController {
     } else if (type == AdType.reward) {
       return await adsService.showRewardVideo(adId, onUserEarnedReward: onUserEarnedReward);
     } else if (type == AdType.appOpen) {
-      return await adsService.showAppOpen(adId);
+      return await adsService.showAppOpen(adId, onAdDismissed: onUserEarnedReward);
     }
     return false;
   }

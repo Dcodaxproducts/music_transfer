@@ -9,7 +9,7 @@ class Endpoints {
 
   // API Endpoints
   static const String generateImage = 'images/generate-image';
-  static const String tools = 'tool-list';
+  static const String tools = 'tool-category-list';
 
   // auth
   static const String register = 'register';

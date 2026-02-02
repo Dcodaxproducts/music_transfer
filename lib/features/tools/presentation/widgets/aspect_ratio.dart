@@ -13,7 +13,7 @@ class ToolAspectRatio extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Aspect Ratio'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
+            Text('aspect_ratio'.tr, style: context.font14.copyWith(fontWeight: FontWeight.w600)),
             InkWell(
               onTap: AspectRatioSheet.show,
               child: Container(
@@ -52,7 +52,7 @@ class AspectRatioSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PrimaryBottomSheet(
-      title: 'Aspect Ratio',
+      title: 'aspect_ratio',
       child: Expanded(
         child: GetBuilder<ToolsController>(
           builder: (con) {

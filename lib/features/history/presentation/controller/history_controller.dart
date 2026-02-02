@@ -35,4 +35,11 @@ class HistoryController extends GetxController {
     update();
     historyService.addPrompt(_promptHistory);
   }
+
+  void clearHistory() {
+    _promptHistory.clear();
+    _generations.clear();
+    update();
+    historyService.addPrompt(_promptHistory);
+  }
 }

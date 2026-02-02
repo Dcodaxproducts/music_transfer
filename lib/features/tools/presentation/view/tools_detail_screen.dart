@@ -127,9 +127,9 @@ class ToolDetailScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _handleApiCall(XFile image) async {
+  Future<void> _handleApiCall(List<XFile> images) async {
     ToolResult? response;
-    response = await ToolsController.find.generateImage(tool, image);
+    response = await ToolsController.find.generateImage(tool, images);
     if (response != null) {
       Get.back();
       launchScreen(ToolResultScreen(response: response));

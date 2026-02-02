@@ -1,4 +1,4 @@
-import 'package:pixart_app/core/widgets/share_button.dart';
+import 'package:pixart_app/core/widgets/action_button.dart';
 import 'package:pixart_app/features/home/presentation/controller/models_controller.dart';
 import 'package:pixart_app/imports.dart';
 import '../../utils/image_gen_helper.dart';

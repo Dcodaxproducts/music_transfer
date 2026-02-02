@@ -1,5 +1,25 @@
 import '../../../home/data/model/model.dart';
 
+class ToolCategory {
+  final int id;
+  final String title;
+  final List<Tool> tools;
+
+  ToolCategory({required this.id, required this.title, required this.tools});
+
+  factory ToolCategory.fromJson(Map<String, dynamic> json) {
+    var toolsList = <Tool>[];
+    if (json['tools'] != null) {
+      toolsList = List<Tool>.from(json['tools'].map((tool) => Tool.fromJson(tool)));
+    }
+    return ToolCategory(id: json['id'], title: json['title'], tools: toolsList);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'id': id, 'title': title, 'tools': tools.map((tool) => tool.toJson()).toList()};
+  }
+}
+
 class Tool {
   final int id;
   final String name;
@@ -12,6 +32,8 @@ class Tool {
   final String category;
   final bool premium;
   final int credits;
+  final int inputImages;
+  final String? guideline;
 
   Tool({
     required this.id,
@@ -25,6 +47,8 @@ class Tool {
     required this.category,
     this.premium = false,
     this.credits = 0,
+    this.inputImages = 1,
+    this.guideline,
   });
 
   factory Tool.fromJson(Map<String, dynamic> json) {
@@ -40,6 +64,8 @@ class Tool {
       category: json['category'],
       premium: json['is_pro'] ?? false,
       credits: json['credits'] ?? 0,
+      inputImages: json['input_images'] ?? 1,
+      guideline: json['guideline'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -55,6 +81,8 @@ class Tool {
       'category': category,
       'is_pro': premium,
       'credits': credits,
+      'input_images': inputImages,
+      'guideline': guideline,
     };
   }
 }

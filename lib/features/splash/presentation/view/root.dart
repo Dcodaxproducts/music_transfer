@@ -7,6 +7,7 @@ import '../../../inspirations/presentation/controller/inspiration_controller.dar
 import '../../../ads/presentation/controller/ads_controller.dart';
 import '../../../home/presentation/controller/models_controller.dart';
 import '../../../auth/presentation/controller/auth_controller.dart';
+import '../../../paywall/presentation/controller/subscription_controller.dart';
 import 'splash.dart';
 
 class Root extends StatefulWidget {
@@ -42,8 +43,17 @@ class RootState extends State<Root> {
     ]);
   }
 
-  Future<bool> _loadAppOpenAd() async {
-    return AdsController.find.showAppOpenAd();
+  Future<void> _loadAppOpenAd() async {
+    bool success = await AdsController.find.showAppOpenAd(onAdDismissed: _showPaywallIfNeeded);
+    if (!success) {
+      _showPaywallIfNeeded();
+    }
+  }
+
+  void _showPaywallIfNeeded() {
+    if (!SubscriptionController.find.isPro) {
+      Future.delayed(const Duration(milliseconds: 250), SubscriptionController.find.showPaywall);
+    }
   }
 
   @override

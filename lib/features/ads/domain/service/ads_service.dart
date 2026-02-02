@@ -88,12 +88,15 @@ class AdsService implements AdsServiceInterface {
   }
 
   @override
-  Future<bool> showAppOpen(String adId) async {
+  Future<bool> showAppOpen(String adId, {Function()? onAdDismissed}) async {
     if (SubscriptionController.find.isPro) return false;
 
     AppOpenAd? appOpenAd = await adRepo.loadAd<AppOpenAd>(adId);
     if (appOpenAd != null) {
-      appOpenAd.fullScreenContentCallback = adRepo.getFullScreenContentCallback<AppOpenAd>();
+      appOpenAd.fullScreenContentCallback = adRepo.getFullScreenContentCallback<AppOpenAd>(
+        onAdDismissed: onAdDismissed,
+      );
+
       await appOpenAd.show();
       return true;
     }

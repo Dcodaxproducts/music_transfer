@@ -1,5 +1,6 @@
 import 'package:pixart_app/features/auth/data/model/user_model.dart';
 import 'package:pixart_app/features/auth/domain/service/auth_service.dart';
+import 'package:pixart_app/features/history/presentation/controller/history_controller.dart';
 import 'package:pixart_app/features/profile/presentation/controller/profile_controller.dart';
 import 'package:pixart_app/imports.dart';
 import '../../data/model/signup_body.dart';
@@ -132,6 +133,7 @@ class AuthController extends GetxController implements GetxService {
       bool success = await service.logout();
       if (success) {
         _user = null;
+        HistoryController.find.clearHistory();
         await guestLogin();
       }
     } catch (e) {

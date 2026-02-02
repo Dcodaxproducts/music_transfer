@@ -5,18 +5,17 @@ class ImageGridScaffold extends StatelessWidget {
   const ImageGridScaffold({super.key, required this.child});
 
   static const List<String> _demoImages = [
-    'https://pixartai.dcodax.net/storage/239/1.jpg',
-    'https://pixartai.dcodax.net/storage/240/WhatsApp-Image-2026-01-07-at-10.23.36.jpeg',
-    'https://pixartai.dcodax.net/storage/241/2.jpg',
-    'https://pixartai.dcodax.net/storage/244/img_20260107_053233_630948.jpg',
-    'https://pixartai.dcodax.net/storage/245/img_20260107_053347_536887.jpg',
-    'https://pixartai.dcodax.net/storage/246/img_20260107_053821_006624.jpg',
-    'https://pixartai.dcodax.net/storage/249/img_20260107_054707_527462.jpg',
-    'https://pixartai.dcodax.net/storage/251/img_20260107_060751_670780.jpg',
-    'https://pixartai.dcodax.net/storage/253/img_20260107_061143_671644.jpg',
-    'https://pixartai.dcodax.net/storage/252/img_20260107_060920_782890.jpg',
-    'https://pixartai.dcodax.net/storage/254/img_20260107_061023_438446.jpg',
-    'https://pixartai.dcodax.net/storage/255/img_20260107_061350_835160.jpg',
+    Images.grid1,
+    Images.grid2,
+    Images.grid3,
+    Images.grid4,
+    Images.grid5,
+    Images.grid6,
+    Images.grid7,
+    Images.grid8,
+    Images.grid9,
+    Images.grid10,
+    Images.grid11,
   ];
 
   @override
@@ -149,11 +148,7 @@ class _ImageGridBackground extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: AppRadius.circular24, color: Colors.grey[300]),
       child: ClipRRect(
         borderRadius: AppRadius.circular24,
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
-          fit: BoxFit.cover,
-          errorWidget: (context, url, error) => SizedBox.shrink(),
-        ),
+        child: Image.asset(imageUrl, fit: BoxFit.cover),
       ),
     );
   }

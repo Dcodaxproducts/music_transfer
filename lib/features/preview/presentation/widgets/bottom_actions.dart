@@ -1,5 +1,5 @@
 import 'package:pixart_app/features/home/presentation/controller/image_generation_controller.dart';
-import '../../../../core/widgets/share_button.dart';
+import '../../../../core/widgets/action_button.dart';
 import '../../../../imports.dart';
 import 'delete_result_sheet.dart';
 import 'info_sheet.dart';

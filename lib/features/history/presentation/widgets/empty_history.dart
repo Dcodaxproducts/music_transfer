@@ -32,9 +32,6 @@ class _EmptyHistoryState extends State<EmptyHistory> {
 /// An animated image stack widget that shows overlapping images.
 /// Initially animates to expand, and toggles between expanded/collapsed on tap.
 class AnimatedImageStack extends StatefulWidget {
-  /// List of image URLs or asset paths to display
-  final List<String>? images;
-
   /// Size of the center image
   final double imageSize;
 
@@ -46,7 +43,6 @@ class AnimatedImageStack extends StatefulWidget {
 
   const AnimatedImageStack({
     super.key,
-    this.images,
     this.imageSize = 90,
     this.borderRadius = 16,
     this.animationDuration = const Duration(milliseconds: 500),
@@ -62,13 +58,7 @@ class _AnimatedImageStackState extends State<AnimatedImageStack> with SingleTick
   bool _isExpanded = false;
 
   // Default sample images if not provided
-  static const List<String> _defaultImages = [
-    'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400', // Woman portrait
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400', // Fashion model
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400', // Man portrait
-  ];
-
-  List<String> get _images => widget.images ?? _defaultImages;
+  static const List<String> _defaultImages = [Images.portrait1, Images.portrait2, Images.portrait3];
 
   @override
   void initState() {
@@ -130,7 +120,7 @@ class _AnimatedImageStackState extends State<AnimatedImageStack> with SingleTick
 
   List<Widget> _buildImages(double size) {
     final List<Widget> imageWidgets = [];
-    final int imageCount = _images.length;
+    final int imageCount = _defaultImages.length;
 
     // Define the transforms for each image position based on screenshot
     // [offset X, offset Y, rotation angle in degrees, scale]
@@ -156,7 +146,7 @@ class _AnimatedImageStackState extends State<AnimatedImageStack> with SingleTick
       imageWidgets.add(
         _PositionedImage(
           key: ValueKey(i),
-          imageUrl: _images[i],
+          imageUrl: _defaultImages[i],
           size: size,
           offsetX: offsetX.sp,
           offsetY: offsetY.sp,
@@ -226,31 +216,7 @@ class _PositionedImage extends StatelessWidget {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(borderRadius)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(borderRadius),
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Container(
-                    color: Colors.grey.shade800,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                            : null,
-                        strokeWidth: 2,
-                        color: Colors.white54,
-                      ),
-                    ),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.grey.shade800,
-                    child: const Icon(Icons.image_not_supported_outlined, color: Colors.white54),
-                  );
-                },
-              ),
+              child: Image.asset(imageUrl, fit: BoxFit.cover),
             ),
           ),
         ),

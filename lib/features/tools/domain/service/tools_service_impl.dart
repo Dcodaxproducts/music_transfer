@@ -16,20 +16,31 @@ class ToolsServiceImpl implements ToolsService {
   ToolsServiceImpl({required this.toolsRepo});
 
   @override
-  Future<List<Tool>> getTools() async {
+  Future<List<ToolCategory>> getTools() async {
     final Response? response = await toolsRepo.getTools();
     if (response != null && response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body)["data"];
-      return data.map((json) => Tool.fromJson(json)).toList();
+      return data.map((json) => ToolCategory.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load tools');
     }
   }
 
   @override
-  Future<Response?> generateImage(Tool tool, XFile image, {SizePreset? size}) async {
+  Future<Response?> generateImage(Tool tool, List<XFile> images, {SizePreset? size}) async {
     final Map<String, dynamic> body = {};
-    MultipartBody multipartBody = MultipartBody('image', image);
+
+    // Create MultipartBody for each image
+    // For single image tools, use 'image' field name
+    // For multi-image tools, use 'image_0', 'image_1', etc.
+    List<MultipartBody> multipartBodies = [];
+    if (images.length == 1) {
+      multipartBodies.add(MultipartBody('images', images[0]));
+    } else {
+      for (int i = 0; i < images.length; i++) {
+        multipartBodies.add(MultipartBody('images_$i', images[i]));
+      }
+    }
 
     // add model id if any
     if (tool.model != null) {
@@ -44,7 +55,11 @@ class ToolsServiceImpl implements ToolsService {
     }
 
     // send request to api
-    return await toolsRepo.generateImage(endpoint: tool.endPoint, body: body, multipartBody: multipartBody);
+    return await toolsRepo.generateImage(
+      endpoint: tool.endPoint,
+      body: body,
+      multipartBodies: multipartBodies,
+    );
   }
 
   @override
