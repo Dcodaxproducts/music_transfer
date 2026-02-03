@@ -33,7 +33,13 @@ class CreditsWidget extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: SubscriptionController.find.showPurchaseCreditsPaywall,
+                onTap: () {
+                  if (SubscriptionController.find.isPro) {
+                    SubscriptionController.find.showPurchaseCreditsPaywall();
+                  } else {
+                    SubscriptionController.find.showPaywall();
+                  }
+                },
                 borderRadius: AppRadius.circular12,
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 8.sp),

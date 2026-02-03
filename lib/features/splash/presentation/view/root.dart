@@ -44,6 +44,9 @@ class RootState extends State<Root> {
   }
 
   Future<void> _loadAppOpenAd() async {
+    if (SplashController.find.isFirstTime) {
+      return;
+    }
     bool success = await AdsController.find.showAppOpenAd(onAdDismissed: _showPaywallIfNeeded);
     if (!success) {
       _showPaywallIfNeeded();

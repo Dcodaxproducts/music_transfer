@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:pixart_app/core/api/api_client_impl.dart';
 import 'package:pixart_app/features/paywall/presentation/controller/subscription_controller.dart';
 import '../../../../imports.dart';
+import '../../../splash/presentation/controller/splash_controller.dart';
 import '../../data/model/signup_body.dart';
 import '../../data/model/social_login_model.dart';
 import '../../data/model/user_model.dart';
@@ -56,7 +57,7 @@ class AuthServiceImpl implements AuthService {
 
   @override
   Future<UserModel?> guestLogin() async {
-    final Map<String, dynamic> body = {'uid': Uuid().v4()};
+    final Map<String, dynamic> body = {'uid': Uuid().v4(), 'device_id': SplashController.find.deviceId};
     final Response? response = await repo.guestLogin(body);
     if (response != null && response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body)['data'];

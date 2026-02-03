@@ -2,6 +2,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:pixart_app/features/dashboard/presentation/view/dashboard.dart';
 import '../../../../imports.dart';
+import '../../../splash/presentation/controller/splash_controller.dart';
 import '../../data/model/social_login_model.dart';
 
 class SocialLoginWidget extends StatelessWidget {
@@ -37,6 +38,7 @@ class SocialLoginWidget extends StatelessWidget {
         email: googleAccount.email,
         medium: 'google',
         profilePicture: googleAccount.photoUrl,
+        deviceId: SplashController.find.deviceId,
       );
 
       // Call social login in AuthController

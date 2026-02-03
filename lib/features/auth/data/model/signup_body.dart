@@ -6,6 +6,7 @@ class SignupBody {
   final String password;
   final XFile? profileImage;
   final String uid;
+  final String? deviceId;
 
   SignupBody({
     required this.name,
@@ -13,9 +14,10 @@ class SignupBody {
     required this.password,
     this.profileImage,
     required this.uid,
+    this.deviceId,
   });
 
   Map<String, dynamic> toJson() {
-    return {'name': name, 'email': email, 'password': password, 'uid': uid};
+    return {'name': name, 'email': email, 'password': password, 'uid': uid, 'device_id': deviceId};
   }
 }

@@ -4,6 +4,8 @@ import 'package:pixart_app/features/profile/presentation/controller/profile_cont
 import 'package:pixart_app/features/tools/presentation/controller/tools_controller.dart';
 import 'package:pixart_app/features/tools/presentation/widgets/image_animation.dart';
 import 'package:pixart_app/imports.dart';
+import '../../../auth/presentation/controller/auth_controller.dart';
+import '../../../paywall/presentation/controller/subscription_controller.dart';
 import '../widgets/image_picker.dart';
 import '../../../../features/tools/data/model/tools.dart';
 import 'image_result_screen.dart';
@@ -89,7 +91,7 @@ class ToolDetailScreen extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'Try it now',
+                                'try_it_now'.tr,
                                 style: context.font14.copyWith(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
@@ -128,6 +130,15 @@ class ToolDetailScreen extends StatelessWidget {
   }
 
   Future<void> _handleApiCall(List<XFile> images) async {
+    // if (tool.premium && !SubscriptionController.find.isPro) {
+    //   SubscriptionController.find.showPaywall();
+    //   return;
+    // }
+    log(AuthController.find.credits.toString());
+    if (AuthController.find.credits < tool.credits) {
+      SubscriptionController.find.showPurchaseCreditsPaywall();
+      return;
+    }
     ToolResult? response;
     response = await ToolsController.find.generateImage(tool, images);
     if (response != null) {

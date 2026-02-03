@@ -1,4 +1,5 @@
 import 'package:pixart_app/features/auth/presentation/view/otp_verification.dart';
+import 'package:pixart_app/features/splash/presentation/controller/splash_controller.dart';
 import 'package:pixart_app/imports.dart';
 import '../../data/model/signup_body.dart';
 import '../controller/auth_controller.dart';
@@ -269,6 +270,7 @@ class _SignupScreenState extends State<SignupScreen> {
         password: _passwordController.text,
         profileImage: _profileImage.value,
         uid: AuthController.find.user?.uid ?? Uuid().v4(),
+        deviceId: SplashController.find.deviceId,
       );
       AuthController.find.signup(signupBody).then((success) {
         if (success) {

@@ -14,15 +14,25 @@ class SplashController extends GetxController implements GetxService {
   PackageInfo? _packageInfo;
   PackageInfo? get packageInfo => _packageInfo;
 
+  String? _deviceId;
+  String? get deviceId => _deviceId;
+
   Future<void> initialize() async {
     _isFirstTime = service.getFirstTime();
-    await getPackageInfo();
+    await Future.wait([getPackageInfo(), getDeviceId()]);
     update();
   }
 
   Future<void> getPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
     update();
+  }
+
+  Future<String> getDeviceId() async {
+    Map<String, dynamic> deviceData = await service.getDeviceData();
+    _deviceId = deviceData['uuid'];
+    update();
+    return _deviceId ?? 'unknown';
   }
 
   Future<void> saveFirstTime() async {

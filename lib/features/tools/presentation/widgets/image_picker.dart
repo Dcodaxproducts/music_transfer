@@ -1,7 +1,5 @@
 import 'dart:ui';
 import 'package:pixart_app/core/widgets/primary_bottom_sheet.dart';
-import 'package:pixart_app/features/auth/presentation/controller/auth_controller.dart';
-import 'package:pixart_app/features/paywall/presentation/controller/subscription_controller.dart';
 import 'package:pixart_app/features/tools/presentation/controller/tools_controller.dart';
 import 'package:pixart_app/imports.dart';
 import '../../data/model/tools.dart';
@@ -102,17 +100,7 @@ class _ToolImagePickerState extends State<ToolImagePicker> {
                           child: ElevatedButton(
                             onPressed: !_allImagesSelected
                                 ? null
-                                : () {
-                                    if (widget.tool.premium && !SubscriptionController.find.isPro) {
-                                      SubscriptionController.find.showPaywall();
-                                      return;
-                                    }
-                                    if (AuthController.find.credits < widget.tool.credits) {
-                                      SubscriptionController.find.showPurchaseCreditsPaywall();
-                                      return;
-                                    }
-                                    widget.onImagePicked(_selectedImagesList);
-                                  },
+                                : () => widget.onImagePicked(_selectedImagesList),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [

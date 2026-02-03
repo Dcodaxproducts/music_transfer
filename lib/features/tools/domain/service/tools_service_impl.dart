@@ -31,14 +31,14 @@ class ToolsServiceImpl implements ToolsService {
     final Map<String, dynamic> body = {};
 
     // Create MultipartBody for each image
-    // For single image tools, use 'image' field name
-    // For multi-image tools, use 'image_0', 'image_1', etc.
+    // For single image tools, use 'images[]' field name
+    // For multi-image tools, use 'images[0]', 'images[1]', etc.
     List<MultipartBody> multipartBodies = [];
     if (images.length == 1) {
-      multipartBodies.add(MultipartBody('images', images[0]));
+      multipartBodies.add(MultipartBody('images[]', images[0]));
     } else {
       for (int i = 0; i < images.length; i++) {
-        multipartBodies.add(MultipartBody('images_$i', images[i]));
+        multipartBodies.add(MultipartBody('images[$i]', images[i]));
       }
     }
 
