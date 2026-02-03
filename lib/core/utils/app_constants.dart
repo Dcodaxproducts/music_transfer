@@ -11,68 +11,12 @@ class AppConstants {
   static const String iOSAppUrl = "https://apps.apple.com/app/pixart-the-ai-art-generator/id6737462382";
 
   /* manage subscription link */
-  static String manageSubscriptionsUrl = Platform.isAndroid
-      ? manageSubscriptionsUrlAndroid
-      : manageSubscriptionsUrlIos;
+  static String subscriptionsUrl = Platform.isAndroid ? androidSubscriptionsUrl : iOSSubscriptionUrl;
 
-  static const String manageSubscriptionsUrlAndroid = 'https://play.google.com/store/account/subscriptions';
-  static const String manageSubscriptionsUrlIos = 'https://apps.apple.com/account/subscriptions';
+  static const String androidSubscriptionsUrl = 'https://play.google.com/store/account/subscriptions';
+  static const String iOSSubscriptionUrl = 'https://apps.apple.com/account/subscriptions';
 
   /* Privacy and terms Url's */
-  static const String privacyPolicy = 'https://sites.google.com/view/privacypoliciesai?usp=sharing';
-  static const String termsAndConditions =
-      'https://sites.google.com/view/pixart-terms-and-conditions?usp=sharing';
-
-  static const List<String> adultWords = [
-    'sex',
-    'sexy',
-    'nude',
-    'nudity',
-    'porn',
-    'erotic',
-    'eroticism',
-    'erotic',
-    'pornography',
-    'pornographic',
-    'adult',
-    'xxx',
-    'nsfw',
-    'fuck',
-    'dick',
-    'vagina',
-    'penis',
-    'boob',
-    'breast',
-    'ass',
-    'butt',
-    'bdsm',
-    'hentai',
-    'milf',
-    'pussy',
-    'cock',
-    'cum',
-    'squirt',
-    'orgasm',
-    'fetish',
-    'hardcore',
-    'blowjob',
-    'handjob',
-    'fingering',
-    'anal',
-    'slut',
-    'whore',
-    'prostitute',
-    'sextoy',
-    'dildo',
-    'masturbate',
-    'ejaculate',
-    'strip',
-    'naked',
-    'lingerie',
-    'bondage',
-    'gangbang',
-    'threesome',
-    'voyeur',
-    'swinger',
-  ];
+  static const String privacy = 'https://sites.google.com/view/privacypoliciesai?usp=sharing';
+  static const String terms = 'https://sites.google.com/view/pixart-terms-and-conditions?usp=sharing';
 }

@@ -51,15 +51,13 @@ class LoginScreen extends StatelessWidget {
                 TextSpan(
                   text: "terms_of_use".tr,
                   style: TextStyle(decoration: TextDecoration.underline),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () => launchUrlString(AppConstants.privacyPolicy),
+                  recognizer: TapGestureRecognizer()..onTap = () => launchUrlString(AppConstants.privacy),
                 ),
                 TextSpan(text: "and".tr),
                 TextSpan(
                   text: 'privacy_policy'.tr,
                   style: TextStyle(decoration: TextDecoration.underline),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () => launchUrlString(AppConstants.termsAndConditions),
+                  recognizer: TapGestureRecognizer()..onTap = () => launchUrlString(AppConstants.terms),
                 ),
               ],
             ),

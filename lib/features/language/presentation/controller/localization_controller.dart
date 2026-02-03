@@ -1,48 +1,35 @@
-// ignore_for_file: avoid_function_literals_in_foreach_calls
-
 import 'package:pixart_app/features/language/data/model/language.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../domain/service/localization_service_interface.dart';
+import '../../domain/service/localization_service.dart';
 
 class LocalizationController extends GetxController implements GetxService {
-  final LocalizationServiceInterface localizationService;
-  LocalizationController({required this.localizationService}) {
+  final LocalizationService service;
+  LocalizationController({required this.service}) {
     loadCurrentLanguage();
   }
 
   Locale _locale = Locale(appLanguages[0].languageCode, appLanguages[0].countryCode);
-  bool _isLtr = true;
-  List<LanguageModel> _languages = [];
-  int _selectedIndex = 0;
-
   Locale get locale => _locale;
-  bool get isLtr => _isLtr;
-  List<LanguageModel> get languages => _languages;
-  int get selectedIndex => _selectedIndex;
+  List<LanguageModel> _languages = [];
+  LanguageModel _selectedLanguage = appLanguages[0];
 
-  void setLanguage(Locale locale) {
-    Get.updateLocale(locale);
-    _locale = locale;
-    _isLtr = _locale.languageCode != 'ar' && _locale.languageCode != 'fa';
-    saveLanguage(_locale);
+  List<LanguageModel> get languages => _languages;
+  LanguageModel get selectedLanguage => _selectedLanguage;
+
+  void setLanguage(LanguageModel value) {
+    Get.updateLocale(Locale(value.languageCode, value.countryCode));
+    _locale = Locale(value.languageCode, value.countryCode);
+    _selectedLanguage = value;
+    service.saveLanguage(value);
     update();
   }
 
   void loadCurrentLanguage() async {
-    Locale locale = localizationService.loadCurrentLanguage();
-    setLanguage(locale);
+    LanguageModel language = service.loadCurrentLanguage();
+    setLanguage(language);
+    _selectedLanguage = language;
     _languages = List.from(appLanguages);
-    _selectedIndex = _languages.indexWhere((lang) => lang.languageCode == locale.languageCode);
-    update();
-  }
-
-  void saveLanguage(Locale locale) async {
-    await localizationService.saveLanguage(locale);
-  }
-
-  void setSelectIndex(int index) {
-    _selectedIndex = index;
     update();
   }
 
@@ -50,7 +37,6 @@ class LocalizationController extends GetxController implements GetxService {
     if (query.isEmpty) {
       _languages = List.from(appLanguages);
     } else {
-      _selectedIndex = -1;
       _languages = appLanguages
           .where((language) => language.languageName.toLowerCase().contains(query.toLowerCase()))
           .toList();

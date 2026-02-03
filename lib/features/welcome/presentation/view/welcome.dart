@@ -64,7 +64,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                launchUrlString(AppConstants.termsAndConditions);
+                                launchUrlString(AppConstants.terms);
                               },
                           ),
                           TextSpan(text: "and_acknowledged_read".tr),
@@ -77,7 +77,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                launchUrlString(AppConstants.privacyPolicy);
+                                launchUrlString(AppConstants.privacy);
                               },
                           ),
                         ],

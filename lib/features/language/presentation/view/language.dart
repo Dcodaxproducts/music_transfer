@@ -52,12 +52,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     separatorBuilder: (context, index) => const Divider(),
                     itemBuilder: (context, index) {
                       LanguageModel language = con.languages[index];
-                      bool selected = con.selectedIndex == index;
+                      bool selected = language.languageCode == con.selectedLanguage.languageCode;
                       return InkWell(
-                        onTap: () {
-                          con.setSelectIndex(index);
-                          con.setLanguage(Locale(language.languageCode, language.countryCode));
-                        },
+                        onTap: () => con.setLanguage(language),
                         overlayColor: WidgetStateProperty.all(Colors.transparent),
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 12.sp),

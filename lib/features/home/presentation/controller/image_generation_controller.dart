@@ -3,7 +3,6 @@ import 'package:pixart_app/features/home/data/model/model.dart';
 import 'package:pixart_app/features/home/domain/service/image_gen_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:pixart_app/imports.dart';
-import 'text_editing_controller.dart';
 
 class ImageGenController extends GetxController implements GetxService {
   final ImageGenService service;
@@ -12,21 +11,7 @@ class ImageGenController extends GetxController implements GetxService {
   static ImageGenController get find => Get.find<ImageGenController>();
 
   // Text controllers for user input
-  final promptController = StyleableTextFieldController(
-    styles: TextPartStyleDefinitions(definitionList: [], adultWords: AppConstants.adultWords),
-  );
-
-  bool get hasOffensiveWords {
-    bool isOffensive = false;
-    final textParts = promptController.text.split(' ');
-    for (final textPart in textParts) {
-      if (AppConstants.adultWords.contains(removePunctuation(textPart.toLowerCase()))) {
-        isOffensive = true;
-        break;
-      }
-    }
-    return isOffensive;
-  }
+  final TextEditingController promptController = TextEditingController();
 
   List<XFile> _attachedImages = [];
   List<XFile> get attachedImages => _attachedImages;

@@ -1,7 +1,6 @@
 class SharedKeys {
   static const String theme = 'theme';
-  static const String countryCode = 'country_code';
-  static const String languageCode = 'language_code';
+  static const String language = 'language';
   static const String onBoardingSkip = 'on_boarding_skip';
   static const String reviewed = 'reviewed';
   static const String lastShowedDialog = 'last_dialog_showed';

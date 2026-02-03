@@ -27,12 +27,6 @@ class ImageGenerationHelper {
       return;
     }
 
-    // Validate offensive words
-    if (ImageGenController.find.hasOffensiveWords) {
-      showToast('please_remove_offensive_words'.tr);
-      return;
-    }
-
     //  Validate attached images if required
     if (ModelsController.find.selectedModel!.requiresImage &&
         ImageGenController.find.attachedImages.isEmpty) {

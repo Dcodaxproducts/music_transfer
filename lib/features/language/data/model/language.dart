@@ -1,9 +1,21 @@
 class LanguageModel {
-  String languageName;
-  String languageCode;
-  String countryCode;
+  final String languageName;
+  final String languageCode;
+  final String countryCode;
 
   LanguageModel({required this.languageName, required this.countryCode, required this.languageCode});
+
+  factory LanguageModel.fromJson(Map<String, dynamic> json) {
+    return LanguageModel(
+      languageName: json['language_name'],
+      countryCode: json['country_code'],
+      languageCode: json['language_code'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'language_name': languageName, 'country_code': countryCode, 'language_code': languageCode};
+  }
 }
 
 // Language

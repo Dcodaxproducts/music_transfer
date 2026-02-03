@@ -1,24 +1,6 @@
-import 'package:flutter/material.dart';
-import '../../data/repository/language_repo_interface.dart';
-import 'localization_service_interface.dart';
+import '../../../../imports.dart';
 
-class LocalizationService implements LocalizationServiceInterface {
-  final LocalizationRepoInterface localizationRepo;
-
-  LocalizationService({required this.localizationRepo});
-
-  @override
-  Locale loadCurrentLanguage() {
-    return localizationRepo.loadCurrentLanguage();
-  }
-
-  @override
-  Future<void> saveLanguage(Locale locale) async {
-    await localizationRepo.saveLanguage(locale);
-  }
-
-  @override
-  List<Locale> get availableLanguages {
-    return localizationRepo.availableLanguages;
-  }
+abstract class LocalizationService {
+  LanguageModel loadCurrentLanguage();
+  Future<bool> saveLanguage(LanguageModel language);
 }
