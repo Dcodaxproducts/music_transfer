@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "Autentifică-te pentru a salva credite",
   "sign_in_to_preserve_credits": "Autentifică-te pentru a-ți păstra creditele",
   "please_select_a_model": "Vă rugăm să selectați un model",
-  "this_model_requires_an_input_for_editing": "Acest model necesită o imagine de intrare pentru editare."
+  "this_model_requires_an_input_for_editing": "Acest model necesită o imagine de intrare pentru editare.",
+  "otp_resent_successfully": "OTP retrimis cu succes"
 }

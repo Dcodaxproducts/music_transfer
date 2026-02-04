@@ -6,9 +6,13 @@ abstract class AuthRepo {
   Future<Response?> login(Map<String, dynamic> body);
   Future<Response?> socialLogin(Map<String, dynamic> body);
   Future<Response?> guestLogin(Map<String, dynamic> body);
+
   Future<Response?> signup(Map<String, dynamic> body, MultipartBody? profileImage);
   Future<Response?> logout();
+
   Future<Response?> verifyOtp(Map<String, dynamic> body);
+  Future<Response?> resendOtp(Map<String, dynamic> body);
+
   Future<Response?> forgetPasswrod(Map<String, dynamic> body);
 
   // user management

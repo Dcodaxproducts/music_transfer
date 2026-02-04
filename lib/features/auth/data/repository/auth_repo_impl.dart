@@ -44,6 +44,11 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
+  Future<Response?> resendOtp(Map<String, dynamic> body) async {
+    return await client.post(Endpoints.resendOtp, body);
+  }
+
+  @override
   Future<Response?> forgetPasswrod(Map<String, dynamic> body) async {
     return await client.post(Endpoints.forgetPassword, body);
   }

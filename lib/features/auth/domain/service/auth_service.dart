@@ -6,9 +6,13 @@ abstract class AuthService {
   Future<(UserModel?, bool)> login(String email, String password);
   Future<UserModel?> socialLogin(SocialLoginModel socialLoginModel);
   Future<UserModel?> guestLogin();
+
   Future<bool> signup(SignupBody signupBody);
-  Future<UserModel?> verifyOtp(String email, String otp);
   Future<bool> logout();
+
+  Future<UserModel?> verifyOtp(String email, String otp);
+  Future<bool> resendOTP(String email);
+
   Future<bool> forgetPassword(String email);
 
   // user management

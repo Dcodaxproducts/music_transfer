@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "ลงชื่อเข้าใช้เพื่อบันทึกเครดิต",
   "sign_in_to_preserve_credits": "ลงชื่อเข้าใช้เพื่อรักษาเครดิตของคุณ",
   "please_select_a_model": "กรุณาเลือกโมเดล",
-  "this_model_requires_an_input_for_editing": "โมเดลนี้ต้องการภาพอินพุตสำหรับการแก้ไข"
+  "this_model_requires_an_input_for_editing": "โมเดลนี้ต้องการภาพอินพุตสำหรับการแก้ไข",
+  "otp_resent_successfully": "ส่ง OTP อีกครั้งสำเร็จแล้ว"
 }

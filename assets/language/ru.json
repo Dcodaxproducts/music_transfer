@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "Войти для сохранения кредитов",
   "sign_in_to_preserve_credits": "Войдите, чтобы сохранить свои кредиты",
   "please_select_a_model": "Пожалуйста, выберите модель",
-  "this_model_requires_an_input_for_editing": "Эта модель требует входное изображение для редактирования."
+  "this_model_requires_an_input_for_editing": "Эта модель требует входное изображение для редактирования.",
+  "otp_resent_successfully": "OTP успешно отправлен повторно"
 }

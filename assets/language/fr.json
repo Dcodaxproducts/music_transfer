@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "Se connecter pour sauvegarder les crédits",
   "sign_in_to_preserve_credits": "Connectez-vous pour conserver vos crédits",
   "please_select_a_model": "Veuillez sélectionner un modèle",
-  "this_model_requires_an_input_for_editing": "Ce modèle nécessite une image d'entrée pour l'édition."
+  "this_model_requires_an_input_for_editing": "Ce modèle nécessite une image d'entrée pour l'édition.",
+  "otp_resent_successfully": "OTP renvoyé avec succès"
 }

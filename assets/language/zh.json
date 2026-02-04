@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "登录以保存积分",
   "sign_in_to_preserve_credits": "登录以保留您的积分",
   "please_select_a_model": "请选择一个模型",
-  "this_model_requires_an_input_for_editing": "此模型需要输入图像进行编辑。"
+  "this_model_requires_an_input_for_editing": "该模型需要输入图像进行编辑。",
+  "otp_resent_successfully": "OTP 已成功重新发送"
 }

@@ -17,7 +17,7 @@ class SocialLoginWidget extends StatelessWidget {
           image: Images.google,
           isDark: true,
           onTap: _googleLogin,
-          isLoading: controller.isLoading,
+          isLoading: controller.socialLoading,
         );
       },
     );

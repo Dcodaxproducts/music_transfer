@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "Logga in för att spara krediter",
   "sign_in_to_preserve_credits": "Logga in för att bevara dina krediter",
   "please_select_a_model": "Vänligen välj en modell",
-  "this_model_requires_an_input_for_editing": "Denna modell kräver en inmatningsbild för redigering."
+  "this_model_requires_an_input_for_editing": "Denna modell kräver en inmatningsbild för redigering.",
+  "otp_resent_successfully": "OTP har skickats igen"
 }

@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "Log Masuk untuk Simpan Kredit",
   "sign_in_to_preserve_credits": "Log masuk untuk memelihara kredit anda",
   "please_select_a_model": "Sila pilih model",
-  "this_model_requires_an_input_for_editing": "Model ini memerlukan imej input untuk penyuntingan."
+  "this_model_requires_an_input_for_editing": "Model ini memerlukan imej input untuk penyuntingan.",
+  "otp_resent_successfully": "OTP berjaya dihantar semula"
 }

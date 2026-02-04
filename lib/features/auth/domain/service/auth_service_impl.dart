@@ -82,6 +82,16 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
+  Future<bool> resendOTP(String email) async {
+    final Map<String, dynamic> body = {'email': email};
+    final Response? response = await repo.resendOtp(body);
+    if (response != null && response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  @override
   Future<bool> logout() async {
     await repo.logout();
     await Future.wait([repo.deleteUser(), Purchases.logOut()]);

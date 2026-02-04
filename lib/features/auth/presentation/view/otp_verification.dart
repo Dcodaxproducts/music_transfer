@@ -75,6 +75,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   void _resendOtp() {
     if (_canResend.value) {
+      AuthController.find.resendOtp(widget.email).then((success) {
+        if (success) {
+          showToast("otp_resent_successfully".tr);
+        }
+      });
       _startResendTimer();
     }
   }

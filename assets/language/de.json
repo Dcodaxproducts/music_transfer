@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "Anmelden um Credits zu speichern",
   "sign_in_to_preserve_credits": "Melden Sie sich an, um Ihre Credits zu bewahren",
   "please_select_a_model": "Bitte wählen Sie ein Modell",
-  "this_model_requires_an_input_for_editing": "Dieses Modell erfordert ein Eingabebild zur Bearbeitung."
+  "this_model_requires_an_input_for_editing": "Dieses Modell erfordert ein Eingabebild zur Bearbeitung.",
+  "otp_resent_successfully": "OTP erfolgreich erneut gesendet"
 }

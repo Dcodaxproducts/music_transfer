@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "Đăng nhập để lưu tín dụng",
   "sign_in_to_preserve_credits": "Đăng nhập để bảo toàn tín dụng của bạn",
   "please_select_a_model": "Vui lòng chọn một mô hình",
-  "this_model_requires_an_input_for_editing": "Mô hình này yêu cầu hình ảnh đầu vào để chỉnh sửa."
+  "this_model_requires_an_input_for_editing": "Mô hình này yêu cầu hình ảnh đầu vào để chỉnh sửa.",
+  "otp_resent_successfully": "Đã gửi lại OTP thành công"
 }

@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "تسجيل الدخول لحفظ الرصيد",
   "sign_in_to_preserve_credits": "سجل الدخول للحفاظ على رصيدك",
   "please_select_a_model": "يرجى اختيار نموذج",
-  "this_model_requires_an_input_for_editing": "يتطلب هذا النموذج صورة إدخال للتحرير."
+  "this_model_requires_an_input_for_editing": "يتطلب هذا النموذج صورة إدخال للتحرير.",
+  "otp_resent_successfully": "تم إعادة إرسال رمز التحقق بنجاح"
 }

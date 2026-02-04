@@ -19,6 +19,13 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
+  bool _socialLoading = false;
+  bool get socialLoading => _socialLoading;
+  set socialLoading(bool value) {
+    _socialLoading = value;
+    update();
+  }
+
   bool get isLoggedIn => _user?.email != null;
 
   UserModel? _user;
@@ -83,7 +90,7 @@ class AuthController extends GetxController implements GetxService {
 
   Future<bool> socialLogin(SocialLoginModel socialLoginModel) async {
     try {
-      isLoading = true;
+      socialLoading = true;
       UserModel? loggedInUser = await service.socialLogin(socialLoginModel);
       if (loggedInUser != null) {
         _user = loggedInUser;
@@ -94,7 +101,7 @@ class AuthController extends GetxController implements GetxService {
       showToast('Unable to login with social account: $e');
       return false;
     } finally {
-      isLoading = false;
+      _socialLoading = false;
     }
   }
 
@@ -107,6 +114,18 @@ class AuthController extends GetxController implements GetxService {
         return true;
       }
       return false;
+    } catch (e) {
+      showToast('OTP verification failed: $e');
+      return false;
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  Future<bool> resendOtp(String email) async {
+    try {
+      isLoading = true;
+      return await service.resendOTP(email);
     } catch (e) {
       showToast('OTP verification failed: $e');
       return false;

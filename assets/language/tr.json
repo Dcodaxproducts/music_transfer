@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "Kredileri Kaydetmek için Giriş Yap",
   "sign_in_to_preserve_credits": "Kredilerinizi korumak için giriş yapın",
   "please_select_a_model": "Lütfen bir model seçin",
-  "this_model_requires_an_input_for_editing": "Bu model düzenleme için bir girdi görüntüsü gerektirir."
+  "this_model_requires_an_input_for_editing": "Bu model düzenleme için bir girdi görüntüsü gerektirir.",
+  "otp_resent_successfully": "OTP başarıyla yeniden gönderildi"
 }

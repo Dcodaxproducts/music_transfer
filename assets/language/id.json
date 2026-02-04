@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "Masuk untuk Menyimpan Kredit",
   "sign_in_to_preserve_credits": "Masuk untuk mempertahankan kredit Anda",
   "please_select_a_model": "Silakan pilih model",
-  "this_model_requires_an_input_for_editing": "Model ini memerlukan gambar input untuk pengeditan."
+  "this_model_requires_an_input_for_editing": "Model ini memerlukan gambar input untuk diedit.",
+  "otp_resent_successfully": "OTP berhasil dikirim ulang"
 }

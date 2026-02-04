@@ -257,5 +257,6 @@
   "sign_in_to_save_credits": "크레딧 저장을 위해 로그인",
   "sign_in_to_preserve_credits": "크레딧을 보존하려면 로그인하세요",
   "please_select_a_model": "모델을 선택하세요",
-  "this_model_requires_an_input_for_editing": "이 모델은 편집을 위한 입력 이미지가 필요합니다."
+  "this_model_requires_an_input_for_editing": "이 모델은 편집을 위한 입력 이미지가 필요합니다.",
+  "otp_resent_successfully": "OTP가 성공적으로 재전송되었습니다"
 }
