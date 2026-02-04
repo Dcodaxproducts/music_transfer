@@ -36,12 +36,12 @@ class ToolDetailScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 132.sp),
                   child: AspectRatio(
                     aspectRatio: 3 / 4,
-                    child: tool.afterImage != null
+                    child: tool.beforeImage != null
                         ? ImageAnimation(
-                            beforeImage: tool.beforeImage,
-                            afterImage: tool.afterImage ?? tool.beforeImage,
+                            beforeImage: tool.beforeImage ?? tool.afterImage,
+                            afterImage: tool.afterImage,
                           )
-                        : PrimaryNetworkImage(url: tool.beforeImage, fit: BoxFit.cover),
+                        : PrimaryNetworkImage(url: tool.afterImage, fit: BoxFit.cover),
                   ),
                 ),
               ),
