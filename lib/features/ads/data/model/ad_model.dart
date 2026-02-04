@@ -30,7 +30,7 @@ class AdModel {
 
   String getAdId() {
     String id = adId;
-    if (!kDebugMode) {
+    if (kDebugMode) {
       id = type?.testId ?? adId;
     }
     return id;

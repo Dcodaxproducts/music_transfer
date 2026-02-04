@@ -9,12 +9,11 @@ class PrimaryNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 572 x 724
     int? width;
     int? height;
     if (lowQuality) {
-      width = 572;
-      height = 724;
+      width = 512;
+      height = 512;
     }
     return CachedNetworkImage(
       imageUrl: "$url",
