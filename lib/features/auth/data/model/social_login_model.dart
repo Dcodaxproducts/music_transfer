@@ -4,7 +4,6 @@ class SocialLoginModel {
   final String email;
   final String medium;
   final String? profilePicture;
-  final String? deviceId;
 
   SocialLoginModel({
     required this.uid,
@@ -12,7 +11,6 @@ class SocialLoginModel {
     required this.email,
     required this.medium,
     this.profilePicture,
-    this.deviceId,
   });
 
   Map<String, dynamic> toJson() {
@@ -22,7 +20,6 @@ class SocialLoginModel {
       'email': email,
       'medium': medium,
       'profile_image': profilePicture,
-      'device_id': deviceId,
     };
   }
 }

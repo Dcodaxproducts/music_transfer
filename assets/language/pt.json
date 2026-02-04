@@ -198,7 +198,7 @@
   "dont_have_account": "Não tem uma conta? ",
   "back_to_login": "Voltar ao login",
   "didnt_receive_code": "Não recebeu o código?",
-  "resend_in_seconds": "Reenviar em {seconds}s",
+  "resend_in_seconds": "Reenviar em @seconds s",
   "send_reset_link": "Enviar link de redefinição",
   "password_reset_link_sent": "Link de redefinição de senha enviado com sucesso!",
   "check_email_reset_link": "Verifique seu e-mail para o link de redefinição de senha.",

@@ -198,7 +198,7 @@
   "dont_have_account": "Chưa có tài khoản? ",
   "back_to_login": "Quay lại Đăng nhập",
   "didnt_receive_code": "Không nhận được mã?",
-  "resend_in_seconds": "Gửi lại sau {seconds}s",
+  "resend_in_seconds": "Gửi lại sau @seconds s",
   "send_reset_link": "Gửi liên kết đặt lại",
   "password_reset_link_sent": "Liên kết đặt lại mật khẩu đã được gửi thành công!",
   "check_email_reset_link": "Vui lòng kiểm tra email để biết liên kết đặt lại mật khẩu.",

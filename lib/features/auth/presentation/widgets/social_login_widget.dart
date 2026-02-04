@@ -33,12 +33,11 @@ class SocialLoginWidget extends StatelessWidget {
 
       // Create social login model
       final SocialLoginModel socialLoginModel = SocialLoginModel(
-        uid: AuthController.find.user?.uid ?? Uuid().v4(),
+        uid: SplashController.find.deviceId ?? AuthController.find.user?.uid ?? Uuid().v4(),
         name: googleAccount.displayName,
         email: googleAccount.email,
         medium: 'google',
         profilePicture: googleAccount.photoUrl,
-        deviceId: SplashController.find.deviceId,
       );
 
       // Call social login in AuthController

@@ -198,7 +198,7 @@
   "dont_have_account": "¿No tienes una cuenta? ",
   "back_to_login": "Volver al inicio de sesión",
   "didnt_receive_code": "¿No recibiste el código?",
-  "resend_in_seconds": "Reenviar en {seconds}s",
+  "resend_in_seconds": "Reenviar en @seconds s",
   "send_reset_link": "Enviar enlace de restablecimiento",
   "password_reset_link_sent": "¡Enlace de restablecimiento de contraseña enviado con éxito!",
   "check_email_reset_link": "Por favor revisa tu correo electrónico para obtener el enlace de restablecimiento de contraseña.",

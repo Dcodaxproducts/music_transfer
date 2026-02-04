@@ -57,7 +57,7 @@ class AuthServiceImpl implements AuthService {
 
   @override
   Future<UserModel?> guestLogin() async {
-    final Map<String, dynamic> body = {'uid': Uuid().v4(), 'device_id': SplashController.find.deviceId};
+    final Map<String, dynamic> body = {'uid': SplashController.find.deviceId ?? Uuid().v4()};
     final Response? response = await repo.guestLogin(body);
     if (response != null && response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body)['data'];

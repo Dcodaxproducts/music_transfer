@@ -1,11 +1,10 @@
-import 'dart:io';
 import 'dart:typed_data';
-import 'package:flutter/material.dart' show Offset;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 // ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
+import '../../imports.dart';
 
 enum WatermarkPosition { topLeft, topRight, bottomLeft, bottomRight, center }
 
@@ -16,8 +15,8 @@ class ImageWatermark {
     String imageUrl, {
     double opacity = 0.4,
     WatermarkPosition position = WatermarkPosition.bottomRight,
-    String logoAssetPath = 'assets/images/logo.png',
-    double logoScale = 0.15, // Logo will be 15% of image width
+    String logoAssetPath = Images.watermark,
+    double logoScale = 0.30, // Logo will be 30% of image width
   }) async {
     try {
       // Download the original image
@@ -77,7 +76,7 @@ class ImageWatermark {
 
       return filePath;
     } catch (e) {
-      print('Error adding watermark: $e');
+      debugPrint('Error adding watermark: $e');
       return null;
     }
   }
@@ -90,7 +89,7 @@ class ImageWatermark {
     required int logoHeight,
     required WatermarkPosition position,
   }) {
-    const int padding = 20; // Padding from edges in pixels
+    const int padding = 0; // Padding from edges in pixels
 
     switch (position) {
       case WatermarkPosition.topLeft:

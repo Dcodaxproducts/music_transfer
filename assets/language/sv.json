@@ -198,7 +198,7 @@
   "dont_have_account": "Har du inget konto? ",
   "back_to_login": "Tillbaka till inloggning",
   "didnt_receive_code": "Fick du inte koden?",
-  "resend_in_seconds": "Skicka igen om {seconds}s",
+  "resend_in_seconds": "Skicka igen om @seconds s",
   "send_reset_link": "Skicka återställningslänk",
   "password_reset_link_sent": "Länk för återställning av lösenord har skickats!",
   "check_email_reset_link": "Kontrollera din e-post för återställningslänken.",

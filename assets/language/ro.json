@@ -198,7 +198,7 @@
   "dont_have_account": "Nu aveți un cont? ",
   "back_to_login": "Înapoi la Autentificare",
   "didnt_receive_code": "Nu ați primit codul?",
-  "resend_in_seconds": "Retrimiteți în {seconds}s",
+  "resend_in_seconds": "Retrimiteți în @seconds s",
   "send_reset_link": "Trimiteți link de resetare",
   "password_reset_link_sent": "Link-ul de resetare a parolei a fost trimis cu succes!",
   "check_email_reset_link": "Vă rugăm să verificați emailul pentru link-ul de reset are a parolei.",

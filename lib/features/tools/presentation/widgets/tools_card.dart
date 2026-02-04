@@ -22,7 +22,7 @@ class ToolCard extends StatelessWidget {
             if (tool.prompt == null)
               ImageAnimation(beforeImage: tool.beforeImage, afterImage: tool.afterImage)
             else
-              PrimaryNetworkImage(url: tool.beforeImage, fit: BoxFit.cover),
+              PrimaryNetworkImage(url: tool.beforeImage, fit: BoxFit.cover, lowQuality: true),
             if (showName)
               Align(
                 alignment: Alignment.bottomLeft,

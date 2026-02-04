@@ -4,13 +4,25 @@ import '../../imports.dart';
 class PrimaryNetworkImage extends StatelessWidget {
   final String? url;
   final BoxFit fit;
-  const PrimaryNetworkImage({super.key, required this.url, this.fit = BoxFit.cover});
+  final bool lowQuality;
+  const PrimaryNetworkImage({super.key, required this.url, this.fit = BoxFit.cover, this.lowQuality = false});
 
   @override
   Widget build(BuildContext context) {
+    // 572 x 724
+    int? width;
+    int? height;
+    if (lowQuality) {
+      width = 572;
+      height = 724;
+    }
     return CachedNetworkImage(
       imageUrl: "$url",
       fit: fit,
+      memCacheWidth: width,
+      memCacheHeight: height,
+      maxWidthDiskCache: width,
+      maxHeightDiskCache: height,
       placeholder: (context, url) {
         return _buildShimmer(context);
       },

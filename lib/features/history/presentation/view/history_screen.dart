@@ -13,12 +13,12 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(leading: PrimaryBackButton(), title: Text('history'.tr)),
-      body: GetBuilder<HistoryController>(
-        builder: (controller) {
-          final List<ImageGenerationResult> promptHistory = controller.promptHistory;
-          return GetBuilder<ImageGenController>(
+    return GetBuilder<HistoryController>(
+      builder: (controller) {
+        final List<ImageGenerationResult> promptHistory = controller.promptHistory;
+        return Scaffold(
+          appBar: AppBar(leading: PrimaryBackButton(), title: Text('history'.tr)),
+          body: GetBuilder<ImageGenController>(
             builder: (imageGen) {
               return promptHistory.isEmpty && imageGen.loading.isEmpty
                   ? EmptyHistory()
@@ -32,10 +32,12 @@ class HistoryScreen extends StatelessWidget {
                       },
                     );
             },
-          );
-        },
-      ),
-      bottomNavigationBar: SafeArea(child: AdsController.find.buildHistoryScreenAd()),
+          ),
+          bottomNavigationBar: promptHistory.isNotEmpty
+              ? SafeArea(child: AdsController.find.buildHistoryScreenAd())
+              : null,
+        );
+      },
     );
   }
 }

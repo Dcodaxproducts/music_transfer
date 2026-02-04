@@ -198,7 +198,7 @@
   "dont_have_account": "Non hai un account? ",
   "back_to_login": "Torna al login",
   "didnt_receive_code": "Non hai ricevuto il codice?",
-  "resend_in_seconds": "Reinvia tra {seconds}s",
+  "resend_in_seconds": "Reinvia tra @seconds s",
   "send_reset_link": "Invia link di reimpostazione",
   "password_reset_link_sent": "Link di reimpostazione password inviato con successo!",
   "check_email_reset_link": "Controlla la tua email per il link di reimpostazione della password.",

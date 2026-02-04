@@ -130,11 +130,10 @@ class ToolDetailScreen extends StatelessWidget {
   }
 
   Future<void> _handleApiCall(List<XFile> images) async {
-    // if (tool.premium && !SubscriptionController.find.isPro) {
-    //   SubscriptionController.find.showPaywall();
-    //   return;
-    // }
-    log(AuthController.find.credits.toString());
+    if (tool.premium && !SubscriptionController.find.isPro) {
+      SubscriptionController.find.showPaywall();
+      return;
+    }
     if (AuthController.find.credits < tool.credits) {
       SubscriptionController.find.showPurchaseCreditsPaywall();
       return;

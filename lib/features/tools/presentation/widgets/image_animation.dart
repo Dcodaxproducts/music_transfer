@@ -89,16 +89,16 @@ class _ImageAnimationState extends State<ImageAnimation> with SingleTickerProvid
               return Stack(
                 fit: StackFit.expand,
                 children: [
-                  // BEFORE image (right side hidden)
+                  // AFTER image (right side hidden)
                   ClipRect(
                     clipper: _RightClipper(dividerX),
-                    child: CachedNetworkImage(imageUrl: widget.beforeImage, fit: BoxFit.cover),
+                    child: CachedNetworkImage(imageUrl: widget.afterImage, fit: BoxFit.cover),
                   ),
 
-                  // AFTER image (left side revealed)
+                  // BEFORE image (left side revealed)
                   ClipRect(
                     clipper: _LeftClipper(dividerX),
-                    child: CachedNetworkImage(imageUrl: widget.afterImage, fit: BoxFit.cover),
+                    child: CachedNetworkImage(imageUrl: widget.beforeImage, fit: BoxFit.cover),
                   ),
 
                   // Moving divider line

@@ -269,8 +269,7 @@ class _SignupScreenState extends State<SignupScreen> {
         email: email,
         password: _passwordController.text,
         profileImage: _profileImage.value,
-        uid: AuthController.find.user?.uid ?? Uuid().v4(),
-        deviceId: SplashController.find.deviceId,
+        uid: SplashController.find.deviceId ?? AuthController.find.user?.uid ?? Uuid().v4(),
       );
       AuthController.find.signup(signupBody).then((success) {
         if (success) {

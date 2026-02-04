@@ -198,7 +198,7 @@
   "dont_have_account": "Haben Sie kein Konto? ",
   "back_to_login": "Zurück zur Anmeldung",
   "didnt_receive_code": "Code nicht erhalten?",
-  "resend_in_seconds": "Erneut senden in {seconds}s",
+  "resend_in_seconds": "Erneut senden in @seconds s",
   "send_reset_link": "Reset-Link senden",
   "password_reset_link_sent": "Passwort-Reset-Link erfolgreich gesendet!",
   "check_email_reset_link": "Bitte überprüfen Sie Ihre E-Mail für den Passwort-Reset-Link.",

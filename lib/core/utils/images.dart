@@ -2,15 +2,12 @@
 
 class Images {
   static const String logo = 'assets/images/logo.png';
-  static const String noInternet = 'assets/images/no_connection.png';
-  static const String lottieGenerating = 'assets/animation/star_animation.json';
+  static const String google = 'assets/images/google.png';
+  static const String watermark = 'assets/images/watermark.png';
 
   // sparkle
   static const String sparkle = 'assets/images/sparkle.png';
   static const String sparkle_outline = 'assets/images/sparkle_outline.png';
-
-  // social icons
-  static const String google = 'assets/images/google.png';
 
   // grid
   static const String grid1 = 'assets/grid/grid_1.jpg';

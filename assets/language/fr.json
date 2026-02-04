@@ -198,7 +198,7 @@
   "dont_have_account": "Vous n'avez pas de compte ? ",
   "back_to_login": "Retour à la connexion",
   "didnt_receive_code": "Vous n'avez pas reçu le code ?",
-  "resend_in_seconds": "Renvoyer dans {seconds}s",
+  "resend_in_seconds": "Renvoyer dans @seconds s",
   "send_reset_link": "Envoyer le lien de réinitialisation",
   "password_reset_link_sent": "Lien de réinitialisation du mot de passe envoyé avec succès !",
   "check_email_reset_link": "Veuillez vérifier votre e-mail pour le lien de réinitialisation du mot de passe.",

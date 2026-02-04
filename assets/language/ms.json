@@ -198,7 +198,7 @@
   "dont_have_account": "Tidak mempunyai akaun? ",
   "back_to_login": "Kembali ke Log Masuk",
   "didnt_receive_code": "Tidak menerima kod?",
-  "resend_in_seconds": "Hantar semula dalam {seconds}s",
+  "resend_in_seconds": "Hantar semula dalam @seconds s",
   "send_reset_link": "Hantar Pautan Tetapan Semula",
   "password_reset_link_sent": "Pautan tetapan semula kata laluan berjaya dihantar!",
   "check_email_reset_link": "Sila semak e-mel anda untuk pautan tetapan semula kata laluan.",
