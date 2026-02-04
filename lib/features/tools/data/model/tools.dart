@@ -27,7 +27,7 @@ class Tool {
   final String? prompt;
   final Model? model;
   final String beforeImage;
-  final String afterImage;
+  final String? afterImage;
   final String endPoint;
   final String category;
   final bool premium;
@@ -42,7 +42,7 @@ class Tool {
     this.prompt,
     this.model,
     required this.beforeImage,
-    required this.afterImage,
+    this.afterImage,
     required this.endPoint,
     required this.category,
     this.premium = false,

@@ -19,8 +19,8 @@ class ToolCard extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            if (tool.prompt == null)
-              ImageAnimation(beforeImage: tool.beforeImage, afterImage: tool.afterImage)
+            if (tool.afterImage != null)
+              ImageAnimation(beforeImage: tool.beforeImage, afterImage: tool.afterImage ?? tool.beforeImage)
             else
               PrimaryNetworkImage(url: tool.beforeImage, fit: BoxFit.cover, lowQuality: true),
             if (showName)
