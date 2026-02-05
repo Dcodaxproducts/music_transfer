@@ -11,31 +11,23 @@ class NotificationHelper {
     final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
     // android
-    var androidInitialize = const AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
-    );
+    var androidInitialize = const AndroidInitializationSettings('@mipmap/ic_launcher');
 
     // iOS
     var iOSInitialize = const DarwinInitializationSettings();
 
     // initialization settings
-    var initializationsSettings = InitializationSettings(
-      android: androidInitialize,
-      iOS: iOSInitialize,
-    );
+    var initializationsSettings = InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
 
     // initialize
-    flutterLocalNotificationsPlugin.initialize(initializationsSettings);
+    flutterLocalNotificationsPlugin.initialize(settings: initializationsSettings);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       showNotification(message, flutterLocalNotificationsPlugin);
     });
   }
 
-  static Future<void> showNotification(
-    RemoteMessage message,
-    FlutterLocalNotificationsPlugin fln,
-  ) async {
+  static Future<void> showNotification(RemoteMessage message, FlutterLocalNotificationsPlugin fln) async {
     String title = message.notification?.title ?? '';
     String body = message.notification!.body ?? '';
 
@@ -66,22 +58,18 @@ class NotificationHelper {
       playSound: true,
     );
 
-    final platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-    );
+    final platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await fln.show(
-      0,
-      payload.title,
-      payload.body,
-      platformChannelSpecifics,
+      id: 0,
+      title: payload.title,
+      body: payload.body,
+      notificationDetails: platformChannelSpecifics,
       payload: jsonEncode(payload.toJson()),
     );
   }
 
-  static Future<dynamic> myBackgroundMessageHandler(
-    RemoteMessage message,
-  ) async {
+  static Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
     debugPrint(
       "onBackground: ${message.notification!.title}/${message.notification!.body}/${message.notification!.titleLocKey}",
     );
@@ -97,8 +85,7 @@ class PayloadModel {
   String? image;
   String? type;
 
-  factory PayloadModel.fromRawJson(String str) =>
-      PayloadModel.fromJson(json.decode(str));
+  factory PayloadModel.fromRawJson(String str) => PayloadModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 

@@ -39,7 +39,7 @@ android {
 
     defaultConfig {
         applicationId = env.getProperty("BUNDLE_ID_ANDROID")
-        minSdk = env.getProperty("MIN_SDK_VERSION")?.toInt() ?: 21
+        minSdk = env.getProperty("MIN_SDK_VERSION")?.toInt() ?: 24
         targetSdk = env.getProperty("TARGET_SDK_VERSION")?.toInt() ?: 35
         versionCode = env.getProperty("ANDROID_VERSION_CODE")?.toInt() ?: 1
         versionName = env.getProperty("ANDROID_VERSION_NAME") ?: "1.0"

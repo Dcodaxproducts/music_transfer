@@ -189,6 +189,7 @@
   "creating": "생성 중...",
   "continue_with_email": "이메일로 계속",
   "continue_with_google": "Google로 계속",
+  "continue_with_apple": "Apple로 계속",
   "continue_as_guest": "게스트로 계속",
   "sign_in_to_continue": "계정을 계속하려면 로그인하세요.",
   "provide_details_create_account": "세부 정보를 입력하여 새 계정을 만드세요.",

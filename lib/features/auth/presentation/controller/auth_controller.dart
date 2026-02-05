@@ -19,10 +19,17 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
-  bool _socialLoading = false;
-  bool get socialLoading => _socialLoading;
-  set socialLoading(bool value) {
-    _socialLoading = value;
+  bool _googleLoading = false;
+  bool get googleLoading => _googleLoading;
+  set googleLoading(bool value) {
+    _googleLoading = value;
+    update();
+  }
+
+  bool _appleLoading = false;
+  bool get appleLoading => _appleLoading;
+  set appleLoading(bool value) {
+    _appleLoading = value;
     update();
   }
 
@@ -90,7 +97,11 @@ class AuthController extends GetxController implements GetxService {
 
   Future<bool> socialLogin(SocialLoginModel socialLoginModel) async {
     try {
-      socialLoading = true;
+      if (socialLoginModel.medium == 'google') {
+        googleLoading = true;
+      } else if (socialLoginModel.medium == 'apple') {
+        appleLoading = true;
+      }
       UserModel? loggedInUser = await service.socialLogin(socialLoginModel);
       if (loggedInUser != null) {
         _user = loggedInUser;
@@ -101,7 +112,8 @@ class AuthController extends GetxController implements GetxService {
       showToast('Unable to login with social account: $e');
       return false;
     } finally {
-      _socialLoading = false;
+      googleLoading = false;
+      appleLoading = false;
     }
   }
 

@@ -29,9 +29,6 @@ class RootState extends State<Root> {
     _getDataFromApi();
     await AdsController.find.initialize();
     await _loadAppOpenAd();
-
-    _ready.value = true;
-    if (mounted) setState(() {});
   }
 
   Future<void> _getDataFromApi() async {
@@ -45,6 +42,7 @@ class RootState extends State<Root> {
 
   Future<void> _loadAppOpenAd() async {
     if (SplashController.find.isFirstTime) {
+      _ready.value = true;
       return;
     }
     bool success = await AdsController.find.showAppOpenAd(onAdDismissed: _showPaywallIfNeeded);
@@ -54,6 +52,7 @@ class RootState extends State<Root> {
   }
 
   void _showPaywallIfNeeded() {
+    _ready.value = true;
     if (!SubscriptionController.find.isPro) {
       Future.delayed(const Duration(milliseconds: 250), SubscriptionController.find.showPaywall);
     }
