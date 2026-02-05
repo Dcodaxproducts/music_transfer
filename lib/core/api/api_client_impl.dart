@@ -7,7 +7,6 @@ import 'error.dart';
 class ApiClientImpl extends GetxService implements ApiClient {
   final String baseUrl;
   final SharedPreferences prefs;
-  final int timeoutInSeconds = 20;
   ApiClientImpl({required this.baseUrl, required this.prefs}) {
     token = prefs.getString(SharedKeys.token);
     updateHeader(token ?? '');
