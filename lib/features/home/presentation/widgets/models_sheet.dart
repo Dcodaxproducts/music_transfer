@@ -40,11 +40,11 @@ class ModelsSheet extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AdsController.find.buildModelScreenAd(),
-                      SettingSheetTile(model: models[index], selected: models[index].id == selectedModel.id),
+                      ModelTile(model: models[index], selected: models[index].id == selectedModel.id),
                     ],
                   );
                 }
-                return SettingSheetTile(model: models[index], selected: models[index].id == selectedModel.id);
+                return ModelTile(model: models[index], selected: models[index].id == selectedModel.id);
               },
             );
           },
@@ -54,10 +54,10 @@ class ModelsSheet extends StatelessWidget {
   }
 }
 
-class SettingSheetTile extends StatelessWidget {
+class ModelTile extends StatelessWidget {
   final bool selected;
   final Model model;
-  const SettingSheetTile({super.key, this.selected = false, required this.model});
+  const ModelTile({super.key, this.selected = false, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +76,10 @@ class SettingSheetTile extends StatelessWidget {
         child: Row(
           children: [
             SizedBox(width: 4.sp),
-            ClipRRect(
-              borderRadius: AppRadius.circular32,
-              child: SizedBox(
-                width: 26.sp,
-                height: 26.sp,
-                child: CachedNetworkImage(imageUrl: model.image, color: context.font14.color),
-              ),
+            SizedBox(
+              width: 26.sp,
+              height: 26.sp,
+              child: CachedNetworkImage(imageUrl: model.image, color: context.font14.color),
             ),
             SizedBox(width: 12.sp),
             Expanded(
