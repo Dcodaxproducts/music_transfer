@@ -21,10 +21,14 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final List<NavigationItem> _screens = [
-    NavigationItem(icon: Iconsax.home, child: const HomeScreen()),
-    NavigationItem(icon: Iconsax.category, child: const ToolScreen()),
-    NavigationItem(icon: Iconsax.activity, child: const InspirationScreen()),
-    NavigationItem(icon: Iconsax.setting, child: const SettingScreen()),
+    NavigationItem(icon: Iconsax.home_copy, activeIcon: Iconsax.home, child: const HomeScreen()),
+    NavigationItem(icon: Iconsax.category_copy, activeIcon: Iconsax.category, child: const ToolScreen()),
+    NavigationItem(
+      icon: Iconsax.activity_copy,
+      activeIcon: Iconsax.activity,
+      child: const InspirationScreen(),
+    ),
+    NavigationItem(icon: Iconsax.setting_copy, activeIcon: Iconsax.setting, child: const SettingScreen()),
   ];
 
   final List<String> _titles = [AppConstants.appName, 'tools', 'inspirations', 'settings'];
@@ -87,7 +91,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 selectedItemColor: primaryColor,
                 items: [
                   ..._screens.map((e) {
-                    return BottomNavigationBarItem(icon: Icon(e.icon), activeIcon: Icon(e.icon), label: '');
+                    return BottomNavigationBarItem(
+                      icon: Icon(e.icon),
+                      activeIcon: Icon(e.activeIcon),
+                      label: '',
+                    );
                   }),
                 ],
               ),
