@@ -20,7 +20,6 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
   @override
   void initState() {
     super.initState();
-    if (SubscriptionController.find.isPro) return;
     loadNativeAd();
   }
 
@@ -38,12 +37,14 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
       factoryId: 'listTile',
       listener: NativeAdListener(
         onAdLoaded: (ad) {
+          if (!mounted) return;
           setState(() {
             isLoaded = true;
             isLoading = false;
           });
         },
         onAdFailedToLoad: (ad, error) {
+          if (!mounted) return;
           ad.dispose();
           setState(() {
             isLoading = false;
@@ -52,6 +53,7 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
       ),
       nativeTemplateStyle: NativeTemplateStyle(templateType: widget.templateType ?? TemplateType.small),
     );
+    if (SubscriptionController.find.isPro) return;
     _ad.load();
   }
 
