@@ -2,8 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:pixart_app/features/splash/presentation/controller/splash_controller.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../imports.dart';
-import '../../../ads/presentation/controller/ads_controller.dart';
-import '../../../paywall/presentation/controller/subscription_controller.dart';
 import '../widgets/bottom_button.dart';
 import '../../../../core/widgets/gradient_widget.dart';
 import '../../../language/presentation/view/language.dart';
@@ -102,19 +100,5 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   void _saveFirstTime() {
     SplashController.find.saveFirstTime();
-    _loadAppOpenAd();
-  }
-
-  Future<void> _loadAppOpenAd() async {
-    bool success = await AdsController.find.showAppOpenAd(onAdDismissed: _showPaywallIfNeeded);
-    if (!success) {
-      _showPaywallIfNeeded();
-    }
-  }
-
-  void _showPaywallIfNeeded() {
-    if (!SubscriptionController.find.isPro) {
-      Future.delayed(const Duration(milliseconds: 250), SubscriptionController.find.showPaywall);
-    }
   }
 }

@@ -23,6 +23,14 @@ class ToolsController extends GetxController implements GetxService {
     update();
   }
 
+  int _selectedCategoryIndex = 0;
+  int get selectedCategoryIndex => _selectedCategoryIndex;
+  set selectedCategoryIndex(int value) {
+    if (_selectedCategoryIndex == value || _toolCategories.isEmpty) return;
+    _selectedCategoryIndex = value;
+    update();
+  }
+
   Tool? _selectedTool;
   Tool? get selectedTool => _selectedTool;
   set selectedTool(Tool? value) {
