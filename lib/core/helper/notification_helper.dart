@@ -5,6 +5,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../utils/app_constants.dart';
 
 class NotificationHelper {
+  @pragma('vm:entry-point')
+  static Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
+    debugPrint(
+      "onBackground: ${message.notification?.title}/${message.notification?.body}/${message.notification?.titleLocKey}",
+    );
+  }
+
   static Future<void> initialize() async {
     await FirebaseMessaging.instance.getInitialMessage().then((message) {});
     FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
@@ -29,7 +36,7 @@ class NotificationHelper {
 
   static Future<void> showNotification(RemoteMessage message, FlutterLocalNotificationsPlugin fln) async {
     String title = message.notification?.title ?? '';
-    String body = message.notification!.body ?? '';
+    String body = message.notification?.body ?? '';
 
     Map<String, String> payloadData = {'title': title, 'body': body};
 
@@ -66,12 +73,6 @@ class NotificationHelper {
       body: payload.body,
       notificationDetails: platformChannelSpecifics,
       payload: jsonEncode(payload.toJson()),
-    );
-  }
-
-  static Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
-    debugPrint(
-      "onBackground: ${message.notification!.title}/${message.notification!.body}/${message.notification!.titleLocKey}",
     );
   }
 }
