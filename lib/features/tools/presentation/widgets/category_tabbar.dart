@@ -38,7 +38,7 @@ class CategoryTabBar extends StatelessWidget {
                       child: Text(
                         category.title.tr,
                         style: context.font12.copyWith(
-                          color: isSelected ? Colors.white : context.theme.hintColor,
+                          color: isSelected ? null : context.theme.hintColor,
                           fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
                         ),
                       ),
