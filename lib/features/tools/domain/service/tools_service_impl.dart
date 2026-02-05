@@ -42,10 +42,8 @@ class ToolsServiceImpl implements ToolsService {
       }
     }
 
-    // add model id if any
-    if (tool.model != null) {
-      body['tool_id'] = tool.id;
-    }
+    // add tool id to body
+    body['tool_id'] = tool.id;
 
     // add size if any
     if (size != null) {
