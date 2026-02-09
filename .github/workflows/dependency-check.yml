@@ -100,6 +100,13 @@ jobs:
       - name: Create PR for Patch Updates
         if: env.PATCH_COUNT != '0'
         run: |
+          # Skip if open dependency PR already exists
+          export EXISTING=$(gh pr list --search "auto-update patch dependencies" --state open --json number --jq 'length')
+          if [ "$EXISTING" -gt 0 ]; then
+            echo "Open dependency PR already exists, skipping."
+            exit 0
+          fi
+
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
@@ -190,12 +197,8 @@ jobs:
             const existing = issues.find(i => i.title === title);
 
             if (existing) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: existing.number,
-                body
-              });
+              console.log('Open issue already exists (#' + existing.number + '), skipping.');
+              return;
             } else {
               await github.rest.issues.create({
                 owner: context.repo.owner,
