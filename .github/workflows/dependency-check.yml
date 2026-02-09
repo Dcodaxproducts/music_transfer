@@ -106,8 +106,7 @@ jobs:
           export BRANCH="chore/auto-update-dependencies"
           git checkout -b "$BRANCH"
 
-          # Only upgrade within existing constraints (no major/minor bumps)
-          flutter pub upgrade --no-prerelease
+          flutter pub upgrade
 
           # Build commit message
           echo "chore: auto-update patch dependencies" > /tmp/commit_msg.txt
