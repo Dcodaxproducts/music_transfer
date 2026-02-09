@@ -103,10 +103,11 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-          export BRANCH="chore/auto-update-dependencies-$GITHUB_RUN_ID"
+          export BRANCH="chore/auto-update-dependencies"
           git checkout -b "$BRANCH"
 
-          flutter pub upgrade
+          # Only upgrade within existing constraints (no major/minor bumps)
+          flutter pub upgrade --no-prerelease
 
           # Build commit message
           echo "chore: auto-update patch dependencies" > /tmp/commit_msg.txt
@@ -117,7 +118,7 @@ jobs:
 
           git add pubspec.lock
           git commit -F /tmp/commit_msg.txt || exit 0
-          git push origin "$BRANCH"
+          git push origin "$BRANCH" --force
 
           # Build PR body
           echo "## Automated Dependency Update" > /tmp/pr_body.txt
@@ -139,7 +140,7 @@ jobs:
           gh pr create \
             --title "chore: Auto-update patch dependencies" \
             --body-file /tmp/pr_body.txt \
-            --base main \
+            --base development \
             --head "$BRANCH" \
             --label "dependencies"
 
