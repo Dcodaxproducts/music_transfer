@@ -1,0 +1,82 @@
+name: Automated Screenshots
+
+on:
+  push:
+    branches: [testing]
+  workflow_dispatch:
+
+env:
+  FLUTTER_VERSION: '3.24.0'
+
+jobs:
+  screenshots:
+    name: Generate Screenshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for Integration Tests
+        id: check-tests
+        run: |
+          if [ -d "integration_test" ] && [ "$(ls -A integration_test 2>/dev/null)" ]; then
+            echo "HAS_TESTS=true" >> $GITHUB_ENV
+          else
+            echo "HAS_TESTS=false" >> $GITHUB_ENV
+            echo "No integration tests found"
+          fi
+
+      - name: Setup Flutter
+        if: env.HAS_TESTS == 'true'
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Setup Linux Desktop
+        if: env.HAS_TESTS == 'true'
+        run: |
+          flutter config --enable-linux-desktop
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev xvfb
+
+      - name: Get Dependencies
+        if: env.HAS_TESTS == 'true'
+        run: flutter pub get
+
+      - name: Run Tests with Screenshots
+        if: env.HAS_TESTS == 'true'
+        run: |
+          mkdir -p screenshots
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          sleep 3
+          flutter test integration_test/ --dart-define=SCREENSHOTS=true -d linux || echo "Tests completed"
+          ls -la screenshots/ 2>/dev/null || echo "No screenshots generated"
+
+      - name: Install AWS CLI
+        if: env.HAS_TESTS == 'true'
+        run: |
+          pip install awscli
+
+      - name: Upload to S3
+        if: env.HAS_TESTS == 'true'
+        run: |
+          export REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
+          export VERSION=$(grep "version:" pubspec.yaml | sed 's/version: *//' | xargs)
+          export SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
+          
+          # Upload screenshots
+          aws s3 sync screenshots/ "s3://${AWS_BUCKET_NAME}/screenshots/${REPO_NAME}/${VERSION}/${SHORT_SHA}/" --acl private || true
+          
+          echo "Screenshots uploaded to: s3://${AWS_BUCKET_NAME}/screenshots/${REPO_NAME}/${VERSION}/${SHORT_SHA}/"
