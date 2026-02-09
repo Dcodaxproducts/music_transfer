@@ -50,34 +50,35 @@ jobs:
         run: |
           flutter pub outdated --json > outdated.json
 
-          # Categorize by semver bump
-          jq -r '
-            def norm:
-              tostring
-              | split("-")[0] | split("+")[0]
-              | capture("^(?<maj>\\d+)(\\.(?<min>\\d+))?(\\.(?<pat>\\d+))?")
-              | {maj:(.maj|tonumber), min:((.min // "0")|tonumber), pat:((.pat // "0")|tonumber)};
-            def bump($a;$b):
-              (norm($a)) as $x | (norm($b)) as $y
-              | if $x.maj != $y.maj then "major"
-                elif $x.min != $y.min then "minor"
-                elif $x.pat != $y.pat then "patch"
-                else "none"
-                end;
-            .packages[]
-            | .package as $pkg
-            | .current as $cur
-            | .upgradable as $upg
-            | .latest as $lat
-            | if ($upg != null and $upg != $cur) then
-                (bump($cur;$upg)) as $b
-                | if $b != "none" then
-                    "\($b)\t\($pkg): \($cur) → \($upg)\t(latest: \($lat))"
-                  else empty end
-              elif ($upg == null and $lat != null and $lat != $cur) then
-                "blocked\t\($pkg): \($cur) → (blocked)\t(latest: \($lat))"
-              else empty end
-          ' outdated.json > /tmp/updates.tsv
+          # Write categorization script to file (avoids YAML escaping issues)
+          cat > /tmp/categorize.sh << 'SCRIPT_EOF'
+          #!/bin/bash
+          # Extract packages with version info
+          jq -r '.packages[] | "\(.package)\t\(.current // "0.0.0")\t\(.upgradable // "0.0.0")\t\(.latest // "0.0.0")"' outdated.json | while IFS=$'\t' read -r pkg cur upg lat; do
+            [ "$upg" = "null" ] || [ -z "$upg" ] && upg="0.0.0"
+            [ "$cur" = "null" ] || [ -z "$cur" ] && continue
+
+            # Skip if no upgrade available
+            [ "$upg" = "$cur" ] && [ "$lat" != "$cur" ] && [ "$lat" != "null" ] && echo "blocked	$pkg: $cur → (blocked)	(latest: $lat)" && continue
+            [ "$upg" = "$cur" ] && continue
+
+            # Parse versions
+            CUR_MAJ=$(echo "$cur" | cut -d. -f1)
+            CUR_MIN=$(echo "$cur" | cut -d. -f2)
+            UPG_MAJ=$(echo "$upg" | cut -d. -f1)
+            UPG_MIN=$(echo "$upg" | cut -d. -f2)
+
+            if [ "$CUR_MAJ" != "$UPG_MAJ" ]; then
+              echo "major	$pkg: $cur → $upg	(latest: $lat)"
+            elif [ "$CUR_MIN" != "$UPG_MIN" ]; then
+              echo "minor	$pkg: $cur → $upg	(latest: $lat)"
+            else
+              echo "patch	$pkg: $cur → $upg	(latest: $lat)"
+            fi
+          done
+          SCRIPT_EOF
+          chmod +x /tmp/categorize.sh
+          bash /tmp/categorize.sh > /tmp/updates.tsv
 
           awk -F'\t' '$1=="patch"{print $2}' /tmp/updates.tsv > /tmp/patch_updates.txt || true
           awk -F'\t' '$1=="minor"{print $2}' /tmp/updates.tsv > /tmp/minor_updates.txt || true
