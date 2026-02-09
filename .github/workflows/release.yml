@@ -207,289 +207,289 @@ jobs:
           BRANCH="${GITHUB_REF#refs/heads/}"
           
           cat > SETUP.md <<'SETUP_EOF_HEREDOC'
-# Project Setup Guide
-
-**Generated:** GEN_DATE  
-**Version:** GEN_VERSION
-
----
-
-## Prerequisites
-
-- **Flutter SDK**: GEN_FLUTTER_VER
-- **Dart**: Included with Flutter
-- **IDE**: Android Studio, VS Code, or IntelliJ IDEA
-- **Git**: For version control
-
-### Platform-Specific
-
-**Android:**
-- Android Studio
-- Android SDK (API 21+)
-- Java Development Kit (JDK) 17
-
-**iOS:**
-- macOS with Xcode 15+
-- CocoaPods
-- iOS 12.0+ deployment target
-
----
-
-## Installation
-
-### 1. Clone the repository
-
-\`\`\`bash
-git clone GEN_REPO_URL.git
-cd GEN_REPO_NAME
-\`\`\`
+          # Project Setup Guide
           
-### 2. Install Flutter
-
-If using FVM (Flutter Version Management):
-
-\`\`\`bash
-# Install FVM
-dart pub global activate fvm
-
-# Install project Flutter version
-fvm install
-fvm use GEN_FLUTTER_VER
-
-# Use FVM Flutter for this project
-fvm flutter --version
-\`\`\`
-
-Or install Flutter GEN_FLUTTER_VER directly from [flutter.dev](https://flutter.dev).
-
-### 3. Install dependencies
-
-\`\`\`bash
-flutter pub get
-\`\`\`
-
-### 4. Environment Variables
-
-Create a \`.env\` file in the project root with the following variables:
-
-GEN_ENV_VARS
-
-Copy from \`.env.example\` if available:
-
-\`\`\`bash
-cp .env.example .env
-# Edit .env with your actual values
-\`\`\`
-
----
-
-## Dependencies
-
-Key dependencies:
-
-GEN_DEPS
-
-For the complete list, see \`pubspec.yaml\`.
+          **Generated:** GEN_DATE
+          **Version:** GEN_VERSION
           
----
-
-## Running the App
-
-### Development Mode
-
-\`\`\`bash
-# Run on connected device/emulator
-flutter run
-
-# Run with hot reload
-flutter run --hot
-
-# Run on specific device
-flutter devices
-flutter run -d <device_id>
-\`\`\`
-
-### Build Flavors
-
-GEN_FLAVORS
-
-\`\`\`bash
-# Example: Run with flavor
-flutter run --flavor dev
-flutter run --flavor staging
-flutter run --flavor production
-\`\`\`
+          ---
           
----
-
-## Testing
-
-### Run all tests
-
-\`\`\`bash
-flutter test
-\`\`\`
-
-### Run with coverage
-
-\`\`\`bash
-flutter test --coverage
-
-# View coverage report
-genhtml coverage/lcov.info -o coverage/html
-open coverage/html/index.html
-\`\`\`
-
-### Run specific test file
-
-\`\`\`bash
-flutter test test/features/auth/auth_test.dart
-\`\`\`
-
----
-
-## Building
-
-### Android
-
-\`\`\`bash
-# Debug APK
-flutter build apk --debug
-
-# Release APK (split per ABI)
-flutter build apk --release --split-per-abi
-
-# Release AAB (for Play Store)
-flutter build appbundle --release
-\`\`\`
-
-### iOS
-
-\`\`\`bash
-# Debug
-flutter build ios --debug
-
-# Release (requires code signing)
-flutter build ios --release
-
-# Create IPA for distribution
-cd ios
-xcodebuild -workspace Runner.xcworkspace \\
-  -scheme Runner \\
-  -configuration Release \\
-  -archivePath build/Runner.xcarchive \\
-  archive
-\`\`\`
+          ## Prerequisites
           
----
-
-## Common Issues
-
-### Issue: "Flutter command not found"
-
-**Solution:** Add Flutter to your PATH:
-
-\`\`\`bash
-export PATH="\$PATH:[PATH_TO_FLUTTER]/flutter/bin"
-\`\`\`
-
-### Issue: "Gradle build failed"
-
-**Solution:**
-
-\`\`\`bash
-cd android
-./gradlew clean
-cd ..
-flutter clean
-flutter pub get
-flutter build apk
-\`\`\`
-
-### Issue: "CocoaPods not installed" (iOS)
-
-**Solution:**
-
-\`\`\`bash
-sudo gem install cocoapods
-cd ios
-pod install
-cd ..
-\`\`\`
-
-### Issue: "Version solving failed"
-
-**Solution:**
-
-\`\`\`bash
-flutter clean
-flutter pub get
-# If still failing, check for conflicting dependencies in pubspec.yaml
-\`\`\`
-
-### Issue: "Simulator not found" (iOS)
-
-**Solution:**
-
-\`\`\`bash
-# List available simulators
-xcrun simctl list devices
-
-# Boot a simulator
-xcrun simctl boot "iPhone 15 Pro"
-
-# Or open Simulator app
-open -a Simulator
-\`\`\`
-
----
-
-## Project Structure
-
-\`\`\`
-lib/
-├── core/                 # Core functionality
-│   ├── theme/           # Design system
-│   ├── widgets/         # Reusable widgets
-│   ├── utils/           # Utilities
-│   └── constants/       # Constants
-├── features/            # Feature modules
-│   └── [feature]/
-│       ├── data/        # Data layer (repos, models, sources)
-│       ├── domain/      # Domain layer (entities, usecases)
-│       └── presentation/# UI layer (views, controllers)
-└── main.dart            # App entry point
-\`\`\`
-
----
-
-## Development Workflow
-
-1. **Create feature branch**: \`git checkout -b feature/my-feature\`
-2. **Make changes**: Follow [code standards](docs/code-standards.md)
-3. **Run tests**: \`flutter test\`
-4. **Format code**: \`dart format --line-length 80 .\`
-5. **Commit**: \`git commit -m "feat: add my feature"\`
-6. **Push**: \`git push origin feature/my-feature\`
-7. **Create PR**: Submit for review
-
----
-
-## Resources
-
-- [Flutter Documentation](https://flutter.dev/docs)
-- [Dart Documentation](https://dart.dev/guides)
-- [GetX Documentation](https://pub.dev/packages/get)
-- [Project Wiki](GEN_REPO_URL/wiki)
-
----
-
-**Questions?** Contact the team on Mattermost "flutter devs" channel.
-
----
-
-*Auto-generated on GEN_DATE*
-SETUP_EOF_HEREDOC
+          - **Flutter SDK**: GEN_FLUTTER_VER
+          - **Dart**: Included with Flutter
+          - **IDE**: Android Studio, VS Code, or IntelliJ IDEA
+          - **Git**: For version control
+          
+          ### Platform-Specific
+          
+          **Android:**
+          - Android Studio
+          - Android SDK (API 21+)
+          - Java Development Kit (JDK) 17
+          
+          **iOS:**
+          - macOS with Xcode 15+
+          - CocoaPods
+          - iOS 12.0+ deployment target
+          
+          ---
+          
+          ## Installation
+          
+          ### 1. Clone the repository
+          
+          ```bash
+          git clone GEN_REPO_URL.git
+          cd GEN_REPO_NAME
+          ```
+          
+          ### 2. Install Flutter
+          
+          If using FVM (Flutter Version Management):
+          
+          ```bash
+          # Install FVM
+          dart pub global activate fvm
+          
+          # Install project Flutter version
+          fvm install
+          fvm use GEN_FLUTTER_VER
+          
+          # Use FVM Flutter for this project
+          fvm flutter --version
+          \`\`\`
+          
+          Or install Flutter GEN_FLUTTER_VER directly from [flutter.dev](https://flutter.dev).
+          
+          ### 3. Install dependencies
+          
+          \`\`\`bash
+          flutter pub get
+          \`\`\`
+          
+          ### 4. Environment Variables
+          
+          Create a \`.env\` file in the project root with the following variables:
+          
+          GEN_ENV_VARS
+          
+          Copy from \`.env.example\` if available:
+          
+          \`\`\`bash
+          cp .env.example .env
+          # Edit .env with your actual values
+          \`\`\`
+          
+          ---
+          
+          ## Dependencies
+          
+          Key dependencies:
+          
+          GEN_DEPS
+          
+          For the complete list, see \`pubspec.yaml\`.
+          
+          ---
+          
+          ## Running the App
+          
+          ### Development Mode
+          
+          \`\`\`bash
+          # Run on connected device/emulator
+          flutter run
+          
+          # Run with hot reload
+          flutter run --hot
+          
+          # Run on specific device
+          flutter devices
+          flutter run -d <device_id>
+          \`\`\`
+          
+          ### Build Flavors
+          
+          GEN_FLAVORS
+          
+          \`\`\`bash
+          # Example: Run with flavor
+          flutter run --flavor dev
+          flutter run --flavor staging
+          flutter run --flavor production
+          \`\`\`
+          
+          ---
+          
+          ## Testing
+          
+          ### Run all tests
+          
+          \`\`\`bash
+          flutter test
+          \`\`\`
+          
+          ### Run with coverage
+          
+          \`\`\`bash
+          flutter test --coverage
+          
+          # View coverage report
+          genhtml coverage/lcov.info -o coverage/html
+          open coverage/html/index.html
+          \`\`\`
+          
+          ### Run specific test file
+          
+          \`\`\`bash
+          flutter test test/features/auth/auth_test.dart
+          \`\`\`
+          
+          ---
+          
+          ## Building
+          
+          ### Android
+          
+          \`\`\`bash
+          # Debug APK
+          flutter build apk --debug
+          
+          # Release APK (split per ABI)
+          flutter build apk --release --split-per-abi
+          
+          # Release AAB (for Play Store)
+          flutter build appbundle --release
+          \`\`\`
+          
+          ### iOS
+          
+          \`\`\`bash
+          # Debug
+          flutter build ios --debug
+          
+          # Release (requires code signing)
+          flutter build ios --release
+          
+          # Create IPA for distribution
+          cd ios
+          xcodebuild -workspace Runner.xcworkspace \\
+            -scheme Runner \\
+            -configuration Release \\
+            -archivePath build/Runner.xcarchive \\
+            archive
+          \`\`\`
+          
+          ---
+          
+          ## Common Issues
+          
+          ### Issue: "Flutter command not found"
+          
+          **Solution:** Add Flutter to your PATH:
+          
+          \`\`\`bash
+          export PATH="\$PATH:[PATH_TO_FLUTTER]/flutter/bin"
+          \`\`\`
+          
+          ### Issue: "Gradle build failed"
+          
+          **Solution:**
+          
+          \`\`\`bash
+          cd android
+          ./gradlew clean
+          cd ..
+          flutter clean
+          flutter pub get
+          flutter build apk
+          \`\`\`
+          
+          ### Issue: "CocoaPods not installed" (iOS)
+          
+          **Solution:**
+          
+          \`\`\`bash
+          sudo gem install cocoapods
+          cd ios
+          pod install
+          cd ..
+          \`\`\`
+          
+          ### Issue: "Version solving failed"
+          
+          **Solution:**
+          
+          \`\`\`bash
+          flutter clean
+          flutter pub get
+          # If still failing, check for conflicting dependencies in pubspec.yaml
+          \`\`\`
+          
+          ### Issue: "Simulator not found" (iOS)
+          
+          **Solution:**
+          
+          \`\`\`bash
+          # List available simulators
+          xcrun simctl list devices
+          
+          # Boot a simulator
+          xcrun simctl boot "iPhone 15 Pro"
+          
+          # Or open Simulator app
+          open -a Simulator
+          \`\`\`
+          
+          ---
+          
+          ## Project Structure
+          
+          \`\`\`
+          lib/
+          ├── core/                 # Core functionality
+          │   ├── theme/           # Design system
+          │   ├── widgets/         # Reusable widgets
+          │   ├── utils/           # Utilities
+          │   └── constants/       # Constants
+          ├── features/            # Feature modules
+          │   └── [feature]/
+          │       ├── data/        # Data layer (repos, models, sources)
+          │       ├── domain/      # Domain layer (entities, usecases)
+          │       └── presentation/# UI layer (views, controllers)
+          └── main.dart            # App entry point
+          \`\`\`
+          
+          ---
+          
+          ## Development Workflow
+          
+          1. **Create feature branch**: \`git checkout -b feature/my-feature\`
+          2. **Make changes**: Follow [code standards](docs/code-standards.md)
+          3. **Run tests**: \`flutter test\`
+          4. **Format code**: \`dart format --line-length 80 .\`
+          5. **Commit**: \`git commit -m "feat: add my feature"\`
+          6. **Push**: \`git push origin feature/my-feature\`
+          7. **Create PR**: Submit for review
+          
+          ---
+          
+          ## Resources
+          
+          - [Flutter Documentation](https://flutter.dev/docs)
+          - [Dart Documentation](https://dart.dev/guides)
+          - [GetX Documentation](https://pub.dev/packages/get)
+          - [Project Wiki](GEN_REPO_URL/wiki)
+          
+          ---
+          
+          **Questions?** Contact the team on Mattermost "flutter devs" channel.
+          
+          ---
+          
+          *Auto-generated on GEN_DATE*
+          SETUP_EOF_HEREDOC
           
           # Replace placeholders with actual values
           sed -i "s|GEN_DATE|$(date +%Y-%m-%d)|g" SETUP.md
