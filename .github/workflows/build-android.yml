@@ -1,0 +1,341 @@
+name: Build Android
+
+on:
+  push:
+    branches: [testing, main]
+  workflow_dispatch:
+
+env:
+  FLUTTER_VERSION: '3.24.0'
+
+jobs:
+  build-android:
+    name: Build Android APK/AAB
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get Flutter version
+        id: flutter-version
+        run: |
+          if [ -f ".fvmrc" ]; then
+            VERSION=$(grep "flutter" .fvmrc | cut -d'"' -f2)
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          elif [ -f ".dcodax-ci.yaml" ]; then
+            VERSION=$(grep "flutter_version:" .dcodax-ci.yaml | cut -d':' -f2 | xargs)
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ env.FLUTTER_VERSION }}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          channel: 'stable'
+          cache: true
+      
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            ${{ env.FLUTTER_HOME }}
+          key: flutter-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            flutter-${{ runner.os }}-
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle*', 'android/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+      
+      - name: Get dependencies
+        run: flutter pub get
+      
+      - name: Get last commit author
+        id: author
+        run: |
+          AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')
+          AUTHOR_NAME=$(git log -1 --pretty=format:'%an')
+          echo "email=${AUTHOR_EMAIL}" >> $GITHUB_OUTPUT
+          echo "name=${AUTHOR_NAME}" >> $GITHUB_OUTPUT
+          echo "Last commit by: ${AUTHOR_NAME} <${AUTHOR_EMAIL}>"
+      
+      - name: Auto-increment build number
+        id: increment
+        run: |
+          # Get current version from pubspec.yaml
+          CURRENT_VERSION=$(grep "version:" pubspec.yaml | sed 's/version: //' | xargs)
+          VERSION_NAME=$(echo $CURRENT_VERSION | cut -d'+' -f1)
+          BUILD_NUMBER=$(echo $CURRENT_VERSION | cut -d'+' -f2)
+          
+          # Increment build number
+          NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
+          NEW_VERSION="${VERSION_NAME}+${NEW_BUILD_NUMBER}"
+          
+          echo "Current: $CURRENT_VERSION"
+          echo "New: $NEW_VERSION"
+          
+          # Update pubspec.yaml
+          sed -i "s/version: ${CURRENT_VERSION}/version: ${NEW_VERSION}/" pubspec.yaml
+          
+          echo "version_name=${VERSION_NAME}" >> $GITHUB_OUTPUT
+          echo "build_number=${NEW_BUILD_NUMBER}" >> $GITHUB_OUTPUT
+          echo "full_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
+      
+      - name: Commit version bump
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add pubspec.yaml
+          git commit -m "ci: bump version to ${{ steps.increment.outputs.full_version }} [skip ci]" || true
+          git push || true
+      
+      - name: Build APK
+        run: |
+          flutter build apk --release --split-per-abi
+          echo "✅ APK build completed"
+      
+      - name: Build AAB
+        run: |
+          flutter build appbundle --release
+          echo "✅ AAB build completed"
+      
+      - name: Run screenshot tests
+        if: ${{ hashFiles('integration_test/**') != '' }}
+        uses: reactivecircus/android-emulator-runner@v2
+        continue-on-error: true
+        with:
+          api-level: 29
+          arch: x86_64
+          profile: Nexus 6
+          script: |
+            echo "Running integration tests for screenshots..."
+            flutter test integration_test/ --dart-define=SCREENSHOTS=true || true
+            
+            # Collect screenshots
+            mkdir -p build/screenshots
+            find . -name "*.png" -path "*/screenshots/*" -exec cp {} build/screenshots/ \;
+            
+            # Check if any screenshots were found
+            if [ "$(ls -A build/screenshots 2>/dev/null)" ]; then
+              echo "screenshots_found=true" >> $GITHUB_ENV
+              echo "✅ Screenshots collected: $(ls build/screenshots | wc -l) files"
+            else
+              echo "screenshots_found=false" >> $GITHUB_ENV
+              echo "ℹ️  No screenshots found"
+            fi
+      
+      - name: Upload screenshots to S3
+        if: env.screenshots_found == 'true'
+        id: screenshots
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          S3_SCREENSHOTS="s3://${{ secrets.AWS_BUCKET_NAME }}/${REPO_NAME}/screenshots/${{ steps.increment.outputs.full_version }}/"
+          
+          # Upload screenshots
+          aws s3 cp build/screenshots/ ${S3_SCREENSHOTS} --recursive
+          
+          # Generate simple HTML gallery
+          echo "<html><head><title>Screenshots - ${{ steps.increment.outputs.full_version }}</title>" > build/screenshots/index.html
+          echo "<style>body{font-family:Arial,sans-serif;margin:20px;}img{border:1px solid #ccc;margin:10px;}</style>" >> build/screenshots/index.html
+          echo "</head><body>" >> build/screenshots/index.html
+          echo "<h1>Build Screenshots - ${{ steps.increment.outputs.full_version }}</h1>" >> build/screenshots/index.html
+          echo "<p><strong>Repository:</strong> ${GITHUB_REPOSITORY}</p>" >> build/screenshots/index.html
+          echo "<p><strong>Branch:</strong> ${GITHUB_REF#refs/heads/}</p>" >> build/screenshots/index.html
+          echo "<p><strong>Commit:</strong> ${{ github.sha }}</p>" >> build/screenshots/index.html
+          echo "<hr>" >> build/screenshots/index.html
+          
+          for img in build/screenshots/*.png; do
+            BASENAME=$(basename "$img")
+            echo "<div style='margin:20px 0'>" >> build/screenshots/index.html
+            echo "<h3>$BASENAME</h3>" >> build/screenshots/index.html
+            echo "<img src='$BASENAME' style='max-width:400px' alt='$BASENAME'/>" >> build/screenshots/index.html
+            echo "</div>" >> build/screenshots/index.html
+          done
+          
+          echo "</body></html>" >> build/screenshots/index.html
+          
+          # Upload gallery
+          aws s3 cp build/screenshots/index.html ${S3_SCREENSHOTS}index.html
+          
+          # Generate presigned URL
+          GALLERY_URL=$(aws s3 presign "${S3_SCREENSHOTS}index.html" --expires-in 604800)
+          echo "gallery_url=${GALLERY_URL}" >> $GITHUB_OUTPUT
+          
+          echo "✅ Screenshots uploaded to S3"
+          echo "Gallery URL: ${GALLERY_URL}"
+      
+      - name: Get file sizes
+        id: sizes
+        run: |
+          APK_SIZE=$(du -h build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk | cut -f1)
+          APK_SIZE_MB=$(du -m build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk | cut -f1)
+          AAB_SIZE=$(du -h build/app/outputs/bundle/release/app-release.aab | cut -f1)
+          echo "apk_size=${APK_SIZE}" >> $GITHUB_OUTPUT
+          echo "apk_size_mb=${APK_SIZE_MB}" >> $GITHUB_OUTPUT
+          echo "aab_size=${AAB_SIZE}" >> $GITHUB_OUTPUT
+          echo "APK size: ${APK_SIZE}"
+          echo "AAB size: ${AAB_SIZE}"
+      
+      - name: Generate build metadata
+        id: metadata
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          VERSION="${{ steps.increment.outputs.full_version }}"
+          COMMIT_MSG=$(git log -1 --pretty=format:'%s')
+          FLUTTER_VERSION=$(flutter --version | head -n1 | cut -d' ' -f2)
+          PR_NUMBER=$(git log -1 --pretty=format:'%s' | grep -oP '#\K\d+' || echo "")
+          
+          cat > build-metadata.json <<EOF
+          {
+            "version": "${{ steps.increment.outputs.version_name }}",
+            "build_number": "${{ steps.increment.outputs.build_number }}",
+            "full_version": "${VERSION}",
+            "branch": "${BRANCH_NAME}",
+            "commit": "${{ github.sha }}",
+            "commit_message": "${COMMIT_MSG}",
+            "author": "${{ steps.author.outputs.name }}",
+            "author_email": "${{ steps.author.outputs.email }}",
+            "pr_number": "${PR_NUMBER}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "flutter_version": "${FLUTTER_VERSION}",
+            "size_mb": ${{ steps.sizes.outputs.apk_size_mb }},
+            "artifacts": {
+              "apk_arm64": "app-arm64-v8a-release.apk",
+              "apk_armv7": "app-armeabi-v7a-release.apk",
+              "apk_x86_64": "app-x86_64-release.apk",
+              "aab": "app-release.aab"
+            }
+          }
+          EOF
+          
+          cat build-metadata.json
+          echo "✅ Build metadata generated"
+      
+      - name: Setup AWS CLI
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: Upload to S3
+        id: s3-upload
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          VERSION="${{ steps.increment.outputs.full_version }}"
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          
+          S3_PATH="s3://${{ secrets.AWS_BUCKET_NAME }}/${REPO_NAME}/${BRANCH_NAME}/${VERSION}/"
+          
+          # Upload APKs
+          aws s3 cp build/app/outputs/flutter-apk/ ${S3_PATH} --recursive --exclude "*" --include "*.apk"
+          
+          # Upload AAB
+          aws s3 cp build/app/outputs/bundle/release/app-release.aab ${S3_PATH}
+          
+          # Upload build metadata
+          aws s3 cp build-metadata.json ${S3_PATH}build-metadata.json
+          
+          # Update latest.json for this branch
+          LATEST_JSON_PATH="s3://${{ secrets.AWS_BUCKET_NAME }}/${REPO_NAME}/${BRANCH_NAME}/latest.json"
+          
+          # Add download URLs to metadata
+          APK_ARM64_URL=$(aws s3 presign "${S3_PATH}app-arm64-v8a-release.apk" --expires-in 604800)
+          
+          jq --arg url "$APK_ARM64_URL" '.download_url = $url' build-metadata.json > latest.json
+          aws s3 cp latest.json ${LATEST_JSON_PATH}
+          
+          # Generate download URLs (presigned URLs valid for 7 days)
+          APK_ARMV7_URL=$(aws s3 presign "${S3_PATH}app-armeabi-v7a-release.apk" --expires-in 604800)
+          APK_X86_64_URL=$(aws s3 presign "${S3_PATH}app-x86_64-release.apk" --expires-in 604800)
+          AAB_URL=$(aws s3 presign "${S3_PATH}app-release.aab" --expires-in 604800)
+          
+          echo "apk_arm64_url=${APK_ARM64_URL}" >> $GITHUB_OUTPUT
+          echo "apk_armv7_url=${APK_ARMV7_URL}" >> $GITHUB_OUTPUT
+          echo "apk_x86_64_url=${APK_X86_64_URL}" >> $GITHUB_OUTPUT
+          echo "aab_url=${AAB_URL}" >> $GITHUB_OUTPUT
+          
+          echo "✅ Uploaded to S3: ${S3_PATH}"
+          echo "✅ Updated latest.json at ${LATEST_JSON_PATH}"
+      
+      - name: Post success to Mattermost
+        if: success()
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          
+          # Build downloads section
+          DOWNLOADS="**Downloads:**\n- [APK (ARM64)](${{ steps.s3-upload.outputs.apk_arm64_url }})\n- [APK (ARMv7)](${{ steps.s3-upload.outputs.apk_armv7_url }})\n- [APK (x86_64)](${{ steps.s3-upload.outputs.apk_x86_64_url }})\n- [AAB](${{ steps.s3-upload.outputs.aab_url }})"
+          
+          # Add screenshot gallery if available
+          if [ -n "${{ steps.screenshots.outputs.gallery_url }}" ]; then
+            DOWNLOADS="${DOWNLOADS}\n- [📸 Screenshot Gallery](${{ steps.screenshots.outputs.gallery_url }})"
+          fi
+          
+          PAYLOAD=$(cat <<EOF
+          {
+            "text": "### ✅ Android Build Successful\n**Repository:** ${REPO_NAME}\n**Branch:** ${BRANCH_NAME}\n**Version:** ${{ steps.increment.outputs.full_version }}\n**Build Number:** ${{ steps.increment.outputs.build_number }}\n**APK Size:** ${{ steps.sizes.outputs.apk_size }}\n**AAB Size:** ${{ steps.sizes.outputs.aab_size }}\n**Commit:** [${{ github.sha }}](${{ github.event.head_commit.url }})\n**Author:** ${{ steps.author.outputs.name }}\n\n${DOWNLOADS}\n\n*Links valid for 7 days*"
+          }
+          EOF
+          )
+          
+          curl -X POST -H 'Content-Type: application/json' \
+            -d "$PAYLOAD" \
+            ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+      
+      - name: Get commit author Mattermost handle
+        if: failure()
+        id: mattermost-user
+        run: |
+          # Map GitHub email to Mattermost handle
+          # This should be configured per repo in .dcodax-ci.yaml
+          # For now, use a simple fallback
+          echo "handle=@${{ steps.author.outputs.name }}" >> $GITHUB_OUTPUT
+      
+      - name: Post failure to Mattermost
+        if: failure()
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          
+          PAYLOAD=$(cat <<EOF
+          {
+            "text": "### 🚨 Android Build Failed\n**Repository:** ${REPO_NAME}\n**Branch:** ${BRANCH_NAME}\n**Commit:** [${{ github.sha }}](${{ github.event.head_commit.url }})\n**Author:** ${{ steps.author.outputs.name }} (${{ steps.mattermost-user.outputs.handle }})\n\n**Action:** [View Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\n\n${{ steps.mattermost-user.outputs.handle }} please check the build logs."
+          }
+          EOF
+          )
+          
+          curl -X POST -H 'Content-Type: application/json' \
+            -d "$PAYLOAD" \
+            ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+      
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build-artifacts
+          path: |
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/bundle/release/*.aab
+          retention-days: 30

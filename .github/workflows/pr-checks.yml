@@ -1,0 +1,203 @@
+name: PR Metadata Validation
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+    branches: [develop, testing, main]
+
+jobs:
+  validate-pr:
+    name: Validate PR Metadata
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Check PR template compliance
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+            
+            let errors = [];
+            let warnings = [];
+            
+            // Check for required sections
+            const requiredSections = [
+              { name: 'Description', pattern: /##\s*Description/i },
+              { name: 'Type', pattern: /##\s*Type/i },
+              { name: 'Testing Done', pattern: /##\s*Testing Done/i },
+              { name: 'Checklist', pattern: /##\s*Checklist/i }
+            ];
+            
+            for (const section of requiredSections) {
+              if (!section.pattern.test(body)) {
+                errors.push(`Missing required section: ${section.name}`);
+              }
+            }
+            
+            // Check if description is filled (not just the template)
+            const descriptionMatch = body.match(/##\s*Description\s*\n+(.*?)(?=\n##|\n$)/is);
+            if (descriptionMatch) {
+              const description = descriptionMatch[1].trim();
+              if (description.length < 20 || description.includes('Describe your changes')) {
+                errors.push('Description is too short or not filled out');
+              }
+            }
+            
+            // Check if testing section is filled
+            const testingMatch = body.match(/##\s*Testing Done\s*\n+(.*?)(?=\n##|\n$)/is);
+            if (testingMatch) {
+              const testing = testingMatch[1].trim();
+              if (testing.length < 10 || testing.includes('Describe how you tested')) {
+                warnings.push('Testing section appears incomplete');
+              }
+            }
+            
+            // Check for linked issue/ticket
+            const hasIssueLink = /(?:fixes|closes|resolves|relates to)\s*#\d+/i.test(body) ||
+                                 /(?:jira|ticket):\s*\S+/i.test(body);
+            
+            if (!hasIssueLink) {
+              warnings.push('No linked issue or ticket found. Consider linking to a related issue.');
+            }
+            
+            // Check for UI changes requiring screenshots
+            const title = pr.title.toLowerCase();
+            const isUIChange = /\b(ui|design|layout|style|screen|view|widget)\b/i.test(title) ||
+                              /\b(ui|design|layout|style|screen|view|widget)\b/i.test(body);
+            
+            if (isUIChange) {
+              const hasScreenshots = /!\[.*\]\(.*\)|screenshot|image/i.test(body);
+              if (!hasScreenshots) {
+                warnings.push('This appears to be a UI change but no screenshots were provided');
+              }
+            }
+            
+            // Check checklist items
+            const checklistItems = body.match(/- \[[ x]\]/gi) || [];
+            const checkedItems = body.match(/- \[x\]/gi) || [];
+            
+            if (checklistItems.length > 0 && checkedItems.length === 0) {
+              warnings.push('No checklist items are checked');
+            }
+            
+            // Create status comment
+            let comment = '## 🤖 PR Metadata Validation\n\n';
+            
+            if (errors.length === 0 && warnings.length === 0) {
+              comment += '✅ **All checks passed!**\n\n';
+              comment += 'Your PR template is properly filled out.\n';
+            } else {
+              if (errors.length > 0) {
+                comment += '### ❌ Errors\n\n';
+                errors.forEach(error => {
+                  comment += `- ${error}\n`;
+                });
+                comment += '\n';
+              }
+              
+              if (warnings.length > 0) {
+                comment += '### ⚠️ Warnings\n\n';
+                warnings.forEach(warning => {
+                  comment += `- ${warning}\n`;
+                });
+                comment += '\n';
+              }
+              
+              comment += '### Action Required\n\n';
+              comment += 'Please update your PR description to address the issues above.\n';
+            }
+            
+            comment += '\n---\n';
+            comment += '*Automated by Dcodax Flutter CI*';
+            
+            // Post comment
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+            
+            // Fail the check if there are errors
+            if (errors.length > 0) {
+              core.setFailed('PR template validation failed. Please fix the errors listed in the comment.');
+            }
+      
+      - name: Check PR size
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            
+            // Get changed files
+            const files = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number
+            });
+            
+            const totalChanges = files.data.reduce((sum, file) => sum + file.changes, 0);
+            const fileCount = files.data.length;
+            
+            console.log(`Total changes: ${totalChanges} across ${fileCount} files`);
+            
+            if (totalChanges > 500 || fileCount > 20) {
+              const message = `⚠️ **Large PR Detected**\n\n` +
+                            `This PR has ${totalChanges} changes across ${fileCount} files.\n\n` +
+                            `Consider:\n` +
+                            `- Breaking it into smaller PRs\n` +
+                            `- Ensuring thorough testing\n` +
+                            `- Adding detailed documentation`;
+              
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: message
+              });
+            }
+      
+      - name: Check for merge conflicts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            
+            if (pr.mergeable === false) {
+              const message = `🚨 **Merge Conflicts Detected**\n\n` +
+                            `This PR has merge conflicts with the base branch.\n\n` +
+                            `Please resolve the conflicts before merging.`;
+              
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: message
+              });
+              
+              core.setFailed('This PR has merge conflicts');
+            }
+      
+      - name: Validate PR title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const title = pr.title;
+            
+            // Check for conventional commit format
+            const conventionalPattern = /^(feat|fix|chore|docs|refactor|test|ci|perf|style|build)(\(.+\))?!?: .+/;
+            
+            if (!conventionalPattern.test(title)) {
+              core.setFailed(
+                `PR title doesn't follow conventional commits format.\n` +
+                `Expected: type(scope): description\n` +
+                `Example: feat(auth): add login functionality\n` +
+                `Valid types: feat, fix, chore, docs, refactor, test, ci, perf, style, build`
+              );
+            }

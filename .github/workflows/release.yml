@@ -1,0 +1,613 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.2.3)'
+        required: true
+        type: string
+
+env:
+  FLUTTER_VERSION: '3.24.0'
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history for changelog
+      
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${GITHUB_REF#refs/tags/}"
+          fi
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "version_number=${VERSION#v}" >> $GITHUB_OUTPUT
+      
+      - name: Get Flutter version
+        id: flutter-version
+        run: |
+          if [ -f ".fvmrc" ]; then
+            VERSION=$(grep "flutter" .fvmrc | cut -d'"' -f2)
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          elif [ -f ".dcodax-ci.yaml" ]; then
+            VERSION=$(grep "flutter_version:" .dcodax-ci.yaml | cut -d':' -f2 | xargs)
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ env.FLUTTER_VERSION }}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          channel: 'stable'
+          cache: true
+      
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            ${{ env.FLUTTER_HOME }}
+          key: flutter-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            flutter-${{ runner.os }}-
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle*', 'android/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+      
+      - name: Get dependencies
+        run: flutter pub get
+      
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get the previous tag
+          PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null || echo "")
+          
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "No previous tag found, including all commits"
+            COMMITS=$(git log --pretty=format:"%s" --no-merges)
+          else
+            echo "Previous tag: $PREVIOUS_TAG"
+            COMMITS=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"%s" --no-merges)
+          fi
+          
+          # Parse conventional commits
+          FEATURES=""
+          FIXES=""
+          BREAKING=""
+          OTHERS=""
+          
+          while IFS= read -r commit; do
+            if echo "$commit" | grep -q "^feat"; then
+              DESC=$(echo "$commit" | sed 's/^feat[^:]*: //')
+              FEATURES="${FEATURES}- ${DESC}\n"
+            elif echo "$commit" | grep -q "^fix"; then
+              DESC=$(echo "$commit" | sed 's/^fix[^:]*: //')
+              FIXES="${FIXES}- ${DESC}\n"
+            elif echo "$commit" | grep -q "BREAKING CHANGE"; then
+              DESC=$(echo "$commit" | sed 's/^[^:]*: //')
+              BREAKING="${BREAKING}- ${DESC}\n"
+            elif echo "$commit" | grep -qE "^(chore|docs|refactor|test|ci|perf|style|build)"; then
+              # Skip non-user-facing changes
+              continue
+            else
+              OTHERS="${OTHERS}- ${commit}\n"
+            fi
+          done <<< "$COMMITS"
+          
+          # Build changelog
+          CHANGELOG="## What's Changed\n\n"
+          
+          if [ ! -z "$BREAKING" ]; then
+            CHANGELOG="${CHANGELOG}### ⚠️ BREAKING CHANGES\n${BREAKING}\n"
+          fi
+          
+          if [ ! -z "$FEATURES" ]; then
+            CHANGELOG="${CHANGELOG}### ✨ Features\n${FEATURES}\n"
+          fi
+          
+          if [ ! -z "$FIXES" ]; then
+            CHANGELOG="${CHANGELOG}### 🐛 Bug Fixes\n${FIXES}\n"
+          fi
+          
+          if [ ! -z "$OTHERS" ]; then
+            CHANGELOG="${CHANGELOG}### 📝 Other Changes\n${OTHERS}\n"
+          fi
+          
+          # Save to file
+          echo -e "$CHANGELOG" > /tmp/changelog.md
+          
+          # Also save for GitHub output (escape newlines)
+          CHANGELOG_ESCAPED=$(echo -e "$CHANGELOG" | sed ':a;N;$!ba;s/\n/\\n/g')
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
+      - name: Update CHANGELOG.md
+        run: |
+          CHANGELOG_FILE="CHANGELOG.md"
+          NEW_ENTRY="# ${{ steps.version.outputs.version }} ($(date +%Y-%m-%d))\n\n$(cat /tmp/changelog.md)\n"
+          
+          if [ -f "$CHANGELOG_FILE" ]; then
+            # Prepend to existing changelog
+            echo -e "${NEW_ENTRY}\n$(cat $CHANGELOG_FILE)" > $CHANGELOG_FILE
+          else
+            # Create new changelog
+            echo -e "# Changelog\n\n${NEW_ENTRY}" > $CHANGELOG_FILE
+          fi
+          
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add $CHANGELOG_FILE
+          git commit -m "docs: update CHANGELOG for ${{ steps.version.outputs.version }} [skip ci]" || true
+          git push || true
+      
+      - name: Auto-generate SETUP.md
+        run: |
+          echo "Generating SETUP.md..."
+          
+          # Get Flutter version
+          if [ -f ".fvmrc" ]; then
+            FLUTTER_VER=$(grep "flutter" .fvmrc | cut -d'"' -f2)
+          else
+            FLUTTER_VER="${{ steps.flutter-version.outputs.version }}"
+          fi
+          
+          # Extract dependencies from pubspec.yaml (simple approach without yq)
+          DEPS=$(grep -A 100 "^dependencies:" pubspec.yaml | grep -B 100 "^dev_dependencies:" | grep ":" | grep -v "^dependencies:" | grep -v "^dev_dependencies:" | sed 's/^  /- /' || echo "")
+          
+          # Get environment variables from .env.example or scan code
+          ENV_VARS=""
+          if [ -f ".env.example" ]; then
+            ENV_VARS=$(grep -E '^[A-Z_]+=' .env.example | sed 's/=.*//' | sed 's/^/- `/' | sed 's/$/`/')
+          else
+            # Scan for common env var patterns in code
+            ENV_VARS=$(grep -rh 'String\.fromEnvironment\|dotenv' lib/ 2>/dev/null | grep -oP "'[A-Z_]+'" | sort -u | sed "s/'//g" | sed 's/^/- `/' | sed 's/$/`/' || echo "None detected")
+          fi
+          
+          # Detect build flavors
+          FLAVORS=""
+          if [ -f "android/app/build.gradle" ]; then
+            FLAVORS=$(grep -A 10 'productFlavors' android/app/build.gradle | grep -oP '^\s+\K\w+(?=\s*\{)' | sed 's/^/- `/' | sed 's/$/`/' || echo "")
+          fi
+          
+          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          VERSION="${{ steps.version.outputs.version }}"
+          COMMIT_SHA="${{ github.sha }}"
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          
+          cat > SETUP.md <<'SETUP_EOF_HEREDOC'
+# Project Setup Guide
+
+**Generated:** GEN_DATE  
+**Version:** GEN_VERSION
+
+---
+
+## Prerequisites
+
+- **Flutter SDK**: GEN_FLUTTER_VER
+- **Dart**: Included with Flutter
+- **IDE**: Android Studio, VS Code, or IntelliJ IDEA
+- **Git**: For version control
+
+### Platform-Specific
+
+**Android:**
+- Android Studio
+- Android SDK (API 21+)
+- Java Development Kit (JDK) 17
+
+**iOS:**
+- macOS with Xcode 15+
+- CocoaPods
+- iOS 12.0+ deployment target
+
+---
+
+## Installation
+
+### 1. Clone the repository
+
+\`\`\`bash
+git clone GEN_REPO_URL.git
+cd GEN_REPO_NAME
+\`\`\`
+          
+### 2. Install Flutter
+
+If using FVM (Flutter Version Management):
+
+\`\`\`bash
+# Install FVM
+dart pub global activate fvm
+
+# Install project Flutter version
+fvm install
+fvm use GEN_FLUTTER_VER
+
+# Use FVM Flutter for this project
+fvm flutter --version
+\`\`\`
+
+Or install Flutter GEN_FLUTTER_VER directly from [flutter.dev](https://flutter.dev).
+
+### 3. Install dependencies
+
+\`\`\`bash
+flutter pub get
+\`\`\`
+
+### 4. Environment Variables
+
+Create a \`.env\` file in the project root with the following variables:
+
+GEN_ENV_VARS
+
+Copy from \`.env.example\` if available:
+
+\`\`\`bash
+cp .env.example .env
+# Edit .env with your actual values
+\`\`\`
+
+---
+
+## Dependencies
+
+Key dependencies:
+
+GEN_DEPS
+
+For the complete list, see \`pubspec.yaml\`.
+          
+---
+
+## Running the App
+
+### Development Mode
+
+\`\`\`bash
+# Run on connected device/emulator
+flutter run
+
+# Run with hot reload
+flutter run --hot
+
+# Run on specific device
+flutter devices
+flutter run -d <device_id>
+\`\`\`
+
+### Build Flavors
+
+GEN_FLAVORS
+
+\`\`\`bash
+# Example: Run with flavor
+flutter run --flavor dev
+flutter run --flavor staging
+flutter run --flavor production
+\`\`\`
+          
+---
+
+## Testing
+
+### Run all tests
+
+\`\`\`bash
+flutter test
+\`\`\`
+
+### Run with coverage
+
+\`\`\`bash
+flutter test --coverage
+
+# View coverage report
+genhtml coverage/lcov.info -o coverage/html
+open coverage/html/index.html
+\`\`\`
+
+### Run specific test file
+
+\`\`\`bash
+flutter test test/features/auth/auth_test.dart
+\`\`\`
+
+---
+
+## Building
+
+### Android
+
+\`\`\`bash
+# Debug APK
+flutter build apk --debug
+
+# Release APK (split per ABI)
+flutter build apk --release --split-per-abi
+
+# Release AAB (for Play Store)
+flutter build appbundle --release
+\`\`\`
+
+### iOS
+
+\`\`\`bash
+# Debug
+flutter build ios --debug
+
+# Release (requires code signing)
+flutter build ios --release
+
+# Create IPA for distribution
+cd ios
+xcodebuild -workspace Runner.xcworkspace \\
+  -scheme Runner \\
+  -configuration Release \\
+  -archivePath build/Runner.xcarchive \\
+  archive
+\`\`\`
+          
+---
+
+## Common Issues
+
+### Issue: "Flutter command not found"
+
+**Solution:** Add Flutter to your PATH:
+
+\`\`\`bash
+export PATH="\$PATH:[PATH_TO_FLUTTER]/flutter/bin"
+\`\`\`
+
+### Issue: "Gradle build failed"
+
+**Solution:**
+
+\`\`\`bash
+cd android
+./gradlew clean
+cd ..
+flutter clean
+flutter pub get
+flutter build apk
+\`\`\`
+
+### Issue: "CocoaPods not installed" (iOS)
+
+**Solution:**
+
+\`\`\`bash
+sudo gem install cocoapods
+cd ios
+pod install
+cd ..
+\`\`\`
+
+### Issue: "Version solving failed"
+
+**Solution:**
+
+\`\`\`bash
+flutter clean
+flutter pub get
+# If still failing, check for conflicting dependencies in pubspec.yaml
+\`\`\`
+
+### Issue: "Simulator not found" (iOS)
+
+**Solution:**
+
+\`\`\`bash
+# List available simulators
+xcrun simctl list devices
+
+# Boot a simulator
+xcrun simctl boot "iPhone 15 Pro"
+
+# Or open Simulator app
+open -a Simulator
+\`\`\`
+
+---
+
+## Project Structure
+
+\`\`\`
+lib/
+├── core/                 # Core functionality
+│   ├── theme/           # Design system
+│   ├── widgets/         # Reusable widgets
+│   ├── utils/           # Utilities
+│   └── constants/       # Constants
+├── features/            # Feature modules
+│   └── [feature]/
+│       ├── data/        # Data layer (repos, models, sources)
+│       ├── domain/      # Domain layer (entities, usecases)
+│       └── presentation/# UI layer (views, controllers)
+└── main.dart            # App entry point
+\`\`\`
+
+---
+
+## Development Workflow
+
+1. **Create feature branch**: \`git checkout -b feature/my-feature\`
+2. **Make changes**: Follow [code standards](docs/code-standards.md)
+3. **Run tests**: \`flutter test\`
+4. **Format code**: \`dart format --line-length 80 .\`
+5. **Commit**: \`git commit -m "feat: add my feature"\`
+6. **Push**: \`git push origin feature/my-feature\`
+7. **Create PR**: Submit for review
+
+---
+
+## Resources
+
+- [Flutter Documentation](https://flutter.dev/docs)
+- [Dart Documentation](https://dart.dev/guides)
+- [GetX Documentation](https://pub.dev/packages/get)
+- [Project Wiki](GEN_REPO_URL/wiki)
+
+---
+
+**Questions?** Contact the team on Mattermost "flutter devs" channel.
+
+---
+
+*Auto-generated on GEN_DATE*
+SETUP_EOF_HEREDOC
+          
+          # Replace placeholders with actual values
+          sed -i "s|GEN_DATE|$(date +%Y-%m-%d)|g" SETUP.md
+          sed -i "s|GEN_VERSION|${VERSION}|g" SETUP.md
+          sed -i "s|GEN_FLUTTER_VER|${FLUTTER_VER}|g" SETUP.md
+          sed -i "s|GEN_REPO_URL|${REPO_URL}|g" SETUP.md
+          sed -i "s|GEN_REPO_NAME|${REPO_NAME}|g" SETUP.md
+          sed -i "s|GEN_ENV_VARS|${ENV_VARS}|g" SETUP.md
+          sed -i "s|GEN_DEPS|${DEPS}|g" SETUP.md
+          sed -i "s|GEN_FLAVORS|${FLAVORS:-No flavors configured}|g" SETUP.md
+          
+          # Commit SETUP.md
+          git add SETUP.md
+          git commit -m "docs: auto-generate SETUP.md [skip ci]" || true
+          git push || true
+          
+          echo "✅ SETUP.md generated and committed"
+      
+      - name: Build Android APK
+        run: |
+          flutter build apk --release --split-per-abi
+          echo "✅ Android APK built"
+      
+      - name: Build Android AAB
+        run: |
+          flutter build appbundle --release
+          echo "✅ Android AAB built"
+      
+      - name: Upload to S3 (Production)
+        id: s3-upload
+        run: |
+          # Install AWS CLI
+          sudo apt-get update
+          sudo apt-get install -y awscli
+          
+          # Configure AWS
+          export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}"
+          export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          export AWS_REGION="${{ secrets.AWS_REGION }}"
+          
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          VERSION="${{ steps.version.outputs.version }}"
+          
+          S3_PATH="s3://${{ secrets.AWS_BUCKET_NAME }}/${REPO_NAME}/production/${VERSION}/"
+          
+          # Upload APKs and AAB
+          aws s3 cp build/app/outputs/flutter-apk/ ${S3_PATH} --recursive --exclude "*" --include "*.apk"
+          aws s3 cp build/app/outputs/bundle/release/app-release.aab ${S3_PATH}
+          
+          # Generate download URLs
+          APK_ARM64_URL=$(aws s3 presign "${S3_PATH}app-arm64-v8a-release.apk" --expires-in 31536000)
+          AAB_URL=$(aws s3 presign "${S3_PATH}app-release.aab" --expires-in 31536000)
+          
+          echo "apk_url=${APK_ARM64_URL}" >> $GITHUB_OUTPUT
+          echo "aab_url=${AAB_URL}" >> $GITHUB_OUTPUT
+          
+          echo "✅ Uploaded to S3: ${S3_PATH}"
+      
+      - name: Create GitHub Release
+        id: create-release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const changelog = fs.readFileSync('/tmp/changelog.md', 'utf8');
+            
+            const release = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: '${{ steps.version.outputs.version }}',
+              name: '${{ steps.version.outputs.version }}',
+              body: changelog,
+              draft: false,
+              prerelease: false
+            });
+            
+            return release.data.id;
+      
+      - name: Upload release assets
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            const releaseId = ${{ steps.create-release.outputs.result }};
+            
+            const uploadAsset = async (filePath, name) => {
+              const data = fs.readFileSync(filePath);
+              await github.rest.repos.uploadReleaseAsset({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: releaseId,
+                name: name,
+                data: data
+              });
+            };
+            
+            // Upload APKs
+            await uploadAsset('build/app/outputs/flutter-apk/app-arm64-v8a-release.apk', 'app-arm64-v8a.apk');
+            await uploadAsset('build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk', 'app-armeabi-v7a.apk');
+            await uploadAsset('build/app/outputs/flutter-apk/app-x86_64-release.apk', 'app-x86_64.apk');
+            
+            // Upload AAB
+            await uploadAsset('build/app/outputs/bundle/release/app-release.aab', 'app-release.aab');
+      
+      - name: Post to Mattermost
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          RELEASE_URL="${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.version.outputs.version }}"
+          
+          PAYLOAD=$(cat <<EOF
+          {
+            "text": "### 🎉 New Release Published\n**Repository:** ${REPO_NAME}\n**Version:** ${{ steps.version.outputs.version }}\n**Release:** [View on GitHub](${RELEASE_URL})\n\n${{ steps.changelog.outputs.changelog }}\n\n**Downloads:**\n- [APK (ARM64)](${{ steps.s3-upload.outputs.apk_url }})\n- [AAB (Play Store)](${{ steps.s3-upload.outputs.aab_url }})\n\n@channel New release is live! 🚀"
+          }
+          EOF
+          )
+          
+          curl -X POST -H 'Content-Type: application/json' \
+            -d "$PAYLOAD" \
+            ${{ secrets.MATTERMOST_WEBHOOK_URL }}

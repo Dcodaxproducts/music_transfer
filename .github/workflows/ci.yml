@@ -1,0 +1,478 @@
+name: CI - Code Quality & Tests
+
+on:
+  pull_request:
+    branches: [develop, testing, main]
+
+env:
+  FLUTTER_VERSION: '3.24.0'  # Override with repo's .fvmrc or .dcodax-ci.yaml
+
+jobs:
+  quality-checks:
+    name: Code Quality & Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for git blame and coverage comparison
+      
+      - name: Check for custom Flutter version
+        id: flutter-version
+        run: |
+          if [ -f ".fvmrc" ]; then
+            VERSION=$(grep "flutter" .fvmrc | cut -d'"' -f2)
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          elif [ -f ".dcodax-ci.yaml" ]; then
+            VERSION=$(grep "flutter_version:" .dcodax-ci.yaml | cut -d':' -f2 | xargs)
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ env.FLUTTER_VERSION }}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          channel: 'stable'
+          cache: true
+      
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            ${{ env.FLUTTER_HOME }}
+          key: flutter-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            flutter-${{ runner.os }}-
+      
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle*', 'android/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+      
+      - name: Get dependencies
+        run: flutter pub get
+      
+      # 1. Branch naming validation
+      - name: Validate branch name
+        id: validate-branch-name
+        run: |
+          BRANCH="${GITHUB_HEAD_REF}"
+          PATTERN="^(feature|bugfix|hotfix|release)/.*$"
+          if ! echo "$BRANCH" | grep -qE "$PATTERN"; then
+            echo "::error::Invalid branch name: $BRANCH"
+            echo "Branch must match pattern: $PATTERN"
+            echo "Examples: feature/user-auth, bugfix/login-crash, hotfix/payment-fix"
+            exit 1
+          fi
+          echo "✅ Branch name is valid"
+      
+      # 2. Commit message validation
+      - name: Validate commit messages
+        id: validate-commit-messages
+        run: |
+          COMMITS=$(git log origin/${{ github.base_ref }}..HEAD --pretty=format:"%s")
+          VALID_TYPES="feat|fix|chore|docs|refactor|test|ci|perf|style|build"
+          INVALID=0
+          
+          while IFS= read -r msg; do
+            if ! echo "$msg" | grep -qE "^($VALID_TYPES)(\(.+\))?: .+"; then
+              echo "::error::Invalid commit message: $msg"
+              echo "Expected format: type(scope): description"
+              echo "Valid types: feat, fix, chore, docs, refactor, test, ci, perf, style, build"
+              INVALID=1
+            fi
+          done <<< "$COMMITS"
+          
+          if [ $INVALID -eq 1 ]; then
+            exit 1
+          fi
+          echo "✅ All commit messages are valid"
+      
+      # 3. Dart format check
+      - name: Check formatting
+        id: check-formatting
+        run: |
+          if ! dart format --set-exit-if-changed --line-length 80 .; then
+            echo "::error::Code is not formatted correctly"
+            echo "Run: dart format --line-length 80 ."
+            exit 1
+          fi
+          echo "✅ Code is properly formatted"
+      
+      # 4. Flutter analyze
+      - name: Analyze code
+        id: analyze-code
+        run: |
+          flutter analyze > analyze_output.txt 2>&1 || true
+          
+          if grep -q "error •" analyze_output.txt; then
+            echo "::error::Flutter analyze found errors"
+            cat analyze_output.txt
+            exit 1
+          fi
+          
+          if grep -q "warning •" analyze_output.txt; then
+            echo "::error::Flutter analyze found warnings (configured as fatal)"
+            cat analyze_output.txt
+            exit 1
+          fi
+          
+          echo "✅ No analysis issues found"
+      
+      # 5. Security scan
+      - name: Security scan
+        id: security-scan
+        run: |
+          echo "Scanning for hardcoded secrets and API keys..."
+          
+          PATTERNS=(
+            'AIza[0-9A-Za-z-_]{35}'
+            'sk_live_[0-9a-zA-Z]{24}'
+            'sk_test_[0-9a-zA-Z]{24}'
+            'Bearer [A-Za-z0-9-._~+/]+='
+          )
+          
+          FOUND=0
+          for pattern in "${PATTERNS[@]}"; do
+            if grep -rE "$pattern" lib/ --exclude-dir=.git; then
+              echo "::error::Found potential hardcoded secret matching pattern: $pattern"
+              FOUND=1
+            fi
+          done
+          
+          # Check for hardcoded passwords
+          if grep -rE "password\s*=\s*[\"'][^\"']+[\"']" lib/ --exclude-dir=.git; then
+            echo "::error::Found hardcoded password"
+            FOUND=1
+          fi
+          
+          if [ $FOUND -eq 1 ]; then
+            echo "::error::Security scan failed - remove hardcoded secrets"
+            exit 1
+          fi
+          
+          echo "✅ No security issues detected"
+      
+      # 6. Localization check
+      - name: Check localization files
+        id: check-localization
+        run: |
+          if [ ! -d "assets/languages" ]; then
+            echo "⚠️ No localization directory found, skipping"
+            exit 0
+          fi
+          
+          EN_FILE="assets/languages/en.json"
+          if [ ! -f "$EN_FILE" ]; then
+            echo "::warning::English language file not found at $EN_FILE"
+            exit 0
+          fi
+          
+          EN_KEYS=$(jq -r 'keys[]' "$EN_FILE" 2>/dev/null | sort)
+          MISSING_KEYS=0
+          
+          for lang_file in assets/languages/*.json; do
+            if [ "$lang_file" == "$EN_FILE" ]; then
+              continue
+            fi
+            
+            LANG_KEYS=$(jq -r 'keys[]' "$lang_file" 2>/dev/null | sort)
+            
+            # Check for missing keys
+            DIFF=$(comm -23 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
+            if [ ! -z "$DIFF" ]; then
+              echo "::warning::Missing keys in $lang_file: $DIFF"
+              MISSING_KEYS=1
+            fi
+            
+            # Check for extra keys
+            EXTRA=$(comm -13 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
+            if [ ! -z "$EXTRA" ]; then
+              echo "::warning::Extra keys in $lang_file: $EXTRA"
+            fi
+          done
+          
+          if [ $MISSING_KEYS -eq 1 ]; then
+            echo "::error::Localization files are out of sync"
+            exit 1
+          fi
+          
+          echo "✅ Localization files are synchronized"
+      
+      # 7. Env file protection scan
+      - name: Check for .env files and secrets
+        id: check-env-secrets
+        run: |
+          echo "Scanning for .env files and environment secrets..."
+          
+          # Check if .env files are in the diff
+          if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -E '\.env(\.[^/]*)?$'; then
+            echo "::error::.env files detected in PR - these should never be committed"
+            exit 1
+          fi
+          
+          # Scan for blocked patterns in all files
+          PATTERNS=(
+            'API_KEY='
+            'SECRET='
+            'PASSWORD='
+            'TOKEN='
+            'AKIA[A-Z0-9]{16}'
+            '-----BEGIN (RSA |EC )?PRIVATE KEY-----'
+          )
+          
+          FOUND=0
+          for pattern in "${PATTERNS[@]}"; do
+            if git diff origin/${{ github.base_ref }}..HEAD | grep -E "$pattern"; then
+              echo "::error::Found potential secret pattern in diff: $pattern"
+              FOUND=1
+            fi
+          done
+          
+          if [ $FOUND -eq 1 ]; then
+            echo "::error::Environment secrets detected - remove before merging"
+            echo "Use environment variables or GitHub Secrets instead"
+            exit 1
+          fi
+          
+          echo "✅ No environment secrets detected"
+      
+      # 8. Code duplication detection
+      - name: Check code duplication
+        id: check-duplication
+        run: |
+          echo "Installing jscpd for duplication detection..."
+          npm install -g jscpd
+          
+          # Run jscpd on lib/ directory
+          jscpd lib/ --min-lines 10 --min-tokens 50 --threshold 5 \
+            --reporters json,console \
+            --output ./duplication-report || true
+          
+          # Check if duplication exceeds threshold
+          if [ -f "duplication-report/jscpd-report.json" ]; then
+            DUPLICATION=$(jq '.statistics.total.percentage' duplication-report/jscpd-report.json 2>/dev/null || echo "0")
+            echo "Code duplication: ${DUPLICATION}%"
+            
+            if [ $(echo "$DUPLICATION > 5" | bc -l) -eq 1 ]; then
+              echo "::warning::Code duplication ${DUPLICATION}% exceeds threshold (5%)"
+              echo "Review duplicated code blocks and consider refactoring"
+              
+              # Post detailed report as artifact for review
+              if [ -f "duplication-report/jscpd-report.json" ]; then
+                echo "Duplication report available in artifacts"
+              fi
+            else
+              echo "✅ Code duplication within acceptable range (${DUPLICATION}%)"
+            fi
+          else
+            echo "⚠️ Could not generate duplication report"
+          fi
+      
+      # 9. Run tests with coverage
+      - name: Run tests
+        id: run-tests
+        run: |
+          flutter test --coverage --reporter expanded
+          echo "✅ Tests passed"
+      
+      # 10. Check coverage threshold
+      - name: Check coverage threshold
+        id: check-coverage
+        run: |
+          if [ ! -f "coverage/lcov.info" ]; then
+            echo "::warning::No coverage data found"
+            exit 0
+          fi
+          
+          # Install lcov if not available
+          sudo apt-get update
+          sudo apt-get install -y lcov
+          
+          COVERAGE=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | awk '{print $2}' | sed 's/%//')
+          THRESHOLD=70
+          
+          echo "Coverage: $COVERAGE%"
+          
+          if [ $(echo "$COVERAGE < $THRESHOLD" | bc) -eq 1 ]; then
+            echo "::error::Coverage $COVERAGE% is below threshold $THRESHOLD%"
+            exit 1
+          fi
+          
+          echo "✅ Coverage is above threshold ($COVERAGE% >= $THRESHOLD%)"
+      
+      # 11. Check for golden test updates
+      - name: Check golden tests
+        run: |
+          if [ -d "test/goldens" ]; then
+            flutter test --update-goldens
+            if git diff --quiet test/goldens/; then
+              echo "✅ Golden tests are up to date"
+            else
+              echo "::warning::Golden test files have changed - review carefully"
+            fi
+          fi
+      
+      # 12. Performance anti-pattern detection
+      - name: Check for performance anti-patterns
+        id: check-performance
+        run: |
+          echo "Scanning for performance anti-patterns..."
+          ISSUES=0
+          
+          # Multiple setState calls
+          if grep -rn "setState.*setState" lib/ --include="*.dart" | grep -v "//"; then
+            echo "::warning::Multiple setState calls detected - consider batching"
+            ISSUES=1
+          fi
+          
+          # Filtering in ListView builders
+          if grep -rn "ListView\.builder.*itemCount.*\.length.*where" lib/ --include="*.dart"; then
+            echo "::warning::Filtering in ListView - move to controller"
+            ISSUES=1
+          fi
+          
+          # Nested FutureBuilders
+          if grep -rn "FutureBuilder.*FutureBuilder" lib/ --include="*.dart"; then
+            echo "::warning::Nested FutureBuilders detected - refactor state management"
+            ISSUES=1
+          fi
+          
+          if [ $ISSUES -eq 0 ]; then
+            echo "✅ No performance anti-patterns detected"
+          fi
+      
+      # 13. Build size check
+      - name: Build APK and check size
+        id: build-apk
+        run: |
+          flutter build apk --release
+          
+          APK_SIZE=$(du -m build/app/outputs/flutter-apk/app-release.apk | cut -f1)
+          echo "APK Size: ${APK_SIZE}MB"
+          
+          if [ $APK_SIZE -gt 100 ]; then
+            echo "::error::APK size ${APK_SIZE}MB exceeds limit (100MB)"
+            exit 1
+          elif [ $APK_SIZE -gt 50 ]; then
+            echo "::warning::APK size ${APK_SIZE}MB is large (warning threshold: 50MB)"
+          fi
+          
+          echo "apk_size=${APK_SIZE}" >> $GITHUB_ENV
+      
+      # 14. Upload duplication report
+      - name: Upload duplication report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duplication-report
+          path: duplication-report/
+          retention-days: 7
+      
+      # 15. Store step outcomes
+      - name: Store step results
+        if: always()
+        id: results
+        run: |
+          echo "branch_naming=${{ steps.validate-branch-name.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "commit_messages=${{ steps.validate-commit-messages.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "formatting=${{ steps.check-formatting.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "analysis=${{ steps.analyze-code.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "security=${{ steps.security-scan.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "localization=${{ steps.check-localization.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "env_secrets=${{ steps.check-env-secrets.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "duplication=${{ steps.check-duplication.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "tests=${{ steps.run-tests.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "coverage=${{ steps.check-coverage.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "performance=${{ steps.check-performance.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+          echo "build=${{ steps.build-apk.outcome || 'skipped' }}" >> $GITHUB_OUTPUT
+      
+      # 16. Generate PR comment with results
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        if: always()
+        with:
+          script: |
+            const getStatusIcon = (outcome) => {
+              switch(outcome) {
+                case 'success': return '✅';
+                case 'failure': return '❌';
+                case 'skipped': return '⏭️';
+                default: return '⚠️';
+              }
+            };
+            
+            const formatStatus = (outcome, value = '') => {
+              const icon = getStatusIcon(outcome);
+              return value ? `${icon} ${value}` : icon;
+            };
+            
+            // Get step outcomes from the job context
+            const branchNaming = '${{ steps.results.outputs.branch_naming }}';
+            const commitMessages = '${{ steps.results.outputs.commit_messages }}';
+            const formatting = '${{ steps.results.outputs.formatting }}';
+            const analysis = '${{ steps.results.outputs.analysis }}';
+            const security = '${{ steps.results.outputs.security }}';
+            const localization = '${{ steps.results.outputs.localization }}';
+            const envSecrets = '${{ steps.results.outputs.env_secrets }}';
+            const duplication = '${{ steps.results.outputs.duplication }}';
+            const tests = '${{ steps.results.outputs.tests }}';
+            const coverage = '${{ steps.results.outputs.coverage }}';
+            const performance = '${{ steps.results.outputs.performance }}';
+            const build = '${{ steps.results.outputs.build }}';
+            
+            const apkSize = process.env.apk_size || 'N/A';
+            
+            let comment = '## 🤖 CI Results\n\n';
+            comment += '| Check | Status |\n';
+            comment += '|-------|--------|\n';
+            comment += `| Branch naming | ${formatStatus(branchNaming)} |\n`;
+            comment += `| Commit messages | ${formatStatus(commitMessages)} |\n`;
+            comment += `| Code formatting | ${formatStatus(formatting)} |\n`;
+            comment += `| Static analysis | ${formatStatus(analysis)} |\n`;
+            comment += `| Security scan | ${formatStatus(security)} |\n`;
+            comment += `| Env secrets check | ${formatStatus(envSecrets)} |\n`;
+            comment += `| Localization | ${formatStatus(localization)} |\n`;
+            comment += `| Code duplication | ${formatStatus(duplication)} |\n`;
+            comment += `| Tests | ${formatStatus(tests)} |\n`;
+            comment += `| Coverage (≥70%) | ${formatStatus(coverage)} |\n`;
+            comment += `| Performance check | ${formatStatus(performance)} |\n`;
+            comment += `| Build | ${formatStatus(build, apkSize + 'MB')} |\n`;
+            
+            // Add summary
+            const allOutcomes = [
+              branchNaming, commitMessages, formatting, analysis,
+              security, envSecrets, localization, duplication,
+              tests, coverage, performance, build
+            ];
+            
+            const failedCount = allOutcomes.filter(o => o === 'failure').length;
+            const successCount = allOutcomes.filter(o => o === 'success').length;
+            
+            comment += '\n### Summary\n';
+            if (failedCount === 0) {
+              comment += '✅ **All checks passed!** Ready for review.\n';
+            } else {
+              comment += `❌ **${failedCount} check(s) failed.** Please fix before merging.\n`;
+            }
+            comment += `\n**Passed:** ${successCount} | **Failed:** ${failedCount}\n`;
+            
+            comment += '\n---\n';
+            comment += '*Automated by Dcodax Flutter CI*';
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

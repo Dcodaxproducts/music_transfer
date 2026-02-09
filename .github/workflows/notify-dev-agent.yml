@@ -1,0 +1,38 @@
+name: Notify Dev Agent
+
+# Triggers Dev Agent for AI code review when PR targets testing/main
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: [testing, main]
+
+jobs:
+  notify:
+    name: Trigger AI Review
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: Notify Dev Agent via Mattermost
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+          REPO="${{ github.repository }}"
+          
+          # Post to Mattermost flutter-devs channel as a review request
+          PAYLOAD=$(cat <<EOF
+          {
+            "channel_id": "bwgii3aooiy39cpy1tu7tcp6tc",
+            "message": "### 🤖 AI Review Triggered\n**PR:** [#${PR_NUMBER} - ${PR_TITLE}](${PR_URL})\n**Author:** @${PR_AUTHOR}\n**Target:** ${BASE_BRANCH}\n**Repo:** ${REPO}\n\nDev Agent will post review comments shortly."
+          }
+          EOF
+          )
+          
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.MATTERMOST_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" \
+            "${{ secrets.MATTERMOST_URL }}/api/v4/posts" || true
