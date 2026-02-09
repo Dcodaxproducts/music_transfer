@@ -23,7 +23,7 @@ jobs:
         id: flutter-version
         run: |
           if [ -f ".fvmrc" ]; then
-            VERSION=$(grep "flutter" .fvmrc | cut -d'"' -f2)
+            VERSION=$(cat .fvmrc | jq -r '.flutter')
             echo "version=$VERSION" >> $GITHUB_OUTPUT
           elif [ -f ".dcodax-ci.yaml" ]; then
             VERSION=$(grep "flutter_version:" .dcodax-ci.yaml | cut -d':' -f2 | xargs)
