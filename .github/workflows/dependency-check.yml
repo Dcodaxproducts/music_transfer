@@ -2,203 +2,251 @@ name: Dependency Check
 
 on:
   schedule:
-    # Every Monday at 10:00 AM UTC
-    - cron: "0 10 * * 1"
+    - cron: '0 10 * * 1'
   workflow_dispatch:
 
 env:
-  FLUTTER_VERSION: "3.24.0"
+  FLUTTER_VERSION: '3.24.0'
 
 jobs:
   check-dependencies:
-    name: Check for Dependency Updates
+    name: Check for outdated dependencies
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Get Flutter version
-        id: flutter-version
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Determine Flutter version
+        id: flutter-info
         run: |
+          VERSION="${{ env.FLUTTER_VERSION }}"
+          
           if [ -f ".fvmrc" ]; then
-            VERSION=$(cat .fvmrc | jq -r '.flutter')
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            FVM_VERSION=$(grep '"flutter"' .fvmrc | cut -d'"' -f4)
+            [ -n "$FVM_VERSION" ] && VERSION="$FVM_VERSION"
           elif [ -f ".dcodax-ci.yaml" ]; then
-            VERSION=$(grep "flutter_version:" .dcodax-ci.yaml | cut -d':' -f2 | xargs)
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-          else
-            echo "version=${{ env.FLUTTER_VERSION }}" >> $GITHUB_OUTPUT
+            DCODAX_VERSION=$(grep "flutter_version:" .dcodax-ci.yaml | sed 's/.*: *//' | tr -d ' ')
+            [ -n "$DCODAX_VERSION" ] && VERSION="$DCODAX_VERSION"
           fi
-
+          
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Using Flutter $VERSION"
+      
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ steps.flutter-version.outputs.version }}
-          channel: "stable"
+          flutter-version: ${{ steps.flutter-info.outputs.version }}
+          channel: stable
           cache: true
-
+      
       - name: Get dependencies
         run: flutter pub get
-
-      - name: Check for outdated packages
-        id: outdated
+      
+      - name: Analyze outdated dependencies
+        id: analyze
         run: |
-          flutter pub outdated --json > outdated.json
-
-          # Parse JSON and categorize updates
-          PATCH_UPDATES=$(cat outdated.json | jq -r '.packages[] | select(.latest != .current and .upgradable == .latest) | "\(.package): \(.current) → \(.latest)"')
-          MINOR_UPDATES=$(cat outdated.json | jq -r '.packages[] | select(.upgradable != .latest and .upgradable != null) | "\(.package): \(.current) → \(.upgradable)"')
-          MAJOR_UPDATES=$(cat outdated.json | jq -r '.packages[] | select(.resolvable != .current and .upgradable == null) | "\(.package): \(.current) → \(.resolvable)"')
-
+          flutter pub outdated --json > outdated.json 2>/dev/null || true
+          
+          if [ ! -s outdated.json ]; then
+            echo "major=0" >> "$GITHUB_OUTPUT"
+            echo "minor=0" >> "$GITHUB_OUTPUT"
+            echo "patch=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          
+          # Initialize counters
+          MAJOR=0
+          MINOR=0
+          PATCH=0
+          
+          # Parse each package
+          jq -c '.packages[]' outdated.json 2>/dev/null | while read pkg; do
+            current=$(echo "$pkg" | jq -r '.current // empty')
+            latest=$(echo "$pkg" | jq -r '.latest // empty')
+            name=$(echo "$pkg" | jq -r '.package')
+            
+            [ -z "$current" ] || [ -z "$latest" ] && continue
+            [ "$current" = "null" ] || [ "$latest" = "null" ] && continue
+            
+            # Extract semver parts (handle versions like 1.2.3+4 or 1.2.3-hotfix)
+            cur_major=$(echo "$current" | sed 's/^[^0-9]*//' | cut -d'.' -f1 | tr -cd '0-9')
+            cur_minor=$(echo "$current" | sed 's/^[^0-9]*//' | cut -d'.' -f2 | tr -cd '0-9')
+            cur_patch=$(echo "$current" | sed 's/^[^0-9]*//' | cut -d'.' -f3 | cut -d'+' -f1 | cut -d'-' -f1 | tr -cd '0-9')
+            
+            lat_major=$(echo "$latest" | sed 's/^[^0-9]*//' | cut -d'.' -f1 | tr -cd '0-9')
+            lat_minor=$(echo "$latest" | sed 's/^[^0-9]*//' | cut -d'.' -f2 | tr -cd '0-9')
+            lat_patch=$(echo "$latest" | sed 's/^[^0-9]*//' | cut -d'.' -f3 | cut -d'+' -f1 | cut -d'-' -f1 | tr -cd '0-9')
+            
+            # Default to 0 if empty
+            cur_major=${cur_major:-0}
+            cur_minor=${cur_minor:-0}
+            cur_patch=${cur_patch:-0}
+            lat_major=${lat_major:-0}
+            lat_minor=${lat_minor:-0}
+            lat_patch=${lat_patch:-0}
+            
+            # Classify
+            if [ "$lat_major" -ne "$cur_major" ]; then
+              echo "$name|$current|$latest|major" >> updates.txt
+            elif [ "$lat_minor" -ne "$cur_minor" ]; then
+              echo "$name|$current|$latest|minor" >> updates.txt
+            elif [ "$lat_patch" -ne "$cur_patch" ]; then
+              echo "$name|$current|$latest|patch" >> updates.txt
+            fi
+          done
+          
           # Count updates
-          PATCH_COUNT=$(echo "$PATCH_UPDATES" | grep -c "→" || echo "0")
-          MINOR_COUNT=$(echo "$MINOR_UPDATES" | grep -c "→" || echo "0")
-          MAJOR_COUNT=$(echo "$MAJOR_UPDATES" | grep -c "→" || echo "0")
-
-          echo "patch_count=$PATCH_COUNT" >> $GITHUB_OUTPUT
-          echo "minor_count=$MINOR_COUNT" >> $GITHUB_OUTPUT
-          echo "major_count=$MAJOR_COUNT" >> $GITHUB_OUTPUT
-
-          # Save updates to files
-          echo "$PATCH_UPDATES" > /tmp/patch_updates.txt
-          echo "$MINOR_UPDATES" > /tmp/minor_updates.txt
-          echo "$MAJOR_UPDATES" > /tmp/major_updates.txt
-
-          echo "Patch updates: $PATCH_COUNT"
-          echo "Minor updates: $MINOR_COUNT"
-          echo "Major updates: $MAJOR_COUNT"
-
-      - name: Create PR for patch updates
-        if: steps.outdated.outputs.patch_count > 0
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-
-          # Create new branch
-          BRANCH="chore/auto-update-dependencies-$(date +%Y%m%d)"
-          git checkout -b $BRANCH
-
-          # Update dependencies
-          flutter pub upgrade --major-versions
-
-          # Create commit
-          git add pubspec.lock
-          git commit -m "chore: auto-update patch dependencies
-          $(cat /tmp/patch_updates.txt)
-          Automated dependency update by GitHub Actions." || exit 0
-
-          # Push branch
-          git push origin $BRANCH
-
-          # Create PR using GitHub CLI
-          gh pr create \
-            --title "chore: Auto-update patch dependencies" \
-            --body "## Automated Dependency Update
-            This PR updates the following patch-level dependencies:
-              $(cat /tmp/patch_updates.txt)
-              ### Verification
-              - [ ] Tests pass
-              - [ ] App builds successfully
-              - [ ] No breaking changes
-              **Auto-generated by dependency-check workflow**" \
-            --base main \
-            --head $BRANCH \
-            --label "dependencies"
+          [ -f updates.txt ] && MAJOR=$(grep -c '|major$' updates.txt 2>/dev/null || echo 0)
+          [ -f updates.txt ] && MINOR=$(grep -c '|minor$' updates.txt 2>/dev/null || echo 0)
+          [ -f updates.txt ] && PATCH=$(grep -c '|patch$' updates.txt 2>/dev/null || echo 0)
+          
+          # Trim whitespace
+          MAJOR=$(echo "$MAJOR" | tr -d ' ')
+          MINOR=$(echo "$MINOR" | tr -d ' ')
+          PATCH=$(echo "$PATCH" | tr -d ' ')
+          
+          echo "major=$MAJOR" >> "$GITHUB_OUTPUT"
+          echo "minor=$MINOR" >> "$GITHUB_OUTPUT"
+          echo "patch=$PATCH" >> "$GITHUB_OUTPUT"
+          
+          echo "Found: $MAJOR major, $MINOR minor, $PATCH patch updates"
+          
+          # Save updates file for next step
+          mv updates.txt updates.json 2>/dev/null || echo "[]" > updates.json
+      
+      - name: Create patch update PR
+        if: steps.analyze.outputs.patch > 0
         env:
-          GH_TOKEN: ${{ github.token }}
-
-      - name: Create issues for minor/major updates
-        if: steps.outdated.outputs.minor_count > 0 || steps.outdated.outputs.major_count > 0
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-
-            const minorUpdates = fs.readFileSync('/tmp/minor_updates.txt', 'utf8').trim();
-            const majorUpdates = fs.readFileSync('/tmp/major_updates.txt', 'utf8').trim();
-
-            let body = '## Dependency Updates Available\n\n';
-            body += 'The following dependency updates require manual review:\n\n';
-
-            if (minorUpdates) {
-              body += '### Minor Updates\n';
-              body += 'These updates may include new features but should be backwards compatible:\n\n';
-              body += '```\n' + minorUpdates + '\n```\n\n';
-            }
-
-            if (majorUpdates) {
-              body += '### ⚠️ Major Updates\n';
-              body += 'These updates may include breaking changes and require code changes:\n\n';
-              body += '```\n' + majorUpdates + '\n```\n\n';
-            }
-
-            body += '### Action Required\n';
-            body += '1. Review the changelog for each package\n';
-            body += '2. Test the updates in a feature branch\n';
-            body += '3. Update code if needed for breaking changes\n';
-            body += '4. Create a PR with the updates\n\n';
-            body += '**Auto-generated by weekly dependency check**';
-
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: '📦 Dependency Updates Available',
-              body: body,
-              labels: ['dependencies', 'maintenance']
-            });
-
-      - name: Generate summary report
-        id: summary
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PATCH_COUNT: ${{ steps.analyze.outputs.patch }}
+          RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
         run: |
-          REPORT="## Dependency Check Summary\n\n"
-          REPORT="${REPORT}**Patch Updates:** ${{ steps.outdated.outputs.patch_count }}\n"
-          REPORT="${REPORT}**Minor Updates:** ${{ steps.outdated.outputs.minor_count }}\n"
-          REPORT="${REPORT}**Major Updates:** ${{ steps.outdated.outputs.major_count }}\n\n"
-
-          if [ "${{ steps.outdated.outputs.patch_count }}" -gt "0" ]; then
-            REPORT="${REPORT}✅ Patch updates: PR created automatically\n"
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Create unique branch
+          BRANCH="chore/deps-$(date +%s)-$(openssl rand -hex 3)"
+          git checkout -b "$BRANCH"
+          
+          # Update only patch dependencies
+          while IFS='|' read -r name current latest type; do
+            [ "$type" = "patch" ] || continue
+            
+            echo "Updating $name: $current -> $latest"
+            flutter pub add "$name:$latest" || {
+              # Fallback: update pubspec.yaml directly
+              sed -i "s|^  $name: .*$|  $name: ^$latest|" pubspec.yaml 2>/dev/null || true
+            }
+          done < updates.txt
+          
+          flutter pub get
+          
+          # Check for changes
+          if git diff --quiet HEAD -- pubspec.yaml pubspec.lock 2>/dev/null; then
+            echo "No changes to commit"
+            exit 0
           fi
+          
+          # Commit
+          git add pubspec.yaml pubspec.lock
+          git commit -m "chore(deps): update patch dependencies"
+          
+          # Push
+          git push origin "$BRANCH"
+          
+          # Create PR body file
+          cat > pr_body.txt << 'PRBODY'
+This PR contains automated patch dependency updates.
 
-          if [ "${{ steps.outdated.outputs.minor_count }}" -gt "0" ] || [ "${{ steps.outdated.outputs.major_count }}" -gt "0" ]; then
-            REPORT="${REPORT}⚠️ Minor/Major updates: Issue created for manual review\n"
-          fi
-
-          if [ "${{ steps.outdated.outputs.patch_count }}" -eq "0" ] && [ "${{ steps.outdated.outputs.minor_count }}" -eq "0" ] && [ "${{ steps.outdated.outputs.major_count }}" -eq "0" ]; then
-            REPORT="${REPORT}🎉 All dependencies are up to date!\n"
-          fi
-
-          echo -e "$REPORT" > /tmp/summary.md
-
-          # Save for Mattermost
-          REPORT_ESCAPED=$(echo -e "$REPORT" | sed ':a;N;$!ba;s/\n/\\n/g')
-          echo "report<<EOF" >> $GITHUB_OUTPUT
-          echo -e "$REPORT" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Post to Mattermost
+**Update Type:** Patch only (bug fixes, no new features)
+**Safety:** Should be safe to merge if CI passes
+PRBODY
+          
+          # Insert the dynamic URL after the safe content
+          RUN_URL="${GITHUB_SERVER_URL}/${REPO}/actions/runs/${RUN_ID}"
+          echo "" >> pr_body.txt
+          echo "**Workflow:** [View run]($RUN_URL)" >> pr_body.txt
+          
+          # Create PR
+          gh pr create \
+            --title "chore(deps): update patch dependencies" \
+            --body-file pr_body.txt \
+            --base develop \
+            --head "$BRANCH" \
+            --label "dependencies,automated" 2>&1 || echo "PR may already exist"
+          
+          rm -f pr_body.txt
+      
+      - name: Create issue for major/minor updates
+        if: steps.analyze.outputs.major > 0 || steps.analyze.outputs.minor > 0
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAJOR: ${{ steps.analyze.outputs.major }}
+          MINOR: ${{ steps.analyze.outputs.minor }}
+          PATCH: ${{ steps.analyze.outputs.patch }}
+          RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
         run: |
-          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          TODAY=$(date +%Y-%m-%d)
+          
+          # Check for existing open issue today
+          EXISTING=$(gh issue list \
+            --state open \
+            --search "in:title Dependency updates available ${TODAY}" \
+            --json number \
+            -q '.[0].number' 2>/dev/null || echo "")
+          
+          if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
+            echo "Issue #$EXISTING already exists for today"
+            exit 0
+          fi
+          
+          # Build issue body
+          cat > issue_body.txt << 'ISSUEBODY'
+## Summary
 
-          PAYLOAD=$(cat <<EOF
-          {
-            "text": "### 📦 Weekly Dependency Check\n**Repository:** ${REPO_NAME}\n\n${{ steps.summary.outputs.report }}\n**Details:** [View Workflow]({{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-          }
-          EOF
-          )
+| Type | Count |
+|------|-------|
+| Major | ISSUE_MAJOR |
+| Minor | ISSUE_MINOR |
+| Patch | ISSUE_PATCH |
 
-          curl -X POST -H 'Content-Type: application/json' \
-            -d "$PAYLOAD" \
-            ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+## Action Required
 
-      - name: Upload outdated report
-        uses: actions/upload-artifact@v4
-        with:
-          name: dependency-report
-          path: |
-            outdated.json
-            /tmp/patch_updates.txt
-            /tmp/minor_updates.txt
-            /tmp/major_updates.txt
-          retention-days: 30
+Major and minor updates require manual review:
+1. Review changelogs for breaking changes
+2. Create a feature branch for testing
+3. Update dependencies: `flutter pub upgrade`
+4. Fix any breaking changes
+5. Run full test suite
+ISSUEBODY
+          
+          # Replace placeholders
+          sed -i "s/ISSUE_MAJOR/${MAJOR}/g" issue_body.txt
+          sed -i "s/ISSUE_MINOR/${MINOR}/g" issue_body.txt
+          sed -i "s/ISSUE_PATCH/${PATCH}/g" issue_body.txt
+          
+          SERVER_URL="${GITHUB_SERVER_URL}"
+          RUN_URL="${SERVER_URL}/${REPO}/actions/runs/${RUN_ID}"
+          echo "" >> issue_body.txt
+          echo "---" >> issue_body.txt
+          echo "*Generated by [Dependency Check](${RUN_URL}) on ${TODAY}*" >> issue_body.txt
+          
+          # Create issue
+          gh issue create \
+            --title "[Deps] Dependency updates available - ${TODAY}" \
+            --body-file issue_body.txt \
+            --label "dependencies,maintenance" 2>&1 || echo "Issue creation skipped"
+          
+          rm -f issue_body.txt
