@@ -10,243 +10,93 @@ env:
 
 jobs:
   check-dependencies:
-    name: Check for outdated dependencies
+    name: Check Dependencies
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
       issues: write
-    
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Determine Flutter version
-        id: flutter-info
+
+      - name: Extract Flutter Version
         run: |
-          VERSION="${{ env.FLUTTER_VERSION }}"
-          
           if [ -f ".fvmrc" ]; then
-            FVM_VERSION=$(grep '"flutter"' .fvmrc | cut -d'"' -f4)
-            [ -n "$FVM_VERSION" ] && VERSION="$FVM_VERSION"
-          elif [ -f ".dcodax-ci.yaml" ]; then
-            DCODAX_VERSION=$(grep "flutter_version:" .dcodax-ci.yaml | sed 's/.*: *//' | tr -d ' ')
-            [ -n "$DCODAX_VERSION" ] && VERSION="$DCODAX_VERSION"
+            VERSION=$(cat .fvmrc | jq -r '.flutter // empty')
+            [ -n "$VERSION" ] && echo "FLUTTER_VERSION=$VERSION" >> $GITHUB_ENV
           fi
-          
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "Using Flutter $VERSION"
-      
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ steps.flutter-info.outputs.version }}
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
-      
-      - name: Get dependencies
+
+      - name: Get Dependencies
         run: flutter pub get
-      
-      - name: Analyze outdated dependencies
-        id: analyze
+
+      - name: Check Outdated Dependencies
         run: |
-          flutter pub outdated --json > outdated.json 2>/dev/null || true
+          flutter pub outdated --json > outdated.json || true
           
           if [ ! -s outdated.json ]; then
-            echo "major=0" >> "$GITHUB_OUTPUT"
-            echo "minor=0" >> "$GITHUB_OUTPUT"
-            echo "patch=0" >> "$GITHUB_OUTPUT"
+            echo "MAJOR=0" >> $GITHUB_ENV
+            echo "MINOR=0" >> $GITHUB_ENV
+            echo "PATCH=0" >> $GITHUB_ENV
             exit 0
           fi
           
-          # Initialize counters
-          MAJOR=0
-          MINOR=0
-          PATCH=0
-          
-          # Parse each package
-          jq -c '.packages[]' outdated.json 2>/dev/null | while read pkg; do
-            current=$(echo "$pkg" | jq -r '.current // empty')
-            latest=$(echo "$pkg" | jq -r '.latest // empty')
-            name=$(echo "$pkg" | jq -r '.package')
-            
-            [ -z "$current" ] || [ -z "$latest" ] && continue
-            [ "$current" = "null" ] || [ "$latest" = "null" ] && continue
-            
-            # Extract semver parts (handle versions like 1.2.3+4 or 1.2.3-hotfix)
-            cur_major=$(echo "$current" | sed 's/^[^0-9]*//' | cut -d'.' -f1 | tr -cd '0-9')
-            cur_minor=$(echo "$current" | sed 's/^[^0-9]*//' | cut -d'.' -f2 | tr -cd '0-9')
-            cur_patch=$(echo "$current" | sed 's/^[^0-9]*//' | cut -d'.' -f3 | cut -d'+' -f1 | cut -d'-' -f1 | tr -cd '0-9')
-            
-            lat_major=$(echo "$latest" | sed 's/^[^0-9]*//' | cut -d'.' -f1 | tr -cd '0-9')
-            lat_minor=$(echo "$latest" | sed 's/^[^0-9]*//' | cut -d'.' -f2 | tr -cd '0-9')
-            lat_patch=$(echo "$latest" | sed 's/^[^0-9]*//' | cut -d'.' -f3 | cut -d'+' -f1 | cut -d'-' -f1 | tr -cd '0-9')
-            
-            # Default to 0 if empty
-            cur_major=${cur_major:-0}
-            cur_minor=${cur_minor:-0}
-            cur_patch=${cur_patch:-0}
-            lat_major=${lat_major:-0}
-            lat_minor=${lat_minor:-0}
-            lat_patch=${lat_patch:-0}
-            
-            # Classify
-            if [ "$lat_major" -ne "$cur_major" ]; then
-              echo "$name|$current|$latest|major" >> updates.txt
-            elif [ "$lat_minor" -ne "$cur_minor" ]; then
-              echo "$name|$current|$latest|minor" >> updates.txt
-            elif [ "$lat_patch" -ne "$cur_patch" ]; then
-              echo "$name|$current|$latest|patch" >> updates.txt
-            fi
-          done
-          
           # Count updates
-          [ -f updates.txt ] && MAJOR=$(grep -c '|major$' updates.txt 2>/dev/null || echo 0)
-          [ -f updates.txt ] && MINOR=$(grep -c '|minor$' updates.txt 2>/dev/null || echo 0)
-          [ -f updates.txt ] && PATCH=$(grep -c '|patch$' updates.txt 2>/dev/null || echo 0)
+          echo "Counting outdated packages..."
+          TOTAL=$(jq '.packages | length' outdated.json 2>/dev/null || echo 0)
+          echo "Total outdated: $TOTAL"
           
-          # Trim whitespace
-          MAJOR=$(echo "$MAJOR" | tr -d ' ')
-          MINOR=$(echo "$MINOR" | tr -d ' ')
-          PATCH=$(echo "$PATCH" | tr -d ' ')
-          
-          echo "major=$MAJOR" >> "$GITHUB_OUTPUT"
-          echo "minor=$MINOR" >> "$GITHUB_OUTPUT"
-          echo "patch=$PATCH" >> "$GITHUB_OUTPUT"
-          
-          echo "Found: $MAJOR major, $MINOR minor, $PATCH patch updates"
-          
-          # Save updates file for next step
-          mv updates.txt updates.json 2>/dev/null || echo "[]" > updates.json
-      
-      - name: Create patch update PR
-        if: steps.analyze.outputs.patch > 0
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PATCH_COUNT: ${{ steps.analyze.outputs.patch }}
-          RUN_ID: ${{ github.run_id }}
-          REPO: ${{ github.repository }}
+          # Simple classification - just count them
+          echo "MAJOR=0" >> $GITHUB_ENV
+          echo "MINOR=0" >> $GITHUB_ENV
+          echo "PATCH=$TOTAL" >> $GITHUB_ENV
+          echo "Found $TOTAL outdated dependencies"
+
+      - name: Create Dependency Update PR
+        if: env.PATCH != '0'
         run: |
-          # Configure git
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          # Create unique branch
-          BRANCH="chore/deps-$(date +%s)-$(openssl rand -hex 3)"
+          export BRANCH="deps/update-$(date +%s)"
           git checkout -b "$BRANCH"
           
-          # Update only patch dependencies
-          while IFS='|' read -r name current latest type; do
-            [ "$type" = "patch" ] || continue
-            
-            echo "Updating $name: $current -> $latest"
-            flutter pub add "$name:$latest" || {
-              # Fallback: update pubspec.yaml directly
-              sed -i "s|^  $name: .*$|  $name: ^$latest|" pubspec.yaml 2>/dev/null || true
-            }
-          done < updates.txt
-          
+          flutter pub upgrade
           flutter pub get
           
-          # Check for changes
-          if git diff --quiet HEAD -- pubspec.yaml pubspec.lock 2>/dev/null; then
+          if git diff --quiet; then
             echo "No changes to commit"
             exit 0
           fi
           
-          # Commit
           git add pubspec.yaml pubspec.lock
-          git commit -m "chore(deps): update patch dependencies"
-          
-          # Push
+          git commit -m "chore(deps): update dependencies"
           git push origin "$BRANCH"
           
-          # Create PR body file
-          cat > pr_body.txt << 'PRBODY'
-This PR contains automated patch dependency updates.
-
-**Update Type:** Patch only (bug fixes, no new features)
-**Safety:** Should be safe to merge if CI passes
-PRBODY
-          
-          # Insert the dynamic URL after the safe content
-          RUN_URL="${GITHUB_SERVER_URL}/${REPO}/actions/runs/${RUN_ID}"
-          echo "" >> pr_body.txt
-          echo "**Workflow:** [View run]($RUN_URL)" >> pr_body.txt
-          
-          # Create PR
           gh pr create \
-            --title "chore(deps): update patch dependencies" \
-            --body-file pr_body.txt \
-            --base develop \
+            --title "chore(deps): update dependencies" \
+            --body "Automated dependency updates via dependency check workflow" \
+            --base development \
             --head "$BRANCH" \
-            --label "dependencies,automated" 2>&1 || echo "PR may already exist"
-          
-          rm -f pr_body.txt
-      
-      - name: Create issue for major/minor updates
-        if: steps.analyze.outputs.major > 0 || steps.analyze.outputs.minor > 0
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MAJOR: ${{ steps.analyze.outputs.major }}
-          MINOR: ${{ steps.analyze.outputs.minor }}
-          PATCH: ${{ steps.analyze.outputs.patch }}
-          RUN_ID: ${{ github.run_id }}
-          REPO: ${{ github.repository }}
-          GITHUB_SERVER_URL: ${{ github.server_url }}
+            --label dependencies || true
+
+      - name: Create Issue for Dependencies
+        if: env.PATCH != '0'
         run: |
-          TODAY=$(date +%Y-%m-%d)
-          
-          # Check for existing open issue today
-          EXISTING=$(gh issue list \
-            --state open \
-            --search "in:title Dependency updates available ${TODAY}" \
-            --json number \
-            -q '.[0].number' 2>/dev/null || echo "")
-          
-          if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
-            echo "Issue #$EXISTING already exists for today"
-            exit 0
-          fi
-          
-          # Build issue body
-          cat > issue_body.txt << 'ISSUEBODY'
-## Summary
-
-| Type | Count |
-|------|-------|
-| Major | ISSUE_MAJOR |
-| Minor | ISSUE_MINOR |
-| Patch | ISSUE_PATCH |
-
-## Action Required
-
-Major and minor updates require manual review:
-1. Review changelogs for breaking changes
-2. Create a feature branch for testing
-3. Update dependencies: `flutter pub upgrade`
-4. Fix any breaking changes
-5. Run full test suite
-ISSUEBODY
-          
-          # Replace placeholders
-          sed -i "s/ISSUE_MAJOR/${MAJOR}/g" issue_body.txt
-          sed -i "s/ISSUE_MINOR/${MINOR}/g" issue_body.txt
-          sed -i "s/ISSUE_PATCH/${PATCH}/g" issue_body.txt
-          
-          SERVER_URL="${GITHUB_SERVER_URL}"
-          RUN_URL="${SERVER_URL}/${REPO}/actions/runs/${RUN_ID}"
-          echo "" >> issue_body.txt
-          echo "---" >> issue_body.txt
-          echo "*Generated by [Dependency Check](${RUN_URL}) on ${TODAY}*" >> issue_body.txt
-          
-          # Create issue
+          export TODAY=$(date +%Y-%m-%d)
           gh issue create \
-            --title "[Deps] Dependency updates available - ${TODAY}" \
-            --body-file issue_body.txt \
-            --label "dependencies,maintenance" 2>&1 || echo "Issue creation skipped"
-          
-          rm -f issue_body.txt
+            --title "[Deps] Dependency updates available - $TODAY" \
+            --body "Found ${{ env.PATCH }} outdated dependencies. Run flutter pub outdated locally to see details." \
+            --label dependencies,maintenance || true
