@@ -1,0 +1,108 @@
+name: Develop Branch Quality Scan
+
+on:
+  push:
+    branches: [develop]
+
+env:
+  FLUTTER_VERSION: '3.24.0'
+
+jobs:
+  quality-scan:
+    name: Quality Scan on Develop
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      MATTERMOST_URL: ${{ secrets.MATTERMOST_URL }}
+      MATTERMOST_TOKEN: ${{ secrets.MATTERMOST_TOKEN }}
+      CHANNEL_ID: ${{ secrets.MATTERMOST_CHANNEL_ID }}
+      
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 10
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Get Changed Files
+        run: |
+          export CHANGED=$(git diff --name-only HEAD~1 HEAD -- '*.dart' 2>/dev/null | head -50)
+          echo "$CHANGED" > /tmp/changed_files.txt
+          export COUNT=$(echo "$CHANGED" | grep -c . 2>/dev/null || echo "0")
+          echo "CHANGED_COUNT=$COUNT" >> $GITHUB_ENV
+          echo "$CHANGED" | head -10
+
+      - name: Check Code Quality
+        run: |
+          flutter pub get
+          flutter analyze --no-fatal-infos > /tmp/analyze.txt 2>&1 || true
+          
+          export ERRORS=$(grep -c "error" /tmp/analyze.txt 2>/dev/null || echo "0")
+          export WARNINGS=$(grep -c "warning" /tmp/analyze.txt 2>/dev/null || echo "0")
+          
+          echo "ERRORS=$ERRORS" >> $GITHUB_ENV
+          echo "WARNINGS=$WARNINGS" >> $GITHUB_ENV
+
+      - name: Check Test Coverage
+        run: |
+          flutter test --coverage 2>&1 || true
+          
+          if [ -f "coverage/lcov.info" ]; then
+            sudo apt-get update -qq && sudo apt-get install -y lcov -qq
+            export COVERAGE=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | awk '{print $2}' | sed 's/%//' | head -1)
+            echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
+          else
+            echo "COVERAGE=0" >> $GITHUB_ENV
+          fi
+
+      - name: Check for Secrets
+        env:
+          PATTERN: "password|secret|token|key"
+        run: |
+          export FOUND=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | while read f; do [ -f "$f" ] && grep -ilE "$PATTERN" "$f" 2>/dev/null; done | wc -l)
+          echo "SECRETS_FOUND=$FOUND" >> $GITHUB_ENV
+
+      - name: Run Custom Checks
+        run: |
+          bash scripts/check-env-files.sh /tmp/changed_files.txt 2>/dev/null || true
+          bash scripts/validate-models.sh /tmp/changed_files.txt 2>/dev/null || true
+
+      - name: Post Results
+        if: always()
+        run: |
+          export REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
+          export BRANCH=$(echo "$GITHUB_REF" | sed 's|refs/heads/||')
+          export COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+          export COMMIT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
+          
+          curl -s "$MATTERMOST_URL/api/v4/posts" \
+            -H "Authorization: Bearer $MATTERMOST_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"channel_id\":\"${CHANNEL_ID}\",\"message\":\"=== Quality Scan ===
+
+**Repository:** ${REPO_NAME}
+**Branch:** ${BRANCH}
+**Commit:** ${COMMIT_SHA}
+**Files Changed:** ${CHANGED_COUNT}
+**Errors:** ${ERRORS}
+**Warnings:** ${WARNINGS}
+**Coverage:** ${COVERAGE}%
+**Secrets Check:** $([ $SECRETS_FOUND -gt 0 ] && echo '⚠️ Potential issues' || echo '✅ Clean')\"}" || true
+
+      - name: Create Issues for Code Smells
+        if: env.ERRORS != '0'
+        run: |
+          export REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
+          export AUTHOR=$(git log -1 --pretty=format:'%an')
+          
+          gh issue create \
+            --title "[Quality] Errors found in develop branch" \
+            --body "Quality scan found ${ERRORS} errors.\n\nCommit: ${GITHUB_SHA}\nAuthor: ${AUTHOR}" \
+            --label "quality,develop" || true

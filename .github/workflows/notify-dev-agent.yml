@@ -1,38 +1,57 @@
 name: Notify Dev Agent
 
-# Triggers Dev Agent for AI code review when PR targets testing/main
 on:
   pull_request:
-    types: [opened, synchronize]
-    branches: [testing, main]
+    types: [opened, synchronize, closed]
+  pull_request_review:
+    types: [submitted]
+  check_suite:
+    types: [completed]
+
+env:
+  OPENCLAW_URL: ${{ secrets.OPENCLAW_URL }}
+  OPENCLAW_TOKEN: ${{ secrets.OPENCLAW_TOKEN }}
 
 jobs:
   notify:
-    name: Trigger AI Review
+    name: Notify Dev Agent
     runs-on: ubuntu-latest
     timeout-minutes: 5
     
     steps:
-      - name: Notify Dev Agent via Mattermost
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Prepare Payload
         run: |
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          PR_URL="${{ github.event.pull_request.html_url }}"
-          PR_AUTHOR="${{ github.event.pull_request.user.login }}"
-          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
-          REPO="${{ github.repository }}"
-          
-          # Post to Mattermost flutter-devs channel as a review request
-          PAYLOAD=$(cat <<EOF
+          export EVENT_TYPE="${{ github.event_name }}"
+          export ACTION="${{ github.event.action }}"
+          export PR_NUMBER="${{ github.event.pull_request.number }}"
+          export PR_TITLE="${{ github.event.pull_request.title }}"
+          export AUTHOR="${{ github.event.pull_request.user.login }}"
+          export BRANCH="${{ github.event.pull_request.head.ref }}"
+          export REPO="${{ github.repository }}"
+
+          # Build JSON payload file
+          cat > /tmp/payload.json << PAYLOAD_EOF
           {
-            "channel_id": "bwgii3aooiy39cpy1tu7tcp6tc",
-            "message": "### 🤖 AI Review Triggered\n**PR:** [#${PR_NUMBER} - ${PR_TITLE}](${PR_URL})\n**Author:** @${PR_AUTHOR}\n**Target:** ${BASE_BRANCH}\n**Repo:** ${REPO}\n\nDev Agent will post review comments shortly."
+            "event": "$EVENT_TYPE",
+            "action": "$ACTION",
+            "repository": "$REPO",
+            "pr_number": $PR_NUMBER,
+            "pr_title": "$PR_TITLE",
+            "author": "$AUTHOR",
+            "branch": "$BRANCH",
+            "commit_sha": "${{ github.event.pull_request.head.sha }}",
+            "base_branch": "${{ github.event.pull_request.base.ref }}"
           }
-          EOF
-          )
-          
-          curl -s -X POST \
-            -H "Authorization: Bearer ${{ secrets.MATTERMOST_TOKEN }}" \
+          PAYLOAD_EOF
+
+      - name: Send to OpenClaw
+        run: |
+          curl -s -X POST "$OPENCLAW_URL/api/v1/github-webhook" \
+            -H "Authorization: Bearer $OPENCLAW_TOKEN" \
             -H "Content-Type: application/json" \
-            -d "$PAYLOAD" \
-            "${{ secrets.MATTERMOST_URL }}/api/v4/posts" || true
+            -d @/tmp/payload.json || true

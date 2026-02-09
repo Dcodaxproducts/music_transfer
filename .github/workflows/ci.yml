@@ -14,12 +14,32 @@ jobs:
     timeout-minutes: 30
     env:
       GH_TOKEN: ${{ github.token }}
-      
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Cache Flutter SDK
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            ~/.flutter
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Extract Flutter Version
         run: |
@@ -52,25 +72,23 @@ jobs:
         run: |
           export BRANCH="$GITHUB_HEAD_REF"
           if ! echo "$BRANCH" | grep -qE "^(feature|bugfix|hotfix|release)/"; then
-            echo "Branch name must follow pattern: feature/*, bugfix/*, hotfix/* or release/*"
+            echo "Branch name must follow: feature/*, bugfix/*, hotfix/* or release/*"
             exit 1
           fi
-          echo "Branch name valid: $BRANCH"
+          echo "Branch valid: $BRANCH"
 
       - name: Validate Commit Messages
         run: |
           export COMMITS=$(git log origin/$GITHUB_BASE_REF..HEAD --pretty=format:"%s")
-          export VALID_TYPES="feat|fix|chore|docs|refactor|test|ci|perf|style|build"
-          
+          export TYPES="feat|fix|chore|docs|refactor|test|ci|perf|style|build"
+
           echo "$COMMITS" | while read -r msg; do
             [ -z "$msg" ] && continue
-            if ! echo "$msg" | grep -qE "^($VALID_TYPES)(\(.+\))?: .+"; then
+            if ! echo "$msg" | grep -qE "^($TYPES)(\(.+\))?: .+"; then
               echo "Invalid commit: $msg"
-              echo "Required: type(scope): description"
               exit 1
             fi
           done
-          echo "All commits valid"
 
       - name: Check Formatting
         run: dart format --set-exit-if-changed --line-length 80 . || exit 1
@@ -78,8 +96,58 @@ jobs:
       - name: Analyze Code
         run: flutter analyze --no-fatal-infos
 
-      - name: Run Unit Tests
-        run: flutter test --reporter expanded || true
+      - name: Security Scan
+        run: |
+          export FOUND=0
+
+          git diff --name-only origin/$GITHUB_BASE_REF..HEAD -- '*.dart' | while read file; do
+            [ -f "$file" ] || continue
+
+            if grep -qE "AIza[0-9A-Za-z_-]{35}" "$file" 2>/dev/null; then
+              echo "::error::$file: Google API key found"
+              export FOUND=1
+            fi
+
+            if grep -qE "password\s*=\s*\"[^\"]+\"" "$file" 2>/dev/null; then
+              echo "::error::$file: Hardcoded password"
+              export FOUND=1
+            fi
+
+            if grep -qE "-----BEGIN (RSA|EC|DSA|OPENSSH) PRIVATE KEY-----" "$file" 2>/dev/null; then
+              echo "::error::$file: Private key found"
+              export FOUND=1
+            fi
+
+            if grep -qE "sk_(live|test)_[0-9a-zA-Z]{24}" "$file" 2>/dev/null; then
+              echo "::error::$file: Stripe key found"
+              export FOUND=1
+            fi
+          done
+
+      - name: Detect Code Duplication
+        run: |
+          npx -y jscpd --reporters console --blame --gitignore . 2>/dev/null || true
+
+      - name: Run Tests with Coverage
+        run: flutter test --coverage --reporter expanded || true
+
+      - name: Check Coverage Threshold
+        run: |
+          if [ ! -f "coverage/lcov.info" ]; then
+            echo "No coverage data"
+            exit 0
+          fi
+
+          sudo apt-get update -qq && sudo apt-get install -y lcov -qq
+          export COV=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | awk '{print $2}' | sed 's/%//' | head -1)
+          echo "Coverage: ${COV}%"
+
+          if [ -n "$COV" ]; then
+            export COV_INT=$(echo "$COV" | cut -d. -f1)
+            if [ "$COV_INT" -lt 70 ]; then
+              echo "::warning::Coverage ${COV}% below 70% threshold"
+            fi
+          fi
 
       - name: Build APK
         run: flutter build apk --release

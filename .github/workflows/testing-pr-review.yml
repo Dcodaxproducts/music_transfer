@@ -1,0 +1,226 @@
+name: Testing - Full PR Review with Inline Comments
+
+on:
+  pull_request:
+    branches: [testing]
+    types: [opened, synchronize, reopened]
+
+env:
+  FLUTTER_VERSION: '3.24.0'
+
+jobs:
+  full-review:
+    name: AI Code Review with Inline Comments
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENCLAW_URL: ${{ secrets.OPENCLAW_URL }}
+      OPENCLAW_TOKEN: ${{ secrets.OPENCLAW_TOKEN }}
+      
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR Info
+        run: |
+          export PR_NUM="${{ github.event.pull_request.number }}"
+          export PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+          export BASE="${{ github.event.pull_request.base.ref }}"
+          
+          echo "PR_NUM=$PR_NUM" >> $GITHUB_ENV
+          echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
+          echo "BASE=$BASE" >> $GITHUB_ENV
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Get Dependencies
+        run: flutter pub get
+
+      - name: Get Changed Files
+        run: |
+          git fetch origin $BASE
+          export CHANGED=$(git diff --name-only origin/$BASE...HEAD -- '*.dart')
+          echo "$CHANGED" > /tmp/changed_files.txt
+          echo "Changed: $(echo "$CHANGED" | wc -l) files"
+
+      - name: Run Comprehensive Checks
+        run: |
+          mkdir -p /tmp/findings
+          export FINDINGS=0
+
+          # Format check
+          while IFS= read -r file; do
+            [ -f "$file" ] || continue
+            if ! dart format --set-exit-if-changed --line-length 80 "$file" 2>&1; then
+              echo "$file|1|blocker|formatting|File not formatted|Run: dart format --line-length 80 $file|blocker" >> /tmp/findings/all.txt
+              export FINDINGS=$((FINDINGS + 1))
+            fi
+          done < /tmp/changed_files.txt
+
+          # Static analysis with line numbers
+          flutter analyze --no-pub 2>&1 | tee /tmp/analyze.txt || true
+          
+          while IFS= read -r file; do
+            [ -f "$file" ] || continue
+            grep "$file" /tmp/analyze.txt 2>/dev/null | while read line; do
+              if echo "$line" | grep -qE "(error|warning)"; then
+                export LINE=$(echo "$line" | grep -oE ":[0-9]+:" | tr -d ':' | head -1 || echo "1")
+                export TYPE=$(echo "$line" | grep -oE "(error|warning)" | head -1)
+                export MSG=$(echo "$line" | sed 's/.*• //' | sed 's/ • .*//')
+                export SEV="major"
+                [ "$TYPE" = "error" ] && export SEV="blocker"
+                
+                echo "$file|$LINE|$SEV|analysis|$MSG|$TYPE issue|blocker" >> /tmp/findings/all.txt
+                export FINDINGS=$((FINDINGS + 1))
+              fi
+            done
+          done < /tmp/changed_files.txt
+
+          # Security scan with line numbers
+          while IFS= read -r file; do
+            [ -f "$file" ] || continue
+            
+            # API keys
+            grep -nE "AIza[0-9A-Za-z-_]{35}" "$file" 2>/dev/null | while read match; do
+              export L=$(echo "$match" | cut -d: -f1)
+              echo "$file|$L|blocker|security|Hardcoded Google API key|Move to environment variables|blocker" >> /tmp/findings/all.txt
+              export FINDINGS=$((FINDINGS + 1))
+            done
+            
+            # Passwords
+            grep -nE "password\s*=\s*['\"][^'\"]+['\"]" "$file" 2>/dev/null | while read match; do
+              export L=$(echo "$match" | cut -d: -f1)
+              echo "$file|$L|blocker|security|Hardcoded password|Use Flutter Secure Storage|blocker" >> /tmp/findings/all.txt
+              export FINDINGS=$((FINDINGS + 1))
+            done
+            
+            # Stripe
+            grep -nE "sk_(live|test)_[0-9a-zA-Z]{24}" "$file" 2>/dev/null | while read match; do
+              export L=$(echo "$match" | cut -d: -f1)
+              echo "$file|$L|blocker|security|Hardcoded Stripe key|Use environment configuration|blocker" >> /tmp/findings/all.txt
+              export FINDINGS=$((FINDINGS + 1))
+            done
+          done < /tmp/changed_files.txt
+
+          # Design system issues
+          while IFS= read -r file; do
+            [ -f "$file" ] || continue
+            [[ "$file" == *"design/"* ]] && continue
+            
+            # Hardcoded colors
+            grep -nE "Color\(0x[0-9A-Fa-f]{8}\)" "$file" 2>/dev/null | head -3 | while read match; do
+              export L=$(echo "$match" | cut -d: -f1)
+              export COLOR=$(echo "$match" | grep -oE "Color\(0x[0-9A-Fa-f]{8}\)")
+              echo "$file|$L|major|design|Hardcoded color $COLOR|Use design system colors|major" >> /tmp/findings/all.txt
+              export FINDINGS=$((FINDINGS + 1))
+            done
+            
+            # Hardcoded padding
+            grep -nE "EdgeInsets\.(all|symmetric|only)" "$file" 2>/dev/null | head -5 | while read match; do
+              export L=$(echo "$match" | cut -d: -f1)
+              echo "$file|$L|minor|design|Hardcoded padding|Use AppPadding utilities|minor" >> /tmp/findings/all.txt
+              export FINDINGS=$((FINDINGS + 1))
+            done
+          done < /tmp/changed_files.txt
+
+          # Localization
+          while IFS= read -r file; do
+            [ -f "$file" ] || continue
+            
+            grep -nE "Text\s*\(\s*['\"]" "$file" | grep -v "\.tr" 2>/dev/null | head -10 | while read match; do
+              export L=$(echo "$match" | cut -d: -f1)
+              export TEXT=$(echo "$match" | grep -oE "['\"][^'\"]+['\"]" | head -1 | tr -d "\"'")
+              [ ${#TEXT} -gt 3 ] || continue
+              echo "$file|$L|minor|localization|Hardcoded string: $TEXT|Use .tr for localization|minor" >> /tmp/findings/all.txt
+              export FINDINGS=$((FINDINGS + 1))
+            done
+          done < /tmp/changed_files.txt
+
+          # Performance issues
+          while IFS= read -r file; do
+            [ -f "$file" ] || continue
+            
+            # Multiple setState
+            grep -nE "setState.*setState" "$file" 2>/dev/null | while read match; do
+              export L=$(echo "$match" | cut -d: -f1)
+              echo "$file|$L|minor|performance|Multiple setState calls|Batch state updates|minor" >> /tmp/findings/all.txt
+              export FINDINGS=$((FINDINGS + 1))
+            done
+            
+            setState inside build
+            if grep -q "build.*Context.*context" "$file" 2>/dev/null; then
+              grep -nE "setState.*=>" "$file" 2>/dev/null | head -3 | while read match; do
+                export L=$(echo "$match" | cut -d: -f1)
+                echo "$file|$L|major|performance|setState in build|Use appropriate state management|major" >> /tmp/findings/all.txt
+                export FINDINGS=$((FINDINGS + 1))
+              done
+            fi
+            
+            # Image asset issues
+            grep -nE "Image\.network|Image\.file" "$file" 2>/dev/null | head -3 | while read match; do
+              export L=$(echo "$match" | cut -d: -f1)
+              echo "$file|$L|minor|performance|Image without caching|Consider CachedNetworkImage|minor" >> /tmp/findings/all.txt
+              export FINDINGS=$((FINDINGS + 1))
+            done
+          done < /tmp/changed_files.txt
+
+          echo "Total findings: $FINDINGS"
+          echo "FINDINGS=$FINDINGS" >> $GITHUB_ENV
+
+      - name: Post Inline Comments
+        if: env.FINDINGS != '0'
+        run: |
+          while IFS='|' read -r file line severity category msg suggestion priority; do
+            [ -z "$file" ] && continue
+            
+            # Create review comment via GitHub CLI
+            gh pr review "$PR_NUM" --comment --body "**[$severity]** $category
+
+$msg
+
+💡 $suggestion" --path "$file" --line "$line" 2>/dev/null || true
+            
+          done < /tmp/findings/all.txt
+
+      - name: Create PR Review Summary
+        run: |
+          export BLOCKERS=$(grep -c "|blocker|" /tmp/findings/all.txt 2>/dev/null || echo "0")
+          export MAJORS=$(grep -c "|major|" /tmp/findings/all.txt 2>/dev/null || echo "0")
+          export MINORS=$(grep -c "|minor|" /tmp/findings/all.txt 2>/dev/null || echo "0")
+          
+          export BODY="## 🤖 Automated Code Review
+
+| Severity | Count |
+|----------|-------|
+| 🔴 Blockers | $BLOCKERS |
+| 🟡 Majors | $MAJORS |
+| 🟢 Minors | $MINORS |
+
+---
+
+### Checks Performed
+- ✅ Code formatting
+- ✅ Static analysis
+- ✅ Security scan (API keys, passwords)
+- ✅ Design system compliance
+- ✅ Localization (hardcoded strings)
+- ✅ Performance anti-patterns
+
+---
+
+*Reviewed by: Dcodax Flutter CI v2.1*"
+
+          gh pr comment "$PR_NUM" --body "$BODY" || true
+
+      - name: Request Changes
+        if: env.FINDINGS != '0'
+        run: |
+          gh pr review "$PR_NUM" --request-changes --body "Please address the inline comments above." || true
