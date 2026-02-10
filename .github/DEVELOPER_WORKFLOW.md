@@ -340,7 +340,7 @@ release/*   - Release preparation
 
 ### PR Template
 
-Use the [PR template](.github/pull_request_template.md) to ensure all required information is provided.
+Use the [PR template](pull_request_template.md) to ensure all required information is provided.
 
 ---
 
@@ -481,9 +481,9 @@ git push
 
 ## 📚 Related Documents
 
-- [Pull Request Template](.github/pull_request_template.md)
+- [Pull Request Template](pull_request_template.md)
 - [Workflow Analysis](../brain/workflow_analysis.md)
-- [CODEOWNERS](.github/CODEOWNERS)
+- [CODEOWNERS](CODEOWNERS)
 
 ---
 
