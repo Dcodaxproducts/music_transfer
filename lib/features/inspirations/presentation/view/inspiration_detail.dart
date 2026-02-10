@@ -10,7 +10,7 @@ class InspirationDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: PrimaryBackButton(),
+        leading: const PrimaryBackButton(),
         title: Text("preview".tr),
         actions: [
           SaveButton(url: inspiration.image),

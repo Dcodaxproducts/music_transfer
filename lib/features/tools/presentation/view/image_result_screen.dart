@@ -17,11 +17,11 @@ class _ToolResultScreenState extends State<ToolResultScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: PrimaryBackButton(),
+        leading: const PrimaryBackButton(),
         title: Text("preview".tr),
         actions: [
           SaveButton(url: widget.response.image),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
         ],
       ),
       body: Column(
@@ -57,7 +57,7 @@ class _ToolResultScreenState extends State<ToolResultScreen> {
             ),
           ),
           SizedBox(height: 16.sp),
-          ToolResultActions(),
+          const ToolResultActions(),
           SafeArea(child: SizedBox(height: 8.sp)),
         ],
       ),

@@ -28,7 +28,7 @@ class _SettingScreenState extends State<SettingScreen> {
       icon: Iconsax.language_circle_copy,
       onTap: () => launchScreen(const LanguageScreen()),
     ),
-    ThemeTile(),
+    const ThemeTile(),
   ];
 
   final List<Widget> _moreMenuItems = [
@@ -65,9 +65,9 @@ class _SettingScreenState extends State<SettingScreen> {
     return ListView(
       padding: AppPadding.padding16.copyWith(top: 24.sp),
       children: [
-        LoginWidget(),
+        const LoginWidget(),
         SizedBox(height: 16.sp),
-        CreditsWidget(),
+        const CreditsWidget(),
         SizedBox(height: 16.sp),
         DecoratedBox(
           decoration: BoxDecoration(color: context.theme.cardColor, borderRadius: AppRadius.circular16),
@@ -164,7 +164,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         PrimaryContextMenu(
                           text: "profile".tr,
                           icon: Iconsax.user_copy,
-                          onTap: () => launchScreen(ProfileUpdateScreen()),
+                          onTap: () => launchScreen(const ProfileUpdateScreen()),
                         ),
                         PrimaryContextMenu(
                           text: "logout".tr,
@@ -184,13 +184,13 @@ class _LoginWidgetState extends State<LoginWidget> {
         // Guest user with subscription - show warning
         if (controller.user?.isPro == true) {
           return PrimaryButton(
-            onPressed: () => launchScreen(LoginScreen()),
+            onPressed: () => launchScreen(const LoginScreen()),
             text: 'sign_in_to_preserve_credits'.tr,
           );
         }
 
         // Guest user without subscription - simple login button
-        return PrimaryButton(onPressed: () => launchScreen(LoginScreen()), text: "login".tr);
+        return PrimaryButton(onPressed: () => launchScreen(const LoginScreen()), text: "login".tr);
       },
     );
   }

@@ -53,7 +53,7 @@ class SocialLoginWidget extends StatelessWidget {
 
       // Create social login model
       final SocialLoginModel socialLoginModel = SocialLoginModel(
-        uid: SplashController.find.deviceId ?? AuthController.find.user?.uid ?? Uuid().v4(),
+        uid: SplashController.find.deviceId ?? AuthController.find.user?.uid ?? const Uuid().v4(),
         name: googleAccount.displayName,
         email: googleAccount.email,
         medium: 'google',
@@ -63,7 +63,7 @@ class SocialLoginWidget extends StatelessWidget {
       // Call social login in AuthController
       AuthController.find.socialLogin(socialLoginModel).then((success) {
         if (success) {
-          launchScreen(DashboardScreen(), pushAndRemove: true);
+          launchScreen(const DashboardScreen(), pushAndRemove: true);
         }
       });
     } catch (er) {
@@ -99,7 +99,7 @@ class SocialLoginWidget extends StatelessWidget {
 
       // Create social login model
       final SocialLoginModel socialLoginModel = SocialLoginModel(
-        uid: SplashController.find.deviceId ?? AuthController.find.user?.uid ?? Uuid().v4(),
+        uid: SplashController.find.deviceId ?? AuthController.find.user?.uid ?? const Uuid().v4(),
         name: name,
         email: email,
         medium: 'apple',
@@ -108,7 +108,7 @@ class SocialLoginWidget extends StatelessWidget {
       // Call social login in AuthController
       AuthController.find.socialLogin(socialLoginModel).then((success) {
         if (success) {
-          launchScreen(DashboardScreen(), pushAndRemove: true);
+          launchScreen(const DashboardScreen(), pushAndRemove: true);
         }
       });
     } catch (e) {

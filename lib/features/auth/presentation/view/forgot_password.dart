@@ -26,7 +26,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         return AbsorbPointer(
           absorbing: controller.isLoading,
           child: Scaffold(
-            appBar: AppBar(leading: PrimaryBackButton()),
+            appBar: AppBar(leading: const PrimaryBackButton()),
             body: Form(
               key: _formKey,
               child: ListView(
@@ -96,7 +96,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ),
                   ),
 
-                  SafeArea(child: SizedBox()),
+                  const SafeArea(child: SizedBox()),
                 ],
               ),
             ),

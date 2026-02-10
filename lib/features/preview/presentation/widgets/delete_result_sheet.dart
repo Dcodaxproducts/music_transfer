@@ -16,7 +16,7 @@ class DeleteResultSheet extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Positioned(right: 16.sp, top: 16.sp, child: PrimaryCloseButton()),
+          Positioned(right: 16.sp, top: 16.sp, child: const PrimaryCloseButton()),
           Padding(
             padding: AppPadding.padding16,
             child: Column(
@@ -60,7 +60,7 @@ class DeleteResultSheet extends StatelessWidget {
                         ),
                         child: Container(
                           padding: AppPadding.padding8,
-                          decoration: BoxDecoration(shape: BoxShape.circle, color: errorColor),
+                          decoration: const BoxDecoration(shape: BoxShape.circle, color: errorColor),
                           child: Icon(Iconsax.trash, size: 16.sp, color: Colors.white),
                         ),
                       ),

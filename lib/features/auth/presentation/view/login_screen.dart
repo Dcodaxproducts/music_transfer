@@ -30,14 +30,14 @@ class LoginScreen extends StatelessWidget {
 
           SizedBox(height: 24.sp),
 
-          SocialLoginWidget(),
+          const SocialLoginWidget(),
 
           SizedBox(height: 12.sp),
 
           SocialLoginButton(
             label: "continue_with_email".tr,
             icon: Iconsax.sms_copy,
-            onTap: () => launchScreen(EmailLoginScreen()),
+            onTap: () => launchScreen(const EmailLoginScreen()),
           ),
 
           SizedBox(height: 12.sp),
@@ -50,19 +50,19 @@ class LoginScreen extends StatelessWidget {
                 TextSpan(text: "by_proceeding_agree".tr),
                 TextSpan(
                   text: "terms_of_use".tr,
-                  style: TextStyle(decoration: TextDecoration.underline),
+                  style: const TextStyle(decoration: TextDecoration.underline),
                   recognizer: TapGestureRecognizer()..onTap = () => launchUrlString(AppConstants.terms),
                 ),
                 TextSpan(text: "and".tr),
                 TextSpan(
                   text: 'privacy_policy'.tr,
-                  style: TextStyle(decoration: TextDecoration.underline),
+                  style: const TextStyle(decoration: TextDecoration.underline),
                   recognizer: TapGestureRecognizer()..onTap = () => launchUrlString(AppConstants.privacy),
                 ),
               ],
             ),
           ),
-          if (GetPlatform.isAndroid) SafeArea(child: SizedBox()) else SizedBox(height: 32.sp),
+          if (GetPlatform.isAndroid) const SafeArea(child: SizedBox()) else SizedBox(height: 32.sp),
         ],
       ),
     );

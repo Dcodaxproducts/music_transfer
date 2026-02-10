@@ -91,7 +91,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         return AbsorbPointer(
           absorbing: controller.isLoading,
           child: Scaffold(
-            appBar: AppBar(leading: PrimaryBackButton()),
+            appBar: AppBar(leading: const PrimaryBackButton()),
             body: ListView(
               padding: AppPadding.screenPadding,
               children: [
@@ -192,7 +192,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   onPressed: _verifyOtp,
                 ),
 
-                SafeArea(child: SizedBox()),
+                const SafeArea(child: SizedBox()),
               ],
             ),
           ),
@@ -207,9 +207,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       AuthController.find.verifyOtp(widget.email, otp).then((success) {
         if (success) {
           if (widget.isPasswordReset) {
-            launchScreen(ResetPasswordScreen());
+            launchScreen(const ResetPasswordScreen());
           } else {
-            launchScreen(DashboardScreen(), pushAndRemove: true);
+            launchScreen(const DashboardScreen(), pushAndRemove: true);
           }
         }
       });

@@ -17,11 +17,11 @@ class HistoryScreen extends StatelessWidget {
       builder: (controller) {
         final List<ImageGenerationResult> promptHistory = controller.promptHistory;
         return Scaffold(
-          appBar: AppBar(leading: PrimaryBackButton(), title: Text('history'.tr)),
+          appBar: AppBar(leading: const PrimaryBackButton(), title: Text('history'.tr)),
           body: GetBuilder<ImageGenController>(
             builder: (imageGen) {
               return promptHistory.isEmpty && imageGen.loading.isEmpty
-                  ? EmptyHistory()
+                  ? const EmptyHistory()
                   : PrimaryImageGrid(
                       itemCount: promptHistory.length + imageGen.loading.length,
                       itemBuilder: (context, index) {

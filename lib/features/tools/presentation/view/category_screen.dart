@@ -13,7 +13,7 @@ class CategoryScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            leading: PrimaryBackButton(),
+            leading: const PrimaryBackButton(),
             title: Row(
               children: [
                 Icon(Iconsax.element_4, color: context.font26.color),

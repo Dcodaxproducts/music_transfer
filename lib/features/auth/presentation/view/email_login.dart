@@ -39,7 +39,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: PrimaryBackButton()),
+      appBar: AppBar(leading: const PrimaryBackButton()),
       body: GetBuilder<AuthController>(
         builder: (controller) {
           return AbsorbPointer(
@@ -67,7 +67,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       textInputAction: TextInputAction.next,
                       prefixIcon: Iconsax.sms_copy,
                       controller: _emailController,
-                      autofillHints: [AutofillHints.email],
+                      autofillHints: const [AutofillHints.email],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "please_enter_your_email".tr;
@@ -95,7 +95,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                           controller: _passwordController,
                           focusNode: _passwordFocusNode,
                           textInputAction: TextInputAction.done,
-                          autofillHints: [AutofillHints.password],
+                          autofillHints: const [AutofillHints.password],
                           suffixIcon: IconButton(
                             icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
                             onPressed: () {
@@ -154,17 +154,17 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       child: Row(
                         spacing: 16.sp,
                         children: [
-                          Expanded(child: Divider()),
+                          const Expanded(child: Divider()),
                           Text("or".tr, style: context.font12.copyWith(color: context.theme.hintColor)),
-                          Expanded(child: Divider()),
+                          const Expanded(child: Divider()),
                         ],
                       ),
                     ),
                     SizedBox(height: 8.sp),
 
-                    SocialLoginWidget(),
+                    const SocialLoginWidget(),
 
-                    SafeArea(child: SizedBox()),
+                    const SafeArea(child: SizedBox()),
                   ],
                 ),
               ),
@@ -186,7 +186,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
         if (!isOtpVerified && user != null) {
           launchScreen(OtpVerificationScreen(email: email));
         } else if (user != null) {
-          launchScreen(DashboardScreen(), pushAndRemove: true);
+          launchScreen(const DashboardScreen(), pushAndRemove: true);
         }
       });
     }

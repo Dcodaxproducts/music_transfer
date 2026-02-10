@@ -16,7 +16,7 @@ class FeedbackSheeet extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Positioned(right: 16.sp, top: 16.sp, child: PrimaryCloseButton()),
+          Positioned(right: 16.sp, top: 16.sp, child: const PrimaryCloseButton()),
           Padding(
             padding: AppPadding.padding16,
             child: Column(
@@ -60,7 +60,7 @@ class FeedbackSheeet extends StatelessWidget {
                         ),
                         child: Container(
                           padding: AppPadding.padding8,
-                          decoration: BoxDecoration(shape: BoxShape.circle, color: primaryLight),
+                          decoration: const BoxDecoration(shape: BoxShape.circle, color: primaryLight),
                           child: Icon(Iconsax.flag_copy, size: 16.sp, color: Colors.white),
                         ),
                       ),
@@ -141,7 +141,7 @@ class _ReportingSheetState extends State<ReportingSheet> {
       ),
       child: Stack(
         children: [
-          Positioned(right: 8.sp, top: 8.sp, child: PrimaryCloseButton()),
+          Positioned(right: 8.sp, top: 8.sp, child: const PrimaryCloseButton()),
           Padding(
             padding: AppPadding.padding16,
             child: Column(

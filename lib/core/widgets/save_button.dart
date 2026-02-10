@@ -22,7 +22,7 @@ class _SaveButtonState extends State<SaveButton> {
           style: TextButton.styleFrom(
             foregroundColor: Colors.white,
             backgroundColor: primaryLight,
-            visualDensity: VisualDensity(horizontal: 1, vertical: -1),
+            visualDensity: const VisualDensity(horizontal: 1, vertical: -1),
           ),
           onPressed: _downloadImage,
           child: _isDownloading.value

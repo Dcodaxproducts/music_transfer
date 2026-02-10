@@ -70,7 +70,7 @@ class SettingSheetTile extends StatelessWidget {
         onTap: onPressed,
         borderRadius: AppRadius.circular16,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           decoration: BoxDecoration(color: context.theme.canvasColor, borderRadius: AppRadius.circular16),
           child: Row(
             children: [

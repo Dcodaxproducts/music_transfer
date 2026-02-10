@@ -78,7 +78,7 @@ class SubscriptionController extends GetxController implements GetxService {
   }
 
   Future<void> showPurchaseCreditsPaywall({Function()? onSuccess}) async {
-    final String creditsOffering = 'credits';
+    const String creditsOffering = 'credits';
     Offering? offering = _offerings?.getOffering(creditsOffering);
 
     return await showPaywall(offering: offering, onSuccess: onSuccess);

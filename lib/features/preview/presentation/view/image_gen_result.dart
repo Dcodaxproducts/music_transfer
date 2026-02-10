@@ -14,11 +14,11 @@ class PreviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: PrimaryBackButton(),
+        leading: const PrimaryBackButton(),
         title: Text("preview".tr),
         actions: [
           SaveButton(url: ImageGenController.find.result!.output.first),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
         ],
       ),
       body: GetBuilder<ImageGenController>(
@@ -42,7 +42,7 @@ class PreviewScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              BottomActions(),
+              const BottomActions(),
               AdsController.find.buildModelScreenAd(),
             ],
           );

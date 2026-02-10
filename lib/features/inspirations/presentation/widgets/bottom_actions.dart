@@ -28,7 +28,7 @@ class InspirationActions extends StatelessWidget {
             style: TextButton.styleFrom(
               foregroundColor: Colors.white,
               backgroundColor: primaryLight,
-              visualDensity: VisualDensity(horizontal: 1, vertical: -1),
+              visualDensity: const VisualDensity(horizontal: 1, vertical: -1),
               minimumSize: Size(120.sp, 50.sp),
             ),
             onPressed: () {

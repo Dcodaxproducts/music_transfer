@@ -60,7 +60,10 @@ class PromptInputWidget extends StatelessWidget {
                                 child: GestureDetector(
                                   onTap: () => controller.removeImageAt(index),
                                   child: Container(
-                                    decoration: BoxDecoration(color: errorColor, shape: BoxShape.circle),
+                                    decoration: const BoxDecoration(
+                                      color: errorColor,
+                                      shape: BoxShape.circle,
+                                    ),
                                     padding: EdgeInsets.all(4.sp),
                                     child: Icon(Icons.close, size: 14.sp, color: Colors.white),
                                   ),
@@ -100,7 +103,7 @@ class PromptInputWidget extends StatelessWidget {
                 spacing: 8.sp,
                 children: [
                   ActionButton.small(onPressed: _pickImage, icon: Icons.add),
-                  ActionButton.small(onPressed: SettingsSheet.show, icon: Iconsax.setting_4_copy),
+                  const ActionButton.small(onPressed: SettingsSheet.show, icon: Iconsax.setting_4_copy),
                   if (controller.attachedImages.isNotEmpty)
                     TextButton(
                       style: TextButton.styleFrom(backgroundColor: primaryLight.withOpacity(0.1)),
@@ -112,7 +115,7 @@ class PromptInputWidget extends StatelessWidget {
                           children: [
                             Text(
                               "edit".tr,
-                              style: TextStyle(fontWeight: FontWeight.w600, color: primaryLight),
+                              style: const TextStyle(fontWeight: FontWeight.w600, color: primaryLight),
                             ),
                             SizedBox(width: 4.sp),
                             Icon(Icons.close, size: 16.sp, color: primaryLight),
@@ -129,7 +132,7 @@ class PromptInputWidget extends StatelessWidget {
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: isEmpty ? context.theme.disabledColor : primaryLight,
-                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                           ),
                           onPressed: ImageGenerationHelper.handleTap,
                           child: Padding(
@@ -137,13 +140,13 @@ class PromptInputWidget extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text("create".tr, style: TextStyle(fontWeight: FontWeight.w600)),
+                                Text("create".tr, style: const TextStyle(fontWeight: FontWeight.w600)),
                                 SizedBox(width: 4.sp),
                                 Image.asset(Images.sparkle, width: 16.sp, height: 16.sp, color: Colors.white),
                                 SizedBox(width: 4.sp),
                                 Text(
                                   "${modelController.selectedModel?.creditsPerImage ?? 5}",
-                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                  style: const TextStyle(fontWeight: FontWeight.w600),
                                 ),
                               ],
                             ),

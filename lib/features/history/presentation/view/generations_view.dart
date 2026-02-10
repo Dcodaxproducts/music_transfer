@@ -15,7 +15,7 @@ class GenerationsView extends StatelessWidget {
     return GetBuilder<ImageGenController>(
       builder: (imageGen) {
         return generations.isEmpty && imageGen.loading.isEmpty
-            ? EmptyHistory()
+            ? const EmptyHistory()
             : PrimaryImageGrid(
                 childAspectRatio: 1.1,
                 itemCount: generations.length + imageGen.loading.length,

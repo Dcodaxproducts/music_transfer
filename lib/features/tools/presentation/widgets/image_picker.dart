@@ -91,7 +91,7 @@ class _ToolImagePickerState extends State<ToolImagePicker> {
                             controller.selectedTool!.model!.sizes.isNotEmpty) ...[
                           SizedBox(height: 16.sp),
 
-                          ToolAspectRatio(),
+                          const ToolAspectRatio(),
                         ],
 
                         SizedBox(height: 32.sp),
@@ -110,7 +110,7 @@ class _ToolImagePickerState extends State<ToolImagePicker> {
                                     child: SizedBox(
                                       width: 14.sp,
                                       height: 14.sp,
-                                      child: CircularProgressIndicator(
+                                      child: const CircularProgressIndicator(
                                         strokeWidth: 2,
                                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                       ),
@@ -207,7 +207,7 @@ class _ToolImagePickerState extends State<ToolImagePicker> {
 
     return GridView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
         crossAxisSpacing: 12.sp,
@@ -378,7 +378,7 @@ class _GeneratingOverlayState extends State<GeneratingOverlay> with SingleTicker
                     SizedBox(
                       width: 16.sp,
                       height: 16.sp,
-                      child: CircularProgressIndicator(
+                      child: const CircularProgressIndicator(
                         strokeWidth: 2,
                         valueColor: AlwaysStoppedAnimation<Color>(primaryLight),
                       ),

@@ -42,7 +42,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: PrimaryBackButton()),
+      appBar: AppBar(leading: const PrimaryBackButton()),
       body: GetBuilder<ProfileController>(
         builder: (controller) {
           return AbsorbPointer(

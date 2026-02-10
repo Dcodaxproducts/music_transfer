@@ -20,7 +20,7 @@ class BottomActions extends StatelessWidget {
           ActionButton(
             icon: Iconsax.info_circle_copy,
             onPressed: () {
-              Get.bottomSheet(ResultInfoSheet());
+              Get.bottomSheet(const ResultInfoSheet());
             },
           ),
           ActionButton(

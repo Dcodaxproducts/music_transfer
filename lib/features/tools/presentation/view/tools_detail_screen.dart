@@ -21,14 +21,14 @@ class ToolDetailScreen extends StatelessWidget {
     return Theme(
       data: dark,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
+        value: const SystemUiOverlayStyle(
           systemNavigationBarColor: backgroundColorDark,
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.light,
           statusBarBrightness: Brightness.dark,
         ),
         child: Scaffold(
-          appBar: AppBar(leading: PrimaryBackButton(), title: Text("Pixart Apps")),
+          appBar: AppBar(leading: const PrimaryBackButton(), title: const Text("Pixart Apps")),
           body: Stack(
             children: [
               Center(

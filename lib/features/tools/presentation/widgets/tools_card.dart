@@ -41,7 +41,7 @@ class ToolCard extends StatelessWidget {
                         Colors.black.withOpacity(0.5),
                         Colors.black.withOpacity(0.8),
                       ],
-                      stops: [0.0, 0.3, 0.7, 1.0],
+                      stops: const [0.0, 0.3, 0.7, 1.0],
                     ),
                   ),
                   child: Align(
@@ -52,7 +52,11 @@ class ToolCard extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                         shadows: [
-                          Shadow(offset: Offset(0, 1), blurRadius: 2, color: Colors.black.withOpacity(0.5)),
+                          Shadow(
+                            offset: const Offset(0, 1),
+                            blurRadius: 2,
+                            color: Colors.black.withOpacity(0.5),
+                          ),
                         ],
                       ),
                     ),

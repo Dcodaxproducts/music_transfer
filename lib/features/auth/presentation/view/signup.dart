@@ -57,7 +57,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: PrimaryBackButton()),
+      appBar: AppBar(leading: const PrimaryBackButton()),
       body: GetBuilder<AuthController>(
         builder: (controller) {
           return AbsorbPointer(
@@ -121,7 +121,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       textInputAction: TextInputAction.next,
                       prefixIcon: Iconsax.user_copy,
                       controller: _nameController,
-                      autofillHints: [AutofillHints.name],
+                      autofillHints: const [AutofillHints.name],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "please_enter_your_name".tr;
@@ -142,7 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       prefixIcon: Iconsax.sms_copy,
                       controller: _emailController,
                       focusNode: _emailFocusNode,
-                      autofillHints: [AutofillHints.email],
+                      autofillHints: const [AutofillHints.email],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "please_enter_your_email".tr;
@@ -170,7 +170,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           controller: _passwordController,
                           focusNode: _passwordFocusNode,
                           textInputAction: TextInputAction.next,
-                          autofillHints: [AutofillHints.password],
+                          autofillHints: const [AutofillHints.password],
                           suffixIcon: IconButton(
                             icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
                             onPressed: () {
@@ -206,7 +206,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           controller: _confirmPasswordController,
                           focusNode: _confirmPasswordFocusNode,
                           textInputAction: TextInputAction.done,
-                          autofillHints: [AutofillHints.password],
+                          autofillHints: const [AutofillHints.password],
                           suffixIcon: IconButton(
                             icon: Icon(obscureText ? Iconsax.eye_copy : Iconsax.eye_slash_copy),
                             onPressed: () {
@@ -250,7 +250,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ],
                     ),
 
-                    SafeArea(child: SizedBox()),
+                    const SafeArea(child: SizedBox()),
                   ],
                 ),
               ),
@@ -269,7 +269,7 @@ class _SignupScreenState extends State<SignupScreen> {
         email: email,
         password: _passwordController.text,
         profileImage: _profileImage.value,
-        uid: SplashController.find.deviceId ?? AuthController.find.user?.uid ?? Uuid().v4(),
+        uid: SplashController.find.deviceId ?? AuthController.find.user?.uid ?? const Uuid().v4(),
       );
       AuthController.find.signup(signupBody).then((success) {
         if (success) {

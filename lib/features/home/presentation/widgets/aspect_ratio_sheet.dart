@@ -18,7 +18,7 @@ class AspectRatioSheet extends StatelessWidget {
         child: GetBuilder<ModelsController>(
           builder: (con) {
             if (con.selectedModel == null) {
-              return SizedBox.shrink();
+              return const SizedBox.shrink();
             }
             return GridView.builder(
               itemCount: con.selectedModel!.sizes.length,

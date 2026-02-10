@@ -72,10 +72,10 @@ class ProSuccessScreen extends StatelessWidget {
                                 SizedBox(height: 12.sp),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(
-                                    side: BorderSide(color: Colors.orange),
+                                    side: const BorderSide(color: Colors.orange),
                                     foregroundColor: Colors.orange,
                                   ),
-                                  onPressed: () => launchScreen(LoginScreen()),
+                                  onPressed: () => launchScreen(const LoginScreen()),
                                   child: Text('sign_in_to_save_credits'.tr),
                                 ),
                               ],

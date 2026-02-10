@@ -29,7 +29,7 @@ class PrimaryBottomSheet extends StatelessWidget {
                 Text(title, style: context.font16.copyWith(fontWeight: FontWeight.w600)),
 
                 // close button
-                PrimaryCloseButton(),
+                const PrimaryCloseButton(),
               ],
             ),
             SizedBox(height: 24.sp),

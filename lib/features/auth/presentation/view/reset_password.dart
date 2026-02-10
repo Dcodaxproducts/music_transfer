@@ -34,7 +34,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         return AbsorbPointer(
           absorbing: controller.isLoading,
           child: Scaffold(
-            appBar: AppBar(leading: PrimaryBackButton()),
+            appBar: AppBar(leading: const PrimaryBackButton()),
             body: Form(
               key: _formKey,
               child: ListView(
@@ -138,7 +138,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     isLoading: controller.isLoading,
                   ),
 
-                  SafeArea(child: SizedBox()),
+                  const SafeArea(child: SizedBox()),
                 ],
               ),
             ),
@@ -153,7 +153,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       ProfileController.find.updateProfile(password: _passwordController.text).then((success) {
         if (success) {
           showToast("password_reset_successfully".tr);
-          launchScreen(DashboardScreen(), pushAndRemove: true);
+          launchScreen(const DashboardScreen(), pushAndRemove: true);
         }
       });
     }

@@ -84,7 +84,7 @@ class _WatchAdsDialogState extends State<WatchAdsDialog> {
             // Upgrade button
             PrimaryButton(
               text: "upgrade".tr,
-              icon: Icon(Iconsax.crown, color: Colors.white),
+              icon: const Icon(Iconsax.crown, color: Colors.white),
               onPressed: () {
                 Get.back();
                 widget.onUpgrade();
