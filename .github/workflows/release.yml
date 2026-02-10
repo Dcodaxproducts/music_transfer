@@ -3,11 +3,11 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 env:
-  FLUTTER_VERSION: '3.24.0'
+  FLUTTER_VERSION: "3.38.3"
 
 jobs:
   release:
@@ -16,7 +16,7 @@ jobs:
     timeout-minutes: 60
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -60,13 +60,13 @@ jobs:
       - name: Generate Release Notes
         run: |
           export PREV_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
-          
+
           if [ -n "$PREV_TAG" ]; then
             export CHANGES=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s")
           else
             export CHANGES=$(git log --oneline -20 | sed 's/^/- /')
           fi
-          
+
           echo "CHANGES<<EOF" >> $GITHUB_ENV
           echo "# Release $VERSION" >> $GITHUB_ENV
           echo "" >> $GITHUB_ENV

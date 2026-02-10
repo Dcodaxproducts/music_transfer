@@ -2,10 +2,10 @@ name: Develop Branch Quality Scan
 
 on:
   push:
-    branches: [develop]
+    branches: [development]
 
 env:
-  FLUTTER_VERSION: '3.24.0'
+  FLUTTER_VERSION: "3.38.3"
 
 jobs:
   quality-scan:

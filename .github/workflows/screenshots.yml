@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  FLUTTER_VERSION: '3.24.0'
+  FLUTTER_VERSION: "3.38.3"
 
 jobs:
   screenshots:
@@ -18,7 +18,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-      
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -75,8 +75,8 @@ jobs:
           export REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
           export VERSION=$(grep "version:" pubspec.yaml | sed 's/version: *//' | xargs)
           export SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
-          
+
           # Upload screenshots
           aws s3 sync screenshots/ "s3://${AWS_BUCKET_NAME}/screenshots/${REPO_NAME}/${VERSION}/${SHORT_SHA}/" --acl private || true
-          
+
           echo "Screenshots uploaded to: s3://${AWS_BUCKET_NAME}/screenshots/${REPO_NAME}/${VERSION}/${SHORT_SHA}/"
