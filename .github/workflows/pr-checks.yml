@@ -35,10 +35,10 @@ jobs:
           export BRANCH="${{ github.head_ref }}"
           export TARGET="${{ github.base_ref }}"
           
-          # Hotfix -> main only
+          # Hotfix -> production only
           if echo "$BRANCH" | grep -q "^hotfix/"; then
-            if [ "$TARGET" != "main" ]; then
-              echo "Hotfix branches must target main"
+            if [ "$TARGET" != "production" ]; then
+              echo "Hotfix branches must target production"
               exit 1
             fi
           fi

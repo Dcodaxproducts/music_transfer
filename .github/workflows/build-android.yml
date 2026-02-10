@@ -2,7 +2,7 @@ name: Build Android
 
 on:
   push:
-    branches: [testing, main]
+    branches: [testing, production]
   workflow_dispatch:
 
 env:

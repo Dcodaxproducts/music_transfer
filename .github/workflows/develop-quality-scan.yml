@@ -86,6 +86,6 @@ jobs:
           export AUTHOR=$(git log -1 --pretty=format:'%an')
 
           gh issue create \
-            --title "[Quality] Errors found in develop branch" \
+            --title "[Quality] Errors found in development branch" \
             --body "Quality scan found ${ERRORS} errors. Commit: ${GITHUB_SHA} Author: ${AUTHOR}" \
-            --label "quality,develop" || true
+            --label "quality,development" || true
