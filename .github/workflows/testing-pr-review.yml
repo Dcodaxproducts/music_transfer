@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize, reopened]
 
 env:
-  FLUTTER_VERSION: '3.24.0'
+  FLUTTER_VERSION: "3.24.0"
 
 jobs:
   full-review:
@@ -17,7 +17,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       OPENCLAW_URL: ${{ secrets.OPENCLAW_URL }}
       OPENCLAW_TOKEN: ${{ secrets.OPENCLAW_TOKEN }}
-      
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
           export PR_NUM="${{ github.event.pull_request.number }}"
           export PR_AUTHOR="${{ github.event.pull_request.user.login }}"
           export BASE="${{ github.event.pull_request.base.ref }}"
-          
+
           echo "PR_NUM=$PR_NUM" >> $GITHUB_ENV
           echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
           echo "BASE=$BASE" >> $GITHUB_ENV
@@ -67,7 +67,7 @@ jobs:
 
           # Static analysis with line numbers
           flutter analyze --no-pub 2>&1 | tee /tmp/analyze.txt || true
-          
+
           while IFS= read -r file; do
             [ -f "$file" ] || continue
             grep "$file" /tmp/analyze.txt 2>/dev/null | while read line; do
@@ -183,40 +183,32 @@ jobs:
             
             # Create review comment via GitHub CLI
             gh pr review "$PR_NUM" --comment --body "**[$severity]** $category
-
-$msg
-
-💡 $suggestion" --path "$file" --line "$line" 2>/dev/null || true
-            
-          done < /tmp/findings/all.txt
+            $msg
+            $suggestion" --path "$file" --line "$line" 2>/dev/null || true
+            done < /tmp/findings/all.txt
 
       - name: Create PR Review Summary
         run: |
           export BLOCKERS=$(grep -c "|blocker|" /tmp/findings/all.txt 2>/dev/null || echo "0")
           export MAJORS=$(grep -c "|major|" /tmp/findings/all.txt 2>/dev/null || echo "0")
           export MINORS=$(grep -c "|minor|" /tmp/findings/all.txt 2>/dev/null || echo "0")
-          
+
           export BODY="## 🤖 Automated Code Review
-
-| Severity | Count |
-|----------|-------|
-| 🔴 Blockers | $BLOCKERS |
-| 🟡 Majors | $MAJORS |
-| 🟢 Minors | $MINORS |
-
----
-
-### Checks Performed
-- ✅ Code formatting
-- ✅ Static analysis
-- ✅ Security scan (API keys, passwords)
-- ✅ Design system compliance
-- ✅ Localization (hardcoded strings)
-- ✅ Performance anti-patterns
-
----
-
-*Reviewed by: Dcodax Flutter CI v2.1*"
+          | Severity | Count |
+          |-------------|-------|
+          | 🔴 Blockers | $BLOCKERS |
+          | 🟡 Majors | $MAJORS |
+          | 🟢 Minors | $MINORS |
+          ---
+          ### Checks Performed
+          - ✅ Code formatting
+          - ✅ Static analysis
+          - ✅ Security scan (API keys, passwords)
+          - ✅ Design system compliance
+          - ✅ Localization (hardcoded strings)
+          - ✅ Performance anti-patterns
+          ---
+          *Reviewed by: Dcodax Flutter CI v2.1*"
 
           gh pr comment "$PR_NUM" --body "$BODY" || true
 
@@ -224,3 +216,4 @@ $msg
         if: env.FINDINGS != '0'
         run: |
           gh pr review "$PR_NUM" --request-changes --body "Please address the inline comments above." || true
+
