@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  FLUTTER_VERSION: '3.24.0'
+  FLUTTER_VERSION: "3.24.0"
 
 jobs:
   build-android:
@@ -17,7 +17,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -42,12 +42,12 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: zulu
-          java-version: '17'
+          java-version: "17"
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install AWS CLI
         run: |
@@ -84,20 +84,20 @@ jobs:
           export REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
           export VERSION=$(grep "version:" pubspec.yaml | sed 's/version: *//' | xargs)
           export BUILD_NUM=$(echo "$GITHUB_SHA" | cut -c1-7)
-          
+
           export APK_SRC="build/app/outputs/flutter-apk/app-release.apk"
           export AAB_SRC="build/app/outputs/bundle/release/app-release.aab"
-          
+
           export APK_NAME="${REPO_NAME}_v${VERSION}+${BUILD_NUM}_android.apk"
           export AAB_NAME="${REPO_NAME}_v${VERSION}+${BUILD_NUM}_android.aab"
-          
+
           mv "$APK_SRC" "$APK_NAME"
           mv "$AAB_SRC" "$AAB_NAME"
-          
+
           echo "Uploading to S3..."
           aws s3 cp "$APK_NAME" "s3://${AWS_BUCKET_NAME}/builds/android/" --acl private
           aws s3 cp "$AAB_NAME" "s3://${AWS_BUCKET_NAME}/builds/android/" --acl private
-          
+
           echo "APK: s3://${AWS_BUCKET_NAME}/builds/android/${APK_NAME}"
           echo "AAB: s3://${AWS_BUCKET_NAME}/builds/android/${AAB_NAME}"
 
@@ -109,14 +109,12 @@ jobs:
         run: |
           export REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
           export BRANCH="${GITHUB_REF#refs/heads/}"
-          
+
           curl -s -X POST "$MATTERMOST_URL/api/v4/posts" \
             -H "Authorization: Bearer $MATTERMOST_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{\"channel_id\":\"$CHANNEL_ID\",\"message\":\"=== Build Complete ===
-
-**Repository:** $REPO_NAME
-**Branch:** $BRANCH
-**Type:** Android Build
-
-Android APK and AAB built and uploaded to S3.\"}" || true
+            **Repository:** $REPO_NAME
+            **Branch:** $BRANCH
+            **Type:** Android Build
+            Android APK and AAB built and uploaded to S3.\"}" || true
