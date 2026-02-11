@@ -26,8 +26,8 @@ jobs:
         run: |
           BRANCH="${{ github.head_ref }}"
           echo "Branch: $BRANCH"
-          if [[ ! "$BRANCH" =~ ^(feature|fix|hotfix|chore|refactor|release)/ ]]; then
-            echo "::error::Branch name '$BRANCH' does not follow convention: feature/*, fix/*, hotfix/*, chore/*, refactor/*, release/*"
+          if [[ ! "$BRANCH" =~ ^(feature|fix|hotfix|chore|refactor|release|ci|docs|test|perf|build)/ ]]; then
+            echo "::error::Branch name '$BRANCH' does not follow convention: feature/*, fix/*, hotfix/*, chore/*, ci/*, etc."
             exit 1
           fi
           echo "✅ Branch name valid"
@@ -81,7 +81,7 @@ jobs:
         id: format
         run: |
           dart format --set-exit-if-changed --line-length=120 . 2>&1 | tee /tmp/format_output.txt || true
-          ISSUES=$(grep -c "^Changed" /tmp/format_output.txt || echo "0")
+          ISSUES=$(grep -c "^Changed" /tmp/format_output.txt 2>/dev/null || printf "0")
           echo "format_issues=$ISSUES" >> "$GITHUB_ENV"
           echo "✅ Formatting check complete ($ISSUES issues)"
 
@@ -89,8 +89,8 @@ jobs:
         id: analyze
         run: |
           flutter analyze --no-fatal-infos 2>&1 | tee /tmp/analyze_output.txt || true
-          ERRORS=$(grep -c "error" /tmp/analyze_output.txt || echo "0")
-          WARNINGS=$(grep -c "warning" /tmp/analyze_output.txt || echo "0")
+          ERRORS=$(grep -c "error" /tmp/analyze_output.txt 2>/dev/null || printf "0")
+          WARNINGS=$(grep -c "warning" /tmp/analyze_output.txt 2>/dev/null || printf "0")
           echo "analyze_errors=$ERRORS" >> "$GITHUB_ENV"
           echo "analyze_warnings=$WARNINGS" >> "$GITHUB_ENV"
           echo "✅ Analysis complete ($ERRORS errors, $WARNINGS warnings)"
@@ -252,7 +252,7 @@ jobs:
       - name: Get diff
         run: |
           git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(dart|yaml)$' > /tmp/changed_files.txt || true
-          FILE_COUNT=$(cat /tmp/changed_files.txt | grep -c '.' || echo "0")
+          FILE_COUNT=$(wc -l < /tmp/changed_files.txt | tr -d ' ')
           echo "file_count=$FILE_COUNT" >> "$GITHUB_ENV"
           if [ "$FILE_COUNT" != "0" ]; then
             FILES=$(cat /tmp/changed_files.txt | tr '\n' ' ')
