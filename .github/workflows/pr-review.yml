@@ -476,4 +476,3 @@ jobs:
             -H "Authorization: Bearer $MATTERMOST_TOKEN" \
             -H "Content-Type: application/json" \
             -d @-
-# trigger rebuild
