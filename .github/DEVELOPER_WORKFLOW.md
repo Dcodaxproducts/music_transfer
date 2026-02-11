@@ -105,26 +105,23 @@ git push origin feature/add-image-filters
 gh pr create --base development --title "feat(filters): add blur and sharpen image filters"
 ```
 
-### Step 4: Address CI Feedback
+### Step 4: Address PR Review Feedback
 
-Once you create the PR, automated workflows will run:
+Once you create the PR, the **PR Review workflow** automatically runs with comprehensive quality checks:
 
-#### ✅ Automated Checks (All PRs to development/testing/production)
+#### ✅ PR Review Workflow (All PRs)
 - Branch name validation
 - PR title validation (conventional commit format)
 - Commit message validation
 - Code formatting check (80-char line limit)
 - Flutter analyze (static analysis)
-- Security scan (no hardcoded secrets)
+- Security scan (API keys, passwords, secrets)
 - Code duplication detection
 - Unit tests with coverage (70% threshold)
-- APK build & size check (max 100MB)
-
-#### 🤖 AI Code Review (PRs to testing only)
 - Design system compliance (no hardcoded colors/padding)
 - Localization checks (hardcoded strings)
 - Performance anti-patterns (setState issues, uncached images)
-- Inline comments with severity levels (🔴 Blocker, 🟡 Major, 🟢 Minor)
+- APK build & size check (max 100MB)
 
 **If checks fail:**
 1. Fix the issues locally
@@ -198,19 +195,16 @@ git push origin production
 ```mermaid
 graph LR
     A[Developer creates<br/>feature/bugfix branch] --> B[Push & create PR<br/>to development]
-    B --> C[CI runs:<br/>quality checks]
-    C --> D{CI Pass?}
+    B --> C[PR Review runs:<br/>all quality checks]
+    C --> D{All checks pass?}
     D -->|No| E[Fix issues,<br/>push again]
     E --> C
-    D -->|Yes| F[Team Lead<br/>reviews]
+    D -->|Yes| F[Team Lead<br/>reviews & approves]
     F --> G[Merge to<br/>development]
-    G --> H[Quality scan runs]
 ```
 
-**Triggers when code enters development:**
-- ✅ Quality scan runs (errors/warnings/coverage report)
-- ✅ Mattermost notification sent
-- ✅ Weekly dependency check (Mondays)
+**PRs to development trigger:**
+- ✅ Comprehensive PR review workflow (all quality checks)
 
 ### Testing Phase
 
@@ -222,15 +216,18 @@ git merge development
 git push origin testing
 ```
 
-**This triggers:**
-- ✅ Android build (APK + AAB) → uploaded to AWS S3
-- ✅ iOS build (IPA) → uploaded to AWS S3
-- ✅ Automated screenshots generation (if integration tests exist)
-- ✅ Build notifications to Mattermost
+**This automatically triggers:**
+- ✅ Builds Android release APK and AAB
+- ✅ Builds iOS release IPA
+- ✅ Uploads all builds to AWS S3
+- ✅ Uploads iOS build to TestFlight (production-ready)
+- ✅ Posts build notification to Mattermost with:
+  - Project name: **PixArt App**
+  - Version number
+  - AWS download links
 
 **PRs to testing get:**
-- Full CI checks (same as development)
-- **Plus:** AI-powered code review with inline comments
+- Full PR review workflow (all quality checks)
 
 ### Production Phase
 
@@ -242,25 +239,17 @@ git merge testing
 git push origin production
 ```
 
-**This triggers:**
-- ✅ Android build (APK + AAB) → uploaded to AWS S3
-- ✅ iOS build (IPA) → uploaded to AWS S3
+**This automatically triggers the Release Workflow:**
+1. ✅ Analyzes all commits since last release
+2. ✅ Auto-updates `CHANGELOG.md` with new version and changes
+3. ✅ Updates `README.md` (version badges, etc.)
+4. ✅ Creates and pushes version tag (e.g., `v1.2.3`)
+5. ✅ Creates GitHub Release with:
+   - Release notes (auto-generated from commits)
+   - APK binary attached
+   - AAB binary attached
 
-### Release Phase
-
-When ready to release:
-
-```bash
-# Create and push version tag
-git tag -a v1.2.3 -m "Release version 1.2.3"
-git push origin v1.2.3
-```
-
-**This triggers:**
-- ✅ Runs tests
-- ✅ Builds APK and AAB
-- ✅ Creates GitHub Release with binaries and auto-generated release notes
-- ✅ Uploads iOS build to TestFlight automatically
+> **Note:** You don't need to manually create tags anymore! The workflow handles everything when you push to production.
 
 ---
 
@@ -270,38 +259,60 @@ git push origin v1.2.3
 
 | Event | Branch | Workflows Triggered |
 |-------|--------|---------------------|
-| **Create PR** | → development | CI checks, PR validation |
-| **Create PR** | → testing | CI checks, PR validation, AI code review |
-| **Create PR** | → production | CI checks, PR validation |
-| **Push** | development | Quality scan, Mattermost notification |
-| **Push** | testing | Android build, iOS build, Screenshots |
-| **Push** | production | Android build, iOS build |
-| **Create tag** | v* | Release creation, TestFlight upload |
+| **Create PR** | → development, testing, production | **PR Review** (all quality checks) |
+| **Push/Merge** | development → testing | **Build & Deploy**: APK/AAB build, AWS upload, TestFlight upload, Mattermost notification |
+| **Push/Merge** | testing → production | **Release**: Update changelog, update README, create tag, create GitHub release |
 | **Schedule** | - | Dependency check (Mondays 10 AM UTC) |
 
 ### Automated Processes
 
-#### 🔒 Security Scanning (All PRs)
-Detects:
-- Google API keys (`AIza...`)
-- Hardcoded passwords
-- Private keys
-- Stripe keys
+#### 🔍 PR Review Workflow (All PRs)
+**Triggers:** Every PR to `development`, `testing`, or `production`
+
+**Checks performed:**
+- ✅ Branch name validation (`feature/*`, `bugfix/*`, `hotfix/*`, `chore/*`)
+- ✅ PR title validation (conventional commit format)
+- ✅ Commit message validation
+- ✅ Code formatting (80-char line limit)
+- ✅ Flutter analyze (static analysis)
+- ✅ Security scan (API keys, passwords, secrets)
+- ✅ Code duplication detection
+- ✅ Unit tests with coverage (70% threshold)
+- ✅ Design system compliance (no hardcoded colors/padding)
+- ✅ Localization checks (hardcoded strings)
+- ✅ Performance anti-patterns (setState issues, uncached images)
+- ✅ APK build & size check (max 100MB)
+
+#### 🏗️ Build & Deploy (development → testing)
+**Triggers:** When code is merged/pushed from `development` to `testing`
+
+**Actions:**
+1. Builds release APK and AAB (Android)
+2. Builds release IPA (iOS)
+3. Uploads builds to AWS S3
+4. Uploads iOS build to TestFlight (for production-ready type)
+5. Posts notification to Mattermost with:
+   - Project name
+   - Build version
+   - Download links
+
+#### 🎉 Release Automation (testing → production)
+**Triggers:** When code is merged/pushed from `testing` to `production`
+
+**Actions:**
+1. Analyzes commits since last version
+2. Auto-updates `CHANGELOG.md` with new version
+3. Updates `README.md` (if needed)
+4. Creates version tag (e.g., `v1.2.3`)
+5. Creates GitHub Release with:
+   - Auto-generated release notes
+   - APK and AAB binaries attached
 
 #### 📦 Dependency Management (Weekly)
 - **Patch updates:** Auto-creates PR
 - **Minor/Major updates:** Creates issue for manual review
 - **Blocked updates:** Reports in issue
-
-#### 📸 Screenshots (Testing Branch)
-- Runs integration tests on Linux desktop
-- Generates UI screenshots
-- Uploads to S3: `s3://bucket/screenshots/{repo}/{version}/{sha}/`
-
-#### 🔔 Notifications
-- Mattermost alerts for builds
-- Mattermost alerts for quality scans
-- OpenClaw webhook for PR events
+- **Schedule:** Mondays at 10 AM UTC
 
 ---
 
@@ -437,7 +448,7 @@ git add .
 git commit -m "feat(module): description"
 git push origin feature/my-feature
 
-# Create PR
+# Create PR (triggers PR Review workflow automatically)
 gh pr create --base development
 
 # Update branch with latest development
@@ -445,11 +456,45 @@ git checkout development && git pull
 git checkout feature/my-feature
 git merge development
 
-# Fix CI issues
+# Fix PR review issues
 # ... make fixes ...
 git add .
-git commit -m "fix: address CI feedback"
+git commit -m "fix: address PR review feedback"
 git push
+```
+
+### What Happens After PR Merge
+
+**After merge to development:**
+- Nothing automatic (code stays in development)
+- Team Lead decides when to promote to testing
+
+**When Team Lead promotes development → testing:**
+```bash
+# Team Lead runs:
+git checkout testing
+git merge development
+git push origin testing
+
+# Automatically triggers:
+# ✅ Build APK/AAB and IPA
+# ✅ Upload to AWS S3
+# ✅ Upload to TestFlight
+# ✅ Mattermost notification with download links
+```
+
+**When Team Lead promotes testing → production:**
+```bash
+# Team Lead runs:
+git checkout production  
+git merge testing
+git push origin production
+
+# Automatically triggers:
+# ✅ Update CHANGELOG.md
+# ✅ Update README.md
+# ✅ Create version tag (v1.2.3)
+# ✅ Create GitHub Release with binaries
 ```
 
 ### Common Scenarios

@@ -1,4 +1,4 @@
-name: Develop Branch Quality Scan
+name: Development Branch Quality Scan
 
 on:
   push:
@@ -9,7 +9,7 @@ env:
 
 jobs:
   quality-scan:
-    name: Quality Scan on Develop
+    name: Quality Scan on development Branch
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
