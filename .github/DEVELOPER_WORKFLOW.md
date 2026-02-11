@@ -113,15 +113,13 @@ Once you create the PR, the **PR Review workflow** automatically runs with compr
 - Branch name validation
 - PR title validation (conventional commit format)
 - Commit message validation
-- Code formatting check (80-char line limit)
+- Code formatting check (120-char line limit)
 - Flutter analyze (static analysis)
 - Security scan (API keys, passwords, secrets)
 - Code duplication detection
-- Unit tests with coverage (70% threshold)
 - Design system compliance (no hardcoded colors/padding)
 - Localization checks (hardcoded strings)
 - Performance anti-patterns (setState issues, uncached images)
-- APK build & size check (max 100MB)
 
 **If checks fail:**
 1. Fix the issues locally
@@ -217,9 +215,9 @@ git push origin testing
 ```
 
 **This automatically triggers:**
-- ✅ Builds Android release APK and AAB
+- ✅ Builds Android release APK Only
 - ✅ Builds iOS release IPA
-- ✅ Uploads all builds to AWS S3
+- ✅ Uploads Android builds to AWS S3
 - ✅ Uploads iOS build to TestFlight (production-ready)
 - ✅ Posts build notification to Mattermost with:
   - Project name: **PixArt App**
@@ -240,16 +238,23 @@ git push origin production
 ```
 
 **This automatically triggers the Release Workflow:**
-1. ✅ Analyzes all commits since last release
-2. ✅ Auto-updates `CHANGELOG.md` with new version and changes
-3. ✅ Updates `README.md` (version badges, etc.)
-4. ✅ Creates and pushes version tag (e.g., `v1.2.3`)
-5. ✅ Creates GitHub Release with:
-   - Release notes (auto-generated from commits)
-   - APK binary attached
-   - AAB binary attached
+1. ✅ Builds release APK and AAB (Android)
+2. ✅ Builds release IPA (iOS)
+3. ✅ Uploads Android builds (APK & AAB) to AWS S3
+4. ✅ Uploads iOS build to TestFlight
+5. ✅ Posts build notification to Mattermost with:
+   - Project name: **PixArt App**
+   - Version number
+   - AWS download links
+6. ✅ Analyzes all commits since last release
+7. ✅ Auto-updates `CHANGELOG.md` with new version and changes
+8. ✅ Updates `README.md` (version badges, etc.)
+9. ✅ Creates and pushes version tag (e.g., `v1.2.3`)
+10. ✅ Creates GitHub Release with:
+   - Auto-generated release notes
+   - APK and AAB binaries attached
 
-> **Note:** You don't need to manually create tags anymore! The workflow handles everything when you push to production.
+> **Note:** You don't need to manually create tags anymore! The workflow handles builds, distributions, and releases when you push to production.
 
 ---
 
@@ -300,13 +305,16 @@ git push origin production
 **Triggers:** When code is merged/pushed from `testing` to `production`
 
 **Actions:**
-1. Analyzes commits since last version
-2. Auto-updates `CHANGELOG.md` with new version
-3. Updates `README.md` (if needed)
-4. Creates version tag (e.g., `v1.2.3`)
-5. Creates GitHub Release with:
-   - Auto-generated release notes
-   - APK and AAB binaries attached
+1. Builds release APK and AAB (Android)
+2. Builds release IPA (iOS)
+3. Uploads Android builds to AWS S3
+4. Uploads iOS build to TestFlight
+5. Posts notification to Mattermost with project name, version, and download links
+6. Analyzes commits since last version
+7. Auto-updates `CHANGELOG.md` with new version
+8. Updates `README.md` (if needed)
+9. Creates version tag (e.g., `v1.2.3`)
+10. Creates GitHub Release with auto-generated release notes and binaries
 
 #### 📦 Dependency Management (Weekly)
 - **Patch updates:** Auto-creates PR
@@ -491,6 +499,10 @@ git merge testing
 git push origin production
 
 # Automatically triggers:
+# ✅ Build APK, AAB and IPA
+# ✅ Upload to AWS S3
+# ✅ Upload to TestFlight
+# ✅ Mattermost notification with download links
 # ✅ Update CHANGELOG.md
 # ✅ Update README.md
 # ✅ Create version tag (v1.2.3)
