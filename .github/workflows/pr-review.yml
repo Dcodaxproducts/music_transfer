@@ -1,0 +1,123 @@
+name: AI PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: pr-review-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  ai-review:
+    name: AI Code Review
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'pull_request'
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      MATTERMOST_URL: ${{ secrets.MATTERMOST_URL }}
+      MATTERMOST_TOKEN: ${{ secrets.MATTERMOST_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed
+        run: |
+          FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(dart|yaml|gradle|swift|kt)$' || true)
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          FILE_COUNT=$(echo "$FILES" | grep -c '.' || echo "0")
+          echo "count=$FILE_COUNT" >> $GITHUB_OUTPUT
+
+      - name: Get diff
+        if: steps.changed.outputs.count != '0'
+        id: diff
+        run: |
+          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -- $(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(dart|yaml|gradle|swift|kt)$') | head -c 50000)
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          echo "$DIFF" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: AI Review
+        if: steps.changed.outputs.count != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const diff = process.env.PR_DIFF;
+            const files = process.env.PR_FILES;
+
+            const response = await fetch('https://api.anthropic.com/v1/messages', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': process.env.ANTHROPIC_API_KEY,
+                'anthropic-version': '2023-06-01'
+              },
+              body: JSON.stringify({
+                model: 'claude-sonnet-4-20250514',
+                max_tokens: 4096,
+                messages: [{
+                  role: 'user',
+                  content: `You are a senior Flutter/Dart code reviewer. Review this PR diff.
+
+Changed files:
+${files}
+
+Diff:
+${diff}
+
+Provide a concise review with:
+## 📋 Summary
+Brief description of changes.
+
+## ✅ What Looks Good
+Positive observations.
+
+## ⚠️ Issues Found
+Bugs, anti-patterns, or concerns (with file:line references).
+
+## 💡 Suggestions
+Improvements for code quality, performance, or maintainability.
+
+## 🔒 Security Notes
+Any security concerns (API keys, permissions, data handling).
+
+Be specific, reference line numbers, and keep it actionable.`
+                }]
+              })
+            });
+
+            const result = await response.json();
+            const reviewBody = result.content[0].text;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🤖 **AI Code Review**\n\n${reviewBody}`
+            });
+        env:
+          PR_DIFF: ${{ steps.diff.outputs.diff }}
+          PR_FILES: ${{ steps.changed.outputs.files }}
+
+      - name: Skip notice
+        if: steps.changed.outputs.count == '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '🤖 **AI Review**: No code files changed — skipping review.'
+            });
