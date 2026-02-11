@@ -2,7 +2,7 @@ name: Dependency & Security Check
 
 on:
   schedule:
-    - cron: '0 6 * * 1'  # Monday 6 AM UTC (11 AM PKT)
+    - cron: '0 6 * * 0'  # Sunday 6 AM UTC (11 AM PKT)
   push:
     branches: [development]
     paths:
