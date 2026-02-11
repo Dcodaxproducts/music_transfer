@@ -3,14 +3,13 @@ name: AI PR Review
 on:
   pull_request:
     types: [opened, synchronize]
-  workflow_dispatch:
 
 permissions:
   contents: read
   pull-requests: write
 
 concurrency:
-  group: pr-review
+  group: pr-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
@@ -21,85 +20,74 @@ jobs:
     if: github.event_name == 'pull_request'
     env:
       TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
-      PR_NUMBER: ${{ github.event.pull_request.number }}
-      FILES: ${{ steps.changed.outputs.files }}
-      DIFF: ${{ steps.diff.outputs.diff }}
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get changed files
+      - name: Get changed files and diff
         id: changed
         run: |
           FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(dart|yaml)$' || true)
-          {
-            echo "files<<XYZ"
-            echo "$FILES"
-            echo "XYZ"
-          } >> "$GITHUB_OUTPUT"
           FILE_COUNT=$(echo "$FILES" | grep -c '.' || echo "0")
-          echo "count=$FILE_COUNT" >> "$GITHUB_OUTPUT"
-
-      - name: Get diff
-        if: steps.changed.outputs.count != '0'
-        id: diff
-        run: |
-          FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(dart|yaml)$' || true)
+          echo "count=$FILE_COUNT" >> "$GITHUB_ENV"
+          echo "$FILES" > /tmp/changed_files.txt
           if [ -n "$FILES" ]; then
-            DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -- $FILES | head -c 30000 || true)
+            git diff origin/${{ github.base_ref }}...HEAD -- $FILES | head -c 30000 > /tmp/diff.txt
           else
-            DIFF=""
+            echo "" > /tmp/diff.txt
           fi
-          {
-            echo "diff<<XYZ"
-            echo "$DIFF"
-            echo "XYZ"
-          } >> "$GITHUB_OUTPUT"
 
       - name: AI Review
-        if: steps.changed.outputs.count != '0'
+        if: env.count != '0'
         run: |
-          mkdir -p /tmp/ai-review
-          echo "$FILES" > /tmp/ai-review/files.txt
-          echo "$DIFF" > /tmp/ai-review/diff.txt
+          echo "Review this Flutter PR diff. Provide: Summary, What Looks Good, Issues Found, Suggestions, Security Notes." > /tmp/prompt.txt
+          echo "" >> /tmp/prompt.txt
+          echo "Changed files:" >> /tmp/prompt.txt
+          cat /tmp/changed_files.txt >> /tmp/prompt.txt
+          echo "" >> /tmp/prompt.txt
+          echo "Diff:" >> /tmp/prompt.txt
+          cat /tmp/diff.txt >> /tmp/prompt.txt
 
-          PROMPT=$(cat /tmp/ai-review/files.txt /tmp/ai-review/diff.txt)
-          
+          jq -Rs '{model:"moonshotai/Kimi-K2.5",messages:[{role:"user",content:.}],temperature:0.3,max_tokens:4096}' /tmp/prompt.txt > /tmp/request.json
+
           curl -s -X POST "https://api.together.xyz/v1/chat/completions" \
             -H "Authorization: Bearer $TOGETHER_API_KEY" \
             -H "Content-Type: application/json" \
-            -d "{\"model\":\"moonshotai/Kimi-K2.5\",\"messages\":[{\"role\":\"user\",\"content\":\"Review this PR. Files changed and diff: $PROMPT\"}],\"temperature\":0.3,\"max_tokens\":4096}" \
-            | jq -r '.choices[0].message.content // empty' > /tmp/ai-review/review.txt
+            -d @/tmp/request.json | jq -r '.choices[0].message.content // empty' > /tmp/review.txt
 
-          cat /tmp/ai-review/review.txt
+          if [ ! -s /tmp/review.txt ]; then
+            echo "AI review returned empty"
+            exit 1
+          fi
+          echo "Review generated successfully"
 
       - name: Post review comment
-        if: steps.changed.outputs.count != '0'
+        if: env.count != '0'
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            const review = fs.readFileSync('/tmp/ai-review/review.txt', 'utf8');
+            const review = fs.readFileSync('/tmp/review.txt', 'utf8');
             if (!review || review.trim().length === 0) {
               throw new Error('Empty review');
             }
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: process.env.PR_NUMBER,
+              issue_number: context.issue.number,
               body: '🤖 AI Review\n\n' + review
             });
 
       - name: Skip notice
-        if: steps.changed.outputs.count == '0'
+        if: env.count == '0'
         uses: actions/github-script@v7
         with:
           script: |
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: ${{ github.event.pull_request.number }},
+              issue_number: context.issue.number,
               body: '🤖 AI Review: No code files changed.'
             });
