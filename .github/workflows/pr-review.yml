@@ -85,17 +85,27 @@ jobs:
       - name: Check formatting (120-char line limit)
         id: format
         run: |
-          dart format --set-exit-if-changed --line-length=120 . 2>&1 | tee /tmp/format_output.txt || true
-          ISSUES=$(grep -c "^Changed" /tmp/format_output.txt 2>/dev/null || printf "0")
+          dart format --set-exit-if-changed --line-length=120 . > /tmp/format_output.txt 2>&1 || true
+          ISSUES="0"
+          if [ -f /tmp/format_output.txt ]; then
+            ISSUES=$(grep -c "^Formatted" /tmp/format_output.txt || true)
+            if [ -z "$ISSUES" ]; then ISSUES="0"; fi
+          fi
           echo "format_issues=$ISSUES" >> "$GITHUB_ENV"
-          echo "✅ Formatting check complete ($ISSUES issues)"
+          echo "✅ Formatting check complete ($ISSUES files need formatting)"
 
       - name: Flutter analyze
         id: analyze
         run: |
-          flutter analyze --no-fatal-infos 2>&1 | tee /tmp/analyze_output.txt || true
-          ERRORS=$(grep -c "error" /tmp/analyze_output.txt 2>/dev/null || printf "0")
-          WARNINGS=$(grep -c "warning" /tmp/analyze_output.txt 2>/dev/null || printf "0")
+          flutter analyze --no-fatal-infos > /tmp/analyze_output.txt 2>&1 || true
+          ERRORS="0"
+          WARNINGS="0"
+          if [ -f /tmp/analyze_output.txt ]; then
+            ERRORS=$(grep -c " error " /tmp/analyze_output.txt || true)
+            WARNINGS=$(grep -c " warning " /tmp/analyze_output.txt || true)
+            if [ -z "$ERRORS" ]; then ERRORS="0"; fi
+            if [ -z "$WARNINGS" ]; then WARNINGS="0"; fi
+          fi
           echo "analyze_errors=$ERRORS" >> "$GITHUB_ENV"
           echo "analyze_warnings=$WARNINGS" >> "$GITHUB_ENV"
           echo "✅ Analysis complete ($ERRORS errors, $WARNINGS warnings)"
