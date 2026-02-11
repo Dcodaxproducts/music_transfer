@@ -465,12 +465,12 @@ jobs:
         run: |
           REPO="${{ github.repository }}"
           PR="${{ github.event.pull_request.number }}"
-          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
           AUTHOR="${{ github.event.pull_request.user.login }}"
           REPO_SHORT=$(echo "$REPO" | cut -d/ -f2)
           jq -n \
             --arg channel "bwgii3aooiy39cpy1tu7tcp6tc" \
-            --arg message "⚠️ PR #$PR on $REPO_SHORT failed the quality gate ($AUTHOR)\nCheck details: $RUN_URL" \
+            --arg message "⚠️ PR #$PR on $REPO_SHORT failed the quality gate ($AUTHOR)\n$PR_URL" \
             '{channel_id: $channel, message: $message}' | \
           curl -s -X POST "$MATTERMOST_URL/api/v4/posts" \
             -H "Authorization: Bearer $MATTERMOST_TOKEN" \
