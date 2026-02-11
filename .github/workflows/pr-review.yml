@@ -69,30 +69,30 @@ jobs:
                 messages: [{
                   role: 'user',
                   content: `You are a senior Flutter/Dart code reviewer. Review this PR diff.
-
-Changed files:
-${files}
-
-Diff:
-${diff}
-
-Provide a concise review with:
-## 📋 Summary
-Brief description of changes.
-
-## ✅ What Looks Good
-Positive observations.
-
-## ⚠️ Issues Found
-Bugs, anti-patterns, or concerns (with file:line references).
-
-## 💡 Suggestions
-Improvements for code quality, performance, or maintainability.
-
-## 🔒 Security Notes
-Any security concerns (API keys, permissions, data handling).
-
-Be specific, reference line numbers, and keep it actionable.`
+                  
+                  Changed files:
+                  ${files}
+                  
+                  Diff:
+                  ${diff}
+                  
+                  Provide a concise review with:
+                  ## 📋 Summary
+                  Brief description of changes.
+                  
+                  ## ✅ What Looks Good
+                  Positive observations.
+                  
+                  ## ⚠️ Issues Found
+                  Bugs, anti-patterns, or concerns (with file:line references).
+                  
+                  ## 💡 Suggestions
+                  Improvements for code quality, performance, or maintainability.
+                  
+                  ## 🔒 Security Notes
+                  Any security concerns (API keys, permissions, data handling).
+                  
+                  Be specific, reference line numbers, and keep it actionable.`
                 }]
               })
             });
