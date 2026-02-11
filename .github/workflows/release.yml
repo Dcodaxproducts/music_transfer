@@ -265,9 +265,10 @@ jobs:
         run: |
           REPO_NAME="${{ github.repository }}"
           RELEASE_URL="${{ github.server_url }}/${{ github.repository }}/releases/tag/$VERSION"
+          REPO_SHORT=$(echo "$REPO_NAME" | cut -d/ -f2)
           jq -n \
             --arg channel "bwgii3aooiy39cpy1tu7tcp6tc" \
-            --arg message "🚀 **Release $VERSION** published for \`$REPO_NAME\`\n📦 [Download from GitHub]($RELEASE_URL)\n✈️ iOS uploaded to TestFlight" \
+            --arg message "🚀 $REPO_SHORT $VERSION is out!\nRelease: $RELEASE_URL\niOS is on TestFlight, Android builds attached to the release." \
             '{channel_id: $channel, message: $message}' | \
           curl -s -X POST "$MATTERMOST_URL/api/v4/posts" \
             -H "Authorization: Bearer $MATTERMOST_TOKEN" \

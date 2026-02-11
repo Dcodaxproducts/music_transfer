@@ -85,14 +85,23 @@ jobs:
         if: always()
         run: |
           STATUS="${{ job.status }}"
-          REPO_NAME="${{ github.repository }}"
+          REPO="${{ github.repository }}"
+          REPO_SHORT=$(echo "$REPO" | cut -d/ -f2)
+          BRANCH="${{ github.ref_name }}"
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          if [ "$STATUS" = "success" ]; then ICON="✅"; else ICON="❌"; fi
-          MESSAGE="$ICON **Android Build** ($BUILD_TYPE) $STATUS on \`$REPO_NAME\`\n[View Run]($RUN_URL)"
-          if [ "$STATUS" = "success" ] && [ -n "$URL" ]; then
-            MESSAGE="$MESSAGE\n📦 [Download]($URL)"
+          if [ "$STATUS" = "success" ]; then
+            MSG="🤖 Android $BUILD_TYPE build passed for $REPO_SHORT ($BRANCH)"
+            if [ -n "$URL" ]; then
+              MSG="$MSG\nDownload: $URL"
+            fi
+          else
+            MSG="🤖 Android build failed for $REPO_SHORT ($BRANCH)\nLogs: $RUN_URL"
           fi
+          jq -n \
+            --arg channel "bwgii3aooiy39cpy1tu7tcp6tc" \
+            --arg message "$MSG" \
+            '{channel_id: $channel, message: $message}' | \
           curl -s -X POST "$MATTERMOST_URL/api/v4/posts" \
             -H "Authorization: Bearer $MATTERMOST_TOKEN" \
             -H "Content-Type: application/json" \
-            -d "{\"channel_id\":\"bwgii3aooiy39cpy1tu7tcp6tc\",\"message\":\"$MESSAGE\"}"
+            -d @-

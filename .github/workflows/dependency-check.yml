@@ -90,9 +90,10 @@ jobs:
         run: |
           REPO_NAME="${{ github.repository }}"
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          REPO_SHORT=$(echo "$REPO_NAME" | cut -d/ -f2)
           jq -n \
             --arg channel "bwgii3aooiy39cpy1tu7tcp6tc" \
-            --arg message "📦 **Dependency Check** completed for \`$REPO_NAME\`\n[View Report]($RUN_URL)" \
+            --arg message "📦 Weekly dependency check done for $REPO_SHORT\nReport: $RUN_URL" \
             '{channel_id: $channel, message: $message}' | \
           curl -s -X POST "$MATTERMOST_URL/api/v4/posts" \
             -H "Authorization: Bearer $MATTERMOST_TOKEN" \

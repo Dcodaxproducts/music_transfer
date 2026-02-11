@@ -163,14 +163,21 @@ jobs:
         if: always()
         run: |
           STATUS="${{ job.status }}"
-          REPO_NAME="${{ github.repository }}"
+          REPO="${{ github.repository }}"
+          REPO_SHORT=$(echo "$REPO" | cut -d/ -f2)
+          BRANCH="${{ github.ref_name }}"
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          if [ "$STATUS" = "success" ]; then ICON="✅"; else ICON="❌"; fi
-          TF_LINE=""
-          if [ "$TESTFLIGHT_UPLOAD" = "success" ]; then TF_LINE="\n✈️ **Uploaded to TestFlight** — available shortly"; fi
+          if [ "$STATUS" = "success" ]; then
+            MSG="📱 iOS build passed for $REPO_SHORT ($BRANCH)"
+            if [ "$TESTFLIGHT_UPLOAD" = "success" ]; then
+              MSG="$MSG\nUploaded to TestFlight — should be available in a few minutes"
+            fi
+          else
+            MSG="📱 iOS build failed for $REPO_SHORT ($BRANCH)\nLogs: $RUN_URL"
+          fi
           jq -n \
             --arg channel "bwgii3aooiy39cpy1tu7tcp6tc" \
-            --arg message "$ICON **iOS Build** $STATUS on \`$REPO_NAME\`\n[View Run]($RUN_URL)$TF_LINE" \
+            --arg message "$MSG" \
             '{channel_id: $channel, message: $message}' | \
           curl -s -X POST "$MATTERMOST_URL/api/v4/posts" \
             -H "Authorization: Bearer $MATTERMOST_TOKEN" \
