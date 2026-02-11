@@ -136,14 +136,17 @@ jobs:
 
       - name: Security scan (hardcoded secrets)
         run: |
+          BLOCKERS=0
           CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(dart|yaml|gradle|swift|kt|plist|xml)$' || true)
           for file in $CHANGED; do
             if [ -f "$file" ]; then
-              grep -nE "(password|secret|api_key|apikey|token|private_key)\s*[:=]\s*['\"][^'\"]+['\"]" "$file" --ignore-case | while IFS=: read -r line_num content; do
+              while IFS=: read -r line_num content; do
                 echo "::error file=$file,line=$line_num::🔴 Hardcoded secret detected"
-              done
+                BLOCKERS=$((BLOCKERS + 1))
+              done < <(grep -nE "(password|secret|api_key|apikey|token|private_key)\s*[:=]\s*['\"][^'\"]+['\"]" "$file" --ignore-case || true)
             fi
           done
+          echo "SECURITY_BLOCKERS=$BLOCKERS" >> "$GITHUB_ENV"
 
       - name: Code duplication check
         run: |
@@ -193,17 +196,20 @@ jobs:
       - name: Performance anti-patterns (startup_repo)
         if: env.PROJECT_TYPE == 'startup_repo'
         run: |
+          PERF_BLOCKERS=0
           CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' || true)
           for file in $CHANGED_DART; do
             if [ -f "$file" ]; then
-              grep -nE "setState\(" "$file" | while IFS=: read -r ln _; do
+              while IFS=: read -r ln _; do
                 echo "::error file=$file,line=$ln::🔴 setState() in GetX project — use GetBuilder/Obx"
-              done
-              grep -nE "Image\.network\(" "$file" | grep -v "PrimaryNetworkImage\|cached" | while IFS=: read -r ln _; do
+                PERF_BLOCKERS=$((PERF_BLOCKERS + 1))
+              done < <(grep -nE "setState\(" "$file" || true)
+              while IFS=: read -r ln _; do
                 echo "::warning file=$file,line=$ln::🟡 Uncached Image.network — use PrimaryNetworkImage"
-              done
+              done < <(grep -nE "Image\.network\(" "$file" | grep -v "PrimaryNetworkImage\|cached" || true)
             fi
           done
+          echo "PERF_BLOCKERS=$PERF_BLOCKERS" >> "$GITHUB_ENV"
 
       - name: Architecture compliance (startup_repo)
         if: env.PROJECT_TYPE == 'startup_repo'
@@ -214,6 +220,16 @@ jobs:
               echo "::warning file=$file::🟡 File not in standard feature structure (data/domain/presentation)"
             fi
           done
+
+      - name: Fail on blockers
+        run: |
+          TOTAL=0
+          TOTAL=$((TOTAL + ${SECURITY_BLOCKERS:-0} + ${PERF_BLOCKERS:-0}))
+          if [ "$TOTAL" -gt 0 ]; then
+            echo "::error::Found $TOTAL blocker(s) — hardcoded secrets: ${SECURITY_BLOCKERS:-0}, setState: ${PERF_BLOCKERS:-0}"
+            exit 1
+          fi
+          echo "No blockers found"
 
   ai-review:
     name: AI Code Review
@@ -344,7 +360,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: '🤖 **AI Code Review**: No issues found. Looks good! ✅'
+                body: '🤖 AI Review: No additional issues found from code analysis.\nCheck the annotations tab for automated scan results (formatting, security, architecture).'
               });
               return;
             }
@@ -398,7 +414,7 @@ jobs:
             const minors = comments.filter(c => c.severity === 'minor').length;
 
             const event = blockers > 0 ? 'REQUEST_CHANGES' : 'COMMENT';
-            const summary = `🤖 **AI Code Review Summary**\n\n| Severity | Count |\n|----------|-------|\n| 🔴 Blocker | ${blockers} |\n| 🟡 Major | ${majors} |\n| 🟢 Minor | ${minors} |\n| **Total** | **${comments.length}** |`;
+            const summary = `🤖 Code Review — ${comments.length} issue${comments.length === 1 ? '' : 's'} found\n\n🔴 ${blockers} blocker${blockers === 1 ? '' : 's'} · 🟡 ${majors} major · 🟢 ${minors} minor`;
 
             let fullBody = summary;
             if (orphanComments.length > 0) {
