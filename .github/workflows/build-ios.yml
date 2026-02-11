@@ -28,12 +28,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Detect Flutter version from .fvmrc
+        run: |
+          if [ -f .fvmrc ]; then
+            FLUTTER_VER=$(cat .fvmrc | jq -r '.flutter')
+            echo "FLUTTER_VER=$FLUTTER_VER" >> $GITHUB_ENV
+            echo "Using Flutter $FLUTTER_VER from .fvmrc"
+          else
+            echo "FLUTTER_VER=3.x" >> $GITHUB_ENV
+            echo "No .fvmrc found, using stable 3.x"
+          fi
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.x'
+          flutter-version: ${{ env.FLUTTER_VER }}
           channel: stable
           cache: true
+
+      - name: Precache iOS artifacts
+        run: flutter precache --ios
+
+      - name: Install Firebase & FlutterFire CLI
+        run: |
+          npm install -g firebase-tools
+          dart pub global activate flutterfire_cli
+          echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: flutter pub get
@@ -143,14 +163,21 @@ jobs:
         if: always()
         run: |
           STATUS="${{ job.status }}"
-          REPO_NAME="${{ github.repository }}"
+          REPO="${{ github.repository }}"
+          REPO_SHORT=$(echo "$REPO" | cut -d/ -f2)
+          BRANCH="${{ github.ref_name }}"
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          if [ "$STATUS" = "success" ]; then ICON="✅"; else ICON="❌"; fi
-          TF_LINE=""
-          if [ "$TESTFLIGHT_UPLOAD" = "success" ]; then TF_LINE="\n✈️ **Uploaded to TestFlight** — available shortly"; fi
+          if [ "$STATUS" = "success" ]; then
+            MSG="📱 iOS build passed for $REPO_SHORT ($BRANCH)"
+            if [ "$TESTFLIGHT_UPLOAD" = "success" ]; then
+              MSG="$MSG\nUploaded to TestFlight — should be available in a few minutes"
+            fi
+          else
+            MSG="📱 iOS build failed for $REPO_SHORT ($BRANCH)\nLogs: $RUN_URL"
+          fi
           jq -n \
             --arg channel "bwgii3aooiy39cpy1tu7tcp6tc" \
-            --arg message "$ICON **iOS Build** $STATUS on \`$REPO_NAME\`\n[View Run]($RUN_URL)$TF_LINE" \
+            --arg message "$MSG" \
             '{channel_id: $channel, message: $message}' | \
           curl -s -X POST "$MATTERMOST_URL/api/v4/posts" \
             -H "Authorization: Bearer $MATTERMOST_TOKEN" \

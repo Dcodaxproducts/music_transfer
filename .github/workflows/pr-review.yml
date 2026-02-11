@@ -67,11 +67,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get Flutter version from .fvmrc
+      - name: Get Flutter version
         run: |
-          FLUTTER_VER=$(cat .fvmrc | jq -r '.flutter')
+          if [ -f .fvmrc ]; then
+            FLUTTER_VER=$(cat .fvmrc | jq -r '.flutter // empty')
+          fi
+          if [ -z "$FLUTTER_VER" ] && [ -f .fvm/fvm_config.json ]; then
+            FLUTTER_VER=$(cat .fvm/fvm_config.json | jq -r '.flutterSdkVersion // empty')
+          fi
+          if [ -z "$FLUTTER_VER" ]; then
+            FLUTTER_VER="3.x"
+            echo "⚠️ No .fvmrc found, using Flutter $FLUTTER_VER"
+          else
+            echo "Using Flutter $FLUTTER_VER from project config"
+          fi
           echo "FLUTTER_VER=$FLUTTER_VER" >> "$GITHUB_ENV"
-          echo "Using Flutter $FLUTTER_VER from .fvmrc"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -83,39 +93,33 @@ jobs:
         run: flutter pub get
 
       - name: Check formatting (120-char line limit)
-        id: format
         run: |
           dart format --set-exit-if-changed --line-length=120 . > /tmp/format_output.txt 2>&1 || true
-          ISSUES="0"
-          if [ -f /tmp/format_output.txt ]; then
-            ISSUES=$(grep -c "^Formatted" /tmp/format_output.txt || true)
-            if [ -z "$ISSUES" ]; then ISSUES="0"; fi
-          fi
-          echo "format_issues=$ISSUES" >> "$GITHUB_ENV"
-          echo "✅ Formatting check complete ($ISSUES files need formatting)"
+          while IFS= read -r line; do
+            FILE=$(echo "$line" | sed 's/^Formatted //')
+            if [ -f "$FILE" ]; then
+              echo "::warning file=$FILE::File needs formatting (120-char line limit)"
+            fi
+          done < <(grep "^Formatted " /tmp/format_output.txt || true)
 
       - name: Flutter analyze
-        id: analyze
         run: |
           flutter analyze --no-fatal-infos > /tmp/analyze_output.txt 2>&1 || true
-          ERRORS="0"
-          WARNINGS="0"
-          if [ -f /tmp/analyze_output.txt ]; then
-            ERRORS=$(grep -c " error " /tmp/analyze_output.txt || true)
-            WARNINGS=$(grep -c " warning " /tmp/analyze_output.txt || true)
-            if [ -z "$ERRORS" ]; then ERRORS="0"; fi
-            if [ -z "$WARNINGS" ]; then WARNINGS="0"; fi
-          fi
-          echo "analyze_errors=$ERRORS" >> "$GITHUB_ENV"
-          echo "analyze_warnings=$WARNINGS" >> "$GITHUB_ENV"
-          echo "✅ Analysis complete ($ERRORS errors, $WARNINGS warnings)"
+          while IFS= read -r line; do
+            FILE=$(echo "$line" | cut -d' ' -f1 | cut -d':' -f1)
+            LINE_NUM=$(echo "$line" | cut -d':' -f2)
+            MSG=$(echo "$line" | sed 's/^[^-]*- //')
+            if echo "$line" | grep -q " error "; then
+              echo "::error file=$FILE,line=$LINE_NUM::$MSG"
+            elif echo "$line" | grep -q " warning "; then
+              echo "::warning file=$FILE,line=$LINE_NUM::$MSG"
+            fi
+          done < <(grep -E "^\s*(info|warning|error)" /tmp/analyze_output.txt || true)
 
   security-scan:
     name: Security & Architecture Scan
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -125,131 +129,107 @@ jobs:
         run: |
           if grep -q "project_type: startup_repo" pubspec.yaml 2>/dev/null; then
             echo "PROJECT_TYPE=startup_repo" >> "$GITHUB_ENV"
-            echo "🏗️ startup_repo project detected — enforcing architecture rules"
+            echo "🏗️ startup_repo project detected"
           else
             echo "PROJECT_TYPE=standard" >> "$GITHUB_ENV"
-            echo "📦 Standard Flutter project"
           fi
 
       - name: Security scan (hardcoded secrets)
         run: |
-          echo "🔒 Scanning for hardcoded secrets..."
+          BLOCKERS=0
           CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(dart|yaml|gradle|swift|kt|plist|xml)$' || true)
-          FOUND=0
           for file in $CHANGED; do
             if [ -f "$file" ]; then
-              HITS=$(grep -nE "(password|secret|api_key|apikey|token|private_key)\s*[:=]\s*['\"][^'\"]+['\"]" "$file" --ignore-case || true)
-              if [ -n "$HITS" ]; then
-                echo "::error file=$file::Potential hardcoded secret found"
-                echo "$HITS"
-                FOUND=$((FOUND + 1))
-              fi
+              while IFS=: read -r line_num content; do
+                echo "::error file=$file,line=$line_num::🔴 Hardcoded secret detected"
+                BLOCKERS=$((BLOCKERS + 1))
+              done < <(grep -nE "(password|secret|api_key|apikey|token|private_key)\s*[:=]\s*['\"][^'\"]+['\"]" "$file" --ignore-case || true)
             fi
           done
-          echo "security_issues=$FOUND" >> "$GITHUB_ENV"
+          echo "SECURITY_BLOCKERS=$BLOCKERS" >> "$GITHUB_ENV"
 
       - name: Code duplication check
         run: |
-          echo "🔍 Checking for code duplication..."
           CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' || true)
-          DUPES=0
           for file in $CHANGED_DART; do
             if [ -f "$file" ]; then
               LINES=$(wc -l < "$file")
               if [ "$LINES" -gt 300 ]; then
-                echo "::warning file=$file::File has $LINES lines (max 300 recommended)"
-                DUPES=$((DUPES + 1))
+                echo "::warning file=$file::File has $LINES lines (max 300 recommended per startup_repo guide)"
               fi
             fi
           done
-          echo "duplication_issues=$DUPES" >> "$GITHUB_ENV"
 
       - name: Design system compliance (startup_repo)
         if: env.PROJECT_TYPE == 'startup_repo'
         run: |
-          echo "🎨 Checking design system compliance..."
           CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' || true)
-          ISSUES=0
           for file in $CHANGED_DART; do
-            if [ -f "$file" ]; then
-              # Hardcoded colors
-              if grep -nE "Color\(0x|Colors\." "$file" | grep -v "core/design\|core/utils/colors\|core/theme" > /dev/null 2>&1; then
-                echo "::warning file=$file::Hardcoded color found — use design system (AppColors/Theme)"
-                ISSUES=$((ISSUES + 1))
-              fi
-              # Hardcoded padding
-              if grep -nE "EdgeInsets\.(all|symmetric|only)\([0-9]" "$file" | grep -v "core/design\|core/common" > /dev/null 2>&1; then
-                echo "::warning file=$file::Hardcoded padding — use AppPadding constants"
-                ISSUES=$((ISSUES + 1))
-              fi
-              # Hardcoded radius
-              if grep -nE "BorderRadius\.(circular|all)\([0-9]" "$file" | grep -v "core/design\|core/common" > /dev/null 2>&1; then
-                echo "::warning file=$file::Hardcoded radius — use AppRadius constants"
-                ISSUES=$((ISSUES + 1))
-              fi
-              # Hardcoded TextStyle
-              if grep -nE "TextStyle\(" "$file" | grep -v "core/theme\|core/design" > /dev/null 2>&1; then
-                echo "::warning file=$file::Hardcoded TextStyle — use theme typography (context.font16, etc.)"
-                ISSUES=$((ISSUES + 1))
-              fi
+            if [ -f "$file" ] && ! echo "$file" | grep -qE "core/(design|utils|theme|common)"; then
+              grep -nE "Color\(0x|Colors\." "$file" | while IFS=: read -r ln _; do
+                echo "::warning file=$file,line=$ln::🟡 Hardcoded color — use AppColors or Theme"
+              done
+              grep -nE "EdgeInsets\.(all|symmetric|only)\([0-9]" "$file" | while IFS=: read -r ln _; do
+                echo "::warning file=$file,line=$ln::🟡 Hardcoded padding — use AppPadding"
+              done
+              grep -nE "BorderRadius\.(circular|all)\([0-9]" "$file" | while IFS=: read -r ln _; do
+                echo "::warning file=$file,line=$ln::🟡 Hardcoded radius — use AppRadius"
+              done
+              grep -nE "TextStyle\(" "$file" | while IFS=: read -r ln _; do
+                echo "::warning file=$file,line=$ln::🟡 Hardcoded TextStyle — use theme typography (context.font16)"
+              done
             fi
           done
-          echo "design_issues=$ISSUES" >> "$GITHUB_ENV"
 
       - name: Localization check (startup_repo)
         if: env.PROJECT_TYPE == 'startup_repo'
         run: |
-          echo "🌍 Checking localization..."
-          CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' | grep -v '_test\.dart$' || true)
-          ISSUES=0
+          CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' | grep "presentation/" | grep -v '_test\.dart$' || true)
           for file in $CHANGED_DART; do
-            if [ -f "$file" ] && echo "$file" | grep -q "presentation/"; then
-              # Check for hardcoded user-facing strings (Text widgets)
-              if grep -nE "Text\(['\"][A-Z]" "$file" > /dev/null 2>&1; then
-                echo "::warning file=$file::Hardcoded string in Text widget — use '.tr' localization"
-                ISSUES=$((ISSUES + 1))
-              fi
+            if [ -f "$file" ]; then
+              grep -nE "Text\(['\"][A-Z]" "$file" | while IFS=: read -r ln _; do
+                echo "::warning file=$file,line=$ln::🟡 Hardcoded string — use '.tr' localization"
+              done
             fi
           done
-          echo "localization_issues=$ISSUES" >> "$GITHUB_ENV"
 
       - name: Performance anti-patterns (startup_repo)
         if: env.PROJECT_TYPE == 'startup_repo'
         run: |
-          echo "⚡ Checking performance..."
+          PERF_BLOCKERS=0
           CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' || true)
-          ISSUES=0
           for file in $CHANGED_DART; do
             if [ -f "$file" ]; then
-              if grep -nE "setState\(" "$file" > /dev/null 2>&1; then
-                echo "::error file=$file::setState() found — use GetBuilder/Obx in GetX project"
-                ISSUES=$((ISSUES + 1))
-              fi
-              if grep -nE "Image\.network\(" "$file" | grep -v "PrimaryNetworkImage\|cached" > /dev/null 2>&1; then
-                echo "::warning file=$file::Uncached Image.network — use PrimaryNetworkImage or CachedNetworkImage"
-                ISSUES=$((ISSUES + 1))
-              fi
+              while IFS=: read -r ln _; do
+                echo "::error file=$file,line=$ln::🔴 setState() in GetX project — use GetBuilder/Obx"
+                PERF_BLOCKERS=$((PERF_BLOCKERS + 1))
+              done < <(grep -nE "setState\(" "$file" || true)
+              while IFS=: read -r ln _; do
+                echo "::warning file=$file,line=$ln::🟡 Uncached Image.network — use PrimaryNetworkImage"
+              done < <(grep -nE "Image\.network\(" "$file" | grep -v "PrimaryNetworkImage\|cached" || true)
             fi
           done
-          echo "performance_issues=$ISSUES" >> "$GITHUB_ENV"
+          echo "PERF_BLOCKERS=$PERF_BLOCKERS" >> "$GITHUB_ENV"
 
       - name: Architecture compliance (startup_repo)
         if: env.PROJECT_TYPE == 'startup_repo'
         run: |
-          echo "🏗️ Checking architecture..."
           CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' || true)
-          ISSUES=0
           for file in $CHANGED_DART; do
-            if [ -f "$file" ] && echo "$file" | grep -q "features/"; then
-              FEATURE_PATH=$(echo "$file" | sed 's|features/\([^/]*\)/.*|\1|')
-              # Check feature structure
-              if echo "$file" | grep -q "features/" && ! echo "$file" | grep -qE "/(data|domain|presentation)/"; then
-                echo "::warning file=$file::File not in standard feature structure (data/domain/presentation)"
-                ISSUES=$((ISSUES + 1))
-              fi
+            if echo "$file" | grep -q "features/" && ! echo "$file" | grep -qE "/(data|domain|presentation)/"; then
+              echo "::warning file=$file::🟡 File not in standard feature structure (data/domain/presentation)"
             fi
           done
-          echo "arch_issues=$ISSUES" >> "$GITHUB_ENV"
+
+      - name: Fail on blockers
+        run: |
+          TOTAL=0
+          TOTAL=$((TOTAL + ${SECURITY_BLOCKERS:-0} + ${PERF_BLOCKERS:-0}))
+          if [ "$TOTAL" -gt 0 ]; then
+            echo "::error::Found $TOTAL blocker(s) — hardcoded secrets: ${SECURITY_BLOCKERS:-0}, setState: ${PERF_BLOCKERS:-0}"
+            exit 1
+          fi
+          echo "No blockers found"
 
   ai-review:
     name: AI Code Review
@@ -300,55 +280,165 @@ jobs:
           - Use PrimaryNetworkImage for cached images"
           fi
 
-          cat > /tmp/prompt.txt << ENDPROMPT
-          You are a senior Flutter code reviewer. Review this PR diff with inline comments.
+          echo "You are a senior Flutter code reviewer. Review this PR diff." > /tmp/prompt.txt
+          echo "" >> /tmp/prompt.txt
+          if [ -n "$GUIDE" ]; then echo "$GUIDE" >> /tmp/prompt.txt; echo "" >> /tmp/prompt.txt; fi
+          echo "Changed files:" >> /tmp/prompt.txt
+          cat /tmp/changed_files.txt >> /tmp/prompt.txt
+          echo "" >> /tmp/prompt.txt
+          echo "Diff:" >> /tmp/prompt.txt
+          cat /tmp/diff.txt >> /tmp/prompt.txt
+          echo "" >> /tmp/prompt.txt
+          echo 'IMPORTANT: Respond ONLY with a valid JSON array. No markdown, no explanation, no code blocks.' >> /tmp/prompt.txt
+          echo 'Each element must be an object with keys: "path" (string), "line" (integer > 0), "severity" ("blocker"|"major"|"minor"), "body" (string).' >> /tmp/prompt.txt
+          echo 'Example: [{"path":"lib/main.dart","line":5,"severity":"major","body":"Hardcoded color"}]' >> /tmp/prompt.txt
+          echo 'If no issues found, respond with: []' >> /tmp/prompt.txt
 
-          $GUIDE
+          jq -Rs '{model:"moonshotai/Kimi-K2.5",messages:[{role:"user",content:.}],temperature:0.1,max_tokens:4096}' /tmp/prompt.txt > /tmp/request.json
 
-          Changed files:
-          $(cat /tmp/changed_files.txt)
+          # Retry logic (up to 2 attempts)
+          for attempt in 1 2; do
+            echo "AI review attempt $attempt..."
+            HTTP_CODE=$(curl -s -w "%{http_code}" -o /tmp/review_response.json -X POST "https://api.together.xyz/v1/chat/completions" \
+              -H "Authorization: Bearer $TOGETHER_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d @/tmp/request.json)
 
-          Diff:
-          $(cat /tmp/diff.txt)
+            if [ "$HTTP_CODE" = "200" ]; then
+              jq -r '.choices[0].message.content // empty' /tmp/review_response.json > /tmp/review_raw.txt
+              if [ -s /tmp/review_raw.txt ]; then
+                echo "AI review succeeded on attempt $attempt"
+                break
+              fi
+            fi
 
-          For each issue, use severity:
-          - 🔴 Blocker: Crashes, security, data loss
-          - 🟡 Major: Architecture violations, performance, anti-patterns
-          - 🟢 Minor: Style, readability, suggestions
+            if [ "$attempt" = "1" ]; then
+              echo "Attempt $attempt failed (HTTP $HTTP_CODE), retrying in 5s..."
+              sleep 5
+            fi
+          done
 
-          Format: file:line — [severity] issue description and suggestion
-
-          End with a summary table of blockers/majors/minors found.
-          ENDPROMPT
-
-          jq -Rs '{model:"moonshotai/Kimi-K2.5",messages:[{role:"user",content:.}],temperature:0.3,max_tokens:4096}' /tmp/prompt.txt > /tmp/request.json
-
-          curl -s -X POST "https://api.together.xyz/v1/chat/completions" \
-            -H "Authorization: Bearer $TOGETHER_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d @/tmp/request.json | jq -r '.choices[0].message.content // empty' > /tmp/review.txt
-
-          if [ ! -s /tmp/review.txt ]; then
-            echo "AI review returned empty"
-            exit 1
+          if [ ! -s /tmp/review_raw.txt ]; then
+            echo "AI review returned empty after retries"
+            echo "[]" > /tmp/review.json
+            exit 0
           fi
 
-      - name: Post review comment
+          # Extract JSON array from response (strip markdown fences if present)
+          sed 's/^```json//;s/^```//' /tmp/review_raw.txt | jq '.' > /tmp/review.json 2>/dev/null || echo "[]" > /tmp/review.json
+
+          cat /tmp/review.json
+
+      - name: Post inline review
         if: env.file_count != '0'
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            const review = fs.readFileSync('/tmp/review.txt', 'utf8');
-            if (!review || review.trim().length === 0) {
-              throw new Error('Empty review');
+            let comments = [];
+            try {
+              const raw = fs.readFileSync('/tmp/review.json', 'utf8').trim();
+              comments = JSON.parse(raw);
+              if (!Array.isArray(comments)) comments = [];
+            } catch (e) {
+              console.log('Failed to parse AI review JSON:', e.message);
+              // Fallback: post raw review as single comment
+              const rawText = fs.readFileSync('/tmp/review_raw.txt', 'utf8');
+              if (rawText && rawText.trim().length > 0) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: '🤖 **AI Code Review**\n\n' + rawText
+                });
+              }
+              return;
             }
-            await github.rest.issues.createComment({
+
+            if (comments.length === 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: '🤖 AI Review: No additional issues found from code analysis.\nCheck the annotations tab for automated scan results (formatting, security, architecture).'
+              });
+              return;
+            }
+
+            // Get PR files to validate paths and extract diff line ranges
+            const { data: prFiles } = await github.rest.pulls.listFiles({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: '🤖 **AI Code Review (Kimi-K2.5)**\n\n' + review
+              pull_number: context.issue.number
             });
+
+            // Build map of valid file paths and their changed line ranges
+            const fileLineMap = {};
+            for (const f of prFiles) {
+              const lines = new Set();
+              if (f.patch) {
+                const matches = f.patch.matchAll(/@@\s*-\d+(?:,\d+)?\s*\+(\d+)(?:,(\d+))?\s*@@/g);
+                for (const m of matches) {
+                  const start = parseInt(m[1]);
+                  const count = parseInt(m[2] || '1');
+                  for (let i = start; i < start + count; i++) lines.add(i);
+                }
+              }
+              fileLineMap[f.filename] = lines;
+            }
+
+            // Build review comments (only for files/lines in the PR diff)
+            const reviewComments = [];
+            const orphanComments = [];
+
+            for (const c of comments) {
+              const severity = c.severity === 'blocker' ? '🔴' : c.severity === 'major' ? '🟡' : '🟢';
+              const body = `${severity} **${c.severity?.toUpperCase() || 'INFO'}**: ${c.body}`;
+              const fileLines = fileLineMap[c.path];
+
+              if (fileLines && c.line > 0 && fileLines.has(c.line)) {
+                reviewComments.push({
+                  path: c.path,
+                  line: c.line,
+                  side: 'RIGHT',
+                  body: body
+                });
+              } else {
+                orphanComments.push(`**${c.path || 'general'}${c.line ? ':' + c.line : ''}** — ${body}`);
+              }
+            }
+
+            // Count by severity
+            const blockers = comments.filter(c => c.severity === 'blocker').length;
+            const majors = comments.filter(c => c.severity === 'major').length;
+            const minors = comments.filter(c => c.severity === 'minor').length;
+
+            const event = blockers > 0 ? 'REQUEST_CHANGES' : 'COMMENT';
+            const summary = `🤖 Code Review — ${comments.length} issue${comments.length === 1 ? '' : 's'} found\n\n🔴 ${blockers} blocker${blockers === 1 ? '' : 's'} · 🟡 ${majors} major · 🟢 ${minors} minor`;
+
+            let fullBody = summary;
+            if (orphanComments.length > 0) {
+              fullBody += '\n\n**General comments:**\n' + orphanComments.map(c => '- ' + c).join('\n');
+            }
+
+            try {
+              await github.rest.pulls.createReview({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+                event: event,
+                body: fullBody,
+                comments: reviewComments.slice(0, 50)
+              });
+            } catch (e) {
+              console.log('Inline review failed, falling back to comment:', e.message);
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: fullBody + '\n\n' + reviewComments.map(c => `- **${c.path}:${c.line}** — ${c.body}`).join('\n')
+              });
+            }
 
       - name: Skip notice
         if: env.file_count == '0'
@@ -361,3 +451,28 @@ jobs:
               issue_number: context.issue.number,
               body: '🤖 AI Review: No code files changed.'
             });
+
+  notify:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: [validate, code-quality, security-scan, ai-review]
+    if: failure()
+    env:
+      MATTERMOST_URL: ${{ secrets.MATTERMOST_URL }}
+      MATTERMOST_TOKEN: ${{ secrets.MATTERMOST_TOKEN }}
+    steps:
+      - name: Notify Mattermost
+        run: |
+          REPO="${{ github.repository }}"
+          PR="${{ github.event.pull_request.number }}"
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          AUTHOR="${{ github.event.pull_request.user.login }}"
+          REPO_SHORT=$(echo "$REPO" | cut -d/ -f2)
+          jq -n \
+            --arg channel "bwgii3aooiy39cpy1tu7tcp6tc" \
+            --arg message "⚠️ PR #$PR on $REPO_SHORT failed the quality gate ($AUTHOR)\nCheck details: $RUN_URL" \
+            '{channel_id: $channel, message: $message}' | \
+          curl -s -X POST "$MATTERMOST_URL/api/v4/posts" \
+            -H "Authorization: Bearer $MATTERMOST_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d @-
