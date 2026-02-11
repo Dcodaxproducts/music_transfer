@@ -1,8 +1,8 @@
-name: AI PR Review
+name: PR Quality Gate
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
@@ -13,42 +13,298 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ai-review:
-    name: AI Code Review
+  validate:
+    name: Branch & PR Validation
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    if: github.event_name == 'pull_request'
-    env:
-      TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
-
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get changed files and diff
-        id: changed
+      - name: Validate branch name
         run: |
-          FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(dart|yaml)$' || true)
-          FILE_COUNT=$(echo "$FILES" | grep -c '.' || echo "0")
-          echo "count=$FILE_COUNT" >> "$GITHUB_ENV"
-          echo "$FILES" > /tmp/changed_files.txt
-          if [ -n "$FILES" ]; then
-            git diff origin/${{ github.base_ref }}...HEAD -- $FILES | head -c 30000 > /tmp/diff.txt
+          BRANCH="${{ github.head_ref }}"
+          echo "Branch: $BRANCH"
+          if [[ ! "$BRANCH" =~ ^(feature|fix|hotfix|chore|refactor|release)/ ]]; then
+            echo "::error::Branch name '$BRANCH' does not follow convention: feature/*, fix/*, hotfix/*, chore/*, refactor/*, release/*"
+            exit 1
+          fi
+          echo "✅ Branch name valid"
+
+      - name: Validate PR title (conventional commit)
+        run: |
+          TITLE="${{ github.event.pull_request.title }}"
+          echo "PR Title: $TITLE"
+          if [[ ! "$TITLE" =~ ^(feat|fix|hotfix|chore|refactor|docs|style|test|perf|ci|build|revert)(\(.+\))?:\ .+ ]]; then
+            echo "::error::PR title must follow conventional commit format: type(scope): description"
+            echo "Examples: feat(auth): add login screen, fix(home): resolve null crash"
+            exit 1
+          fi
+          echo "✅ PR title valid"
+
+      - name: Validate commit messages
+        run: |
+          COMMITS=$(git log --format="%s" origin/${{ github.base_ref }}..HEAD)
+          FAILED=0
+          while IFS= read -r msg; do
+            if [[ ! "$msg" =~ ^(feat|fix|hotfix|chore|refactor|docs|style|test|perf|ci|build|revert|Merge)(\(.+\))?:?\ .+ ]]; then
+              echo "::warning::Non-conventional commit: $msg"
+              FAILED=$((FAILED + 1))
+            fi
+          done <<< "$COMMITS"
+          if [ "$FAILED" -gt 0 ]; then
+            echo "::warning::$FAILED commit(s) don't follow conventional format"
+          fi
+          echo "✅ Commit messages checked"
+
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x'
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Check formatting (120-char line limit)
+        id: format
+        run: |
+          dart format --set-exit-if-changed --line-length=120 . 2>&1 | tee /tmp/format_output.txt || true
+          ISSUES=$(grep -c "^Changed" /tmp/format_output.txt || echo "0")
+          echo "format_issues=$ISSUES" >> "$GITHUB_ENV"
+          echo "✅ Formatting check complete ($ISSUES issues)"
+
+      - name: Flutter analyze
+        id: analyze
+        run: |
+          flutter analyze --no-fatal-infos 2>&1 | tee /tmp/analyze_output.txt || true
+          ERRORS=$(grep -c "error" /tmp/analyze_output.txt || echo "0")
+          WARNINGS=$(grep -c "warning" /tmp/analyze_output.txt || echo "0")
+          echo "analyze_errors=$ERRORS" >> "$GITHUB_ENV"
+          echo "analyze_warnings=$WARNINGS" >> "$GITHUB_ENV"
+          echo "✅ Analysis complete ($ERRORS errors, $WARNINGS warnings)"
+
+  security-scan:
+    name: Security & Architecture Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect project type
+        run: |
+          if grep -q "project_type: startup_repo" pubspec.yaml 2>/dev/null; then
+            echo "PROJECT_TYPE=startup_repo" >> "$GITHUB_ENV"
+            echo "🏗️ startup_repo project detected — enforcing architecture rules"
           else
-            echo "" > /tmp/diff.txt
+            echo "PROJECT_TYPE=standard" >> "$GITHUB_ENV"
+            echo "📦 Standard Flutter project"
+          fi
+
+      - name: Security scan (hardcoded secrets)
+        run: |
+          echo "🔒 Scanning for hardcoded secrets..."
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(dart|yaml|gradle|swift|kt|plist|xml)$' || true)
+          FOUND=0
+          for file in $CHANGED; do
+            if [ -f "$file" ]; then
+              HITS=$(grep -nE "(password|secret|api_key|apikey|token|private_key)\s*[:=]\s*['\"][^'\"]+['\"]" "$file" --ignore-case || true)
+              if [ -n "$HITS" ]; then
+                echo "::error file=$file::Potential hardcoded secret found"
+                echo "$HITS"
+                FOUND=$((FOUND + 1))
+              fi
+            fi
+          done
+          echo "security_issues=$FOUND" >> "$GITHUB_ENV"
+
+      - name: Code duplication check
+        run: |
+          echo "🔍 Checking for code duplication..."
+          CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' || true)
+          DUPES=0
+          for file in $CHANGED_DART; do
+            if [ -f "$file" ]; then
+              LINES=$(wc -l < "$file")
+              if [ "$LINES" -gt 300 ]; then
+                echo "::warning file=$file::File has $LINES lines (max 300 recommended)"
+                DUPES=$((DUPES + 1))
+              fi
+            fi
+          done
+          echo "duplication_issues=$DUPES" >> "$GITHUB_ENV"
+
+      - name: Design system compliance (startup_repo)
+        if: env.PROJECT_TYPE == 'startup_repo'
+        run: |
+          echo "🎨 Checking design system compliance..."
+          CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' || true)
+          ISSUES=0
+          for file in $CHANGED_DART; do
+            if [ -f "$file" ]; then
+              # Hardcoded colors
+              if grep -nE "Color\(0x|Colors\." "$file" | grep -v "core/design\|core/utils/colors\|core/theme" > /dev/null 2>&1; then
+                echo "::warning file=$file::Hardcoded color found — use design system (AppColors/Theme)"
+                ISSUES=$((ISSUES + 1))
+              fi
+              # Hardcoded padding
+              if grep -nE "EdgeInsets\.(all|symmetric|only)\([0-9]" "$file" | grep -v "core/design\|core/common" > /dev/null 2>&1; then
+                echo "::warning file=$file::Hardcoded padding — use AppPadding constants"
+                ISSUES=$((ISSUES + 1))
+              fi
+              # Hardcoded radius
+              if grep -nE "BorderRadius\.(circular|all)\([0-9]" "$file" | grep -v "core/design\|core/common" > /dev/null 2>&1; then
+                echo "::warning file=$file::Hardcoded radius — use AppRadius constants"
+                ISSUES=$((ISSUES + 1))
+              fi
+              # Hardcoded TextStyle
+              if grep -nE "TextStyle\(" "$file" | grep -v "core/theme\|core/design" > /dev/null 2>&1; then
+                echo "::warning file=$file::Hardcoded TextStyle — use theme typography (context.font16, etc.)"
+                ISSUES=$((ISSUES + 1))
+              fi
+            fi
+          done
+          echo "design_issues=$ISSUES" >> "$GITHUB_ENV"
+
+      - name: Localization check (startup_repo)
+        if: env.PROJECT_TYPE == 'startup_repo'
+        run: |
+          echo "🌍 Checking localization..."
+          CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' | grep -v '_test\.dart$' || true)
+          ISSUES=0
+          for file in $CHANGED_DART; do
+            if [ -f "$file" ] && echo "$file" | grep -q "presentation/"; then
+              # Check for hardcoded user-facing strings (Text widgets)
+              if grep -nE "Text\(['\"][A-Z]" "$file" > /dev/null 2>&1; then
+                echo "::warning file=$file::Hardcoded string in Text widget — use '.tr' localization"
+                ISSUES=$((ISSUES + 1))
+              fi
+            fi
+          done
+          echo "localization_issues=$ISSUES" >> "$GITHUB_ENV"
+
+      - name: Performance anti-patterns (startup_repo)
+        if: env.PROJECT_TYPE == 'startup_repo'
+        run: |
+          echo "⚡ Checking performance..."
+          CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' || true)
+          ISSUES=0
+          for file in $CHANGED_DART; do
+            if [ -f "$file" ]; then
+              if grep -nE "setState\(" "$file" > /dev/null 2>&1; then
+                echo "::error file=$file::setState() found — use GetBuilder/Obx in GetX project"
+                ISSUES=$((ISSUES + 1))
+              fi
+              if grep -nE "Image\.network\(" "$file" | grep -v "PrimaryNetworkImage\|cached" > /dev/null 2>&1; then
+                echo "::warning file=$file::Uncached Image.network — use PrimaryNetworkImage or CachedNetworkImage"
+                ISSUES=$((ISSUES + 1))
+              fi
+            fi
+          done
+          echo "performance_issues=$ISSUES" >> "$GITHUB_ENV"
+
+      - name: Architecture compliance (startup_repo)
+        if: env.PROJECT_TYPE == 'startup_repo'
+        run: |
+          echo "🏗️ Checking architecture..."
+          CHANGED_DART=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.dart$' || true)
+          ISSUES=0
+          for file in $CHANGED_DART; do
+            if [ -f "$file" ] && echo "$file" | grep -q "features/"; then
+              FEATURE_PATH=$(echo "$file" | sed 's|features/\([^/]*\)/.*|\1|')
+              # Check feature structure
+              if echo "$file" | grep -q "features/" && ! echo "$file" | grep -qE "/(data|domain|presentation)/"; then
+                echo "::warning file=$file::File not in standard feature structure (data/domain/presentation)"
+                ISSUES=$((ISSUES + 1))
+              fi
+            fi
+          done
+          echo "arch_issues=$ISSUES" >> "$GITHUB_ENV"
+
+  ai-review:
+    name: AI Code Review
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [validate, code-quality, security-scan]
+    if: always()
+    env:
+      TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get diff
+        run: |
+          git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(dart|yaml)$' > /tmp/changed_files.txt || true
+          FILE_COUNT=$(cat /tmp/changed_files.txt | grep -c '.' || echo "0")
+          echo "file_count=$FILE_COUNT" >> "$GITHUB_ENV"
+          if [ "$FILE_COUNT" != "0" ]; then
+            FILES=$(cat /tmp/changed_files.txt | tr '\n' ' ')
+            git diff origin/${{ github.base_ref }}...HEAD -- $FILES | head -c 30000 > /tmp/diff.txt
+          fi
+
+      - name: Detect project type
+        run: |
+          if grep -q "project_type: startup_repo" pubspec.yaml 2>/dev/null; then
+            echo "PROJECT_TYPE=startup_repo" >> "$GITHUB_ENV"
+          else
+            echo "PROJECT_TYPE=standard" >> "$GITHUB_ENV"
           fi
 
       - name: AI Review
-        if: env.count != '0'
+        if: env.file_count != '0'
         run: |
-          echo "Review this Flutter PR diff. Provide: Summary, What Looks Good, Issues Found, Suggestions, Security Notes." > /tmp/prompt.txt
-          echo "" >> /tmp/prompt.txt
-          echo "Changed files:" >> /tmp/prompt.txt
-          cat /tmp/changed_files.txt >> /tmp/prompt.txt
-          echo "" >> /tmp/prompt.txt
-          echo "Diff:" >> /tmp/prompt.txt
-          cat /tmp/diff.txt >> /tmp/prompt.txt
+          GUIDE=""
+          if [ "$PROJECT_TYPE" = "startup_repo" ]; then
+            GUIDE="This project follows startup_repo architecture (Clean Architecture + GetX). Enforce:
+          - Colors via design system (AppColors) not hardcoded Color(0x...)
+          - Padding via AppPadding not EdgeInsets.all(n)
+          - Radius via AppRadius not BorderRadius.circular(n)
+          - Typography via theme (context.font16) not TextStyle()
+          - Strings via .tr localization not hardcoded
+          - GetBuilder/Obx not setState
+          - Feature structure: data/{model,repository} domain/{binding,service} presentation/{controller,view}
+          - Interfaces for repos and services (*_interface.dart)
+          - Max 300 lines per file
+          - Use PrimaryNetworkImage for cached images"
+          fi
+
+          cat > /tmp/prompt.txt << ENDPROMPT
+          You are a senior Flutter code reviewer. Review this PR diff with inline comments.
+
+          $GUIDE
+
+          Changed files:
+          $(cat /tmp/changed_files.txt)
+
+          Diff:
+          $(cat /tmp/diff.txt)
+
+          For each issue, use severity:
+          - 🔴 Blocker: Crashes, security, data loss
+          - 🟡 Major: Architecture violations, performance, anti-patterns
+          - 🟢 Minor: Style, readability, suggestions
+
+          Format: file:line — [severity] issue description and suggestion
+
+          End with a summary table of blockers/majors/minors found.
+          ENDPROMPT
 
           jq -Rs '{model:"moonshotai/Kimi-K2.5",messages:[{role:"user",content:.}],temperature:0.3,max_tokens:4096}' /tmp/prompt.txt > /tmp/request.json
 
@@ -61,10 +317,9 @@ jobs:
             echo "AI review returned empty"
             exit 1
           fi
-          echo "Review generated successfully"
 
       - name: Post review comment
-        if: env.count != '0'
+        if: env.file_count != '0'
         uses: actions/github-script@v7
         with:
           script: |
@@ -77,11 +332,11 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: '🤖 AI Review\n\n' + review
+              body: '🤖 **AI Code Review (Kimi-K2.5)**\n\n' + review
             });
 
       - name: Skip notice
-        if: env.count == '0'
+        if: env.file_count == '0'
         uses: actions/github-script@v7
         with:
           script: |
