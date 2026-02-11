@@ -67,11 +67,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get Flutter version from .fvmrc
+      - name: Get Flutter version
         run: |
-          FLUTTER_VER=$(cat .fvmrc | jq -r '.flutter')
+          if [ -f .fvmrc ]; then
+            FLUTTER_VER=$(cat .fvmrc | jq -r '.flutter // empty')
+          fi
+          if [ -z "$FLUTTER_VER" ] && [ -f .fvm/fvm_config.json ]; then
+            FLUTTER_VER=$(cat .fvm/fvm_config.json | jq -r '.flutterSdkVersion // empty')
+          fi
+          if [ -z "$FLUTTER_VER" ]; then
+            FLUTTER_VER="3.x"
+            echo "⚠️ No .fvmrc found, using Flutter $FLUTTER_VER"
+          else
+            echo "Using Flutter $FLUTTER_VER from project config"
+          fi
           echo "FLUTTER_VER=$FLUTTER_VER" >> "$GITHUB_ENV"
-          echo "Using Flutter $FLUTTER_VER from .fvmrc"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -322,31 +332,46 @@ jobs:
               return;
             }
 
-            // Get the diff to map line numbers
-            const { data: files } = await github.rest.pulls.listFiles({
+            // Get PR files to validate paths and extract diff line ranges
+            const { data: prFiles } = await github.rest.pulls.listFiles({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number
             });
 
-            const validPaths = new Set(files.map(f => f.filename));
+            // Build map of valid file paths and their changed line ranges
+            const fileLineMap = {};
+            for (const f of prFiles) {
+              const lines = new Set();
+              if (f.patch) {
+                const matches = f.patch.matchAll(/@@\s*-\d+(?:,\d+)?\s*\+(\d+)(?:,(\d+))?\s*@@/g);
+                for (const m of matches) {
+                  const start = parseInt(m[1]);
+                  const count = parseInt(m[2] || '1');
+                  for (let i = start; i < start + count; i++) lines.add(i);
+                }
+              }
+              fileLineMap[f.filename] = lines;
+            }
 
-            // Build review comments (only for files in the PR diff)
+            // Build review comments (only for files/lines in the PR diff)
             const reviewComments = [];
             const orphanComments = [];
 
             for (const c of comments) {
               const severity = c.severity === 'blocker' ? '🔴' : c.severity === 'major' ? '🟡' : '🟢';
               const body = `${severity} **${c.severity?.toUpperCase() || 'INFO'}**: ${c.body}`;
+              const fileLines = fileLineMap[c.path];
 
-              if (validPaths.has(c.path) && c.line > 0) {
+              if (fileLines && c.line > 0 && fileLines.has(c.line)) {
                 reviewComments.push({
                   path: c.path,
                   line: c.line,
+                  side: 'RIGHT',
                   body: body
                 });
               } else {
-                orphanComments.push(body);
+                orphanComments.push(`**${c.path || 'general'}${c.line ? ':' + c.line : ''}** — ${body}`);
               }
             }
 
