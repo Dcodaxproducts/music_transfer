@@ -102,7 +102,7 @@ jobs:
           PROMPT_JSON=$(jq -Rs '{input: .}' /tmp/prompt.txt)
           
           REQUEST_BODY=$(jq -n \
-            --arg model "together/moonshotai/Kimi-K2.5" \
+            --arg model "moonshotai/Kimi-K2.5" \
             --argjson prompt "$PROMPT_JSON" \
             '{
               "model": $model,
