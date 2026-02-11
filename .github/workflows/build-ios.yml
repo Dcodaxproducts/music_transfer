@@ -28,12 +28,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Detect Flutter version from .fvmrc
+        run: |
+          if [ -f .fvmrc ]; then
+            FLUTTER_VER=$(cat .fvmrc | jq -r '.flutter')
+            echo "FLUTTER_VER=$FLUTTER_VER" >> $GITHUB_ENV
+            echo "Using Flutter $FLUTTER_VER from .fvmrc"
+          else
+            echo "FLUTTER_VER=3.x" >> $GITHUB_ENV
+            echo "No .fvmrc found, using stable 3.x"
+          fi
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.x'
+          flutter-version: ${{ env.FLUTTER_VER }}
           channel: stable
           cache: true
+
+      - name: Precache iOS artifacts
+        run: flutter precache --ios
+
+      - name: Install Firebase & FlutterFire CLI
+        run: |
+          npm install -g firebase-tools
+          dart pub global activate flutterfire_cli
+          echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: flutter pub get
