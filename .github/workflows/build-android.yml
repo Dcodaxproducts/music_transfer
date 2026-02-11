@@ -1,0 +1,133 @@
+name: Build Android
+
+on:
+  push:
+    branches: [testing, production]
+  pull_request:
+    branches: [testing, production]
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type (apk or appbundle)'
+        required: false
+        default: 'apk'
+        type: choice
+        options:
+          - apk
+          - appbundle
+
+concurrency:
+  group: build-android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-android:
+    name: Build Android (${{ github.event.inputs.build_type || 'apk' }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      MATTERMOST_URL: ${{ secrets.MATTERMOST_URL }}
+      MATTERMOST_TOKEN: ${{ secrets.MATTERMOST_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x'
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Decode keystore
+        if: env.KEYSTORE_BASE64 != ''
+        run: |
+          printf "%s" "$KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
+          echo "storeFile=keystore.jks" > android/key.properties
+          echo "storePassword=$KEYSTORE_PASSWORD" >> android/key.properties
+          echo "keyAlias=$KEY_ALIAS" >> android/key.properties
+          echo "keyPassword=$KEY_PASSWORD" >> android/key.properties
+
+      - name: Determine build type
+        run: |
+          BUILD_TYPE="${{ github.event.inputs.build_type || 'apk' }}"
+          echo "BUILD_TYPE=$BUILD_TYPE" >> $GITHUB_ENV
+
+      - name: Build APK
+        if: env.BUILD_TYPE == 'apk'
+        run: flutter build apk --release
+
+      - name: Build App Bundle
+        if: env.BUILD_TYPE == 'appbundle'
+        run: flutter build appbundle --release
+
+      - name: Upload APK to S3
+        if: env.BUILD_TYPE == 'apk'
+        run: |
+          REPO_NAME="${{ github.event.repository.name }}"
+          aws s3 cp build/app/outputs/flutter-apk/app-release.apk \
+            "s3://$AWS_BUCKET_NAME/builds/$REPO_NAME/${{ github.sha }}/app-release.apk"
+          S3_URL="https://$AWS_BUCKET_NAME.s3.$AWS_REGION.amazonaws.com/builds/$REPO_NAME/${{ github.sha }}/app-release.apk"
+          echo "S3_APK_URL=$S3_URL" >> $GITHUB_ENV
+
+      - name: Upload AAB to S3
+        if: env.BUILD_TYPE == 'appbundle'
+        run: |
+          REPO_NAME="${{ github.event.repository.name }}"
+          aws s3 cp build/app/outputs/bundle/release/app-release.aab \
+            "s3://$AWS_BUCKET_NAME/builds/$REPO_NAME/${{ github.sha }}/app-release.aab"
+          S3_URL="https://$AWS_BUCKET_NAME.s3.$AWS_REGION.amazonaws.com/builds/$REPO_NAME/${{ github.sha }}/app-release.aab"
+          echo "S3_AAB_URL=$S3_URL" >> $GITHUB_ENV
+
+      - name: Upload APK artifact
+        if: env.BUILD_TYPE == 'apk'
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk-${{ github.sha }}
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 14
+
+      - name: Upload AAB artifact
+        if: env.BUILD_TYPE == 'appbundle'
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-aab-${{ github.sha }}
+          path: build/app/outputs/bundle/release/app-release.aab
+          retention-days: 14
+
+      - name: Notify Mattermost
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+          REPO_NAME="${{ github.repository }}"
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ "$STATUS" = "success" ]; then ICON="✅"; else ICON="❌"; fi
+          S3_LINE=""
+          if [ -n "$S3_APK_URL" ]; then S3_LINE="\n📦 [Download APK]($S3_APK_URL)"; fi
+          if [ -n "$S3_AAB_URL" ]; then S3_LINE="\n📦 [Download AAB]($S3_AAB_URL)"; fi
+          jq -n \
+            --arg channel "bwgii3aooiy39cpy1tu7tcp6tc" \
+            --arg message "$ICON **Android Build** ($BUILD_TYPE) $STATUS on \`$REPO_NAME\`\n[View Run]($RUN_URL)$S3_LINE" \
+            '{channel_id: $channel, message: $message}' | \
+          curl -s -X POST "$MATTERMOST_URL/api/v4/posts" \
+            -H "Authorization: Bearer $MATTERMOST_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d @-
