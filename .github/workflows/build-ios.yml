@@ -66,13 +66,23 @@ jobs:
 
       - name: Extract bundle ID
         run: |
-          BUNDLE_ID=$(grep -A1 PRODUCT_BUNDLE_IDENTIFIER ios/Runner.xcodeproj/project.pbxproj | head -2 | tail -1 | sed 's/.*= "\(.*\)";/\1/')
+          # Try Environment.xcconfig first (preferred)
+          if [ -f ios/Flutter/Environment.xcconfig ]; then
+            BUNDLE_ID=$(grep BUNDLE_ID ios/Flutter/Environment.xcconfig | sed 's/.*= *//' | tr -d ' ')
+            echo "Extracted Bundle ID from Environment.xcconfig: $BUNDLE_ID"
+          else
+            # Fallback to Xcode project
+            BUNDLE_ID=$(grep -A1 PRODUCT_BUNDLE_IDENTIFIER ios/Runner.xcodeproj/project.pbxproj | head -2 | tail -1 | sed 's/.*= "\(.*\)";/\1/')
+            echo "Extracted Bundle ID from Xcode project: $BUNDLE_ID"
+          fi
+          
           if [ -z "$BUNDLE_ID" ]; then
-            echo "::error::Could not detect bundle ID from Xcode project"
+            echo "::error::Could not detect bundle ID"
             exit 1
           fi
+          
           echo "BUNDLE_ID=$BUNDLE_ID" >> $GITHUB_ENV
-          echo "Detected Bundle ID: $BUNDLE_ID"
+          echo "Using Bundle ID: $BUNDLE_ID"
 
       - name: Create temporary keychain
         run: |
