@@ -64,6 +64,16 @@ jobs:
           pod install --repo-update
         continue-on-error: true
 
+      - name: Extract bundle ID
+        run: |
+          BUNDLE_ID=$(grep -A1 PRODUCT_BUNDLE_IDENTIFIER ios/Runner.xcodeproj/project.pbxproj | head -2 | tail -1 | sed 's/.*= "\(.*\)";/\1/')
+          if [ -z "$BUNDLE_ID" ]; then
+            echo "::error::Could not detect bundle ID from Xcode project"
+            exit 1
+          fi
+          echo "BUNDLE_ID=$BUNDLE_ID" >> $GITHUB_ENV
+          echo "Detected Bundle ID: $BUNDLE_ID"
+
       - name: Create temporary keychain
         run: |
           KEYCHAIN_PATH="$RUNNER_TEMP/app-signing.keychain-db"
@@ -88,68 +98,25 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
           rm -f "$CERT_PATH"
 
-      - name: Install Apple API key for automatic provisioning
-        run: |
-          mkdir -p ~/private_keys
-          printf "%s" "$APP_STORE_CONNECT_PRIVATE_KEY" > ~/private_keys/AuthKey_$APP_STORE_CONNECT_KEY_IDENTIFIER.p8
+      - name: Download provisioning profiles
+        uses: apple-actions/download-provisioning-profiles@v4
+        with:
+          bundle-id: ${{ env.BUNDLE_ID }}
+          profile-type: 'IOS_APP_STORE'
+          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          api-private-key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
 
-      - name: Build iOS
-        run: |
-          flutter build ios --release --no-codesign
-
-      - name: Archive and export IPA
-        run: |
-          cd ios
-          xcodebuild -workspace Runner.xcworkspace \
-            -scheme Runner \
-            -sdk iphoneos \
-            -configuration Release \
-            -archivePath "$RUNNER_TEMP/Runner.xcarchive" \
-            archive \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath ~/private_keys/AuthKey_$APP_STORE_CONNECT_KEY_IDENTIFIER.p8 \
-            -authenticationKeyID "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
-            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID" \
-            CODE_SIGN_STYLE=Automatic
-
-          cat > "$RUNNER_TEMP/ExportOptions.plist" << 'PLIST'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>method</key>
-            <string>app-store-connect</string>
-            <key>signingStyle</key>
-            <string>automatic</string>
-            <key>uploadSymbols</key>
-            <true/>
-          </dict>
-          </plist>
-          PLIST
-
-          xcodebuild -exportArchive \
-            -archivePath "$RUNNER_TEMP/Runner.xcarchive" \
-            -exportPath "$RUNNER_TEMP/ipa-output" \
-            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath ~/private_keys/AuthKey_$APP_STORE_CONNECT_KEY_IDENTIFIER.p8 \
-            -authenticationKeyID "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
-            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID"
+      - name: Build iOS IPA
+        run: flutter build ipa --release
 
       - name: Upload to TestFlight
-        run: |
-          IPA_PATH=$(find "$RUNNER_TEMP/ipa-output" -name "*.ipa" -print -quit)
-          if [ -z "$IPA_PATH" ]; then
-            echo "::error::No IPA file found"
-            exit 1
-          fi
-          echo "Uploading $IPA_PATH to TestFlight..."
-          xcrun altool --upload-app \
-            -f "$IPA_PATH" \
-            --type ios \
-            --apiKey "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
-            --apiIssuer "$APP_STORE_CONNECT_ISSUER_ID"
-          echo "TESTFLIGHT_UPLOAD=success" >> $GITHUB_ENV
+        uses: apple-actions/upload-testflight-build@v3
+        with:
+          app-path: 'build/ios/ipa/*.ipa'
+          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          api-private-key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
 
       - name: Cleanup keychain
         if: always()
@@ -157,7 +124,6 @@ jobs:
           if [ -n "$KEYCHAIN_PATH" ]; then
             security delete-keychain "$KEYCHAIN_PATH" 2>/dev/null || true
           fi
-          rm -rf ~/private_keys
 
       - name: Notify Mattermost
         if: always()
@@ -167,14 +133,13 @@ jobs:
           REPO_SHORT=$(echo "$REPO" | cut -d/ -f2)
           BRANCH="${{ github.ref_name }}"
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          
           if [ "$STATUS" = "success" ]; then
-            MSG="📱 iOS build passed for $REPO_SHORT ($BRANCH)"
-            if [ "$TESTFLIGHT_UPLOAD" = "success" ]; then
-              MSG="$MSG\nUploaded to TestFlight — should be available in a few minutes"
-            fi
+            MSG="📱 iOS build passed for $REPO_SHORT ($BRANCH)\nUploaded to TestFlight — should be available in a few minutes"
           else
             MSG="📱 iOS build failed for $REPO_SHORT ($BRANCH)\nLogs: $RUN_URL"
           fi
+          
           jq -n \
             --arg channel "bwgii3aooiy39cpy1tu7tcp6tc" \
             --arg message "$MSG" \
